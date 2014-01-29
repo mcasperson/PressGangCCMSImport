@@ -12,6 +12,7 @@
             angular.module('qna', ['ui.bootstrap']);
         </script>
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/qna.css" rel="stylesheet">
     </head>
     <body>
         <div ng-controller="QNAController">
@@ -28,7 +29,18 @@
                 </div>
             </script>
 
-            <button class="btn btn-default" ng-click="next()">Open me!</button>
+            <!-- The panel that contains the current wizard step -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{qna.step.title}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div ng-if="qna.step.intro != null">{{qna.step.intro}}</div>
+                    <button class="btn btn-default pull-right" ng-click="next()" ng-if="qna.hasNext()">Next</button>
+                </div>
+            </div>
+
+
         </div>
     </body>
 </html>

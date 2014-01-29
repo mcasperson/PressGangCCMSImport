@@ -11,7 +11,9 @@
         function (result, config, alert) {
             alert("A message", "Some text goes here");
         },
-        null
+        function (result, config, alert) {
+            return null;
+        }
     );
 
 }(this));
