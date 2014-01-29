@@ -1,0 +1,2 @@
+Bootstrap:              http://angular-ui.github.io/bootstrap/
+File Upload Directive:  https://github.com/danialfarid/angular-file-upload
