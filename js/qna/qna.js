@@ -1,4 +1,4 @@
-define(['exports'], function (exports) {
+(function (global) {
     'use strict';
 
     /**
@@ -6,7 +6,7 @@ define(['exports'], function (exports) {
      * @const
      * @enum {number}
      */
-    exports.InputEnum = Object.freeze({
+    global.InputEnum = Object.freeze({
         SINGLE_FILE: 0,                     // single file selection
         MULTIPLE_FILES: 1,                  // multiple file selection
         MUTUALLY_EXCLUSIVE_OPTION: 2,       // radio buttons
@@ -23,7 +23,7 @@ define(['exports'], function (exports) {
      *              no computed value is available) and the configuration options entered to this point.
      * @constructor
      */
-    exports.QNAVariable = function (type, name, options, value) {
+    global.QNAVariable = function (type, name, options, value) {
         this.type = type;
         this.name = name;
         this.options = options || null;
@@ -40,25 +40,25 @@ define(['exports'], function (exports) {
      *                                                  this is an array of QNAVariable objects used to populate this object with
      * @constructor
      */
-    exports.QNAVariables = function (intro, variables) {
+    global.QNAVariables = function (intro, variables) {
         this.intro = intro || null;
         this.variables = variables || [];
 
         Object.freeze(this);
     };
 
-    exports.QNAVariables.prototype.addVariable = function (variable) {
-        if (variable instanceof exports.QNAVariable) {
-            return new exports.QNAVariables(this.intro, this.variables.concat([variable]));
+    global.QNAVariables.prototype.addVariable = function (variable) {
+        if (variable instanceof global.QNAVariable) {
+            return new global.QNAVariables(this.intro, this.variables.concat([variable]));
         }
 
         return this;
     };
 
-    exports.QNAStep = function (title, intro, inputsAndOutputs, processStep, nextStep) {
+    global.QNAStep = function (title, intro, inputs, processStep, nextStep) {
         this.title = title;
         this.intro = intro;
-        this.inputsAndOutputs = inputsAndOutputs;
+        this.inputs = inputs;
         this.processStep = processStep;
         this.nextStep = nextStep;
 
@@ -72,7 +72,7 @@ define(['exports'], function (exports) {
      *   the details of the current step
      * @constructor
      */
-    exports.QNA = function (container, step, previousSteps, results, config) {
+    global.QNA = function (container, step, previousSteps, results, config) {
         this.container = container;
         this.step = step;
         this.previousSteps = Object.freeze(previousSteps) || Object.freeze([]);
@@ -82,14 +82,7 @@ define(['exports'], function (exports) {
         Object.freeze(this);
     };
 
-    exports.QNA.prototype.render = function () {
-
-        // panel with title and intro
-
-        return this;
-    };
-
-    exports.QNA.prototype.hasNext = function () {
+    global.QNA.prototype.hasNext = function () {
         if (this.step) {
             if (this.step.nextStep) {
                 return true;
@@ -99,11 +92,11 @@ define(['exports'], function (exports) {
         return false;
     };
 
-    exports.QNA.prototype.hasPrevious = function () {
+    global.QNA.prototype.hasPrevious = function () {
         return this.previousSteps.length > 0;
     };
 
-    exports.QNA.prototype.next = function () {
+    global.QNA.prototype.next = function () {
         if (this.step) {
             var newResults;
             if (this.step.processStep) {
@@ -113,9 +106,9 @@ define(['exports'], function (exports) {
                 newResults = this.results.concat(Object.freeze([this.results[this.results.length]]));
             }
             if (this.step.nextStep) {
-                var nextStep = this.step.nextStep();
+                var nextStep = this.step.nextStep(newResults[newResults.length], this.config);
                 if (nextStep) {
-                    return new exports.QNA(
+                    return new global.QNA(
                         this.container,
                         this.nextStep,
                         this.previousSteps.concat([this.step]),
@@ -129,9 +122,9 @@ define(['exports'], function (exports) {
         return this;
     };
 
-    exports.QNA.prototype.previous = function () {
+    global.QNA.prototype.previous = function () {
         if (this.previousSteps.length > 0) {
-            return new exports.QNA(
+            return new global.QNA(
                 this.previousSteps[this.previousSteps.length - 1],
                 this.previousSteps.splice(0, this.previousSteps.length - 1),
                 this.results.splice(0, this.results.length - 1),
@@ -142,10 +135,10 @@ define(['exports'], function (exports) {
         return this;
     };
 
-    exports.QNA.prototype.buildConfig = function (elements) {
+    global.QNA.prototype.buildConfig = function (elements) {
         var inputs = {};
 
-        return new exports.QNA(
+        return new global.QNA(
             this.container,
             this.step,
             this.previousSteps,
@@ -154,8 +147,8 @@ define(['exports'], function (exports) {
         );
     };
 
-    exports.QNA.prototype.addToConfig = function (dictionary) {
-        return new exports.QNA(
+    global.QNA.prototype.addToConfig = function (dictionary) {
+        return new global.QNA(
             this.container,
             this.step,
             this.previousSteps,
@@ -163,4 +156,4 @@ define(['exports'], function (exports) {
             Object.freeze(jQuery.extend(this.config, dictionary))
         );
     };
-});
+}(this));

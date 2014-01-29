@@ -1,3 +1,0 @@
-var PGImport = function(zipFile) {
-
-}

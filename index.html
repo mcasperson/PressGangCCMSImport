@@ -1,13 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="qna">
     <head>
         <title>PressGang CCMS Publican Book Import</title>
+        <script src="js/angular/angular.min.js"></script>
+        <script src="js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
+        <script src="js/zip/zip.js"></script>
+        <script src="js/qna/qna.js"></script>
+        <script src="js/qna/controller.js"></script>
+        <script type="application/javascript">
+            angular.module('qna', ['ui.bootstrap']);
+        </script>
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/zip.js"></script>
     </head>
     <body>
+        <div ng-controller="QNAController">
 
+            <script type="text/ng-template" id="okDialog.html">
+                <div class="modal-header">
+                    <h3>{{title}}</h3>
+                </div>
+                <div class="modal-body">
+                    {{content}}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                </div>
+            </script>
+
+            <button class="btn btn-default" ng-click="next()">Open me!</button>
+        </div>
     </body>
 </html>

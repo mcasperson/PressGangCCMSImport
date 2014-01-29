@@ -2,17 +2,29 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/js/qna.min.js" />
-        <item url="file://$PROJECT_DIR$/js/require.min.js" />
-        <item url="file://$PROJECT_DIR$/js/import.min.js" />
-        <item url="file://$PROJECT_DIR$/js/deflate.min.js" />
+        <item url="file://$PROJECT_DIR$/js/qna/qna.min.js" />
+        <item url="file://$PROJECT_DIR$/js/angular/angular.min.min.js" />
+        <item url="file://$PROJECT_DIR$/js/qna/controller.min.js" />
+        <item url="file://$PROJECT_DIR$/js/qnasteps.min.js" />
+        <item url="file://$PROJECT_DIR$/js/qna/okdialog.min.js" />
+        <item url="file://$PROJECT_DIR$/js/qna/okcontroller.min.js" />
+        <item url="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.min.js" />
+        <item url="file://$PROJECT_DIR$/js/zip/deflate.min.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/js/qna.min.js" />
+      <root url="file://$PROJECT_DIR$/js/require.min.js" />
       <root url="file://$PROJECT_DIR$/js/require.min.js" />
       <root url="file://$PROJECT_DIR$/js/import.min.js" />
-      <root url="file://$PROJECT_DIR$/js/deflate.min.js" />
+      <root url="file://$PROJECT_DIR$/js/import.min.js" />
+      <root url="file://$PROJECT_DIR$/js/qna/qna.min.js" />
+      <root url="file://$PROJECT_DIR$/js/angular/angular.min.min.js" />
+      <root url="file://$PROJECT_DIR$/js/qna/controller.min.js" />
+      <root url="file://$PROJECT_DIR$/js/qnasteps.min.js" />
+      <root url="file://$PROJECT_DIR$/js/qna/okdialog.min.js" />
+      <root url="file://$PROJECT_DIR$/js/qna/okcontroller.min.js" />
+      <root url="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.min.js" />
+      <root url="file://$PROJECT_DIR$/js/zip/deflate.min.js" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
