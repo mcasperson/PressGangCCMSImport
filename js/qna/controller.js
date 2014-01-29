@@ -9,28 +9,30 @@ var OKDialogInstanceController = function ($scope, $modalInstance, title, conten
     };
 };
 
-
 var QNAController = function ($scope, $modal) {
     'use strict';
 
-    $scope.ok = {
-        title: "Click OK to continue",
-        content: "Change me"
-    };
-
-    $scope.next = function () {
-        $scope.ok.content = "New message";
+    /*
+        A callback that displays the ok dialog box
+     */
+    var alert = function (title, content) {
         var modalInstance = $modal.open({
             templateUrl: 'okDialog.html',
             controller: OKDialogInstanceController,
             resolve: {
                 title: function () {
-                    return $scope.ok.title;
+                    return $scope.title;
                 },
                 content: function () {
-                    return $scope.ok.content;
+                    return $scope.content;
                 }
             }
         });
+    };
+
+    $scope.qna = new QNA(QNAStart, alert);
+
+    $scope.next = function () {
+
     };
 };

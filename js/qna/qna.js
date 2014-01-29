@@ -72,12 +72,12 @@
      *   the details of the current step
      * @constructor
      */
-    global.QNA = function (container, step, previousSteps, results, config) {
-        this.container = container;
+    global.QNA = function (step, alert, previousSteps, results, config) {
         this.step = step;
-        this.previousSteps = Object.freeze(previousSteps) || Object.freeze([]);
-        this.results = Object.freeze(results) || Object.freeze([null]);
-        this.config = Object.freeze(config) || Object.freeze({});
+        this.previousSteps = Object.freeze(previousSteps || []);
+        this.results = Object.freeze(results || [null]);
+        this.config = Object.freeze(config || {});
+        this.alert = alert;
 
         Object.freeze(this);
     };
@@ -100,13 +100,13 @@
         if (this.step) {
             var newResults;
             if (this.step.processStep) {
-                var result = this.step.processStep(this.results[this.results.length], this.config);
+                var result = this.step.processStep(this.results[this.results.length], this.config, this.alert);
                 newResults = this.results.concat(Object.freeze([result]));
             } else {
                 newResults = this.results.concat(Object.freeze([this.results[this.results.length]]));
             }
             if (this.step.nextStep) {
-                var nextStep = this.step.nextStep(newResults[newResults.length], this.config);
+                var nextStep = this.step.nextStep(newResults[newResults.length], this.config, this.alert);
                 if (nextStep) {
                     return new global.QNA(
                         this.container,
