@@ -48,8 +48,8 @@ define(['exports'], function (exports) {
     };
 
     exports.QNAVariables.prototype.addVariable = function (variable) {
-        if (variable instanceof QNAVariable) {
-            return new QNAVariables(this.intro, this.variables.concat([variable]));
+        if (variable instanceof exports.QNAVariable) {
+            return new exports.QNAVariables(this.intro, this.variables.concat([variable]));
         }
 
         return this;
@@ -115,7 +115,7 @@ define(['exports'], function (exports) {
             if (this.step.nextStep) {
                 var nextStep = this.step.nextStep();
                 if (nextStep) {
-                    return new QNA(
+                    return new exports.QNA(
                         this.container,
                         this.nextStep,
                         this.previousSteps.concat([this.step]),
@@ -131,7 +131,7 @@ define(['exports'], function (exports) {
 
     exports.QNA.prototype.previous = function () {
         if (this.previousSteps.length > 0) {
-            return new QNA(
+            return new exports.QNA(
                 this.previousSteps[this.previousSteps.length - 1],
                 this.previousSteps.splice(0, this.previousSteps.length - 1),
                 this.results.splice(0, this.results.length - 1),
@@ -145,7 +145,7 @@ define(['exports'], function (exports) {
     exports.QNA.prototype.buildConfig = function (elements) {
         var inputs = {};
 
-        return new QNA(
+        return new exports.QNA(
             this.container,
             this.step,
             this.previousSteps,
@@ -155,7 +155,7 @@ define(['exports'], function (exports) {
     };
 
     exports.QNA.prototype.addToConfig = function (dictionary) {
-        return new QNA(
+        return new exports.QNA(
             this.container,
             this.step,
             this.previousSteps,
