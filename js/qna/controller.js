@@ -21,10 +21,10 @@ var QNAController = function ($scope, $modal) {
             controller: OKDialogInstanceController,
             resolve: {
                 title: function () {
-                    return $scope.title;
+                    return title;
                 },
                 content: function () {
-                    return $scope.content;
+                    return content;
                 }
             }
         });
@@ -33,6 +33,6 @@ var QNAController = function ($scope, $modal) {
     $scope.qna = new QNA(QNAStart, alert);
 
     $scope.next = function () {
-
+        $scope.qna = $scope.qna.next();
     };
 };
