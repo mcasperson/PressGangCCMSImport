@@ -1,4 +1,4 @@
-(function () {
+define(['exports'], function (exports) {
     'use strict';
 
     /**
@@ -6,7 +6,7 @@
      * @const
      * @enum {number}
      */
-    var InputEnum = Object.freeze({
+    exports.InputEnum = Object.freeze({
         SINGLE_FILE: 0,                     // single file selection
         MULTIPLE_FILES: 1,                  // multiple file selection
         MUTUALLY_EXCLUSIVE_OPTION: 2,       // radio buttons
@@ -23,10 +23,10 @@
      *              no computed value is available) and the configuration options entered to this point.
      * @constructor
      */
-    var QNAVariable = function (type, name, options, value) {
+    exports.QNAVariable = function (type, name, options, value) {
         this.type = type;
         this.name = name;
-        this.options = options instanceof Array ? options : null;
+        this.options = options || null;
         this.value = value || null;
 
         Object.freeze(this);
@@ -34,21 +34,20 @@
 
     /**
      *
-     * @param {(String|Array.<QNAVariable>)=} intro     This is the introductory text to be displayed above the options, or an
+     * @param intro {?String}                           This is the introductory text to be displayed above the options, or an
      *                                                  array of QNAVariable objects used to populate this object with.
-     * @param {Array.<QNAVariable>=} variables          If intro is an array of QNAVariable, this is ignored. If intro is a String,
+     * @param variables {?Array.<QNAVariable>}          If intro is an array of QNAVariable, this is ignored. If intro is a String,
      *                                                  this is an array of QNAVariable objects used to populate this object with
      * @constructor
      */
-    var QNAVariables = function (intro, variables) {
+    exports.QNAVariables = function (intro, variables) {
         this.intro = intro || null;
-        this.variables = intro instanceof Array ? intro : variables || [];
-
+        this.variables = variables || [];
 
         Object.freeze(this);
     };
 
-    QNAVariables.prototype.addVariable = function (variable) {
+    exports.QNAVariables.prototype.addVariable = function (variable) {
         if (variable instanceof QNAVariable) {
             return new QNAVariables(this.intro, this.variables.concat([variable]));
         }
@@ -56,7 +55,9 @@
         return this;
     };
 
-    var QNAStep = function (inputsAndOutputs, processStep, nextStep) {
+    exports.QNAStep = function (title, intro, inputsAndOutputs, processStep, nextStep) {
+        this.title = title;
+        this.intro = intro;
         this.inputsAndOutputs = inputsAndOutputs;
         this.processStep = processStep;
         this.nextStep = nextStep;
@@ -71,7 +72,7 @@
      *   the details of the current step
      * @constructor
      */
-    var QNA = function (container, step, previousSteps, results, config) {
+    exports.QNA = function (container, step, previousSteps, results, config) {
         this.container = container;
         this.step = step;
         this.previousSteps = Object.freeze(previousSteps) || Object.freeze([]);
@@ -81,12 +82,14 @@
         Object.freeze(this);
     };
 
-    QNA.prototype.render = function () {
+    exports.QNA.prototype.render = function () {
+
+        // panel with title and intro
 
         return this;
     };
 
-    QNA.prototype.hasNext = function () {
+    exports.QNA.prototype.hasNext = function () {
         if (this.step) {
             if (this.step.nextStep) {
                 return true;
@@ -96,11 +99,11 @@
         return false;
     };
 
-    QNA.prototype.hasPrevious = function () {
+    exports.QNA.prototype.hasPrevious = function () {
         return this.previousSteps.length > 0;
     };
 
-    QNA.prototype.next = function () {
+    exports.QNA.prototype.next = function () {
         if (this.step) {
             var newResults;
             if (this.step.processStep) {
@@ -126,7 +129,7 @@
         return this;
     };
 
-    QNA.prototype.previous = function () {
+    exports.QNA.prototype.previous = function () {
         if (this.previousSteps.length > 0) {
             return new QNA(
                 this.previousSteps[this.previousSteps.length - 1],
@@ -139,7 +142,7 @@
         return this;
     };
 
-    QNA.prototype.buildConfig = function (elements) {
+    exports.QNA.prototype.buildConfig = function (elements) {
         var inputs = {};
 
         return new QNA(
@@ -151,7 +154,7 @@
         );
     };
 
-    QNA.prototype.addToConfig = function (dictionary) {
+    exports.QNA.prototype.addToConfig = function (dictionary) {
         return new QNA(
             this.container,
             this.step,
@@ -160,4 +163,4 @@
             Object.freeze(jQuery.extend(this.config, dictionary))
         );
     };
-}());
+});

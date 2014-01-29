@@ -3,12 +3,14 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/js/qna.min.js" />
+        <item url="file://$PROJECT_DIR$/js/require.min.js" />
         <item url="file://$PROJECT_DIR$/js/import.min.js" />
         <item url="file://$PROJECT_DIR$/js/deflate.min.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/js/qna.min.js" />
+      <root url="file://$PROJECT_DIR$/js/require.min.js" />
       <root url="file://$PROJECT_DIR$/js/import.min.js" />
       <root url="file://$PROJECT_DIR$/js/deflate.min.js" />
     </CLASSES>
