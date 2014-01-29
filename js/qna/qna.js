@@ -44,14 +44,6 @@
         this.variables = variables || [];
     };
 
-    global.QNAVariables.prototype.addVariable = function (variable) {
-        if (variable instanceof global.QNAVariable) {
-            return new global.QNAVariables(this.intro, this.variables.concat([variable]));
-        }
-
-        return this;
-    };
-
     global.QNAStep = function (title, intro, inputs, processStep, nextStep) {
         this.title = title;
         this.intro = intro;
@@ -126,27 +118,5 @@
         }
 
         return this;
-    };
-
-    global.QNA.prototype.buildConfig = function (elements) {
-        var inputs = {};
-
-        return new global.QNA(
-            this.container,
-            this.step,
-            this.previousSteps,
-            this.results,
-            jQuery.extend(this.config, inputs)
-        );
-    };
-
-    global.QNA.prototype.addToConfig = function (dictionary) {
-        return new global.QNA(
-            this.container,
-            this.step,
-            this.previousSteps,
-            this.results,
-            jQuery.extend(this.config, dictionary)
-        );
     };
 }(this));

@@ -3,13 +3,14 @@
     <head>
         <title>PressGang CCMS Publican Book Import</title>
         <script src="js/angular/angular.min.js"></script>
+        <script src="js/angularfileupload/angular-file-upload.min.js"></script>
         <script src="js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
         <script src="js/zip/zip.js"></script>
         <script src="js/qna/qna.js"></script>
         <script src="js/qna/controller.js"></script>
         <script src="js/qnasteps.js"></script>
         <script type="application/javascript">
-            angular.module('qna', ['ui.bootstrap']);
+            angular.module('qna', ['ui.bootstrap', 'angularFileUpload']);
         </script>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/qna.css" rel="stylesheet">
@@ -43,7 +44,7 @@
                             <div class="row" ng-repeat="variable in input.variables">
                                 <div class="col-lg-2">{{variable.intro}}</div>
                                 <div class="col-lg-10" ng-if="variable.type == inputTypes.SINGLE_FILE">
-                                    <input type="file" accept="application/zip" id="file-input">
+                                    <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.name, $files)" >
                                 </div>
                             </div>
                     </div>

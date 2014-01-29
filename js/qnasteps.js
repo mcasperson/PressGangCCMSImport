@@ -2,7 +2,7 @@
     'use strict';
 
     var file = new global.QNAVariable(global.InputEnum.SINGLE_FILE, "Publican ZIP File", "ZipFile");
-    var inputs = new global.QNAVariables("Something", [file]);
+    var inputs = new global.QNAVariables(null, [file]);
 
     global.QNAStart = new global.QNAStep(
         "Select the ZIP file to import",
