@@ -30,6 +30,7 @@ var QNAController = function ($scope, $modal) {
         });
     };
 
+    $scope.inputTypes = InputEnum;
     $scope.qna = new QNA(QNAStart, alert);
 
     $scope.next = function () {

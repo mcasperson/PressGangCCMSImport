@@ -23,13 +23,12 @@
      *              no computed value is available) and the configuration options entered to this point.
      * @constructor
      */
-    global.QNAVariable = function (type, name, options, value) {
+    global.QNAVariable = function (type, intro, name, options, value) {
         this.type = type;
         this.name = name;
+        this.intro = intro;
         this.options = options || null;
         this.value = value || null;
-
-        Object.freeze(this);
     };
 
     /**
@@ -43,8 +42,6 @@
     global.QNAVariables = function (intro, variables) {
         this.intro = intro || null;
         this.variables = variables || [];
-
-        Object.freeze(this);
     };
 
     global.QNAVariables.prototype.addVariable = function (variable) {
@@ -61,8 +58,6 @@
         this.inputs = inputs;
         this.processStep = processStep;
         this.nextStep = nextStep;
-
-        Object.freeze(this);
     };
 
     /**
@@ -74,12 +69,10 @@
      */
     global.QNA = function (step, alert, previousSteps, results, config) {
         this.step = step;
-        this.previousSteps = Object.freeze(previousSteps || []);
-        this.results = Object.freeze(results || [null]);
-        this.config = Object.freeze(config || {});
+        this.previousSteps = previousSteps || [];
+        this.results = results || [null];
+        this.config = config || {};
         this.alert = alert;
-
-        Object.freeze(this);
     };
 
     global.QNA.prototype.hasNext = function () {
@@ -101,9 +94,9 @@
             var newResults;
             if (this.step.processStep) {
                 var result = this.step.processStep(this.results[this.results.length], this.config, this.alert);
-                newResults = this.results.concat(Object.freeze([result]));
+                newResults = this.results.concat([result]);
             } else {
-                newResults = this.results.concat(Object.freeze([this.results[this.results.length]]));
+                newResults = this.results.concat([this.results[this.results.length]]);
             }
             if (this.step.nextStep) {
                 var nextStep = this.step.nextStep(newResults[newResults.length], this.config, this.alert);
@@ -143,7 +136,7 @@
             this.step,
             this.previousSteps,
             this.results,
-            Object.freeze(jQuery.extend(this.config, inputs))
+            jQuery.extend(this.config, inputs)
         );
     };
 
@@ -153,7 +146,7 @@
             this.step,
             this.previousSteps,
             this.results,
-            Object.freeze(jQuery.extend(this.config, dictionary))
+            jQuery.extend(this.config, dictionary)
         );
     };
 }(this));

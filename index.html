@@ -36,6 +36,18 @@
                 </div>
                 <div class="panel-body">
                     <div ng-if="qna.step.intro != null">{{qna.step.intro}}</div>
+
+                    <!-- Build the inputs -->
+                    <div ng-repeat="input in qna.step.inputs">
+                            <h3>{{input.intro}}</h3>
+                            <div class="row" ng-repeat="variable in input.variables">
+                                <div class="col-lg-2">{{variable.intro}}</div>
+                                <div class="col-lg-10" ng-if="variable.type == inputTypes.SINGLE_FILE">
+                                    <input type="file" accept="application/zip" id="file-input">
+                                </div>
+                            </div>
+                    </div>
+
                     <button class="btn btn-default pull-right" ng-click="next()" ng-if="qna.hasNext()">Next</button>
                 </div>
             </div>
