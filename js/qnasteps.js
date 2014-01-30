@@ -36,6 +36,8 @@
                     )
                 ]);
             },
+            function (result, config, resultCallback, errorCallback) {resultCallback("Do any incremental processing of the results here");},
+            function (result, config, resultCallback, errorCallback) {resultCallback(the_next_step);}
         );
      */
 
