@@ -51,10 +51,28 @@
                     null,
                     "MainXMLFile",
                     function (result, config, itemsCallback, valueCallback) {
+
+                        var findItems = function () {
+                            // here we get all the files from the zip and list any that might be relevant
+                            var retValue = [];
+
+                            global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                                if (/^en-US\/.*?\.xml$/.test(value.filename)) {
+                                    retValue.push(value.filename);
+                                }
+                            });
+
+                            itemsCallback(retValue);
+                        };
+
                         // here we attempt to find a file called Book_Info.xml, look for the title element inside of it,
                         // and use that to work out the main xml file name
+                        var foundBookInfo = false;
                         global.angular.forEach(config.ZipFileEntries, function (value, key) {
                             if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
+
+                                foundBookInfo = true;
+
                                 new global.QNAZipModel().getTextFromFile(value, function (textFile) {
                                     var match = /<title>(.*?)<\/title>/.exec(textFile);
                                     if (match) {
@@ -67,22 +85,17 @@
                                             }
                                         });
                                     }
+
+                                    findItems();
                                 });
 
                                 return false;
                             }
                         });
 
-                        // here we get all the files from the zip and list any that might be relevant
-                        var retValue = [];
-
-                        global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                            if (/^en-US\/.*?\.xml$/.test(value.filename)) {
-                                retValue.push(value.filename);
-                            }
-                        });
-
-                        itemsCallback(retValue);
+                        if (!foundBookInfo) {
+                            findItems();
+                        }
                     }
                 )
             ])

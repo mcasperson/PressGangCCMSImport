@@ -51,13 +51,17 @@
                                 </div>
                                 <!-- listbox form element -->
                                 <div ng-class="{'col-lg-10': variable.intro, 'col-lg-12': !variable.intro}" ng-if="variable.type == inputTypes.LISTBOX">
-                                    <select size="20" ng-model="qna.config[variable.name]" ng-options="option for option in variable.processedOptions">
-                                    </select>
+                                    <select
+                                            size="20"
+                                            ng-model="qna.config[variable.name]"
+                                            ng-options="option for option in variable.processedOptions"
+                                            ng-disabled="!variable.processedOptions"
+                                            style="width: 100%"></select>
                                 </div>
                             </div>
                     </div>
 
-                    <button class="btn btn-default pull-right" ng-click="next()" ng-if="qna.hasNext()">Next</button>
+                    <button class="btn btn-default pull-right" style="margin-top: 10px" ng-click="next()" ng-if="qna.hasNext()">Next</button>
                 </div>
             </div>
 
