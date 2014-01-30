@@ -47,15 +47,15 @@
 
                                 <!-- single file form element -->
                                 <div ng-if="variable.processedType == inputTypes.SINGLE_FILE">
-                                    <div class="col-lg-2" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-10': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" >
                                     </div>
                                  </div>
                                 <!-- listbox form element -->
                                 <div ng-if="variable.processedType == inputTypes.LISTBOX">
-                                    <div class="col-lg-2" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-10': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <select
                                                 size="20"
                                                 ng-model="qna.config[variable.processedName]"
@@ -65,8 +65,11 @@
                                     </div>
                                 </div>
                                 <!-- radio buttons -->
-                                <div ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
-                                    <div class="col-lg-12"><input type="radio" name="{{variable.processedName}}" value="{{variable.processedOptions[$index]}}">{{variable.processedIntro[$index]}}</div>
+                                <div class="col-lg-12" ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
+                                        <input type="radio" name="{{variable.processedName}}" value="{{variable.processedOptions[$index]}}">
+                                    </div>
                                 </div>
 
                             </div>
