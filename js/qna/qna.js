@@ -9,20 +9,14 @@
     global.InputEnum = Object.freeze({
         SINGLE_FILE: 0,                     // single file selection
         MULTIPLE_FILES: 1,                  // multiple file selection
-        MUTUALLY_EXCLUSIVE_OPTION: 2,       // radio buttons
-        OPTION: 3,                          // check boxes
-        TEXT: 4                             // text box
+        RADIO_BUTTONS: 2,
+        CHECKBOXES: 3,
+        TEXTBOX: 4,
+        COMBOBOX: 5,
+        LISTBOX: 6
     });
 
-    /**
-     *
-     * @param type {!number} The type of input being requested, as defined in InputEnum
-     * @param name {!string} The name of the value as it appears in the QNA config file
-     * @param options {?Array.<string>} The available options. Only use if type == MUTUALLY_EXCLUSIVE_OPTION
-     * @param value {function(?Object, !Object) A function that takes two parameters: the last computed value (or null
-     *              no computed value is available) and the configuration options entered to this point.
-     * @constructor
-     */
+
     global.QNAVariable = function (type, intro, name, options, value) {
         this.type = type;
         this.name = name;
@@ -59,12 +53,11 @@
      *   the details of the current step
      * @constructor
      */
-    global.QNA = function (step, alert, previousSteps, results, config) {
+    global.QNA = function (step, previousSteps, results, config) {
         this.step = step;
         this.previousSteps = previousSteps || [];
         this.results = results || [null];
         this.config = config || {};
-        this.alert = alert;
     };
 
     global.QNA.prototype.hasNext = function () {
@@ -81,30 +74,51 @@
         return this.previousSteps.length > 0;
     };
 
-    global.QNA.prototype.next = function () {
-        if (this.step) {
+    global.QNA.prototype.next = function (callback, errorCallback) {
+        if (this.step && this.step.nextStep) {
+
+            var gotoNextStep = function (newResults) {
+                this.step.nextStep(
+                    newResults[newResults.length],
+                    this.config,
+                    function (nextStep) {
+                        if (nextStep) {
+                            callback(new global.QNA(
+                                this.container,
+                                this.nextStep,
+                                this.previousSteps.concat([this.step]),
+                                newResults,
+                                this.config
+                            ));
+                        }
+                    },
+                    function (title, message) {
+                        errorCallback(title, message);
+                    }
+                );
+            };
+
+
+            // process the current step and generate a result
             var newResults;
             if (this.step.processStep) {
-                var result = this.step.processStep(this.results[this.results.length], this.config, this.alert);
-                newResults = this.results.concat([result]);
+                this.step.processStep(
+                    this.results[this.results.length],
+                    this.config,
+                    function (result) {
+                        gotoNextStep(this.results.concat([result]));
+                    },
+                    function (title, message) {
+                        errorCallback(title, message);
+                        return;
+                    }
+                );
             } else {
-                newResults = this.results.concat([this.results[this.results.length]]);
+                gotoNextStep(this.results.concat([this.results[this.results.length]]));
             }
-            if (this.step.nextStep) {
-                var nextStep = this.step.nextStep(newResults[newResults.length], this.config, this.alert);
-                if (nextStep) {
-                    return new global.QNA(
-                        this.container,
-                        this.nextStep,
-                        this.previousSteps.concat([this.step]),
-                        newResults,
-                        this.config
-                    );
-                }
-            }
+        } else {
+            errorCallback("An error occurred.", "There is no current step or no function to call to get the next step.");
         }
-
-        return this;
     };
 
     global.QNA.prototype.previous = function () {
