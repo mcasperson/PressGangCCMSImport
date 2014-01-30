@@ -70,10 +70,10 @@
         var resolveDetail = function (resolveFunction, successCallback) {
             if (resolveFunction) {
                 resolveFunction(
-                    result,
-                    config,
                     successCallback,
-                    errorCallback
+                    errorCallback,
+                    result,
+                    config
                 );
             } else {
                 successCallback(null);
@@ -82,7 +82,7 @@
 
         // a function to resolve the variable details
         var resolveVariable = function (index, variables, variableSuccessCallback) {
-            if (variables == null || index >= variables.length) {
+            if (variables === null || index >= variables.length) {
                 variableSuccessCallback();
             } else {
 
@@ -214,8 +214,6 @@
             var gotoNextStep = (function (me) {
                 return function (newResults) {
                     me.step.nextStep(
-                        newResults[newResults.length],
-                        me.config,
                         (function (me) {
                             return function (nextStep) {
                                 if (nextStep) {
@@ -232,7 +230,9 @@
                         }(me)),
                         function (title, message) {
                             errorCallback(title, message);
-                        }
+                        },
+                        newResults[newResults.length],
+                        me.config
                     );
                 };
             }(this));
@@ -241,8 +241,6 @@
             var newResults;
             if (this.step.processStep) {
                 this.step.processStep(
-                    this.results[this.results.length],
-                    this.config,
                     (function (results) {
                         return function (result) {
                             gotoNextStep(results.concat([result]));
@@ -251,7 +249,9 @@
                     function (title, message) {
                         errorCallback(title, message);
                         return;
-                    }
+                    },
+                    this.results[this.results.length],
+                    this.config
                 );
             } else {
                 gotoNextStep(this.results.concat([this.results[this.results.length]]));

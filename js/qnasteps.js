@@ -14,30 +14,30 @@
         can perform any kind of async operation (querying a server, reading a file etc) that they need to.
 
         var qnaStep = new global.QNAStep(
-            function (result, config, resultCallback, errorCallback) {resultCallback("The text to be applied to the panel title"); },
-            function (result, config, resultCallback, errorCallback) {resultCallback("The text to be displayed above any inputs. This is usually some introductory text"); },
+            function (resultCallback, errorCallback, result, config) {resultCallback("The text to be applied to the panel title"); },
+            function (resultCallback, errorCallback, result, config) {resultCallback("The text to be displayed above any inputs. This is usually some introductory text"); },
             // Here we create the QNAVariables objects, which are wrappers around a collection of QNAVariable objects
-            function (result, config, resultCallback, errorCallback) {
+            function (resultCallback, errorCallback, result, config) {
                 // This result callback expects an array of QNAVariables objects
                 resultCallback([
                     new global.QNAVariables(
                         // Note that you can skip the intro text by setting the function to null.
                         null,
-                        function (result, config, resultCallback, errorCallback) {
+                        function (resultCallback, errorCallback, result, config) {
                             // This result callback expects an array of QNAVariable objects
                             resultCallback([
                                 new global.QNAVariable(
-                                    function (result, config, resultCallback, errorCallback) {resultCallback(global.InputEnum.SINGLE_FILE); },
-                                    function (result, config, resultCallback, errorCallback) {resultCallback("The text to be displayed with the input"); },
-                                    function (result, config, resultCallback, errorCallback) {resultCallback("The variable name under config that the value of this variable will be assigned to"); }
+                                    function (resultCallback, errorCallback, result, config) {resultCallback(global.InputEnum.SINGLE_FILE); },
+                                    function (resultCallback, errorCallback, result, config) {resultCallback("The text to be displayed with the input"); },
+                                    function (resultCallback, errorCallback, result, config) {resultCallback("The variable name under config that the value of this variable will be assigned to"); }
                                 )
                             ]);
                         }
                     )
                 ]);
             },
-            function (result, config, resultCallback, errorCallback) {resultCallback("Do any incremental processing of the results here");},
-            function (result, config, resultCallback, errorCallback) {resultCallback(the_next_step);}
+            function (resultCallback, errorCallback, result, config) {resultCallback("Do any incremental processing of the results here");},
+            function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step);}
         );
      */
 
@@ -45,21 +45,21 @@
         STEP 1 - Get the ZIP file
      */
     global.QNAStart = new global.QNAStep(
-        function (result, config, resultCallback, errorCallback) {resultCallback("Select the ZIP file to import"); },
-        function (result, config, resultCallback, errorCallback) {resultCallback("Select the ZIP file that contains the valid Publican book that you wish to import into PressGang CCMS."); },
-        function (result, config, resultCallback, errorCallback) {resultCallback([
+        function (resultCallback) {resultCallback("Select the ZIP file to import"); },
+        function (resultCallback) {resultCallback("Select the ZIP file that contains the valid Publican book that you wish to import into PressGang CCMS."); },
+        function (resultCallback) {resultCallback([
             new global.QNAVariables(
                 null,
-                function (result, config, resultCallback, errorCallback) {resultCallback([
+                function (resultCallback) {resultCallback([
                     new global.QNAVariable(
-                        function (result, config, resultCallback, errorCallback) {resultCallback(global.InputEnum.SINGLE_FILE); },
-                        function (result, config, resultCallback, errorCallback) {resultCallback("Publican ZIP File"); },
-                        function (result, config, resultCallback, errorCallback) {resultCallback("ZipFile"); }
+                        function (resultCallback) {resultCallback(global.InputEnum.SINGLE_FILE); },
+                        function (resultCallback) {resultCallback("Publican ZIP File"); },
+                        function (resultCallback) {resultCallback("ZipFile"); }
                     )
                 ]); }
             )
         ]); },
-        function (result, config, resultCallback, errorCallback) {
+        function (resultCallback, errorCallback, result, config) {
             new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
 
                 var foundPublicanCfg = false;
@@ -79,8 +79,8 @@
                 errorCallback("Error", "Could not process the ZIP file!");
             });
         },
-        function (result, config, stepCallback, errorCallback) {
-            stepCallback(askForMainXML);
+        function (resultCallback, errorCallback, result, config) {
+            resultCallback(askForMainXML);
         }
     );
 
@@ -88,20 +88,20 @@
      STEP 2 - Get the main XML file
      */
     var askForMainXML = new global.QNAStep(
-        function (result, config, resultCallback, errorCallback) {resultCallback("Select the main XML file"); },
-        function (result, config, resultCallback, errorCallback) {resultCallback("Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in the Book_Info.xml file. " +
+        function (resultCallback) {resultCallback("Select the main XML file"); },
+        function (resultCallback) {resultCallback("Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in the Book_Info.xml file. " +
             "This import tool will attempt to read the Book_Info.xml file to find the book title, and from that select the main XML file. " +
             "You only need to make a manual selection if the import tool could not find the main XML file, or if you want to override the default selection."); },
-        function (result, config, resultCallback, errorCallback) {resultCallback([
+        function (resultCallback) {resultCallback([
             new global.QNAVariables(
                 null,
-                function (result, config, resultCallback, errorCallback) {resultCallback(
+                function (resultCallback) {resultCallback(
                     [
                         new global.QNAVariable(
-                            function (result, config, resultCallback, errorCallback) {resultCallback(global.InputEnum.LISTBOX); },
+                            function (resultCallback) {resultCallback(global.InputEnum.LISTBOX); },
                             null,
-                            function (result, config, resultCallback, errorCallback) {resultCallback("MainXMLFile"); },
-                            function (result, config, resultCallback, errorCallback) {
+                            function (resultCallback) {resultCallback("MainXMLFile"); },
+                            function (resultCallback, errorCallback, result, config) {
                                 new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
                                     var retValue = [];
 
@@ -114,7 +114,7 @@
                                     resultCallback(retValue);
                                 });
                             },
-                            function (result, config, resultCallback, errorCallback) {
+                            function (resultCallback, errorCallback, result, config) {
                                 new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
                                     global.angular.forEach(entries, function (value, key) {
                                         if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
@@ -145,7 +145,7 @@
             )
         ]); },
         null,
-        function (result, config, stepCallback, errorCallback) {
+        function (resultCallback, errorCallback, result, config) {
 
         }
     );
