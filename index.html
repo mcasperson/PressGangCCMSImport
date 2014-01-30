@@ -35,25 +35,25 @@
             <!-- The panel that contains the current wizard step -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{qna.step.title}}</h3>
+                    <h3 class="panel-title">{{qna.step.processedTitle}}</h3>
                 </div>
                 <div class="panel-body">
-                    <div ng-if="qna.step.intro != null">{{qna.step.intro}}</div>
+                    <div ng-if="qna.step.processedIntro != null">{{qna.step.processedIntro}}</div>
 
                     <!-- Build the inputs -->
-                    <div ng-repeat="input in qna.step.inputs">
+                    <div ng-repeat="input in qna.step.processedInputs">
                             <h3>{{input.intro}}</h3>
-                            <div class="row" ng-repeat="variable in input.variables">
-                                <div class="col-lg-2" ng-if="variable.intro">{{variable.intro}}</div>
+                            <div class="row" ng-repeat="variable in input.processedVariables">
+                                <div class="col-lg-2" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                 <!-- single file form element -->
-                                <div ng-class="{'col-lg-10': variable.intro, 'col-lg-12': !variable.intro}" ng-if="variable.type == inputTypes.SINGLE_FILE">
-                                    <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.name, $files)" >
+                                <div ng-class="{'col-lg-10': variable.processedIntro, 'col-lg-12': !variable.processedIntro}" ng-if="variable.processedType == inputTypes.SINGLE_FILE">
+                                    <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" >
                                 </div>
                                 <!-- listbox form element -->
-                                <div ng-class="{'col-lg-10': variable.intro, 'col-lg-12': !variable.intro}" ng-if="variable.type == inputTypes.LISTBOX">
+                                <div ng-class="{'col-lg-10': variable.intro, 'col-lg-12': !variable.processedIntro}" ng-if="variable.processedType == inputTypes.LISTBOX">
                                     <select
                                             size="20"
-                                            ng-model="qna.config[variable.name]"
+                                            ng-model="qna.config[variable.processedName]"
                                             ng-options="option for option in variable.processedOptions"
                                             ng-disabled="!variable.processedOptions"
                                             style="width: 100%"></select>

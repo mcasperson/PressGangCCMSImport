@@ -30,12 +30,20 @@ var QNAController = function ($scope, $modal, $rootScope) {
         });
     };
 
-    var updatedCallback = function () {
-        $rootScope.$apply();
-    };
+    var initializeQna = function (qna) {
+        qna.initialize(
+            function (qna) {
+                $scope.qna = qna;
+                $rootScope.$apply();
+            },
+            function (title, error) {
+                alert(title, error);
+            }
+        );
+    }
 
     $scope.inputTypes = InputEnum;
-    $scope.qna = new QNA(QNAStart, null, null, null, updatedCallback);
+    initializeQna(new QNA(QNAStart, null, null, null));
 
     $scope.onFileSelect = function (name, files) {
         if (files.length !== 0) {
@@ -47,10 +55,7 @@ var QNAController = function ($scope, $modal, $rootScope) {
 
     $scope.next = function () {
         $scope.qna.next(function (qna) {
-            $scope.qna = qna;
-            // we have to manually refresh the view because we are potentially using
-            // async callbacks here
-            $rootScope.$apply();
+            initializeQna(qna);
         }, function (title, message) {
             alert(title, message);
         });

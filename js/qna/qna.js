@@ -35,7 +35,7 @@
      */
     global.QNAVariables = function (intro, variables) {
         this.intro = intro || null;
-        this.variables = variables || [];
+        this.variables = variables || null;
     };
 
     global.QNAStep = function (title, intro, inputs, processStep, nextStep) {
@@ -53,40 +53,145 @@
      *   the details of the current step
      * @constructor
      */
-    global.QNA = function (step, previousSteps, results, config, updatedCallback) {
+    global.QNA = function (step, previousSteps, results, config) {
         this.step = step;
         this.previousSteps = previousSteps || [];
         this.results = results || [null];
         this.config = config || {};
-        this.updatedCallback = updatedCallback || null;
+    };
 
-        global.angular.forEach(this.step.inputs, function (variables) {
-            global.angular.forEach(variables.variables, function (variable) {
-                if (variable.options) {
-                    variable.options(
-                        this.results[this.results.length - 1],
-                        this.config,
-                        (function (me) {
-                            return function (options) {
-                                variable.processedOptions = options;
-                                if (me.updatedCallback) {
-                                    me.updatedCallback();
-                                }
-                            };
-                        }(this)),
-                        (function (me) {
-                            return function (value) {
-                                me.config[variable.name] = value;
-                                if (me.updatedCallback) {
-                                    me.updatedCallback();
-                                }
-                            };
-                        }(this))
-                    );
-                }
-            }, this);
-        }, this);
+    global.QNA.prototype.initialize = function (successCallback, errorCallback) {
+        var result = this.results[this.results.length - 1];
+        var step = this.step;
+        var config = this.config;
+        var me = this;
 
+        // resolve some aspect of the variable
+        var resolveDetail = function (resolveFunction, successCallback) {
+            if (resolveFunction) {
+                resolveFunction(
+                    result,
+                    config,
+                    successCallback,
+                    errorCallback
+                );
+            } else {
+                successCallback(null);
+            }
+        };
+
+        // a function to resolve the variable details
+        var resolveVariable = function (index, variables, variableSuccessCallback) {
+            if (variables == null || index >= variables.length) {
+                variableSuccessCallback();
+            } else {
+
+                var processNextVariable = function () {
+                    resolveVariable(index + 1, variables, variableSuccessCallback);
+                };
+
+                var variable = variables[index];
+                resolveDetail(
+                    variable.type,
+                    function (type) {
+                        variable.processedType = type;
+
+                        resolveDetail(
+                            variable.name,
+                            function (name) {
+                                variable.processedName = name;
+
+                                resolveDetail(
+                                    variable.options,
+                                    function (options) {
+                                        variable.processedOptions = options;
+
+                                        resolveDetail(
+                                            variable.value,
+                                            function (value) {
+                                                // we do something a little different here. the value is what is shwon
+                                                // in the ui, and that is bound to the config
+                                                config[variable.processedName] = value;
+
+                                                resolveDetail(
+                                                    variable.intro,
+                                                    function (intro) {
+                                                        variable.processedIntro = intro;
+
+                                                        processNextVariable();
+                                                    }
+                                                );
+                                            }
+                                        );
+                                    }
+                                );
+                            }
+                        );
+                    }
+                );
+            }
+        };
+
+        resolveDetail(
+            step.title,
+            function (title) {
+                step.processedTitle = title;
+
+                resolveDetail(
+                    step.intro,
+                    function (intro) {
+                        step.processedIntro = intro;
+
+                        resolveDetail(
+                            step.inputs,
+                            function (inputs) {
+                                step.processedInputs = inputs;
+
+                                // at this point the step has been resolved, so we now need to go through and
+                                // resolve the inputs
+                                if (inputs) {
+
+                                    var resolveInput = function (index, inputs, inputSuccessCallback) {
+                                        if (inputs === null || index >= inputs.length) {
+                                            inputSuccessCallback();
+                                        } else {
+                                            var input = inputs[index];
+                                            resolveDetail(
+                                                input.intro,
+                                                function (intro) {
+                                                    input.processedIntro = intro;
+
+                                                    resolveDetail(
+                                                        input.variables,
+                                                        function (variables) {
+                                                            input.processedVariables = variables;
+
+                                                            resolveVariable(0, variables, function () {
+                                                                resolveInput(index + 1, inputs, inputSuccessCallback);
+                                                            });
+                                                        }
+                                                    );
+                                                }
+                                            );
+                                        }
+                                    };
+
+                                    resolveInput(0, inputs, function () {
+                                        successCallback(me);
+                                    });
+
+                                } else {
+                                    successCallback(me);
+                                }
+                            },
+                            errorCallback
+                        );
+                    },
+                    errorCallback
+                );
+            },
+            errorCallback
+        );
     };
 
     global.QNA.prototype.hasNext = function () {
@@ -119,7 +224,8 @@
                                         me.previousSteps.concat([me.step]),
                                         newResults,
                                         me.config,
-                                        me.updatedCallback
+                                        me.updatedCallback,
+                                        errorCallback
                                     ));
                                 }
                             };
