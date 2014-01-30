@@ -43,9 +43,9 @@
      */
     var askForMainXML = new global.QNAStep(
         "Select the main XML file",
-        "Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in Book_Info.xml. " +
+        "Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in the Book_Info.xml file. " +
             "This import tool will attempt to read the Book_Info.xml file to find the book title, and from that select the main XML file. " +
-            "You only need to make a manual selection if the import tool could not find the main file, or if you want to override the default selection.",
+            "You only need to make a manual selection if the import tool could not find the main XML file, or if you want to override the default selection.",
         [
                 new global.QNAVariables(null, [
                     new global.QNAVariable(
@@ -59,7 +59,7 @@
                                 var retValue = [];
 
                                 global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                                    if (/^en-US\/.*?\.xml$/.test(value.filename)) {
+                                    if (/^.*?\.xml$/.test(value.filename)) {
                                         retValue.push(value.filename);
                                     }
                                 });
