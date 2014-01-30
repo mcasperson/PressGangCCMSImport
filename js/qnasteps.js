@@ -52,25 +52,18 @@
                     // and use that to work out the main xml file name
                     global.angular.forEach(config.ZipFileEntries, function (value, key) {
                         if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
-                            new global.QNAZipModel().getEntry(value, function (blob) {
+                            new global.QNAZipModel().getTextFromFile(value, function (textFile) {
+                                var match = /<title>(.*?)<\/title>/.exec(textFile);
+                                if (match) {
+                                    var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
 
-                                var reader = new global.FileReader();
-                                reader.addEventListener("load", function(event) {
-                                    var textFile = event.target.result;
-                                    var match = /<title>(.*?)<\/title>/.exec(textFile);
-                                    if (match) {
-                                        var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
-
-                                        global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                                            if (value.filename === assumedMainXMLFile) {
-                                                valueCallback(assumedMainXMLFile);
-                                                return false;
-                                            }
-                                        });
-                                    }
-
-                                });
-                                reader.readAsText(blob);
+                                    global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                                        if (value.filename === assumedMainXMLFile) {
+                                            valueCallback(assumedMainXMLFile);
+                                            return false;
+                                        }
+                                    });
+                                }
                             });
 
                             return false;
