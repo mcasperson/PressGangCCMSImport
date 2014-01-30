@@ -9,7 +9,7 @@ var OKDialogInstanceController = function ($scope, $modalInstance, title, conten
     };
 };
 
-var QNAController = function ($scope, $modal) {
+var QNAController = function ($scope, $modal, $rootScope) {
     'use strict';
 
     /*
@@ -44,6 +44,9 @@ var QNAController = function ($scope, $modal) {
     $scope.next = function () {
         $scope.qna.next(function (qna) {
             $scope.qna = qna;
+            // we have to manually refresh the view because we are potentially using
+            // async callbacks here
+            $rootScope.$apply();
         }, function (title, message) {
             alert(title, message);
         });

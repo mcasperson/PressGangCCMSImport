@@ -77,27 +77,29 @@
     global.QNA.prototype.next = function (callback, errorCallback) {
         if (this.step && this.step.nextStep) {
 
-            var gotoNextStep = function (newResults) {
-                this.step.nextStep(
-                    newResults[newResults.length],
-                    this.config,
-                    function (nextStep) {
-                        if (nextStep) {
-                            callback(new global.QNA(
-                                this.container,
-                                this.nextStep,
-                                this.previousSteps.concat([this.step]),
-                                newResults,
-                                this.config
-                            ));
+            var gotoNextStep = (function (me) {
+                return function (newResults) {
+                    me.step.nextStep(
+                        newResults[newResults.length],
+                        me.config,
+                        (function (me) {
+                            return function (nextStep) {
+                                if (nextStep) {
+                                    callback(new global.QNA(
+                                        nextStep,
+                                        me.previousSteps.concat([me.step]),
+                                        newResults,
+                                        me.config
+                                    ));
+                                }
+                            };
+                        }(me)),
+                        function (title, message) {
+                            errorCallback(title, message);
                         }
-                    },
-                    function (title, message) {
-                        errorCallback(title, message);
-                    }
-                );
-            };
-
+                    );
+                };
+            }(this));
 
             // process the current step and generate a result
             var newResults;
@@ -105,9 +107,11 @@
                 this.step.processStep(
                     this.results[this.results.length],
                     this.config,
-                    function (result) {
-                        gotoNextStep(this.results.concat([result]));
-                    },
+                    (function (results) {
+                        return function (result) {
+                            gotoNextStep(results.concat([result]));
+                        };
+                    }(this.results)),
                     function (title, message) {
                         errorCallback(title, message);
                         return;
