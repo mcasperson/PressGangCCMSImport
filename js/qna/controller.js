@@ -40,7 +40,11 @@ var QNAController = function ($scope, $modal, $rootScope) {
                 alert(title, error);
             }
         );
-    }
+    };
+
+    $scope.getNumber = function (num) {
+        return new Array(num);
+    };
 
     $scope.inputTypes = InputEnum;
     initializeQna(new QNA(QNAStart, null, null, null));

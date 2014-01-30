@@ -19,8 +19,8 @@
 
     global.QNAVariable = function (type, intro, name, options, value) {
         this.type = type;
-        this.name = name;
         this.intro = intro;
+        this.name = name;
         this.options = options || null;
         this.value = value || null;
     };
@@ -177,11 +177,13 @@
                                     };
 
                                     resolveInput(0, inputs, function () {
-                                        successCallback(me);
+                                        // this function is always async to avoid issues with the $apply()
+                                        // function in angular
+                                        global.setTimeout(function () {successCallback(me); }, 0);
                                     });
 
                                 } else {
-                                    successCallback(me);
+                                    global.setTimeout(function () {successCallback(me); }, 0);
                                 }
                             },
                             errorCallback

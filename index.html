@@ -44,20 +44,31 @@
                     <div ng-repeat="input in qna.step.processedInputs">
                             <h3>{{input.intro}}</h3>
                             <div class="row" ng-repeat="variable in input.processedVariables">
-                                <div class="col-lg-2" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+
                                 <!-- single file form element -->
-                                <div ng-class="{'col-lg-10': variable.processedIntro, 'col-lg-12': !variable.processedIntro}" ng-if="variable.processedType == inputTypes.SINGLE_FILE">
-                                    <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" >
-                                </div>
+                                <div ng-if="variable.processedType == inputTypes.SINGLE_FILE">
+                                    <div class="col-lg-2" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-10': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" >
+                                    </div>
+                                 </div>
                                 <!-- listbox form element -->
-                                <div ng-class="{'col-lg-10': variable.intro, 'col-lg-12': !variable.processedIntro}" ng-if="variable.processedType == inputTypes.LISTBOX">
-                                    <select
-                                            size="20"
-                                            ng-model="qna.config[variable.processedName]"
-                                            ng-options="option for option in variable.processedOptions"
-                                            ng-disabled="!variable.processedOptions"
-                                            style="width: 100%"></select>
+                                <div ng-if="variable.processedType == inputTypes.LISTBOX">
+                                    <div class="col-lg-2" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-10': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <select
+                                                size="20"
+                                                ng-model="qna.config[variable.processedName]"
+                                                ng-options="option for option in variable.processedOptions"
+                                                ng-disabled="!variable.processedOptions"
+                                                style="width: 100%"></select>
+                                    </div>
                                 </div>
+                                <!-- radio buttons -->
+                                <div ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
+                                    <div class="col-lg-12"><input type="radio" name="{{variable.processedName}}" value="{{variable.processedOptions[$index]}}">{{variable.processedIntro[$index]}}</div>
+                                </div>
+
                             </div>
                     </div>
 

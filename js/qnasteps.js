@@ -2,7 +2,7 @@
     'use strict';
 
     /*
-        A step in the QNA system is a hierarchy of object.
+        A step in the QNA system is a hierarchy of objects.
 
         The QNAStep represents one entire step in the wizard.
           Each QNAStep holds zero or more QNAVariables. QNAVariables are collections of QNAVariable objects.
@@ -29,15 +29,17 @@
                                 new global.QNAVariable(
                                     function (resultCallback, errorCallback, result, config) {resultCallback(global.InputEnum.SINGLE_FILE); },
                                     function (resultCallback, errorCallback, result, config) {resultCallback("The text to be displayed with the input"); },
-                                    function (resultCallback, errorCallback, result, config) {resultCallback("The variable name under config that the value of this variable will be assigned to"); }
+                                    function (resultCallback, errorCallback, result, config) {resultCallback("The variable name under config that the value of this variable will be assigned to"); },
+                                    function (resultCallback, errorCallback, result, config) {resultCallback(["Some", "inputs", "expect", "a", "number", "of", "options"]); },
+                                    function (resultCallback, errorCallback, result, config) {resultCallback("The initial value to be displayed"); }
                                 )
                             ]);
                         }
                     )
                 ]);
             },
-            function (resultCallback, errorCallback, result, config) {resultCallback("Do any incremental processing of the results here");},
-            function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step);}
+            function (resultCallback, errorCallback, result, config) {resultCallback("Do any incremental processing of the results here"); },
+            function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
         );
      */
 
@@ -145,9 +147,40 @@
             )
         ]); },
         null,
-        function (resultCallback, errorCallback, result, config) {
-
+        function (resultCallback) {
+            resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
         }
+    );
+
+    var askToCreateNewSpecOrOverwriteExistingOne = new global.QNAStep(
+        function (resultCallback) {resultCallback("Create or overwrite a content spec?"); },
+        function (resultCallback) {resultCallback("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
+            "You will usually want to create a new content specification, but if you are reimporting a book and want to overwrite the previously imported content spec, " +
+            "select the overwrite option."); },
+        // Here we create the QNAVariables objects, which are wrappers around a collection of QNAVariable objects
+        function (resultCallback) {
+            // This result callback expects an array of QNAVariables objects
+            resultCallback([
+                new global.QNAVariables(
+                    // Note that you can skip the intro text by setting the function to null.
+                    null,
+                    function (resultCallback) {
+                        // This result callback expects an array of QNAVariable objects
+                        resultCallback([
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.RADIO_BUTTONS); },
+                                function (resultCallback) {resultCallback(["Create a new content spec", "Overwrite an existing content spec"]); },
+                                function (resultCallback) {resultCallback("CreateOrOverwrite"); },
+                                function (resultCallback) {resultCallback(["CREATE", "OVERWRITE"]); },
+                                function (resultCallback) {resultCallback("CREATE"); }
+                            )
+                        ]);
+                    }
+                )
+            ]);
+        },
+        function (resultCallback, errorCallback, result, config) {resultCallback("Do any incremental processing of the results here"); },
+        function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
     );
 
 }(this));
