@@ -2,6 +2,44 @@
     'use strict';
 
     /*
+        A step in the QNA system is a hierarchy of object.
+
+        The QNAStep represents one entire step in the wizard.
+          Each QNAStep holds zero or more QNAVariables. QNAVariables are collections of QNAVariable objects.
+            Each QNAVariables holds one or more QNAVariable objects. A QNAVariable is a UI element that the user is expected to supply a value for.
+
+        You will note that each level in the hierarchy and each value for the objects in the hierarchy are calculated
+        via callbacks. If each step in the wizard is known, these callbacks can just return static values. If the
+        steps require some kind of processing in order to determine the correct values shown to the user, these callbacks
+        can perform any kind of async operation (querying a server, reading a file etc) that they need to.
+
+        var qnaStep = new global.QNAStep(
+            function (result, config, resultCallback, errorCallback) {resultCallback("The text to be applied to the panel title"); },
+            function (result, config, resultCallback, errorCallback) {resultCallback("The text to be displayed above any inputs. This is usually some introductory text"); },
+            // Here we create the QNAVariables objects, which are wrappers around a collection of QNAVariable objects
+            function (result, config, resultCallback, errorCallback) {
+                // This result callback expects an array of QNAVariables objects
+                resultCallback([
+                    new global.QNAVariables(
+                        // Note that you can skip the intro text by setting the function to null.
+                        null,
+                        function (result, config, resultCallback, errorCallback) {
+                            // This result callback expects an array of QNAVariable objects
+                            resultCallback([
+                                new global.QNAVariable(
+                                    function (result, config, resultCallback, errorCallback) {resultCallback(global.InputEnum.SINGLE_FILE); },
+                                    function (result, config, resultCallback, errorCallback) {resultCallback("The text to be displayed with the input"); },
+                                    function (result, config, resultCallback, errorCallback) {resultCallback("The variable name under config that the value of this variable will be assigned to"); }
+                                )
+                            ]);
+                        }
+                    )
+                ]);
+            },
+        );
+     */
+
+    /*
         STEP 1 - Get the ZIP file
      */
     global.QNAStart = new global.QNAStep(
