@@ -13,7 +13,7 @@
             ])
         ],
         function (result, config, resultCallback, errorCallback) {
-            new global.QNAZipModel().getEntries(config.ZipFile, function (entries) {
+            new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
 
                 var foundPublicanCfg = false;
                 global.angular.forEach(entries, function (value, key) {
@@ -26,7 +26,6 @@
                 if (!foundPublicanCfg) {
                     errorCallback("Error", "The ZIP file did not contain a publican.cfg file.");
                 } else {
-                    config.ZipFileEntries = entries;
                     resultCallback(null);
                 }
             }, function (message) {
@@ -58,46 +57,51 @@
                                 // here we get all the files from the zip and list any that might be relevant
                                 var retValue = [];
 
-                                global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                                    if (/^.*?\.xml$/.test(value.filename)) {
-                                        retValue.push(value.filename);
-                                    }
-                                });
+                                new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
+                                    global.angular.forEach(entries, function (value, key) {
+                                        if (/^.*?\.xml$/.test(value.filename)) {
+                                            retValue.push(value.filename);
+                                        }
+                                    });
 
-                                itemsCallback(retValue);
+                                    itemsCallback(retValue);
+                                });
                             };
 
                             // here we attempt to find a file called Book_Info.xml, look for the title element inside of it,
                             // and use that to work out the main xml file name
-                            var foundBookInfo = false;
-                            global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                                if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
 
-                                    foundBookInfo = true;
+                            new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
+                                var foundBookInfo = false;
+                                global.angular.forEach(entries, function (value, key) {
+                                    if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
 
-                                    new global.QNAZipModel().getTextFromFile(value, function (textFile) {
-                                        var match = /<title>(.*?)<\/title>/.exec(textFile);
-                                        if (match) {
-                                            var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
+                                        foundBookInfo = true;
 
-                                            global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                                                if (value.filename === assumedMainXMLFile) {
-                                                    valueCallback(assumedMainXMLFile);
-                                                    return false;
-                                                }
-                                            });
-                                        }
+                                        new global.QNAZipModel().getTextFromFile(value, function (textFile) {
+                                            var match = /<title>(.*?)<\/title>/.exec(textFile);
+                                            if (match) {
+                                                var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
 
-                                        findItems();
-                                    });
+                                                global.angular.forEach(entries, function (value, key) {
+                                                    if (value.filename === assumedMainXMLFile) {
+                                                        valueCallback(assumedMainXMLFile);
+                                                        return false;
+                                                    }
+                                                });
+                                            }
 
-                                    return false;
+                                            findItems();
+                                        });
+
+                                        return false;
+                                    }
+                                });
+
+                                if (!foundBookInfo) {
+                                    findItems();
                                 }
                             });
-
-                            if (!foundBookInfo) {
-                                findItems();
-                            }
                         }
                     )
                 ])
