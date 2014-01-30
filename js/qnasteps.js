@@ -46,41 +46,45 @@
         "Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in Book_Info.xml.",
         [
             new global.QNAVariables(null, [
-                new global.QNAVariable(global.InputEnum.LISTBOX, null, "MainXMLFile", function (result, config, itemsCallback, valueCallback) {
+                new global.QNAVariable(
+                    global.InputEnum.LISTBOX,
+                    null,
+                    "MainXMLFile",
+                    function (result, config, itemsCallback, valueCallback) {
+                        // here we attempt to find a file called Book_Info.xml, look for the title element inside of it,
+                        // and use that to work out the main xml file name
+                        global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                            if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
+                                new global.QNAZipModel().getTextFromFile(value, function (textFile) {
+                                    var match = /<title>(.*?)<\/title>/.exec(textFile);
+                                    if (match) {
+                                        var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
 
-                    // here we attempt to find a file called Book_Info.xml, look for the title element inside of it,
-                    // and use that to work out the main xml file name
-                    global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                        if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
-                            new global.QNAZipModel().getTextFromFile(value, function (textFile) {
-                                var match = /<title>(.*?)<\/title>/.exec(textFile);
-                                if (match) {
-                                    var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
+                                        global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                                            if (value.filename === assumedMainXMLFile) {
+                                                valueCallback(assumedMainXMLFile);
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                });
 
-                                    global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                                        if (value.filename === assumedMainXMLFile) {
-                                            valueCallback(assumedMainXMLFile);
-                                            return false;
-                                        }
-                                    });
-                                }
-                            });
+                                return false;
+                            }
+                        });
 
-                            return false;
-                        }
-                    });
+                        // here we get all the files from the zip and list any that might be relevant
+                        var retValue = [];
 
-                    // here we get all the files from the zip and list any that might be relevant
-                    var retValue = [];
+                        global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                            if (/^en-US\/.*?\.xml$/.test(value.filename)) {
+                                retValue.push(value.filename);
+                            }
+                        });
 
-                    global.angular.forEach(config.ZipFileEntries, function (value, key) {
-                        if (/^en-US\/.*?\.xml$/.test(value.filename)) {
-                            retValue.push(value.filename);
-                        }
-                    });
-
-                    itemsCallback(retValue);
-                })
+                        itemsCallback(retValue);
+                    }
+                )
             ])
         ],
         null,
