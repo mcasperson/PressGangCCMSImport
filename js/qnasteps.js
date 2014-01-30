@@ -43,7 +43,7 @@
      */
     var askForMainXML = new global.QNAStep(
         "Select the main XML file",
-        "Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book.",
+        "Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title as defined in Book_Info.xml.",
         [
             new global.QNAVariables(null, [
                 new global.QNAVariable(global.InputEnum.LISTBOX, null, "MainXMLFile", function (result, config, itemsCallback, valueCallback) {
