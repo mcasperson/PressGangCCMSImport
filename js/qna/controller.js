@@ -30,8 +30,12 @@ var QNAController = function ($scope, $modal, $rootScope) {
         });
     };
 
+    var updatedCallback = function () {
+        $rootScope.$apply();
+    };
+
     $scope.inputTypes = InputEnum;
-    $scope.qna = new QNA(QNAStart);
+    $scope.qna = new QNA(QNAStart, null, null, null, updatedCallback);
 
     $scope.onFileSelect = function (name, files) {
         if (files.length !== 0) {

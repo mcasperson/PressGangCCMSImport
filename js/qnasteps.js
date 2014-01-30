@@ -43,11 +43,50 @@
      */
     var askForMainXML = new global.QNAStep(
         "Select the main XML file",
-        "Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the name of the book.",
+        "Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book.",
         [
             new global.QNAVariables(null, [
-                new global.QNAVariable(global.InputEnum.LISTBOX, null, "MainXMLFile", function (result, config) {
+                new global.QNAVariable(global.InputEnum.LISTBOX, null, "MainXMLFile", function (result, config, itemsCallback, valueCallback) {
 
+                    // here we attempt to find a file called Book_Info.xml, look for the title element inside of it,
+                    // and use that to work out the main xml file name
+                    global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                        if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
+                            new global.QNAZipModel().getEntry(value, function (blob) {
+
+                                var reader = new global.FileReader();
+                                reader.addEventListener("load", function(event) {
+                                    var textFile = event.target.result;
+                                    var match = /<title>(.*?)<\/title>/.exec(textFile);
+                                    if (match) {
+                                        var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
+
+                                        global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                                            if (value.filename === assumedMainXMLFile) {
+                                                valueCallback(assumedMainXMLFile);
+                                                return false;
+                                            }
+                                        });
+                                    }
+
+                                });
+                                reader.readAsText(blob);
+                            });
+
+                            return false;
+                        }
+                    });
+
+                    // here we get all the files from the zip and list any that might be relevant
+                    var retValue = [];
+
+                    global.angular.forEach(config.ZipFileEntries, function (value, key) {
+                        if (/^en-US\/.*?\.xml$/.test(value.filename)) {
+                            retValue.push(value.filename);
+                        }
+                    });
+
+                    itemsCallback(retValue);
                 })
             ])
         ],

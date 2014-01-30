@@ -53,11 +53,40 @@
      *   the details of the current step
      * @constructor
      */
-    global.QNA = function (step, previousSteps, results, config) {
+    global.QNA = function (step, previousSteps, results, config, updatedCallback) {
         this.step = step;
         this.previousSteps = previousSteps || [];
         this.results = results || [null];
         this.config = config || {};
+        this.updatedCallback = updatedCallback || null;
+
+        global.angular.forEach(this.step.inputs, function (variables) {
+            global.angular.forEach(variables.variables, function (variable) {
+                if (variable.options) {
+                    variable.options(
+                        this.results[this.results.length - 1],
+                        this.config,
+                        (function (me) {
+                            return function (options) {
+                                variable.processedOptions = options;
+                                if (me.updatedCallback) {
+                                    me.updatedCallback();
+                                }
+                            };
+                        }(this)),
+                        (function (me) {
+                            return function (value) {
+                                me.config[variable.name] = value;
+                                if (me.updatedCallback) {
+                                    me.updatedCallback();
+                                }
+                            };
+                        }(this))
+                    );
+                }
+            }, this);
+        }, this);
+
     };
 
     global.QNA.prototype.hasNext = function () {
@@ -89,7 +118,8 @@
                                         nextStep,
                                         me.previousSteps.concat([me.step]),
                                         newResults,
-                                        me.config
+                                        me.config,
+                                        me.updatedCallback
                                     ));
                                 }
                             };
