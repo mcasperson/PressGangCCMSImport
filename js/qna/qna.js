@@ -273,14 +273,14 @@
         }
     };
 
-    global.QNA.prototype.previous = function () {
+    global.QNA.prototype.previous = function (callback, errorCallback) {
         if (this.previousSteps.length > 0) {
-            return new global.QNA(
+            callback(new global.QNA(
                 this.previousSteps[this.previousSteps.length - 1],
                 this.previousSteps.splice(0, this.previousSteps.length - 1),
                 this.results.splice(0, this.results.length - 1),
                 this.config
-            );
+            ));
         }
 
         return this;

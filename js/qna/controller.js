@@ -64,4 +64,12 @@ var QNAController = function ($scope, $modal, $rootScope) {
             alert(title, message);
         });
     };
+
+    $scope.previous = function () {
+        $scope.qna.previous(function (qna) {
+            initializeQna(qna);
+        }, function (title, message) {
+            alert(title, message);
+        });
+    };
 };

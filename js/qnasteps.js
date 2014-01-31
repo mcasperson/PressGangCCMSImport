@@ -63,24 +63,29 @@
         ]); },
         null,
         function (resultCallback, errorCallback, result, config) {
-            new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
 
-                var foundPublicanCfg = false;
-                global.angular.forEach(entries, function (value, key) {
-                    if (value.filename === "publican.cfg") {
-                        foundPublicanCfg = true;
-                        return false;
+            if (!config.ZipFile) {
+                errorCallback("Please select a file", "You need to select a file before continuing.");
+            } else {
+                new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
+
+                    var foundPublicanCfg = false;
+                    global.angular.forEach(entries, function (value, key) {
+                        if (value.filename === "publican.cfg") {
+                            foundPublicanCfg = true;
+                            return false;
+                        }
+                    });
+
+                    if (!foundPublicanCfg) {
+                        errorCallback("Error", "The ZIP file did not contain a publican.cfg file.");
+                    } else {
+                        resultCallback(null);
                     }
+                }, function (message) {
+                    errorCallback("Error", "Could not process the ZIP file!");
                 });
-
-                if (!foundPublicanCfg) {
-                    errorCallback("Error", "The ZIP file did not contain a publican.cfg file.");
-                } else {
-                    resultCallback(null);
-                }
-            }, function (message) {
-                errorCallback("Error", "Could not process the ZIP file!");
-            });
+            }
         },
         function (resultCallback, errorCallback, result, config) {
             resultCallback(askForMainXML);

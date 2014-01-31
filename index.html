@@ -131,7 +131,9 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-default pull-right" style="margin-top: 10px" ng-click="next()" ng-if="qna.hasNext()">Next</button>
+                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext()">Next</button>
+                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious()">Previous</button>
+
                 </div>
             </div>
 
