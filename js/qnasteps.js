@@ -465,7 +465,7 @@
 
             var removeXmlPreamble = function (xmlText) {
                 xmlText = xmlText.replace(/<\?xml.*?>/g, "");
-                xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?>/g, "");
+                xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?\[[\s\S]*?\]>/g, "");
 
                 console.log(xmlText);
 
