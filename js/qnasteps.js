@@ -283,6 +283,13 @@
                             ),
                             new global.QNAVariable(
                                 function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Parse as XML"); },
+                                function (resultCallback) {resultCallback("ParsedAsXML"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
                                 function (resultCallback) {resultCallback("Finding revision history"); },
                                 function (resultCallback) {resultCallback("FoundRevisionHistory"); },
                                 null,
@@ -329,7 +336,7 @@
                                 function (resultCallback) {resultCallback("UploadProgress"); },
                                 null,
                                 // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
-                                function (resultCallback) {resultCallback([10, 0]); }
+                                function (resultCallback) {resultCallback([11, 0]); }
                             )
                         ]);
                     }
@@ -475,6 +482,27 @@
 
                 config.UploadProgress[1] = 4;
                 config.RemovedXMLPreamble = true;
+                resultCallback();
+
+                parseAsXML(xmlText);
+            };
+
+            /*
+                Take the sanitised XML and convert it to an actual XML DOM
+             */
+            var parseAsXML = function (xmlText) {
+                var xmlDoc;
+                if (global.DOMParser) {
+                    var parser = new global.DOMParser();
+                    xmlDoc = parser.parseFromString(xmlText, "text/xml");
+                } else { // Internet Explorer
+                    xmlDoc = new global.ActiveXObject("Microsoft.XMLDOM");
+                    xmlDoc.async = false;
+                    xmlDoc.loadXML(xmlText);
+                }
+
+                config.UploadProgress[1] = 5;
+                config.ParsedAsXML = true;
                 resultCallback();
             };
 
