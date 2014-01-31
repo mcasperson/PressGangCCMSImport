@@ -276,6 +276,13 @@
                             ),
                             new global.QNAVariable(
                                 function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Removing XML preamble"); },
+                                function (resultCallback) {resultCallback("RemovedXMLPreamble"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
                                 function (resultCallback) {resultCallback("Finding revision history"); },
                                 function (resultCallback) {resultCallback("FoundRevisionHistory"); },
                                 null,
@@ -322,7 +329,7 @@
                                 function (resultCallback) {resultCallback("UploadProgress"); },
                                 null,
                                 // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
-                                function (resultCallback) {resultCallback([9, 0]); }
+                                function (resultCallback) {resultCallback([10, 0]); }
                             )
                         ]);
                     }
@@ -427,12 +434,11 @@
 
                     var processTextFile = function (index) {
                         if (index >= entries.length) {
-                            console.log(entities);
                             config.UploadProgress[1] = 3;
                             config.FoundEntityDefinitions = true;
                             resultCallback();
 
-                            // move to next step
+                            removeXmlPreamble(xmlText);
                         } else {
                             var value = entries[index];
                             if (value.filename.indexOf(relativePath) === 0) {
@@ -455,6 +461,17 @@
 
                     processTextFile(0);
                 });
+            };
+
+            var removeXmlPreamble = function (xmlText) {
+                xmlText = xmlText.replace(/<\?xml.*?>/g, "");
+                xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?>/g, "");
+
+                console.log(xmlText);
+
+                config.UploadProgress[1] = 4;
+                config.RemovedXMLPreamble = true;
+                resultCallback();
             };
 
             // start the process
