@@ -333,50 +333,53 @@
             /*
                 Resolve xi:includes
              */
-            var xiIncludeRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www.w3.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*\/\s*>/;
-            var commonContent = /^Common_Content/;
+            var resolveXiIncludes = function () {
+                var xiIncludeRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*\/\s*>/;
+                var commonContent = /^Common_Content/;
 
-            var resolveXIInclude = function (xmlText, filename, callback) {
-                var match = xiIncludeRe.exec(xmlText);
-                if (match) {
-                    var relativePath = "";
-                    var lastIndexOf;
-                    if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
-                        relativePath = filename.substring(0, lastIndexOf);
-                    }
+                var resolveXIInclude = function (xmlText, filename, callback) {
+                    var match = xiIncludeRe.exec(xmlText);
+                    if (match) {
+                        var relativePath = "";
+                        var lastIndexOf;
+                        if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
+                            relativePath = filename.substring(0, lastIndexOf);
+                        }
 
-                    if (commonContent.test(match[4])) {
-                        resolveXIInclude(xmlText.replace(match[0], ""), filename, callback);
+                        if (commonContent.test(match[4])) {
+                            resolveXIInclude(xmlText.replace(match[0], ""), filename, callback);
+                        } else {
+                            var referencedXMLFilename = relativePath + "/" + match[4];
+                            zip.getTextFromFileName(
+                                config.ZipFile,
+                                referencedXMLFilename,
+                                function (referencedXmlText) {
+                                    resolveXIInclude(referencedXmlText, referencedXMLFilename, function (fixedReferencedXmlText) {
+                                        resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, callback);
+                                    });
+                                },
+                                function (error) {
+                                    errorCallback(error);
+                                }
+                            );
+                        }
                     } else {
-                        var referencedXMLFilename = relativePath + "/" + match[4];
-                        zip.getTextFromFileName(
-                            config.ZipFile,
-                            referencedXMLFilename,
-                            function (referencedXmlText) {
-                                resolveXIInclude(referencedXmlText, referencedXMLFilename, function (fixedReferencedXmlText) {
-                                    resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, callback);
-                                });
-                            },
-                            function (error) {
-                                errorCallback(error);
-                            }
-                        );
+                        callback(xmlText);
                     }
-                } else {
-                    callback(xmlText);
-                }
+                };
+
+                zip.getTextFromFileName(config.ZipFile, config.MainXMLFile, function (xmlText) {
+                    resolveXIInclude(xmlText, config.MainXMLFile, function (xmlText) {
+                        console.log(xmlText);
+                        config.UploadProgress[1] = 1;
+                        config.ResolvedXIIncludes = true;
+                        resultCallback();
+                    });
+                });
             };
 
-            zip.getTextFromFileName(config.ZipFile, config.MainXMLFile, function (xmlText) {
-                resolveXIInclude(xmlText, config.MainXMLFile, function (xmlText) {
-                    console.log(xmlText);
-                    config.UploadProgress[1] = 1;
-                    config.ResolvedXIIncludes = true;
-                    resultCallback();
-                });
-            });
-
-
+            // start the process
+            resolveXiIncludes();
         },
         null,
         function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
