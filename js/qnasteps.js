@@ -232,6 +232,7 @@
         function (resultCallback) {resultCallback("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
             "You will usually want to create a new content specification, but if you are reimporting a book and want to overwrite the previously imported content spec, " +
             "select the overwrite option."); },
+        null,
         // Here we create the QNAVariables objects, which are wrappers around a collection of QNAVariable objects
         function (resultCallback) {
             // This result callback expects an array of QNAVariables objects
@@ -254,7 +255,6 @@
                 )
             ]);
         },
-        null,
         null,
         function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
     );

@@ -71,6 +71,13 @@
                                         <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}">
                                     </div>
                                 </div>
+                                <!-- check box -->
+                                <div class="col-lg-12" ng-if="variable.processedType == inputTypes.CHECKBOX">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]">
+                                    </div>
+                                </div>
                                 <!-- text box -->
                                 <div class="col-lg-12" ng-if="variable.processedType == inputTypes.TEXTBOX">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
@@ -80,6 +87,48 @@
                                 </div>
 
                             </div>
+                    </div>
+
+                    <!-- Build the outputs -->
+                    <div ng-repeat="output in qna.step.processedOutputs">
+                        <h3>{{output.intro}}</h3>
+                        <div class="row" ng-repeat="variable in output.processedVariables">
+
+                            <!-- listbox form element -->
+                            <div ng-if="variable.processedType == inputTypes.LISTBOX">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <select
+                                            size="20"
+                                            ng-model="qna.config[variable.processedName]"
+                                            ng-options="option for option in variable.processedOptions"
+                                            ng-disabled="true"
+                                            style="width: 100%"></select>
+                                </div>
+                            </div>
+                            <!-- radio buttons -->
+                            <div class="col-lg-12" ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
+                                <div ng-class="{'col-lg-8': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
+                                    <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}" ng-disabled="true">
+                                </div>
+                            </div>
+                            <!-- check box -->
+                            <div class="col-lg-12" ng-if="variable.processedType == inputTypes.CHECKBOX">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="true">
+                                </div>
+                            </div>
+                            <!-- text box -->
+                            <div class="col-lg-12" ng-if="variable.processedType == inputTypes.TEXTBOX">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <input type="text" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="true">
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     <button class="btn btn-default pull-right" style="margin-top: 10px" ng-click="next()" ng-if="qna.hasNext()">Next</button>

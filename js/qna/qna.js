@@ -10,7 +10,7 @@
         SINGLE_FILE: 0,                     // single file selection
         MULTIPLE_FILES: 1,                  // multiple file selection
         RADIO_BUTTONS: 2,
-        CHECKBOXES: 3,
+        CHECKBOX: 3,
         TEXTBOX: 4,
         COMBOBOX: 5,
         LISTBOX: 6
@@ -68,10 +68,22 @@
         var me = this;
 
         // resolve some aspect of the variable
-        var resolveDetail = function (resolveFunction, successCallback) {
-            if (resolveFunction) {
-                resolveFunction(
-                    successCallback,
+        var resolveDetail = function (variable, resolveFunction, newPropertyName, successCallback) {
+            if (variable[resolveFunction]) {
+                variable[resolveFunction](
+                    function (value) {
+                        var processedValueAlreadySet = newPropertyName && variable.hasOwnProperty(newPropertyName);
+                        variable[newPropertyName] = value;
+
+                        /*
+                            The success callback is used when resolving a chain of properties.
+                            If for some reason this callback is called twice, don't continue
+                            the chain.
+                         */
+                        if (!processedValueAlreadySet) {
+                            successCallback(value);
+                        }
+                    },
                     errorCallback,
                     result,
                     config
@@ -93,32 +105,34 @@
 
                 var variable = variables[index];
                 resolveDetail(
-                    variable.type,
-                    function (type) {
-                        variable.processedType = type;
-
+                    variable,
+                    'type',
+                    'processedType',
+                    function () {
                         resolveDetail(
-                            variable.name,
-                            function (name) {
-                                variable.processedName = name;
-
+                            variable,
+                            'name',
+                            'processedName',
+                            function () {
                                 resolveDetail(
-                                    variable.options,
-                                    function (options) {
-                                        variable.processedOptions = options;
-
+                                    variable,
+                                    'options',
+                                    'processedOptions',
+                                    function () {
                                         resolveDetail(
-                                            variable.value,
+                                            variable,
+                                            'value',
+                                            null,
                                             function (value) {
-                                                // we do something a little different here. the value is what is shwon
+                                                // we do something a little different here. the value is what is shown
                                                 // in the ui, and that is bound to the config
                                                 config[variable.processedName] = value;
 
                                                 resolveDetail(
-                                                    variable.intro,
-                                                    function (intro) {
-                                                        variable.processedIntro = intro;
-
+                                                    variable,
+                                                    'intro',
+                                                    'processedIntro',
+                                                    function () {
                                                         processNextVariable();
                                                     }
                                                 );
@@ -134,25 +148,25 @@
         };
 
         resolveDetail(
-            step.title,
-            function (title) {
-                step.processedTitle = title;
-
+            step,
+            'title',
+            'processedTitle',
+            function () {
                 resolveDetail(
-                    step.intro,
-                    function (intro) {
-                        step.processedIntro = intro;
-
+                    step,
+                    'intro',
+                    'processedIntro',
+                    function () {
                         resolveDetail(
-                            step.inputs,
+                            step,
+                            'inputs',
+                            'processedInputs',
                             function (inputs) {
-                                step.processedInputs = inputs;
-
                                 resolveDetail(
-                                    step.outputs,
+                                    step,
+                                    'outputs',
+                                    'processedOutputs',
                                     function (outputs) {
-                                        step.processedOutputs = outputs;
-
                                         // at this point the step has been resolved, so we now need to go through and
                                         // resolve the inputs
 
@@ -162,15 +176,15 @@
                                             } else {
                                                 var input = ioVariables[index];
                                                 resolveDetail(
-                                                    input.intro,
-                                                    function (intro) {
-                                                        input.processedIntro = intro;
-
+                                                    input,
+                                                    'intro',
+                                                    'processedIntro',
+                                                    function () {
                                                         resolveDetail(
-                                                            input.variables,
+                                                            input,
+                                                            'variables',
+                                                            'processedVariables',
                                                             function (variables) {
-                                                                input.processedVariables = variables;
-
                                                                 resolveVariable(0, variables, function () {
                                                                     resolveInput(index + 1, ioVariables, inputSuccessCallback);
                                                                 });
