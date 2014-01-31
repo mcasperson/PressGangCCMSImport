@@ -39,7 +39,7 @@ var QNAController = function ($scope, $modal, $rootScope) {
                 if (qna.step.enterStep) {
                     $scope.disabled = true;
                     $rootScope.$apply();
-                    var result = qna.result[qna.results.length - 1];
+                    var result = qna.results[qna.results.length - 1];
                     var config = qna.config;
                     qna.step.enterStep(
                         function (result) {

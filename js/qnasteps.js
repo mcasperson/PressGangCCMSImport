@@ -309,16 +309,27 @@
                             new global.QNAVariable(
                                 function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
                                 function (resultCallback) {resultCallback("Uploading content specification"); },
-                                function (resultCallback) {resultCallback("Uploaded content specification"); },
+                                function (resultCallback) {resultCallback("UploadedContentSpecification"); },
                                 null,
                                 null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.PROGRESS); },
+                                function (resultCallback) {resultCallback("Progress"); },
+                                function (resultCallback) {resultCallback("UploadProgress"); },
+                                null,
+                                // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
+                                function (resultCallback) {resultCallback([9, 0]); }
                             )
                         ]);
                     }
                 )
             ]);
         },
-        function (resultCallback, errorCallback, result, config) { },
+        function (resultCallback, errorCallback, result, config) {
+            config.UploadProgress[1] = 1;
+            resultCallback();
+        },
         null,
         function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
     );
