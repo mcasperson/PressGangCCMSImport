@@ -330,6 +330,13 @@
             ]);
         },
         function (resultCallback, errorCallback, result, config) {
+
+            /**
+             * A collection of entity definitions
+             * @type {Array}
+             */
+            var entities = [];
+
             /*
                 Resolve xi:includes
              */
@@ -370,11 +377,83 @@
 
                 zip.getTextFromFileName(config.ZipFile, config.MainXMLFile, function (xmlText) {
                     resolveXIInclude(xmlText, config.MainXMLFile, function (xmlText) {
-                        console.log(xmlText);
                         config.UploadProgress[1] = 1;
                         config.ResolvedXIIncludes = true;
                         resultCallback();
+
+                        replaceEntities(xmlText);
                     });
+                });
+            };
+
+            /*
+                Replace entities with markers so we can process the XML without worrying about resolving entities
+             */
+            var replaceEntities = function (xmlText) {
+                var entityRe = /&.*?;/;
+                var replacements = [];
+
+                var match;
+                while (match = entityRe.exec(xmlText)) {
+                    var randomReplacement;
+                    while (xmlText.indexOf(randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#") !== -1) {
+
+                    }
+
+                    replacements.push({placeholder: randomReplacement, entity: match[0]});
+
+                    xmlText = xmlText.replace(new RegExp(global.escapeRegExp(match[0]), "g"), randomReplacement);
+                }
+
+                config.UploadProgress[1] = 2;
+                config.FoundEntities = true;
+                resultCallback();
+
+                findEntities(xmlText);
+            };
+
+            /*
+                Find any entity definitions in the xml or ent files. Note that older publican books reference invalid
+                entity files, so we just do a brute force search.
+             */
+            var findEntities = function (xmlText) {
+                var relativePath = "";
+                var lastIndexOf;
+                if ((lastIndexOf = config.MainXMLFile.lastIndexOf("/")) !== -1) {
+                    relativePath = config.MainXMLFile.substring(0, lastIndexOf);
+                }
+
+                zip.getCachedEntries(config.ZipFile, function (entries) {
+
+                    var processTextFile = function (index) {
+                        if (index >= entries.length) {
+                            console.log(entities);
+                            config.UploadProgress[1] = 3;
+                            config.FoundEntityDefinitions = true;
+                            resultCallback();
+
+                            // move to next step
+                        } else {
+                            var value = entries[index];
+                            if (value.filename.indexOf(relativePath) === 0) {
+                                zip.getTextFromFile(value, function (fileText) {
+                                    var entityDefRE = /<!ENTITY\s+[^\s]+\s+('|").*?('|")\s*>/g;
+                                    var match;
+                                    while (match = entityDefRE.exec(fileText)) {
+                                        if (entities.indexOf(match[0]) === -1) {
+                                            entities.push(match[0]);
+                                        }
+                                    }
+
+                                    processTextFile(index + 1);
+                                });
+                            } else {
+                                processTextFile(index + 1);
+                            }
+                        }
+                    };
+
+                    processTextFile(0);
                 });
             };
 
