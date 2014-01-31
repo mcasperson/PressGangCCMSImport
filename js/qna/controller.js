@@ -35,6 +35,30 @@ var QNAController = function ($scope, $modal, $rootScope) {
             function (qna) {
                 $scope.qna = qna;
                 $rootScope.$apply();
+
+                if (qna.step.enterStep) {
+                    $scope.disabled = true;
+                    $rootScope.$apply();
+                    var result = qna.result[qna.results.length - 1];
+                    var config = qna.config;
+                    qna.step.enterStep(
+                        function (result) {
+                            if (result === undefined) {
+                                $rootScope.$apply();
+                            } else {
+                                $scope.disabled = false;
+                                if (result) {
+                                    $scope.next();
+                                }
+                            }
+                        },
+                        function (title, message) {
+                            alert(title, message);
+                        },
+                        result,
+                        config
+                    );
+                }
             },
             function (title, error) {
                 alert(title, error);

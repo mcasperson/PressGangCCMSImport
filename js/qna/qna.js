@@ -13,7 +13,8 @@
         CHECKBOX: 3,
         TEXTBOX: 4,
         COMBOBOX: 5,
-        LISTBOX: 6
+        LISTBOX: 6,
+        PROGRESS: 7
     });
 
 
@@ -38,13 +39,14 @@
         this.variables = variables || null;
     };
 
-    global.QNAStep = function (title, intro, inputs, outputs, processStep, nextStep) {
+    global.QNAStep = function (title, intro, inputs, outputs, enterStep, processStep, nextStep) {
         this.title = title;
         this.intro = intro;
         this.inputs = inputs;
         this.outputs = outputs;
         this.processStep = processStep;
         this.nextStep = nextStep;
+        this.enterStep = enterStep;
     };
 
     /**

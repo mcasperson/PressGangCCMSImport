@@ -62,6 +62,7 @@
             )
         ]); },
         null,
+        null,
         function (resultCallback, errorCallback, result, config) {
 
             if (!config.ZipFile) {
@@ -154,6 +155,7 @@
         ]); },
         null,
         null,
+        null,
         function (resultCallback) {
             resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
         }
@@ -191,6 +193,7 @@
         },
         null,
         null,
+        null,
         function (resultCallback, errorCallback, result, config) {
             resultCallback(config.CreateOrOverwrite === "CREATE" ? processZipFile : getExistingContentSpecID);
         }
@@ -223,6 +226,7 @@
                 )
             ]);
         },
+        null,
         null,
         null,
         function (resultCallback) {resultCallback(processZipFile); }
@@ -314,6 +318,7 @@
                 )
             ]);
         },
+        function (resultCallback, errorCallback, result, config) { },
         null,
         function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
     );
