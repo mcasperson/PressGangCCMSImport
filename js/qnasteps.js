@@ -463,11 +463,15 @@
                 });
             };
 
+            /*
+                Strip out any XML preabmle that might have been pulled in with the
+                xi:inject resolution. Once this step is done we have plain xml
+                with no entities, dtds or anything else that make life hard when
+                trying to parse XML.
+             */
             var removeXmlPreamble = function (xmlText) {
                 xmlText = xmlText.replace(/<\?xml.*?>/g, "");
                 xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?\[[\s\S]*?\]>/g, "");
-
-                console.log(xmlText);
 
                 config.UploadProgress[1] = 4;
                 config.RemovedXMLPreamble = true;
