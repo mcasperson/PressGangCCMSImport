@@ -152,6 +152,9 @@
         }
     );
 
+    /*
+        Step 3 - Ask about creating a new spec or overwriting an old one
+     */
     var askToCreateNewSpecOrOverwriteExistingOne = new global.QNAStep(
         function (resultCallback) {resultCallback("Create or overwrite a content spec?"); },
         function (resultCallback) {resultCallback("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
@@ -179,7 +182,75 @@
                 )
             ]);
         },
-        function (resultCallback, errorCallback, result, config) {resultCallback("Do any incremental processing of the results here"); },
+        null,
+        function (resultCallback, errorCallback, result, config) {
+            resultCallback(config.CreateOrOverwrite === "CREATE" ? processZipFile : getExistingContentSpecID);
+        }
+    );
+
+    var getExistingContentSpecID = new global.QNAStep(
+        function (resultCallback) {resultCallback("Create or overwrite a content spec?"); },
+        function (resultCallback) {resultCallback("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
+            "You will usually want to create a new content specification, but if you are reimporting a book and want to overwrite the previously imported content spec, " +
+            "select the overwrite option."); },
+        // Here we create the QNAVariables objects, which are wrappers around a collection of QNAVariable objects
+        function (resultCallback) {
+            // This result callback expects an array of QNAVariables objects
+            resultCallback([
+                new global.QNAVariables(
+                    // Note that you can skip the intro text by setting the function to null.
+                    null,
+                    function (resultCallback) {
+                        // This result callback expects an array of QNAVariable objects
+                        resultCallback([
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.TEXTBOX); },
+                                function (resultCallback) {resultCallback("Existing content specification ID"); },
+                                function (resultCallback) {resultCallback("ExistingContentSpecID"); },
+                                null,
+                                null
+                            )
+                        ]);
+                    }
+                )
+            ]);
+        },
+        null,
+        function (resultCallback) {resultCallback(processZipFile); }
+    );
+
+    /*
+        Set 4 - Process the zip file
+     */
+
+    var processZipFile = new global.QNAStep(
+        function (resultCallback) {resultCallback("Create or overwrite a content spec?"); },
+        function (resultCallback) {resultCallback("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
+            "You will usually want to create a new content specification, but if you are reimporting a book and want to overwrite the previously imported content spec, " +
+            "select the overwrite option."); },
+        // Here we create the QNAVariables objects, which are wrappers around a collection of QNAVariable objects
+        function (resultCallback) {
+            // This result callback expects an array of QNAVariables objects
+            resultCallback([
+                new global.QNAVariables(
+                    // Note that you can skip the intro text by setting the function to null.
+                    null,
+                    function (resultCallback) {
+                        // This result callback expects an array of QNAVariable objects
+                        resultCallback([
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.RADIO_BUTTONS); },
+                                function (resultCallback) {resultCallback(["Create a new content spec", "Overwrite an existing content spec"]); },
+                                function (resultCallback) {resultCallback("CreateOrOverwrite"); },
+                                function (resultCallback) {resultCallback(["CREATE", "OVERWRITE"]); },
+                                function (resultCallback) {resultCallback("CREATE"); }
+                            )
+                        ]);
+                    }
+                )
+            ]);
+        },
+        null,
         function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
     );
 
