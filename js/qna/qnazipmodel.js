@@ -25,6 +25,24 @@
         });
     };
 
+    global.QNAZipModel.prototype.getTextFromFileName = function (file, filename, onend, onerror) {
+        var me = this;
+        this.getCachedEntries(file, function (entries) {
+            var foundFile = false;
+            global.angular.forEach(entries, function (value, key) {
+                if (value.filename === filename) {
+                    me.getTextFromFile(value, onend);
+                    foundFile = true;
+                    return false;
+                }
+            });
+
+            if (!foundFile) {
+                onerror("Could not find " + filename);
+            }
+        }, onerror);
+    };
+
     global.QNAZipModel.prototype.getEntries = function (file, onend, onerror) {
         global.zip.createReader(
             new global.zip.BlobReader(file),

@@ -52,6 +52,16 @@
                                         <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" ng-disabled="disabled" >
                                     </div>
                                  </div>
+                                <!-- combobox form element -->
+                                <div ng-if="variable.processedType == inputTypes.COMBOBOX">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <select
+                                                ng-model="qna.config[variable.processedName]"
+                                                ng-options="option for option in variable.processedOptions"
+                                                ng-disabled="!variable.processedOptions || disabled"></select>
+                                    </div>
+                                </div>
                                 <!-- listbox form element -->
                                 <div ng-if="variable.processedType == inputTypes.LISTBOX">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
@@ -93,7 +103,16 @@
                     <div ng-repeat="output in qna.step.processedOutputs">
                         <h3>{{output.intro}}</h3>
                         <div class="row" ng-repeat="variable in output.processedVariables">
-
+                            <!-- combobox form element -->
+                            <div ng-if="variable.processedType == inputTypes.COMBOBOX">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <select
+                                            ng-model="qna.config[variable.processedName]"
+                                            ng-options="option for option in variable.processedOptions"
+                                            ng-disabled="true"></select>
+                                </div>
+                            </div>
                             <!-- listbox form element -->
                             <div ng-if="variable.processedType == inputTypes.LISTBOX">
                                 <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>

@@ -43,6 +43,9 @@
         );
      */
 
+    // a zip model to be shared
+    var zip = new global.QNAZipModel();
+
     /*
         STEP 1 - Get the ZIP file
      */
@@ -68,7 +71,7 @@
             if (!config.ZipFile) {
                 errorCallback("Please select a file", "You need to select a file before continuing.");
             } else {
-                new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
+                zip.getCachedEntries(config.ZipFile, function (entries) {
 
                     var foundPublicanCfg = false;
                     global.angular.forEach(entries, function (value, key) {
@@ -111,7 +114,7 @@
                             null,
                             function (resultCallback) {resultCallback("MainXMLFile"); },
                             function (resultCallback, errorCallback, result, config) {
-                                new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
+                                zip.getCachedEntries(config.ZipFile, function (entries) {
                                     var retValue = [];
 
                                     global.angular.forEach(entries, function (value, key) {
@@ -124,10 +127,10 @@
                                 });
                             },
                             function (resultCallback, errorCallback, result, config) {
-                                new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
+                                zip.getCachedEntries(config.ZipFile, function (entries) {
                                     global.angular.forEach(entries, function (value, key) {
                                         if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
-                                            new global.QNAZipModel().getTextFromFile(value, function (textFile) {
+                                            zip.getTextFromFile(value, function (textFile) {
                                                 var match = /<title>(.*?)<\/title>/.exec(textFile);
                                                 if (match) {
                                                     var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
@@ -327,8 +330,53 @@
             ]);
         },
         function (resultCallback, errorCallback, result, config) {
-            config.UploadProgress[1] = 1;
-            resultCallback();
+            /*
+                Resolve xi:includes
+             */
+            var xiIncludeRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www.w3.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*\/\s*>/;
+            var commonContent = /^Common_Content/;
+
+            var resolveXIInclude = function (xmlText, filename, callback) {
+                var match = xiIncludeRe.exec(xmlText);
+                if (match) {
+                    var relativePath = "";
+                    var lastIndexOf;
+                    if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
+                        relativePath = filename.substring(0, lastIndexOf);
+                    }
+
+                    if (commonContent.test(match[4])) {
+                        resolveXIInclude(xmlText.replace(match[0], ""), filename, callback);
+                    } else {
+                        var referencedXMLFilename = relativePath + "/" + match[4];
+                        zip.getTextFromFileName(
+                            config.ZipFile,
+                            referencedXMLFilename,
+                            function (referencedXmlText) {
+                                resolveXIInclude(referencedXmlText, referencedXMLFilename, function (fixedReferencedXmlText) {
+                                    resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, callback);
+                                });
+                            },
+                            function (error) {
+                                errorCallback(error);
+                            }
+                        );
+                    }
+                } else {
+                    callback(xmlText);
+                }
+            };
+
+            zip.getTextFromFileName(config.ZipFile, config.MainXMLFile, function (xmlText) {
+                resolveXIInclude(xmlText, config.MainXMLFile, function (xmlText) {
+                    console.log(xmlText);
+                    config.UploadProgress[1] = 1;
+                    config.ResolvedXIIncludes = true;
+                    resultCallback();
+                });
+            });
+
+
         },
         null,
         function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
