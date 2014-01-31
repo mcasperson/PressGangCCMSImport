@@ -228,10 +228,8 @@
      */
 
     var processZipFile = new global.QNAStep(
-        function (resultCallback) {resultCallback("Create or overwrite a content spec?"); },
-        function (resultCallback) {resultCallback("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
-            "You will usually want to create a new content specification, but if you are reimporting a book and want to overwrite the previously imported content spec, " +
-            "select the overwrite option."); },
+        function (resultCallback) {resultCallback("Importing Publican Book"); },
+        null,
         null,
         // Here we create the QNAVariables objects, which are wrappers around a collection of QNAVariable objects
         function (resultCallback) {
@@ -244,11 +242,67 @@
                         // This result callback expects an array of QNAVariable objects
                         resultCallback([
                             new global.QNAVariable(
-                                function (resultCallback) {resultCallback(global.InputEnum.RADIO_BUTTONS); },
-                                function (resultCallback) {resultCallback(["Create a new content spec", "Overwrite an existing content spec"]); },
-                                function (resultCallback) {resultCallback("CreateOrOverwrite"); },
-                                function (resultCallback) {resultCallback(["CREATE", "OVERWRITE"]); },
-                                function (resultCallback) {resultCallback("CREATE"); }
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Resolving xi:includes"); },
+                                function (resultCallback) {resultCallback("ResolvedXIIncludes"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Finding entities in XML"); },
+                                function (resultCallback) {resultCallback("FoundEntities"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Finding entity definitions"); },
+                                function (resultCallback) {resultCallback("FoundEntityDefinitions"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Finding revision history"); },
+                                function (resultCallback) {resultCallback("FoundRevisionHistory"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Finding author group"); },
+                                function (resultCallback) {resultCallback("FoundAuthorGroup"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Finding and uploading images"); },
+                                function (resultCallback) {resultCallback("FoundImages"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Resolving book structure"); },
+                                function (resultCallback) {resultCallback("ResolvedBookStructure"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Resolving xrefs"); },
+                                function (resultCallback) {resultCallback("ResolvedXrefs"); },
+                                null,
+                                null
+                            ),
+                            new global.QNAVariable(
+                                function (resultCallback) {resultCallback(global.InputEnum.CHECKBOX); },
+                                function (resultCallback) {resultCallback("Uploading content specification"); },
+                                function (resultCallback) {resultCallback("Uploaded content specification"); },
+                                null,
+                                null
                             )
                         ]);
                     }

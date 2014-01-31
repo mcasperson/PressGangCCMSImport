@@ -72,17 +72,8 @@
             if (variable[resolveFunction]) {
                 variable[resolveFunction](
                     function (value) {
-                        var processedValueAlreadySet = newPropertyName && variable.hasOwnProperty(newPropertyName);
                         variable[newPropertyName] = value;
-
-                        /*
-                            The success callback is used when resolving a chain of properties.
-                            If for some reason this callback is called twice, don't continue
-                            the chain.
-                         */
-                        if (!processedValueAlreadySet) {
-                            successCallback(value);
-                        }
+                        successCallback(value);
                     },
                     errorCallback,
                     result,
