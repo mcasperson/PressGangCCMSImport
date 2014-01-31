@@ -38,10 +38,11 @@
         this.variables = variables || null;
     };
 
-    global.QNAStep = function (title, intro, inputs, processStep, nextStep) {
+    global.QNAStep = function (title, intro, inputs, outputs, processStep, nextStep) {
         this.title = title;
         this.intro = intro;
         this.inputs = inputs;
+        this.outputs = outputs;
         this.processStep = processStep;
         this.nextStep = nextStep;
     };
@@ -147,44 +148,48 @@
                             function (inputs) {
                                 step.processedInputs = inputs;
 
-                                // at this point the step has been resolved, so we now need to go through and
-                                // resolve the inputs
-                                if (inputs) {
+                                resolveDetail(
+                                    step.outputs,
+                                    function (outputs) {
+                                        step.processedOutputs = outputs;
 
-                                    var resolveInput = function (index, inputs, inputSuccessCallback) {
-                                        if (inputs === null || index >= inputs.length) {
-                                            inputSuccessCallback();
-                                        } else {
-                                            var input = inputs[index];
-                                            resolveDetail(
-                                                input.intro,
-                                                function (intro) {
-                                                    input.processedIntro = intro;
+                                        // at this point the step has been resolved, so we now need to go through and
+                                        // resolve the inputs
 
-                                                    resolveDetail(
-                                                        input.variables,
-                                                        function (variables) {
-                                                            input.processedVariables = variables;
+                                        var resolveInput = function (index, ioVariables, inputSuccessCallback) {
+                                            if (ioVariables === null || index >= ioVariables.length) {
+                                                inputSuccessCallback();
+                                            } else {
+                                                var input = ioVariables[index];
+                                                resolveDetail(
+                                                    input.intro,
+                                                    function (intro) {
+                                                        input.processedIntro = intro;
 
-                                                            resolveVariable(0, variables, function () {
-                                                                resolveInput(index + 1, inputs, inputSuccessCallback);
-                                                            });
-                                                        }
-                                                    );
-                                                }
-                                            );
-                                        }
-                                    };
+                                                        resolveDetail(
+                                                            input.variables,
+                                                            function (variables) {
+                                                                input.processedVariables = variables;
 
-                                    resolveInput(0, inputs, function () {
-                                        // this function is always async to avoid issues with the $apply()
-                                        // function in angular
-                                        global.setTimeout(function () {successCallback(me); }, 0);
-                                    });
+                                                                resolveVariable(0, variables, function () {
+                                                                    resolveInput(index + 1, ioVariables, inputSuccessCallback);
+                                                                });
+                                                            }
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        };
 
-                                } else {
-                                    global.setTimeout(function () {successCallback(me); }, 0);
-                                }
+                                        resolveInput(0, inputs, function () {
+                                            resolveInput(0, outputs, function () {
+                                                // this function is always async to avoid issues with the $apply()
+                                                // function in angular
+                                                global.setTimeout(function () {successCallback(me); }, 0);
+                                            });
+                                        });
+                                    }
+                                );
                             },
                             errorCallback
                         );

@@ -61,6 +61,7 @@
                 ]); }
             )
         ]); },
+        null,
         function (resultCallback, errorCallback, result, config) {
             new global.QNAZipModel().getCachedEntries(config.ZipFile, function (entries) {
 
@@ -147,6 +148,7 @@
             )
         ]); },
         null,
+        null,
         function (resultCallback) {
             resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
         }
@@ -183,6 +185,7 @@
             ]);
         },
         null,
+        null,
         function (resultCallback, errorCallback, result, config) {
             resultCallback(config.CreateOrOverwrite === "CREATE" ? processZipFile : getExistingContentSpecID);
         }
@@ -215,6 +218,7 @@
                 )
             ]);
         },
+        null,
         null,
         function (resultCallback) {resultCallback(processZipFile); }
     );
@@ -250,6 +254,7 @@
                 )
             ]);
         },
+        null,
         null,
         function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); }
     );
