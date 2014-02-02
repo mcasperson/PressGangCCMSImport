@@ -8,6 +8,7 @@
         <item url="file://$PROJECT_DIR$/js/qnasteps.min.js" />
         <item url="file://$PROJECT_DIR$/js/x2js-v1.1.5/xml2json.min.min.js" />
         <item url="file://$PROJECT_DIR$/js/qna/qnautils.min.js" />
+        <item url="file://$PROJECT_DIR$/js/wgxpath/wgxpath.install.min.js" />
         <item url="file://$PROJECT_DIR$/js/angularfileupload/FileAPI.min.min.js" />
         <item url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload-shim.min.min.js" />
         <item url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.min.min.js" />
@@ -33,12 +34,15 @@
       <root url="file://$PROJECT_DIR$/js/qna/okdialog.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/qnafileinput.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/qnafileinput.min.js" />
+      <root url="file://$PROJECT_DIR$/js/x2js-v1.1.5/xml2json.min.js" />
+      <root url="file://$PROJECT_DIR$/js/x2js-v1.1.5/xml2json.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/qna.min.js" />
       <root url="file://$PROJECT_DIR$/js/angular/angular.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/x2js-v1.1.5/xml2json.min.js" />
       <root url="file://$PROJECT_DIR$/js/x2js-v1.1.5/xml2json.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/qnasteps.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/qnautils.min.js" />
+      <root url="file://$PROJECT_DIR$/js/wgxpath/wgxpath.install.min.js" />
       <root url="file://$PROJECT_DIR$/js/angularfileupload/FileAPI.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload-shim.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/controller.min.js" />
