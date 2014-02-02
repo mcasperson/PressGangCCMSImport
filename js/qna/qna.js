@@ -71,16 +71,22 @@
 
         // resolve some aspect of the variable
         var resolveDetail = function (variable, resolveFunction, newPropertyName, successCallback) {
-            if (variable[resolveFunction]) {
-                variable[resolveFunction](
-                    function (value) {
-                        variable[newPropertyName] = value;
-                        successCallback(value);
-                    },
-                    errorCallback,
-                    result,
-                    config
-                );
+            if (variable[resolveFunction] !== undefined && variable[resolveFunction] !== null) {
+                if (variable[resolveFunction] instanceof Function) {
+                    variable[resolveFunction](
+                        function (value) {
+                            variable[newPropertyName] = value;
+                            successCallback(value);
+                        },
+                        errorCallback,
+                        result,
+                        config
+                    );
+                } else {
+                    // just copy plain values
+                    variable[newPropertyName] = variable[resolveFunction];
+                    successCallback(variable[resolveFunction]);
+                }
             } else {
                 successCallback(null);
             }
