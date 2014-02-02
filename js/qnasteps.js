@@ -29,8 +29,8 @@
                     .setVariables([
                         new global.QNAVariable()
                             .setType(global.InputEnum.SINGLE_FILE)
-                            .setName("Publican ZIP File")
-                            .setIntro("ZipFile")
+                            .setIntro("Publican ZIP File")
+                            .setName("ZipFile")
                     ])
             ]
         )
