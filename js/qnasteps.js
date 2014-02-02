@@ -14,8 +14,57 @@
         can perform any kind of async operation (querying a server, reading a file etc) that they need to.
      */
 
+    var REVISION_HISTORY_TAG_ID = 598;
+    var AUTHOR_GROUP_TAG_ID = 664;
+
     // a zip model to be shared
     var zip = new global.QNAZipModel();
+
+    function xmlToString(xmlDoc) {
+        return (new global.XMLSerializer()).serializeToString(xmlDoc);
+    }
+
+    function reencode(xmlString, replacements) {
+        var reversed = replacements.reverse();
+        global.jQuery.each(reversed, function (index, value) {
+            xmlString = xmlString.replace(new RegExp(global.escapeRegExp(value.placeholder)), "g", value.entity);
+        });
+        return xmlString;
+    }
+
+    function replaceSpecialChars(text) {
+        return text.replace(/"/g, "\\\"")
+            .replace(/\t/g, "\\t")
+            .replace(/\n/g, "\\n");
+    }
+
+    function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
+
+        // create the json that defines the tags to be added
+        var tagsJSON = '{"items": [';
+
+        global.jQuery.each(tags, function (index, value) {
+            tagsJSON += '{"item": {"id": ' + value + '}, "state": 1}';
+        });
+
+        tagsJSON += ']}';
+
+        var postBody = '{"title": "' + title + '", "description": "' + title + '", "xml": "' + replaceSpecialChars(reencode(xmlToString(xml), replacements)) + '", "locale": "en-US", "tags": ' + tagsJSON + ', "configuredParameters": ["title", "description", "xml", "locale", "tags"]}';
+
+        global.jQuery.ajax({
+            type: 'POST',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/createormatch/json?message=Initial+Topic+Creation&flag=2&userId=89',
+            data: postBody,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                successCallback(data.topic.id, data.matchedExistingTopic);
+            },
+            error: function () {
+                errorCallback("Connection Error", "An error occurred while uploading the revision history topic.");
+            }
+        });
+    }
 
     /*
         STEP 1 - Get the ZIP file
@@ -140,7 +189,7 @@
                 ])
         ])
         .setNextStep(function (resultCallback, errorCallback, result, config) {
-            resultCallback(config.CreateOrOverwrite === "CREATE" ? processZipFile : getExistingContentSpecID);
+            resultCallback(config.CreateOrOverwrite === "CREATE" ? specifyTheServer : getExistingContentSpecID);
         });
 
     var getExistingContentSpecID = new global.QNAStep()
@@ -158,11 +207,33 @@
                 ])
         ])
         .setNextStep(function (resultCallback) {
+            resultCallback(specifyTheServer);
+        });
+
+    /*
+        Step 4 - ask which server this is being uploaded to
+     */
+    var specifyTheServer = new global.QNAStep()
+        .setTitle("Select the server to import in to")
+        .setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
+            "Using the test server is recommended for the first import to check the results before adding the content to the production server.")
+        .setInputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.RADIO_BUTTONS)
+                        .setIntro(["Production Server", "Test Server"])
+                        .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
+                        .setValue("skynet-dev.usersys.redhat.com")
+                        .setName("PressGangHost")
+                ])
+        ])
+        .setNextStep(function (resultCallback) {
             resultCallback(processZipFile);
         });
 
     /*
-        Set 4 - Process the zip file
+        Step 5 - Process the zip file
      */
     var processZipFile = new global.QNAStep()
         .setTitle("Importing Publican Book")
@@ -228,6 +299,13 @@
              * @type {Array}
              */
             var entities = [];
+            var replacements = [];
+
+            /*
+                Initialize some config values
+             */
+            config.UploadedTopicCount = 0;
+            config.MatchedTopicCount = 0;
 
             /*
              Resolve xi:includes
@@ -283,7 +361,7 @@
              */
             var replaceEntities = function (xmlText) {
                 var entityRe = /&.*?;/;
-                var replacements = [];
+
 
                 var match;
                 while (match = entityRe.exec(xmlText)) {
@@ -369,19 +447,37 @@
              Take the sanitised XML and convert it to an actual XML DOM
              */
             var parseAsXML = function (xmlText) {
-                var xmlDoc;
-                if (global.DOMParser) {
-                    var parser = new global.DOMParser();
-                    xmlDoc = parser.parseFromString(xmlText, "text/xml");
-                } else { // Internet Explorer
-                    xmlDoc = new global.ActiveXObject("Microsoft.XMLDOM");
-                    xmlDoc.async = false;
-                    xmlDoc.loadXML(xmlText);
-                }
-
+                var xmlDoc = global.jQuery.parseXML(xmlText);
                 config.UploadProgress[1] = 5;
                 config.ParsedAsXML = true;
                 resultCallback();
+
+                extractRevisionHistory(xmlDoc);
+            };
+
+            var extractRevisionHistory = function (xmlDoc) {
+                var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                if (revHistory) {
+                    createTopic(
+                        revHistory,
+                        replacements,
+                        "Revision History",
+                        [REVISION_HISTORY_TAG_ID],
+                        config,
+                        function (topicId, matchedExisting) {
+                            config.RevisionHistoryTopicID = topicId;
+                            config.UploadedTopicCount += 1;
+                            if (matchedExisting) {
+                                config.MatchedTopicCount += 1;
+                            }
+
+                            config.UploadProgress[1] = 6;
+                            config.FoundRevisionHistory = true;
+                            resultCallback();
+                        },
+                        errorCallback
+                    );
+                }
             };
 
             // start the process
