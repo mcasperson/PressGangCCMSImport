@@ -58,7 +58,7 @@
                 });
             }
         })
-        .setNextStep(function (resultCallback, errorCallback, result, config) {
+        .setNextStep(function (resultCallback) {
             resultCallback(askForMainXML);
         });
 
@@ -157,7 +157,9 @@
                         .setName("ExistingContentSpecID")
                 ])
         ])
-        .setNextStep(function (resultCallback) {resultCallback(processZipFile); });
+        .setNextStep(function (resultCallback) {
+            resultCallback(processZipFile);
+        });
 
     /*
         Set 4 - Process the zip file
@@ -385,6 +387,8 @@
             // start the process
             resolveXiIncludes();
         })
-        .setNextStep(function (resultCallback, errorCallback, result, config) {resultCallback(the_next_step); });
+        .setNextStep(function (resultCallback, errorCallback, result, config) {
+            resultCallback(the_next_step);
+        });
 
 }(this));
