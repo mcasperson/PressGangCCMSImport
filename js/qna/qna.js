@@ -18,35 +18,86 @@
     });
 
 
-    global.QNAVariable = function (type, intro, name, options, value) {
+    global.QNAVariable = function () {
+
+    };
+
+    global.QNAVariable.prototype.setType = function (type) {
         this.type = type;
+        return this;
+    };
+
+    global.QNAVariable.prototype.setIntro = function (intro) {
         this.intro = intro;
+        return this;
+    };
+
+    global.QNAVariable.prototype.setName = function (name) {
         this.name = name;
-        this.options = options || null;
-        this.value = value || null;
+        return this;
     };
 
-    /**
-     *
-     * @param intro {?String}                           This is the introductory text to be displayed above the options, or an
-     *                                                  array of QNAVariable objects used to populate this object with.
-     * @param variables {?Array.<QNAVariable>}          If intro is an array of QNAVariable, this is ignored. If intro is a String,
-     *                                                  this is an array of QNAVariable objects used to populate this object with
-     * @constructor
-     */
-    global.QNAVariables = function (intro, variables) {
-        this.intro = intro || null;
-        this.variables = variables || null;
+    global.QNAVariable.prototype.setOptions = function (options) {
+        this.options = options;
+        return this;
     };
 
-    global.QNAStep = function (title, intro, inputs, outputs, enterStep, processStep, nextStep) {
-        this.title = title;
+    global.QNAVariable.prototype.setValue = function (value) {
+        this.value = value;
+        return this;
+    };
+
+    global.QNAVariables = function () {
+
+    };
+
+    global.QNAVariables.prototype.setIntro = function (intro) {
         this.intro = intro;
+        return this;
+    };
+
+    global.QNAVariables.prototype.setVariables = function (variables) {
+        this.variables = variables;
+        return this;
+    };
+
+    global.QNAStep = function () {
+
+    };
+
+    global.QNAStep.prototype.setTitle = function (title) {
+        this.title = title;
+        return this;
+    };
+
+    global.QNAStep.prototype.setIntro = function (intro) {
+        this.intro = intro;
+        return this;
+    };
+
+    global.QNAStep.prototype.setInputs = function (inputs) {
         this.inputs = inputs;
+        return this;
+    };
+
+    global.QNAStep.prototype.setOutputs = function (outputs) {
         this.outputs = outputs;
+        return this;
+    };
+
+    global.QNAStep.prototype.setProcessStep = function (processStep) {
         this.processStep = processStep;
+        return this;
+    };
+
+    global.QNAStep.prototype.setNextStep = function (nextStep) {
         this.nextStep = nextStep;
+        return this;
+    };
+
+    global.QNAStep.prototype.setEnterStep = function (enterStep) {
         this.enterStep = enterStep;
+        return this;
     };
 
     /**
