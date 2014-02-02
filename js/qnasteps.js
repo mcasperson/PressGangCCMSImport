@@ -211,7 +211,7 @@
                         .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Uploading content specification")
                         .setName("UploadedContentSpecification"),
-                    new global.QNAVariable(
+                    new global.QNAVariable()
                         .setType(global.InputEnum.PROGRESS)
                         .setIntro("Progress")
                         .setName("UploadProgress")
