@@ -20,9 +20,6 @@
     // a zip model to be shared
     var zip = new global.QNAZipModel();
 
-    // the content spec
-    var contentSpec = "";
-
     function loadSetting(file, setting) {
         var lines = file.split("\n");
         global.jQuery.each(lines, function (index, value) {
@@ -51,6 +48,33 @@
         return text.replace(/"/g, "\\\"")
             .replace(/\t/g, "\\t")
             .replace(/\n/g, "\\n");
+    }
+
+    function createImage(image, config, successCallback, errorCallback) {
+        var postBody = '{\
+            "description": image, \
+            "languageImages_OTM": {\
+                "items": [\
+                    {\
+                        "item": {\
+                            "imageData": encoded_string,\
+                            "locale": "en-US", \
+                            "filename": image, \
+                            "configuredParameters": [\
+                                "locale",\
+                                "imageData",\
+                                "filename"\
+                            ],\
+                        },\
+                        "state": 1\
+                    }\
+                ],\
+                "configuredParameters": [\
+                    "description", \
+                    "languageImages"\
+                ]\
+            }\
+        }';
     }
 
     function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
@@ -478,6 +502,9 @@
                 Find the book info details
              */
             var findBookInfo = function (xmlDoc) {
+                // the content spec
+                var contentSpec = "";
+
                 var bookinfo = xmlDoc.evaluate("/*/bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                 if (bookinfo) {
                     var title = xmlDoc.evaluate("title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
@@ -526,15 +553,23 @@
                     config.FoundBookInfo = true;
                     resultCallback();
 
-                    extractRevisionHistory(xmlDoc);
+                    extractRevisionHistory(xmlDoc, contentSpec);
                 } else {
                     errorCallback("Invalid content", "The <bookinfo> element could not be found");
                 }
 
             };
 
-            var extractRevisionHistory = function (xmlDoc) {
+            var extractRevisionHistory = function (xmlDoc, contentSpec) {
                 var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                var done = function (xmlDoc, contentSpec) {
+                    config.UploadProgress[1] = 8;
+                    config.FoundRevisionHistory = true;
+                    resultCallback();
+                    extractAuthorGroup(xmlDoc, contentSpec);
+                };
+
                 if (revHistory) {
                     createTopic(
                         revHistory,
@@ -549,12 +584,57 @@
                                 config.MatchedTopicCount += 1;
                             }
 
-                            config.UploadProgress[1] = 6;
-                            config.FoundRevisionHistory = true;
-                            resultCallback();
+                            contentSpec += "Revision History = [" + topicId + "]\n";
+
+                            done(xmlDoc, contentSpec);
                         },
                         errorCallback
                     );
+                } else {
+                    done(xmlDoc, contentSpec);
+                }
+            };
+
+            var extractAuthorGroup = function (xmlDoc, contentSpec) {
+                var authorGroup = xmlDoc.evaluate("//authorgroup", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                var done = function (xmlDoc, contentSpec) {
+                    config.UploadProgress[1] = 9;
+                    config.FoundAuthorGroup = true;
+                    resultCallback();
+                };
+
+                if (authorGroup) {
+                    createTopic(
+                        authorGroup,
+                        replacements,
+                        "Author Group",
+                        [AUTHOR_GROUP_TAG_ID],
+                        config,
+                        function (topicId, matchedExisting) {
+                            config.AuthorGroupTopicID = topicId;
+                            config.UploadedTopicCount += 1;
+                            if (matchedExisting) {
+                                config.MatchedTopicCount += 1;
+                            }
+
+                            contentSpec += "Author Group = [" + topicId + "]\n";
+
+                            done(xmlDoc, contentSpec);
+                        },
+                        errorCallback
+                    );
+                } else {
+                    done(xmlDoc, contentSpec);
+                }
+            };
+
+            var uploadImages = function (xmlDoc, contentSpec) {
+                var images = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
+                var uploadedImages = {};
+                var image;
+                while (image = images.iterateNext()) {
+
                 }
             };
 

@@ -35,7 +35,7 @@
     <option laxcomma="false" />
     <option loopfunc="false" />
     <option moz="false" />
-    <option multistr="false" />
+    <option multistr="true" />
     <option notypeof="false" />
     <option proto="false" />
     <option scripturl="false" />
