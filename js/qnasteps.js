@@ -20,6 +20,21 @@
     // a zip model to be shared
     var zip = new global.QNAZipModel();
 
+    // the content spec
+    var contentSpec = "";
+
+    function loadSetting(file, setting) {
+        var lines = file.split("\n");
+        global.jQuery.each(lines, function (index, value) {
+            var keyValue = value.split(":");
+            if (keyValue.length === 2) {
+                if (new RegExp(global.escapeRegExp(setting)).test(keyValue[0].trim())) {
+                    return keyValue[1].trim();
+                }
+            }
+        });
+    }
+
     function xmlToString(xmlDoc) {
         return (new global.XMLSerializer()).serializeToString(xmlDoc);
     }
@@ -262,6 +277,10 @@
                         .setName("ParsedAsXML"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Finding book info")
+                        .setName("FoundBookInfo"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Finding revision history")
                         .setName("FoundRevisionHistory"),
                     new global.QNAVariable()
@@ -452,7 +471,66 @@
                 config.ParsedAsXML = true;
                 resultCallback();
 
-                extractRevisionHistory(xmlDoc);
+                findBookInfo(xmlDoc);
+            };
+
+            /*
+                Find the book info details
+             */
+            var findBookInfo = function (xmlDoc) {
+                var bookinfo = xmlDoc.evaluate("/*/bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                if (bookinfo) {
+                    var title = xmlDoc.evaluate("title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var subtitle = xmlDoc.evaluate("subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var edition = xmlDoc.evaluate("edition", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var pubsnumber = xmlDoc.evaluate("pubsnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productname = xmlDoc.evaluate("productname", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productnumber = xmlDoc.evaluate("productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                    if (title) {
+                        contentSpec += "Title = " + xmlToString(title) + "\n";
+                    }
+
+                    if (subtitle) {
+                        contentSpec += "Subtitle = " + xmlToString(subtitle) + "\n";
+                    }
+
+                    if (edition) {
+                        contentSpec += "Edition = " + xmlToString(edition) + "\n";
+                    }
+
+                    if (pubsnumber) {
+                        contentSpec += "Pubsnumber = " + xmlToString(pubsnumber) + "\n";
+                    }
+
+                    if (productname) {
+                        contentSpec += "Product = " + xmlToString(productname) + "\n";
+                    }
+
+                    if (productnumber) {
+                        contentSpec += "Version = " + xmlToString(productnumber) + "\n";
+                    }
+
+                    contentSpec += "DTD = Docbook 4.5\n";
+                    contentSpec += "Copyright Holder = Red Hat\n";
+
+                    zip.getTextFromFileName("publican.cfg", function (text) {
+                        var brand = loadSetting(text, "brand\\s*:");
+                        contentSpec += "Brand = " + brand + "\n";
+                        contentSpec += "publican.cfg = [\n";
+                        contentSpec += text;
+                        contentSpec += "\n]";
+                    });
+
+                    config.UploadProgress[1] = 7;
+                    config.FoundBookInfo = true;
+                    resultCallback();
+
+                    extractRevisionHistory(xmlDoc);
+                } else {
+                    errorCallback("Invalid content", "The <bookinfo> element could not be found");
+                }
+
             };
 
             var extractRevisionHistory = function (xmlDoc) {
