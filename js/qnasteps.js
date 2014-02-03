@@ -439,19 +439,19 @@
                         .setIntro("Uploading content specification")
                         .setName("UploadedContentSpecification"),
                     new global.QNAVariable()
-                        .setType(global.InputEnum.PROGRESS)
-                        .setIntro("Progress")
-                        .setName("UploadProgress")
-                        // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
-                        .setValue([11, 0]),
-                    new global.QNAVariable()
                         .setType(global.InputEnum.PLAIN_TEXT)
                         .setIntro("Topics Created / Topics Reused")
                         .setName("NewTopicsCreated"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.PLAIN_TEXT)
                         .setIntro("Images Created / Images Reused")
-                        .setName("NewImagesCreated")
+                        .setName("NewImagesCreated"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PROGRESS)
+                        .setIntro("Progress")
+                        .setName("UploadProgress")
+                        // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
+                        .setValue([11, 0])
                 ])
         ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
@@ -1041,7 +1041,7 @@
                 var topicOrContainerIDs = getAllTopicOrContainerIDs();
 
                 var saveTopicsWithAllXrefsJustResolved = function (index, successCallback) {
-                    if (index > topics.length) {
+                    if (index >= topics.length) {
                         successCallback();
                     } else {
                         var topic = topics[index];
@@ -1073,6 +1073,7 @@
                                             if (matchedExisting) {
                                                 config.MatchedTopicCount += 1;
                                             }
+                                            resultCallback();
 
                                             contentSpec[topic.specLine] += " [" + topicId + "]";
 
@@ -1092,6 +1093,7 @@
                                             if (matchedExisting) {
                                                 config.MatchedTopicCount += 1;
                                             }
+                                            resultCallback();
 
                                             topic.topicId = topicId;
                                             contentSpec[topic.specLine] += " [" + topicId + "]";
@@ -1238,6 +1240,7 @@
                                                     if (matchedExisting) {
                                                         config.MatchedTopicCount += 1;
                                                     }
+                                                    resultCallback();
 
                                                     firstUnresolvedTopic.topicId = topicId;
                                                     contentSpec[firstUnresolvedTopic.specLine] += " [" + topicId + "]";
