@@ -1227,86 +1227,84 @@
                     };
 
                     var processXrefLoop = function () {
-                         // save any topics that were fully resolved
-                        saveTopicsWithAllXrefsJustResolved(0, function () {
-                            if (getUnsavedAndUnresolvedTopics().length !== 0) {
+                        if (getUnsavedAndUnresolvedTopics().length !== 0) {
 
-                                // we'll save the first unresolved topic to attempt to break the deadlock
-                                var firstUnresolvedTopic = getUnsavedAndUnresolvedTopics()[0];
+                            // we'll save the first unresolved topic to attempt to break the deadlock
+                            var firstUnresolvedTopic = getUnsavedAndUnresolvedTopics()[0];
 
-                                // normalize injections and xrefs
-                                var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
-                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy, xmlDoc), topicOrContainerIDs);
+                            // normalize injections and xrefs
+                            var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
+                            normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy, xmlDoc), topicOrContainerIDs);
 
-                                var firstUnresolvedTopicXMLCompare = removeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
+                            var firstUnresolvedTopicXMLCompare = removeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
-                                /*
-                                    Loop over each similar topic and return the first one that has the same XML when
-                                    entities, whitespace and injections are ignored.
-                                 */
-                                var testTopicAgainstCloseMatch = function (normalizedXML, data) {
-                                    var matchingTopic;
+                            /*
+                                Loop over each similar topic and return the first one that has the same XML when
+                                entities, whitespace and injections are ignored.
+                             */
+                            var testTopicAgainstCloseMatch = function (normalizedXML, data) {
+                                var matchingTopic;
 
-                                    global.jQuery.each(data.items, function (index, value) {
-                                        // normalize injections and xrefs
-                                        var matchingTopicXMLCopy = global.jQuery.parseXML(removeEntities(value.item.xml));
-                                        normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
+                                global.jQuery.each(data.items, function (index, value) {
+                                    // normalize injections and xrefs
+                                    var matchingTopicXMLCopy = global.jQuery.parseXML(removeEntities(value.item.xml));
+                                    normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
 
-                                        var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
+                                    var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
 
-                                        if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
-                                            matchingTopic = value.item;
-                                            return false;
-                                        }
-                                    });
+                                    if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
+                                        matchingTopic = value.item;
+                                        return false;
+                                    }
+                                });
 
-                                    return matchingTopic;
-                                };
+                                return matchingTopic;
+                            };
 
-                                // find anything in the database that is a close match to this topic
-                                getSimilarTopics(
-                                    xmlToString(firstUnresolvedTopic.xml),
-                                    config,
-                                    function (data) {
-                                        var matchingTopic = testTopicAgainstCloseMatch(firstUnresolvedTopicXMLCompare, data);
+                            // find anything in the database that is a close match to this topic
+                            getSimilarTopics(
+                                xmlToString(firstUnresolvedTopic.xml),
+                                config,
+                                function (data) {
+                                    var matchingTopic = testTopicAgainstCloseMatch(firstUnresolvedTopicXMLCompare, data);
 
-                                        if (matchingTopic) {
-                                            firstUnresolvedTopic.topicId = matchingTopic.id;
-                                            firstUnresolvedTopic.xrefsResolved = true;
-                                            resolveXrefsLoop();
-                                        } else {
-                                            createTopic(
-                                                firstUnresolvedTopic.xml,
-                                                replacements,
-                                                null,
-                                                null,
-                                                config,
-                                                function (topicId, matchedExisting) {
-                                                    config.UploadedTopicCount += 1;
-                                                    if (matchedExisting) {
-                                                        config.MatchedTopicCount += 1;
-                                                    }
-                                                    config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
-                                                    resultCallback();
+                                    if (matchingTopic) {
+                                        firstUnresolvedTopic.topicId = matchingTopic.id;
+                                        firstUnresolvedTopic.xml = global.jQuery.parseXML(matchingTopic.xml);
+                                        firstUnresolvedTopic.xrefsResolved = true;
+                                        resolveXrefsLoop();
+                                    } else {
+                                        createTopic(
+                                            firstUnresolvedTopic.xml,
+                                            replacements,
+                                            null,
+                                            null,
+                                            config,
+                                            function (topicId, matchedExisting) {
+                                                config.UploadedTopicCount += 1;
+                                                if (matchedExisting) {
+                                                    config.MatchedTopicCount += 1;
+                                                }
+                                                config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                                                resultCallback();
 
-                                                    firstUnresolvedTopic.topicId = topicId;
-                                                    contentSpec[firstUnresolvedTopic.specLine] += " [" + topicId + "]";
+                                                firstUnresolvedTopic.topicId = topicId;
+                                                contentSpec[firstUnresolvedTopic.specLine] += " [" + topicId + "]";
 
-                                                    resolveXrefsLoop();
-                                                },
-                                                errorCallback
-                                            );
-                                        }
-                                    },
-                                    errorCallback
-                                );
-                            } else {
-                                config.UploadProgress[1] = 12;
-                                config.ResolvedXrefs = true;
-                                resultCallback();
-                                uploadContentSpec(contentSpec, config);
-                            }
-                        });
+                                                resolveXrefsLoop();
+                                            },
+                                            errorCallback
+                                        );
+                                    }
+                                },
+                                errorCallback
+                            );
+                        } else {
+                            config.UploadProgress[1] = 12;
+                            config.ResolvedXrefs = true;
+                            resultCallback();
+                            uploadContentSpec(contentSpec, config);
+                        }
                     };
 
                     resolveXrefsLoop();
