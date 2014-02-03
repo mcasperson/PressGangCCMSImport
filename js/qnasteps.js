@@ -1009,6 +1009,16 @@
                     return retValue;
                 };
 
+                var getUnsavedAndUnresolvedTopics = function () {
+                    var retValue = [];
+                    global.jQuery.each(topics, function (index, value) {
+                        if (!value.xrefsResolved && !value.topicId) {
+                            retValue.push(value);
+                        }
+                    });
+                    return retValue;
+                };
+
                 var getSavedTopics = function () {
                     var retValue = [];
                     global.jQuery.each(topics, function (index, value) {
@@ -1203,10 +1213,10 @@
 
                         // save any topics that were fully resolved
                         saveTopicsWithAllXrefsJustResolved(0, function () {
-                            if (getUnresolvedTopics().length !== 0) {
+                            if (getUnsavedAndUnresolvedTopics().length !== 0) {
 
                                 // we'll save the first unresolved topic to attempt to break the deadlock
-                                var firstUnresolvedTopic = getUnresolvedTopics()[0];
+                                var firstUnresolvedTopic = getUnsavedAndUnresolvedTopics()[0];
 
                                 // normalize injections and xrefs
                                 var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
