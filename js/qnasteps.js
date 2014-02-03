@@ -204,7 +204,7 @@
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
-                successCallback(data.topic.id, data.matchedExistingTopic);
+                successCallback(data.id);
             },
             error: function () {
                 errorCallback("Connection Error", "An error occurred while uploading a topic.");
@@ -1071,15 +1071,7 @@
                                         replacements,
                                         null,
                                         config,
-                                        function (topicId, matchedExisting) {
-                                            config.UploadedTopicCount += 1;
-                                            if (matchedExisting) {
-                                                config.MatchedTopicCount += 1;
-                                            }
-                                            resultCallback();
-
-                                            contentSpec[topic.specLine] += " [" + topicId + "]";
-
+                                        function (topicId) {
                                             saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
                                         },
                                         errorCallback
