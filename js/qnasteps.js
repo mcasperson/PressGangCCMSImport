@@ -1098,6 +1098,7 @@
                                             if (matchedExisting) {
                                                 config.MatchedTopicCount += 1;
                                             }
+                                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
                                             resultCallback();
 
                                             topic.topicId = topicId;
@@ -1260,6 +1261,7 @@
                                                     if (matchedExisting) {
                                                         config.MatchedTopicCount += 1;
                                                     }
+                                                    config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
                                                     resultCallback();
 
                                                     firstUnresolvedTopic.topicId = topicId;
