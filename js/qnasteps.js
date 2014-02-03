@@ -51,6 +51,12 @@
             .replace(/\n/g, "\\n");
     }
 
+    function replaceWhiteSpace(text) {
+        text = text.replace(/\n/g, " ");
+        text = text.replace(/\s+/g, " ");
+        return text;
+    }
+
     function createImage(zipfile, image, config, successCallback, errorCallback) {
 
         zip.getByteArrayFromFileName(
@@ -559,27 +565,27 @@
                     var productnumber = xmlDoc.evaluate("productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (title) {
-                        contentSpec.push("Title = " + reencode(title.textContent, replacements));
+                        contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));
                     }
 
                     if (subtitle) {
-                        contentSpec.push("Subtitle = " + reencode(title.textContent, subtitle));
+                        contentSpec.push("Subtitle = " + reencode(replaceWhiteSpace(subtitle.innerHTML), replacements));
                     }
 
                     if (edition) {
-                        contentSpec.push("Edition = " + reencode(title.textContent, edition));
+                        contentSpec.push("Edition = " + reencode(replaceWhiteSpace(edition.innerHTML), replacements));
                     }
 
                     if (pubsnumber) {
-                        contentSpec.push("Pubsnumber = " + reencode(title.textContent, pubsnumber));
+                        contentSpec.push("Pubsnumber = " + reencode(replaceWhiteSpace(pubsnumber.innerHTML), replacements));
                     }
 
                     if (productname) {
-                        contentSpec.push("Product = " + reencode(title.textContent, productname));
+                        contentSpec.push("Product = " + reencode(replaceWhiteSpace(productname.innerHTML), replacements));
                     }
 
                     if (productnumber) {
-                        contentSpec.push("Version = " + reencode(title.textContent, productnumber));
+                        contentSpec.push("Version = " + reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
                     }
 
                     contentSpec.push("DTD = Docbook 4.5");
@@ -807,7 +813,7 @@
                             // find the title
                             var title = xmlDoc.evaluate("title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                             if (title) {
-                                var titleText = reencode(title.textContent, replacements);
+                                var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements);
 
                                 // strip away any child containers
                                 var removeChildren = [];
