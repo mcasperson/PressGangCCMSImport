@@ -16,6 +16,7 @@
 
     var REVISION_HISTORY_TAG_ID = 598;
     var AUTHOR_GROUP_TAG_ID = 664;
+    var ABSTRACT_TAG_ID = 692;
 
     // a zip model to be shared
     var zip = new global.QNAZipModel();
@@ -342,6 +343,10 @@
                         .setName("FoundAuthorGroup"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Finding abstract")
+                        .setName("FoundAbstractGroup"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Finding and uploading images")
                         .setName("FoundImages"),
                     new global.QNAVariable()
@@ -542,7 +547,7 @@
              */
             var findBookInfo = function (xmlDoc) {
                 // the content spec
-                var contentSpec = "";
+                var contentSpec = [];
 
                 var bookinfo = xmlDoc.evaluate("/*/bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                 if (bookinfo) {
@@ -554,38 +559,44 @@
                     var productnumber = xmlDoc.evaluate("productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (title) {
-                        contentSpec += "Title = " + xmlToString(title) + "\n";
+                        contentSpec.push("Title = " + xmlToString(title));
                     }
 
                     if (subtitle) {
-                        contentSpec += "Subtitle = " + xmlToString(subtitle) + "\n";
+                        contentSpec.push("Subtitle = " + xmlToString(subtitle));
                     }
 
                     if (edition) {
-                        contentSpec += "Edition = " + xmlToString(edition) + "\n";
+                        contentSpec.push("Edition = " + xmlToString(edition));
                     }
 
                     if (pubsnumber) {
-                        contentSpec += "Pubsnumber = " + xmlToString(pubsnumber) + "\n";
+                        contentSpec.push("Pubsnumber = " + xmlToString(pubsnumber));
                     }
 
                     if (productname) {
-                        contentSpec += "Product = " + xmlToString(productname) + "\n";
+                        contentSpec.push("Product = " + xmlToString(productname));
                     }
 
                     if (productnumber) {
-                        contentSpec += "Version = " + xmlToString(productnumber) + "\n";
+                        contentSpec.push("Version = " + xmlToString(productnumber));
                     }
 
-                    contentSpec += "DTD = Docbook 4.5\n";
-                    contentSpec += "Copyright Holder = Red Hat\n";
+                    contentSpec.push("DTD = Docbook 4.5");
+                    contentSpec.push("Copyright Holder = Red Hat");
+
+                    if (xmlDoc.documentElement.nodeName === "book") {
+                        contentSpec.push("Type = Book");
+                    } else if (xmlDoc.documentElement.nodeName === "article") {
+                        contentSpec.push("Type = Article");
+                    }
 
                     zip.getTextFromFileName("publican.cfg", function (text) {
                         var brand = loadSetting(text, "brand\\s*:");
-                        contentSpec += "Brand = " + brand + "\n";
-                        contentSpec += "publican.cfg = [\n";
-                        contentSpec += text;
-                        contentSpec += "\n]";
+                        contentSpec.push("Brand = " + brand);
+                        contentSpec.push("publican.cfg = [");
+                        contentSpec.push(text);
+                        contentSpec.push("]");
                     });
 
                     config.UploadProgress[1] = 7;
@@ -625,7 +636,7 @@
 
                             config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                            contentSpec += "Revision History = [" + topicId + "]\n";
+                            contentSpec.push("Revision History = [" + topicId + "]");
 
                             done(xmlDoc, contentSpec);
                         },
@@ -644,7 +655,7 @@
                     config.FoundAuthorGroup = true;
                     resultCallback();
 
-                    uploadImages(xmlDoc, contentSpec);
+                    extractAbstract(xmlDoc, contentSpec);
                 };
 
                 if (authorGroup) {
@@ -663,7 +674,45 @@
 
                             config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                            contentSpec += "Author Group = [" + topicId + "]\n";
+                            contentSpec.push("Author Group = [" + topicId + "]");
+
+                            done(xmlDoc, contentSpec);
+                        },
+                        errorCallback
+                    );
+                } else {
+                    done(xmlDoc, contentSpec);
+                }
+            };
+
+            var extractAbstract = function (xmlDoc, contentSpec) {
+                var abstractContent = xmlDoc.evaluate("//bookinfo/abstract", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                var done = function (xmlDoc, contentSpec) {
+                    config.UploadProgress[1] = 10;
+                    config.FoundAbstract = true;
+                    resultCallback();
+
+                    uploadImages(xmlDoc, contentSpec);
+                };
+
+                if (abstractContent) {
+                    createTopic(
+                        abstractContent,
+                        replacements,
+                        "Abstract",
+                        [ABSTRACT_TAG_ID],
+                        config,
+                        function (topicId, matchedExisting) {
+                            config.AbstractID = topicId;
+                            config.UploadedTopicCount += 1;
+                            if (matchedExisting) {
+                                config.MatchedTopicCount += 1;
+                            }
+
+                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+
+                            contentSpec.push("Abstract = [" + topicId + "]");
 
                             done(xmlDoc, contentSpec);
                         },
@@ -727,13 +776,72 @@
                             processImages(images.iterateNext());
                         }
                     } else {
-                        config.UploadProgress[1] = 10;
+                        config.UploadProgress[1] = 11;
                         config.FoundImages = true;
                         resultCallback();
                     }
                 };
 
                 processImages(images.iterateNext());
+            };
+
+            var resolveBookStructure = function(xmlDoc, contentSpec) {
+                // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
+                var sectionTypes = ["part", "chapter", "appendix", "section"];
+
+                // a collection of all the topics we will e uploading
+                var topics = [];
+                // a collection of all the containers that hold the topics
+                var containers = [];
+
+                var processXml = function (parentXML, parentSpecContainer, depth) {
+                    // loop over the containers under the root element
+                    global.jQuery.each(parentXML.childNodes, function (index, value) {
+                        if (sectionTypes.indexOf(value.nodeName) !== -1) {
+                            // take a copy of this container
+                            var clone = value.cloneNode(true);
+
+                            // find the title
+                            var title = xmlDoc.evaluate("title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                            // strip away any child containers
+                            var removeChildren = [];
+                            global.jQuery.each(clone.childNodes, function (index, containerChild) {
+                                if (sectionTypes.indexOf(containerChild.nodeName) !== -1) {
+                                    removeChildren.push(containerChild);
+                                }
+                            });
+                            global.jQuery.each(removeChildren, function (index, containerChild) {
+                                clone.removeChild(containerChild);
+                            });
+
+                            // what we have left is the contents of a initial text topic
+                            var contentSpecLine = "";
+                            for (var i = 0; i < depth; ++i) {
+                                contentSpecLine += " ";
+                            }
+
+                            contentSpec.push(
+                                contentSpecLine +
+                                value.nodeName.substring(0, 1).toUpperCase() +
+                                value.nodeName.substring(1, value.nodeName.length) +
+                                ": " + title.nodeValue);
+
+                            if (clone.childNodes.length !== 0) {
+                                var topic = new global.SpecTopic()
+                                    .setXml(clone)
+                                    .setSpecLine(contentSpec.length - 1);
+                                topics.push(topic);
+                            } else {
+                                var container = global.SpecContainer()
+                                    .setSpecLine(contentSpec.length - 1);
+                                containers.push(container);
+                            }
+                        }
+                    });
+                };
+
+                processXml(xmlDoc.documentElement, null, 0);
             };
 
             // start the process

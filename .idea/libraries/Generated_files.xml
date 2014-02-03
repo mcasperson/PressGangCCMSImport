@@ -9,6 +9,7 @@
         <item url="file://$PROJECT_DIR$/js/wgxpath/wgxpath.install.min.js" />
         <item url="file://$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.min.js" />
         <item url="file://$PROJECT_DIR$/js/angularfileupload/FileAPI.min.min.js" />
+        <item url="file://$PROJECT_DIR$/js/specelement.min.js" />
         <item url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload-shim.min.min.js" />
         <item url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.min.min.js" />
         <item url="file://$PROJECT_DIR$/js/qna/controller.min.js" />
@@ -43,6 +44,7 @@
       <root url="file://$PROJECT_DIR$/js/qna/qnautils.min.js" />
       <root url="file://$PROJECT_DIR$/js/wgxpath/wgxpath.install.min.js" />
       <root url="file://$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.min.js" />
+      <root url="file://$PROJECT_DIR$/js/specelement.min.js" />
       <root url="file://$PROJECT_DIR$/js/angularfileupload/FileAPI.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload-shim.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/controller.min.js" />
