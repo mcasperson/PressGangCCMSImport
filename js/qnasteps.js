@@ -597,19 +597,24 @@
                         contentSpec.push("Type = Article");
                     }
 
-                    zip.getTextFromFileName("publican.cfg", function (text) {
-                        var brand = loadSetting(text, "brand\\s*:");
-                        contentSpec.push("Brand = " + brand);
-                        contentSpec.push("publican.cfg = [");
-                        contentSpec.push(text);
-                        contentSpec.push("]");
-                    });
+                    zip.getTextFromFileName(
+                        config.ZipFile,
+                        "publican.cfg",
+                        function (text) {
+                            var brand = loadSetting(text, "brand\\s*:");
+                            contentSpec.push("Brand = " + brand);
+                            contentSpec.push("publican.cfg = [");
+                            contentSpec.push(text);
+                            contentSpec.push("]");
 
-                    config.UploadProgress[1] = 7;
-                    config.FoundBookInfo = true;
-                    resultCallback();
+                            config.UploadProgress[1] = 7;
+                            config.FoundBookInfo = true;
+                            resultCallback();
 
-                    extractRevisionHistory(xmlDoc, contentSpec);
+                            extractRevisionHistory(xmlDoc, contentSpec);
+                        },
+                        errorCallback
+                    );
                 } else {
                     errorCallback("Invalid content", "The <bookinfo> element could not be found");
                 }
