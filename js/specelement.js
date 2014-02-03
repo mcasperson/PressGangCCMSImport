@@ -35,7 +35,7 @@
 
         // find any
         var xrefsTargets = [];
-        var xrefs = xmlDoc.evaluate("xref", xml, null, global.XPathResult.ANY_TYPE, null);
+        var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
         var xref;
         while (xref = xrefs.iterateNext()) {
             if (xref.hasAttribute("linkend")) {

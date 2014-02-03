@@ -628,12 +628,12 @@
 
                 var bookinfo = xmlDoc.evaluate("/*/bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                 if (bookinfo) {
-                    var title = xmlDoc.evaluate("title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var subtitle = xmlDoc.evaluate("subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var edition = xmlDoc.evaluate("edition", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var pubsnumber = xmlDoc.evaluate("pubsnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var productname = xmlDoc.evaluate("productname", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var productnumber = xmlDoc.evaluate("productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var title = xmlDoc.evaluate("/title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var subtitle = xmlDoc.evaluate("/subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var edition = xmlDoc.evaluate("/edition", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var pubsnumber = xmlDoc.evaluate("/pubsnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productname = xmlDoc.evaluate("/productname", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productnumber = xmlDoc.evaluate("/productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (title) {
                         contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));
@@ -887,7 +887,7 @@
                             var clone = value.cloneNode(true);
 
                             // find the title
-                            var title = xmlDoc.evaluate("title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                            var title = xmlDoc.evaluate("/title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                             if (title) {
                                 var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements);
 
@@ -903,7 +903,7 @@
                                 });
 
                                 // the id attribute assigned to this container
-                                var id = xmlDoc.evaluate("@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                var id = xmlDoc.evaluate("/@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                                 // what we have left is the contents of a initial text topic
                                 var contentSpecLine = "";
@@ -1031,7 +1031,7 @@
                 var getAllTopicOrContainerIDs = function () {
                     var retValue = [];
                     global.jQuery.each(topics, function (index, value) {
-                        if (retValue.indexOf(value.id) !== -1) {
+                        if (retValue.indexOf(value.id) === -1) {
                             retValue.push(value.id);
                         }
                     });
@@ -1118,7 +1118,7 @@
                     var resolvedAXref = false;
                     var resolvedTopics = getSavedTopics();
                     global.jQuery.each(getUnresolvedTopics(), function (index, value) {
-                        var xrefs = xmlDoc.evaluate("xref", value.xml, null, global.XPathResult.ANY_TYPE, null);
+                        var xrefs = xmlDoc.evaluate("//xref", value.xml, null, global.XPathResult.ANY_TYPE, null);
                         var xref;
                         while (xref = xrefs.iterateNext()) {
 
@@ -1144,7 +1144,7 @@
                 };
 
                 var normalizeInjections = function (xml, topicAndContainerIDs) {
-                    var comments = xmlDoc.evaluate("comment()", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
                     while (comment = comments.iterateNext()) {
                         if (/^\s*Inject\s*:\s*\d+\s*$/.test(comment.textContent)) {
@@ -1155,7 +1155,7 @@
                 };
 
                 var normalizeXrefs = function (xml, topicAndContainerIDs) {
-                    var xrefs = xmlDoc.evaluate("xref", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
                     while (xref = xrefs.iterateNext()) {
                         if (xref.hasAttribute("linkend")) {
