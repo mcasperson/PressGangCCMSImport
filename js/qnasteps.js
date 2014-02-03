@@ -1145,7 +1145,7 @@
                     return resolvedAXref;
                 };
 
-                var normalizeInjections = function (xml, topicAndContainerIDs) {
+                var normalizeInjections = function (xml, xmlDoc) {
                     var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
                     var commentReplacements = [];
@@ -1210,7 +1210,7 @@
 
                                 // normalize injections and xrefs
                                 var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
-                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy), topicOrContainerIDs);
+                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy, xmlDoc), topicOrContainerIDs);
 
                                 var firstUnresolvedTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
@@ -1224,7 +1224,7 @@
                                         global.jQuery.each(data.items, function (index, value) {
                                             // normalize injections and xrefs
                                             var matchingTopicXMLCopy = parseAsXML(removeEntities(value.item.xml));
-                                            normalizeInjections(matchingTopicXMLCopy);
+                                            normalizeInjections(matchingTopicXMLCopy, xmlDoc);
 
                                             var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
 
