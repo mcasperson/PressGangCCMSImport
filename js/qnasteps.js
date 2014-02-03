@@ -361,7 +361,15 @@
                         .setIntro("Progress")
                         .setName("UploadProgress")
                         // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
-                        .setValue([11, 0])
+                        .setValue([11, 0]),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Topics Created / Topics Reused")
+                        .setName("NewTopicsCreated"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Images Created / Images Reused")
+                        .setName("NewImagesCreated")
                 ])
         ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
@@ -378,6 +386,8 @@
              */
             config.UploadedTopicCount = 0;
             config.MatchedTopicCount = 0;
+            config.UploadedImageCount = 0;
+            config.MatchedImageCount = 0;
 
             /*
              Resolve xi:includes
@@ -613,6 +623,8 @@
                                 config.MatchedTopicCount += 1;
                             }
 
+                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+
                             contentSpec += "Revision History = [" + topicId + "]\n";
 
                             done(xmlDoc, contentSpec);
@@ -648,6 +660,8 @@
                             if (matchedExisting) {
                                 config.MatchedTopicCount += 1;
                             }
+
+                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                             contentSpec += "Author Group = [" + topicId + "]\n";
 
@@ -689,7 +703,15 @@
                                                 config.ZipFile,
                                                 nodeValue,
                                                 config,
-                                                function (imageId, matchedExiting) {
+                                                function (imageId, matchedExisting) {
+                                                    config.UploadedImageCount += 1;
+                                                    if (matchedExisting) {
+                                                        config.MatchedImageCount += 1;
+                                                    }
+
+                                                    config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
+                                                    resultCallback();
+
                                                     processImages(images.iterateNext());
                                                 },
                                                 errorCallback

@@ -157,6 +157,14 @@
                                 <progressbar animate="false" max="qna.config[variable.processedName][0]" value="qna.config[variable.processedName][1]" type="success"><b>{{qna.config[variable.processedName][1]/qna.config[variable.processedName][0]*100 | number:2}}%</b></progressbar>
                             </div>
 
+                            <!-- Plain text -->
+                            <div class="col-lg-12" ng-if="variable.processedType == inputTypes.PLAIN_TEXT">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    {{qna.config[variable.processedName]}}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
