@@ -207,7 +207,7 @@
                 successCallback(data.topic.id, data.matchedExistingTopic);
             },
             error: function () {
-                errorCallback("Connection Error", "An error occurred while uploading the revision history topic.");
+                errorCallback("Connection Error", "An error occurred while uploading a topic.");
             }
         });
     }
