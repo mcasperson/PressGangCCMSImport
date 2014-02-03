@@ -1223,10 +1223,10 @@
 
                                         global.jQuery.each(data.items, function (index, value) {
                                             // normalize injections and xrefs
-                                            var matchingTopicXMLCopy = parseAsXML(value.item.xml);
+                                            var matchingTopicXMLCopy = parseAsXML(removeEntities(value.item.xml));
                                             normalizeInjections(matchingTopicXMLCopy);
 
-                                            var matchingTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(matchingTopicXMLCopy)));
+                                            var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
 
                                             if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
                                                 matchingTopic = value;
