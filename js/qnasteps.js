@@ -199,7 +199,7 @@
 
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/update/',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/update/json',
             data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",
