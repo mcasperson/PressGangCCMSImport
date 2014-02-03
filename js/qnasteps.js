@@ -1117,7 +1117,8 @@
                 var resolveAvailableXRefs = function () {
                     var resolvedAXref = false;
                     var resolvedTopics = getSavedTopics();
-                    global.jQuery.each(getUnresolvedTopics(), function (index, value) {
+                    var unresolvedTopics = getUnresolvedTopics();
+                    global.jQuery.each(unresolvedTopics, function (index, value) {
                         var xrefs = xmlDoc.evaluate("//xref", value.xml, null, global.XPathResult.ANY_TYPE, null);
                         var xref;
                         while (xref = xrefs.iterateNext()) {
