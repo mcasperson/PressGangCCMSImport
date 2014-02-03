@@ -40,7 +40,7 @@
     function reencode(xmlString, replacements) {
         var reversed = replacements.reverse();
         global.jQuery.each(reversed, function (index, value) {
-            xmlString = xmlString.replace(new RegExp(global.escapeRegExp(value.placeholder)), "g", value.entity);
+            xmlString = xmlString.replace(new RegExp(global.escapeRegExp(value.placeholder), "g"), value.entity);
         });
         return xmlString;
     }
@@ -693,7 +693,8 @@
                     config.FoundAbstract = true;
                     resultCallback();
 
-                    uploadImages(xmlDoc, contentSpec);
+                    //uploadImages(xmlDoc, contentSpec);
+                    resolveBookStructure(xmlDoc, contentSpec);
                 };
 
                 if (abstractContent) {
@@ -779,6 +780,8 @@
                         config.UploadProgress[1] = 11;
                         config.FoundImages = true;
                         resultCallback();
+
+                        resolveBookStructure(xmlDoc, contentSpec);
                     }
                 };
 
@@ -803,45 +806,95 @@
 
                             // find the title
                             var title = xmlDoc.evaluate("title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                            if (title) {
+                                var titleText = reencode(title.textContent, replacements);
 
-                            // strip away any child containers
-                            var removeChildren = [];
-                            global.jQuery.each(clone.childNodes, function (index, containerChild) {
-                                if (sectionTypes.indexOf(containerChild.nodeName) !== -1) {
-                                    removeChildren.push(containerChild);
+                                // strip away any child containers
+                                var removeChildren = [];
+                                global.jQuery.each(clone.childNodes, function (index, containerChild) {
+                                    if (sectionTypes.indexOf(containerChild.nodeName) !== -1) {
+                                        removeChildren.push(containerChild);
+                                    }
+                                });
+                                global.jQuery.each(removeChildren, function (index, containerChild) {
+                                    clone.removeChild(containerChild);
+                                });
+
+                                // the id attribute assigned to this container
+                                var id = xmlDoc.evaluate("@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                                // what we have left is the contents of a initial text topic
+                                var contentSpecLine = "";
+                                for (var i = 0; i < depth * 2; ++i) {
+                                    contentSpecLine += " ";
                                 }
-                            });
-                            global.jQuery.each(removeChildren, function (index, containerChild) {
-                                clone.removeChild(containerChild);
-                            });
 
-                            // what we have left is the contents of a initial text topic
-                            var contentSpecLine = "";
-                            for (var i = 0; i < depth; ++i) {
-                                contentSpecLine += " ";
-                            }
+                                // if there were no child container elements to be removed, it
+                                // means this element stands alone. It is either a topic,
+                                // or a container that has only initial text
+                                if (removeChildren.length === 0) {
+                                    if (value.nodeName === "section") {
+                                        contentSpec.push(contentSpecLine + titleText);
+                                    } else {
+                                        contentSpec.push(
+                                            contentSpecLine +
+                                                value.nodeName.substring(0, 1).toUpperCase() +
+                                                value.nodeName.substring(1, value.nodeName.length) +
+                                                ": " + titleText);
+                                    }
 
-                            contentSpec.push(
-                                contentSpecLine +
-                                value.nodeName.substring(0, 1).toUpperCase() +
-                                value.nodeName.substring(1, value.nodeName.length) +
-                                ": " + title.nodeValue);
+                                    var standaloneContainerTopic = new global.SpecTopic()
+                                        .setXml(clone)
+                                        .setSpecLine(contentSpec.length - 1);
 
-                            if (clone.childNodes.length !== 0) {
-                                var topic = new global.SpecTopic()
-                                    .setXml(clone)
-                                    .setSpecLine(contentSpec.length - 1);
-                                topics.push(topic);
-                            } else {
-                                var container = global.SpecContainer()
-                                    .setSpecLine(contentSpec.length - 1);
-                                containers.push(container);
+                                    if (id) {
+                                        standaloneContainerTopic.setId(id.nodeValue);
+                                    }
+
+                                    topics.push(standaloneContainerTopic);
+                                } else {
+
+                                    contentSpec.push(
+                                        contentSpecLine +
+                                            value.nodeName.substring(0, 1).toUpperCase() +
+                                            value.nodeName.substring(1, value.nodeName.length) +
+                                            ": " + titleText);
+
+                                    // if this container has front matter content, create a topic
+                                    // to represent it
+                                    if (clone.childNodes.length !== 0) {
+                                        var initialTextTopic = new global.SpecTopic()
+                                            .setXml(clone)
+                                            .setSpecLine(contentSpec.length - 1);
+
+                                        if (id) {
+                                            initialTextTopic.setId(id.nodeValue);
+                                        }
+
+                                        topics.push(initialTextTopic);
+                                    }
+
+                                    var container = new global.SpecContainer()
+                                        .setSpecLine(contentSpec.length - 1);
+
+                                    if (id) {
+                                        container.setId(id.nodeValue);
+                                    }
+
+                                    containers.push(container);
+
+                                    processXml(value, container, depth + 1);
+                                }
                             }
                         }
                     });
                 };
 
                 processXml(xmlDoc.documentElement, null, 0);
+
+                global.jQuery.each(contentSpec, function(index, value){
+                   console.log(value);
+                });
             };
 
             // start the process
