@@ -1223,7 +1223,7 @@
 
                                         global.jQuery.each(data.items, function (index, value) {
                                             // normalize injections and xrefs
-                                            var matchingTopicXMLCopy = parseAsXML(removeEntities(value.item.xml));
+                                            var matchingTopicXMLCopy = global.jQuery.parseXML(removeEntities(value.item.xml));
                                             normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
 
                                             var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
