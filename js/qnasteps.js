@@ -50,31 +50,60 @@
             .replace(/\n/g, "\\n");
     }
 
-    function createImage(image, config, successCallback, errorCallback) {
-        var postBody = '{\
-            "description": image, \
-            "languageImages_OTM": {\
-                "items": [\
-                    {\
-                        "item": {\
-                            "imageData": encoded_string,\
-                            "locale": "en-US", \
-                            "filename": image, \
-                            "configuredParameters": [\
-                                "locale",\
-                                "imageData",\
-                                "filename"\
-                            ],\
-                        },\
-                        "state": 1\
-                    }\
-                ],\
-                "configuredParameters": [\
-                    "description", \
-                    "languageImages"\
-                ]\
-            }\
-        }';
+    function createImage(zipfile, image, config, successCallback, errorCallback) {
+
+        zip.getByteArrayFromFileName(
+            zipfile,
+            image,
+            function (arrayBuffer) {
+
+                var byteArray = [];
+                var view = new global.Uint8Array(arrayBuffer);
+                for (var i = 0; i < view.length; ++i) {
+                    byteArray.push(view[i]);
+                }
+
+                var postBody = {
+                    description: image,
+                    languageImages_OTM: {
+                        items: [
+                            {
+                                item: {
+                                    imageData: byteArray,
+                                    locale: "en-US",
+                                    filename: image,
+                                    configuredParameters: [
+                                        "locale",
+                                        "imageData",
+                                        "filename"
+                                    ]
+                                },
+                                state: 1
+                            }
+                        ]
+                    },
+                    configuredParameters: [
+                        "description",
+                        "languageImages"
+                    ]
+                };
+
+                global.jQuery.ajax({
+                    type: 'POST',
+                    url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/createormatch/json?message=Initial+Image+Creation&flag=2&userId=89',
+                    data: JSON.stringify(postBody),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        successCallback(data.image.id, data.matchedExistingImage);
+                    },
+                    error: function () {
+                        errorCallback("Connection Error", "An error occurred while uploading an image.");
+                    }
+                });
+            },
+            errorCallback
+        );
     }
 
     function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
@@ -602,6 +631,8 @@
                     config.UploadProgress[1] = 9;
                     config.FoundAuthorGroup = true;
                     resultCallback();
+
+                    uploadImages(xmlDoc, contentSpec);
                 };
 
                 if (authorGroup) {
@@ -632,10 +663,55 @@
             var uploadImages = function (xmlDoc, contentSpec) {
                 var images = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
                 var uploadedImages = {};
-                var image;
-                while (image = images.iterateNext()) {
 
-                }
+                var processImages = function (image) {
+                    if (image) {
+
+                        var nodeValue = image.nodeValue;
+
+                        // remove the local directory prefix
+                        nodeValue = nodeValue.replace(/^\.\//, "");
+
+                        if (nodeValue.indexOf("images") === 0) {
+
+                            // find the absolute path
+                            var pathPrefix = config.MainXMLFile.substring(0, config.MainXMLFile.lastIndexOf("/"));
+                            nodeValue = pathPrefix + "/" + nodeValue;
+
+                            if (!uploadedImages[nodeValue]) {
+
+                                zip.hasFileName(
+                                    config.ZipFile,
+                                    nodeValue,
+                                    function (result) {
+                                        if (result) {
+                                            createImage(
+                                                config.ZipFile,
+                                                nodeValue,
+                                                config,
+                                                function (imageId, matchedExiting) {
+                                                    processImages(images.iterateNext());
+                                                },
+                                                errorCallback
+                                            );
+                                        } else {
+                                            processImages(images.iterateNext());
+                                        }
+                                    },
+                                    errorCallback
+                                );
+                            }
+                        } else {
+                            processImages(images.iterateNext());
+                        }
+                    } else {
+                        config.UploadProgress[1] = 10;
+                        config.FoundImages = true;
+                        resultCallback();
+                    }
+                };
+
+                processImages(images.iterateNext());
             };
 
             // start the process
