@@ -1215,7 +1215,7 @@
                                 var firstUnresolvedTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
                                 // find anything in the database that is a close match to this topic
-                                var matches = getSimilarTopics(
+                                getSimilarTopics(
                                     xmlToString(firstUnresolvedTopic.xml),
                                     config,
                                     function (data) {
@@ -1224,7 +1224,7 @@
                                         global.jQuery.each(data.items, function (index, value) {
                                             // normalize injections and xrefs
                                             var matchingTopicXMLCopy = parseAsXML(removeEntities(value.item.xml));
-                                            normalizeInjections(matchingTopicXMLCopy, xmlDoc);
+                                            normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
 
                                             var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
 
