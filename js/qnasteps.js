@@ -115,15 +115,6 @@
 
     function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
 
-        // create the json that defines the tags to be added
-        var tagsJSON = '{"items": [';
-
-        global.jQuery.each(tags, function (index, value) {
-            tagsJSON += '{"item": {"id": ' + value + '}, "state": 1}';
-        });
-
-        tagsJSON += ']}';
-
         var postBody = {
             xml: reencode(xmlToString(xml), replacements),
             locale: "en-US",
@@ -159,6 +150,40 @@
         global.jQuery.ajax({
             type: 'POST',
             url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/createormatch/json?message=Initial+Topic+Creation&flag=2&userId=89',
+            data: JSON.stringify(postBody),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                successCallback(data.topic.id, data.matchedExistingTopic);
+            },
+            error: function () {
+                errorCallback("Connection Error", "An error occurred while uploading the revision history topic.");
+            }
+        });
+    }
+
+    function updateTopic(id, xml, replacements, title, config, successCallback, errorCallback) {
+
+        var postBody = {
+            id: id,
+            xml: reencode(xmlToString(xml), replacements),
+            locale: "en-US",
+            configuredParameters: [
+                "xml",
+                "locale"
+            ]
+        };
+
+        if (title) {
+            postBody.title = title;
+            postBody.description = title;
+            postBody.configuredParameters.push("title");
+            postBody.configuredParameters.push("description");
+        }
+
+        global.jQuery.ajax({
+            type: 'POST',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/update/',
             data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",
@@ -1019,24 +1044,46 @@
                             // if so, we can save this topic
                             if (topicIsResolved) {
                                 topic.xrefsResolved = true;
-                                createTopic(
-                                    topic.xml,
-                                    replacements,
-                                    null,
-                                    null,
-                                    config,
-                                    function (topicId, matchedExisting) {
-                                        config.UploadedTopicCount += 1;
-                                        if (matchedExisting) {
-                                            config.MatchedTopicCount += 1;
-                                        }
 
-                                        contentSpec[topic.specLine] += " [" + topicId + "]";
+                                if (topic.topicId) {
+                                    updateTopic(
+                                        topic.topicId,
+                                        topic.xml,
+                                        replacements,
+                                        null,
+                                        config,
+                                        function (topicId, matchedExisting) {
+                                            config.UploadedTopicCount += 1;
+                                            if (matchedExisting) {
+                                                config.MatchedTopicCount += 1;
+                                            }
 
-                                        saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
-                                    },
-                                    errorCallback
-                                );
+                                            contentSpec[topic.specLine] += " [" + topicId + "]";
+
+                                            saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
+                                        },
+                                        errorCallback
+                                    );
+                                } else {
+                                    createTopic(
+                                        topic.xml,
+                                        replacements,
+                                        null,
+                                        null,
+                                        config,
+                                        function (topicId, matchedExisting) {
+                                            config.UploadedTopicCount += 1;
+                                            if (matchedExisting) {
+                                                config.MatchedTopicCount += 1;
+                                            }
+
+                                            contentSpec[topic.specLine] += " [" + topicId + "]";
+
+                                            saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
+                                        },
+                                        errorCallback
+                                    );
+                                }
                             } else {
                                 saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
                             }
