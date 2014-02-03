@@ -1213,12 +1213,21 @@
                 // start by saving any topics that don't have xrefs. This gives us a pool of topics
                 // to start resolving xrefs with
                 saveTopicsWithAllXrefsJustResolved(0, function() {
-                    var processXrefLoop = function () {
-                        while (resolveAvailableXRefs()) {
-                            // keep resolving
-                        }
 
-                        // save any topics that were fully resolved
+                    /*
+                        A loop that resolves all available xrefs and saves the resolved topics.
+                        We repeat this until there are not topics to be saved.
+                     */
+                    var resolveXrefsLoop = function () {
+                        if (resolveAvailableXRefs()) {
+                            saveTopicsWithAllXrefsJustResolved(0, resolveXrefsLoop);
+                        } else {
+                            processXrefLoop();
+                        }
+                    };
+
+                    var processXrefLoop = function () {
+                         // save any topics that were fully resolved
                         saveTopicsWithAllXrefsJustResolved(0, function () {
                             if (getUnsavedAndUnresolvedTopics().length !== 0) {
 
@@ -1231,30 +1240,40 @@
 
                                 var firstUnresolvedTopicXMLCompare = removeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
+                                /*
+                                    Loop over each similar topic and return the first one that has the same XML when
+                                    entities, whitespace and injections are ignored.
+                                 */
+                                var testTopicAgainstCloseMatch = function (normalizedXML, data) {
+                                    var matchingTopic;
+
+                                    global.jQuery.each(data.items, function (index, value) {
+                                        // normalize injections and xrefs
+                                        var matchingTopicXMLCopy = global.jQuery.parseXML(removeEntities(value.item.xml));
+                                        normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
+
+                                        var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
+
+                                        if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
+                                            matchingTopic = value.item;
+                                            return false;
+                                        }
+                                    });
+
+                                    return matchingTopic;
+                                };
+
                                 // find anything in the database that is a close match to this topic
                                 getSimilarTopics(
                                     xmlToString(firstUnresolvedTopic.xml),
                                     config,
                                     function (data) {
-                                        var matchingTopic;
-
-                                        global.jQuery.each(data.items, function (index, value) {
-                                            // normalize injections and xrefs
-                                            var matchingTopicXMLCopy = global.jQuery.parseXML(removeEntities(value.item.xml));
-                                            normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
-
-                                            var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
-
-                                            if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
-                                                matchingTopic = value;
-                                                return false;
-                                            }
-                                        });
+                                        var matchingTopic = testTopicAgainstCloseMatch(firstUnresolvedTopicXMLCompare, data);
 
                                         if (matchingTopic) {
                                             firstUnresolvedTopic.topicId = matchingTopic.id;
                                             firstUnresolvedTopic.xrefsResolved = true;
-                                            processXrefLoop();
+                                            resolveXrefsLoop();
                                         } else {
                                             createTopic(
                                                 firstUnresolvedTopic.xml,
@@ -1273,7 +1292,7 @@
                                                     firstUnresolvedTopic.topicId = topicId;
                                                     contentSpec[firstUnresolvedTopic.specLine] += " [" + topicId + "]";
 
-                                                    processXrefLoop();
+                                                    resolveXrefsLoop();
                                                 },
                                                 errorCallback
                                             );
@@ -1290,7 +1309,7 @@
                         });
                     };
 
-                    processXrefLoop();
+                    resolveXrefsLoop();
                 });
             };
 
