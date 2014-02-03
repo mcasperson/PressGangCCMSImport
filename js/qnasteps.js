@@ -138,7 +138,7 @@
             postBody.configuredParameters.push("tags");
 
             global.jQuery.each(tags, function (index, value) {
-                postBody.tags.push({
+                postBody.tags.items.push({
                    item: {
                        id: value
                    },
@@ -1104,6 +1104,8 @@
                             } else {
                                 saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
                             }
+                        } else {
+                            saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
                         }
                     }
                 };
@@ -1248,8 +1250,6 @@
                                     },
                                     errorCallback
                                 );
-
-                                processXrefLoop();
                             } else {
                                 config.UploadProgress[1] = 13;
                                 config.ResolvedXrefs = true;
@@ -1258,6 +1258,8 @@
                             }
                         });
                     };
+
+                    processXrefLoop();
                 });
             };
 
