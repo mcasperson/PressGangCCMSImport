@@ -879,6 +879,13 @@
                 // a collection of all the containers that hold the topics
                 var containers = [];
 
+                var removeIdAttribute = function (xml) {
+                    if (xml.hasAttribute("id")) {
+                        xml.removeAttribute("id");
+                    }
+                    return xml;
+                };
+
                 var processXml = function (parentXML, parentSpecContainer, depth) {
                     // loop over the containers under the root element
                     global.jQuery.each(parentXML.childNodes, function (index, value) {
@@ -926,7 +933,7 @@
                                     }
 
                                     var standaloneContainerTopic = new global.SpecTopic()
-                                        .setXml(clone, xmlDoc)
+                                        .setXml(removeIdAttribute(clone), xmlDoc)
                                         .setSpecLine(contentSpec.length - 1);
 
                                     if (id) {
@@ -946,7 +953,7 @@
                                     // to represent it
                                     if (clone.childNodes.length !== 0) {
                                         var initialTextTopic = new global.SpecTopic()
-                                            .setXml(clone, xmlDoc)
+                                            .setXml(removeIdAttribute(clone), xmlDoc)
                                             .setSpecLine(contentSpec.length - 1);
 
                                         if (id) {
@@ -1169,11 +1176,7 @@
                     }
                 };
 
-                var removeIdAttribute = function (xml) {
-                    if (xml.hasAttribute("id")) {
-                        xml.removeAttribute("id");
-                    }
-                };
+
 
                 var removeEntities = function (xml) {
                     return xml.replace(/&.*?;/g, "");
@@ -1201,7 +1204,7 @@
 
                                 // normalize injections and xrefs
                                 var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
-                                normalizeXrefs(normalizeInjections(removeIdAttribute(firstUnresolvedTopicXMLCopy)));
+                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy));
 
                                 var firstUnresolvedTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
