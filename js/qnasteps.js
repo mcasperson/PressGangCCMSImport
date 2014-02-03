@@ -775,8 +775,7 @@
                     config.FoundAbstract = true;
                     resultCallback();
 
-                    //uploadImages(xmlDoc, contentSpec);
-                    resolveBookStructure(xmlDoc, contentSpec);
+                    uploadImages(xmlDoc, contentSpec);
                 };
 
                 if (abstractContent) {
@@ -1199,6 +1198,13 @@
                     return xml.replace(/&.*?;/g, "");
                 };
 
+                var removeEntityReplacements = function (xml) {
+                    global.jQuery.each(replacements, function (index, value) {
+                        xml = xml.replace(new RegExp(global.escapeRegExp(value.placeholder), "g", "");
+                    });
+                    return xml;
+                };
+
                 var removeWhiteSpace = function (xml) {
                     return xml.replace(/\n/g, "")
                         .replace(/\s/g, "");
@@ -1223,7 +1229,7 @@
                                 var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
                                 normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy, xmlDoc), topicOrContainerIDs);
 
-                                var firstUnresolvedTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
+                                var firstUnresolvedTopicXMLCompare = removeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
                                 // find anything in the database that is a close match to this topic
                                 getSimilarTopics(
