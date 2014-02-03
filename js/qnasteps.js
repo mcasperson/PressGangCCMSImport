@@ -350,7 +350,7 @@
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Finding abstract")
-                        .setName("FoundAbstractGroup"),
+                        .setName("FoundAbstract"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Finding and uploading images")
@@ -906,6 +906,16 @@
                 global.jQuery.each(contentSpec, function(index, value){
                    console.log(value);
                 });
+
+                config.UploadProgress[1] = 12;
+                config.ResolvedBookStructure = true;
+                resultCallback();
+
+                resolveXRefs(xmlDoc, contentSpec, topics, containers);
+            };
+
+            var resolveXRefs = function (xmlDoc, contentSpec, topics, containers) {
+
             };
 
             // start the process
