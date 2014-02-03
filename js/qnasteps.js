@@ -981,10 +981,6 @@
 
                 processXml(xmlDoc.documentElement, null, 0);
 
-                global.jQuery.each(contentSpec, function(index, value) {
-                   console.log(value);
-                });
-
                 config.UploadProgress[1] = 12;
                 config.ResolvedBookStructure = true;
                 resultCallback();
@@ -1033,7 +1029,7 @@
                     });
 
                     return retValue;
-                }
+                };
 
                 var getAllTopicOrContainerIDs = function () {
                     var retValue = [];
@@ -1261,7 +1257,7 @@
                                 config.UploadProgress[1] = 13;
                                 config.ResolvedXrefs = true;
                                 resultCallback();
-                                uploadContentSpec(contentSpec);
+                                uploadContentSpec(contentSpec, config);
                             }
                         });
                     };
@@ -1270,8 +1266,10 @@
                 });
             };
 
-            var uploadContentSpec = function (contentSpec) {
-
+            var uploadContentSpec = function (contentSpec, config) {
+                global.jQuery.each(contentSpec, function(index, value) {
+                    console.log(value);
+                });
             }
 
             // start the process
