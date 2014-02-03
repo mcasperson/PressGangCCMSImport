@@ -124,12 +124,42 @@
 
         tagsJSON += ']}';
 
-        var postBody = '{"title": "' + title + '", "description": "' + title + '", "xml": "' + replaceSpecialChars(reencode(xmlToString(xml), replacements)) + '", "locale": "en-US", "tags": ' + tagsJSON + ', "configuredParameters": ["title", "description", "xml", "locale", "tags"]}';
+        var postBody = {
+            xml: reencode(xmlToString(xml), replacements),
+            locale: "en-US",
+            configuredParameters: [
+                "xml",
+                "locale"
+            ]
+        };
+
+        if (title) {
+            postBody.title = title;
+            postBody.description = title;
+            postBody.configuredParameters.push("title");
+            postBody.configuredParameters.push("description");
+        }
+
+        if (tags) {
+            postBody.tags = {
+                items: []
+            };
+            postBody.configuredParameters.push("tags");
+
+            global.jQuery.each(tags, function (index, value) {
+                postBody.tags.push({
+                   item: {
+                       id: value
+                   },
+                   state: 1
+                });
+            });
+        }
 
         global.jQuery.ajax({
             type: 'POST',
             url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/createormatch/json?message=Initial+Topic+Creation&flag=2&userId=89',
-            data: postBody,
+            data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
@@ -855,7 +885,7 @@
                                     }
 
                                     var standaloneContainerTopic = new global.SpecTopic()
-                                        .setXml(clone)
+                                        .setXml(clone, xmlDoc)
                                         .setSpecLine(contentSpec.length - 1);
 
                                     if (id) {
@@ -875,7 +905,7 @@
                                     // to represent it
                                     if (clone.childNodes.length !== 0) {
                                         var initialTextTopic = new global.SpecTopic()
-                                            .setXml(clone)
+                                            .setXml(clone, xmlDoc)
                                             .setSpecLine(contentSpec.length - 1);
 
                                         if (id) {
@@ -903,7 +933,7 @@
 
                 processXml(xmlDoc.documentElement, null, 0);
 
-                global.jQuery.each(contentSpec, function(index, value){
+                global.jQuery.each(contentSpec, function(index, value) {
                    console.log(value);
                 });
 
@@ -914,9 +944,166 @@
                 resolveXRefs(xmlDoc, contentSpec, topics, containers);
             };
 
+            /*
+                This is the tricky part. We need to have all xrefs resolved before saving so PressGang can match the
+                xml to any existing topics. But sometimes xrefs make circular dependencies, which means there
+                will be situations where xrefs remain unresolved.
+
+                To work around this we attempt to resolve any xrefs that we can, save the topics, and then repeat
+                the process until every topic not part of a circular dependency is saved. At that point we get
+                fuzzy matches from the server to try and break a link in a circular dependency.
+             */
             var resolveXRefs = function (xmlDoc, contentSpec, topics, containers) {
 
+                var getUnresolvedTopics = function () {
+                    var retValue = [];
+                    global.jQuery.each(topics, function (index, value) {
+                        if (!value.xrefsResolved) {
+                            retValue.push(value);
+                        }
+                    });
+                    return retValue;
+                };
+
+                var getSavedTopics = function () {
+                    var retValue = [];
+                    global.jQuery.each(topics, function (index, value) {
+                        if (value.topicId) {
+                            retValue.push(value);
+                        }
+                    });
+                    return retValue;
+                };
+
+                var getTopicThatHasID = function (id) {
+                    var retValue;
+                    global.jQuery.each(topics, function (index, value) {
+                        if (value.id === id) {
+                            retValue = value;
+                            return false;
+                        }
+                    });
+
+                    return retValue;
+                }
+
+                var getAllTopicOrContainerIDs = function () {
+                    var retValue = [];
+                    global.jQuery.each(topics, function (index, value) {
+                        if (retValue.indexOf(value.id) !== -1) {
+                            retValue.push(value.id);
+                        }
+                    });
+                    return retValue;
+                };
+
+                var topicOrContainerIDs = getAllTopicOrContainerIDs();
+
+                var saveTopicsWithAllXrefsJustResolved = function (index, successCallback) {
+                    if (index > topics.length) {
+                        successCallback();
+                    } else {
+                        var topic = topics[index];
+                        if (!topic.xrefsResolved) {
+
+                            // is every resolvable xref resolved?
+                            var topicIsResolved = true;
+                            global.jQuery.each(topic.xrefs, function (index, xref) {
+                                if (topicOrContainerIDs.indexOf(xref) !== -1 &&
+                                    topic.resolvedXRefs.indexOf(xref) === -1) {
+                                    topicIsResolved = false;
+                                    return false;
+                                }
+                            });
+
+                            // if so, we can save this topic
+                            if (topicIsResolved) {
+                                topic.xrefsResolved = true;
+                                createTopic(
+                                    topic.xml,
+                                    replacements,
+                                    null,
+                                    null,
+                                    config,
+                                    function (topicId, matchedExisting) {
+                                        config.UploadedTopicCount += 1;
+                                        if (matchedExisting) {
+                                            config.MatchedTopicCount += 1;
+                                        }
+
+                                        contentSpec[topic.specLine] += " [" + topicId + "]";
+
+                                        saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
+                                    },
+                                    errorCallback
+                                );
+                            } else {
+                                saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
+                            }
+                        }
+                    }
+                };
+
+                // replace any xrefs with injection points where the xrefs point to topics that have been
+                // saved on the server and have an ID.
+                var resolveAvailableXRefs = function () {
+                    var resolvedAXref = false;
+                    var resolvedTopics = getSavedTopics();
+                    global.jQuery.each(getUnresolvedTopics(), function (index, value) {
+                        var xrefs = xmlDoc.evaluate("xref", value.xml, null, global.XPathResult.ANY_TYPE, null);
+                        var xref;
+                        while (xref = xrefs.iterateNext()) {
+
+                            if (xref.hasAttribute("linkend")) {
+                                var linkend = xref.getAttribute("linkend");
+                                // is this an xref to a topic
+                                if (topicOrContainerIDs.indexOf(linkend) !== -1) {
+                                    var destinationTopic = getTopicThatHasID(linkend);
+                                    // has the topic been saved?
+                                    if (resolvedTopics.indexOf(destinationTopic) !== -1) {
+                                        // we are pointing to a saved topic, so replace the xref with an injection
+                                        var injection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
+                                        xref.parentNode.replaceChild(injection, xref);
+                                        value.addResolvedXRef(linkend);
+                                        resolvedAXref = true;
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    return resolvedAXref;
+                };
+
+                // start by saving any topics that don't have xrefs. This gives us a pool of topics
+                // to start resolving xrefs with
+                saveTopicsWithAllXrefsJustResolved(0, function() {
+                    var processXrefLoop = function () {
+                        while (resolveAvailableXRefs()) {
+                            // keep resolving
+                        }
+
+                        // save any topics that were fully resolved
+                        saveTopicsWithAllXrefsJustResolved(0, function () {
+                            if (getUnresolvedTopics().length !== 0) {
+
+                                // find fuzzy match to break circular references
+
+                                processXrefLoop();
+                            } else {
+                                config.UploadProgress[1] = 13;
+                                config.ResolvedXrefs = true;
+                                resultCallback();
+                                uploadContentSpec(contentSpec);
+                            }
+                        });
+                    };
+                });
             };
+
+            var uploadContentSpec = function (contentSpec) {
+
+            }
 
             // start the process
             resolveXiIncludes();

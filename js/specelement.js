@@ -22,13 +22,36 @@
 
     global.SpecTopic = function () {
         this.saved = false;
+        this.xrefsResolved = false;
+        this.resolvedXRefs = [];
         return this;
     };
 
-    global.SpecTopic.prototype.setXml = function (xml) {
+    global.SpecTopic.prototype.setXRefsResolved = function (xrefsResolved) {
+        this.xrefsResolved = xrefsResolved;
+    };
+
+    global.SpecTopic.prototype.setXml = function (xml, xmlDoc) {
         this.xml = xml;
+
+        // find any
+        var xrefsTargets = [];
+        var xrefs = xmlDoc.evaluate("xref", xml, null, global.XPathResult.ANY_TYPE, null);
+        var xref;
+        while (xref = xrefs.iterateNext()) {
+            if (xref.hasAttribute("linkend")) {
+                var linkend = xref.getAttribute("linkend");
+                if (xrefsTargets.indexOf(linkend) === -1) {
+                    xrefsTargets.push(linkend);
+                }
+            }
+        }
+
+        this.setXRefs(xrefsTargets);
+
         return this;
     };
+
 
     global.SpecTopic.prototype.setTopicId = function (topicId) {
         this.topicId = topicId;
@@ -52,6 +75,18 @@
 
     global.SpecTopic.prototype.setSpecLine = function (specLine) {
         this.specLine = specLine;
+        return this;
+    };
+
+    global.SpecTopic.prototype.setResolvedXRefs = function (resolvedXRefs) {
+        this.resolvedXRefs = resolvedXRefs;
+        return this;
+    };
+
+    global.SpecTopic.prototype.addResolvedXRef = function (resolvedXRef) {
+        if (this.resolvedXRefs.indexOf(resolvedXRef) === -1) {
+            this.resolvedXRefs.push(resolvedXRef);
+        }
         return this;
     };
 
