@@ -1156,26 +1156,36 @@
                 var normalizeInjections = function (xml, topicAndContainerIDs) {
                     var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
+                    var commentReplacements = [];
                     while (comment = comments.iterateNext()) {
                         if (/^\s*Inject\s*:\s*\d+\s*$/.test(comment.textContent)) {
                             var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
-                            comment.parentNode.replaceChild(commentReplacement, comment);
+                            commentReplacements.push({original: comment, replacement: commentReplacement});
                         }
                     }
+
+                    global.jQuery.each(commentReplacements, function (index, value) {
+                        value.original.parentNode.replaceChild(value.replacement, value.original);
+                    });
                 };
 
                 var normalizeXrefs = function (xml, topicAndContainerIDs) {
                     var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
+                    var xrefReplacements = [];
                     while (xref = xrefs.iterateNext()) {
                         if (xref.hasAttribute("linkend")) {
                             var linkend = xref.getAttribute("linkend");
                             if (topicAndContainerIDs.indexOf(linkend) !== -1) {
                                 var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
-                                xref.parentNode.replaceChild(xrefReplacement, xref);
+                                xrefReplacements.push({original: xref, replacement: xrefReplacement});
                             }
                         }
                     }
+
+                    global.jQuery.each(xrefReplacements, function (index, value) {
+                        value.original.parentNode.replaceChild(value.replacement, value.original);
+                    });
                 };
 
 
