@@ -678,7 +678,7 @@
                             contentSpec.push(text);
                             contentSpec.push("]");
 
-                            config.UploadProgress[1] = 7;
+                            config.UploadProgress[1] = 6;
                             config.FoundBookInfo = true;
                             resultCallback();
 
@@ -696,7 +696,7 @@
                 var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 8;
+                    config.UploadProgress[1] = 7;
                     config.FoundRevisionHistory = true;
                     resultCallback();
                     extractAuthorGroup(xmlDoc, contentSpec);
@@ -733,7 +733,7 @@
                 var authorGroup = xmlDoc.evaluate("//authorgroup", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 9;
+                    config.UploadProgress[1] = 8;
                     config.FoundAuthorGroup = true;
                     resultCallback();
 
@@ -771,7 +771,7 @@
                 var abstractContent = xmlDoc.evaluate("//bookinfo/abstract", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 10;
+                    config.UploadProgress[1] = 9;
                     config.FoundAbstract = true;
                     resultCallback();
 
@@ -858,7 +858,7 @@
                             processImages(images.iterateNext());
                         }
                     } else {
-                        config.UploadProgress[1] = 11;
+                        config.UploadProgress[1] = 10;
                         config.FoundImages = true;
                         resultCallback();
 
@@ -980,7 +980,7 @@
 
                 processXml(xmlDoc.documentElement, null, 0);
 
-                config.UploadProgress[1] = 12;
+                config.UploadProgress[1] = 11;
                 config.ResolvedBookStructure = true;
                 resultCallback();
 
@@ -1301,7 +1301,7 @@
                                     errorCallback
                                 );
                             } else {
-                                config.UploadProgress[1] = 13;
+                                config.UploadProgress[1] = 12;
                                 config.ResolvedXrefs = true;
                                 resultCallback();
                                 uploadContentSpec(contentSpec, config);
