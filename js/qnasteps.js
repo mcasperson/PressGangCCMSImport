@@ -1167,6 +1167,8 @@
                     global.jQuery.each(commentReplacements, function (index, value) {
                         value.original.parentNode.replaceChild(value.replacement, value.original);
                     });
+
+                    return xml;
                 };
 
                 var normalizeXrefs = function (xml, topicAndContainerIDs) {
@@ -1186,9 +1188,9 @@
                     global.jQuery.each(xrefReplacements, function (index, value) {
                         value.original.parentNode.replaceChild(value.replacement, value.original);
                     });
+
+                    return xml;
                 };
-
-
 
                 var removeEntities = function (xml) {
                     return xml.replace(/&.*?;/g, "");
