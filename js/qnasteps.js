@@ -1124,6 +1124,7 @@
                     global.jQuery.each(unresolvedTopics, function (index, value) {
                         var xrefs = xmlDoc.evaluate("//xref", value.xml, null, global.XPathResult.ANY_TYPE, null);
                         var xref;
+                        var xrefReplacements = [];
                         while (xref = xrefs.iterateNext()) {
 
                             if (xref.hasAttribute("linkend")) {
@@ -1135,13 +1136,18 @@
                                     if (resolvedTopics.indexOf(destinationTopic) !== -1) {
                                         // we are pointing to a saved topic, so replace the xref with an injection
                                         var injection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
-                                        xref.parentNode.replaceChild(injection, xref);
+                                        xrefReplacements.push({original: xref, replacement: injection});
+
                                         value.addResolvedXRef(linkend);
                                         resolvedAXref = true;
                                     }
                                 }
                             }
                         }
+
+                        global.jQuery.each(xrefReplacements, function (index, value) {
+                            value.original.parentNode.replaceChild(value.replacement, value.original);
+                        });
                     });
 
                     return resolvedAXref;
