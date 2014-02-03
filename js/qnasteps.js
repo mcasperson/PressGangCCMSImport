@@ -162,6 +162,22 @@
         });
     }
 
+    function getSimilarTopics(xml, config, successCallback, errorCallback) {
+        global.jQuery.ajax({
+            type: 'POST',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/minhashsimilar/get/json?threshold=0.6&expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
+            data: xml,
+            contentType: "application/xml",
+            dataType: "json",
+            success: function (data) {
+                successCallback(data);
+            },
+            error: function () {
+                errorCallback("Connection Error", "An error occurred while getting similar topics.");
+            }
+        });
+    }
+
     function updateTopic(id, xml, replacements, title, config, successCallback, errorCallback) {
 
         var postBody = {
@@ -1122,6 +1138,31 @@
                     return resolvedAXref;
                 };
 
+                var normalizeInjections = function (xml, topicAndContainerIDs) {
+                    var comments = xmlDoc.evaluate("comment()", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var comment;
+                    while (comment = comments.iterateNext()) {
+                        if (/^\s*Inject\s*:\s*\d+\s*$/.test(comment.textContent)) {
+                            var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
+                            comment.parentNode.replaceChild(commentReplacement, comment);
+                        }
+                    }
+                }
+
+                var normalizeXrefs = function (xml, topicAndContainerIDs) {
+                    var xrefs = xmlDoc.evaluate("xref", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var xref;
+                    while (xref = xrefs.iterateNext()) {
+                        if (xref.hasAttribute("linkend")) {
+                            var linkend = xref.getAttribute("linkend");
+                            if (topicAndContainerIDs.indexOf(linkend) !== -1) {
+                                var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
+                                xref.parentNode.replaceChild(xrefReplacement, xref);
+                            }
+                        }
+                    }
+                };
+
                 // start by saving any topics that don't have xrefs. This gives us a pool of topics
                 // to start resolving xrefs with
                 saveTopicsWithAllXrefsJustResolved(0, function() {
@@ -1134,7 +1175,28 @@
                         saveTopicsWithAllXrefsJustResolved(0, function () {
                             if (getUnresolvedTopics().length !== 0) {
 
-                                // find fuzzy match to break circular references
+                                // we'll save the first unresolved topic to attempt to break the deadlock
+                                var firstUnresolvedTopic = getUnresolvedTopics()[0];
+
+                                // normalize injections and xrefs
+                                var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
+                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy));
+
+                                // find anything in the database that is a close match to this topic
+                                var matches = getSimilarTopics(
+                                    xmlToString(firstUnresolvedTopic.xml),
+                                    config,
+                                    function (data) {
+                                        var matchingTopic;
+
+                                        global.jQuery.each(data.items, function (index, value) {
+                                            // normalize injections and xrefs
+                                            var matchingTopicXMLCopy = value.xml.cloneNode(true);
+                                            normalizeInjections(matchingTopicXMLCopy);
+                                        });
+                                    },
+                                    errorCallback
+                                );
 
                                 processXrefLoop();
                             } else {
