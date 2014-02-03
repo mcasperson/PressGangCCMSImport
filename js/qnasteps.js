@@ -1200,7 +1200,7 @@
 
                 var removeEntityReplacements = function (xml) {
                     global.jQuery.each(replacements, function (index, value) {
-                        xml = xml.replace(new RegExp(global.escapeRegExp(value.placeholder), "g", "");
+                        xml = xml.replace(new RegExp(global.escapeRegExp(value.placeholder), "g"), "");
                     });
                     return xml;
                 };
