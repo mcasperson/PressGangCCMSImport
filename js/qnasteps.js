@@ -451,7 +451,7 @@
                         .setIntro("Progress")
                         .setName("UploadProgress")
                         // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
-                        .setValue([11, 0])
+                        .setValue([13, 0])
                 ])
         ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
