@@ -1194,13 +1194,13 @@
                     return xml;
                 };
 
-                var removeEntities = function (xml) {
-                    return xml.replace(/&.*?;/g, "");
+                var normalizeEntities = function (xml) {
+                    return xml.replace(/&.*?;/g, "#Entity#");
                 };
 
-                var removeEntityReplacements = function (xml) {
+                var normalizeEntityReplacements = function (xml) {
                     global.jQuery.each(replacements, function (index, value) {
-                        xml = xml.replace(new RegExp(global.escapeRegExp(value.placeholder), "g"), "");
+                        xml = xml.replace(new RegExp(global.escapeRegExp(value.placeholder), "g"), "#Entity#");
                     });
                     return xml;
                 };
@@ -1236,7 +1236,7 @@
                             var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
                             normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy, xmlDoc), topicOrContainerIDs);
 
-                            var firstUnresolvedTopicXMLCompare = removeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
+                            var firstUnresolvedTopicXMLCompare = normalizeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
                             /*
                                 Loop over each similar topic and return the first one that has the same XML when
@@ -1247,7 +1247,7 @@
 
                                 global.jQuery.each(data.items, function (index, value) {
                                     // normalize injections and xrefs
-                                    var matchingTopicXMLCopy = global.jQuery.parseXML(removeEntities(value.item.xml));
+                                    var matchingTopicXMLCopy = global.jQuery.parseXML(normalizeEntities(value.item.xml));
                                     normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
 
                                     var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
@@ -1270,7 +1270,15 @@
 
                                     if (matchingTopic) {
                                         firstUnresolvedTopic.topicId = matchingTopic.id;
-                                        firstUnresolvedTopic.xml = global.jQuery.parseXML(matchingTopic.xml);
+                                        /*
+                                            Normally the xml is a DOM, not a string. But parsing the xml of an
+                                            existing topic could lead to validation errors with unresolved entities.
+                                            The xml is only used when creating or updating a topic, which we don't
+                                            do when the topic has been matched (i.e. when topicId is defined and
+                                            xrefsResolved is true), so we assign the text xml here for testing
+                                            only.
+                                         */
+                                        firstUnresolvedTopic.xml = matchingTopic.xml;
                                         firstUnresolvedTopic.xrefsResolved = true;
                                         resolveXrefsLoop();
                                     } else {
@@ -1285,7 +1293,7 @@
                                                 if (matchedExisting) {
                                                     config.MatchedTopicCount += 1;
                                                 }
-                                                config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                                                config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
                                                 resultCallback();
 
                                                 firstUnresolvedTopic.topicId = topicId;
