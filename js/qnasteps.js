@@ -559,27 +559,27 @@
                     var productnumber = xmlDoc.evaluate("productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (title) {
-                        contentSpec.push("Title = " + xmlToString(title));
+                        contentSpec.push("Title = " + reencode(title.textContent, replacements));
                     }
 
                     if (subtitle) {
-                        contentSpec.push("Subtitle = " + xmlToString(subtitle));
+                        contentSpec.push("Subtitle = " + reencode(title.textContent, subtitle));
                     }
 
                     if (edition) {
-                        contentSpec.push("Edition = " + xmlToString(edition));
+                        contentSpec.push("Edition = " + reencode(title.textContent, edition));
                     }
 
                     if (pubsnumber) {
-                        contentSpec.push("Pubsnumber = " + xmlToString(pubsnumber));
+                        contentSpec.push("Pubsnumber = " + reencode(title.textContent, pubsnumber));
                     }
 
                     if (productname) {
-                        contentSpec.push("Product = " + xmlToString(productname));
+                        contentSpec.push("Product = " + reencode(title.textContent, productname));
                     }
 
                     if (productnumber) {
-                        contentSpec.push("Version = " + xmlToString(productnumber));
+                        contentSpec.push("Version = " + reencode(title.textContent, productnumber));
                     }
 
                     contentSpec.push("DTD = Docbook 4.5");
