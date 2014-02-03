@@ -1218,7 +1218,7 @@
 
                                 // normalize injections and xrefs
                                 var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
-                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy));
+                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy), topicOrContainerIDs);
 
                                 var firstUnresolvedTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
