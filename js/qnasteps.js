@@ -1093,6 +1093,7 @@
                                                 config.MatchedTopicCount += 1;
                                             }
 
+                                            topic.topicId = topicId;
                                             contentSpec[topic.specLine] += " [" + topicId + "]";
 
                                             saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
@@ -1147,7 +1148,7 @@
                             comment.parentNode.replaceChild(commentReplacement, comment);
                         }
                     }
-                }
+                };
 
                 var normalizeXrefs = function (xml, topicAndContainerIDs) {
                     var xrefs = xmlDoc.evaluate("xref", xml, null, global.XPathResult.ANY_TYPE, null);
@@ -1161,6 +1162,21 @@
                             }
                         }
                     }
+                };
+
+                var removeIdAttribute = function (xml) {
+                    if (xml.hasAttribute("id")) {
+                        xml.removeAttribute("id");
+                    }
+                };
+
+                var removeEntities = function (xml) {
+                    return xml.replace(/&.*?;/g, "");
+                };
+
+                var removeWhiteSpace = function (xml) {
+                    return xml.replace(/\n/g, "")
+                        .replace(/\s/g, "");
                 };
 
                 // start by saving any topics that don't have xrefs. This gives us a pool of topics
@@ -1180,7 +1196,9 @@
 
                                 // normalize injections and xrefs
                                 var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
-                                normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy));
+                                normalizeXrefs(normalizeInjections(removeIdAttribute(firstUnresolvedTopicXMLCopy)));
+
+                                var firstUnresolvedTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
 
                                 // find anything in the database that is a close match to this topic
                                 var matches = getSimilarTopics(
@@ -1193,7 +1211,40 @@
                                             // normalize injections and xrefs
                                             var matchingTopicXMLCopy = value.xml.cloneNode(true);
                                             normalizeInjections(matchingTopicXMLCopy);
+
+                                            var matchingTopicXMLCompare = removeEntities(removeWhiteSpace(xmlToString(matchingTopicXMLCopy)));
+
+                                            if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
+                                                matchingTopic = value;
+                                                return false;
+                                            }
                                         });
+
+                                        if (matchingTopic) {
+                                            firstUnresolvedTopic.topicId = matchingTopic.id;
+                                            firstUnresolvedTopic.xrefsResolved = true;
+                                            processXrefLoop();
+                                        } else {
+                                            createTopic(
+                                                firstUnresolvedTopic.xml,
+                                                replacements,
+                                                null,
+                                                null,
+                                                config,
+                                                function (topicId, matchedExisting) {
+                                                    config.UploadedTopicCount += 1;
+                                                    if (matchedExisting) {
+                                                        config.MatchedTopicCount += 1;
+                                                    }
+
+                                                    firstUnresolvedTopic.topicId = topicId;
+                                                    contentSpec[firstUnresolvedTopic.specLine] += " [" + topicId + "]";
+
+                                                    processXrefLoop();
+                                                },
+                                                errorCallback
+                                            );
+                                        }
                                     },
                                     errorCallback
                                 );

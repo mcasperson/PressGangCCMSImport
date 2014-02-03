@@ -21,7 +21,6 @@
     };
 
     global.SpecTopic = function () {
-        this.saved = false;
         this.xrefsResolved = false;
         this.resolvedXRefs = [];
         return this;
@@ -55,11 +54,6 @@
 
     global.SpecTopic.prototype.setTopicId = function (topicId) {
         this.topicId = topicId;
-        return this;
-    };
-
-    global.SpecTopic.prototype.setSaved = function (saved) {
-        this.saved = saved;
         return this;
     };
 
