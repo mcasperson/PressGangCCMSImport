@@ -113,6 +113,38 @@
         );
     }
 
+    function createContentSpec(spec, config, successCallback, errorCallback) {
+        global.jQuery.ajax({
+            type: 'POST',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/create/text?message=Initial+Topic+Creation&flag=2&userId=89',
+            data: spec,
+            contentType: "text/plain",
+            dataType: "json",
+            success: function (data) {
+                successCallback(data.id);
+            },
+            error: function () {
+                errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+            }
+        });
+    }
+
+    function updateContentSpec(id, spec, config, successCallback, errorCallback) {
+        global.jQuery.ajax({
+            type: 'POST',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/text/' + id + '?message=Initial+Topic+Creation&flag=2&userId=89',
+            data: spec,
+            contentType: "text/plain",
+            dataType: "json",
+            success: function (data) {
+                successCallback(data.id);
+            },
+            error: function () {
+                errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+            }
+        });
+    }
+
     function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
 
         var postBody = {
@@ -157,7 +189,7 @@
                 successCallback(data.topic.id, data.matchedExistingTopic);
             },
             error: function () {
-                errorCallback("Connection Error", "An error occurred while uploading the revision history topic.");
+                errorCallback("Connection Error", "An error occurred while uploading the topic.");
             }
         });
     }
@@ -339,10 +371,7 @@
         });
 
     var getExistingContentSpecID = new global.QNAStep()
-        .setTitle("Create or overwrite a content spec?")
-        .setIntro("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
-            "You will usually want to create a new content specification, but if you are reimporting a book and want to overwrite the previously imported content spec, " +
-            "select the overwrite option.")
+        .setTitle("Specify the ID of the content specification to overwrite")
         .setInputs([
             new global.QNAVariables()
                 .setVariables([
@@ -628,12 +657,12 @@
 
                 var bookinfo = xmlDoc.evaluate("/*/bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                 if (bookinfo) {
-                    var title = xmlDoc.evaluate("/title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var subtitle = xmlDoc.evaluate("/subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var edition = xmlDoc.evaluate("/edition", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var pubsnumber = xmlDoc.evaluate("/pubsnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var productname = xmlDoc.evaluate("/productname", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var productnumber = xmlDoc.evaluate("/productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var title = xmlDoc.evaluate("title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var subtitle = xmlDoc.evaluate("subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var edition = xmlDoc.evaluate("edition", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var pubsnumber = xmlDoc.evaluate("pubsnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productname = xmlDoc.evaluate("productname", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productnumber = xmlDoc.evaluate("productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (title) {
                         contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));
@@ -1280,6 +1309,7 @@
                                          */
                                         firstUnresolvedTopic.xml = matchingTopic.xml;
                                         firstUnresolvedTopic.xrefsResolved = true;
+                                        contentSpec[firstUnresolvedTopic.specLine] += " [" + matchingTopic.id + "]";
                                         resolveXrefsLoop();
                                     } else {
                                         createTopic(
@@ -1320,10 +1350,33 @@
             };
 
             var uploadContentSpec = function (contentSpec, config) {
+                var compiledContentSpec = "";
                 global.jQuery.each(contentSpec, function(index, value) {
                     console.log(value);
+                    compiledContentSpec += value + "\n";
                 });
-            }
+
+                function contentSpecSaveSuccess(id) {
+                    console.log(id);
+                };
+
+                if (config.ExistingContentSpecID) {
+                    updateContentSpec(
+                        ExistingContentSpecID,
+                        compiledContentSpec,
+                        config,
+                        contentSpecSaveSuccess,
+                        errorCallback
+                    );
+                } else {
+                    createContentSpec(
+                        compiledContentSpec,
+                        config,
+                        contentSpecSaveSuccess,
+                        errorCallback
+                    );
+                }
+            };
 
             // start the process
             resolveXiIncludes();
