@@ -15,7 +15,8 @@
         COMBOBOX: 5,
         LISTBOX: 6,
         PROGRESS: 7,
-        PLAIN_TEXT: 8
+        PLAIN_TEXT: 8,
+        HTML: 9
     });
 
 

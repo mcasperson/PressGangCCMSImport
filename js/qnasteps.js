@@ -1428,9 +1428,12 @@
             new global.QNAVariables()
                 .setVariables([
                     new global.QNAVariable()
-                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setType(global.InputEnum.HTML)
                         .setIntro("Content Specification ID")
-                        .setName("ContentSpecID"),
+                        .setName("ContentSpecIDLink")
+                        .setValue(function (resultCallback, errorCallback, result, config) {
+                            resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a>");
+                        }),
                     new global.QNAVariable()
                         .setType(global.InputEnum.PLAIN_TEXT)
                         .setIntro("Topics Created / Topics Reused")

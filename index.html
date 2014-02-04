@@ -5,6 +5,7 @@
         <script src="js/jquery/jquery-2.1.0.min.js"></script>
         <script src="js/wgxpath/wgxpath.install.js"></script>
         <script src="js/angular/angular.min.js"></script>
+        <script src="js/angular/angular-sanitize.js"></script>
         <script src="js/angularfileupload/angular-file-upload.min.js"></script>
         <script src="js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
         <script src="js/zip/zip.js"></script>
@@ -16,7 +17,7 @@
         <script src="js/specelement.js"></script>
         <script src="js/qnasteps.js"></script>
         <script type="application/javascript">
-            angular.module('qna', ['ui.bootstrap', 'angularFileUpload']);
+            angular.module('qna', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize']);
             wgxpath.install();
         </script>
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -163,6 +164,14 @@
                                 <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                 <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     {{qna.config[variable.processedName]}}
+                                </div>
+                            </div>
+
+                            <!-- HTML -->
+                            <div class="col-lg-12" ng-if="variable.processedType == inputTypes.HTML">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-bind-html="qna.config[variable.processedName]" ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+
                                 </div>
                             </div>
 
