@@ -139,15 +139,15 @@
 
     function updateContentSpec(id, spec, config, successCallback, errorCallback) {
         var postBody = {
-            text: spec,
+            text: "ID = " + id + "\n" + spec,
             configuredParameters: [
-                "text",
+                "text"
             ]
         };
 
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/json+text/' + id + '?message=Initial+Topic+Creation&flag=2&userId=89',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/json+text/?message=Initial+Topic+Creation&flag=2&userId=89',
             data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",
