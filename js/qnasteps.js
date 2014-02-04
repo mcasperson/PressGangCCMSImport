@@ -26,7 +26,7 @@
         global.jQuery.each(lines, function (index, value) {
             var keyValue = value.split(":");
             if (keyValue.length === 2) {
-                if (new RegExp(global.escapeRegExp(setting)).test(keyValue[0].trim())) {
+                if (new RegExp(global.escapeRegExp(setting.trim())).test(keyValue[0].trim())) {
                     return keyValue[1].trim();
                 }
             }
@@ -733,7 +733,7 @@
                         config.ZipFile,
                         "publican.cfg",
                         function (text) {
-                            var brand = loadSetting(text, "brand\\s*:");
+                            var brand = loadSetting(text, "brand");
                             contentSpec.push("Brand = " + brand);
                             contentSpec.push("publican.cfg = [");
                             contentSpec.push(text);
