@@ -1348,7 +1348,7 @@
 
                                     var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
 
-                                    console.log(matchingTopicXMLCompare);
+                                    //console.log(matchingTopicXMLCompare);
 
                                     if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
                                         matchingTopic = value.item;
@@ -1364,7 +1364,7 @@
                                 xmlToString(firstUnresolvedTopic.xml),
                                 config,
                                 function (data) {
-                                    console.log(firstUnresolvedTopicXMLCompare);
+                                    //console.log(firstUnresolvedTopicXMLCompare);
                                     var matchingTopic = testTopicAgainstCloseMatch(firstUnresolvedTopicXMLCompare, data);
 
                                     if (matchingTopic) {
