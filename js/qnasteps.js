@@ -1428,7 +1428,15 @@
                     new global.QNAVariable()
                         .setType(global.InputEnum.PLAIN_TEXT)
                         .setIntro("Content Specification ID")
-                        .setName("ContentSpecID")
+                        .setName("ContentSpecID"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Topics Created / Topics Reused")
+                        .setName("NewTopicsCreated"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Images Created / Images Reused")
+                        .setName("NewImagesCreated")
                 ])
         ]);
 
