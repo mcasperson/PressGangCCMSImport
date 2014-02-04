@@ -22,15 +22,18 @@
     var zip = new global.QNAZipModel();
 
     function loadSetting(file, setting) {
+        var retValue;
         var lines = file.split("\n");
         global.jQuery.each(lines, function (index, value) {
             var keyValue = value.split(":");
             if (keyValue.length === 2) {
                 if (new RegExp(global.escapeRegExp(setting.trim())).test(keyValue[0].trim())) {
-                    return keyValue[1].trim();
+                    retValue = keyValue[1].trim();
+                    return false;
                 }
             }
         });
+        return retValue;
     }
 
     function xmlToString(xmlDoc) {
@@ -118,7 +121,7 @@
         var postBody = {
             text: spec,
             configuredParameters: [
-                "text",
+                "text"
             ]
         };
 
