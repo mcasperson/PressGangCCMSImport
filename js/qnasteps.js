@@ -114,11 +114,19 @@
     }
 
     function createContentSpec(spec, config, successCallback, errorCallback) {
+
+        var postBody = {
+            text: spec,
+            configuredParameters: [
+                "text",
+            ]
+        };
+
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/create/text?message=Initial+Topic+Creation&flag=2&userId=89',
-            data: spec,
-            contentType: "text/plain",
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/create/json+text?message=Initial+Topic+Creation&flag=2&userId=89',
+            data: JSON.stringify(postBody),
+            contentType: "application/json",
             dataType: "json",
             success: function (data) {
                 successCallback(data.id);
@@ -130,11 +138,18 @@
     }
 
     function updateContentSpec(id, spec, config, successCallback, errorCallback) {
+        var postBody = {
+            text: spec,
+            configuredParameters: [
+                "text",
+            ]
+        };
+
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/text/' + id + '?message=Initial+Topic+Creation&flag=2&userId=89',
-            data: spec,
-            contentType: "text/plain",
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/json+text/' + id + '?message=Initial+Topic+Creation&flag=2&userId=89',
+            data: JSON.stringify(postBody),
+            contentType: "application/json",
             dataType: "json",
             success: function (data) {
                 successCallback(data.id);
@@ -1376,6 +1391,9 @@
 
                 function contentSpecSaveSuccess(id) {
                     console.log(id);
+                    config.UploadProgress[1] = 13;
+                    config.UploadedContentSpecification = true;
+                    resultCallback();
                 };
 
                 if (config.ExistingContentSpecID) {
