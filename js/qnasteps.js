@@ -527,7 +527,7 @@
              * A collection of entity definitions
              * @type {Array}
              */
-            var entities = [];
+
             var replacements = [];
 
             /*
@@ -618,6 +618,8 @@
              entity files, so we just do a brute force search.
              */
             var findEntities = function (xmlText) {
+                var entities = [];
+
                 var relativePath = "";
                 var lastIndexOf;
                 if ((lastIndexOf = config.MainXMLFile.lastIndexOf("/")) !== -1) {
@@ -632,14 +634,21 @@
                             config.FoundEntityDefinitions = true;
                             resultCallback();
 
-                            removeXmlPreamble(xmlText);
+                            removeXmlPreamble(xmlText, entities);
                         } else {
                             var value = entries[index];
                             if (value.filename.indexOf(relativePath) === 0) {
                                 zip.getTextFromFile(value, function (fileText) {
-                                    var entityDefRE = /<!ENTITY\s+[^\s]+\s+('|").*?('|")\s*>/g;
+                                    var entityDefDoubleQuoteRE = /<!ENTITY\s+[^\s]+\s+".*?"\s*>/g;
+                                    var entityDefSingleQuoteRE = /<!ENTITY\s+[^\s]+\s+'.*?'\s*>/g;
                                     var match;
-                                    while (match = entityDefRE.exec(fileText)) {
+                                    while (match = entityDefDoubleQuoteRE.exec(fileText)) {
+                                        if (entities.indexOf(match[0]) === -1) {
+                                            entities.push(match[0]);
+                                        }
+                                    }
+
+                                    while (match = entityDefSingleQuoteRE.exec(fileText)) {
                                         if (entities.indexOf(match[0]) === -1) {
                                             entities.push(match[0]);
                                         }
@@ -663,7 +672,7 @@
              with no entities, dtds or anything else that make life hard when
              trying to parse XML.
              */
-            var removeXmlPreamble = function (xmlText) {
+            var removeXmlPreamble = function (xmlText, entities) {
                 xmlText = xmlText.replace(/<\?xml.*?>/g, "");
                 xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?\[[\s\S]*?\]>/g, "");
 
@@ -671,25 +680,25 @@
                 config.RemovedXMLPreamble = true;
                 resultCallback();
 
-                parseAsXML(xmlText);
+                parseAsXML(xmlText, entities);
             };
 
             /*
              Take the sanitised XML and convert it to an actual XML DOM
              */
-            var parseAsXML = function (xmlText) {
+            var parseAsXML = function (xmlText, entities) {
                 var xmlDoc = global.jQuery.parseXML(xmlText);
                 config.UploadProgress[1] = 5;
                 config.ParsedAsXML = true;
                 resultCallback();
 
-                findBookInfo(xmlDoc);
+                findBookInfo(xmlDoc, entities);
             };
 
             /*
                 Find the book info details
              */
-            var findBookInfo = function (xmlDoc) {
+            var findBookInfo = function (xmlDoc, entities) {
                 // the content spec
                 var contentSpec = [];
 
@@ -733,6 +742,15 @@
                         contentSpec.push("Type = Book");
                     } else if (xmlDoc.documentElement.nodeName === "article") {
                         contentSpec.push("Type = Article");
+                    }
+
+                    if (entities.length !== 0) {
+                        contentSpec.push("Entities = [");
+                        global.jQuery.each(entities, function(index, value){
+                            contentSpec.push(value);
+                        });
+
+                        contentSpec.push("]");
                     }
 
                     zip.getTextFromFileName(
