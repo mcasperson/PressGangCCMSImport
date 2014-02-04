@@ -164,19 +164,24 @@
         });
     }
 
+    function setDocumentNodeToSection (xmlText) {
+        if (xmlText.indexOf("<chapter>") === 0) {
+            xmlText = xmlText.replace(/^<chapter>/, "<section>");
+            xmlText = xmlText.replace(/<\/chapter>$/, "</section>");
+        } else if (xmlText.indexOf("<appendix>") === 0) {
+            xmlText = xmlText.replace(/^<appendix>/, "<section>");
+            xmlText = xmlText.replace(/<\/appendix>$/, "</section>");
+        } else if (xmlText.indexOf("<part>") === 0) {
+            xmlText = xmlText.replace(/^<part>/, "<section>");
+            xmlText = xmlText.replace(/<\/part>$/, "</section>");
+        }
+
+        return xmlText;
+    }
+
     function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
 
-        var fixedXML =  reencode(xmlToString(xml), replacements).trim();
-        if (fixedXML.indexOf("<chapter>") === 0) {
-            fixedXML = fixedXML.replace(/^<chapter>/, "<section>");
-            fixedXML = fixedXML.replace(/<\/chapter>$/, "</section>");
-        } else if (fixedXML.indexOf("<appendix>") === 0) {
-            fixedXML = fixedXML.replace(/^<appendix>/, "<section>");
-            fixedXML = fixedXML.replace(/<\/appendix>$/, "</section>");
-        } else if (fixedXML.indexOf("<part>") === 0) {
-            fixedXML = fixedXML.replace(/^<part>/, "<section>");
-            fixedXML = fixedXML.replace(/<\/part>$/, "</section>");
-        }
+        var fixedXML =  setDocumentNodeToSection(reencode(xmlToString(xml), replacements).trim());
 
         var postBody = {
             xml: fixedXML,
@@ -1327,7 +1332,7 @@
                             var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
                             normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy, xmlDoc), topicOrContainerIDs);
 
-                            var firstUnresolvedTopicXMLCompare = normalizeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy)));
+                            var firstUnresolvedTopicXMLCompare = setDocumentNodeToSection(normalizeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy))));
 
                             /*
                                 Loop over each similar topic and return the first one that has the same XML when
