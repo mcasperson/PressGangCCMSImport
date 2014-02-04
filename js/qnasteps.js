@@ -411,6 +411,8 @@
         .setProcessStep(function (resultCallback, errorCallback, result, config) {
             if (!/\d+/.test(config.ExistingContentSpecID)) {
                 errorCallback("Invalid Content Specification ID", "You need to enter a valid content specification id. The ID is a sequence of numbers, like 12321.");
+            } else {
+                resultCallback(null);
             }
         })
         .setNextStep(function (resultCallback) {
