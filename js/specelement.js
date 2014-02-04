@@ -28,6 +28,7 @@
 
     global.SpecTopic.prototype.setTitle = function (title) {
         this.title = title;
+        return this;
     };
 
     global.SpecTopic.prototype.setXRefsResolved = function (xrefsResolved) {

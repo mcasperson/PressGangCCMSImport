@@ -147,8 +147,20 @@
 
     function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
 
+        var fixedXML =  reencode(xmlToString(xml), replacements).trim();
+        if (fixedXML.indexOf("<chapter>") === 0) {
+            fixedXML = fixedXML.replace(/^<chapter>/, "<section>");
+            fixedXML = fixedXML.replace(/<\/chapter>$/, "</section>");
+        } else if (fixedXML.indexOf("<appendix>") === 0) {
+            fixedXML = fixedXML.replace(/^<appendix>/, "<section>");
+            fixedXML = fixedXML.replace(/<\/appendix>$/, "</section>");
+        } else if (fixedXML.indexOf("<part>") === 0) {
+            fixedXML = fixedXML.replace(/^<part>/, "<section>");
+            fixedXML = fixedXML.replace(/<\/part>$/, "</section>");
+        }
+
         var postBody = {
-            xml: reencode(xmlToString(xml), replacements),
+            xml: fixedXML,
             locale: "en-US",
             configuredParameters: [
                 "xml",
