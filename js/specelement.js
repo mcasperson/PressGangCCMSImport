@@ -26,6 +26,10 @@
         return this;
     };
 
+    global.SpecTopic.prototype.setTitle = function (title) {
+        this.title = title;
+    };
+
     global.SpecTopic.prototype.setXRefsResolved = function (xrefsResolved) {
         this.xrefsResolved = xrefsResolved;
     };

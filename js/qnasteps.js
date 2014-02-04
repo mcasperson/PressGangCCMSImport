@@ -929,7 +929,8 @@
                                 // strip away any child containers
                                 var removeChildren = [];
                                 global.jQuery.each(clone.childNodes, function (index, containerChild) {
-                                    if (sectionTypes.indexOf(containerChild.nodeName) !== -1) {
+                                    if (sectionTypes.indexOf(containerChild.nodeName) !== -1 ||
+                                        containerChild.nodeName === "revhistory") {
                                         removeChildren.push(containerChild);
                                     }
                                 });
@@ -962,7 +963,8 @@
 
                                     var standaloneContainerTopic = new global.SpecTopic()
                                         .setXml(removeIdAttribute(clone), xmlDoc)
-                                        .setSpecLine(contentSpec.length - 1);
+                                        .setSpecLine(contentSpec.length - 1)
+                                        .setTitle(titleText);
 
                                     if (id) {
                                         standaloneContainerTopic.setId(id.nodeValue);
@@ -970,37 +972,41 @@
 
                                     topics.push(standaloneContainerTopic);
                                 } else {
-
-                                    contentSpec.push(
-                                        contentSpecLine +
-                                            value.nodeName.substring(0, 1).toUpperCase() +
-                                            value.nodeName.substring(1, value.nodeName.length) +
-                                            ": " + titleText);
-
-                                    // if this container has front matter content, create a topic
-                                    // to represent it
+                                    // it is possible that we removed all the children e.g. an appendix that
+                                    // only had a revision history child
                                     if (clone.childNodes.length !== 0) {
-                                        var initialTextTopic = new global.SpecTopic()
-                                            .setXml(removeIdAttribute(clone), xmlDoc)
+                                        contentSpec.push(
+                                            contentSpecLine +
+                                                value.nodeName.substring(0, 1).toUpperCase() +
+                                                value.nodeName.substring(1, value.nodeName.length) +
+                                                ": " + titleText);
+
+                                        // if this container has front matter content, create a topic
+                                        // to represent it
+                                        if (clone.childNodes.length !== 0) {
+                                            var initialTextTopic = new global.SpecTopic()
+                                                .setXml(removeIdAttribute(clone), xmlDoc)
+                                                .setSpecLine(contentSpec.length - 1)
+                                                .setTitle(titleText);
+
+                                            if (id) {
+                                                initialTextTopic.setId(id.nodeValue);
+                                            }
+
+                                            topics.push(initialTextTopic);
+                                        }
+
+                                        var container = new global.SpecContainer()
                                             .setSpecLine(contentSpec.length - 1);
 
                                         if (id) {
-                                            initialTextTopic.setId(id.nodeValue);
+                                            container.setId(id.nodeValue);
                                         }
 
-                                        topics.push(initialTextTopic);
+                                        containers.push(container);
+
+                                        processXml(value, container, depth + 1);
                                     }
-
-                                    var container = new global.SpecContainer()
-                                        .setSpecLine(contentSpec.length - 1);
-
-                                    if (id) {
-                                        container.setId(id.nodeValue);
-                                    }
-
-                                    containers.push(container);
-
-                                    processXml(value, container, depth + 1);
                                 }
                             }
                         }
