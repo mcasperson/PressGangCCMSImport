@@ -1418,7 +1418,9 @@
         })
         .setNextStep(function (resultCallback) {
             resultCallback(summary);
-        });
+        })
+        .setShowNext(false)
+        .setShowPrevious(false);
 
     var summary = new global.QNAStep()
         .setTitle("Import Summary")
@@ -1438,6 +1440,9 @@
                         .setIntro("Images Created / Images Reused")
                         .setName("NewImagesCreated")
                 ])
-        ]);
+        ])
+        .setShowNext(false)
+        .setShowPrevious(false)
+        .setShowRestart(true);
 
 }(this));

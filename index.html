@@ -169,8 +169,9 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext()" ng-disabled="disabled">Next</button>
-                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious()" ng-disabled="disabled">Previous</button>
+                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">Next</button>
+                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious() && qna.step.processedShowPrevious" ng-disabled="disabled">Previous</button>
+                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="restart()" ng-if="qna.step.processedShowRestart" ng-disabled="disabled">Restart</button>
 
                 </div>
             </div>

@@ -99,4 +99,8 @@ var QNAController = function ($scope, $modal, $rootScope) {
             alert(title, message);
         });
     };
+
+    $scope.restart = function () {
+        initializeQna(new QNA(QNAStart, null, null, null));
+    };
 };
