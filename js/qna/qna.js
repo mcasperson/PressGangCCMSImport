@@ -127,7 +127,9 @@
                 if (variable[resolveFunction] instanceof Function) {
                     variable[resolveFunction](
                         function (value) {
-                            variable[newPropertyName] = value;
+                            if (newPropertyName) {
+                                variable[newPropertyName] = value;
+                            }
                             successCallback(value);
                         },
                         errorCallback,
@@ -140,7 +142,7 @@
                     successCallback(variable[resolveFunction]);
                 }
             } else {
-                successCallback(null);
+                successCallback(undefined);
             }
         };
 
@@ -175,9 +177,11 @@
                                             'value',
                                             null,
                                             function (value) {
-                                                // we do something a little different here. the value is what is shown
-                                                // in the ui, and that is bound to the config
-                                                config[variable.processedName] = value;
+                                                if (value !== undefined) {
+                                                    // we do something a little different here. the value is what is shown
+                                                    // in the ui, and that is bound to the config
+                                                    config[variable.processedName] = value;
+                                                }
 
                                                 resolveDetail(
                                                     variable,
@@ -222,6 +226,13 @@
                                         // resolve the inputs
 
                                         var resolveInput = function (index, ioVariables, inputSuccessCallback) {
+                                            // it is possible that no inputs or outputs are defined, so just
+                                            // skip them if they are undefined
+                                            if (ioVariables === undefined) {
+                                                inputSuccessCallback();
+                                                return;
+                                            }
+
                                             if (ioVariables === null || index >= ioVariables.length) {
                                                 inputSuccessCallback();
                                             } else {
