@@ -250,7 +250,7 @@
 
         var postBody = {
             id: id,
-            xml: reencode(xmlToString(xml), replacements),
+            xml: setDocumentNodeToSection(reencode(xmlToString(xml), replacements)),
             locale: "en-US",
             configuredParameters: [
                 "xml",
@@ -1348,6 +1348,8 @@
 
                                     var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
 
+                                    console.log(matchingTopicXMLCompare);
+
                                     if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
                                         matchingTopic = value.item;
                                         return false;
@@ -1362,6 +1364,7 @@
                                 xmlToString(firstUnresolvedTopic.xml),
                                 config,
                                 function (data) {
+                                    console.log(firstUnresolvedTopicXMLCompare);
                                     var matchingTopic = testTopicAgainstCloseMatch(firstUnresolvedTopicXMLCompare, data);
 
                                     if (matchingTopic) {
