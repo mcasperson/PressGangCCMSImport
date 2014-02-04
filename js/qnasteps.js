@@ -1385,16 +1385,15 @@
             var uploadContentSpec = function (contentSpec, config) {
                 var compiledContentSpec = "";
                 global.jQuery.each(contentSpec, function(index, value) {
-                    console.log(value);
                     compiledContentSpec += value + "\n";
                 });
 
                 function contentSpecSaveSuccess(id) {
-                    console.log(id);
                     config.UploadProgress[1] = 13;
                     config.UploadedContentSpecification = true;
-                    resultCallback();
-                };
+                    config.ContentSpecID = id;
+                    resultCallback(true);
+                }
 
                 if (config.ExistingContentSpecID) {
                     updateContentSpec(
@@ -1417,8 +1416,20 @@
             // start the process
             resolveXiIncludes();
         })
-        .setNextStep(function (resultCallback, errorCallback, result, config) {
-            resultCallback(the_next_step);
+        .setNextStep(function (resultCallback) {
+            resultCallback(summary);
         });
+
+    var summary = new global.QNAStep()
+        .setTitle("Import Summary")
+        .setOutputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Content Specification ID")
+                        .setName("ContentSpecID")
+                ])
+        ]);
 
 }(this));
