@@ -139,6 +139,7 @@
 
     function updateContentSpec(id, spec, config, successCallback, errorCallback) {
         var postBody = {
+            id: id,
             text: "ID = " + id + "\n" + spec,
             configuredParameters: [
                 "text"
