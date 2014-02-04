@@ -905,24 +905,24 @@
                         var nodeValue = image.nodeValue;
 
                         // remove the local directory prefix
-                        nodeValue = nodeValue.replace(/^\.\//, "");
+                        var fixedNodeValue = nodeValue.replace(/^\.\//, "");
 
-                        if (nodeValue.indexOf("images") === 0) {
+                        if (fixedNodeValue.indexOf("images") === 0) {
 
                             // find the absolute path
                             var pathPrefix = config.MainXMLFile.substring(0, config.MainXMLFile.lastIndexOf("/"));
-                            nodeValue = pathPrefix + "/" + nodeValue;
+                            var filename = pathPrefix + "/" + fixedNodeValue;
 
                             if (!uploadedImages[nodeValue]) {
 
                                 zip.hasFileName(
                                     config.ZipFile,
-                                    nodeValue,
+                                    filename,
                                     function (result) {
                                         if (result) {
                                             createImage(
                                                 config.ZipFile,
-                                                nodeValue,
+                                                filename,
                                                 config,
                                                 function (imageId, matchedExisting) {
                                                     config.UploadedImageCount += 1;
@@ -932,6 +932,8 @@
 
                                                     config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
                                                     resultCallback();
+
+                                                    uploadedImages[nodeValue] = imageId;
 
                                                     processImages(images.iterateNext());
                                                 },
@@ -943,11 +945,21 @@
                                     },
                                     errorCallback
                                 );
+                            }  else {
+                                processImages(images.iterateNext());
                             }
                         } else {
                             processImages(images.iterateNext());
                         }
                     } else {
+                        var filerefs = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
+                        var fileref;
+                        while (fileref = filerefs.iterateNext()) {
+                            if (uploadedImages[fileref.nodeValue]) {
+                                fileref.nodeValue = "images/" + uploadedImages[fileref.nodeValue];
+                            }
+                        }
+
                         config.UploadProgress[1] = 10;
                         config.FoundImages = true;
                         resultCallback();
