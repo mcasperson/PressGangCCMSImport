@@ -1404,7 +1404,7 @@
 
                 if (config.ExistingContentSpecID) {
                     updateContentSpec(
-                        ExistingContentSpecID,
+                        config.ExistingContentSpecID,
                         compiledContentSpec,
                         config,
                         contentSpecSaveSuccess,
