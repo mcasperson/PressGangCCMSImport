@@ -953,12 +953,17 @@
                         }
                     } else {
                         var filerefs = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
+                        var updatedRefs = [];
                         var fileref;
                         while (fileref = filerefs.iterateNext()) {
                             if (uploadedImages[fileref.nodeValue]) {
-                                fileref.nodeValue = "images/" + uploadedImages[fileref.nodeValue];
+                                updatedRefs.push({node: fileref, newImageRef: "images/" + uploadedImages[fileref.nodeValue]});
                             }
                         }
+
+                        global.jQuery.each(updatedRefs, function(index, value){
+                            value.node.nodeValue = value.newImageRef;
+                        });
 
                         config.UploadProgress[1] = 10;
                         config.FoundImages = true;
