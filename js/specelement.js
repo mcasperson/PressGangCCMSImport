@@ -97,8 +97,8 @@
 
         var topicGraph = this.topicGraph;
 
-        if (this.outgoingLinks) {
-            global.jQuery.each(this.outgoingLinks, function (pgId, outgoingXmlIds) {
+        if (this.fixedOutgoingLinks) {
+            global.jQuery.each(this.fixedOutgoingLinks, function (pgId, outgoingXmlIds) {
                 global.jQuery.each(outgoingXmlIds, function (outgoingXmlId, outgoingPGId) {
                     var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                     if (node.testId !== undefined) {
@@ -108,8 +108,8 @@
             });
         }
 
-        if (this.incomingLinks) {
-            global.jQuery.each(this.incomingLinks, function (pgId, incomingNodes) {
+        if (this.fixedIncomingLinks) {
+            global.jQuery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
                 global.jQuery.each(incomingNodes, function (incomingNode, incomingPGIds) {
                     if (incomingNode.testId !== undefined) {
                         incomingNode.resetTestId();
@@ -134,42 +134,69 @@
         return this;
     };
 
-    global.TopicGraphNode.prototype.addOutgoingLink = function (pgId, outgoingXmlId, outgoingPGId) {
+    /*global.TopicGraphNode.prototype.addOutgoingLink = function (outgoingXmlId) {
         if (this.outgoingLinks === undefined) {
-            this.outgoingLinks = {};
+            this.outgoingLinks = [];
         }
 
-        if (this.outgoingLinks[pgId] === undefined) {
-            this.outgoingLinks[pgId] = {};
+        this.outgoingLinks.push(outgoingXmlId);
+
+        // setup the incoming link on the other node
+        var otherNode = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
+
+        if (otherNode.incomingLinks === undefined) {
+            otherNode.incomingLinks = [];
+        }
+
+        if (otherNode.incomingLinks.indexOf(this) === -1) {
+            otherNode.incomingLinks.push(this);
+        }
+    };*/
+
+    global.TopicGraphNode.prototype.addFixedOutgoingLink = function (pgId, outgoingXmlId, outgoingPGId) {
+        if (this.fixedOutgoingLinks === undefined) {
+            this.fixedOutgoingLinks = {};
+        }
+
+        if (this.fixedOutgoingLinks[pgId] === undefined) {
+            this.fixedOutgoingLinks[pgId] = {};
         }
 
         /*
             So for some reason this topic expects to point to the same XML ID with different topics. This means it is
             an invalid topic, and need to be removed from the list of potential PG topics
          */
-        if (this.outgoingLinks[pgId][outgoingXmlId] !== undefined && this.outgoingLinks[pgId][outgoingXmlId] !== outgoingPGId) {
+        if (this.fixedOutgoingLinks[pgId][outgoingXmlId] !== undefined && this.fixedOutgoingLinks[pgId][outgoingXmlId] !== outgoingPGId) {
             this.pgIds[pgId] = false;
         } else {
-            this.outgoingLinks[pgId][outgoingXmlId] = outgoingPGId;
+            this.fixedOutgoingLinks[pgId][outgoingXmlId] = outgoingPGId;
         }
 
         // setup the incoming link on the other node
         var otherNode = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
 
-        if (otherNode.incomingLinks === undefined) {
-            otherNode.incomingLinks = {};
+        if (otherNode.fixedIncomingLinks === undefined) {
+            otherNode.fixedIncomingLinks = {};
         }
 
-        if (otherNode.incomingLinks[outgoingPGId] === undefined) {
-            otherNode.incomingLinks[outgoingPGId] = {};
+        if (otherNode.fixedIncomingLinks[outgoingPGId] === undefined) {
+            otherNode.fixedIncomingLinks[outgoingPGId] = [];
         }
 
-        if (!otherNode.incomingLinks[outgoingPGId][this]) {
-            otherNode.incomingLinks[outgoingPGId][this] = [];
+        var me = this;
+        var existing;
+        global.jQuery.each(otherNode.fixedIncomingLinks[outgoingPGId], function(index, value){
+            if (value.node === me) {
+                existing = value;
+                return false;
+            }
+        });
+
+        if (existing) {
+            existing.ids.push(pgId);
+        } else {
+            otherNode.fixedIncomingLinks[outgoingPGId].push({node: this, ids: [pgId]});
         }
-
-        otherNode.incomingLinks[outgoingPGId][this].push(pgId);
-
 
         return this;
     };
@@ -182,10 +209,12 @@
         // mark this topic as processed
         this.setTestId(-1);
 
+        validNodes.push(this);
+
         var topicGraph = this.topicGraph;
 
-        if (this.outgoingLinks) {
-            global.jQuery.each(this.outgoingLinks, function (pgId, outgoingPGIds) {
+        if (this.fixedOutgoingLinks) {
+            global.jQuery.each(this.fixedOutgoingLinks, function (pgId, outgoingPGIds) {
                 global.jQuery.each(outgoingPGIds, function (outgoingXmlId, outgoingPGId) {
                     var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                     node.getGraph(validNodes);
@@ -199,14 +228,27 @@
 
         }
 
-        if (this.incomingLinks) {
-            global.jQuery.each(this.incomingLinks, function (pgId, incomingNodes) {
-                global.jQuery.each(incomingNodes, function (incomingNode, incomingPGIds) {
-                    incomingNode.getGraph(validNodes);
+        if (this.fixedIncomingLinks) {
+            global.jQuery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
+                global.jQuery.each(incomingNodes, function (index, nodeDetails) {
+                    nodeDetails.node.getGraph(validNodes);
                 });
                 return false;
             });
         }
+
+        /*if (this.outgoingLinks) {
+            global.jQuery.each(this.outgoingLinks, function (index, outgoingXmlId) {
+                var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
+                node.getGraph(validNodes);
+            });
+        }
+
+        if (this.incomingLinks) {
+            global.jQuery.each(this.incomingLinks, function (index, incomingNode) {
+                incomingNode.getGraph(validNodes);
+            });
+        }*/
     };
 
     global.TopicGraphNode.prototype.isValid = function (pgId, validNodes) {
@@ -245,7 +287,7 @@
          */
         this.setTestId(pgId);
 
-        if (this.outgoingLinks !== undefined && this.pgIds === undefined) {
+        if (this.fixedOutgoingLinks !== undefined && this.pgIds === undefined) {
             throw "Nodes that have no possible pressgang ids define can not have any outgoing requirements";
         }
 
@@ -253,8 +295,8 @@
 
         // check to see if all outgoing links are also valid
         var retValue = false;
-        if (this.outgoingLinks && this.outgoingLinks[pgId]) {
-            global.jQuery.each(this.outgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
+        if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
+            global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
                 var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                 if (node.isValid(outgoingPGId, validNodes)) {
                     retValue = true;
@@ -272,8 +314,8 @@
         }
 
 
-        if (this.incomingLinks && this.incomingLinks[pgId]) {
-            global.jQuery.each(this.incomingLinks[pgId], function (incomingXmlId, incomingNodes) {
+        if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
+            global.jQuery.each(this.fixedIncomingLinks[pgId], function (incomingXmlId, incomingNodes) {
                 retValue = false;
                 global.jQuery.each(incomingNodes, function (incomingNode, incomingPGId) {
                     if (incomingNode.isValid(incomingPGId, validNodes)) {

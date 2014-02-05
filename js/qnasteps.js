@@ -1245,11 +1245,20 @@
                                     var topicId = match[1];
                                     var xref = outgoingXrefs[count];
 
-                                    topic.addOutgoingLink(pgid, xref, topicId);
+                                    topic.addFixedOutgoingLink(pgid, xref, topicId);
 
                                     ++count;
                                 }
                             });
+                        } else {
+                            var xrefs = xmlDoc.evaluate("//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
+                            var xref;
+                            while (xref = xrefs.iterateNext()) {
+                                if (xref.hasAttribute("linkend")) {
+                                    var linkend = xref.getAttribute("linkend");
+                                    this.addOutgoingLink(linkend);
+                                }
+                            }
                         }
                     });
 
@@ -1263,7 +1272,7 @@
                     function getUnresolvedNodeWithOutboundXrefs() {
                         var retValue;
                         global.jQuery.each(topics, function (index, topic) {
-                            if (topic.topicId === undefined && topic.outgoingLinks !== undefined) {
+                            if (topic.topicId === undefined && topic.fixedOutgoingLinks !== undefined) {
                                 retValue = topic;
                                 return false;
                             }
@@ -1284,7 +1293,7 @@
 
                     var unresolvedNode;
                     while (unresolvedNode = getUnresolvedNodeWithOutboundXrefs()) {
-                        var validNetwork;
+                        var validNetwork = null;
                         global.jQuery.each(unresolvedNode.pgIds, function (pgId, details) {
                             unresolvedNode.resetTestId();
                             var validNodes = [];
@@ -1295,23 +1304,19 @@
                             }
                         });
 
-                        if (!validNetwork) {
-                            unresolvedNode.resetTestId();
-                            validNetwork = unresolvedNode.getGraph();
-                        }
-
-                        /*
-                            Any topic that can be matched to an existing topic will have a positive
-                            integer as the topicId. Any topic that needs to be created will have a
-                            topicId of -1.
-                         */
-                        global.jQuery.each(validNetwork, function (index, topic) {
-                            if (topic.testId === undefined) {
-                                topic.topicId = -1;
-                            } else {
+                        if (validNetwork) {
+                            global.jQuery.each(validNetwork, function (index, topic) {
                                 topic.topicId = topic.testId;
-                            }
-                        });
+                            });
+                        } else {
+                            unresolvedNode.resetTestId();
+                            validNetwork = [];
+                            unresolvedNode.getGraph(validNetwork);
+
+                            global.jQuery.each(validNetwork, function (index, topic) {
+                                topic.topicId = -1;
+                            });
+                        }
                     }
 
                     /*
