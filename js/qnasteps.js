@@ -1280,17 +1280,6 @@
                         return retValue;
                     }
 
-                    function getUnresolvedNode() {
-                        var retValue;
-                        global.jQuery.each(topics, function (index, topic) {
-                            if (topic.topicId === undefined) {
-                                retValue = topic;
-                                return false;
-                            }
-                        });
-                        return retValue;
-                    }
-
                     var unresolvedNode;
                     while (unresolvedNode = getUnresolvedNodeWithOutboundXrefs()) {
                         var validNetwork = null;
@@ -1323,9 +1312,11 @@
                         Any that are left are stand alone topics. These can take on the first matching
                         topic id, or -1 is they are new topics.
                      */
-                    while (unresolvedNode = getUnresolvedNode()) {
-                        unresolvedNode.topicId = unresolvedNode.pgIds !== undefined ? unresolvedNode.pgIds[0] : -1;
-                    }
+                    global.jQuery.each(topics, function (index, topic) {
+                        if (topic.topicId === undefined) {
+                            unresolvedNode.topicId = unresolvedNode.pgIds !== undefined ? unresolvedNode.pgIds[Object.keys(unresolvedNode.pgIds)[0]] : -1;
+                        }
+                    });
 
                     createTopics();
                 }
