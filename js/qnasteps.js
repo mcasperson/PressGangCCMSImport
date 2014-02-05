@@ -1232,23 +1232,25 @@
                             }
                         });
 
-                        global.jQuery.each(topic.pgIds, function (pgid, details) {
-                            var InjectionRE = /<!--\s*Inject\s*:\s*(\d+)\s*-->/g;
-                            var match;
-                            var count = 0;
-                            while (match = InjectionRE.exec(details.originalXML)) {
-                                if (count >= outgoingXrefs.length) {
-                                    throw "There is a mismatch between the xrefs and the injects.";
+                        if (topic.pgIds) {
+                            global.jQuery.each(topic.pgIds, function (pgid, details) {
+                                var InjectionRE = /<!--\s*Inject\s*:\s*(\d+)\s*-->/g;
+                                var match;
+                                var count = 0;
+                                while (match = InjectionRE.exec(details.originalXML)) {
+                                    if (count >= outgoingXrefs.length) {
+                                        throw "There is a mismatch between the xrefs and the injects.";
+                                    }
+
+                                    var topicId = match[1];
+                                    var xref = outgoingXrefs[count];
+
+                                    topic.addOutgoingLink(pgid, xref, topicId);
+
+                                    ++count;
                                 }
-
-                                var topicId = match[1];
-                                var xref = outgoingXrefs[count];
-
-                                topic.addOutgoingLink(pgid, xref, topicId);
-
-                                ++count;
-                            }
-                        });
+                            });
+                        }
                     });
 
                     resolveNodes();
