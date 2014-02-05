@@ -231,6 +231,8 @@
         // pgIds being undefined means that this node will be saved as a new topic
         if ((this.pgIds === undefined && pgId !== undefined) ||
             (this.pgIds !== undefined && pgId === undefined)) {
+
+            // because we expected this topic to have an existing id and it didn't
             return false;
         }
 
@@ -245,6 +247,7 @@
             });
 
             if (!valid) {
+                // because the supplied topic id was not in the list of ids for this topic
                 return false;
             }
         }
@@ -262,52 +265,46 @@
         var topicGraph = this.topicGraph;
 
         // check to see if all outgoing links are also valid
-        var retValue = false;
         if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
+            var outgoingRetValue = false;
             global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
                 var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                 if (node.isValid(outgoingPGId, validNodes)) {
-                    retValue = true;
+                    outgoingRetValue = true;
                     return false;
                 }
             });
 
-            if (retValue) {
+            if (!outgoingRetValue) {
+                // because a child node was not valid
                 return false;
             }
         }
-
-        if (!retValue) {
-            return false;
-        }
-
 
         if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
+            var incomingRetValue = false;
             global.jQuery.each(this.fixedIncomingLinks[pgId], function (incomingXmlId, incomingNodes) {
-                retValue = false;
                 global.jQuery.each(incomingNodes, function (incomingNode, incomingPGId) {
                     if (incomingNode.isValid(incomingPGId, validNodes)) {
-                        retValue = true;
+                        incomingRetValue = true;
                         return false;
                     }
-                }, this);
+                });
 
-                if (retValue) {
+                // exit the loop
+                if (incomingRetValue) {
                     return false;
                 }
             });
 
-            if (retValue) {
+            if (!incomingRetValue) {
+                // because a child node was not valid
                 return false;
             }
         }
 
-        if (retValue) {
-            validNodes.push(this);
-            return true;
-        }
-
-        return false;
+        validNodes.push(this);
+        return true;
     };
 
 }(this));

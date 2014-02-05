@@ -1319,7 +1319,7 @@
                                 config.MatchedTopicCount += 1;
                             } else {
                                 topic.topicId = -1;
-                                config.UploadedTopicCount += 1
+                                config.UploadedTopicCount += 1;
                             }
                         }
                     });
@@ -1435,6 +1435,10 @@
                     global.jQuery.each(topics, function (index, topic) {
                         contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                     });
+
+                    config.UploadProgress[1] = 12;
+                    config.ResolvedBookStructure = true;
+                    resultCallback();
 
                     uploadContentSpec(contentSpec);
                 }
