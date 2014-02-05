@@ -1314,7 +1314,7 @@
                      */
                     global.jQuery.each(topics, function (index, topic) {
                         if (topic.topicId === undefined) {
-                            unresolvedNode.topicId = unresolvedNode.pgIds !== undefined ? unresolvedNode.pgIds[Object.keys(unresolvedNode.pgIds)[0]] : -1;
+                            topic.topicId = topic.pgIds !== undefined ? topic.pgIds[Object.keys(topic.pgIds)[0]] : -1;
                         }
                     });
 
