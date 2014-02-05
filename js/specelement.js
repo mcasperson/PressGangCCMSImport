@@ -118,6 +118,12 @@
         return this;
     };
 
+    /**
+     * Adds an existing topic id that this topic can assume
+     * @param pgId The topic id
+     * @param xml The xml of the exiting topic
+     * @returns {global.TopicGraphNode}
+     */
     global.TopicGraphNode.prototype.addPGId = function (pgId, xml) {
         // A mapping of PG IDs to a true/false value indicating if this topic is valid
         if (this.pgIds === undefined) {
@@ -193,7 +199,7 @@
      * for determining the nodes that form part of a xref graph that can't be resolved to existing topics.
      * @param validNodes an array of the unresolved nodes that form this xref network
      */
-    global.TopicGraphNode.prototype.getGraph = function (validNodes) {
+    global.TopicGraphNode.prototype.getUnresolvedGraph = function (validNodes) {
         if (this.pgIds === undefined) {
             return;
         }
@@ -215,7 +221,7 @@
                 global.jQuery.each(outgoingPGIds, function (outgoingXmlId, outgoingPGId) {
                     var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                     if (node.topicId === undefined) {
-                        node.getGraph(validNodes);
+                        node.getUnresolvedGraph(validNodes);
                     }
                 });
 
@@ -231,13 +237,22 @@
             global.jQuery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
                 global.jQuery.each(incomingNodes, function (index, nodeDetails) {
                     if (nodeDetails.node.topicId === undefined) {
-                        nodeDetails.node.getGraph(validNodes);
+                        nodeDetails.node.getUnresolvedGraph(validNodes);
                     }
                 });
             });
         }
     };
 
+    /**
+     * If we force this topic to assume the topic id pgId, can it resolve all the outgoing links by matching
+     * xrefs to existing topic ids? If so, this will return true and validNodes will be filled with nodes
+     * whose testId can be used as the id of the topic. If not, this will return false, and validNodes will
+     * contain useful information.
+     * @param pgId The id that we want to assign to this topic
+     * @param validNodes An array that will be filled with all topics in the xref graph if they all can be resolved
+     * @returns {boolean}
+     */
     global.TopicGraphNode.prototype.isValid = function (pgId, validNodes) {
         if (pgId === undefined) {
             throw "pgId should never be undefined";
@@ -297,11 +312,11 @@
 
         // check to see if all outgoing links are also valid
         if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
-            var outgoingRetValue = false;
+            var outgoingRetValue = true;
             global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
                 var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-                if (node.isValid(outgoingPGId, validNodes)) {
-                    outgoingRetValue = true;
+                if (!node.isValid(outgoingPGId, validNodes)) {
+                    outgoingRetValue = false;
                     return false;
                 }
             });

@@ -1383,7 +1383,7 @@
                              */
                             topicGraph.resetTestIds();
                             validNetwork = [];
-                            unresolvedNode.getGraph(validNetwork);
+                            unresolvedNode.getUnresolvedGraph(validNetwork);
 
                             global.jQuery.each(validNetwork, function (index, topic) {
                                 if (topic.topicId !== undefined) {
