@@ -283,9 +283,9 @@
 
         if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
             var incomingRetValue = false;
-            global.jQuery.each(this.fixedIncomingLinks[pgId], function (incomingXmlId, incomingNodes) {
-                global.jQuery.each(incomingNodes, function (incomingNode, incomingPGId) {
-                    if (incomingNode.isValid(incomingPGId, validNodes)) {
+            global.jQuery.each(this.fixedIncomingLinks[pgId], function (incomingPGId, incomingNodes) {
+                global.jQuery.each(incomingNodes, function (index, nodeDetails) {
+                    if (nodeDetails.node.isValid(incomingPGId, validNodes)) {
                         incomingRetValue = true;
                         return false;
                     }
