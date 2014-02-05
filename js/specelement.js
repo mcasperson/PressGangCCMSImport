@@ -200,7 +200,9 @@
             global.jQuery.each(this.fixedOutgoingLinks, function (pgId, outgoingPGIds) {
                 global.jQuery.each(outgoingPGIds, function (outgoingXmlId, outgoingPGId) {
                     var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-                    node.getGraph(validNodes);
+                    if (node.topicId === undefined) {
+                        node.getGraph(validNodes);
+                    }
                 });
 
                 // the outgoing links resolve to the same topics regardless of the mappings
@@ -214,7 +216,9 @@
         if (this.fixedIncomingLinks) {
             global.jQuery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
                 global.jQuery.each(incomingNodes, function (index, nodeDetails) {
-                    nodeDetails.node.getGraph(validNodes);
+                    if (nodeDetails.node.topicId === undefined) {
+                        nodeDetails.node.getGraph(validNodes);
+                    }
                 });
             });
         }
