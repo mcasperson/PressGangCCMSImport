@@ -107,7 +107,17 @@
         return this;
     };
 
-    global.TopicGraphNode.prototype.resetTestId = function () {
+    global.TopicGraphNode.prototype.resetTestId = function (touchedNodes) {
+        if (touchedNodes === undefined) {
+            touchedNodes = [];
+        }
+
+        if (touchedNodes.indexOf(this) !== -1) {
+            return;
+        }
+
+        touchedNodes.push(this);
+
         this.setTestId(undefined);
 
         var topicGraph = this.topicGraph;
@@ -117,7 +127,7 @@
                 global.jQuery.each(outgoingXmlIds, function (outgoingXmlId, outgoingPGId) {
                     var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                     if (node.testId !== undefined) {
-                        node.resetTestId();
+                        node.resetTestId(touchedNodes);
                     }
                 });
             });
@@ -125,9 +135,9 @@
 
         if (this.fixedIncomingLinks) {
             global.jQuery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
-                global.jQuery.each(incomingNodes, function (incomingNode, incomingPGIds) {
-                    if (incomingNode.testId !== undefined) {
-                        incomingNode.resetTestId();
+                global.jQuery.each(incomingNodes, function (index, nodeDetails) {
+                    if (nodeDetails.node !== undefined) {
+                        nodeDetails.node.resetTestId(touchedNodes);
                     }
                 });
             });
@@ -198,12 +208,13 @@
     };
 
     global.TopicGraphNode.prototype.getGraph = function (validNodes) {
-        if (this.testId === -1) {
-            return;
+        if (validNodes === undefined) {
+            validNodes = [];
         }
 
-        // mark this topic as processed
-        this.setTestId(-1);
+        if (validNodes.indexOf(this) !== -1) {
+            return;
+        }
 
         validNodes.push(this);
 
@@ -229,7 +240,6 @@
                 global.jQuery.each(incomingNodes, function (index, nodeDetails) {
                     nodeDetails.node.getGraph(validNodes);
                 });
-                return false;
             });
         }
     };
@@ -292,27 +302,52 @@
 
             if (!outgoingRetValue) {
                 // because a child node was not valid
+                this.setTestId(undefined);
                 return false;
             }
         }
 
+        /*
+            fixedIncomingLinks should be read as a dictionary:
+                key:            one of the possible ids that this node can take
+                object:         array of incoming node definitions
+                    [
+                        object.ids:     all the potential ids the incoming node can have
+                        object.node:    the incoming node itself
+                    ]
+         */
         if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
-            var incomingRetValue = false;
+            var incomingRetValue = true;
+            /*
+                get all the incoming node details for this topic at the particular id it
+                is being tested against
+             */
             global.jQuery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
+                /*
+                    Test every possible id that the incoming node could be looking for one
+                    that works.
+                 */
+                var incomingNodeValid = false;
                 global.jQuery.each(nodeDetails.ids, function (index, incomingPGId) {
                     if (nodeDetails.node.isValid(incomingPGId, validNodes)) {
-                        incomingRetValue = true;
+                        /*
+                            We have found in incoming node topic id that works, so
+                            exit the loop
+                         */
+                        incomingNodeValid = true;
                         return false;
                     }
                 });
 
-                if (incomingRetValue) {
+                if (!incomingNodeValid) {
+                    incomingRetValue = false;
                     return false;
                 }
             });
 
             if (!incomingRetValue) {
                 // because a child node was not valid
+                this.setTestId(undefined);
                 return false;
             }
         }
