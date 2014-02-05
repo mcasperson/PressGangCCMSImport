@@ -596,7 +596,7 @@
              Replace entities with markers so we can process the XML without worrying about resolving entities
              */
             var replaceEntitiesInText = function (xmlText) {
-                var retValue = []
+                var retValue = [];
 
                 var entityRe = /&.*?;/;
 
@@ -612,10 +612,6 @@
                     xmlText = xmlText.replace(new RegExp(global.escapeRegExp(match[0]), "g"), randomReplacement);
                 }
 
-                config.UploadProgress[1] = 2;
-                config.FoundEntities = true;
-                resultCallback();
-
                 return {xml: xmlText, replacements: retValue};
             };
 
@@ -623,6 +619,11 @@
                 var fixedXMLResult = replaceEntitiesInText(xmlText);
                 replacements = fixedXMLResult.replacements;
                 xmlText = fixedXMLResult.xml;
+
+                config.UploadProgress[1] = 2;
+                config.FoundEntities = true;
+                resultCallback();
+
                 findEntities(xmlText);
             }
 
