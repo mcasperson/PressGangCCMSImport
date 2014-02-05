@@ -231,8 +231,8 @@
         }
 
         /*
-            We have already processed this node with the given pgid and
-            it tested ok, so return true
+            We have already processed this node with the given pgid, so the only
+            valid request for this node is the same pgId.
          */
         if (this.testId !== undefined) {
             return pgId === this.testId;
