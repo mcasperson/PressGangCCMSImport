@@ -244,25 +244,23 @@
             return false;
         }
 
-        if (this.pgIds !== undefined && pgId !== undefined) {
-            // is the supplied PG ID one of the possible values we have
-            var valid = false;
-            global.jQuery.each(this.pgIds, function(index, value) {
-                if (index === pgId && value) {
-                    valid = true;
-                    return false;
-                }
-            });
-
-            if (!valid) {
-                // because the supplied topic id was not in the list of ids for this topic
+        // test that the supplied PG ID one of the possible values we have
+        var valid = false;
+        global.jQuery.each(this.pgIds, function(index, value) {
+            if (index === pgId && value) {
+                valid = true;
                 return false;
             }
+        });
+
+        if (!valid) {
+            // because the supplied topic id was not in the list of ids for this topic
+            return false;
         }
 
         /*
-            set the id that this node will assume for this test. if we hit this node again asking for
-            this id, we will return true and not propagate the testing any further.
+            set the id that this node will assume for this test. if we hit this node again then we
+            use the testid to tell if it has been processed already
          */
         this.setTestId(pgId);
 
@@ -329,8 +327,9 @@
             });
 
             if (!incomingRetValue) {
-                // because a child node was not valid
+                // free this node up to be tested again
                 this.setTestId(undefined);
+                // because a child node was not valid
                 return false;
             }
         }
