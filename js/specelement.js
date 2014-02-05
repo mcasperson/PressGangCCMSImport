@@ -16,7 +16,7 @@
         global.jQuery.each(this.nodes, function(index, node) {
             global.jQuery.each(node.xmlIds, function(index, value) {
                 if (value === xmlId) {
-                    retValue = value;
+                    retValue = node;
                     return false;
                 }
             });
@@ -158,11 +158,11 @@
             otherNode.incomingLinks[outgoingPGId] = {};
         }
 
-        if (!this.incomingLinks[outgoingPGId][this]) {
-            this.incomingLinks[outgoingPGId][this] = [];
+        if (!otherNode.incomingLinks[outgoingPGId][this]) {
+            otherNode.incomingLinks[outgoingPGId][this] = [];
         }
 
-        this.incomingLinks[outgoingPGId][this].push(pgId);
+        otherNode.incomingLinks[outgoingPGId][this].push(pgId);
 
 
         return this;
