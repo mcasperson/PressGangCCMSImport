@@ -283,15 +283,14 @@
 
         if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
             var incomingRetValue = false;
-            global.jQuery.each(this.fixedIncomingLinks[pgId], function (incomingPGId, incomingNodes) {
-                global.jQuery.each(incomingNodes, function (index, nodeDetails) {
+            global.jQuery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
+                global.jQuery.each(nodeDetails.ids, function (index, incomingPGId) {
                     if (nodeDetails.node.isValid(incomingPGId, validNodes)) {
                         incomingRetValue = true;
                         return false;
                     }
                 });
 
-                // exit the loop
                 if (incomingRetValue) {
                     return false;
                 }
