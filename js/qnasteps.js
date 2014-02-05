@@ -1402,12 +1402,12 @@
                                     topic.title,
                                     config,
                                     function (data) {
-                                        resolveXrefsInCreatedTopics(index + 1, callback);
+                                        resolve(index + 1, callback);
                                     },
                                     errorCallback
                                 );
                             } else {
-                                resolveXrefsInCreatedTopics(index + 1, callback);
+                                resolve(index + 1, callback);
                             }
                         }
                     }
