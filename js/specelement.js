@@ -134,25 +134,6 @@
         return this;
     };
 
-    /*global.TopicGraphNode.prototype.addOutgoingLink = function (outgoingXmlId) {
-        if (this.outgoingLinks === undefined) {
-            this.outgoingLinks = [];
-        }
-
-        this.outgoingLinks.push(outgoingXmlId);
-
-        // setup the incoming link on the other node
-        var otherNode = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
-
-        if (otherNode.incomingLinks === undefined) {
-            otherNode.incomingLinks = [];
-        }
-
-        if (otherNode.incomingLinks.indexOf(this) === -1) {
-            otherNode.incomingLinks.push(this);
-        }
-    };*/
-
     global.TopicGraphNode.prototype.addFixedOutgoingLink = function (pgId, outgoingXmlId, outgoingPGId) {
         if (this.fixedOutgoingLinks === undefined) {
             this.fixedOutgoingLinks = {};
@@ -236,19 +217,6 @@
                 return false;
             });
         }
-
-        /*if (this.outgoingLinks) {
-            global.jQuery.each(this.outgoingLinks, function (index, outgoingXmlId) {
-                var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-                node.getGraph(validNodes);
-            });
-        }
-
-        if (this.incomingLinks) {
-            global.jQuery.each(this.incomingLinks, function (index, incomingNode) {
-                incomingNode.getGraph(validNodes);
-            });
-        }*/
     };
 
     global.TopicGraphNode.prototype.isValid = function (pgId, validNodes) {
