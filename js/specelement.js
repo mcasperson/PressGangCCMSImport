@@ -310,7 +310,10 @@
 
         var topicGraph = this.topicGraph;
 
-        // check to see if all outgoing links are also valid
+        /*
+            Check to see if all outgoing links are also valid. This is pretty easy
+            because each outgoing link can match only one node assuming one topic id.
+         */
         if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
             var outgoingRetValue = true;
             global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
@@ -336,6 +339,12 @@
                         object.ids:     all the potential ids the incoming node can have
                         object.node:    the incoming node itself
                     ]
+
+            Testing incoming links is a little more work, because a node can link to this node
+            assuming multiple topic ids.
+
+            So we need to loop over each node with an incoming link, and then loop over every
+            topic id it can assume trying to find one that works.
          */
         if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
             var incomingRetValue = true;
