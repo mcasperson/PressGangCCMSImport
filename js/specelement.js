@@ -95,15 +95,17 @@
     global.TopicGraphNode.prototype.resetTestId = function () {
         this.setTestId(undefined);
 
+        var topicGraph = this.topicGraph;
+
         if (this.outgoingLinks) {
             global.jQuery.each(this.outgoingLinks, function (pgId, outgoingXmlIds) {
                 global.jQuery.each(outgoingXmlIds, function (outgoingXmlId, outgoingPGId) {
-                    var node = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
+                    var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                     if (node.testId !== undefined) {
                         node.resetTestId();
                     }
-                }, this);
-            }, this);
+                });
+            });
         }
 
         if (this.incomingLinks) {
@@ -112,8 +114,8 @@
                     if (incomingNode.testId !== undefined) {
                         incomingNode.resetTestId();
                     }
-                }, this);
-            }, this);
+                });
+            });
         }
 
         return this;
@@ -180,23 +182,25 @@
         // mark this topic as processed
         this.setTestId(-1);
 
+        var topicGraph = this.topicGraph;
+
         if (this.outgoingLinks) {
             global.jQuery.each(this.outgoingLinks, function (pgId, outgoingPGIds) {
                 global.jQuery.each(outgoingPGIds, function (outgoingXmlId, outgoingPGId) {
-                    var node = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
+                    var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                     node.getGraph(validNodes);
-                }, this);
+                });
 
                 // the outgoing links resolve to the same topics regardless of the mappings
                 // found in the topics in the database, so just loop once
                 return false;
 
-            }, this);
+            });
 
         }
 
         if (this.incomingLinks) {
-            global.jQuery.each(this.outgoingLinks, function (pgId, incomingNodes) {
+            global.jQuery.each(this.incomingLinks, function (pgId, incomingNodes) {
                 global.jQuery.each(incomingNodes, function (incomingNode, incomingPGIds) {
                     incomingNode.getGraph(validNodes);
                 });
@@ -245,16 +249,18 @@
             throw "Nodes that have no possible pressgang ids define can not have any outgoing requirements";
         }
 
+        var topicGraph = this.topicGraph;
+
         // check to see if all outgoing links are also valid
         var retValue = false;
         if (this.outgoingLinks && this.outgoingLinks[pgId]) {
             global.jQuery.each(this.outgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
-                var node = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
+                var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                 if (node.isValid(outgoingPGId, validNodes)) {
                     retValue = true;
                     return false;
                 }
-            }, this);
+            });
 
             if (retValue) {
                 return false;
@@ -279,7 +285,7 @@
                 if (retValue) {
                     return false;
                 }
-            }, this);
+            });
 
             if (retValue) {
                 return false;
