@@ -222,7 +222,7 @@
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
-                successCallback(data.topic.id, data.matchedExistingTopic);
+                successCallback(data);
             },
             error: function () {
                 errorCallback("Connection Error", "An error occurred while uploading the topic.");
@@ -595,9 +595,10 @@
             /*
              Replace entities with markers so we can process the XML without worrying about resolving entities
              */
-            var replaceEntities = function (xmlText) {
-                var entityRe = /&.*?;/;
+            var replaceEntitiesInText = function (xmlText) {
+                var retValue = []
 
+                var entityRe = /&.*?;/;
 
                 var match;
                 while (match = entityRe.exec(xmlText)) {
@@ -606,7 +607,7 @@
 
                     }
 
-                    replacements.push({placeholder: randomReplacement, entity: match[0]});
+                    retValue.push({placeholder: randomReplacement, entity: match[0]});
 
                     xmlText = xmlText.replace(new RegExp(global.escapeRegExp(match[0]), "g"), randomReplacement);
                 }
@@ -615,8 +616,15 @@
                 config.FoundEntities = true;
                 resultCallback();
 
-                findEntities(xmlText);
+                return {xml: xmlText, replacements: retValue};
             };
+
+            var replaceEntities = function (xmlText) {
+                var fixedXMLResult = replaceEntitiesInText(xmlText);
+                replacements = fixedXMLResult.replacements;
+                xmlText = fixedXMLResult.xml;
+                findEntities(xmlText);
+            }
 
             /*
              Find any entity definitions in the xml or ent files. Note that older publican books reference invalid
@@ -799,16 +807,16 @@
                         "Revision History",
                         [REVISION_HISTORY_TAG_ID],
                         config,
-                        function (topicId, matchedExisting) {
-                            config.RevisionHistoryTopicID = topicId;
+                        function (data) {
+                            config.RevisionHistoryTopicID = data.topic.id;
                             config.UploadedTopicCount += 1;
-                            if (matchedExisting) {
+                            if (data.matchedExistingTopic) {
                                 config.MatchedTopicCount += 1;
                             }
 
                             config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                            contentSpec.push("Revision History = [" + topicId + "]");
+                            contentSpec.push("Revision History = [" + data.topic.id + "]");
 
                             done(xmlDoc, contentSpec);
                         },
@@ -837,16 +845,16 @@
                         "Author Group",
                         [AUTHOR_GROUP_TAG_ID],
                         config,
-                        function (topicId, matchedExisting) {
-                            config.AuthorGroupTopicID = topicId;
+                        function (data) {
+                            config.AuthorGroupTopicID = data.topic.id;
                             config.UploadedTopicCount += 1;
-                            if (matchedExisting) {
+                            if (data.matchedExistingTopic) {
                                 config.MatchedTopicCount += 1;
                             }
 
                             config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                            contentSpec.push("Author Group = [" + topicId + "]");
+                            contentSpec.push("Author Group = [" + data.topic.id + "]");
 
                             done(xmlDoc, contentSpec);
                         },
@@ -865,7 +873,8 @@
                     config.FoundAbstract = true;
                     resultCallback();
 
-                    uploadImages(xmlDoc, contentSpec);
+                    //uploadImages(xmlDoc, contentSpec);
+                    resolveBookStructure(xmlDoc, contentSpec);
                 };
 
                 if (abstractContent) {
@@ -875,16 +884,16 @@
                         "Abstract",
                         [ABSTRACT_TAG_ID],
                         config,
-                        function (topicId, matchedExisting) {
-                            config.AbstractID = topicId;
+                        function (data) {
+                            config.AbstractID = data.topic.id;
                             config.UploadedTopicCount += 1;
-                            if (matchedExisting) {
+                            if (data.matchedExistingTopic) {
                                 config.MatchedTopicCount += 1;
                             }
 
                             config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                            contentSpec.push("Abstract = [" + topicId + "]");
+                            contentSpec.push("Abstract = [" + data.topic.id + "]");
 
                             done(xmlDoc, contentSpec);
                         },
@@ -977,13 +986,14 @@
             };
 
             var resolveBookStructure = function(xmlDoc, contentSpec) {
+                // the graph that holds the topics
+                var topicGraph = new global.TopicGraph();
+
                 // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
                 var sectionTypes = ["part", "chapter", "appendix", "section"];
 
                 // a collection of all the topics we will e uploading
                 var topics = [];
-                // a collection of all the containers that hold the topics
-                var containers = [];
 
                 var removeIdAttribute = function (xml) {
                     if (xml.hasAttribute("id")) {
@@ -992,7 +1002,7 @@
                     return xml;
                 };
 
-                var processXml = function (parentXML, parentSpecContainer, depth) {
+                var processXml = function (parentXML, containerId, depth) {
                     // loop over the containers under the root element
                     global.jQuery.each(parentXML.childNodes, function (index, value) {
                         if (sectionTypes.indexOf(value.nodeName) !== -1) {
@@ -1039,52 +1049,55 @@
                                                 ": " + titleText);
                                     }
 
-                                    var standaloneContainerTopic = new global.SpecTopic()
+                                    var standaloneContainerTopic = new global.TopicGraphNode(topicGraph)
                                         .setXml(removeIdAttribute(clone), xmlDoc)
                                         .setSpecLine(contentSpec.length - 1)
                                         .setTitle(titleText);
 
                                     if (id) {
-                                        standaloneContainerTopic.setId(id.nodeValue);
+                                        standaloneContainerTopic.addXmlId(id.nodeValue);
+                                    }
+
+                                    /*
+                                        Because of a limitation in the content specs, we can't link
+                                        to a container. This is a workaround to link to the first
+                                        topic under a container.
+                                     */
+                                    if (containerId !== undefined && containerId !== null) {
+                                        standaloneContainerTopic.addXmlId(containerId.nodeValue);
                                     }
 
                                     topics.push(standaloneContainerTopic);
                                 } else {
-                                    // it is possible that we removed all the children e.g. an appendix that
-                                    // only had a revision history child
+                                    contentSpec.push(
+                                        contentSpecLine +
+                                            value.nodeName.substring(0, 1).toUpperCase() +
+                                            value.nodeName.substring(1, value.nodeName.length) +
+                                            ": " + titleText);
+
+                                    // if this container has front matter content, create a topic
+                                    // to represent it
                                     if (clone.childNodes.length !== 0) {
-                                        contentSpec.push(
-                                            contentSpecLine +
-                                                value.nodeName.substring(0, 1).toUpperCase() +
-                                                value.nodeName.substring(1, value.nodeName.length) +
-                                                ": " + titleText);
-
-                                        // if this container has front matter content, create a topic
-                                        // to represent it
-                                        if (clone.childNodes.length !== 0) {
-                                            var initialTextTopic = new global.SpecTopic()
-                                                .setXml(removeIdAttribute(clone), xmlDoc)
-                                                .setSpecLine(contentSpec.length - 1)
-                                                .setTitle(titleText);
-
-                                            if (id) {
-                                                initialTextTopic.setId(id.nodeValue);
-                                            }
-
-                                            topics.push(initialTextTopic);
-                                        }
-
-                                        var container = new global.SpecContainer()
-                                            .setSpecLine(contentSpec.length - 1);
+                                        var initialTextTopic = new global.TopicGraphNode(topicGraph)
+                                            .setXml(removeIdAttribute(clone), xmlDoc)
+                                            .setSpecLine(contentSpec.length - 1)
+                                            .setTitle(titleText);
 
                                         if (id) {
-                                            container.setId(id.nodeValue);
+                                            initialTextTopic.addXmlId(id.nodeValue);
                                         }
 
-                                        containers.push(container);
+                                        if (containerId !== undefined && containerId !== null) {
+                                            initialTextTopic.addXmlId(containerId.nodeValue);
+                                        }
 
-                                        processXml(value, container, depth + 1);
+                                        // consume this id
+                                        id = undefined;
+
+                                        topics.push(initialTextTopic);
                                     }
+
+                                    processXml(value, id, depth + 1);
                                 }
                             }
                         }
@@ -1097,194 +1110,14 @@
                 config.ResolvedBookStructure = true;
                 resultCallback();
 
-                resolveXRefs(xmlDoc, contentSpec, topics, containers);
+                resolveXRefs(xmlDoc, contentSpec, topics, topicGraph);
             };
 
             /*
-                This is the tricky part. We need to have all xrefs resolved before saving so PressGang can match the
-                xml to any existing topics. But sometimes xrefs make circular dependencies, which means there
-                will be situations where xrefs remain unresolved.
-
-                To work around this we attempt to resolve any xrefs that we can, save the topics, and then repeat
-                the process until every topic not part of a circular dependency is saved. At that point we get
-                fuzzy matches from the server to try and break a link in a circular dependency.
+                Resolve the topics either to existing topics in the database, or to new topics
              */
-            var resolveXRefs = function (xmlDoc, contentSpec, topics, containers) {
 
-                var getUnresolvedTopics = function () {
-                    var retValue = [];
-                    global.jQuery.each(topics, function (index, value) {
-                        if (!value.xrefsResolved) {
-                            retValue.push(value);
-                        }
-                    });
-                    return retValue;
-                };
-
-                var getUnsavedAndUnresolvedTopics = function () {
-                    var retValue = [];
-                    global.jQuery.each(topics, function (index, value) {
-                        if (!value.xrefsResolved && !value.topicId) {
-                            retValue.push(value);
-                        }
-                    });
-                    return retValue;
-                };
-
-                var getSavedTopics = function () {
-                    var retValue = [];
-                    global.jQuery.each(topics, function (index, value) {
-                        if (value.topicId) {
-                            retValue.push(value);
-                        }
-                    });
-                    return retValue;
-                };
-
-                var getTopicThatHasID = function (id) {
-                    var retValue;
-                    global.jQuery.each(topics, function (index, value) {
-                        if (value.id === id) {
-                            retValue = value;
-                            return false;
-                        }
-                    });
-
-                    return retValue;
-                };
-
-                var getAllTopicOrContainerIDs = function () {
-                    var retValue = [];
-                    global.jQuery.each(topics, function (index, value) {
-                        if (retValue.indexOf(value.id) === -1) {
-                            retValue.push(value.id);
-                        }
-                    });
-                    return retValue;
-                };
-
-                var topicOrContainerIDs = getAllTopicOrContainerIDs();
-
-                var saveTopicsWithAllXrefsJustResolved = function (index, successCallback) {
-                    if (index >= topics.length) {
-                        successCallback();
-                    } else {
-                        var topic = topics[index];
-                        if (!topic.xrefsResolved) {
-
-                            // is every resolvable xref resolved?
-                            var topicIsResolved = true;
-                            global.jQuery.each(topic.xrefs, function (index, xref) {
-                                if (topicOrContainerIDs.indexOf(xref) !== -1 &&
-                                    topic.resolvedXRefs.indexOf(xref) === -1) {
-                                    topicIsResolved = false;
-                                    return false;
-                                }
-                            });
-
-                            // if so, we can save this topic
-                            if (topicIsResolved) {
-                                topic.xrefsResolved = true;
-
-                                if (topic.topicId) {
-                                    updateTopic(
-                                        topic.topicId,
-                                        topic.xml,
-                                        replacements,
-                                        null,
-                                        config,
-                                        function (topicId) {
-                                            saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
-                                        },
-                                        errorCallback
-                                    );
-                                } else {
-                                    createTopic(
-                                        topic.xml,
-                                        replacements,
-                                        null,
-                                        null,
-                                        config,
-                                        function (topicId, matchedExisting) {
-                                            config.UploadedTopicCount += 1;
-                                            if (matchedExisting) {
-                                                config.MatchedTopicCount += 1;
-                                            }
-                                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
-                                            resultCallback();
-
-                                            topic.topicId = topicId;
-                                            contentSpec[topic.specLine] += " [" + topicId + "]";
-
-                                            saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
-                                        },
-                                        errorCallback
-                                    );
-                                }
-                            } else {
-                                saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
-                            }
-                        } else {
-                            saveTopicsWithAllXrefsJustResolved(index + 1, successCallback);
-                        }
-                    }
-                };
-
-                // replace any xrefs with injection points where the xrefs point to topics that have been
-                // saved on the server and have an ID.
-                var resolveAvailableXRefs = function () {
-                    var resolvedAXref = false;
-                    var resolvedTopics = getSavedTopics();
-                    var unresolvedTopics = getUnresolvedTopics();
-                    global.jQuery.each(unresolvedTopics, function (index, value) {
-                        var xrefs = xmlDoc.evaluate("//xref", value.xml, null, global.XPathResult.ANY_TYPE, null);
-                        var xref;
-                        var xrefReplacements = [];
-                        while (xref = xrefs.iterateNext()) {
-
-                            if (xref.hasAttribute("linkend")) {
-                                var linkend = xref.getAttribute("linkend");
-                                // is this an xref to a topic
-                                if (topicOrContainerIDs.indexOf(linkend) !== -1) {
-                                    var destinationTopic = getTopicThatHasID(linkend);
-                                    // has the topic been saved?
-                                    if (resolvedTopics.indexOf(destinationTopic) !== -1) {
-                                        // we are pointing to a saved topic, so replace the xref with an injection
-                                        var injection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
-                                        xrefReplacements.push({original: xref, replacement: injection});
-
-                                        value.addResolvedXRef(linkend);
-                                        resolvedAXref = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        global.jQuery.each(xrefReplacements, function (index, value) {
-                            value.original.parentNode.replaceChild(value.replacement, value.original);
-                        });
-                    });
-
-                    return resolvedAXref;
-                };
-
-                var normalizeInjections = function (xml, xmlDoc) {
-                    var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
-                    var comment;
-                    var commentReplacements = [];
-                    while (comment = comments.iterateNext()) {
-                        if (/^\s*Inject\s*:\s*\d+\s*$/.test(comment.textContent)) {
-                            var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
-                            commentReplacements.push({original: comment, replacement: commentReplacement});
-                        }
-                    }
-
-                    global.jQuery.each(commentReplacements, function (index, value) {
-                        value.original.parentNode.replaceChild(value.replacement, value.original);
-                    });
-
-                    return xml;
-                };
+            var resolveXRefs = function (xmlDoc, contentSpec, topics, topicGraph) {
 
                 var normalizeXrefs = function (xml, topicAndContainerIDs) {
                     var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
@@ -1307,14 +1140,21 @@
                     return xml;
                 };
 
-                var normalizeEntities = function (xml) {
-                    return xml.replace(/&.*?;/g, "#Entity#");
-                };
+                var normalizeInjections = function (xml, xmlDoc) {
+                    var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var comment;
+                    var commentReplacements = [];
+                    while (comment = comments.iterateNext()) {
+                        if (/^\s*Inject\s*:\s*\d+\s*$/.test(comment.textContent)) {
+                            var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
+                            commentReplacements.push({original: comment, replacement: commentReplacement});
+                        }
+                    }
 
-                var normalizeEntityReplacements = function (xml) {
-                    global.jQuery.each(replacements, function (index, value) {
-                        xml = xml.replace(new RegExp(global.escapeRegExp(value.placeholder), "g"), "#Entity#");
+                    global.jQuery.each(commentReplacements, function (index, value) {
+                        value.original.parentNode.replaceChild(value.replacement, value.original);
                     });
+
                     return xml;
                 };
 
@@ -1323,120 +1163,274 @@
                         .replace(/\s/g, "");
                 };
 
-                // start by saving any topics that don't have xrefs. This gives us a pool of topics
-                // to start resolving xrefs with
-                saveTopicsWithAllXrefsJustResolved(0, function() {
+                var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
-                    /*
-                        A loop that resolves all available xrefs and saves the resolved topics.
-                        We repeat this until there are not topics to be saved.
-                     */
-                    var resolveXrefsLoop = function () {
-                        if (resolveAvailableXRefs()) {
-                            saveTopicsWithAllXrefsJustResolved(0, resolveXrefsLoop);
-                        } else {
-                            processXrefLoop();
-                        }
-                    };
+                /*
+                    Step 1: find any potential matches already in the PressGang server
+                */
+                function getPossibleMatches(index, callback) {
+                    if (index >= topics.length) {
+                        callback();
+                    } else {
+                        var topic = topics[index];
+                        getSimilarTopics(
+                            xmlToString(topic.xml),
+                            config,
+                            function (data) {
+                                /*
+                                    We start by comparing the topic we are trying to import to the close match in the
+                                    database. To do this we normalize whitespace, injections and xrefs. If the two
+                                    topics then match we have a potential candidate to reuse.
+                                 */
+                                var topicXMLCopy = topic.xml.cloneNode(true);
+                                normalizeXrefs(normalizeInjections(topicXMLCopy, xmlDoc), topicOrContainerIDs);
 
-                    var processXrefLoop = function () {
-                        if (getUnsavedAndUnresolvedTopics().length !== 0) {
+                                var topicXMLCompare = xmlToString(topicXMLCopy);
+                                topicXMLCompare = removeWhiteSpace(topicXMLCompare);
+                                topicXMLCompare = reencode(topicXMLCompare, replacements);
+                                topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
 
-                            // we'll save the first unresolved topic to attempt to break the deadlock
-                            var firstUnresolvedTopic = getUnsavedAndUnresolvedTopics()[0];
-
-                            // normalize injections and xrefs
-                            var firstUnresolvedTopicXMLCopy = firstUnresolvedTopic.xml.cloneNode(true);
-                            normalizeXrefs(normalizeInjections(firstUnresolvedTopicXMLCopy, xmlDoc), topicOrContainerIDs);
-
-                            var firstUnresolvedTopicXMLCompare = setDocumentNodeToSection(normalizeEntityReplacements(removeWhiteSpace(xmlToString(firstUnresolvedTopicXMLCopy))));
-
-                            /*
-                                Loop over each similar topic and return the first one that has the same XML when
-                                entities, whitespace and injections are ignored.
-                             */
-                            var testTopicAgainstCloseMatch = function (normalizedXML, data) {
-                                var matchingTopic;
-
-                                global.jQuery.each(data.items, function (index, value) {
+                                global.jQuery.each(data.items, function(index, matchingTopic) {
                                     // normalize injections and xrefs
-                                    var matchingTopicXMLCopy = global.jQuery.parseXML(normalizeEntities(value.item.xml));
+                                    var replacedTextResult = replaceEntitiesInText(matchingTopic.item.xml);
+                                    var matchingTopicXMLCopy = global.jQuery.parseXML(replacedTextResult.xml);
                                     normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
 
-                                    var matchingTopicXMLCompare = removeWhiteSpace(xmlToString(matchingTopicXMLCopy));
+                                    var matchingTopicXMLCompare = reencode(removeWhiteSpace(xmlToString(matchingTopicXMLCopy)), replacedTextResult.replacements);
 
-                                    //console.log(matchingTopicXMLCompare);
-
-                                    if (matchingTopicXMLCompare === firstUnresolvedTopicXMLCompare) {
-                                        matchingTopic = value.item;
-                                        return false;
+                                    if (matchingTopicXMLCompare === topicXMLCompare) {
+                                        topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
                                     }
                                 });
 
-                                return matchingTopic;
-                            };
+                                getPossibleMatches(index + 1, callback);
+                            },
+                            errorCallback
+                        );
+                    }
+                }
 
-                            // find anything in the database that is a close match to this topic
-                            getSimilarTopics(
-                                xmlToString(firstUnresolvedTopic.xml),
-                                config,
-                                function (data) {
-                                    //console.log(firstUnresolvedTopicXMLCompare);
-                                    var matchingTopic = testTopicAgainstCloseMatch(firstUnresolvedTopicXMLCompare, data);
-
-                                    if (matchingTopic) {
-                                        firstUnresolvedTopic.topicId = matchingTopic.id;
-                                        /*
-                                            Normally the xml is a DOM, not a string. But parsing the xml of an
-                                            existing topic could lead to validation errors with unresolved entities.
-                                            The xml is only used when creating or updating a topic, which we don't
-                                            do when the topic has been matched (i.e. when topicId is defined and
-                                            xrefsResolved is true), so we assign the text xml here for testing
-                                            only.
-                                         */
-                                        firstUnresolvedTopic.xml = matchingTopic.xml;
-                                        firstUnresolvedTopic.xrefsResolved = true;
-                                        contentSpec[firstUnresolvedTopic.specLine] += " [" + matchingTopic.id + "]";
-                                        resolveXrefsLoop();
-                                    } else {
-                                        createTopic(
-                                            firstUnresolvedTopic.xml,
-                                            replacements,
-                                            null,
-                                            null,
-                                            config,
-                                            function (topicId, matchedExisting) {
-                                                config.UploadedTopicCount += 1;
-                                                if (matchedExisting) {
-                                                    config.MatchedTopicCount += 1;
-                                                }
-                                                config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
-                                                resultCallback();
-
-                                                firstUnresolvedTopic.topicId = topicId;
-                                                contentSpec[firstUnresolvedTopic.specLine] += " [" + topicId + "]";
-
-                                                resolveXrefsLoop();
-                                            },
-                                            errorCallback
-                                        );
-                                    }
-                                },
-                                errorCallback
-                            );
-                        } else {
-                            config.UploadProgress[1] = 12;
-                            config.ResolvedXrefs = true;
-                            resultCallback();
-                            uploadContentSpec(contentSpec, config);
-                        }
-                    };
-
-                    resolveXrefsLoop();
+                getPossibleMatches(0, function() {
+                    populateOutgoingLinks();
                 });
+
+                /*
+                    Step 2: Populate outgoing links
+                */
+                function populateOutgoingLinks() {
+                    global.jQuery.each(topics, function (index, topic) {
+
+                        // a collection of xrefs that will be replaced by injections.
+                        // topic.xrefs is a collection of all xrefs, but some of these
+                        // might point to positions inside a topic, and as such is not
+                        // a candidate for being replaced with an injection
+                        var outgoingXrefs = [];
+
+                        global.jQuery.each(topic.xrefs, function (index, xref) {
+                            if (topicOrContainerIDs.indexOf(xref) !== -1) {
+                                outgoingXrefs.push(xref);
+                            }
+                        });
+
+                        global.jQuery.each(topic.pgIds, function (pgid, details) {
+                            var InjectionRE = /<!--\s*Inject\s*:\s*(\d+)\s*-->/g;
+                            var match;
+                            var count = 0;
+                            while (match = InjectionRE.exec(details.originalXML)) {
+                                if (count >= outgoingXrefs.length) {
+                                    throw "There is a mismatch between the xrefs and the injects.";
+                                }
+
+                                var topicId = match[1];
+                                var xref = outgoingXrefs[count];
+
+                                topic.addOutgoingLink(pgid, xref, topicId);
+
+                                ++count;
+                            }
+                        });
+                    });
+
+                    resolveNodes();
+                }
+
+                /*
+                    Step 3: Try to resolve a node
+                 */
+                function resolveNodes() {
+                    function getUnresolvedNodeWithOutboundXrefs() {
+                        var retValue;
+                        global.jQuery.each(topics, function (index, topic) {
+                            if (topic.topicId === undefined && topic.outgoingLinks !== undefined) {
+                                retValue = topic;
+                                return false;
+                            }
+                        });
+                        return retValue;
+                    }
+
+                    function getUnresolvedNode() {
+                        var retValue;
+                        global.jQuery.each(topics, function (index, topic) {
+                            if (topic.topicId === undefined) {
+                                retValue = topic;
+                                return false;
+                            }
+                        });
+                        return retValue;
+                    }
+
+                    var unresolvedNode;
+                    while (unresolvedNode = getUnresolvedNodeWithOutboundXrefs()) {
+                        var validNetwork;
+                        global.jQuery.each(unresolvedNode.pgIds, function (pgId, details) {
+                            unresolvedNode.resetTestId();
+                            var validNodes = [];
+                            var valid = unresolvedNode.isValid(pgId, validNodes);
+                            if (valid) {
+                                validNetwork = validNodes;
+                                return false;
+                            }
+                        });
+
+                        if (!validNetwork) {
+                            unresolvedNode.resetTestId();
+                            validNetwork = unresolvedNode.getGraph();
+                        }
+
+                        /*
+                            Any topic that can be matched to an existing topic will have a positive
+                            integer as the topicId. Any topic that needs to be created will have a
+                            topicId of -1.
+                         */
+                        global.jQuery.each(validNetwork, function (index, topic) {
+                            if (topic.testId === undefined) {
+                                topic.topicId = -1;
+                            } else {
+                                topic.topicId = topic.testId;
+                            }
+                        });
+                    }
+
+                    /*
+                        Any that are left are stand alone topics. These can take on the first matching
+                        topic id, or -1 is they are new topics.
+                     */
+                    while (unresolvedNode = getUnresolvedNode()) {
+                        unresolvedNode.topicId = unresolvedNode.pgIds !== undefined ? unresolvedNode.pgIds[0] : -1;
+                    }
+
+                    createTopics();
+                }
+
+                /*
+                    Step 4: Create any new topics
+                 */
+                function createNewTopcs() {
+                    function createTopics(index, callback) {
+                        if (index >= topics.length) {
+                            callback();
+                        } else {
+                            var topic = topics[index];
+                            if (topic.topicId === -1) {
+                                createTopic(
+                                    topic.xml,
+                                    replacements,
+                                    topic.title,
+                                    null,
+                                    config, function (data) {
+                                        topic.topicId = data.topic.id;
+                                        topic.createdTopic = true;
+
+                                        var replacedTextResult = replaceEntitiesInText(data.topic.xml);
+
+                                        topic.xml = global.jQuery.parseXML(replacedTextResult.xml);
+                                        topic.replacements = replacedTextResult.replacements;
+                                    },
+                                    errorCallback
+                                );
+                            } else {
+                                createTopics(index + 1, callback);
+                            }
+                        }
+                    }
+
+                    createTopics(0, function(){
+
+                    });
+                }
+
+                /*
+                    Step 5: Resolve xrefs
+                 */
+                function resolveXrefsInCreatedTopics() {
+                    function resolve(index, callback) {
+                        if (index >= topics.length) {
+                            callback();
+                        } else {
+                            var topic = topics[index];
+                            if (topic.createdTopic) {
+                                var xrefs = xmlDoc.evaluate("//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
+                                var xref;
+                                var xrefReplacements = [];
+                                while (xref = xrefs.iterateNext()) {
+                                    if (xref.hasAttribute("linkend")) {
+                                        var linkend = xref.getAttribute("linkend");
+                                        // is this an xref to a topic
+                                        var destinationTopic = topicGraph.getNodeFromXMLId(linkend);
+                                        if (destinationTopic !== undefined) {
+
+                                            if (destinationTopic.topicId === undefined || destinationTopic.topicId === -1) {
+                                                throw "All topics should be resolved by this point"
+                                            }
+
+                                            // we are pointing to a saved topic, so replace the xref with an injection
+                                            var injection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
+                                            xrefReplacements.push({original: xref, replacement: injection});
+                                        }
+                                    }
+                                }
+
+                                global.jQuery.each(xrefReplacements, function (index, value) {
+                                    value.original.parentNode.replaceChild(value.replacement, value.original);
+                                });
+
+                                updateTopic(
+                                    topic.topicId,
+                                    topic.xml,
+                                    topic.replacements,
+                                    topic.title,
+                                    config,
+                                    function (data) {
+                                        resolveXrefsInCreatedTopics(index + 1, callback);
+                                    },
+                                    errorCallback
+                                );
+                            } else {
+                                resolveXrefsInCreatedTopics(index + 1, callback);
+                            }
+                        }
+                    }
+
+                    resolve(0, function() {
+                        uploadContentSpec();
+                    });
+                }
+
+                /*
+                    Step 6: update the content spec
+                 */
+                function updateContentSpec() {
+
+                    global.jQuery.each(topics, function (index, topic) {
+                        contentSpec[topic.specLine] += " [" + topic.topicId + "]"
+                    });
+
+                    uploadContentSpec(contentSpec);
+                }
             };
 
-            var uploadContentSpec = function (contentSpec, config) {
+            var uploadContentSpec = function (contentSpec) {
                 var compiledContentSpec = "";
                 global.jQuery.each(contentSpec, function(index, value) {
                     compiledContentSpec += value + "\n";
