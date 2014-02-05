@@ -1250,7 +1250,7 @@
                                     ++count;
                                 }
                             });
-                        } else {
+                        } /*else {
                             var xrefs = xmlDoc.evaluate("//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
                             var xref;
                             while (xref = xrefs.iterateNext()) {
@@ -1259,7 +1259,7 @@
                                     this.addOutgoingLink(linkend);
                                 }
                             }
-                        }
+                        }*/
                     });
 
                     resolveNodes();
@@ -1363,7 +1363,7 @@
                     }
 
                     createTopics(0, function(){
-
+                        resolveXrefsInCreatedTopics();
                     });
                 }
 
