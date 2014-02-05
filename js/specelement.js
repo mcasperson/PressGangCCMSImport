@@ -221,13 +221,20 @@
     };
 
     global.TopicGraphNode.prototype.isValid = function (pgId, validNodes) {
-
-        if (this.topicId !== undefined) {
-            throw "We should not encounter a topic that has already been processed";
-        }
-
         if (pgId === undefined) {
             throw "pgId should never be undefined";
+        }
+
+        if (this.topicId !== undefined && this.topicId === pgId)
+        {
+            throw "We should not enter a resolved network again";
+        }
+
+        /*
+            We have already resolved this topic to a different id, so we can't match it again.
+         */
+        if (this.topicId !== undefined && this.topicId !== pgId) {
+            return false;
         }
 
         /*
