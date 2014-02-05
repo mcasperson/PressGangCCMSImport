@@ -1333,6 +1333,7 @@
                         var retValue;
                         global.jQuery.each(topics, function (index, topic) {
                             if (topic.topicId === undefined &&
+                                topic.pgIds !== undefined &&
                                 (topic.fixedOutgoingLinks !== undefined || topic.fixedIncomingLinks !== undefined)) {
                                 retValue = topic;
                                 return false;
