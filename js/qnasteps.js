@@ -1367,23 +1367,30 @@
                      and see if all other nodes in the xref graph are also valid with
                      this configuration.
                      */
-                    var validNetwork = null;
+                    var validNodesOptions = [];
                     global.jQuery.each(unresolvedNode.pgIds, function (pgId, details) {
                         topicGraph.resetTestIds();
                         var validNodes = [];
                         var valid = unresolvedNode.isValid(pgId, validNodes);
                         if (valid) {
-                            validNetwork = validNodes;
-                            return false;
+                            validNodesOptions.push(validNodes);
                         }
                     });
 
-                    if (validNetwork) {
+                    if (validNodesOptions.length !== 0) {
+
+                        var mostSuccess;
+                        global.jQuery.each(validNodesOptions, function(index, validNodesOption){
+                            if (mostSuccess === undefined || validNodesOption.length > mostSuccess.length) {
+                                mostSuccess = validNodesOption;
+                            }
+                        });
+
                         /*
                          Every topic in this xref graph is valid with an existing topic id,
                          so set the topicId to indicate that these nodes have been resolved.
                          */
-                        global.jQuery.each(validNetwork, function (index, topic) {
+                        global.jQuery.each(mostSuccess, function (index, topic) {
                             if (topic.topicId !== undefined) {
                                 throw "We should not be able to set the topic id twice";
                             }
@@ -1400,10 +1407,10 @@
                          new.
                          */
                         topicGraph.resetTestIds();
-                        validNetwork = [];
-                        unresolvedNode.getUnresolvedGraph(validNetwork);
+                        var unresolvedNetwork = [];
+                        unresolvedNode.getUnresolvedGraph(unresolvedNetwork);
 
-                        global.jQuery.each(validNetwork, function (index, topic) {
+                        global.jQuery.each(unresolvedNetwork, function (index, topic) {
                             if (topic.topicId !== undefined) {
                                 throw "We should not be able to set the topic id twice";
                             }

@@ -355,24 +355,40 @@
             global.jQuery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
                 /*
                     Test every possible id that the incoming node could be looking for one
-                    that works.
+                    that works the best.
                  */
-                var incomingNodeValid = false;
+                var validIncomingNodesOptions = [];
                 global.jQuery.each(nodeDetails.ids, function (index, incomingPGId) {
-                    if (nodeDetails.node.isValid(incomingPGId, validNodes)) {
+                    var validIncomingNodes = [];
+                    if (nodeDetails.node.isValid(incomingPGId, validIncomingNodes)) {
                         /*
                             We have found in incoming node topic id that works, so
                             exit the loop
                          */
-                        incomingNodeValid = true;
-                        return false;
+                        validIncomingNodesOptions.push(validIncomingNodes);
+
+                        /*
+                            Clean up the test ids for the next run
+                         */
+                        global.jQuery.each(validIncomingNodes, function (index, validIncomingNode) {
+                            validIncomingNode.node.testId = undefined;
+                        });
                     }
                 });
 
-                if (!incomingNodeValid) {
+                if (validIncomingNodesOptions.length === 0) {
                     incomingRetValue = false;
                     return false;
                 }
+
+                var mostSuccess;
+                global.jQuery.each(validIncomingNodesOptions, function(index, validIncomingNodesOption){
+                    if (mostSuccess === undefined || validIncomingNodesOption.length > mostSuccess.length) {
+                        mostSuccess = validIncomingNodesOption;
+                    }
+                });
+
+                validNodes = validNodes.concat(mostSuccess);
             });
 
             if (!incomingRetValue) {
@@ -387,7 +403,7 @@
             throw "We should not be able to add a topic to the valid nodes twice";
         }
 
-        validNodes.push(this);
+        validNodes.push({node: this, assumedId: pgid});
         return true;
     };
 
