@@ -95,22 +95,26 @@
     global.TopicGraphNode.prototype.resetTestId = function () {
         this.setTestId(undefined);
 
-        global.jQuery.each(this.outgoingLinks, function (pgId, outgoingXmlIds) {
-            global.jQuery.each(outgoingXmlIds, function (outgoingXmlId, outgoingPGId) {
-                var node = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
-                if (node.testId !== undefined) {
-                    node.resetTestId();
-                }
+        if (this.outgoingLinks) {
+            global.jQuery.each(this.outgoingLinks, function (pgId, outgoingXmlIds) {
+                global.jQuery.each(outgoingXmlIds, function (outgoingXmlId, outgoingPGId) {
+                    var node = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
+                    if (node.testId !== undefined) {
+                        node.resetTestId();
+                    }
+                }, this);
             }, this);
-        }, this);
+        }
 
-        global.jQuery.each(this.incomingLinks, function (pgId, incomingNodes) {
-            global.jQuery.each(incomingNodes, function (incomingNode, incomingPGIds) {
-                if (incomingNode.testId !== undefined) {
-                    incomingNode.resetTestId();
-                }
+        if (this.incomingLinks) {
+            global.jQuery.each(this.incomingLinks, function (pgId, incomingNodes) {
+                global.jQuery.each(incomingNodes, function (incomingNode, incomingPGIds) {
+                    if (incomingNode.testId !== undefined) {
+                        incomingNode.resetTestId();
+                    }
+                }, this);
             }, this);
-        }, this);
+        }
 
         return this;
     };
