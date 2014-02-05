@@ -1314,11 +1314,11 @@
                      */
                     global.jQuery.each(topics, function (index, topic) {
                         if (topic.topicId === undefined) {
-                            topic.topicId = topic.pgIds !== undefined ? topic.pgIds[Object.keys(topic.pgIds)[0]] : -1;
+                            topic.topicId = topic.pgIds !== undefined ? Object.keys(topic.pgIds)[0] : -1;
                         }
                     });
 
-                    createTopics();
+                    createNewTopcs();
                 }
 
                 /*
@@ -1344,6 +1344,8 @@
 
                                         topic.xml = global.jQuery.parseXML(replacedTextResult.xml);
                                         topic.replacements = replacedTextResult.replacements;
+
+                                        createTopics(index + 1, callback);
                                     },
                                     errorCallback
                                 );
@@ -1421,7 +1423,7 @@
                 function updateContentSpec() {
 
                     global.jQuery.each(topics, function (index, topic) {
-                        contentSpec[topic.specLine] += " [" + topic.topicId + "]"
+                        contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                     });
 
                     uploadContentSpec(contentSpec);
