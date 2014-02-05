@@ -852,7 +852,7 @@
                                 config.MatchedTopicCount += 1;
                             }
 
-                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                             contentSpec.push("Author Group = [" + data.topic.id + "]");
 
@@ -891,7 +891,7 @@
                                 config.MatchedTopicCount += 1;
                             }
 
-                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                             contentSpec.push("Abstract = [" + data.topic.id + "]");
 
@@ -1302,7 +1302,7 @@
                             });
                         }
 
-                        config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                        config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                         resultCallback();
                     }
@@ -1324,7 +1324,7 @@
                         }
                     });
 
-                    config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                    config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                     resultCallback();
 
