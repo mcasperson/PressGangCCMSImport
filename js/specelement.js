@@ -131,6 +131,15 @@
         return this;
     };
 
+    /**
+     * An outgoing link is a requirement to match a topic with a given xref id to an existing topic id.
+     * What this means is that when this topic assumes the existing topic id pdId it must be able to resolve
+     * the xml id outgoingXmlId to a topic that can assume the topic id of outgoingPGId.
+     * @param pgId The topic id that this topic can assume
+     * @param outgoingXmlId The xml id that needs to be resolved
+     * @param outgoingPGId The topic id that the topic with the xml id of outgoingXmlId must be able to assume
+     * @returns {global.TopicGraphNode}
+     */
     global.TopicGraphNode.prototype.addFixedOutgoingLink = function (pgId, outgoingXmlId, outgoingPGId) {
         if (this.fixedOutgoingLinks === undefined) {
             this.fixedOutgoingLinks = {};
@@ -179,6 +188,11 @@
         return this;
     };
 
+    /**
+     * Finds any node withing the xref graph that has not already been resolved to a topic. This is useful
+     * for determining the nodes that form part of a xref graph that can't be resolved to existing topics.
+     * @param validNodes an array of the unresolved nodes that form this xref network
+     */
     global.TopicGraphNode.prototype.getGraph = function (validNodes) {
         if (this.pgIds === undefined) {
             return;
