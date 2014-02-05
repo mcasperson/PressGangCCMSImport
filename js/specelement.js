@@ -15,7 +15,7 @@
         var retValue;
         global.jQuery.each(this.nodes, function(index, node) {
             global.jQuery.each(node.xmlIds, function(index, value) {
-                if (value.xmlId === xmlId) {
+                if (value === xmlId) {
                     retValue = value;
                     return false;
                 }
