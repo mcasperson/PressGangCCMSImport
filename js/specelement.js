@@ -234,8 +234,8 @@
             We have already processed this node with the given pgid and
             it tested ok, so return true
          */
-        if (pgId === this.testId) {
-            return true;
+        if (this.testId !== undefined) {
+            return pgId === this.testId;
         }
 
         // pgIds being undefined means that this node will be saved as a new topic
@@ -333,6 +333,10 @@
                 this.setTestId(undefined);
                 return false;
             }
+        }
+
+        if (validNodes.indexOf(this) !== -1) {
+            throw "We should not be able to add a topic to the valid nodes twice";
         }
 
         validNodes.push(this);
