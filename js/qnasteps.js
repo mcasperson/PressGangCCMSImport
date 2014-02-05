@@ -1334,7 +1334,7 @@
                         global.jQuery.each(topics, function (index, topic) {
                             if (topic.topicId === undefined &&
                                 topic.pgIds !== undefined &&
-                                (topic.fixedOutgoingLinks !== undefined || topic.fixedIncomingLinks !== undefined)) {
+                                topic.fixedOutgoingLinks !== undefined) {
                                 retValue = topic;
                                 return false;
                             }
@@ -1351,7 +1351,7 @@
                          */
                         var validNetwork = null;
                         global.jQuery.each(unresolvedNode.pgIds, function (pgId, details) {
-                            unresolvedNode.resetTestId();
+                            topicGraph.resetTestIds();
                             var validNodes = [];
                             var valid = unresolvedNode.isValid(pgId, validNodes);
                             if (valid) {
@@ -1366,6 +1366,10 @@
                                 so set the topicId to indicate that these nodes have been resolved.
                              */
                             global.jQuery.each(validNetwork, function (index, topic) {
+                                if (topic.topicId !== undefined) {
+                                    throw "We should not be able to set the topic id twice";
+                                }
+
                                 topic.setTopicId(topic.testId);
 
                                 config.UploadedTopicCount += 1;
@@ -1377,11 +1381,15 @@
                                 so set all the topic ids to -1 to indicate that these topics have to be created
                                 new.
                              */
-                            unresolvedNode.resetTestId();
+                            topicGraph.resetTestIds();
                             validNetwork = [];
                             unresolvedNode.getGraph(validNetwork);
 
                             global.jQuery.each(validNetwork, function (index, topic) {
+                                if (topic.topicId !== undefined) {
+                                    throw "We should not be able to set the topic id twice";
+                                }
+
                                 topic.setTopicId(-1);
                                 config.UploadedTopicCount += 1;
                             });

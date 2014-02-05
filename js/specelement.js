@@ -51,6 +51,17 @@
         return retValue;
     };
 
+    global.TopicGraph.prototype.resetTestIds = function () {
+        var retValue = [];
+        global.jQuery.each(this.nodes, function (index, value) {
+            if (value.pgIds === undefined && value.testId !== undefined) {
+                throw "We should never have tested a topic that had no matches";
+            }
+
+            value.setTestId(undefined);
+        });
+    };
+
     global.TopicGraphNode = function (topicGraph) {
         topicGraph.addNode(this);
         this.topicGraph = topicGraph;
@@ -104,45 +115,6 @@
 
     global.TopicGraphNode.prototype.setTestId = function (testId) {
         this.testId = testId;
-        return this;
-    };
-
-    global.TopicGraphNode.prototype.resetTestId = function (touchedNodes) {
-        if (touchedNodes === undefined) {
-            touchedNodes = [];
-        }
-
-        if (touchedNodes.indexOf(this) !== -1) {
-            return;
-        }
-
-        touchedNodes.push(this);
-
-        this.setTestId(undefined);
-
-        var topicGraph = this.topicGraph;
-
-        if (this.fixedOutgoingLinks) {
-            global.jQuery.each(this.fixedOutgoingLinks, function (pgId, outgoingXmlIds) {
-                global.jQuery.each(outgoingXmlIds, function (outgoingXmlId, outgoingPGId) {
-                    var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-                    if (node.testId !== undefined) {
-                        node.resetTestId(touchedNodes);
-                    }
-                });
-            });
-        }
-
-        if (this.fixedIncomingLinks) {
-            global.jQuery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
-                global.jQuery.each(incomingNodes, function (index, nodeDetails) {
-                    if (nodeDetails.node !== undefined) {
-                        nodeDetails.node.resetTestId(touchedNodes);
-                    }
-                });
-            });
-        }
-
         return this;
     };
 
@@ -208,6 +180,10 @@
     };
 
     global.TopicGraphNode.prototype.getGraph = function (validNodes) {
+        if (this.pgIds === undefined) {
+            return;
+        }
+
         if (validNodes === undefined) {
             validNodes = [];
         }
@@ -245,6 +221,15 @@
     };
 
     global.TopicGraphNode.prototype.isValid = function (pgId, validNodes) {
+
+        if (this.topicId !== undefined) {
+            throw "We should not encounter a topic that has already been processed";
+        }
+
+        if (pgId === undefined) {
+            throw "pgId should never be undefined";
+        }
+
         /*
             We have already processed this node with the given pgid and
             it tested ok, so return true
@@ -254,9 +239,7 @@
         }
 
         // pgIds being undefined means that this node will be saved as a new topic
-        if ((this.pgIds === undefined && pgId !== undefined) ||
-            (this.pgIds !== undefined && pgId === undefined)) {
-
+        if (this.pgIds === undefined) {
             // because we expected this topic to have an existing id and it didn't
             return false;
         }
