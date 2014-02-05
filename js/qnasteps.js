@@ -1055,6 +1055,11 @@
                                         .setTitle(titleText);
 
                                     if (id) {
+
+                                        if (topicGraph.hasXMLId(id.nodeValue)) {
+                                            throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                        }
+
                                         standaloneContainerTopic.addXmlId(id.nodeValue);
                                     }
 
@@ -1064,6 +1069,11 @@
                                         topic under a container.
                                      */
                                     if (containerId !== undefined && containerId !== null) {
+
+                                        if (topicGraph.hasXMLId(id.nodeValue)) {
+                                            throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                        }
+
                                         standaloneContainerTopic.addXmlId(containerId.nodeValue);
                                     }
 
@@ -1084,10 +1094,18 @@
                                             .setTitle(titleText);
 
                                         if (id) {
+                                            if (topicGraph.hasXMLId(id.nodeValue)) {
+                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
                                             initialTextTopic.addXmlId(id.nodeValue);
                                         }
 
                                         if (containerId !== undefined && containerId !== null) {
+                                            if (topicGraph.hasXMLId(id.nodeValue)) {
+                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
                                             initialTextTopic.addXmlId(containerId.nodeValue);
                                         }
 
@@ -1116,9 +1134,12 @@
             /*
                 Resolve the topics either to existing topics in the database, or to new topics
              */
-
             var resolveXRefs = function (xmlDoc, contentSpec, topics, topicGraph) {
 
+                /*
+                    Take every xref that points to a topic (and not just a place in a topic), and replace it
+                    with a injection placeholder. This is done on topics to be imported.
+                 */
                 var normalizeXrefs = function (xml, topicAndContainerIDs) {
                     var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
@@ -1140,6 +1161,10 @@
                     return xml;
                 };
 
+                /*
+                    Take every injection and replace it with a placeholder. This is done on existing topics
+                    from PressGang.
+                 */
                 var normalizeInjections = function (xml, xmlDoc) {
                     var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
@@ -1158,6 +1183,9 @@
                     return xml;
                 };
 
+                /*
+                    Remove all whitespace
+                 */
                 var removeWhiteSpace = function (xml) {
                     return xml.replace(/\n/g, "")
                         .replace(/\s/g, "");
@@ -1190,13 +1218,41 @@
                                 topicXMLCompare = reencode(topicXMLCompare, replacements);
                                 topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
 
-                                global.jQuery.each(data.items, function(index, matchingTopic) {
-                                    // normalize injections and xrefs
-                                    var replacedTextResult = replaceEntitiesInText(matchingTopic.item.xml);
-                                    var matchingTopicXMLCopy = global.jQuery.parseXML(replacedTextResult.xml);
-                                    normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
+                                /*
+                                    topicXMLCompare now has injection placeholders that will match the injection
+                                    points in existing topics, has any entities put back, has whitespace removed
+                                    and the main element is a section.
 
-                                    var matchingTopicXMLCompare = reencode(removeWhiteSpace(xmlToString(matchingTopicXMLCopy)), replacedTextResult.replacements);
+                                    We are now ready to compare it directly to topics pulled from PressGang and
+                                    normalized.
+                                 */
+
+                                global.jQuery.each(data.items, function(index, matchingTopic) {
+                                    /*
+                                        Strip out the entities which can cause issues with the XML Parsing
+                                     */
+                                    var replacedTextResult = replaceEntitiesInText(matchingTopic.item.xml);
+                                    /*
+                                        Parse to XML
+                                     */
+                                    var matchingTopicXMLCopy = global.jQuery.parseXML(replacedTextResult.xml);
+                                    /*
+                                        Normalize injections. We do this against a XML DOM because it is more
+                                        robust than doing regexes on strings.
+                                     */
+                                    normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
+                                    /*
+                                        Convert back to a string
+                                     */
+                                    var matchingTopicXMLCompare = xmlToString(matchingTopicXMLCopy);
+                                    /*
+                                        Strip whitespace
+                                     */
+                                    matchingTopicXMLCompare = removeWhiteSpace(matchingTopicXMLCompare);
+                                    /*
+                                        Restore entities
+                                     */
+                                    matchingTopicXMLCompare = reencode(matchingTopicXMLCompare, replacedTextResult.replacements);
 
                                     if (matchingTopicXMLCompare === topicXMLCompare) {
                                         topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
@@ -1232,6 +1288,10 @@
                             }
                         });
 
+                        /*
+                            We are only interested in mapping the relationships between topics
+                            that have matching topics in PressGang.
+                         */
                         if (topic.pgIds) {
                             global.jQuery.each(topic.pgIds, function (pgid, details) {
                                 var InjectionRE = /<!--\s*Inject\s*:\s*(\d+)\s*-->/g;
@@ -1249,6 +1309,10 @@
 
                                     ++count;
                                 }
+
+                                if (count !== outgoingXrefs.length) {
+                                    throw "There is a mismatch between the xrefs and the injects.";
+                                }
                             });
                         }
                     });
@@ -1260,10 +1324,15 @@
                     Step 3: Try to resolve a node
                  */
                 function resolveNodes() {
+                    /*
+                     Return a node without a topic ID (which means it hasn't been resolved) and
+                     outgoing or incoming links (which means it is part of a xref graph).
+                     */
                     function getUnresolvedNodeWithOutboundXrefs() {
                         var retValue;
                         global.jQuery.each(topics, function (index, topic) {
-                            if (topic.topicId === undefined && topic.fixedOutgoingLinks !== undefined) {
+                            if (topic.topicId === undefined &&
+                                (topic.fixedOutgoingLinks !== undefined || topic.fixedIncomingLinks !== undefined)) {
                                 retValue = topic;
                                 return false;
                             }
@@ -1273,6 +1342,11 @@
 
                     var unresolvedNode;
                     while (unresolvedNode = getUnresolvedNodeWithOutboundXrefs()) {
+                        /*
+                            Loop through each possible topic id that this topic could be
+                            and see if all other nodes in the xref graph are also valid with
+                            this configuration.
+                         */
                         var validNetwork = null;
                         global.jQuery.each(unresolvedNode.pgIds, function (pgId, details) {
                             unresolvedNode.resetTestId();
@@ -1285,19 +1359,28 @@
                         });
 
                         if (validNetwork) {
+                            /*
+                                Every topic in this xref graph is valid with an existing topic id,
+                                so set the topicId to indicate that these nodes have been resolved.
+                             */
                             global.jQuery.each(validNetwork, function (index, topic) {
-                                topic.topicId = topic.testId;
+                                topic.setTopicId(topic.testId);
 
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
                             });
                         } else {
+                            /*
+                                We could not find a valid xref graph with the possible existing matches,
+                                so set all the topic ids to -1 to indicate that these topics have to be created
+                                new.
+                             */
                             unresolvedNode.resetTestId();
                             validNetwork = [];
                             unresolvedNode.getGraph(validNetwork);
 
                             global.jQuery.each(validNetwork, function (index, topic) {
-                                topic.topicId = -1;
+                                topic.setTopicId(-1);
                                 config.UploadedTopicCount += 1;
                             });
                         }
@@ -1314,11 +1397,11 @@
                     global.jQuery.each(topics, function (index, topic) {
                         if (topic.topicId === undefined) {
                             if (topic.pgIds !== undefined) {
-                                topic.topicId = Object.keys(topic.pgIds)[0];
+                                topic.setTopicId(Object.keys(topic.pgIds)[0]);
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
                             } else {
-                                topic.topicId = -1;
+                                topic.setTopicId(-1);
                                 config.UploadedTopicCount += 1;
                             }
                         }
@@ -1347,7 +1430,7 @@
                                     topic.title,
                                     null,
                                     config, function (data) {
-                                        topic.topicId = data.topic.id;
+                                        topic.setTopicId(data.topic.id);
                                         topic.createdTopic = true;
 
                                         var replacedTextResult = replaceEntitiesInText(data.topic.xml);
@@ -1391,7 +1474,7 @@
                                         if (destinationTopic !== undefined) {
 
                                             if (destinationTopic.topicId === undefined || destinationTopic.topicId === -1) {
-                                                throw "All topics should be resolved by this point"
+                                                throw "All topics should be resolved by this point";
                                             }
 
                                             // we are pointing to a saved topic, so replace the xref with an injection

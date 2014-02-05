@@ -24,6 +24,21 @@
         return retValue;
     };
 
+    global.TopicGraph.prototype.hasXMLId = function (xmlId) {
+        var retValue = false;
+        global.jQuery.each(this.nodes, function(index, node) {
+            if (node.xmlIds !== undefined) {
+                global.jQuery.each(node.xmlIds, function(index, value) {
+                    if (value === xmlId) {
+                        retValue = true;
+                        return false;
+                    }
+                });
+            }
+        });
+        return retValue;
+    };
+
     global.TopicGraph.prototype.getAllTopicOrContainerIDs = function () {
         var retValue = [];
         global.jQuery.each(this.nodes, function (index, value) {
