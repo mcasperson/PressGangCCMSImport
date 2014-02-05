@@ -1413,7 +1413,7 @@
                     }
 
                     resolve(0, function() {
-                        uploadContentSpec();
+                        updateContentSpec();
                     });
                 }
 
