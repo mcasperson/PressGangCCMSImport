@@ -1668,7 +1668,7 @@
                                     topic.setTopicId(data.id);
                                     topic.createdTopic = true;
 
-                                    var replacedTextResult = replaceEntitiesInText(data.topic.xml);
+                                    var replacedTextResult = replaceEntitiesInText(data.xml);
 
                                     topic.xml = global.jQuery.parseXML(replacedTextResult.xml);
                                     topic.replacements = replacedTextResult.replacements;
