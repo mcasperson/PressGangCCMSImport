@@ -72,8 +72,7 @@
         this.xml = xml;
         this.xrefs = [];
 
-        // find any
-        var xrefsTargets = [];
+        // find any xrefs in the xml
         var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
         var xref;
         while (xref = xrefs.iterateNext()) {
@@ -388,7 +387,7 @@
                     }
                 });
 
-                validNodes = validNodes.concat(mostSuccess);
+                validNodes.join(mostSuccess);
             });
 
             if (!incomingRetValue) {
