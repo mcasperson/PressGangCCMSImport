@@ -208,7 +208,7 @@
         return xmlText;
     }
 
-    function createTopic(xml, replacements, title, tags, config, successCallback, errorCallback) {
+    function createTopic(tryToMatch, xml, replacements, title, tags, config, successCallback, errorCallback) {
 
         var fixedXML =  setDocumentNodeToSection(reencode(xmlToString(xml), replacements).trim());
 
@@ -246,7 +246,7 @@
 
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/createormatch/json?message=Initial+Topic+Creation&flag=2&userId=89',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/' + (tryToMatch ? 'createormatch' : 'create') + '/json?message=Initial+Topic+Creation&flag=2&userId=89',
             data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",
@@ -954,6 +954,7 @@
 
                 if (revHistory) {
                     createTopic(
+                        true,
                         revHistory,
                         replacements,
                         "Revision History",
@@ -992,6 +993,7 @@
 
                 if (authorGroup) {
                     createTopic(
+                        true,
                         authorGroup,
                         replacements,
                         "Author Group",
@@ -1030,6 +1032,7 @@
 
                 if (abstractContent) {
                     createTopic(
+                        true,
                         abstractContent,
                         replacements,
                         "Abstract",
@@ -1093,7 +1096,7 @@
                                                     config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
                                                     resultCallback();
 
-                                                    uploadedImages[nodeValue] = imageId;
+                                                    uploadedImages[nodeValue] = imageId + filename.substr(filename.lastIndexOf("."));
 
                                                     processImages(images.iterateNext());
                                                 },
@@ -1656,12 +1659,13 @@
                         var topic = topics[index];
                         if (topic.topicId === -1) {
                             createTopic(
+                                false,
                                 topic.xml,
                                 replacements,
                                 topic.title,
                                 null,
                                 config, function (data) {
-                                    topic.setTopicId(data.topic.id);
+                                    topic.setTopicId(data.id);
                                     topic.createdTopic = true;
 
                                     var replacedTextResult = replaceEntitiesInText(data.topic.xml);
