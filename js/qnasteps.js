@@ -526,7 +526,7 @@
                         .setName("FoundAbstract"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
-                        .setIntro("Finding and uploading images")
+                        .setIntro("Finding and uploading images*")
                         .setName("FoundImages"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
