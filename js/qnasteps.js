@@ -562,7 +562,7 @@
             /*
              Resolve xi:includes
              */
-            var resolveXiIncludes = function () {
+            function resolveXiIncludes () {
                 var xiIncludeRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*\/\s*>/;
                 var commonContent = /^Common_Content/;
 
@@ -606,12 +606,12 @@
                         replaceEntities(xmlText);
                     });
                 });
-            };
+            }
 
             /*
              Replace entities with markers so we can process the XML without worrying about resolving entities
              */
-            var replaceEntitiesInText = function (xmlText) {
+            function replaceEntitiesInText (xmlText) {
                 var retValue = [];
 
                 var entityRe = /&.*?;/;
@@ -629,9 +629,9 @@
                 }
 
                 return {xml: xmlText, replacements: retValue};
-            };
+            }
 
-            var replaceEntities = function (xmlText) {
+            function replaceEntities (xmlText) {
                 var fixedXMLResult = replaceEntitiesInText(xmlText);
                 replacements = fixedXMLResult.replacements;
                 xmlText = fixedXMLResult.xml;
@@ -641,13 +641,13 @@
                 resultCallback();
 
                 findEntities(xmlText);
-            };
+            }
 
             /*
              Find any entity definitions in the xml or ent files. Note that older publican books reference invalid
              entity files, so we just do a brute force search.
              */
-            var findEntities = function (xmlText) {
+            function findEntities (xmlText) {
                 var entities = [];
 
                 var relativePath = "";
@@ -694,7 +694,7 @@
 
                     processTextFile(0);
                 });
-            };
+            }
 
             /*
              Strip out any XML preabmle that might have been pulled in with the
@@ -702,33 +702,47 @@
              with no entities, dtds or anything else that make life hard when
              trying to parse XML.
              */
-            var removeXmlPreamble = function (xmlText, entities) {
+            function removeXmlPreamble (xmlText, entities) {
                 xmlText = xmlText.replace(/<\?xml.*?>/g, "");
-                xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?\[[\s\S]*?\]>/g, "");
+                xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*?\])*>/g, "");
 
                 config.UploadProgress[1] = 4;
                 config.RemovedXMLPreamble = true;
                 resultCallback();
 
+                fixXML(xmlText, entities);
+            }
+
+            /**
+             * Some common errors appear in old books. This function cleans them up
+             * so that the XML can be parsed.
+             */
+            function fixXML (xmlText, entities) {
+                var commentFix = /<!--([\s\S]*?)(<!--)([\s\S]*?)-->/;
+                var commentMatch;
+                while ((commentMatch = commentFix.exec(xmlText)) !== null) {
+                    xmlText = xmlText.replace(commentMatch[0], commentMatch[1] + commentMatch[3]);
+                }
+
                 parseAsXML(xmlText, entities);
-            };
+            }
 
             /*
              Take the sanitised XML and convert it to an actual XML DOM
              */
-            var parseAsXML = function (xmlText, entities) {
+            function parseAsXML (xmlText, entities) {
                 var xmlDoc = global.jQuery.parseXML(xmlText);
                 config.UploadProgress[1] = 5;
                 config.ParsedAsXML = true;
                 resultCallback();
 
                 findBookInfo(xmlDoc, entities);
-            };
+            }
 
             /*
                 Find the book info details
              */
-            var findBookInfo = function (xmlDoc, entities) {
+            function findBookInfo (xmlDoc, entities) {
                 // the content spec
                 var contentSpec = [];
 
@@ -805,9 +819,9 @@
                     errorCallback("Invalid content", "The <bookinfo> element could not be found");
                 }
 
-            };
+            }
 
-            var extractRevisionHistory = function (xmlDoc, contentSpec) {
+            function extractRevisionHistory (xmlDoc, contentSpec) {
                 var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
@@ -842,9 +856,9 @@
                 } else {
                     done(xmlDoc, contentSpec);
                 }
-            };
+            }
 
-            var extractAuthorGroup = function (xmlDoc, contentSpec) {
+            function extractAuthorGroup (xmlDoc, contentSpec) {
                 var authorGroup = xmlDoc.evaluate("//authorgroup", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
@@ -880,9 +894,9 @@
                 } else {
                     done(xmlDoc, contentSpec);
                 }
-            };
+            }
 
-            var extractAbstract = function (xmlDoc, contentSpec) {
+            function extractAbstract (xmlDoc, contentSpec) {
                 var abstractContent = xmlDoc.evaluate("//bookinfo/abstract", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
@@ -918,9 +932,9 @@
                 } else {
                     done(xmlDoc, contentSpec);
                 }
-            };
+            }
 
-            var uploadImages = function (xmlDoc, contentSpec) {
+            function uploadImages (xmlDoc, contentSpec) {
                 var images = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
                 var uploadedImages = {};
 
@@ -999,9 +1013,9 @@
                 };
 
                 processImages(images.iterateNext());
-            };
+            }
 
-            var resolveBookStructure = function(xmlDoc, contentSpec) {
+            function resolveBookStructure (xmlDoc, contentSpec) {
                 // the graph that holds the topics
                 var topicGraph = new global.TopicGraph();
 
@@ -1145,7 +1159,7 @@
                 resultCallback();
 
                 matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph);
-            };
+            }
 
             /*
                 Resolve the topics either to existing topics in the database, or to new topics
@@ -1388,7 +1402,7 @@
 
                     resolveXrefs(xmlDoc, contentSpec, topics, topicGraph);
                 }
-            };
+            }
 
             /*
                 This is the trickiest part of the process.
@@ -1407,7 +1421,7 @@
                    are also resolved
                 4. Create new topics that could not be matched, and reuse those that can be matched
              */
-            var resolveXrefs = function (xmlDoc, contentSpec, topics, topicGraph) {
+            function resolveXrefs (xmlDoc, contentSpec, topics, topicGraph) {
                 /*
                  Return a node without a topic ID (which means it hasn't been resolved) and
                  outgoing or incoming links (which means it is part of a xref graph).
@@ -1511,9 +1525,9 @@
                 resultCallback();
 
                 uploadTopics(xmlDoc, contentSpec, topics, topicGraph);
-            };
+            }
 
-            var uploadTopics = function (xmlDoc, contentSpec, topics, topicGraph) {
+            function uploadTopics (xmlDoc, contentSpec, topics, topicGraph) {
                 function createTopics(index, callback) {
                     if (index >= topics.length) {
                         callback();
@@ -1552,9 +1566,9 @@
 
                     resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph);
                 });
-            };
+            }
 
-            var resolveXrefsInCreatedTopics = function (xmlDoc, contentSpec, topics, topicGraph) {
+            function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph) {
                 function resolve(index, callback) {
                     if (index >= topics.length) {
                         callback();
@@ -1611,9 +1625,9 @@
 
                     updateContentSpec(xmlDoc, contentSpec, topics, topicGraph);
                 });
-            };
+            }
 
-            var updateContentSpec = function (xmlDoc, contentSpec, topics, topicGraph) {
+            function updateContentSpec (xmlDoc, contentSpec, topics, topicGraph) {
                 global.jQuery.each(topics, function (index, topic) {
                     contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                 });
@@ -1623,9 +1637,9 @@
                 resultCallback();
 
                 uploadContentSpec(contentSpec);
-            };
+            }
 
-            var uploadContentSpec = function (contentSpec) {
+            function uploadContentSpec (contentSpec) {
                 var compiledContentSpec = "";
                 global.jQuery.each(contentSpec, function(index, value) {
                     compiledContentSpec += value + "\n";
@@ -1654,7 +1668,7 @@
                         errorCallback
                     );
                 }
-            };
+            }
 
             // start the process
             resolveXiIncludes();
