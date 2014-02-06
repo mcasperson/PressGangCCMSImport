@@ -890,8 +890,7 @@
                     config.FoundAbstract = true;
                     resultCallback();
 
-                    //uploadImages(xmlDoc, contentSpec);
-                    resolveBookStructure(xmlDoc, contentSpec);
+                    uploadImages(xmlDoc, contentSpec);
                 };
 
                 if (abstractContent) {

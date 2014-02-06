@@ -51,6 +51,27 @@
         return retValue;
     };
 
+    /**
+     * The big challenge for this import application is to map the xref graph (which is to say the
+     * relationships between topics defined by xref links) in the imported book to any collection
+     * of existing topics on the server that also have the same xref graph topology.
+     *
+     * We can reuse topics from the server only if they have the same content and if their xref
+     * graph maps to the same topics. If even one xref in a xref graph is not the same, all the
+     * nodes in the graph can not be reused.
+     *
+     * The TopicGraphNode class represents a topic in the imported book. But more importantly, it
+     * represents a node in a xref graph (even if it is a stand alone node with no outgoing xrefs
+     * and none coming in)
+     *
+     * The topics listed in pgIds are potential duplicate existing topics. The relationships in
+     * fixedOutgoingLinks define what topic IDs this node expects to find on the other end
+     * of an xref. fixedIncomingLinks define the topic IDs that point to this node.
+     *
+     * @param topicGraph The graph that will hold this node
+     * @returns {global.TopicGraphNode} this
+     * @constructor
+     */
     global.TopicGraphNode = function (topicGraph) {
         topicGraph.addNode(this);
         this.topicGraph = topicGraph;
@@ -229,8 +250,8 @@
 
     /**
      * If we force this topic to assume the topic id pgId, can it resolve all the outgoing links by matching
-     * xrefs to existing topic ids? If so, this will return an array that is filled with nodes
-     * whose assumedId can be used as the id of the topic. If not, this will return null.
+     * xrefs to existing topic ids? If so, this will return an array that is filled with objects mapping nodes
+     * to assumedId which be used as the id of the topic. If not, this will return null.
      * @param pgId The id that we want to assign to this topic
      * @param existingNetwork An array that holds the nodes that were resolved to get to this point
      * @returns {Array}
@@ -262,6 +283,8 @@
                ids += xmlId;
             });
 
+            // if we see this and we know that a topic should be matched, the logic comparing two
+            // xml documents needs to be checked
             console.log("An attempt was made to resolve " + ids + " but it had no matches to existing topics.");
 
             // because we expected this topic to have an existing id and it didn't
