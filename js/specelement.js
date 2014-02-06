@@ -319,8 +319,8 @@
         var retValue = existingNetwork.slice(0);
 
         /*
-         We have already processed this node with the given pgid, so the only
-         valid request for this node is the same pgId.
+            Test to see if we have already processed this node with the given pgid. If so, the only
+            valid request for this node is the same pgId.
          */
         var alreadyProcessed;
         global.jQuery.each(retValue, (function(me) {
@@ -332,6 +332,9 @@
         }(this)));
 
         if (alreadyProcessed !== undefined) {
+            // if this topic has already been processed with the requested pgid, return the
+            // network with no changes. If this topic is being requested with a new pgid,
+            // return null because that is not valid.
             return alreadyProcessed ? retValue : null;
         }
 
@@ -376,10 +379,10 @@
                     ]
 
             Testing incoming links is a little more work, because a node can link to this node
-            assuming multiple topic ids.
+            from multiple existing topic ids.
 
             So we need to loop over each node with an incoming link, and then loop over every
-            topic id it can assume trying to find one that works.
+            topic id it can assume trying to find one that works best.
          */
         if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
             var incomingRetValue = true;
@@ -410,13 +413,17 @@
                         var validIncomingNodes = nodeDetails.node.isValid(incomingPGId, retValue);
                         if (validIncomingNodes !== null) {
                             /*
-                                We have found in incoming node topic id that works, so
-                                exit the loop
+                                We have found in incoming node topic id that works. Make a note
+                                of it so we can test each possible xref graph to see which
+                                one included the most topics.
                              */
                             validIncomingNodesOptions.push(validIncomingNodes);
                         }
                     });
 
+                    /*
+                        We found no valid xref graph configurations, so exit the loop.
+                     */
                     if (validIncomingNodesOptions.length === 0) {
                         incomingRetValue = false;
                         return false;
@@ -434,12 +441,15 @@
             });
 
             if (!incomingRetValue) {
-                // because a child node was not valid
+                // because we couldn't find a valid xref graph using the incoming links.
                 return null;
             }
         }
 
-
+        /*
+            To get to this point every node that we point to has to be valid, and every node that
+            points to us must have been part of at least one valid xref graph.
+         */
         return retValue;
     };
 
