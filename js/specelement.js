@@ -279,6 +279,17 @@
 
         // pgIds being undefined means that this node will be saved as a new topic
         if (this.pgIds === undefined) {
+
+            var ids = "";
+            global.jQuery.each(this.xmlIds, function(index, xmlId){
+               if (ids.length !== 0) {
+                   ids += ", ";
+               }
+               ids += xmlId;
+            });
+
+            console.log("An attempt was made to resolve " + ids + " but it had no matches to existing topics.");
+
             // because we expected this topic to have an existing id and it didn't
             return false;
         }

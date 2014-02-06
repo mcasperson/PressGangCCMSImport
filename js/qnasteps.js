@@ -1219,7 +1219,7 @@
                     } else {
                         var topic = topics[index];
                         getSimilarTopics(
-                            xmlToString(topic.xml),
+                            reencode(xmlToString(topic.xml), replacements),
                             config,
                             function (data) {
                                 /*
