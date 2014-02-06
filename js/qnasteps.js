@@ -1435,7 +1435,6 @@
                      */
                     var validNodesOptions = [];
                     global.jQuery.each(unresolvedNode.pgIds, function (pgId, details) {
-                        topicGraph.resetTestIds();
                         var validNodes = [];
                         var valid = unresolvedNode.isValid(pgId, validNodes);
                         if (valid) {
@@ -1445,7 +1444,7 @@
 
                     if (validNodesOptions.length !== 0) {
 
-                        var mostSuccess;
+                        var mostSuccess = undefined;
                         global.jQuery.each(validNodesOptions, function(index, validNodesOption){
                             if (mostSuccess === undefined || validNodesOption.length > mostSuccess.length) {
                                 mostSuccess = validNodesOption;
@@ -1472,7 +1471,6 @@
                          so set all the topic ids to -1 to indicate that these topics have to be created
                          new.
                          */
-                        topicGraph.resetTestIds();
                         var unresolvedNetwork = [];
                         unresolvedNode.getUnresolvedGraph(unresolvedNetwork);
 

@@ -51,17 +51,6 @@
         return retValue;
     };
 
-    global.TopicGraph.prototype.resetTestIds = function () {
-        var retValue = [];
-        global.jQuery.each(this.nodes, function (index, value) {
-            if (value.pgIds === undefined && value.testId !== undefined) {
-                throw "We should never have tested a topic that had no matches";
-            }
-
-            value.setTestId(undefined);
-        });
-    };
-
     global.TopicGraphNode = function (topicGraph) {
         topicGraph.addNode(this);
         this.topicGraph = topicGraph;
@@ -109,11 +98,6 @@
 
     global.TopicGraphNode.prototype.setTopicId = function (topicId) {
         this.topicId = topicId;
-        return this;
-    };
-
-    global.TopicGraphNode.prototype.setTestId = function (testId) {
-        this.testId = testId;
         return this;
     };
 
@@ -245,20 +229,18 @@
 
     /**
      * If we force this topic to assume the topic id pgId, can it resolve all the outgoing links by matching
-     * xrefs to existing topic ids? If so, this will return true and validNodes will be filled with nodes
-     * whose testId can be used as the id of the topic. If not, this will return false, and validNodes will
-     * contain useful information.
+     * xrefs to existing topic ids? If so, this will return an array that is filled with nodes
+     * whose assumedId can be used as the id of the topic. If not, this will return null.
      * @param pgId The id that we want to assign to this topic
-     * @param validNodes An array that will be filled with all topics in the xref graph if they all can be resolved
-     * @returns {boolean}
+     * @param existingNetwork An array that holds the nodes that were resolved to get to this point
+     * @returns {Array}
      */
-    global.TopicGraphNode.prototype.isValid = function (pgId, validNodes) {
+    global.TopicGraphNode.prototype.isValid = function (pgId, existingNetwork) {
         if (pgId === undefined) {
             throw "pgId should never be undefined";
         }
 
-        if (this.topicId !== undefined && this.topicId === pgId)
-        {
+        if (this.topicId !== undefined && this.topicId === pgId) {
             throw "We should not enter a resolved network again";
         }
 
@@ -266,15 +248,7 @@
             We have already resolved this topic to a different id, so we can't match it again.
          */
         if (this.topicId !== undefined && this.topicId !== pgId) {
-            return false;
-        }
-
-        /*
-            We have already processed this node with the given pgid, so the only
-            valid request for this node is the same pgId.
-         */
-        if (this.testId !== undefined) {
-            return pgId === this.testId;
+            return null;
         }
 
         // pgIds being undefined means that this node will be saved as a new topic
@@ -291,7 +265,7 @@
             console.log("An attempt was made to resolve " + ids + " but it had no matches to existing topics.");
 
             // because we expected this topic to have an existing id and it didn't
-            return false;
+            return null;
         }
 
         // test that the supplied PG ID one of the possible values we have
@@ -305,14 +279,28 @@
 
         if (!valid) {
             // because the supplied topic id was not in the list of ids for this topic
-            return false;
+            return null;
         }
 
+        // the nodes that make up our addition to the network
+        var retValue = existingNetwork.slice(0);
+
         /*
-            set the id that this node will assume for this test. if we hit this node again then we
-            use the testid to tell if it has been processed already
+         We have already processed this node with the given pgid, so the only
+         valid request for this node is the same pgId.
          */
-        this.setTestId(pgId);
+        var alreadyProcessed;
+        global.jQuery.each(retValue, (function(me) {
+            return function(index, existingNode) {
+                if (me === existingNode.node) {
+                    alreadyProcessed = existingNode.assumedId === pgId;
+                }
+            };
+        }(this)));
+
+        if (alreadyProcessed !== undefined) {
+            return alreadyProcessed ? retValue : null;
+        }
 
         if (this.fixedOutgoingLinks !== undefined && this.pgIds === undefined) {
             throw "Nodes that have no possible pressgang ids define can not have any outgoing requirements";
@@ -321,23 +309,27 @@
         var topicGraph = this.topicGraph;
 
         /*
+            Add ourselves to the network as we see it
+         */
+        retValue.push({node: this, assumedId: pgId});
+
+        /*
             Check to see if all outgoing links are also valid. This is pretty easy
             because each outgoing link can match only one node assuming one topic id.
          */
         if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
-            var outgoingRetValue = true;
+            var outgoingRetValue = null;
             global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
                 var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-                if (!node.isValid(outgoingPGId, validNodes)) {
-                    outgoingRetValue = false;
+                retValue = node.isValid(outgoingPGId, retValue);
+
+                if (retValue === null) {
                     return false;
                 }
             });
 
-            if (!outgoingRetValue) {
-                // because a child node was not valid
-                this.setTestId(undefined);
-                return false;
+            if (retValue === null) {
+                return null;
             }
         }
 
@@ -364,59 +356,66 @@
              */
             global.jQuery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
                 /*
-                    Test every possible id that the incoming node could be looking for one
-                    that works the best.
+                    It is possible that our backwards links have already been resolved, so
+                    don't try to resolve them again.
                  */
-                var validIncomingNodesOptions = [];
-                global.jQuery.each(nodeDetails.ids, function (index, incomingPGId) {
-                    var validIncomingNodes = [];
-                    if (nodeDetails.node.isValid(incomingPGId, validIncomingNodes)) {
-                        /*
-                            We have found in incoming node topic id that works, so
-                            exit the loop
-                         */
-                        validIncomingNodesOptions.push(validIncomingNodes);
+                var alreadyResolved = false;
+                global.jQuery.each(retValue, function(index, validNode) {
+                    if (nodeDetails.node === validNode.node) {
+                        alreadyResolved = true;
+                        return false;
+                    }
+                });
 
-                        /*
-                            Clean up the test ids for the next run
-                         */
-                        global.jQuery.each(validIncomingNodes, function (index, validIncomingNode) {
-                            validIncomingNode.node.testId = undefined;
+                if (!alreadyResolved) {
+                    /*
+                        Test every possible id that the incoming node could be looking for one
+                        that works the best.
+                     */
+                    var validIncomingNodesOptions = [];
+                    global.jQuery.each(nodeDetails.ids, function (index, incomingPGId) {
+                        var validIncomingNodes = nodeDetails.node.isValid(incomingPGId, retValue);
+                        if (validIncomingNodes !== null) {
+                            /*
+                                We have found in incoming node topic id that works, so
+                                exit the loop
+                             */
+                            validIncomingNodesOptions.push(validIncomingNodes);
+                        }
+                    });
+
+                    if (validIncomingNodesOptions.length === 0) {
+                        incomingRetValue = false;
+                        return false;
+                    }
+
+                    var mostSuccess = undefined;
+                    global.jQuery.each(validIncomingNodesOptions, function(index, validIncomingNodesOption){
+                        if (mostSuccess === undefined || validIncomingNodesOption.length > mostSuccess.length) {
+                            mostSuccess = validIncomingNodesOption;
+                        }
+                    });
+
+                    global.jQuery.each(mostSuccess, function(index, backtrace) {
+                        global.jQuery.each(retValue, function(index, validNode) {
+                            if (backtrace.node === validNode.node) {
+                                throw "We shouldn't be able to add the same node twice in a backtrace";
+                            }
                         });
-                    }
-                });
+                    });
 
-                if (validIncomingNodesOptions.length === 0) {
-                    incomingRetValue = false;
-                    return false;
+                    retValue = mostSuccess;
                 }
-
-                var mostSuccess;
-                global.jQuery.each(validIncomingNodesOptions, function(index, validIncomingNodesOption){
-                    if (mostSuccess === undefined || validIncomingNodesOption.length > mostSuccess.length) {
-                        mostSuccess = validIncomingNodesOption;
-                    }
-                });
-
-                global.jQuery.each(mostSuccess, function(index, value) {
-                    validNodes.push(value);
-                });
             });
 
             if (!incomingRetValue) {
-                // free this node up to be tested again
-                this.setTestId(undefined);
                 // because a child node was not valid
-                return false;
+                return null;
             }
         }
 
-        if (validNodes.indexOf(this) !== -1) {
-            throw "We should not be able to add a topic to the valid nodes twice";
-        }
 
-        validNodes.push({node: this, assumedId: pgId});
-        return true;
+        return retValue;
     };
 
 }(this));
