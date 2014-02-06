@@ -68,6 +68,9 @@
      * fixedOutgoingLinks define what topic IDs this node expects to find on the other end
      * of an xref. fixedIncomingLinks define the topic IDs that point to this node.
      *
+     * isValid() is used to test if a topic reusing a particular existing topic id can resolve
+     * all of the other nodes in its xref graph.
+     *
      * @param topicGraph The graph that will hold this node
      * @returns {global.TopicGraphNode} this
      * @constructor
