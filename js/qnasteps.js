@@ -1418,6 +1418,9 @@
                     if (index >= topics.length) {
                         callback();
                     } else {
+                        config.UploadProgress[1] = (11 * progressIncrement) + (index / topics.length * progressIncrement);
+                        resultCallback();
+
                         var topic = topics[index];
                         getSimilarTopics(
                             reencode(xmlToString(topic.xml), replacements),
