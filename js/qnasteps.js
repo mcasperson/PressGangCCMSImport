@@ -21,6 +21,35 @@
     // a zip model to be shared
     var zip = new global.QNAZipModel();
 
+    function removeXmlPreamble (xmlText) {
+        xmlText = xmlText.replace(/<\?xml.*?>/g, "");
+        xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*?\])*>/g, "");
+        return xmlText;
+    }
+
+    /*
+     Replace entities with markers so we can process the XML without worrying about resolving entities
+     */
+    function replaceEntitiesInText (xmlText) {
+        var retValue = [];
+
+        var entityRe = /&.*?;/;
+
+        var match;
+        while ((match = entityRe.exec(xmlText)) !== null) {
+            var randomReplacement;
+            while (xmlText.indexOf(randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#") !== -1) {
+
+            }
+
+            retValue.push({placeholder: randomReplacement, entity: match[0]});
+
+            xmlText = xmlText.replace(new RegExp(global.escapeRegExp(match[0]), "g"), randomReplacement);
+        }
+
+        return {xml: xmlText, replacements: retValue};
+    }
+
     function loadSetting(file, setting) {
         var retValue;
         var lines = file.split("\n");
@@ -564,11 +593,21 @@
              */
             function resolveXiIncludes () {
                 var xiIncludeRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*\/\s*>/;
+                var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')\/\s*>/;
                 var commonContent = /^Common_Content/;
 
-                var resolveXIInclude = function (xmlText, filename, callback) {
+                function resolveXIInclude (xmlText, filename, visitedFiles, callback) {
+
+                    /*
+                        Make sure we are not entering an infinite loop
+                     */
+                    if (visitedFiles.indexOf(filename) === -1) {
+                        visitedFiles.push(filename);
+                    }
+
                     var match = xiIncludeRe.exec(xmlText);
-                    if (match) {
+
+                    if (match !== null) {
                         var relativePath = "";
                         var lastIndexOf;
                         if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
@@ -576,16 +615,72 @@
                         }
 
                         if (commonContent.test(match[4])) {
-                            resolveXIInclude(xmlText.replace(match[0], ""), filename, callback);
+                            resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
                         } else {
                             var referencedXMLFilename = relativePath + "/" + match[4];
+
+                            if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
+                                errorCallback("Circular reference detected");
+                                return;
+                            }
+
                             zip.getTextFromFileName(
                                 config.ZipFile,
                                 referencedXMLFilename,
                                 function (referencedXmlText) {
-                                    resolveXIInclude(referencedXmlText, referencedXMLFilename, function (fixedReferencedXmlText) {
-                                        resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, callback);
-                                    });
+                                    resolveXIInclude(
+                                        referencedXmlText,
+                                        referencedXMLFilename,
+                                        visitedFiles,
+                                        function (fixedReferencedXmlText) {
+                                            resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, visitedFiles, callback);
+                                        }
+                                    );
+                                },
+                                function (error) {
+                                    errorCallback(error);
+                                }
+                            );
+                        }
+                    } else {
+                        callback(xmlText, visitedFiles);
+                    }
+                }
+
+                function resolveXIIncludePointer (xmlText, filename, visitedFiles, callback) {
+                     var match = xiIncludeWithPointerRe.exec(xmlText);
+
+                    if (match !== null) {
+                        var relativePath = "";
+                        var lastIndexOf;
+                        if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
+                            relativePath = filename.substring(0, lastIndexOf);
+                        }
+
+                        if (commonContent.test(match[4])) {
+                            resolveXIIncludePointer(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                        } else {
+                            var referencedXMLFilename = relativePath + "/" + match[4];
+
+                            zip.getTextFromFileName(
+                                config.ZipFile,
+                                referencedXMLFilename,
+                                function (referencedXmlText) {
+                                    var replacedTextResult = replaceEntitiesInText(referencedXmlText);
+                                    var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
+                                    var cleanedReferencedXmlDom = global.jQuery.parseXML(cleanedReferencedXmlText);
+                                    var subset = cleanedReferencedXmlDom.evaluate(match[7], cleanedReferencedXmlDom, null, global.XPathResult.ANY_TYPE, null);
+
+                                    var replacement = "";
+                                    var matchedNode;
+                                    while ((matchedNode = subset.iterateNext()) !== null) {
+                                        if (replacement.length !== 0) {
+                                            replacement += "\n";
+                                        }
+                                        replacement += xmlToString(matchedNode);
+                                    }
+
+                                    resolveXIIncludePointer(xmlText.replace(match[0], replacement), filename, visitedFiles, callback);
                                 },
                                 function (error) {
                                     errorCallback(error);
@@ -595,40 +690,50 @@
                     } else {
                         callback(xmlText);
                     }
-                };
-
-                zip.getTextFromFileName(config.ZipFile, config.MainXMLFile, function (xmlText) {
-                    resolveXIInclude(xmlText, config.MainXMLFile, function (xmlText) {
-                        config.UploadProgress[1] = 1;
-                        config.ResolvedXIIncludes = true;
-                        resultCallback();
-
-                        replaceEntities(xmlText);
-                    });
-                });
-            }
-
-            /*
-             Replace entities with markers so we can process the XML without worrying about resolving entities
-             */
-            function replaceEntitiesInText (xmlText) {
-                var retValue = [];
-
-                var entityRe = /&.*?;/;
-
-                var match;
-                while ((match = entityRe.exec(xmlText)) !== null) {
-                    var randomReplacement;
-                    while (xmlText.indexOf(randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#") !== -1) {
-
-                    }
-
-                    retValue.push({placeholder: randomReplacement, entity: match[0]});
-
-                    xmlText = xmlText.replace(new RegExp(global.escapeRegExp(match[0]), "g"), randomReplacement);
                 }
 
-                return {xml: xmlText, replacements: retValue};
+                zip.getTextFromFileName(
+                    config.ZipFile,
+                    config.MainXMLFile,
+                    function (xmlText) {
+
+                        resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
+
+                        function resolveXIIncludeLoop(xmlText, visitedFiles) {
+                            if (xiIncludeRe.test(xmlText)) {
+                                resolveXIInclude(
+                                    xmlText,
+                                    config.MainXMLFile,
+                                    visitedFiles,
+                                    function (xmlText, visitedFiles) {
+                                        resolveXIIncludePointerLoop(xmlText, visitedFiles);
+                                    }
+                                );
+                            } else {
+                                resolveXIIncludePointerLoop(xmlText, visitedFiles);
+                            }
+                        }
+
+                        function resolveXIIncludePointerLoop(xmlText, visitedFiles) {
+                            if (xiIncludeWithPointerRe.test(xmlText)) {
+                                resolveXIIncludePointer(
+                                    xmlText,
+                                    config.MainXMLFile,
+                                    visitedFiles,
+                                    function (xmlText) {
+                                        resolveXIIncludeLoop(xmlText, visitedFiles);
+                                    }
+                                );
+                            } else {
+                                config.UploadProgress[1] = 1;
+                                config.ResolvedXIIncludes = true;
+                                resultCallback();
+
+                                replaceEntities(xmlText);
+                            }
+                        }
+                    }
+                );
             }
 
             function replaceEntities (xmlText) {
@@ -664,7 +769,7 @@
                             config.FoundEntityDefinitions = true;
                             resultCallback();
 
-                            removeXmlPreamble(xmlText, entities);
+                            removeXmlPreambleFromBook(xmlText, entities);
                         } else {
                             var value = entries[index];
                             if (value.filename.indexOf(relativePath) === 0) {
@@ -696,15 +801,16 @@
                 });
             }
 
+
+
             /*
              Strip out any XML preabmle that might have been pulled in with the
              xi:inject resolution. Once this step is done we have plain xml
              with no entities, dtds or anything else that make life hard when
              trying to parse XML.
              */
-            function removeXmlPreamble (xmlText, entities) {
-                xmlText = xmlText.replace(/<\?xml.*?>/g, "");
-                xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*?\])*>/g, "");
+            function removeXmlPreambleFromBook (xmlText, entities) {
+                xmlText = removeXmlPreamble(xmlText);
 
                 config.UploadProgress[1] = 4;
                 config.RemovedXMLPreamble = true;
@@ -718,11 +824,18 @@
              * so that the XML can be parsed.
              */
             function fixXML (xmlText, entities) {
-                var commentFix = /<!--([\s\S]*?)(<!--)([\s\S]*?)-->/;
+                var commentFix = /<!--([\s\S]*?)-->/g;
+                var replacements = [];
                 var commentMatch;
                 while ((commentMatch = commentFix.exec(xmlText)) !== null) {
-                    xmlText = xmlText.replace(commentMatch[0], commentMatch[1] + commentMatch[3]);
+                    if (commentMatch[1].indexOf("<!--") !== -1) {
+                        replacements.push({original: commentMatch[0], replacement: "<!--" + commentMatch[1].replace(/<!--/g, "") + "-->"});
+                    }
                 }
+
+                global.jQuery.each(replacements, function (index, value) {
+                   xmlText = xmlText.replace(value.original, value.replacement);
+                });
 
                 parseAsXML(xmlText, entities);
             }
