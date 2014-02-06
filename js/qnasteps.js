@@ -697,6 +697,7 @@
                     config.MainXMLFile,
                     function (xmlText) {
 
+                        var count = 0;
                         resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
 
                         function resolveXIIncludeLoop(xmlText, visitedFiles) {
@@ -721,7 +722,14 @@
                                     config.MainXMLFile,
                                     visitedFiles,
                                     function (xmlText) {
-                                        resolveXIIncludeLoop(xmlText, visitedFiles);
+                                        ++count;
+                                        // a poor man's circular dependency detection, but I can't
+                                        // see any book nesting XIncludes with xpointers 100 deep.
+                                        if (count > 100) {
+                                            errorCallback("Circular dependency detected in XML");
+                                        } else {
+                                            resolveXIIncludeLoop(xmlText, visitedFiles);
+                                        }
                                     }
                                 );
                             } else {
