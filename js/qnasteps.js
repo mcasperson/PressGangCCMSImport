@@ -69,8 +69,7 @@
 
                 var byteArray = [];
                 var view = new global.Uint8Array(arrayBuffer);
-                var i;
-                for (i = 0; i < view.length; ++i) {
+                for (var i = 0; i < view.length; ++i) {
                     byteArray.push(view[i]);
                 }
 
@@ -1349,7 +1348,7 @@
                  outgoing or incoming links (which means it is part of a xref graph).
                  */
                 function getUnresolvedNodeWithOutboundXrefs() {
-                    var retValue;
+                    var retValue = null;
                     global.jQuery.each(topics, function (index, topic) {
                         if (topic.topicId === undefined &&
                             topic.pgIds !== undefined &&
@@ -1392,7 +1391,7 @@
                          so set the topicId to indicate that these nodes have been resolved.
                          */
                         global.jQuery.each(mostSuccess, function (index, topic) {
-                            if (topic.topicId !== undefined) {
+                            if (topic.node.topicId !== undefined) {
                                 throw "We should not be able to set the topic id twice";
                             }
 
