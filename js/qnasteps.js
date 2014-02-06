@@ -1342,6 +1342,23 @@
                 }
             };
 
+            /*
+                This is the trickiest part of the process.
+
+                When reusing a topic in PressGang, we also reuse any injections it has to other topics. This
+                means that reusing a topic that has 5 injections means that we have to reuse at least 6 topics
+                (the original one with the injections and then the 5 that are pointed to). And these dependencies
+                cascade and create circular references.
+
+                So what we do here is:
+
+                1. Find all potentially matching topics from PressGang
+                2. Create a xref graph that defines the dependencies between topics if they assume one of
+                   the existing topic ids
+                3. Attempt to resolve a topic to an existing topic, making sure that any cascading dependencies
+                   are also resolved
+                4. Create new topics that could not be matched, and reuse those that can be matched
+             */
             var resolveXrefs = function (xmlDoc, contentSpec, topics, topicGraph) {
                 /*
                  Return a node without a topic ID (which means it hasn't been resolved) and
