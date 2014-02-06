@@ -1151,13 +1151,13 @@
             /*
                 Resolve the topics either to existing topics in the database, or to new topics
              */
-            var matchExistingTopics = function (xmlDoc, contentSpec, topics, topicGraph) {
+            function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph) {
 
                 /*
                     Take every xref that points to a topic (and not just a place in a topic), and replace it
                     with a injection placeholder. This is done on topics to be imported.
                  */
-                var normalizeXrefs = function (xml, topicAndContainerIDs) {
+                function normalizeXrefs (xml, topicAndContainerIDs) {
                     var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
                     var xrefReplacements = [];
@@ -1176,13 +1176,13 @@
                     });
 
                     return xml;
-                };
+                }
 
                 /*
                     Take every injection and replace it with a placeholder. This is done on existing topics
                     from PressGang.
                  */
-                var normalizeInjections = function (xml, xmlDoc) {
+                function normalizeInjections (xml, xmlDoc) {
                     var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
                     var commentReplacements = [];
@@ -1198,15 +1198,59 @@
                     });
 
                     return xml;
-                };
+                }
 
                 /*
                     Remove all whitespace
                  */
-                var removeWhiteSpace = function (xml) {
+                function removeWhiteSpace (xml) {
                     return xml.replace(/\n/g, "")
                         .replace(/\s/g, "");
-                };
+                }
+
+                /*
+                    The order of the attributes is changed by PressGang, so before we do a comparasion
+                    we order any attributes in any node.
+                 */
+                function reorderAttributes(xml) {
+                    var allElements = xmlDoc.evaluate("//*", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var elements = [];
+                    var elementIter;
+                    while ((elementIter = allElements.iterateNext()) !== null) {
+                        elements.push(elementIter);
+                    }
+
+                    global.jQuery.each(elements, function (index, element) {
+                        var attributes = {};
+                        global.jQuery.each(element.attributes, function(index, attr) {
+                           attributes[attr.name] = attr.value;
+                        });
+
+                        while (element.attributes.length !== 0) {
+                            element.removeAttribute(element.attributes[0].name);
+                        }
+
+                        var attributeKeys = keys(attributes);
+
+                        global.jQuery.each(attributeKeys, function (index, attrName) {
+                            element.setAttribute(attrName, attributes[attrName]);
+                        });
+                    });
+
+
+                }
+
+                function keys(obj)
+                {
+                    var keys = [];
+                    for(var key in obj) {
+                        if(obj.hasOwnProperty(key)) {
+                            keys.push(key);
+                        }
+                    }
+                    keys.sort();
+                    return keys;
+                }
 
                 var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
@@ -1229,6 +1273,7 @@
                                  */
                                 var topicXMLCopy = topic.xml.cloneNode(true);
                                 normalizeXrefs(normalizeInjections(topicXMLCopy, xmlDoc), topicOrContainerIDs);
+                                reorderAttributes(topicXMLCopy);
 
                                 var topicXMLCompare = xmlToString(topicXMLCopy);
                                 topicXMLCompare = removeWhiteSpace(topicXMLCompare);
@@ -1258,6 +1303,10 @@
                                         robust than doing regexes on strings.
                                      */
                                     normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
+                                    /*
+                                        Order the attributes in nodes in a consistent way
+                                     */
+                                    reorderAttributes(matchingTopicXMLCopy);
                                     /*
                                         Convert back to a string
                                      */
