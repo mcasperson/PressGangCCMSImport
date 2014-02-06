@@ -1435,10 +1435,9 @@
                      */
                     var validNodesOptions = [];
                     global.jQuery.each(unresolvedNode.pgIds, function (pgId, details) {
-                        var validNodes = [];
-                        var valid = unresolvedNode.isValid(pgId, validNodes);
-                        if (valid) {
-                            validNodesOptions.push(validNodes);
+                        var network = unresolvedNode.isValid(pgId);
+                        if (network !== null) {
+                            validNodesOptions.push(network);
                         }
                     });
 

@@ -282,6 +282,13 @@
             return null;
         }
 
+        /*
+            By default there is no existing network
+         */
+        if (existingNetwork === undefined) {
+            existingNetwork = [];
+        }
+
         // the nodes that make up our addition to the network
         var retValue = existingNetwork.slice(0);
 
@@ -394,14 +401,6 @@
                         if (mostSuccess === undefined || validIncomingNodesOption.length > mostSuccess.length) {
                             mostSuccess = validIncomingNodesOption;
                         }
-                    });
-
-                    global.jQuery.each(mostSuccess, function(index, backtrace) {
-                        global.jQuery.each(retValue, function(index, validNode) {
-                            if (backtrace.node === validNode.node) {
-                                throw "We shouldn't be able to add the same node twice in a backtrace";
-                            }
-                        });
                     });
 
                     retValue = mostSuccess;
