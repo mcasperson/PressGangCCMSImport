@@ -568,7 +568,7 @@
                         .setIntro("Progress")
                         .setName("UploadProgress")
                         // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
-                        .setValue([17, 0])
+                        .setValue([100, 0])
                 ])
         ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
@@ -587,6 +587,12 @@
             config.MatchedTopicCount = 0;
             config.UploadedImageCount = 0;
             config.MatchedImageCount = 0;
+
+            /*
+                There are 17 steps, so this is how far to move the progress bar with each
+                step.
+             */
+            var progressIncrement = 100 / 17;
 
             /*
              Resolve xi:includes
@@ -733,7 +739,7 @@
                                     }
                                 );
                             } else {
-                                config.UploadProgress[1] = 1;
+                                config.UploadProgress[1] = progressIncrement;
                                 config.ResolvedXIIncludes = true;
                                 resultCallback();
 
@@ -749,7 +755,7 @@
                 replacements = fixedXMLResult.replacements;
                 xmlText = fixedXMLResult.xml;
 
-                config.UploadProgress[1] = 2;
+                config.UploadProgress[1] = 2 * progressIncrement;
                 config.FoundEntities = true;
                 resultCallback();
 
@@ -773,7 +779,7 @@
 
                     var processTextFile = function (index) {
                         if (index >= entries.length) {
-                            config.UploadProgress[1] = 3;
+                            config.UploadProgress[1] = 3 * progressIncrement;
                             config.FoundEntityDefinitions = true;
                             resultCallback();
 
@@ -820,7 +826,7 @@
             function removeXmlPreambleFromBook (xmlText, entities) {
                 xmlText = removeXmlPreamble(xmlText);
 
-                config.UploadProgress[1] = 4;
+                config.UploadProgress[1] = 4 * progressIncrement;
                 config.RemovedXMLPreamble = true;
                 resultCallback();
 
@@ -853,7 +859,7 @@
              */
             function parseAsXML (xmlText, entities) {
                 var xmlDoc = global.jQuery.parseXML(xmlText);
-                config.UploadProgress[1] = 5;
+                config.UploadProgress[1] = 5 * progressIncrement;
                 config.ParsedAsXML = true;
                 resultCallback();
 
@@ -928,7 +934,7 @@
                             contentSpec.push(text);
                             contentSpec.push("]");
 
-                            config.UploadProgress[1] = 6;
+                            config.UploadProgress[1] = 6 * progressIncrement;
                             config.FoundBookInfo = true;
                             resultCallback();
 
@@ -946,7 +952,7 @@
                 var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 7;
+                    config.UploadProgress[1] = 7 * progressIncrement;
                     config.FoundRevisionHistory = true;
                     resultCallback();
                     extractAuthorGroup(xmlDoc, contentSpec);
@@ -984,7 +990,7 @@
                 var authorGroup = xmlDoc.evaluate("//authorgroup", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 8;
+                    config.UploadProgress[1] = 8 * progressIncrement;
                     config.FoundAuthorGroup = true;
                     resultCallback();
 
@@ -1023,7 +1029,7 @@
                 var abstractContent = xmlDoc.evaluate("//bookinfo/abstract", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 9;
+                    config.UploadProgress[1] = 9 * progressIncrement;
                     config.FoundAbstract = true;
                     resultCallback();
 
@@ -1059,10 +1065,19 @@
             }
 
             function uploadImages (xmlDoc, contentSpec) {
+                // count the numbe of images we are uploading
                 var images = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
+                var numImages = 0;
+
+                var image;
+                while ((image = images.iterateNext()) !== null) {
+                    ++numImages;
+                }
+
+                images = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
                 var uploadedImages = {};
 
-                var processImages = function (image) {
+                var processImages = function (image, count) {
                     if (image) {
 
                         var nodeValue = image.nodeValue;
@@ -1098,21 +1113,26 @@
 
                                                     uploadedImages[nodeValue] = imageId + filename.substr(filename.lastIndexOf("."));
 
-                                                    processImages(images.iterateNext());
+                                                    ++count;
+
+                                                    config.UploadProgress[1] = (9 * progressIncrement) + (count / numImages * progressIncrement);
+                                                    resultCallback();
+
+                                                    processImages(images.iterateNext(), count);
                                                 },
                                                 errorCallback
                                             );
                                         } else {
-                                            processImages(images.iterateNext());
+                                            processImages(images.iterateNext(), ++count);
                                         }
                                     },
                                     errorCallback
                                 );
                             }  else {
-                                processImages(images.iterateNext());
+                                processImages(images.iterateNext(), ++count);
                             }
                         } else {
-                            processImages(images.iterateNext());
+                            processImages(images.iterateNext(), ++count);
                         }
                     } else {
                         var filerefs = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
@@ -1128,7 +1148,7 @@
                             value.node.nodeValue = value.newImageRef;
                         });
 
-                        config.UploadProgress[1] = 10;
+                        config.UploadProgress[1] = 10 * progressIncrement;
                         config.FoundImages = true;
                         resultCallback();
 
@@ -1136,7 +1156,7 @@
                     }
                 };
 
-                processImages(images.iterateNext());
+                processImages(images.iterateNext(), 0);
             }
 
             function resolveBookStructure (xmlDoc, contentSpec) {
@@ -1278,7 +1298,7 @@
 
                 processXml(xmlDoc.documentElement, null, 0);
 
-                config.UploadProgress[1] = 11;
+                config.UploadProgress[1] = 11 * progressIncrement;
                 config.ResolvedBookStructure = true;
                 resultCallback();
 
@@ -1520,7 +1540,7 @@
                         }
                     });
 
-                    config.UploadProgress[1] = 12;
+                    config.UploadProgress[1] = 12 * progressIncrement;
                     config.MatchedExistingTopics = true;
                     resultCallback();
 
@@ -1644,7 +1664,7 @@
 
                 config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                config.UploadProgress[1] = 13;
+                config.UploadProgress[1] = 13 * progressIncrement;
                 config.ResolvedXRefGraphs = true;
                 resultCallback();
 
@@ -1656,6 +1676,9 @@
                     if (index >= topics.length) {
                         callback();
                     } else {
+                        config.UploadProgress[1] = (13 * progressIncrement) + (index / topics.length * progressIncrement);
+                        resultCallback();
+
                         var topic = topics[index];
                         if (topic.topicId === -1) {
                             createTopic(
@@ -1685,7 +1708,7 @@
 
                 createTopics(0, function(){
 
-                    config.UploadProgress[1] = 14;
+                    config.UploadProgress[1] = 14 * progressIncrement;
                     config.UploadedTopics = true;
                     resultCallback();
 
@@ -1698,6 +1721,9 @@
                     if (index >= topics.length) {
                         callback();
                     } else {
+                        config.UploadProgress[1] = (14 * progressIncrement) + (index / topics.length * progressIncrement);
+                        resultCallback();
+
                         var topic = topics[index];
                         if (topic.createdTopic) {
                             var xrefs = xmlDoc.evaluate("//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
@@ -1744,7 +1770,7 @@
 
                 resolve(0, function() {
 
-                    config.UploadProgress[1] = 15;
+                    config.UploadProgress[1] = 15 * progressIncrement;
                     config.FixXRefs = true;
                     resultCallback();
 
@@ -1757,7 +1783,7 @@
                     contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                 });
 
-                config.UploadProgress[1] = 16;
+                config.UploadProgress[1] = 16 * progressIncrement;
                 config.UpdatedContentSpec = true;
                 resultCallback();
 
@@ -1771,7 +1797,7 @@
                 });
 
                 function contentSpecSaveSuccess(id) {
-                    config.UploadProgress[1] = 17;
+                    config.UploadProgress[1] = 100;
                     config.UploadedContentSpecification = true;
                     config.ContentSpecID = id;
                     resultCallback(true);
