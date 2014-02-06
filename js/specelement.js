@@ -399,7 +399,7 @@
                 });
 
                 global.jQuery.each(mostSuccess, function(index, value) {
-                    validNodes.append(value);
+                    validNodes.push(value);
                 });
             });
 
