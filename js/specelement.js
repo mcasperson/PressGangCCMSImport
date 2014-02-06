@@ -403,7 +403,7 @@
             throw "We should not be able to add a topic to the valid nodes twice";
         }
 
-        validNodes.push({node: this, assumedId: pgid});
+        validNodes.push({node: this, assumedId: pgId});
         return true;
     };
 
