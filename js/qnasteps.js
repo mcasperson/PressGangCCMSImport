@@ -69,7 +69,8 @@
 
                 var byteArray = [];
                 var view = new global.Uint8Array(arrayBuffer);
-                for (var i = 0; i < view.length; ++i) {
+                var i;
+                for (i = 0; i < view.length; ++i) {
                     byteArray.push(view[i]);
                 }
 
@@ -617,7 +618,7 @@
                 var entityRe = /&.*?;/;
 
                 var match;
-                while (match = entityRe.exec(xmlText)) {
+                while ((match = entityRe.exec(xmlText)) !== null) {
                     var randomReplacement;
                     while (xmlText.indexOf(randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#") !== -1) {
 
@@ -672,13 +673,13 @@
                                     var entityDefDoubleQuoteRE = /<!ENTITY\s+[^\s]+\s+".*?"\s*>/g;
                                     var entityDefSingleQuoteRE = /<!ENTITY\s+[^\s]+\s+'.*?'\s*>/g;
                                     var match;
-                                    while (match = entityDefDoubleQuoteRE.exec(fileText)) {
+                                    while ((match = entityDefDoubleQuoteRE.exec(fileText)) !== null) {
                                         if (entities.indexOf(match[0]) === -1) {
                                             entities.push(match[0]);
                                         }
                                     }
 
-                                    while (match = entityDefSingleQuoteRE.exec(fileText)) {
+                                    while ((match = entityDefSingleQuoteRE.exec(fileText)) !== null) {
                                         if (entities.indexOf(match[0]) === -1) {
                                             entities.push(match[0]);
                                         }
@@ -981,7 +982,7 @@
                         var filerefs = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
                         var updatedRefs = [];
                         var fileref;
-                        while (fileref = filerefs.iterateNext()) {
+                        while ((fileref = filerefs.iterateNext()) !== null) {
                             if (uploadedImages[fileref.nodeValue]) {
                                 updatedRefs.push({node: fileref, newImageRef: "images/" + uploadedImages[fileref.nodeValue]});
                             }
@@ -1161,7 +1162,7 @@
                     var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
                     var xrefReplacements = [];
-                    while (xref = xrefs.iterateNext()) {
+                    while ((xref = xrefs.iterateNext()) !== null) {
                         if (xref.hasAttribute("linkend")) {
                             var linkend = xref.getAttribute("linkend");
                             if (topicAndContainerIDs.indexOf(linkend) !== -1) {
@@ -1186,7 +1187,7 @@
                     var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
                     var commentReplacements = [];
-                    while (comment = comments.iterateNext()) {
+                    while ((comment = comments.iterateNext()) !== null) {
                         if (/^\s*Inject\s*:\s*\d+\s*$/.test(comment.textContent)) {
                             var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
                             commentReplacements.push({original: comment, replacement: commentReplacement});
@@ -1314,7 +1315,7 @@
                                 var InjectionRE = /<!--\s*Inject\s*:\s*(\d+)\s*-->/g;
                                 var match;
                                 var count = 0;
-                                while (match = InjectionRE.exec(details.originalXML)) {
+                                while ((match = InjectionRE.exec(details.originalXML)) !== null) {
                                     if (count >= outgoingXrefs.length) {
                                         throw "There is a mismatch between the xrefs and the injects.";
                                     }
@@ -1361,7 +1362,7 @@
                 }
 
                 var unresolvedNode;
-                while (unresolvedNode = getUnresolvedNodeWithOutboundXrefs()) {
+                while ((unresolvedNode = getUnresolvedNodeWithOutboundXrefs()) !== null) {
                     /*
                      Loop through each possible topic id that this topic could be
                      and see if all other nodes in the xref graph are also valid with
@@ -1395,7 +1396,7 @@
                                 throw "We should not be able to set the topic id twice";
                             }
 
-                            topic.setTopicId(topic.testId);
+                            topic.node.setTopicId(topic.assumedId);
 
                             config.UploadedTopicCount += 1;
                             config.MatchedTopicCount += 1;
@@ -1502,7 +1503,7 @@
                             var xrefs = xmlDoc.evaluate("//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
                             var xref;
                             var xrefReplacements = [];
-                            while (xref = xrefs.iterateNext()) {
+                            while ((xref = xrefs.iterateNext()) !== null) {
                                 if (xref.hasAttribute("linkend")) {
                                     var linkend = xref.getAttribute("linkend");
                                     // is this an xref to a topic

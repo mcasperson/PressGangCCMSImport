@@ -75,7 +75,7 @@
         // find any xrefs in the xml
         var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
         var xref;
-        while (xref = xrefs.iterateNext()) {
+        while ((xref = xrefs.iterateNext()) !== null) {
             if (xref.hasAttribute("linkend")) {
                 var linkend = xref.getAttribute("linkend");
                 this.xrefs.push(linkend);
