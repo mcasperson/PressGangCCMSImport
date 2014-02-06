@@ -398,7 +398,9 @@
                     }
                 });
 
-                validNodes.join(mostSuccess);
+                global.jQuery.each(mostSuccess, function(index, value) {
+                    validNodes.append(value);
+                });
             });
 
             if (!incomingRetValue) {
