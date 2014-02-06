@@ -484,6 +484,7 @@
      */
     var processZipFile = new global.QNAStep()
         .setTitle("Importing Publican Book")
+        .setIntro("The list below allows you to monitor the progress of the import process. Steps with an asterisk (*) can take some time to complete, so please be patient.")
         .setOutputs([
             new global.QNAVariables()
                 .setVariables([
@@ -533,7 +534,7 @@
                         .setName("ResolvedBookStructure"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
-                        .setIntro("Match existing topics - Takes a while")
+                        .setIntro("Match existing topics*")
                         .setName("MatchedExistingTopics"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
@@ -541,11 +542,11 @@
                         .setName("ResolvedXRefGraphs"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
-                        .setIntro("Uploading Topics")
+                        .setIntro("Uploading Topics*")
                         .setName("UploadedTopics"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
-                        .setIntro("Fixing XRefs")
+                        .setIntro("Fixing xrefs*")
                         .setName("FixXRefs"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
