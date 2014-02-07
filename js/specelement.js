@@ -14,12 +14,14 @@
     global.TopicGraph.prototype.getNodeFromXMLId = function (xmlId) {
         var retValue;
         global.jQuery.each(this.nodes, function(index, node) {
-            global.jQuery.each(node.xmlIds, function(index, value) {
-                if (value === xmlId) {
-                    retValue = node;
-                    return false;
-                }
-            });
+            if (node.xmlIds !== undefined) {
+                global.jQuery.each(node.xmlIds, function(index, value) {
+                    if (value === xmlId) {
+                        retValue = node;
+                        return false;
+                    }
+                });
+            }
         });
         return retValue;
     };
