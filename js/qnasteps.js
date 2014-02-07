@@ -962,8 +962,6 @@
                             contentSpec.push(text);
                             contentSpec.push("]");
 
-                            contentSpec.push("# Imported from " + config.ZipFile.name);
-
                             config.UploadProgress[1] = 6 * progressIncrement;
                             config.FoundBookInfo = true;
                             resultCallback();
@@ -1190,6 +1188,10 @@
             }
 
             function resolveBookStructure (xmlDoc, contentSpec) {
+
+                // so we can work back to the original source
+                contentSpec.push("# Imported from " + config.ZipFile.name);
+
                 // the graph that holds the topics
                 var topicGraph = new global.TopicGraph();
 
