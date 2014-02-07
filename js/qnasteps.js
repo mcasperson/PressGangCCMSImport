@@ -600,6 +600,7 @@
              */
             function resolveXiIncludes () {
                 var xiIncludeRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*\/\s*>/;
+                var xiInclude2Re = /<\s*xi:include\s+href\s*=\s*("|')(.*?\.xml)("|')\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s*\/\s*>/;
                 var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')\/\s*>/;
                 var commonContent = /^Common_Content/;
 
@@ -613,6 +614,11 @@
                     }
 
                     var match = xiIncludeRe.exec(xmlText);
+                    var xmlPathIndex = 4;
+                    if (!match) {
+                        match = xiInclude2Re.exec(xmlText);
+                        var xmlPathIndex = 2;
+                    }
 
                     if (match !== null) {
 
@@ -635,10 +641,10 @@
                             relativePath = filename.substring(0, lastIndexOf);
                         }
 
-                        if (commonContent.test(match[4])) {
+                        if (commonContent.test(match[xmlPathIndex])) {
                             resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
                         } else {
-                            var referencedXMLFilename = relativePath + "/" + match[4];
+                            var referencedXMLFilename = relativePath + "/" + match[xmlPathIndex];
 
                             if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
                                 errorCallback("Circular reference detected");
@@ -733,7 +739,7 @@
                         resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
 
                         function resolveXIIncludeLoop(xmlText, visitedFiles) {
-                            if (xiIncludeRe.test(xmlText)) {
+                            if (xiIncludeRe.test(xmlText) || xiInclude2Re.test(xmlText)) {
                                 resolveXIInclude(
                                     xmlText,
                                     config.MainXMLFile,
@@ -901,7 +907,7 @@
                 // the content spec
                 var contentSpec = [];
 
-                var bookinfo = xmlDoc.evaluate("/*/bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                var bookinfo = xmlDoc.evaluate("//bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                 if (bookinfo) {
                     var title = xmlDoc.evaluate("title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                     var subtitle = xmlDoc.evaluate("subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
