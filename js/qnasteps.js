@@ -1315,10 +1315,14 @@
                                         if (containerId !== undefined && containerId !== null) {
 
                                             if (topicGraph.hasXMLId(containerId.nodeValue)) {
-                                                throw "The XML id attribute " + containerId.nodeValue + " has been duplicated. The source book is not valid";
+                                                throw "The XML id attribute from the parent container " + containerId.nodeValue + " has been duplicated. The source book is not valid";
                                             }
 
                                             standaloneContainerTopic.addXmlId(containerId.nodeValue);
+                                            /*
+                                             The first topic created under the container with the id gets the container's id
+                                             */
+                                            containerId === undefined;
                                         }
 
                                         topics.push(standaloneContainerTopic);
@@ -1371,10 +1375,14 @@
 
                                         if (containerId !== undefined && containerId !== null) {
                                             if (topicGraph.hasXMLId(containerId.nodeValue)) {
-                                                throw "The XML id attribute " + containerId.nodeValue + " has been duplicated. The source book is not valid";
+                                                throw "The XML id attribute from the parent container " + containerId.nodeValue + " has been duplicated. The source book is not valid";
                                             }
 
                                             initialTextTopic.addXmlId(containerId.nodeValue);
+                                            /*
+                                                The first topic created under the container with the id gets the container's id
+                                             */
+                                            containerId === undefined;
                                         }
 
                                         // consume this id
