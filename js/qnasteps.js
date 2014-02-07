@@ -1297,9 +1297,11 @@
                                             value.nodeName.substring(1, value.nodeName.length) +
                                             ": " + titleText);
 
-                                    // if this container has front matter content, create a topic
-                                    // to represent it
-                                    if (clone.childNodes.length !== 0) {
+                                    /*
+                                        if this container has front matter content, create a topic to represent it
+                                     */
+                                    if (clone.childNodes.length !== 0 &&
+                                        !(clone.childNodes[0].nodeName === "title" && clone.childNodes.length === 1)) {
                                         var initialTextTopic = new global.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone), xmlDoc)
                                             .setSpecLine(contentSpec.length - 1)
