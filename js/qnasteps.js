@@ -1322,7 +1322,7 @@
                                             /*
                                              The first topic created under the container with the id gets the container's id
                                              */
-                                            containerId === undefined;
+                                            containerId = undefined;
                                         }
 
                                         topics.push(standaloneContainerTopic);
@@ -1382,7 +1382,7 @@
                                             /*
                                                 The first topic created under the container with the id gets the container's id
                                              */
-                                            containerId === undefined;
+                                            containerId = undefined;
                                         }
 
                                         // consume this id
