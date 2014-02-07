@@ -684,7 +684,7 @@
                                         if (replacement.length !== 0) {
                                             replacement += "\n";
                                         }
-                                        replacement += xmlToString(matchedNode);
+                                        replacement += reencode(xmlToString(matchedNode), replacedTextResult.replacements);
                                     }
 
                                     resolveXIIncludePointer(xmlText.replace(match[0], replacement), filename, visitedFiles, callback);
