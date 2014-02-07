@@ -2,6 +2,14 @@
 <html lang="en" ng-app="qna">
     <head>
         <title>PressGang CCMS Publican Book Import</title>
+        <script type="text/javascript">
+            // http://stackoverflow.com/a/10556743/157605
+            window.onerror = function(msg, url, line) {
+                alert("Error: " + msg + "\nurl: " + url + "\nline #: " + line);
+                var suppressErrorAlert = true;
+                return suppressErrorAlert;
+            };
+        </script>
         <script src="js/jquery/jquery-2.1.0.min.js"></script>
         <script src="js/wgxpath/wgxpath.install.js"></script>
         <script src="js/angular/angular.min.js"></script>
