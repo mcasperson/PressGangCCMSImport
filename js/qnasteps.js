@@ -615,6 +615,20 @@
                     var match = xiIncludeRe.exec(xmlText);
 
                     if (match !== null) {
+
+                        var previousString = xmlText.substr(0, match.index);
+                        var lastStartComment = previousString.lastIndexOf("<!--");
+                        var lastEndComment = previousString.lastIndexOf("-->");
+
+                        /*
+                            The xi:include was in a comment, so ignore it
+                         */
+                        if (lastStartComment !== -1 &&
+                            (lastEndComment === -1 || lastEndComment < lastStartComment)) {
+                            resolveXIInclude(xmlText.replace(match[0], match[0].replace("xi:include", "xi:include-comment")), filename, visitedFiles, callback);
+                            return;
+                        }
+
                         var relativePath = "";
                         var lastIndexOf;
                         if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
@@ -658,6 +672,17 @@
                      var match = xiIncludeWithPointerRe.exec(xmlText);
 
                     if (match !== null) {
+
+                        var previousString = xmlText.substr(0, match.index);
+                        var lastStartComment = previousString.lastIndexOf("<!--");
+                        var lastEndComment = previousString.lastIndexOf("-->");
+
+                        if (lastStartComment !== -1 &&
+                            (lastEndComment === -1 || lastEndComment < lastStartComment)) {
+                            resolveXIIncludePointer(xmlText.replace(match[0], match[0].replace("xi:include", "xi:include-comment")), filename, visitedFiles, callback);
+                            return;
+                        }
+
                         var relativePath = "";
                         var lastIndexOf;
                         if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
@@ -740,6 +765,8 @@
                                     }
                                 );
                             } else {
+                                xmlText = xmlText.replace(/xi:include-comment/g, "xi:include");
+
                                 config.UploadProgress[1] = progressIncrement;
                                 config.ResolvedXIIncludes = true;
                                 resultCallback();
