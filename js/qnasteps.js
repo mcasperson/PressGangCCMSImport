@@ -1224,7 +1224,7 @@
                             // find the title
                             var title = xmlDoc.evaluate("/title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                             if (title) {
-                                var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements);
+                                var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
                                 // strip away any child containers
                                 var removeChildren = [];
