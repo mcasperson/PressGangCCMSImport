@@ -1251,45 +1251,78 @@
                                 // means this element stands alone. It is either a topic,
                                 // or a container that has only initial text
                                 if (removeChildren.length === 0) {
-                                    if (value.nodeName === "section") {
-                                        contentSpec.push(contentSpecLine + titleText);
-                                    } else {
-                                        contentSpec.push(
-                                            contentSpecLine +
-                                                value.nodeName.substring(0, 1).toUpperCase() +
-                                                value.nodeName.substring(1, value.nodeName.length) +
-                                                ": " + titleText);
-                                    }
 
-                                    var standaloneContainerTopic = new global.TopicGraphNode(topicGraph)
-                                        .setXml(removeIdAttribute(clone), xmlDoc)
-                                        .setSpecLine(contentSpec.length - 1)
-                                        .setTitle(titleText);
+                                    var isHistoryTopicAppendix = false;
+                                    if (clone.nodeName === "appendix") {
+                                        var clone2 = clone.cloneNode(true);
+                                        var removeNodes = [];
 
-                                    if (id) {
+                                        var titles = xmlDoc.evaluate("/title", clone2, null, global.XPathResult.ANY_TYPE, null);
 
-                                        if (topicGraph.hasXMLId(id.nodeValue)) {
-                                            throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                        var titleNode;
+                                        while ((titleNode = titles.iterateNext()) !== null) {
+                                            removeNodes.push(titleNode);
                                         }
 
-                                        standaloneContainerTopic.addXmlId(id.nodeValue);
-                                    }
+                                        var revHistoryNodes = xmlDoc.evaluate("//revhistory", clone2, null, global.XPathResult.ANY_TYPE, null);
 
-                                    /*
-                                        Because of a limitation in the content specs, we can't link
-                                        to a container. This is a workaround to link to the first
-                                        topic under a container.
-                                     */
-                                    if (containerId !== undefined && containerId !== null) {
-
-                                        if (topicGraph.hasXMLId(id.nodeValue)) {
-                                            throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                        var revHistoryNode;
+                                        while ((revHistoryNode = revHistoryNodes.iterateNext()) !== null) {
+                                            removeNodes.push(revHistoryNode);
                                         }
 
-                                        standaloneContainerTopic.addXmlId(containerId.nodeValue);
+                                        global.jQuery.each(removeNodes, function (index, value){
+                                            value.parentNode.removeChild(value);
+                                        });
+
+                                        /*
+                                         Once we take out the title and revhistory, is there any content left?
+                                         */
+                                        isHistoryTopicAppendix = clone2.textContent.trim().length === 0;
                                     }
 
-                                    topics.push(standaloneContainerTopic);
+                                    if (!isHistoryTopicAppendix) {
+
+                                        if (value.nodeName === "section") {
+                                            contentSpec.push(contentSpecLine + titleText);
+                                        } else {
+                                            contentSpec.push(
+                                                contentSpecLine +
+                                                    value.nodeName.substring(0, 1).toUpperCase() +
+                                                    value.nodeName.substring(1, value.nodeName.length) +
+                                                    ": " + titleText);
+                                        }
+
+                                        var standaloneContainerTopic = new global.TopicGraphNode(topicGraph)
+                                            .setXml(removeIdAttribute(clone), xmlDoc)
+                                            .setSpecLine(contentSpec.length - 1)
+                                            .setTitle(titleText);
+
+                                        if (id) {
+
+                                            if (topicGraph.hasXMLId(id.nodeValue)) {
+                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            standaloneContainerTopic.addXmlId(id.nodeValue);
+                                        }
+
+                                        /*
+                                            Because of a limitation in the content specs, we can't link
+                                            to a container. This is a workaround to link to the first
+                                            topic under a container.
+                                         */
+                                        if (containerId !== undefined && containerId !== null) {
+
+                                            if (topicGraph.hasXMLId(containerId.nodeValue)) {
+                                                throw "The XML id attribute " + containerId.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            standaloneContainerTopic.addXmlId(containerId.nodeValue);
+                                        }
+
+                                        topics.push(standaloneContainerTopic);
+                                    }
                                 } else {
                                     contentSpec.push(
                                         contentSpecLine +
@@ -1297,11 +1330,32 @@
                                             value.nodeName.substring(1, value.nodeName.length) +
                                             ": " + titleText);
 
+                                    var hasIntroText = false;
+                                    if (clone.childNodes.length !== 0) {
+                                        var clone2 = clone.cloneNode(true);
+                                        var removeNodes = [];
+
+                                        var titles = xmlDoc.evaluate("/title", clone2, null, global.XPathResult.ANY_TYPE, null);
+
+                                        var titleNode;
+                                        while ((titleNode = titles.iterateNext()) !== null) {
+                                            removeNodes.push(titleNode);
+                                        }
+
+                                        global.jQuery.each(removeNodes, function (index, value){
+                                            value.parentNode.removeChild(value);
+                                        });
+
+                                        /*
+                                         Once we take out the title and revhistory, is there any content left?
+                                         */
+                                        hasIntroText = clone2.textContent.trim().length !== 0;
+                                    }
+
                                     /*
-                                        if this container has front matter content, create a topic to represent it
+                                        If this container has front matter content, create a topic to represent it
                                      */
-                                    if (clone.childNodes.length !== 0 &&
-                                        !(clone.childNodes[0].nodeName === "title" && clone.childNodes.length === 1)) {
+                                    if (hasIntroText) {
                                         var initialTextTopic = new global.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone), xmlDoc)
                                             .setSpecLine(contentSpec.length - 1)
@@ -1316,8 +1370,8 @@
                                         }
 
                                         if (containerId !== undefined && containerId !== null) {
-                                            if (topicGraph.hasXMLId(id.nodeValue)) {
-                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                            if (topicGraph.hasXMLId(containerId.nodeValue)) {
+                                                throw "The XML id attribute " + containerId.nodeValue + " has been duplicated. The source book is not valid";
                                             }
 
                                             initialTextTopic.addXmlId(containerId.nodeValue);
