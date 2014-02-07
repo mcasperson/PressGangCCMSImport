@@ -1875,6 +1875,13 @@
                         }),
                     new global.QNAVariable()
                         .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Imported From")
+                        .setName("ImportedFrom")
+                        .setValue(function (resultCallback, errorCallback, result, config) {
+                            resultCallback(config.ZipFile.name);
+                        }),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
                         .setIntro("Topics Created / Topics Reused")
                         .setName("NewTopicsCreated"),
                     new global.QNAVariable()
