@@ -42,11 +42,13 @@
     global.TopicGraph.prototype.getAllTopicOrContainerIDs = function () {
         var retValue = [];
         global.jQuery.each(this.nodes, function (index, value) {
-            global.jQuery.each(value.xmlIds, function (index, xmlId) {
-                if (retValue.indexOf(xmlId) === -1) {
-                    retValue.push(xmlId);
-                }
-            });
+            if (value.xmlIds !== undefined) {
+                global.jQuery.each(value.xmlIds, function (index, xmlId) {
+                    if (retValue.indexOf(xmlId) === -1) {
+                        retValue.push(xmlId);
+                    }
+                });
+            }
         });
         return retValue;
     };
