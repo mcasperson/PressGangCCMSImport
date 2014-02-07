@@ -314,7 +314,7 @@
      */
     global.QNAStart = new global.QNAStep()
         .setTitle("Select the ZIP file to import")
-        .setIntro("Select the ZIP file that contains the valid Publican book that you wish to import into PressGang CCMS.")
+        .setIntro("Select the ZIP file that contains the valid Publican book that you wish to import into PressGang CCMS. The ZIP file must contain the publican.cfg file in the root directory.")
         .setInputs(
             [
                 new global.QNAVariables()
