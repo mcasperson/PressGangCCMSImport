@@ -1,7 +1,7 @@
 (function (global) {
     'use strict';
 
-    global.zip.workerScriptsPath = "/js/zip/";
+    global.zip.workerScriptsPath = "js/zip/";
 
     global.QNAZipModel = function () {
 
