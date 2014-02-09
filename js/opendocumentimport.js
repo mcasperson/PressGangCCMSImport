@@ -159,8 +159,10 @@
                                         return;
                                     }
 
-                                    // last heading had no content before this heading
-                                    if (content.length === 0 && title !== null && newOutlineLevel !== outlineLevel) {
+                                    // Last heading had no content before this heading. We only add a container if
+                                    // the last heading added a level of depth to the tree, Otherwise it is just
+                                    // an empty container.
+                                    if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
                                         if (outlineLevel === 0) {
                                             contentSpec.push("Chapter: " + title);
                                         } else {
