@@ -298,7 +298,7 @@
                             var spec = "";
                             global.jQuery.each(contentSpec, function(index, value) {
                                 console.log(value);
-                                spec += value;
+                                spec += value + "\n";
                             });
 
                             global.createContentSpec(
