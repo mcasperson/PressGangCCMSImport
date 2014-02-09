@@ -274,13 +274,13 @@
                                 var topic = topicGraph.nodes[index];
 
                                 global.createTopic(
-                                    false,
+                                    true,
                                     global.xmlToString(topic.xml),
                                     topic.title,
                                     null,
                                     config, function (data) {
-                                        topic.setTopicId(data.id);
-                                        topic.xml = global.jQuery.parseXML(data.xml);
+                                        topic.setTopicId(data.topic.id);
+                                        topic.xml = global.jQuery.parseXML(data.topic.xml);
 
                                         createTopics(index + 1, callback);
                                     },
