@@ -198,7 +198,11 @@
                                             title = "Introduction";
                                             contentSpec.push("Chapter: " + title);
                                         } else {
-                                            contentSpec.push(prefix + title);
+                                            if (newOutlineLevel > outlineLevel) {
+                                                contentSpec.push(prefix + "Section: " + title);
+                                            } else {
+                                                contentSpec.push(prefix + title);
+                                            }
                                         }
 
                                         var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + content + "</section>");
@@ -289,11 +293,13 @@
                             global.jQuery.each(topicGraph.nodes, function (index, topic) {
                                 contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                             });
+
+                            global.jQuery.each(contentSpec, function(index, value) {
+                                console.log(value);
+                            });
                         });
 
-                        global.jQuery.each(contentSpec, function(index, value) {
-                            console.log(value);
-                        });
+
                     }
                 },
                 errorCallback
