@@ -157,6 +157,10 @@
                         .setName("ResolvedBookStructure"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Uploading Images*")
+                        .setName("UploadedImages"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Uploading Topics*")
                         .setName("UploadedTopics"),
                     new global.QNAVariable()
@@ -185,7 +189,7 @@
              There are 17 steps, so this is how far to move the progress bar with each
              step.
              */
-            var progressIncrement = 100 / 3;
+            var progressIncrement = 100 / 4;
 
             /*
              Initialize some config values
@@ -495,7 +499,7 @@
                                     function(id) {
                                         config.ContentSpecID = id;
 
-                                        config.UploadProgress[1] = progressIncrement * 2;
+                                        config.UploadProgress[1] = progressIncrement * 4;
                                         config.UploadedContentSpecification = true;
                                         resultCallback(true);
 
