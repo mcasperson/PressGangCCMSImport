@@ -86,109 +86,7 @@
         return text;
     }
 
-    function createImage(zipfile, image, config, successCallback, errorCallback) {
-
-        global.zipModel.getByteArrayFromFileName(
-            zipfile,
-            image,
-            function (arrayBuffer) {
-
-                var byteArray = [];
-                var view = new global.Uint8Array(arrayBuffer);
-                for (var i = 0; i < view.length; ++i) {
-                    byteArray.push(view[i]);
-                }
-
-                var postBody = {
-                    description: image,
-                    languageImages_OTM: {
-                        items: [
-                            {
-                                item: {
-                                    imageData: byteArray,
-                                    locale: "en-US",
-                                    filename: image,
-                                    configuredParameters: [
-                                        "locale",
-                                        "imageData",
-                                        "filename"
-                                    ]
-                                },
-                                state: 1
-                            }
-                        ]
-                    },
-                    configuredParameters: [
-                        "description",
-                        "languageImages"
-                    ]
-                };
-
-                global.jQuery.ajax({
-                    type: 'POST',
-                    url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/createormatch/json?message=Initial+Image+Creation&flag=2&userId=89',
-                    data: JSON.stringify(postBody),
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (data) {
-                        successCallback(data.image.id, data.matchedExistingImage);
-                    },
-                    error: function () {
-                        errorCallback("Connection Error", "An error occurred while uploading an image.");
-                    }
-                });
-            },
-            errorCallback
-        );
-    }
-
-    function createContentSpec(spec, config, successCallback, errorCallback) {
-
-        var postBody = {
-            text: spec,
-            configuredParameters: [
-                "text"
-            ]
-        };
-
-        global.jQuery.ajax({
-            type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/create/json+text?message=Initial+Topic+Creation&flag=2&userId=89',
-            data: JSON.stringify(postBody),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                successCallback(data.id);
-            },
-            error: function () {
-                errorCallback("Connection Error", "An error occurred while uploading the content spec.");
-            }
-        });
-    }
-
-    function updateContentSpec(id, spec, config, successCallback, errorCallback) {
-        var postBody = {
-            id: id,
-            text: "ID = " + id + "\n" + spec,
-            configuredParameters: [
-                "text"
-            ]
-        };
-
-        global.jQuery.ajax({
-            type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/json+text/?message=Initial+Topic+Creation&flag=2&userId=89',
-            data: JSON.stringify(postBody),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                successCallback(data.id);
-            },
-            error: function () {
-                errorCallback("Connection Error", "An error occurred while uploading the content spec.");
-            }
-        });
-    }
+    f
 
     function setDocumentNodeToSection (xmlText) {
         if (xmlText.indexOf("<chapter>") === 0) {
@@ -1131,7 +1029,7 @@
                                     filename,
                                     function (result) {
                                         if (result) {
-                                            createImage(
+                                            global.createImage(
                                                 config.ZipFile,
                                                 filename,
                                                 config,
@@ -1878,11 +1776,11 @@
                     config.FixXRefs = true;
                     resultCallback();
 
-                    updateContentSpec(xmlDoc, contentSpec, topics, topicGraph);
+                    updateContentSpecWithTopicIDs(xmlDoc, contentSpec, topics, topicGraph);
                 });
             }
 
-            function updateContentSpec (xmlDoc, contentSpec, topics, topicGraph) {
+            function updateContentSpecWithTopicIDs (xmlDoc, contentSpec, topics, topicGraph) {
                 global.jQuery.each(topics, function (index, topic) {
                     contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                 });
@@ -1908,7 +1806,7 @@
                 }
 
                 if (config.ExistingContentSpecID) {
-                    updateContentSpec(
+                    global.updateContentSpec(
                         config.ExistingContentSpecID,
                         compiledContentSpec,
                         config,
@@ -1916,7 +1814,7 @@
                         errorCallback
                     );
                 } else {
-                    createContentSpec(
+                    global.createContentSpec(
                         compiledContentSpec,
                         config,
                         contentSpecSaveSuccess,
