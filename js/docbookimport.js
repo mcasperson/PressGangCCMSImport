@@ -101,106 +101,7 @@
         return xmlText;
     }
 
-    function createTopic(tryToMatch, xml, replacements, title, tags, config, successCallback, errorCallback) {
 
-        var fixedXML =  setDocumentNodeToSection(reencode(xmlToString(xml), replacements).trim());
-
-        var postBody = {
-            xml: fixedXML,
-            locale: "en-US",
-            configuredParameters: [
-                "xml",
-                "locale"
-            ]
-        };
-
-        if (title) {
-            postBody.title = title;
-            postBody.description = title;
-            postBody.configuredParameters.push("title");
-            postBody.configuredParameters.push("description");
-        }
-
-        if (tags) {
-            postBody.tags = {
-                items: []
-            };
-            postBody.configuredParameters.push("tags");
-
-            global.jQuery.each(tags, function (index, value) {
-                postBody.tags.items.push({
-                    item: {
-                        id: value
-                    },
-                    state: 1
-                });
-            });
-        }
-
-        global.jQuery.ajax({
-            type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/' + (tryToMatch ? 'createormatch' : 'create') + '/json?message=Initial+Topic+Creation&flag=2&userId=89',
-            data: JSON.stringify(postBody),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                successCallback(data);
-            },
-            error: function () {
-                errorCallback("Connection Error", "An error occurred while uploading the topic.");
-            }
-        });
-    }
-
-    function getSimilarTopics(xml, config, successCallback, errorCallback) {
-        global.jQuery.ajax({
-            type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/minhashsimilar/get/json?threshold=0.6&expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
-            data: xml,
-            contentType: "application/xml",
-            dataType: "json",
-            success: function (data) {
-                successCallback(data);
-            },
-            error: function () {
-                errorCallback("Connection Error", "An error occurred while getting similar topics.");
-            }
-        });
-    }
-
-    function updateTopic(id, xml, replacements, title, config, successCallback, errorCallback) {
-
-        var postBody = {
-            id: id,
-            xml: setDocumentNodeToSection(reencode(xmlToString(xml), replacements)),
-            locale: "en-US",
-            configuredParameters: [
-                "xml",
-                "locale"
-            ]
-        };
-
-        if (title) {
-            postBody.title = title;
-            postBody.description = title;
-            postBody.configuredParameters.push("title");
-            postBody.configuredParameters.push("description");
-        }
-
-        global.jQuery.ajax({
-            type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/update/json',
-            data: JSON.stringify(postBody),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                successCallback(data.id);
-            },
-            error: function () {
-                errorCallback("Connection Error", "An error occurred while uploading a topic.");
-            }
-        });
-    }
 
     /*
      STEP 1 - Get the ZIP file
@@ -1419,7 +1320,7 @@
                         resultCallback();
 
                         var topic = topics[index];
-                        getSimilarTopics(
+                        global.getSimilarTopics(
                             reencode(xmlToString(topic.xml), replacements),
                             config,
                             function (data) {
@@ -1681,9 +1582,9 @@
 
                         var topic = topics[index];
                         if (topic.topicId === -1) {
-                            createTopic(
+                            global.createTopic(
                                 false,
-                                topic.xml,
+                                setDocumentNodeToSection(reencode(xmlToString(topic.xml), replacements).trim()),
                                 replacements,
                                 topic.title,
                                 null,
@@ -1751,9 +1652,9 @@
                                 value.original.parentNode.replaceChild(value.replacement, value.original);
                             });
 
-                            updateTopic(
+                            global.updateTopic(
                                 topic.topicId,
-                                topic.xml,
+                                setDocumentNodeToSection(reencode(xmlToString(topic.xml), replacements)),
                                 topic.replacements,
                                 topic.title,
                                 config,
