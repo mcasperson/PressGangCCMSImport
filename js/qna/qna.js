@@ -104,6 +104,11 @@
         return this;
     };
 
+    global.QNAStep.prototype.setBackStep = function (backStep) {
+        this.backStep = backStep;
+        return this;
+    };
+
     global.QNAStep.prototype.setShowPrevious = function (showPrevious) {
         this.showPrevious = showPrevious;
         return this;
@@ -375,7 +380,7 @@
                         errorCallback(title, message);
                         return;
                     },
-                    this.results[this.results.length],
+                    this.results[this.results.length - 1],
                     this.config
                 );
             } else {
@@ -388,12 +393,37 @@
 
     global.QNA.prototype.previous = function (callback, errorCallback) {
         if (this.previousSteps.length > 0) {
-            callback(new global.QNA(
-                this.previousSteps[this.previousSteps.length - 1],
-                this.previousSteps.splice(0, this.previousSteps.length - 1),
-                this.results.splice(0, this.results.length - 1),
-                this.config
-            ));
+
+            var gotoPreviousStep = (function (me) {
+                return function () {
+                    callback(new global.QNA(
+                        me.previousSteps[me.previousSteps.length - 1],
+                        me.previousSteps.splice(0, me.previousSteps.length - 1),
+                        me.results.splice(0, me.results.length - 1),
+                        me.config
+                    ));
+                };
+            }(this));
+
+            // process the current step and generate a result
+            var newResults;
+            if (this.step.backStep) {
+                this.step.backStep(
+                    (function () {
+                        return function () {
+                            gotoPreviousStep();
+                        };
+                    }(this.results)),
+                    function (title, message) {
+                        errorCallback(title, message);
+                        return;
+                    },
+                    this.results[this.results.length - 1],
+                    this.config
+                );
+            } else {
+                gotoPreviousStep();
+            }
         }
 
         return this;

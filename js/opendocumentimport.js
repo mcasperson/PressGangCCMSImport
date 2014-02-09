@@ -2,7 +2,7 @@
     'use strict';
 
     /*
-     STEP 1 - Get the ODT file
+        STEP 1 - Get the ODT file
      */
     global.askForOpenDocumentFile = new global.QNAStep()
         .setTitle("Select the ODT file to import")
@@ -73,6 +73,11 @@
                             .setValue("Title"),
                         new global.QNAVariable()
                             .setType(global.InputEnum.TEXTBOX)
+                            .setIntro("Subtitle")
+                            .setName("ContentSpecSubtitle")
+                            .setValue("Subtitle"),
+                        new global.QNAVariable()
+                            .setType(global.InputEnum.TEXTBOX)
                             .setIntro("Product")
                             .setName("ContentSpecProduct")
                             .setValue("Product"),
@@ -107,11 +112,18 @@
             } else {
                 var contentSpec = [];
                 contentSpec.push("Title = " + config.ContentSpecTitle);
+
+                if (config.ContentSpecSubtitle !== undefined &&
+                    config.ContentSpecSubtitle !== null &&
+                    config.ContentSpecSubtitle.trim().length !== 0) {
+                    contentSpec.push("Subtitle = " + config.ContentSpecProduct);
+                }
+
                 contentSpec.push("Product = " + config.ContentSpecProduct);
                 contentSpec.push("Version = " + config.ContentSpecVersion);
                 contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
                 contentSpec.push("Brand = " + config.ContentSpecBrand);
-                resultCallback(JSON.stringify(contentSpec));
+                resultCallback(JSON.stringify({contentSpec: contentSpec}));
             }
         })
         .setNextStep(function (resultCallback) {
@@ -137,11 +149,148 @@
                 ])
         ])
         .setNextStep(function (resultCallback) {
-            resultCallback(processOdt);
+            resultCallback(setParaRules);
         });
 
     /*
-        STEP 4 - process the ODT file
+     Step 4 - ask which server this is being uploaded to
+     */
+    var setParaRules = new global.QNAStep()
+        .setTitle("Define a rule for a paragraph")
+        .setIntro("You can define the DocBook block element to wrap an imported paragraph in by matching font styles.")
+        .setInputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.TEXTBOX)
+                        .setIntro("Font Name")
+                        .setName("FontName")
+                        .setValue(function (resultCallback, errorCallback, result, config) {
+                            resultCallback(config.FontName);
+                        }),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.TEXTBOX)
+                        .setIntro("Font Size")
+                        .setName("FontSize"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Bold")
+                        .setName("Bold"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Italics")
+                        .setName("Italics"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Underline")
+                        .setName("Underline"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.COMBOBOX)
+                        .setIntro("DocBook Element")
+                        .setName("DocBookElement")
+                        .setOptions(["programlisting", "screen", "literallayout", "synopsis"]), // http://docbook.org/tdg/en/html/ch02.html#ch02-logdiv
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Define another rule?")
+                        .setName("DefineAnotherRule")
+                ])
+        ])
+        .setBackStep(function (resultCallback, errorCallback, result, config) {
+            var resetToDefault = function () {
+                config.FontName = "";
+                config.FontSize = "";
+                config.Bold = false;
+                config.Italics = false;
+                config.Underline = false;
+            }
+
+            if (result) {
+                var resultObject = JSON.parse(result);
+                if (resultObject.fontRules !== undefined) {
+                    var lastRule = resultObject.fontRules[resultObject.fontRules.length - 1];
+
+                    config.FontName = lastRule.font;
+                    config.FontSize = lastRule.size;
+                    config.Bold = lastRule.bold;
+                    config.Italics = lastRule.italics;
+                    config.Underline = lastRule.underline;
+                } else {
+                    resetToDefault();
+                }
+            } else {
+                resetToDefault();
+            }
+
+            config.DefineAnotherRule = true;
+
+            resultCallback();
+        })
+        .setProcessStep(function (resultCallback, errorCallback, result, config) {
+            var fontRule = new global.FontRule();
+
+            if (!config.DocBookElement) {
+                errorCallback("incomplete form", "Please specify the DocBook element that this rule will create.");
+                return;
+            } else {
+                fontRule.setDocBookElement(config.DocBookElement);
+            }
+
+            var atLeastOneRule = false;
+            if (config.FontName) {
+                atLeastOneRule = true;
+                fontRule.setFont(config.FontName);
+            }
+
+            if (config.FontSize) {
+                atLeastOneRule = true;
+                fontRule.setSize(config.FontSize);
+            }
+
+            if (config.Bold) {
+                atLeastOneRule = true;
+                fontRule.setBold(config.Bold);
+            }
+
+            if (config.Italics) {
+                atLeastOneRule = true;
+                fontRule.setItalics(config.Italics);
+            }
+
+            if (config.Underline) {
+                atLeastOneRule = true;
+                fontRule.setUnderline(config.Underline);
+            }
+
+            if (!atLeastOneRule) {
+                errorCallback("Incomplete form", "Please specify at least one formatting rule.");
+            } else {
+                var resultObject;
+                if (result) {
+                    resultObject = JSON.parse(result);
+                    if (resultObject.fontRules === undefined) {
+                        resultObject.fontRules = [];
+                    }
+                } else {
+                    resultObject = {fontRules: []};
+                }
+
+                resultObject.fontRules.push(fontRule);
+
+                config.FontName = "";
+                config.FontSize = "";
+                config.Bold = false;
+                config.Italics = false;
+                config.Underline = false;
+
+                resultCallback(JSON.stringify(resultObject));
+            }
+        })
+        .setNextStep(function (resultCallback, errorCallback, result, config) {
+            resultCallback(config.DefineAnotherRule ? setParaRules : processOdt);
+        });
+
+    /*
+        STEP 5 - process the ODT file
      */
     var processOdt = new global.QNAStep()
         .setShowNext(false)
@@ -185,10 +334,6 @@
         ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
-            /*
-             There are 17 steps, so this is how far to move the progress bar with each
-             step.
-             */
             var progressIncrement = 100 / 4;
 
             /*
@@ -199,7 +344,7 @@
             config.UploadedImageCount = 0;
             config.MatchedImageCount = 0;
 
-            var contentSpec = JSON.parse(result);
+            var resultObject = JSON.parse(result);
 
             global.zipModel.getTextFromFileName(
                 config.OdtFile,
@@ -340,9 +485,9 @@
                             // an empty container.
                             if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
                                 if (outlineLevel === 0) {
-                                    contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
+                                    resultObject.contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
                                 } else {
-                                    contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
+                                    resultObject.contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
                                 }
                             } else if (content.length !== 0) {
                                 /*
@@ -353,9 +498,9 @@
                                     contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
                                 } else {
                                     if (newOutlineLevel > outlineLevel) {
-                                        contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
+                                        resultObject.contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
                                     } else {
-                                        contentSpec.push(prefix + global.escapeSpecTitle(title));
+                                        resultObject.contentSpec.push(prefix + global.escapeSpecTitle(title));
                                     }
                                 }
 
@@ -514,6 +659,7 @@
         .setNextStep(function (resultCallback) {
             resultCallback(summary);
         });
+
 
     var summary = new global.QNAStep()
         .setTitle("Import Summary")

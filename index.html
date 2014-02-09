@@ -23,6 +23,7 @@
         <script src="js/qna/qna.js"></script>
         <script src="js/qna/controller.js"></script>
         <script src="js/specelement.js"></script>
+        <script src="js/fontrule.js"></script>
         <script src="js/qnasteps.js"></script>
         <script src="js/docbookimport.js"></script>
         <script src="js/opendocumentimport.js"></script>
@@ -55,65 +56,6 @@
                 </div>
                 <div class="panel-body">
                     <div ng-if="qna.step.processedIntro != null">{{qna.step.processedIntro}}</div>
-
-                    <!-- Build the inputs -->
-                    <div ng-repeat="input in qna.step.processedInputs">
-                            <h3>{{input.intro}}</h3>
-                            <div class="row" ng-repeat="variable in input.processedVariables">
-
-                                <!-- single file form element -->
-                                <div ng-if="variable.processedType == inputTypes.SINGLE_FILE">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" ng-disabled="disabled" >
-                                    </div>
-                                 </div>
-                                <!-- combobox form element -->
-                                <div ng-if="variable.processedType == inputTypes.COMBOBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <select
-                                                ng-model="qna.config[variable.processedName]"
-                                                ng-options="option for option in variable.processedOptions"
-                                                ng-disabled="!variable.processedOptions || disabled"></select>
-                                    </div>
-                                </div>
-                                <!-- listbox form element -->
-                                <div ng-if="variable.processedType == inputTypes.LISTBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <select
-                                                size="20"
-                                                ng-model="qna.config[variable.processedName]"
-                                                ng-options="option for option in variable.processedOptions"
-                                                ng-disabled="!variable.processedOptions || disabled"
-                                                style="width: 100%"></select>
-                                    </div>
-                                </div>
-                                <!-- radio buttons -->
-                                <div class="col-lg-12" ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
-                                        <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}" ng-disabled="disabled">
-                                    </div>
-                                </div>
-                                <!-- check box -->
-                                <div class="col-lg-12" ng-if="variable.processedType == inputTypes.CHECKBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled">
-                                    </div>
-                                </div>
-                                <!-- text box -->
-                                <div class="col-lg-12" ng-if="variable.processedType == inputTypes.TEXTBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <input type="text" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled">
-                                    </div>
-                                </div>
-
-                            </div>
-                    </div>
 
                     <!-- Build the outputs -->
                     <div ng-repeat="output in qna.step.processedOutputs">
@@ -187,6 +129,67 @@
 
                         </div>
                     </div>
+
+                    <!-- Build the inputs -->
+                    <div ng-repeat="input in qna.step.processedInputs">
+                            <h3>{{input.intro}}</h3>
+                            <div class="row" ng-repeat="variable in input.processedVariables">
+
+                                <!-- single file form element -->
+                                <div ng-if="variable.processedType == inputTypes.SINGLE_FILE">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" ng-disabled="disabled" >
+                                    </div>
+                                 </div>
+                                <!-- combobox form element -->
+                                <div ng-if="variable.processedType == inputTypes.COMBOBOX">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <select
+                                                ng-model="qna.config[variable.processedName]"
+                                                ng-options="option for option in variable.processedOptions"
+                                                ng-disabled="!variable.processedOptions || disabled"></select>
+                                    </div>
+                                </div>
+                                <!-- listbox form element -->
+                                <div ng-if="variable.processedType == inputTypes.LISTBOX">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <select
+                                                size="20"
+                                                ng-model="qna.config[variable.processedName]"
+                                                ng-options="option for option in variable.processedOptions"
+                                                ng-disabled="!variable.processedOptions || disabled"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                                <!-- radio buttons -->
+                                <div class="col-lg-12" ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
+                                        <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}" ng-disabled="disabled">
+                                    </div>
+                                </div>
+                                <!-- check box -->
+                                <div class="col-lg-12" ng-if="variable.processedType == inputTypes.CHECKBOX">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled">
+                                    </div>
+                                </div>
+                                <!-- text box -->
+                                <div class="col-lg-12" ng-if="variable.processedType == inputTypes.TEXTBOX">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <input type="text" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled">
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+
+
 
                     <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">Next</button>
                     <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious() && qna.step.processedShowPrevious" ng-disabled="disabled">Previous</button>
