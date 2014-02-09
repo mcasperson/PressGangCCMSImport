@@ -361,9 +361,11 @@
                                 spec,
                                 config,
                                 function(id) {
-                                    config.UploadProgress[1] = progressIncrement;
+                                    config.ContentSpecIDLink = id;
+
+                                    config.UploadProgress[1] = progressIncrement * 2;
                                     config.UploadedContentSpecification = true;
-                                    resultCallback();
+                                    resultCallback(true);
 
                                     console.log("Content Spec ID: " + id);
                                 },
@@ -376,9 +378,40 @@
                 },
                 errorCallback
             );
+        })
+        .setNextStep(summary);
 
-
-
-        });
+    var summary = new global.QNAStep()
+        .setTitle("Import Summary")
+        .setOutputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.HTML)
+                        .setIntro("Content Specification ID")
+                        .setName("ContentSpecIDLink")
+                        .setValue(function (resultCallback, errorCallback, result, config) {
+                            resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a>");
+                        }),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Imported From")
+                        .setName("ImportedFrom")
+                        .setValue(function (resultCallback, errorCallback, result, config) {
+                            resultCallback(config.OdtFile.name);
+                        }),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Topics Created / Topics Reused")
+                        .setName("NewTopicsCreated"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Images Created / Images Reused")
+                        .setName("NewImagesCreated")
+                ])
+        ])
+        .setShowNext(false)
+        .setShowPrevious(false)
+        .setShowRestart(true);
 
 }(this));
