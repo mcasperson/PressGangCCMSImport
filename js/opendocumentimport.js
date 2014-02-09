@@ -290,7 +290,7 @@
                                         if (style !== null) {
                                             var listStyleNumber = xmlDoc.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             //var listStyleBullet = xmlDoc.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            itemizedList = listStyleNumber !== null;
+                                            itemizedList = listStyleNumber === null;
                                         }
                                     }
 
