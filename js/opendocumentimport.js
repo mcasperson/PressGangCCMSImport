@@ -279,6 +279,18 @@
                                         content += "<para>" + contentNode.textContent + "</para>";
                                     }
                                 } else if (contentNode.nodeName === "text:list") {
+
+                                    var itemizedList = true;
+                                    var styleName = contentNode.getAttribute("text:style-name");
+                                    if (styleName !== null) {
+                                        var style = xmlDoc.evaluate("//text:list-style[@style:name='" + styleName + "']", xmlDoc, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (style !== null) {
+                                            var listStyleNumber = xmlDoc.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            //var listStyleBullet = xmlDoc.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            itemizedList = listStyleNumber !== null;
+                                        }
+                                    }
+
                                     var listItems = xmlDoc.evaluate(".//text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                                     var listHeaders = xmlDoc.evaluate(".//text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                                     var listItemsHeaderContent = "";
@@ -296,7 +308,7 @@
 
                                     var listItem;
                                     if ((listItem = listItems.iterateNext()) !== null) {
-                                        content += "<itemizedlist>";
+                                        content += itemizedList ? "<itemizedlist>" : "<orderedlist>";
                                         content += listItemsHeaderContent;
 
                                         do {
@@ -313,7 +325,7 @@
                                             content += "</listitem>";
                                         } while ((listItem = listItems.iterateNext()) !== null);
 
-                                        content += "</itemizedlist>";
+                                        content += itemizedList ? "</itemizedlist>" : "</orderedlist>";
                                     } else {
                                         // we have found a list that contains only a header. this is really just a para
                                         content += listItemsHeaderContent;
