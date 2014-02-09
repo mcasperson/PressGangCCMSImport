@@ -225,12 +225,6 @@
                             var content = "";
                             var contentNode;
                             while ((contentNode = contentNodes.iterateNext()) !== null) {
-
-                                var prefix = "";
-                                for (var i = 0; i < outlineLevel * 2; ++i) {
-                                    prefix += " ";
-                                }
-
                                 // headers indicate container or topic boundaries
                                 if (contentNode.nodeName === "text:h") {
                                     processHeader(content, contentNode, title, outlineLevel);
@@ -248,6 +242,7 @@
                             for (var i = 0; i < outlineLevel * 2; ++i) {
                                 prefix += " ";
                             }
+                            return prefix;
                         };
 
                         var processPara = function (content, contentNode, imageLinks) {

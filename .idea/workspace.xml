@@ -80,7 +80,7 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="501" column="88" selection-start="25846" selection-end="25846" vertical-scroll-proportion="0.5160576" vertical-offset="7049" max-vertical-offset="8415">
+            <state line="244" column="42" selection-start="11667" selection-end="11667" vertical-scroll-proportion="0.45319635" vertical-offset="3263" max-vertical-offset="8340">
               <folding />
             </state>
           </provider>
@@ -761,7 +761,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="23949000" />
+      <workItem from="1391907087418" duration="24230000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1515,7 +1515,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="240694000" />
+    <option name="totallyTimeSpent" value="240975000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1974,7 +1974,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="501" column="88" selection-start="25846" selection-end="25846" vertical-scroll-proportion="0.5160576" vertical-offset="7049" max-vertical-offset="8415">
+        <state line="244" column="42" selection-start="11667" selection-end="11667" vertical-scroll-proportion="0.45319635" vertical-offset="3263" max-vertical-offset="8340">
           <folding />
         </state>
       </provider>
