@@ -80,7 +80,7 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="487" column="60" selection-start="23594" selection-end="23605" vertical-scroll-proportion="-0.69520545" vertical-offset="7914" max-vertical-offset="10530">
+            <state line="217" column="68" selection-start="10229" selection-end="10229" vertical-scroll-proportion="0.38356164" vertical-offset="2919" max-vertical-offset="10575">
               <folding />
             </state>
           </provider>
@@ -89,7 +89,7 @@
       <file leaf-file-name="fontrule.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/fontrule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="44" selection-start="801" selection-end="801" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+            <state line="33" column="44" selection-start="787" selection-end="801" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
               <folding />
             </state>
           </provider>
@@ -756,7 +756,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="32883000" />
+      <workItem from="1391907087418" duration="33609000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1510,7 +1510,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="249628000" />
+    <option name="totallyTimeSpent" value="250354000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1929,13 +1929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/fontrule.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="44" selection-start="801" selection-end="801" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="382" column="56" selection-start="15825" selection-end="15825" vertical-scroll-proportion="-37.925926" vertical-offset="4706" max-vertical-offset="6540">
@@ -1943,9 +1936,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/fontrule.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="44" selection-start="787" selection-end="801" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="487" column="60" selection-start="23594" selection-end="23605" vertical-scroll-proportion="-0.69520545" vertical-offset="7914" max-vertical-offset="10530">
+        <state line="217" column="68" selection-start="10229" selection-end="10229" vertical-scroll-proportion="0.38356164" vertical-offset="2919" max-vertical-offset="10575">
           <folding />
         </state>
       </provider>

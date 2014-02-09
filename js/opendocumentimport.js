@@ -197,11 +197,12 @@
         ])
         .setBackStep(function (resultCallback, errorCallback, result, config) {
             var resetToDefault = function () {
-                config.FontName = "";
-                config.FontSize = "";
-                config.Bold = false;
-                config.Italics = false;
-                config.Underline = false;
+                config.FontName = null;
+                config.FontSize = null;
+                config.Bold = null;
+                config.Italics = null;
+                config.Underline = null;
+                config.DocBookElement = null;
             }
 
             if (result) {
@@ -214,6 +215,7 @@
                     config.Bold = lastRule.bold;
                     config.Italics = lastRule.italics;
                     config.Underline = lastRule.underline;
+                    config.DocBookElement = lastRule.docBookElement;
                 } else {
                     resetToDefault();
                 }
@@ -276,11 +278,12 @@
 
                 resultObject.fontRules.push(fontRule);
 
-                config.FontName = "";
-                config.FontSize = "";
-                config.Bold = false;
-                config.Italics = false;
-                config.Underline = false;
+                config.FontName = null;
+                config.FontSize = null;
+                config.Bold = null;
+                config.Italics = null;
+                config.Underline = null;
+                config.DocBookElement = null;
 
                 resultCallback(JSON.stringify(resultObject));
             }
