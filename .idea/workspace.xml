@@ -1,0 +1,1954 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="" />
+    <ignored path="PressGangCCMSImport.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DebuggerManager">
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <breakpoint_rules />
+    <ui_properties />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="PressGangCCMSImport" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="12" selection-start="226" selection-end="226" vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="3090">
+              <folding>
+                <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+                <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+                <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="305" column="56" selection-start="15898" selection-end="15898" vertical-scroll-proportion="0.7089041" vertical-offset="3954" max-vertical-offset="6510">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="zip.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/zip/zip.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="395" column="57" selection-start="10703" selection-end="10720" vertical-scroll-proportion="0.0" vertical-offset="5925" max-vertical-offset="11715">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qna.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="381" column="86" selection-start="15854" selection-end="15854" vertical-scroll-proportion="-19.037037" vertical-offset="5201" max-vertical-offset="6090">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wgxpath.install.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/wgxpath/wgxpath.install.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qnasteps.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="170" column="11" selection-start="5903" selection-end="5903" vertical-scroll-proportion="-10.814815" vertical-offset="2258" max-vertical-offset="3645">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1694" column="41" selection-start="82537" selection-end="82558" vertical-scroll-proportion="3.8085105" vertical-offset="25589" max-vertical-offset="26445">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/specelement.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="25" selection-start="3092" selection-end="3113" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6975">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controller.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="67" column="13" selection-start="2078" selection-end="2078" vertical-scroll-proportion="-9.481482" vertical-offset="749" max-vertical-offset="1665">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery-2.1.0.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="0" selection-start="83623" selection-end="83623" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="150">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/js/import.js" />
+        <option value="$PROJECT_DIR$/js/qna.js" />
+        <option value="$PROJECT_DIR$/js/qna/okcontroller.js" />
+        <option value="$PROJECT_DIR$/js/qna/okdialog.js" />
+        <option value="$PROJECT_DIR$/css/qna.css" />
+        <option value="$PROJECT_DIR$/js/qna/qnafileinput.js" />
+        <option value="$PROJECT_DIR$/js/qna/controller.js" />
+        <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
+        <option value="$PROJECT_DIR$/dependencies.txt" />
+        <option value="$PROJECT_DIR$/js/jquery/jquery.js" />
+        <option value="$PROJECT_DIR$/js/specelement.js" />
+        <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/qna/qna.js" />
+        <option value="$PROJECT_DIR$/js/qnasteps.js" />
+        <option value="$PROJECT_DIR$/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1918" />
+    <option name="y" value="-3" />
+    <option name="width" value="1924" />
+    <option name="height" value="1087" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android Lint</id>
+          </State>
+          <State>
+            <id>Error handling</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Abstraction issues</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <OptionsSetting value="true" id="Undo Check Out" />
+    <OptionsSetting value="true" id="Get Latest Version" />
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qna" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="/usr/bin/java" />
+    <property name="FullScreen" value="false" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="SearchEverywhereHistory" value="T" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="221" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="231" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="237" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1146" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="221" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="231" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="237" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1146" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings />
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js/wgxpath" />
+      <recent name="$PROJECT_DIR$/js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js/qna" />
+      <recent name="$PROJECT_DIR$/js/angular" />
+      <recent name="$PROJECT_DIR$/js/zip" />
+      <recent name="$PROJECT_DIR$/js/bootstrap" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails" singleton="true">
+      <module name="" />
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="depsClasspath" value="false" />
+      <setting name="passParentEnv" value="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PressGangCCMSImport" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PressGangCCMSImport" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PressGangCCMSImport" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <browser start="false" url="" with-js-debugger="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PressGangCCMSImport" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browserFamily" value="FIREFOX" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/usr/bin/flashplayerdebugger" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PressGangCCMSImport" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PressGangCCMSImport" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" output_log_level="null" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browserFamily" value="FIREFOX" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/usr/bin/flashplayerdebugger" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PressGangCCMSImport" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <list size="0" />
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="" />
+      <created>1390948482910</created>
+      <updated>1390948482910</updated>
+      <workItem from="1390948486383" duration="4524000" />
+      <workItem from="1390955400285" duration="653000" />
+      <workItem from="1390956077505" duration="5424000" />
+      <workItem from="1390963185701" duration="31245000" />
+      <workItem from="1391060942748" duration="31829000" />
+      <workItem from="1391319670071" duration="523000" />
+      <workItem from="1391320223129" duration="19000" />
+      <workItem from="1391320260999" duration="49975000" />
+      <workItem from="1391547743164" duration="78859000" />
+      <workItem from="1391734259244" duration="13694000" />
+      <workItem from="1391907087418" duration="18273000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial Import">
+      <created>1390960505841</created>
+      <updated>1390960505841</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Ran code through jslint">
+      <created>1390964553364</created>
+      <updated>1390964553364</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added require.js">
+      <created>1390965987280</created>
+      <updated>1390965987280</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added require.js&#10;">
+      <created>1390966021111</created>
+      <updated>1390966021111</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Removed require.js, and added angular.js">
+      <created>1391030730955</created>
+      <updated>1391030730955</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Working on getting initial steps to be displayed">
+      <created>1391031470345</created>
+      <updated>1391031470345</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391031578759</created>
+      <updated>1391031578759</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391033352574</created>
+      <updated>1391033352574</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391035275834</created>
+      <updated>1391035275834</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391038316428</created>
+      <updated>1391038316428</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391038386114</created>
+      <updated>1391038386114</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391039460241</created>
+      <updated>1391039460241</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391045049109</created>
+      <updated>1391045049109</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391046104326</created>
+      <updated>1391046104326</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391060837829</created>
+      <updated>1391060837829</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391060915133</created>
+      <updated>1391060915133</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391061285552</created>
+      <updated>1391061285552</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391061334087</created>
+      <updated>1391061334087</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391061452296</created>
+      <updated>1391061452296</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391069044193</created>
+      <updated>1391069044193</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391069492998</created>
+      <updated>1391069492998</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391069704275</created>
+      <updated>1391069704275</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Working on getting initial steps to be displayed&#10;">
+      <created>1391114214982</created>
+      <updated>1391114214982</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Changed everything to async callbacks">
+      <created>1391120337424</created>
+      <updated>1391120337424</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Changed everything to async callbacks&#10;">
+      <created>1391121001091</created>
+      <updated>1391121001091</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Changed everything to async callbacks&#10;">
+      <created>1391121157941</created>
+      <updated>1391121157941</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Cleaned up function param order to reduce code clutter">
+      <created>1391121694667</created>
+      <updated>1391121694667</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Adding new UI elements">
+      <created>1391125501229</created>
+      <updated>1391125501229</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Adding new UI elements&#10;">
+      <created>1391125647272</created>
+      <updated>1391125647272</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Adding new UI elements&#10;">
+      <created>1391129289395</created>
+      <updated>1391129289395</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Adding new UI elements&#10;">
+      <created>1391129708680</created>
+      <updated>1391129708680</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Adding new UI elements&#10;">
+      <created>1391131331164</created>
+      <updated>1391131331164</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Adding new UI elements&#10;">
+      <created>1391131833839</created>
+      <updated>1391131833839</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Adding new UI elements&#10;">
+      <created>1391132130162</created>
+      <updated>1391132130162</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Adding new UI elements&#10;">
+      <created>1391133779079</created>
+      <updated>1391133779079</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Adding new UI elements&#10;">
+      <created>1391135194632</created>
+      <updated>1391135194632</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Adding new UI elements&#10;">
+      <created>1391139254899</created>
+      <updated>1391139254899</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Adding new UI elements&#10;">
+      <created>1391139845957</created>
+      <updated>1391139845957</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Adding new UI elements&#10;">
+      <created>1391144839024</created>
+      <updated>1391144839024</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Working on importing the XML">
+      <created>1391145186446</created>
+      <updated>1391145186446</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Working on importing the XML&#10;">
+      <created>1391145382416</created>
+      <updated>1391145382416</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Added https://code.google.com/p/x2js/">
+      <created>1391145850146</created>
+      <updated>1391145850146</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Added https://code.google.com/p/x2js/&#10;">
+      <created>1391145870912</created>
+      <updated>1391145870912</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Working on parsing the XML">
+      <created>1391146432391</created>
+      <updated>1391146432391</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Removed some boilerplate code from the QNA steps">
+      <created>1391321181814</created>
+      <updated>1391321181814</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Removed some boilerplate code from the QNA steps&#10;">
+      <created>1391323415131</created>
+      <updated>1391323415131</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Removed some boilerplate code from the QNA steps&#10;">
+      <created>1391323430479</created>
+      <updated>1391323430479</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Removed some boilerplate code from the QNA steps&#10;">
+      <created>1391323484378</created>
+      <updated>1391323484379</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Removed some boilerplate code from the QNA steps&#10;">
+      <created>1391323600668</created>
+      <updated>1391323600668</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Added Wicked Good XPath - https://code.google.com/p/wicked-good-xpath/">
+      <created>1391330945482</created>
+      <updated>1391330945482</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Added processing of revision history">
+      <created>1391335407475</created>
+      <updated>1391335407475</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Added processing of revision history&#10;">
+      <created>1391380420298</created>
+      <updated>1391380420298</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Working on image upload">
+      <created>1391382535355</created>
+      <updated>1391382535356</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Working on image upload&#10;">
+      <created>1391391368593</created>
+      <updated>1391391368593</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Working on image upload&#10;">
+      <created>1391392081378</created>
+      <updated>1391392081378</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Working on resolving the docbook structure">
+      <created>1391395647090</created>
+      <updated>1391395647090</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Working on resolving the docbook structure&#10;">
+      <created>1391398030225</created>
+      <updated>1391398030225</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Working on resolving the docbook structure&#10;">
+      <created>1391398219883</created>
+      <updated>1391398219883</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Working on resolving the docbook structure&#10;">
+      <created>1391398795664</created>
+      <updated>1391398795664</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Working on resolving the docbook structure&#10;">
+      <created>1391399247363</created>
+      <updated>1391399247363</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Working on resolving the docbook structure&#10;">
+      <created>1391399382546</created>
+      <updated>1391399382546</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Working on resolving the docbook structure&#10;">
+      <created>1391404395113</created>
+      <updated>1391404395113</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Working on resolving the docbook structure&#10;">
+      <created>1391404889542</created>
+      <updated>1391404889542</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Working on resolving the docbook structure&#10;">
+      <created>1391406425847</created>
+      <updated>1391406425847</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Working on resolving the docbook structure&#10;">
+      <created>1391407300078</created>
+      <updated>1391407300078</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Working on resolving the docbook structure&#10;">
+      <created>1391407900466</created>
+      <updated>1391407900467</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Working on resolving the docbook structure&#10;">
+      <created>1391408142532</created>
+      <updated>1391408142533</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Working on resolving the docbook structure&#10;">
+      <created>1391409324108</created>
+      <updated>1391409324108</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Working on resolving the docbook structure&#10;">
+      <created>1391409541706</created>
+      <updated>1391409541706</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Working on resolving the docbook structure&#10;">
+      <created>1391410502194</created>
+      <updated>1391410502194</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Working on resolving the docbook structure&#10;">
+      <created>1391410665581</created>
+      <updated>1391410665581</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Working on resolving the docbook structure&#10;">
+      <created>1391410871420</created>
+      <updated>1391410871420</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Working on resolving the docbook structure&#10;">
+      <created>1391411078132</created>
+      <updated>1391411078132</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Working on resolving the docbook structure&#10;">
+      <created>1391411212724</created>
+      <updated>1391411212724</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Working on resolving the docbook structure&#10;">
+      <created>1391411316279</created>
+      <updated>1391411316279</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Working on resolving the docbook structure&#10;">
+      <created>1391411492670</created>
+      <updated>1391411492670</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Working on resolving the docbook structure&#10;">
+      <created>1391411509962</created>
+      <updated>1391411509962</updated>
+    </task>
+    <task id="LOCAL-00078" summary="Working on resolving the docbook structure&#10;">
+      <created>1391411685441</created>
+      <updated>1391411685441</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Working on resolving the docbook structure&#10;">
+      <created>1391412001482</created>
+      <updated>1391412001482</updated>
+    </task>
+    <task id="LOCAL-00080" summary="Working on resolving the docbook structure&#10;">
+      <created>1391412196513</created>
+      <updated>1391412196513</updated>
+    </task>
+    <task id="LOCAL-00081" summary="Working on resolving the docbook structure&#10;">
+      <created>1391412374512</created>
+      <updated>1391412374512</updated>
+    </task>
+    <task id="LOCAL-00082" summary="Working on resolving the docbook structure&#10;">
+      <created>1391412646500</created>
+      <updated>1391412646500</updated>
+    </task>
+    <task id="LOCAL-00083" summary="Working on resolving the docbook structure&#10;">
+      <created>1391412874251</created>
+      <updated>1391412874251</updated>
+    </task>
+    <task id="LOCAL-00084" summary="Working on resolving the docbook structure&#10;">
+      <created>1391413457705</created>
+      <updated>1391413457705</updated>
+    </task>
+    <task id="LOCAL-00085" summary="Working on resolving the docbook structure&#10;">
+      <created>1391414033863</created>
+      <updated>1391414033863</updated>
+    </task>
+    <task id="LOCAL-00086" summary="Working on resolving the docbook structure&#10;">
+      <created>1391414107881</created>
+      <updated>1391414107881</updated>
+    </task>
+    <task id="LOCAL-00087" summary="Working on resolving the docbook structure&#10;">
+      <created>1391415516151</created>
+      <updated>1391415516151</updated>
+    </task>
+    <task id="LOCAL-00088" summary="Working on resolving the docbook structure&#10;">
+      <created>1391415556575</created>
+      <updated>1391415556575</updated>
+    </task>
+    <task id="LOCAL-00089" summary="Working on resolving the docbook structure&#10;">
+      <created>1391470121903</created>
+      <updated>1391470121903</updated>
+    </task>
+    <task id="LOCAL-00090" summary="Working on resolving the docbook structure&#10;">
+      <created>1391470271446</created>
+      <updated>1391470271446</updated>
+    </task>
+    <task id="LOCAL-00091" summary="Working on resolving the docbook structure&#10;">
+      <created>1391470721688</created>
+      <updated>1391470721688</updated>
+    </task>
+    <task id="LOCAL-00092" summary="Working on resolving the docbook structure&#10;">
+      <created>1391471441374</created>
+      <updated>1391471441374</updated>
+    </task>
+    <task id="LOCAL-00093" summary="Completely rewrote the existing topic detection logic to be more robust.">
+      <created>1391570915266</created>
+      <updated>1391570915266</updated>
+    </task>
+    <task id="LOCAL-00094" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391572622530</created>
+      <updated>1391572622530</updated>
+    </task>
+    <task id="LOCAL-00095" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391572860186</created>
+      <updated>1391572860186</updated>
+    </task>
+    <task id="LOCAL-00096" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391573474932</created>
+      <updated>1391573474933</updated>
+    </task>
+    <task id="LOCAL-00097" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391573978773</created>
+      <updated>1391573978774</updated>
+    </task>
+    <task id="LOCAL-00098" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391574723725</created>
+      <updated>1391574723725</updated>
+    </task>
+    <task id="LOCAL-00099" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391583538888</created>
+      <updated>1391583538888</updated>
+    </task>
+    <task id="LOCAL-00100" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391583897657</created>
+      <updated>1391583897657</updated>
+    </task>
+    <task id="LOCAL-00101" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391584421985</created>
+      <updated>1391584421985</updated>
+    </task>
+    <task id="LOCAL-00102" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391584833876</created>
+      <updated>1391584833876</updated>
+    </task>
+    <task id="LOCAL-00103" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391585833383</created>
+      <updated>1391585833383</updated>
+    </task>
+    <task id="LOCAL-00104" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391586075589</created>
+      <updated>1391586075589</updated>
+    </task>
+    <task id="LOCAL-00105" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391586553909</created>
+      <updated>1391586553909</updated>
+    </task>
+    <task id="LOCAL-00106" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391592772866</created>
+      <updated>1391592772866</updated>
+    </task>
+    <task id="LOCAL-00107" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391593564441</created>
+      <updated>1391593564441</updated>
+    </task>
+    <task id="LOCAL-00108" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391593898523</created>
+      <updated>1391593898523</updated>
+    </task>
+    <task id="LOCAL-00109" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391595339625</created>
+      <updated>1391595339625</updated>
+    </task>
+    <task id="LOCAL-00110" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391595953865</created>
+      <updated>1391595953865</updated>
+    </task>
+    <task id="LOCAL-00111" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391632142151</created>
+      <updated>1391632142151</updated>
+    </task>
+    <task id="LOCAL-00112" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391632470298</created>
+      <updated>1391632470298</updated>
+    </task>
+    <task id="LOCAL-00113" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391633153416</created>
+      <updated>1391633153416</updated>
+    </task>
+    <task id="LOCAL-00114" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391633190188</created>
+      <updated>1391633190188</updated>
+    </task>
+    <task id="LOCAL-00115" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391637865867</created>
+      <updated>1391637865867</updated>
+    </task>
+    <task id="LOCAL-00116" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391639390145</created>
+      <updated>1391639390145</updated>
+    </task>
+    <task id="LOCAL-00117" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391639527123</created>
+      <updated>1391639527123</updated>
+    </task>
+    <task id="LOCAL-00118" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391639564940</created>
+      <updated>1391639564940</updated>
+    </task>
+    <task id="LOCAL-00119" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391639895982</created>
+      <updated>1391639895983</updated>
+    </task>
+    <task id="LOCAL-00120" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391640374718</created>
+      <updated>1391640374718</updated>
+    </task>
+    <task id="LOCAL-00121" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391640801170</created>
+      <updated>1391640801171</updated>
+    </task>
+    <task id="LOCAL-00122" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391641072167</created>
+      <updated>1391641072168</updated>
+    </task>
+    <task id="LOCAL-00123" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391641782747</created>
+      <updated>1391641782747</updated>
+    </task>
+    <task id="LOCAL-00124" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391641948756</created>
+      <updated>1391641948756</updated>
+    </task>
+    <task id="LOCAL-00125" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391643224950</created>
+      <updated>1391643224950</updated>
+    </task>
+    <task id="LOCAL-00126" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391643532416</created>
+      <updated>1391643532416</updated>
+    </task>
+    <task id="LOCAL-00127" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391644652996</created>
+      <updated>1391644652997</updated>
+    </task>
+    <task id="LOCAL-00128" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391644871890</created>
+      <updated>1391644871890</updated>
+    </task>
+    <task id="LOCAL-00129" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391645150220</created>
+      <updated>1391645150221</updated>
+    </task>
+    <task id="LOCAL-00130" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391645588048</created>
+      <updated>1391645588048</updated>
+    </task>
+    <task id="LOCAL-00131" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391645856316</created>
+      <updated>1391645856316</updated>
+    </task>
+    <task id="LOCAL-00132" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391646250393</created>
+      <updated>1391646250393</updated>
+    </task>
+    <task id="LOCAL-00133" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391654716171</created>
+      <updated>1391654716172</updated>
+    </task>
+    <task id="LOCAL-00134" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391657825437</created>
+      <updated>1391657825437</updated>
+    </task>
+    <task id="LOCAL-00135" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391658401076</created>
+      <updated>1391658401076</updated>
+    </task>
+    <task id="LOCAL-00136" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391658624759</created>
+      <updated>1391658624759</updated>
+    </task>
+    <task id="LOCAL-00137" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391664129065</created>
+      <updated>1391664129065</updated>
+    </task>
+    <task id="LOCAL-00138" summary="Completely rewrote the existing topic detection logic to be more robust.&#10;">
+      <created>1391664343598</created>
+      <updated>1391664343598</updated>
+    </task>
+    <task id="LOCAL-00139" summary="First commit where a test book is completely resolved to existing topics as expected.">
+      <created>1391665555162</created>
+      <updated>1391665555162</updated>
+    </task>
+    <task id="LOCAL-00140" summary="Added some comments">
+      <created>1391665652806</created>
+      <updated>1391665652806</updated>
+    </task>
+    <task id="LOCAL-00141" summary="Added some comments&#10;">
+      <created>1391666076415</created>
+      <updated>1391666076415</updated>
+    </task>
+    <task id="LOCAL-00142" summary="Working on importing cluser guide 5.8">
+      <created>1391668307526</created>
+      <updated>1391668307526</updated>
+    </task>
+    <task id="LOCAL-00143" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391723819311</created>
+      <updated>1391723819311</updated>
+    </task>
+    <task id="LOCAL-00144" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391724055497</created>
+      <updated>1391724055498</updated>
+    </task>
+    <task id="LOCAL-00145" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391724707098</created>
+      <updated>1391724707098</updated>
+    </task>
+    <task id="LOCAL-00146" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391725130472</created>
+      <updated>1391725130472</updated>
+    </task>
+    <task id="LOCAL-00147" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391727034012</created>
+      <updated>1391727034013</updated>
+    </task>
+    <task id="LOCAL-00148" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391727260049</created>
+      <updated>1391727260049</updated>
+    </task>
+    <task id="LOCAL-00149" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391728127517</created>
+      <updated>1391728127517</updated>
+    </task>
+    <task id="LOCAL-00150" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391728446251</created>
+      <updated>1391728446252</updated>
+    </task>
+    <task id="LOCAL-00151" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391732820877</created>
+      <updated>1391732820877</updated>
+    </task>
+    <task id="LOCAL-00152" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391734798546</created>
+      <updated>1391734798546</updated>
+    </task>
+    <task id="LOCAL-00153" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391739242296</created>
+      <updated>1391739242296</updated>
+    </task>
+    <task id="LOCAL-00154" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391740376951</created>
+      <updated>1391740376951</updated>
+    </task>
+    <task id="LOCAL-00155" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391741164001</created>
+      <updated>1391741164001</updated>
+    </task>
+    <task id="LOCAL-00156" summary="Working on importing cluser guide 5.8&#10;">
+      <created>1391743150817</created>
+      <updated>1391743150817</updated>
+    </task>
+    <task id="LOCAL-00157" summary="Fixing bugs in Firefox">
+      <created>1391743272861</created>
+      <updated>1391743272861</updated>
+    </task>
+    <task id="LOCAL-00158" summary="Fixing bugs">
+      <created>1391744452258</created>
+      <updated>1391744452258</updated>
+    </task>
+    <task id="LOCAL-00159" summary="Removed min files">
+      <created>1391744565208</created>
+      <updated>1391744565208</updated>
+    </task>
+    <task id="LOCAL-00160" summary="Removed min files&#10;">
+      <created>1391744598367</created>
+      <updated>1391744598368</updated>
+    </task>
+    <task id="LOCAL-00161" summary="Fixing bugs">
+      <created>1391745071984</created>
+      <updated>1391745071984</updated>
+    </task>
+    <task id="LOCAL-00162" summary="Fixing bugs&#10;">
+      <created>1391745181282</created>
+      <updated>1391745181282</updated>
+    </task>
+    <task id="LOCAL-00163" summary="Fixing bugs&#10;">
+      <created>1391745338485</created>
+      <updated>1391745338485</updated>
+    </task>
+    <task id="LOCAL-00164" summary="Fixing bugs&#10;">
+      <created>1391745655320</created>
+      <updated>1391745655320</updated>
+    </task>
+    <task id="LOCAL-00165" summary="Fixing bugs&#10;">
+      <created>1391746856885</created>
+      <updated>1391746856885</updated>
+    </task>
+    <task id="LOCAL-00166" summary="Fixing bugs&#10;">
+      <created>1391747784282</created>
+      <updated>1391747784282</updated>
+    </task>
+    <task id="LOCAL-00167" summary="Fixing bugs&#10;">
+      <created>1391748400716</created>
+      <updated>1391748400716</updated>
+    </task>
+    <task id="LOCAL-00168" summary="Fixing bugs&#10;">
+      <created>1391750456518</created>
+      <updated>1391750456518</updated>
+    </task>
+    <task id="LOCAL-00169" summary="Fixing bugs&#10;">
+      <created>1391752055214</created>
+      <updated>1391752055214</updated>
+    </task>
+    <task id="LOCAL-00170" summary="Fixing bugs&#10;">
+      <created>1391752286750</created>
+      <updated>1391752286750</updated>
+    </task>
+    <task id="LOCAL-00171" summary="Fixing bugs&#10;">
+      <created>1391754061421</created>
+      <updated>1391754061421</updated>
+    </task>
+    <task id="LOCAL-00172" summary="Started work on ODT import">
+      <created>1391908256477</created>
+      <updated>1391908256477</updated>
+    </task>
+    <task id="LOCAL-00173" summary="Started work on ODT import&#10;">
+      <created>1391908293875</created>
+      <updated>1391908293875</updated>
+    </task>
+    <task id="LOCAL-00174" summary="Started work on ODT import&#10;">
+      <created>1391921012704</created>
+      <updated>1391921012704</updated>
+    </task>
+    <task id="LOCAL-00175" summary="Started work on ODT import&#10;">
+      <created>1391921474855</created>
+      <updated>1391921474855</updated>
+    </task>
+    <task id="LOCAL-00176" summary="Started work on ODT import&#10;">
+      <created>1391921549283</created>
+      <updated>1391921549283</updated>
+    </task>
+    <task id="LOCAL-00177" summary="Started work on ODT import&#10;">
+      <created>1391921838269</created>
+      <updated>1391921838269</updated>
+    </task>
+    <task id="LOCAL-00178" summary="Started work on ODT import&#10;">
+      <created>1391922671290</created>
+      <updated>1391922671290</updated>
+    </task>
+    <task id="LOCAL-00179" summary="Started work on ODT import&#10;">
+      <created>1391923093038</created>
+      <updated>1391923093038</updated>
+    </task>
+    <task id="LOCAL-00180" summary="Started work on ODT import&#10;">
+      <created>1391923755071</created>
+      <updated>1391923755071</updated>
+    </task>
+    <task id="LOCAL-00181" summary="Started work on ODT import&#10;">
+      <created>1391926406649</created>
+      <updated>1391926406649</updated>
+    </task>
+    <task id="LOCAL-00182" summary="Started work on ODT import&#10;">
+      <created>1391926486448</created>
+      <updated>1391926486448</updated>
+    </task>
+    <task id="LOCAL-00183" summary="Started work on ODT import&#10;">
+      <created>1391932114544</created>
+      <updated>1391932114544</updated>
+    </task>
+    <task id="LOCAL-00184" summary="Started work on ODT import&#10;">
+      <created>1391932327505</created>
+      <updated>1391932327505</updated>
+    </task>
+    <task id="LOCAL-00185" summary="Started work on ODT import&#10;">
+      <created>1391933031503</created>
+      <updated>1391933031503</updated>
+    </task>
+    <task id="LOCAL-00186" summary="Started work on ODT import&#10;">
+      <created>1391933280589</created>
+      <updated>1391933280589</updated>
+    </task>
+    <task id="LOCAL-00187" summary="Started work on ODT import&#10;">
+      <created>1391934827381</created>
+      <updated>1391934827381</updated>
+    </task>
+    <option name="localTasksCounter" value="188" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="235018000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24707136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32979852" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <MESSAGE value="Added https://code.google.com/p/x2js/&#10;" />
+    <MESSAGE value="Working on parsing the XML" />
+    <MESSAGE value="Removed some boilerplate code from the QNA steps" />
+    <MESSAGE value="Removed some boilerplate code from the QNA steps&#10;" />
+    <MESSAGE value="Added Wicked Good XPath - https://code.google.com/p/wicked-good-xpath/" />
+    <MESSAGE value="Added processing of revision history" />
+    <MESSAGE value="Added processing of revision history&#10;" />
+    <MESSAGE value="Working on image upload" />
+    <MESSAGE value="Working on image upload&#10;" />
+    <MESSAGE value="Working on resolving the docbook structure" />
+    <MESSAGE value="Working on resolving the docbook structure&#10;" />
+    <MESSAGE value="Completely rewrote the existing topic detection logic to be more robust." />
+    <MESSAGE value="Completely rewrote the existing topic detection logic to be more robust.&#10;" />
+    <MESSAGE value="First commit where a test book is completely resolved to existing topics as expected." />
+    <MESSAGE value="Added some comments" />
+    <MESSAGE value="Added some comments&#10;" />
+    <MESSAGE value="Working on importing cluser guide 5.8" />
+    <MESSAGE value="Working on importing cluser guide 5.8&#10;" />
+    <MESSAGE value="Fixing bugs in Firefox" />
+    <MESSAGE value="Removed min files" />
+    <MESSAGE value="Removed min files&#10;" />
+    <MESSAGE value="Fixing bugs" />
+    <MESSAGE value="Fixing bugs&#10;" />
+    <MESSAGE value="Started work on ODT import" />
+    <MESSAGE value="Started work on ODT import&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started work on ODT import&#10;" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="6" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="17" selection-start="17" selection-end="17" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="36" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1605">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="54" selection-start="1293" selection-end="1293" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1215">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
+          <folding>
+            <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="24" selection-start="162" selection-end="162" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="16" selection-start="408" selection-end="416" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7815">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="17" selection-start="17" selection-end="17" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="36" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1605">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="54" selection-start="1293" selection-end="1293" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1215">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
+          <folding>
+            <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="24" selection-start="162" selection-end="162" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="16" selection-start="408" selection-end="416" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="6939" max-vertical-offset="7815">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="17" selection-start="17" selection-end="17" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="36" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="254" max-vertical-offset="1605">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="54" selection-start="1293" selection-end="1293" vertical-scroll-proportion="0.0" vertical-offset="236" max-vertical-offset="1215">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="101" selection-start="2860" selection-end="2860" vertical-scroll-proportion="0.0" vertical-offset="188" max-vertical-offset="1080">
+          <folding>
+            <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="24" selection-start="24" selection-end="24" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="55" selection-start="2959" selection-end="2959" vertical-scroll-proportion="0.0" vertical-offset="836" max-vertical-offset="2625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="6" selection-start="874" selection-end="874" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="945">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="155" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1560">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="46" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="330">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
+          <folding>
+            <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="52" selection-start="2346" selection-end="2346" vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="2865">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/zip/deflate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="31410" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
+          <folding>
+            <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="41" selection-start="1224" selection-end="1224" vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/zip/deflate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="31410" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
+          <folding>
+            <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="41" selection-start="1224" selection-end="1224" vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/zip/deflate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="31410" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/zip/deflate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="31020" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/angular/angular.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3060" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="903" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/qna.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="1" selection-start="56" selection-end="56" vertical-scroll-proportion="0.049126636" vertical-offset="0" max-vertical-offset="916" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/angularfileupload/FileAPI.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2835" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="24" selection-start="162" selection-end="162" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/wgxpath/wgxpath.install.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="903">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="23" selection-start="32" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="83623" selection-end="83623" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/zip/zip.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="395" column="57" selection-start="10703" selection-end="10720" vertical-scroll-proportion="0.0" vertical-offset="5925" max-vertical-offset="12105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="52" selection-start="1161" selection-end="1180" vertical-scroll-proportion="0.0" vertical-offset="426" max-vertical-offset="1995">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="12" selection-start="226" selection-end="226" vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="3090">
+          <folding>
+            <marker date="1391922018922" expanded="true" signature="1894:1956" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="1997:2052" placeholder="..." />
+            <marker date="1391922018922" expanded="true" signature="2095:2198" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="13" selection-start="2078" selection-end="2078" vertical-scroll-proportion="-9.481482" vertical-offset="749" max-vertical-offset="1665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="381" column="86" selection-start="15854" selection-end="15854" vertical-scroll-proportion="-19.037037" vertical-offset="5201" max-vertical-offset="6090">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="25" selection-start="3092" selection-end="3113" vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="6975">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="170" column="11" selection-start="5903" selection-end="5903" vertical-scroll-proportion="-10.814815" vertical-offset="2258" max-vertical-offset="3645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1694" column="41" selection-start="82537" selection-end="82558" vertical-scroll-proportion="3.8085105" vertical-offset="25589" max-vertical-offset="26445">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="305" column="56" selection-start="15898" selection-end="15898" vertical-scroll-proportion="0.7089041" vertical-offset="3954" max-vertical-offset="6510">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

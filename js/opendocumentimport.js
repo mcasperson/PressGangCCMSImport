@@ -293,7 +293,17 @@
                                         content += listItemsHeaderContent;
 
                                         do {
-                                            content += "<listitem><para>" + listItem.textContent + "</para></listitem>";
+                                            content += "<listitem>";
+
+                                            var listItemParas = xmlDoc.evaluate(".//text:p", listItem, resolver, global.XPathResult.ANY_TYPE, null);
+                                            var listItemPara;
+                                            while ((listItemPara = listItemParas.iterateNext()) !== null) {
+                                                if (listItemPara.textContent.trim().length !== 0) {
+                                                    content += "<para>" + listItemPara.textContent + "</para>";
+                                                }
+                                            }
+
+                                            content += "</listitem>";
                                         } while ((listItem = listItems.iterateNext()) !== null);
 
                                         content += "</itemizedlist>";
@@ -361,7 +371,7 @@
                                 spec,
                                 config,
                                 function(id) {
-                                    config.ContentSpecIDLink = id;
+                                    config.ContentSpecID = id;
 
                                     config.UploadProgress[1] = progressIncrement * 2;
                                     config.UploadedContentSpecification = true;
