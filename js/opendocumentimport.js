@@ -268,7 +268,7 @@
                             return content;
                         };
 
-                        var processList = function (content, contentNode) {
+                        var processList = function (content, contentNode, imageLinks) {
                             /*
                                 Find out if this is a numbered or bullet list
                              */
@@ -283,13 +283,13 @@
                                 }
                             }
 
-                            var listItems = xmlDoc.evaluate(".//text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                            var listHeaders = xmlDoc.evaluate(".//text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                            var listItems = xmlDoc.evaluate("./text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                            var listHeaders = xmlDoc.evaluate("./text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                             var listItemsHeaderContent = "";
 
                             var listHeader = listHeaders.iterateNext();
                             if (listHeader !== null) {
-                                var paras = xmlDoc.evaluate(".//text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
+                                var paras = xmlDoc.evaluate("./text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
                                 var para;
                                 while ((para = paras.iterateNext()) !== null) {
                                     if (para.textContent.trim().length !== 0) {
@@ -306,13 +306,13 @@
                                 do {
                                     content += "<listitem>";
 
-                                    var listItemParas = xmlDoc.evaluate(".//text:p", listItem, resolver, global.XPathResult.ANY_TYPE, null);
-                                    var listItemPara;
-                                    while ((listItemPara = listItemParas.iterateNext()) !== null) {
-                                        if (listItemPara.textContent.trim().length !== 0) {
-                                            content += "<para>" + listItemPara.textContent + "</para>";
+                                    global.jQuery.each(listItem.childNodes, function (index, childNode) {
+                                        if (childNode.nodeName === "text:p") {
+                                            content = processPara(content, childNode, imageLinks);
+                                        } else if (childNode.nodeName === "text:list") {
+                                            content = processList(content, childNode, imageLinks);
                                         }
-                                    }
+                                    });
 
                                     content += "</listitem>";
                                 } while ((listItem = listItems.iterateNext()) !== null);
