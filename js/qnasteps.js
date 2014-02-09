@@ -4,7 +4,11 @@
     // a zip model to be shared
     global.zipModel = new global.QNAZipModel();
 
-    global.createTopic = function(tryToMatch, xml, replacements, title, tags, config, successCallback, errorCallback) {
+    global.xmlToString = function(xmlDoc) {
+        return (new global.XMLSerializer()).serializeToString(xmlDoc);
+    };
+
+    global.createTopic = function(tryToMatch, xml, title, tags, config, successCallback, errorCallback) {
 
         var postBody = {
             xml: xml,
@@ -69,7 +73,7 @@
         });
     };
 
-    global.updateTopic = function(id, xml, replacements, title, config, successCallback, errorCallback) {
+    global.updateTopic = function(id, xml, title, config, successCallback, errorCallback) {
 
         var postBody = {
             id: id,

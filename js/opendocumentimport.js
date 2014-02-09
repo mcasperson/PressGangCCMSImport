@@ -262,6 +262,38 @@
                         global.jQuery.each(contentSpec, function(index, value) {
                            console.log(value);
                         });
+
+                        var createTopics = function (index, callback) {
+                            if (index >= topicGraph.nodes.length) {
+                                callback();
+                            } else {
+                                var topic = topicGraph.nodes[index];
+
+                                global.createTopic(
+                                    false,
+                                    global.xmlToString(topic.xml),
+                                    topic.title,
+                                    null,
+                                    config, function (data) {
+                                        topic.setTopicId(data.id);
+                                        topic.xml = global.jQuery.parseXML(data.xml);
+
+                                        createTopics(index + 1, callback);
+                                    },
+                                    errorCallback
+                                );
+                            }
+                        };
+
+                        createTopics(0, function(){
+                            global.jQuery.each(topicGraph.nodes, function (index, topic) {
+                                contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                            });
+                        });
+
+                        global.jQuery.each(contentSpec, function(index, value) {
+                            console.log(value);
+                        });
                     }
                 },
                 errorCallback

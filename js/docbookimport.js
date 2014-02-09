@@ -62,10 +62,6 @@
         return retValue;
     }
 
-    function xmlToString(xmlDoc) {
-        return (new global.XMLSerializer()).serializeToString(xmlDoc);
-    }
-
     function reencode(xmlString, replacements) {
         var reversed = replacements.reverse();
         global.jQuery.each(reversed, function (index, value) {
@@ -511,7 +507,7 @@
                                         if (replacement.length !== 0) {
                                             replacement += "\n";
                                         }
-                                        replacement += reencode(xmlToString(matchedNode), replacedTextResult.replacements);
+                                        replacement += reencode(global.xmlToString(matchedNode), replacedTextResult.replacements);
                                     }
 
                                     resolveXIIncludePointer(xmlText.replace(match[0], replacement), filename, visitedFiles, callback);
@@ -791,8 +787,7 @@
                 if (revHistory) {
                     createTopic(
                         true,
-                        revHistory,
-                        replacements,
+                        setDocumentNodeToSection(reencode(global.xmlToString(revHistory), replacements).trim()),
                         "Revision History",
                         [REVISION_HISTORY_TAG_ID],
                         config,
@@ -830,8 +825,7 @@
                 if (authorGroup) {
                     createTopic(
                         true,
-                        authorGroup,
-                        replacements,
+                        setDocumentNodeToSection(reencode(global.xmlToString(authorGroup), replacements).trim()),
                         "Author Group",
                         [AUTHOR_GROUP_TAG_ID],
                         config,
@@ -869,8 +863,7 @@
                 if (abstractContent) {
                     createTopic(
                         true,
-                        abstractContent,
-                        replacements,
+                        setDocumentNodeToSection(reencode(global.xmlToString(abstractContent), replacements).trim()),
                         "Abstract",
                         [ABSTRACT_TAG_ID],
                         config,
@@ -1321,7 +1314,7 @@
 
                         var topic = topics[index];
                         global.getSimilarTopics(
-                            reencode(xmlToString(topic.xml), replacements),
+                            reencode(global.xmlToString(topic.xml), replacements),
                             config,
                             function (data) {
                                 /*
@@ -1333,7 +1326,7 @@
                                 normalizeXrefs(normalizeInjections(topicXMLCopy, xmlDoc), topicOrContainerIDs);
                                 reorderAttributes(xmlDoc, topicXMLCopy);
 
-                                var topicXMLCompare = xmlToString(topicXMLCopy);
+                                var topicXMLCompare = global.xmlToString(topicXMLCopy);
                                 topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                 topicXMLCompare = reencode(topicXMLCompare, replacements);
                                 topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
@@ -1368,7 +1361,7 @@
                                     /*
                                      Convert back to a string
                                      */
-                                    var matchingTopicXMLCompare = xmlToString(matchingTopicXMLCopy);
+                                    var matchingTopicXMLCompare = global.xmlToString(matchingTopicXMLCopy);
                                     /*
                                      Strip whitespace
                                      */
@@ -1584,8 +1577,7 @@
                         if (topic.topicId === -1) {
                             global.createTopic(
                                 false,
-                                setDocumentNodeToSection(reencode(xmlToString(topic.xml), replacements).trim()),
-                                replacements,
+                                setDocumentNodeToSection(reencode(global.xmlToString(topic.xml), replacements).trim()),
                                 topic.title,
                                 null,
                                 config, function (data) {
@@ -1654,8 +1646,7 @@
 
                             global.updateTopic(
                                 topic.topicId,
-                                setDocumentNodeToSection(reencode(xmlToString(topic.xml), replacements)),
-                                topic.replacements,
+                                setDocumentNodeToSection(reencode(global.xmlToString(topic.xml), topic.replacements)),
                                 topic.title,
                                 config,
                                 function (data) {
