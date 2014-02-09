@@ -4,6 +4,11 @@
     // a zip model to be shared
     global.zipModel = new global.QNAZipModel();
 
+    global.escapeSpecTitle = function (title) {
+        return title.replace(/\[/g, "\\[")
+            .replace(/\]/g, "\\]");
+    }
+
     global.xmlToString = function(xmlDoc) {
         return (new global.XMLSerializer()).serializeToString(xmlDoc);
     };

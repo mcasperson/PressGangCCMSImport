@@ -186,9 +186,9 @@
                                     // an empty container.
                                     if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
                                         if (outlineLevel === 0) {
-                                            contentSpec.push("Chapter: " + title);
+                                            contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
                                         } else {
-                                            contentSpec.push(prefix + "Section: " + title);
+                                            contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
                                         }
                                     } else if (content.length !== 0) {
                                         /*
@@ -196,12 +196,12 @@
                                          */
                                         if (title === null) {
                                             title = "Introduction";
-                                            contentSpec.push("Chapter: " + title);
+                                            contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
                                         } else {
                                             if (newOutlineLevel > outlineLevel) {
-                                                contentSpec.push(prefix + "Section: " + title);
+                                                contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
                                             } else {
-                                                contentSpec.push(prefix + title);
+                                                contentSpec.push(prefix + global.escapeSpecTitle(title));
                                             }
                                         }
 
@@ -292,11 +292,23 @@
                         createTopics(0, function(){
                             global.jQuery.each(topicGraph.nodes, function (index, topic) {
                                 contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+
                             });
 
+                            var spec = "";
                             global.jQuery.each(contentSpec, function(index, value) {
                                 console.log(value);
+                                spec += value;
                             });
+
+                            global.createContentSpec(
+                                spec,
+                                config,
+                                function(id) {
+                                    console.log("Content Spec ID: " + id);
+                                },
+                                errorCallback
+                            );
                         });
 
 
