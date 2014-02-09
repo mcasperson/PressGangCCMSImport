@@ -256,7 +256,7 @@
                                     content += '<mediaobject>';
                                     content += '<imageobject>';
                                     content += '<imagedata fileref="' + href + '"/>';
-                                        content += '</imageobject>';
+                                    content += '</imageobject>';
                                     content += '</mediaobject>';
                                 }
                             }
@@ -397,7 +397,7 @@
                                     imagePath,
                                     config,
                                     function (id, matched) {
-                                        images[imagePath] = id + imagePath.substr(imagePath.lastIndexOf("."));
+                                        images[imagePath] = "/images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
 
                                         config.UploadedImageCount += 1;
                                         if (matched) {
