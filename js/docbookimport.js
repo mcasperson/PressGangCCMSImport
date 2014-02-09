@@ -119,7 +119,7 @@
         .setProcessStep(function (resultCallback, errorCallback, result, config) {
             if (!config.ZipFile) {
                 errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
-            } else if (config.OdtFile.name.lastIndexOf(".zip") !== config.OdtFile.name.length - 4) {
+            } else if (config.ZipFile.name.lastIndexOf(".zip") !== config.ZipFile.name.length - 4) {
                 errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
             } else {
                 global.zipModel.getCachedEntries(config.ZipFile, function (entries) {

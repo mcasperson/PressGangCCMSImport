@@ -77,10 +77,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="312" column="98" selection-start="16059" selection-end="16059" vertical-scroll-proportion="0.40182647" vertical-offset="4328" max-vertical-offset="8340">
+            <state line="312" column="98" selection-start="16059" selection-end="16059" vertical-scroll-proportion="-13.037037" vertical-offset="4328" max-vertical-offset="8340">
               <folding />
             </state>
           </provider>
@@ -128,10 +128,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1280" column="44" selection-start="62410" selection-end="62434" vertical-scroll-proportion="-6.06383" vertical-offset="18915" max-vertical-offset="26295">
+            <state line="121" column="77" selection-start="4741" selection-end="4741" vertical-scroll-proportion="0.26285046" vertical-offset="1590" max-vertical-offset="26295">
               <folding />
             </state>
           </provider>
@@ -192,8 +192,8 @@
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
-        <option value="$PROJECT_DIR$/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -761,7 +761,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="25754000" />
+      <workItem from="1391907087418" duration="26037000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1515,7 +1515,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="242499000" />
+    <option name="totallyTimeSpent" value="242782000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1952,13 +1952,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1280" column="44" selection-start="62410" selection-end="62434" vertical-scroll-proportion="-6.06383" vertical-offset="18915" max-vertical-offset="26295">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="170" column="11" selection-start="5903" selection-end="5903" vertical-scroll-proportion="-34.148148" vertical-offset="1628" max-vertical-offset="3645">
@@ -1974,7 +1967,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="312" column="98" selection-start="16059" selection-end="16059" vertical-scroll-proportion="0.40182647" vertical-offset="4328" max-vertical-offset="8340">
+        <state line="312" column="98" selection-start="16059" selection-end="16059" vertical-scroll-proportion="-13.037037" vertical-offset="4328" max-vertical-offset="8340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="77" selection-start="4741" selection-end="4741" vertical-scroll-proportion="0.26285046" vertical-offset="1590" max-vertical-offset="26295">
           <folding />
         </state>
       </provider>
