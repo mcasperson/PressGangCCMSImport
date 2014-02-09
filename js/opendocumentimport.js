@@ -280,6 +280,9 @@
                                     }
                                 } else if (contentNode.nodeName === "text:list") {
 
+                                    /*
+                                        Find out if this is a numbered or bullet list
+                                     */
                                     var itemizedList = true;
                                     var styleName = contentNode.getAttribute("text:style-name");
                                     if (styleName !== null) {
