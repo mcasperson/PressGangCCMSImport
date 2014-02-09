@@ -153,6 +153,10 @@
                 .setVariables([
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Resolving Book Structure")
+                        .setName("ResolvedBookStructure"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Uploading Topics*")
                         .setName("UploadedTopics"),
                     new global.QNAVariable()
@@ -181,7 +185,7 @@
              There are 17 steps, so this is how far to move the progress bar with each
              step.
              */
-            var progressIncrement = 100 / 2;
+            var progressIncrement = 100 / 3;
 
             /*
              Initialize some config values
@@ -211,7 +215,7 @@
                         // these nodes make up the content that we will import
                         var contentNodes = xmlDoc.evaluate("*", body, resolver, global.XPathResult.ANY_TYPE, null);
 
-                        var depth = 0;
+                        var images = {};
 
                         var processTopic = function (title, outlineLevel) {
                             var content = "";
@@ -225,125 +229,220 @@
 
                                 // headers indicate container or topic boundaries
                                 if (contentNode.nodeName === "text:h") {
-
-                                    var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
-                                    if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
-                                        errorCallback("Outline levels jumped too much");
-                                        return;
-                                    }
-
-                                    // Last heading had no content before this heading. We only add a container if
-                                    // the last heading added a level of depth to the tree, Otherwise it is just
-                                    // an empty container.
-                                    if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
-                                        if (outlineLevel === 0) {
-                                            contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
-                                        } else {
-                                            contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
-                                        }
-                                    } else if (content.length !== 0) {
-                                        /*
-                                            We have found some initial text. Put it under an introduction chapter
-                                         */
-                                        if (title === null) {
-                                            title = "Introduction";
-                                            contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
-                                        } else {
-                                            if (newOutlineLevel > outlineLevel) {
-                                                contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
-                                            } else {
-                                                contentSpec.push(prefix + global.escapeSpecTitle(title));
-                                            }
-                                        }
-
-                                        var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + content + "</section>");
-
-                                        var topic = new global.TopicGraphNode(topicGraph);
-                                        topic.setXml(xml, xml);
-                                        topic.setSpecLine(contentSpec.length - 1);
-                                        topic.setTitle(title);
-                                    }
-
-                                    var newTitle = contentNode.textContent.trim();
-                                    if (newTitle.length === 0) {
-                                        newTitle = "Untitled";
-                                    }
-
-                                    newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
-
-                                    processTopic(newTitle, newOutlineLevel);
-
+                                    processHeader(content, contentNode, title, outlineLevel);
                                     break;
                                 } else if (contentNode.nodeName === "text:p") {
-                                    if (contentNode.textContent.trim().length !== 0) {
-                                        content += "<para>" + contentNode.textContent + "</para>";
-                                    }
+                                    content = processPara(content, contentNode, images);
                                 } else if (contentNode.nodeName === "text:list") {
-
-                                    /*
-                                        Find out if this is a numbered or bullet list
-                                     */
-                                    var itemizedList = true;
-                                    var styleName = contentNode.getAttribute("text:style-name");
-                                    if (styleName !== null) {
-                                        var style = xmlDoc.evaluate("//text:list-style[@style:name='" + styleName + "']", xmlDoc, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                        if (style !== null) {
-                                            var listStyleNumber = xmlDoc.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            //var listStyleBullet = xmlDoc.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            itemizedList = listStyleNumber === null;
-                                        }
-                                    }
-
-                                    var listItems = xmlDoc.evaluate(".//text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                                    var listHeaders = xmlDoc.evaluate(".//text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                                    var listItemsHeaderContent = "";
-
-                                    var listHeader = listHeaders.iterateNext();
-                                    if (listHeader !== null) {
-                                        var paras = xmlDoc.evaluate(".//text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
-                                        var para;
-                                        while ((para = paras.iterateNext()) !== null) {
-                                            if (para.textContent.trim().length !== 0) {
-                                                listItemsHeaderContent += "<para>" + para.textContent + "</para>";
-                                            }
-                                        }
-                                    }
-
-                                    var listItem;
-                                    if ((listItem = listItems.iterateNext()) !== null) {
-                                        content += itemizedList ? "<itemizedlist>" : "<orderedlist>";
-                                        content += listItemsHeaderContent;
-
-                                        do {
-                                            content += "<listitem>";
-
-                                            var listItemParas = xmlDoc.evaluate(".//text:p", listItem, resolver, global.XPathResult.ANY_TYPE, null);
-                                            var listItemPara;
-                                            while ((listItemPara = listItemParas.iterateNext()) !== null) {
-                                                if (listItemPara.textContent.trim().length !== 0) {
-                                                    content += "<para>" + listItemPara.textContent + "</para>";
-                                                }
-                                            }
-
-                                            content += "</listitem>";
-                                        } while ((listItem = listItems.iterateNext()) !== null);
-
-                                        content += itemizedList ? "</itemizedlist>" : "</orderedlist>";
-                                    } else {
-                                        // we have found a list that contains only a header. this is really just a para
-                                        content += listItemsHeaderContent;
-                                    }
+                                    content = processList(content, contentNode, images);
                                 }
                             }
                         };
 
+                        var generateSpacing = function (outlineLevel) {
+                            var prefix = "";
+                            for (var i = 0; i < outlineLevel * 2; ++i) {
+                                prefix += " ";
+                            }
+                        };
+
+                        var processPara = function (content, contentNode, imageLinks) {
+                            var images = xmlDoc.evaluate(".//draw:image", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                            var image;
+                            while ((image = images.iterateNext()) !== null) {
+                                if (image.getAttribute("xlink:href") !== null) {
+                                    var href = image.getAttribute("xlink:href").trim();
+                                    // make a not of an image that we need to upload
+                                    imageLinks[href] = null;
+                                    content += '<mediaobject>';
+                                    content += '<imageobject>';
+                                    content += '<imagedata fileref="' + href + '"/>';
+                                        content += '</imageobject>';
+                                    content += '</mediaobject>';
+                                }
+                            }
+
+                            if (contentNode.textContent.trim().length !== 0) {
+                                content += "<para>" + contentNode.textContent + "</para>";
+                            }
+
+                            return content;
+                        };
+
+                        var processList = function (content, contentNode) {
+                            /*
+                                Find out if this is a numbered or bullet list
+                             */
+                            var itemizedList = true;
+                            var styleName = contentNode.getAttribute("text:style-name");
+                            if (styleName !== null) {
+                                var style = xmlDoc.evaluate("//text:list-style[@style:name='" + styleName + "']", xmlDoc, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                if (style !== null) {
+                                    var listStyleNumber = xmlDoc.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    //var listStyleBullet = xmlDoc.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    itemizedList = listStyleNumber === null;
+                                }
+                            }
+
+                            var listItems = xmlDoc.evaluate(".//text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                            var listHeaders = xmlDoc.evaluate(".//text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                            var listItemsHeaderContent = "";
+
+                            var listHeader = listHeaders.iterateNext();
+                            if (listHeader !== null) {
+                                var paras = xmlDoc.evaluate(".//text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
+                                var para;
+                                while ((para = paras.iterateNext()) !== null) {
+                                    if (para.textContent.trim().length !== 0) {
+                                        listItemsHeaderContent += "<para>" + para.textContent + "</para>";
+                                    }
+                                }
+                            }
+
+                            var listItem;
+                            if ((listItem = listItems.iterateNext()) !== null) {
+                                content += itemizedList ? "<itemizedlist>" : "<orderedlist>";
+                                content += listItemsHeaderContent;
+
+                                do {
+                                    content += "<listitem>";
+
+                                    var listItemParas = xmlDoc.evaluate(".//text:p", listItem, resolver, global.XPathResult.ANY_TYPE, null);
+                                    var listItemPara;
+                                    while ((listItemPara = listItemParas.iterateNext()) !== null) {
+                                        if (listItemPara.textContent.trim().length !== 0) {
+                                            content += "<para>" + listItemPara.textContent + "</para>";
+                                        }
+                                    }
+
+                                    content += "</listitem>";
+                                } while ((listItem = listItems.iterateNext()) !== null);
+
+                                content += itemizedList ? "</itemizedlist>" : "</orderedlist>";
+                            } else {
+                                // we have found a list that contains only a header. this is really just a para
+                                content += listItemsHeaderContent;
+                            }
+
+                            return content;
+                        };
+
+                        var processHeader = function (content, contentNode, title, outlineLevel) {
+                            var prefix = generateSpacing(outlineLevel);
+
+                            var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
+                            if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
+                                errorCallback("Outline levels jumped too much");
+                                return;
+                            }
+
+                            // Last heading had no content before this heading. We only add a container if
+                            // the last heading added a level of depth to the tree, Otherwise it is just
+                            // an empty container.
+                            if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
+                                if (outlineLevel === 0) {
+                                    contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
+                                } else {
+                                    contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
+                                }
+                            } else if (content.length !== 0) {
+                                /*
+                                 We have found some initial text. Put it under an introduction chapter
+                                 */
+                                if (title === null) {
+                                    title = "Introduction";
+                                    contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
+                                } else {
+                                    if (newOutlineLevel > outlineLevel) {
+                                        contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
+                                    } else {
+                                        contentSpec.push(prefix + global.escapeSpecTitle(title));
+                                    }
+                                }
+
+                                var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + content + "</section>");
+
+                                var topic = new global.TopicGraphNode(topicGraph);
+                                topic.setXml(xml, xml);
+                                topic.setSpecLine(contentSpec.length - 1);
+                                topic.setTitle(title);
+                            }
+
+                            var newTitle = contentNode.textContent.trim();
+                            if (newTitle.length === 0) {
+                                newTitle = "Untitled";
+                            }
+
+                            newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
+
+                            processTopic(newTitle, newOutlineLevel);
+                        };
+
                         processTopic(null, 0);
+
+                        config.UploadProgress[1] = progressIncrement;
+                        config.ResolvedBookStructure = true;
+                        resultCallback();
+
+                        var uploadImages = function (index, imagesKeys, callback) {
+                            if (index >= imagesKeys.length) {
+                                callback();
+                            } else {
+                                config.UploadProgress[1] = progressIncrement + (index / topicGraph.nodes.length * progressIncrement);
+                                resultCallback();
+
+                                var imagePath = imagesKeys[index];
+
+                                global.createImage(
+                                    config.OdtFile,
+                                    imagePath,
+                                    config,
+                                    function (id, matched) {
+                                        images[imagePath] = id + imagePath.substr(imagePath.lastIndexOf("."));
+
+                                        config.UploadedImageCount += 1;
+                                        if (matched) {
+                                            config.MatchedImageCount += 1;
+                                        }
+
+                                        config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
+                                        resultCallback();
+
+                                        uploadImages(index + 1, imagesKeys, callback);
+                                    },
+                                    errorCallback
+                                );
+                            }
+                        };
+
+                        var uploadImagesLoop = function() {
+                            uploadImages(0, global.keys(images), function(){
+                                config.UploadProgress[1] = progressIncrement * 2;
+                                config.UploadedImages = true;
+                                resultCallback();
+
+                                global.jQuery.each(topicGraph.nodes, function (index, topic) {
+                                    var filerefs = xmlDoc.evaluate(".//@fileref", topic.xml, resolver, global.XPathResult.ANY_TYPE, null);
+                                    var replacements = [];
+                                    var fileref;
+                                    while ((fileref = filerefs.iterateNext()) !== null) {
+                                        replacements.push({attr: fileref, value: images[fileref.nodeValue]});
+                                    }
+
+                                    global.jQuery.each(replacements, function (index, replacement) {
+                                        replacement.attr.nodeValue = replacement.value;
+                                    });
+                                });
+
+                                createTopicsLoop();
+                            });
+                        };
 
                         var createTopics = function (index, callback) {
                             if (index >= topicGraph.nodes.length) {
                                 callback();
                             } else {
-                                config.UploadProgress[1] = index / topicGraph.nodes.length * progressIncrement;
+                                config.UploadProgress[1] = progressIncrement * 2  + (index / topicGraph.nodes.length * progressIncrement);
                                 resultCallback();
 
                                 var topic = topicGraph.nodes[index];
@@ -373,39 +472,41 @@
                             }
                         };
 
-                        createTopics(0, function(){
-                            config.UploadProgress[1] = progressIncrement;
-                            config.UploadedTopics = true;
-                            resultCallback();
+                        var createTopicsLoop = function() {
+                            createTopics(0, function(){
+                                config.UploadProgress[1] = progressIncrement * 3;
+                                config.UploadedTopics = true;
+                                resultCallback();
 
-                            global.jQuery.each(topicGraph.nodes, function (index, topic) {
-                                contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                                global.jQuery.each(topicGraph.nodes, function (index, topic) {
+                                    contentSpec[topic.specLine] += " [" + topic.topicId + "]";
 
+                                });
+
+                                var spec = "";
+                                global.jQuery.each(contentSpec, function(index, value) {
+                                    console.log(value);
+                                    spec += value + "\n";
+                                });
+
+                                global.createContentSpec(
+                                    spec,
+                                    config,
+                                    function(id) {
+                                        config.ContentSpecID = id;
+
+                                        config.UploadProgress[1] = progressIncrement * 2;
+                                        config.UploadedContentSpecification = true;
+                                        resultCallback(true);
+
+                                        console.log("Content Spec ID: " + id);
+                                    },
+                                    errorCallback
+                                );
                             });
+                        };
 
-                            var spec = "";
-                            global.jQuery.each(contentSpec, function(index, value) {
-                                console.log(value);
-                                spec += value + "\n";
-                            });
-
-                            global.createContentSpec(
-                                spec,
-                                config,
-                                function(id) {
-                                    config.ContentSpecID = id;
-
-                                    config.UploadProgress[1] = progressIncrement * 2;
-                                    config.UploadedContentSpecification = true;
-                                    resultCallback(true);
-
-                                    console.log("Content Spec ID: " + id);
-                                },
-                                errorCallback
-                            );
-                        });
-
-
+                        uploadImagesLoop();
                     }
                 },
                 errorCallback

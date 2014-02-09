@@ -1278,7 +1278,7 @@
                             element.removeAttribute(element.attributes[0].name);
                         }
 
-                        var attributeKeys = keys(attributes);
+                        var attributeKeys = global.keys(attributes);
 
                         global.jQuery.each(attributeKeys, function (index, attrName) {
                             element.setAttribute(attrName, attributes[attrName]);
@@ -1288,17 +1288,7 @@
 
                 }
 
-                function keys(obj)
-                {
-                    var keys = [];
-                    for(var key in obj) {
-                        if(obj.hasOwnProperty(key)) {
-                            keys.push(key);
-                        }
-                    }
-                    keys.sort();
-                    return keys;
-                }
+
 
                 var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
