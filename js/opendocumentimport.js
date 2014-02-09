@@ -137,9 +137,53 @@
         STEP 4 - process the ODT file
      */
     var processOdt = new global.QNAStep()
+        .setShowNext(false)
+        .setShowPrevious(false)
         .setTitle("Processing the ODT file")
-        .setIntro("Please wait while the ODT file is processed")
+        .setIntro("The list below allows you to monitor the progress of the import process. Steps with an asterisk (*) can take some time to complete, so please be patient.")
+        .setOutputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Uploading Topics*")
+                        .setName("UploadedTopics"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Uploading content specification")
+                        .setName("UploadedContentSpecification"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Topics Created / Topics Reused")
+                        .setName("NewTopicsCreated"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PLAIN_TEXT)
+                        .setIntro("Images Created / Images Reused")
+                        .setName("NewImagesCreated"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.PROGRESS)
+                        .setIntro("Progress")
+                        .setName("UploadProgress")
+                        // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
+                        .setValue([100, 0])
+                ])
+        ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
+
+            /*
+             There are 17 steps, so this is how far to move the progress bar with each
+             step.
+             */
+            var progressIncrement = 100 / 2;
+
+            /*
+             Initialize some config values
+             */
+            config.UploadedTopicCount = 0;
+            config.MatchedTopicCount = 0;
+            config.UploadedImageCount = 0;
+            config.MatchedImageCount = 0;
+
             var contentSpec = JSON.parse(result);
 
             global.zipModel.getTextFromFileName(
@@ -263,14 +307,13 @@
 
                         processTopic(null, 0);
 
-                        global.jQuery.each(contentSpec, function(index, value) {
-                           console.log(value);
-                        });
-
                         var createTopics = function (index, callback) {
                             if (index >= topicGraph.nodes.length) {
                                 callback();
                             } else {
+                                config.UploadProgress[1] = index / topicGraph.nodes.length * progressIncrement;
+                                resultCallback();
+
                                 var topic = topicGraph.nodes[index];
 
                                 global.createTopic(
@@ -279,6 +322,15 @@
                                     topic.title,
                                     null,
                                     config, function (data) {
+
+                                        config.UploadedTopicCount += 1;
+                                        if (data.matchedExistingTopic) {
+                                            config.MatchedTopicCount += 1;
+                                        }
+
+                                        config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                                        resultCallback();
+
                                         topic.setTopicId(data.topic.id);
                                         topic.xml = global.jQuery.parseXML(data.topic.xml);
 
@@ -290,6 +342,10 @@
                         };
 
                         createTopics(0, function(){
+                            config.UploadProgress[1] = progressIncrement;
+                            config.UploadedTopics = true;
+                            resultCallback();
+
                             global.jQuery.each(topicGraph.nodes, function (index, topic) {
                                 contentSpec[topic.specLine] += " [" + topic.topicId + "]";
 
@@ -305,6 +361,10 @@
                                 spec,
                                 config,
                                 function(id) {
+                                    config.UploadProgress[1] = progressIncrement;
+                                    config.UploadedContentSpecification = true;
+                                    resultCallback();
+
                                     console.log("Content Spec ID: " + id);
                                 },
                                 errorCallback
