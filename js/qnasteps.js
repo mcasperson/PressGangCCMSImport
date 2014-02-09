@@ -225,7 +225,7 @@
                     .setVariables([
                         new global.QNAVariable()
                             .setType(global.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Publican", "OpenDocument"])
+                            .setIntro(["Publican (Alpha)", "OpenDocument (Super Duper Alpha)"])
                             .setOptions(["Publican", "OpenDocument"])
                             .setValue("Pubilcan")
                             .setName("ImportOption")

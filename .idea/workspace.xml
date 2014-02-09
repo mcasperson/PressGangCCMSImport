@@ -113,25 +113,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qnasteps.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="qnasteps.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="170" column="11" selection-start="5903" selection-end="5903" vertical-scroll-proportion="-34.148148" vertical-offset="1628" max-vertical-offset="3645">
-              <folding>
-                <marker date="1391931906880" expanded="true" signature="19:8519" placeholder="{...}" />
-                <marker date="1391931906880" expanded="true" signature="167:253" placeholder="{...}" />
-                <marker date="1391931906880" expanded="true" signature="7813:8288" placeholder="[...]" />
-                <marker date="1391931906880" expanded="true" signature="7891:8273" placeholder="[...]" />
-                <marker date="1391931906880" expanded="true" signature="8377:8515" placeholder="{...}" />
-              </folding>
+            <state line="227" column="92" selection-start="8103" selection-end="8103" vertical-scroll-proportion="0.72602737" vertical-offset="2769" max-vertical-offset="3645">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="77" selection-start="4741" selection-end="4741" vertical-scroll-proportion="0.26285046" vertical-offset="1590" max-vertical-offset="26295">
+            <state line="121" column="77" selection-start="4741" selection-end="4741" vertical-scroll-proportion="-4.787234" vertical-offset="1590" max-vertical-offset="26295">
               <folding />
             </state>
           </provider>
@@ -190,10 +184,10 @@
         <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/js/qnasteps.js" />
       </list>
     </option>
   </component>
@@ -761,7 +755,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="26037000" />
+      <workItem from="1391907087418" duration="26130000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1515,7 +1509,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="242782000" />
+    <option name="totallyTimeSpent" value="242875000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1643,13 +1637,7 @@
     <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7815">
-          <folding>
-            <marker date="1391931906880" expanded="true" signature="19:8519" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="167:253" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="7813:8288" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="7891:8273" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="8377:8515" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1700,13 +1688,7 @@
     <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="6939" max-vertical-offset="7815">
-          <folding>
-            <marker date="1391931906880" expanded="true" signature="19:8519" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="167:253" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="7813:8288" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="7891:8273" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="8377:8515" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1764,13 +1746,7 @@
     <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="45" column="155" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1560">
-          <folding>
-            <marker date="1391931906880" expanded="true" signature="19:8519" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="167:253" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="7813:8288" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="7891:8273" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="8377:8515" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1952,19 +1928,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="170" column="11" selection-start="5903" selection-end="5903" vertical-scroll-proportion="-34.148148" vertical-offset="1628" max-vertical-offset="3645">
-          <folding>
-            <marker date="1391931906880" expanded="true" signature="19:8519" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="167:253" placeholder="{...}" />
-            <marker date="1391931906880" expanded="true" signature="7813:8288" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="7891:8273" placeholder="[...]" />
-            <marker date="1391931906880" expanded="true" signature="8377:8515" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="312" column="98" selection-start="16059" selection-end="16059" vertical-scroll-proportion="-13.037037" vertical-offset="4328" max-vertical-offset="8340">
@@ -1974,7 +1937,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="77" selection-start="4741" selection-end="4741" vertical-scroll-proportion="0.26285046" vertical-offset="1590" max-vertical-offset="26295">
+        <state line="121" column="77" selection-start="4741" selection-end="4741" vertical-scroll-proportion="-4.787234" vertical-offset="1590" max-vertical-offset="26295">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="227" column="92" selection-start="8103" selection-end="8103" vertical-scroll-proportion="0.72602737" vertical-offset="2769" max-vertical-offset="3645">
           <folding />
         </state>
       </provider>
