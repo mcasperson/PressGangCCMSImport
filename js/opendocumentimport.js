@@ -153,14 +153,14 @@
                                 // headers indicate container or topic boundaries
                                 if (contentNode.nodeName === "text:h") {
 
-                                    var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
+                                    var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
                                     if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
                                         errorCallback("Outline levels jumped too much");
                                         return;
                                     }
 
                                     // last heading had no content before this heading
-                                    if (content.length === 0 && title !== null) {
+                                    if (content.length === 0 && title !== null && newOutlineLevel !== outlineLevel) {
                                         if (outlineLevel === 0) {
                                             contentSpec.push("Chapter: " + title);
                                         } else {
@@ -185,12 +185,13 @@
                                         topic.setTitle(title);
                                     }
 
-
-
                                     var newTitle = contentNode.textContent.trim();
                                     if (newTitle.length === 0) {
                                         newTitle = "Untitled";
                                     }
+
+                                    newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
+
                                     processTopic(newTitle, newOutlineLevel);
 
                                     break;
