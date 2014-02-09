@@ -158,6 +158,83 @@
     var setParaRules = new global.QNAStep()
         .setTitle("Define a rule for a paragraph")
         .setIntro("You can define the DocBook block element to wrap an imported paragraph in by matching font styles.")
+        .setOutputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.HTML)
+                        .setIntro("Current Rules")
+                        .setName("CurrentRules")
+                        .setValue(function (resultCallback, errorCallback, result, config) {
+
+                            var rules = "";
+
+                            if (result) {
+                                var resultObject = JSON.parse(result);
+                                if (resultObject.fontRules) {
+                                    global.jQuery.each(resultObject.fontRules, function(index, fontRule) {
+
+                                        var rule = "";
+
+                                        if (fontRule.font) {
+                                            if (rule.length !== 0) {
+                                                rule += ", ";
+                                            }
+                                            rule += "Font: " + fontRule.font;
+                                        }
+
+                                        if (fontRule.size) {
+                                            if (rule.length !== 0) {
+                                                rule += ", ";
+                                            }
+                                            rule += "Size: " + fontRule.size;
+                                        }
+
+                                        if (fontRule.bold) {
+                                            if (rule.length !== 0) {
+                                                rule += ", ";
+                                            }
+                                            rule += "Bold: " + fontRule.bold;
+                                        }
+
+                                        if (fontRule.italics) {
+                                            if (rule.length !== 0) {
+                                                rule += ", ";
+                                            }
+                                            rule += "Italics: " + fontRule.italics;
+                                        }
+
+                                        if (fontRule.underline) {
+                                            if (rule.length !== 0) {
+                                                rule += ", ";
+                                            }
+                                            rule += "Italics: " + fontRule.underline;
+                                        }
+
+                                        if (fontRule.docBookElement) {
+                                            if (rule.length !== 0) {
+                                                rule += ", ";
+                                            }
+                                            rule += "DocBook Element: " + fontRule.docBookElement;
+                                        }
+
+                                        if (rules.length !== 0) {
+                                            rules += "<br/>";
+                                        }
+
+                                        rules += rule;
+                                    });
+                                } else {
+                                    rules = "No rules currently defined.";
+                                }
+                            } else {
+                                rules = "No rules currently defined.";
+                            }
+
+                            resultCallback(rules);
+                        })
+                ])
+        ])
         .setInputs([
             new global.QNAVariables()
                 .setVariables([
@@ -203,7 +280,7 @@
                 config.Italics = null;
                 config.Underline = null;
                 config.DocBookElement = null;
-            }
+            };
 
             if (result) {
                 var resultObject = JSON.parse(result);

@@ -80,7 +80,7 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="217" column="68" selection-start="10229" selection-end="10229" vertical-scroll-proportion="0.38356164" vertical-offset="2919" max-vertical-offset="10575">
+            <state line="215" column="58" selection-start="10201" selection-end="10201" vertical-scroll-proportion="0.7089041" vertical-offset="2604" max-vertical-offset="11730">
               <folding />
             </state>
           </provider>
@@ -756,7 +756,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="33609000" />
+      <workItem from="1391907087418" duration="34564000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1510,7 +1510,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="250354000" />
+    <option name="totallyTimeSpent" value="251309000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1945,7 +1945,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="68" selection-start="10229" selection-end="10229" vertical-scroll-proportion="0.38356164" vertical-offset="2919" max-vertical-offset="10575">
+        <state line="215" column="58" selection-start="10201" selection-end="10201" vertical-scroll-proportion="0.7089041" vertical-offset="2604" max-vertical-offset="11730">
           <folding />
         </state>
       </provider>
