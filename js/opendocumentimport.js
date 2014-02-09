@@ -2,7 +2,7 @@
     'use strict';
 
     /*
-     STEP 1 - Get the ZIP file
+     STEP 1 - Get the ODT file
      */
     global.askForOpenDocumentFile = new global.QNAStep()
         .setTitle("Select the ODT file to import")
@@ -36,14 +36,14 @@
 
                     var foundStyleFile = false;
                     global.angular.forEach(entries, function (value, key) {
-                        if (value.filename === "style.xml") {
+                        if (value.filename === "styles.xml") {
                             foundStyleFile = true;
                             return false;
                         }
                     });
 
                     if (!foundContentFile || !foundStyleFile) {
-                        errorCallback("Error", "The ODT file did not contain a style.xml file. The selected file is not a valid OpenDocument file.");
+                        errorCallback("Error", "The ODT file did not contain either a styles.xml or content.xml file. The selected file is not a valid OpenDocument file.");
                     } else {
                         resultCallback(null);
                     }
@@ -53,6 +53,197 @@
             }
         })
         .setNextStep(function (resultCallback) {
-            resultCallback(askForMainXML);
+            resultCallback(getSpecDetails);
         });
+
+    /*
+        STEP 2 - Get content spec details
+     */
+    var getSpecDetails = new global.QNAStep()
+        .setTitle("Enter content specification details")
+        .setIntro("Enter the basic details of the content specification")
+        .setInputs(
+            [
+                new global.QNAVariables()
+                    .setVariables([
+                        new global.QNAVariable()
+                            .setType(global.InputEnum.TEXTBOX)
+                            .setIntro("Title")
+                            .setName("ContentSpecTitle")
+                            .setValue("Title"),
+                        new global.QNAVariable()
+                            .setType(global.InputEnum.TEXTBOX)
+                            .setIntro("Product")
+                            .setName("ContentSpecProduct")
+                            .setValue("Product"),
+                        new global.QNAVariable()
+                            .setType(global.InputEnum.TEXTBOX)
+                            .setIntro("Version")
+                            .setName("ContentSpecVersion")
+                            .setValue("1"),
+                        new global.QNAVariable()
+                            .setType(global.InputEnum.TEXTBOX)
+                            .setIntro("Copyright Holder")
+                            .setName("ContentSpecCopyrightHolder")
+                            .setValue("Red Hat")
+                    ])
+            ]
+        )
+        .setProcessStep(function (resultCallback, errorCallback, result, config) {
+            if (!config.ContentSpecTitle) {
+                errorCallback("Please enter a title.");
+            } else if (!config.ContentSpecProduct) {
+                errorCallback("Please enter a product.");
+            } else if (!config.ContentSpecVersion) {
+                errorCallback("Please enter a version.");
+            } else if (!config.ContentSpecCopyrightHolder) {
+                errorCallback("Please enter a copyright holder.");
+            } else {
+                var contentSpec = [];
+                contentSpec.push("Title = " + config.ContentSpecTitle);
+                contentSpec.push("Product = " + config.ContentSpecProduct);
+                contentSpec.push("Version = " + config.ContentSpecVersion);
+                contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                resultCallback(JSON.stringify(contentSpec));
+            }
+        })
+        .setNextStep(function (resultCallback) {
+            resultCallback(processOdt);
+        });
+
+    /*
+        STEP 3 - process the ODT file
+     */
+    var processOdt = new global.QNAStep()
+        .setTitle("Processing the ODT file")
+        .setIntro("Please wait while the ODT file is processed")
+        .setEnterStep(function (resultCallback, errorCallback, result, config) {
+            var contentSpec = JSON.parse(result);
+
+            global.zipModel.getTextFromFileName(
+                config.OdtFile,
+                "content.xml",
+                function (contents) {
+                    var topicGraph = new global.TopicGraph();
+                    var xmlDoc = global.jQuery.parseXML(contents);
+
+                    // http://www.nczonline.net/blog/2009/03/24/xpath-in-javascript-part-2/
+                    var evaluator = new global.XPathEvaluator();
+                    var resolver = evaluator.createNSResolver(xmlDoc.documentElement);
+
+                    var body = xmlDoc.evaluate("//office:text", xmlDoc, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    if (body === null) {
+                        errorCallback("Invalid ODT file", "Could not find the <office:body> element!");
+                    } else {
+                        // these nodes make up the content that we will import
+                        var contentNodes = xmlDoc.evaluate("*", body, resolver, global.XPathResult.ANY_TYPE, null);
+
+                        var depth = 0;
+
+                        var processTopic = function (title, outlineLevel) {
+                            var content = "";
+                            var contentNode;
+                            while ((contentNode = contentNodes.iterateNext()) !== null) {
+
+                                var prefix = "";
+                                for (var i = 0; i < outlineLevel * 2; ++i) {
+                                    prefix += " ";
+                                }
+
+                                // headers indicate container or topic boundaries
+                                if (contentNode.nodeName === "text:h") {
+
+                                    var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
+                                    if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
+                                        errorCallback("Outline levels jumped too much");
+                                        return;
+                                    }
+
+                                    // last heading had no content before this heading
+                                    if (content.length === 0 && title !== null) {
+                                        if (outlineLevel === 0) {
+                                            contentSpec.push("Chapter: " + title);
+                                        } else {
+                                            contentSpec.push(prefix + "Section: " + title);
+                                        }
+                                    } else if (content.length !== 0) {
+                                        /*
+                                            We have found some initial text. Put it under an introduction chapter
+                                         */
+                                        if (title === null) {
+                                            title = "Introduction";
+                                            contentSpec.push("Chapter: " + title);
+                                        } else {
+                                            contentSpec.push(prefix + title);
+                                        }
+
+                                        var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + content + "</section>");
+
+                                        var topic = new global.TopicGraphNode(topicGraph);
+                                        topic.setXml(xml, xml);
+                                        topic.setSpecLine(contentSpec.length - 1);
+                                        topic.setTitle(title);
+                                    }
+
+
+
+                                    var newTitle = contentNode.textContent.trim();
+                                    if (newTitle.length === 0) {
+                                        newTitle = "Untitled";
+                                    }
+                                    processTopic(newTitle, newOutlineLevel);
+
+                                    break;
+                                } else if (contentNode.nodeName === "text:p") {
+                                    if (contentNode.textContent.trim().length !== 0) {
+                                        content += "<para>" + contentNode.textContent + "</para>";
+                                    }
+                                } else if (contentNode.nodeName === "text:list") {
+                                    var listItems = xmlDoc.evaluate(".//text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                    var listHeaders = xmlDoc.evaluate(".//text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                    var listItemsHeaderContent = "";
+
+                                    var listHeader = listHeaders.iterateNext();
+                                    if (listHeader !== null) {
+                                        var paras = xmlDoc.evaluate(".//text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
+                                        var para;
+                                        while ((para = paras.iterateNext()) !== null) {
+                                            if (para.textContent.trim().length !== 0) {
+                                                listItemsHeaderContent += "<para>" + para.textContent + "</para>";
+                                            }
+                                        }
+                                    }
+
+                                    var listItem;
+                                    if ((listItem = listItems.iterateNext()) !== null) {
+                                        content += "<itemizedlist>";
+                                        content += listItemsHeaderContent;
+
+                                        do {
+                                            content += "<listitem><para>" + listItem.textContent + "</para></listitem>";
+                                        } while ((listItem = listItems.iterateNext()) !== null);
+
+                                        content += "</itemizedlist>";
+                                    } else {
+                                        // we have found a list that contains only a header. this is really just a para
+                                        content += listItemsHeaderContent;
+                                    }
+                                }
+                            }
+                        };
+
+                        processTopic(null, 0);
+
+                        global.jQuery.each(contentSpec, function(index, value) {
+                           console.log(value);
+                        });
+                    }
+                },
+                errorCallback
+            );
+
+
+
+        });
+
 }(this));
