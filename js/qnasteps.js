@@ -106,7 +106,7 @@
                 errorCallback("Connection Error", "An error occurred while uploading the content spec.");
             }
         });
-    }
+    };
 
     global.QNAStart = new global.QNAStep()
         .setTitle("Select import source")

@@ -108,11 +108,33 @@
             }
         })
         .setNextStep(function (resultCallback) {
+            resultCallback(specifyTheServer);
+        });
+
+    /*
+        Step 3 - ask which server this is being uploaded to
+     */
+    var specifyTheServer = new global.QNAStep()
+        .setTitle("Select the server to import in to")
+        .setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
+            "Using the test server is recommended for the first import to check the results before adding the content to the production server.")
+        .setInputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.RADIO_BUTTONS)
+                        .setIntro(["Production Server", "Test Server"])
+                        .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
+                        .setValue("skynet-dev.usersys.redhat.com")
+                        .setName("PressGangHost")
+                ])
+        ])
+        .setNextStep(function (resultCallback) {
             resultCallback(processOdt);
         });
 
     /*
-        STEP 3 - process the ODT file
+        STEP 4 - process the ODT file
      */
     var processOdt = new global.QNAStep()
         .setTitle("Processing the ODT file")

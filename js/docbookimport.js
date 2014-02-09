@@ -86,8 +86,6 @@
         return text;
     }
 
-    f
-
     function setDocumentNodeToSection (xmlText) {
         if (xmlText.indexOf("<chapter>") === 0) {
             xmlText = xmlText.replace(/^<chapter>/, "<section>");

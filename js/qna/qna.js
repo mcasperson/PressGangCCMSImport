@@ -379,7 +379,7 @@
                     this.config
                 );
             } else {
-                gotoNextStep(this.results.concat([this.results[this.results.length]]));
+                gotoNextStep(this.results.concat([this.results[this.results.length - 1]]));
             }
         } else {
             errorCallback("An error occurred.", "There is no current step or no function to call to get the next step.");
