@@ -85,7 +85,13 @@
                             .setType(global.InputEnum.TEXTBOX)
                             .setIntro("Copyright Holder")
                             .setName("ContentSpecCopyrightHolder")
-                            .setValue("Red Hat")
+                            .setValue("Red Hat"),
+                        new global.QNAVariable()
+                            .setType(global.InputEnum.COMBOBOX)
+                            .setIntro("Brand")
+                            .setName("ContentSpecBrand")
+                            .setValue("RedHat")
+                            .setOptions(["RedHat", "JBoss", "Fedora"])
                     ])
             ]
         )
@@ -104,6 +110,7 @@
                 contentSpec.push("Product = " + config.ContentSpecProduct);
                 contentSpec.push("Version = " + config.ContentSpecVersion);
                 contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                contentSpec.push("Brand = " + config.ContentSpecBrand);
                 resultCallback(JSON.stringify(contentSpec));
             }
         })
