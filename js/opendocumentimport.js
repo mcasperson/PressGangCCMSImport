@@ -379,7 +379,9 @@
                 errorCallback
             );
         })
-        .setNextStep(summary);
+        .setNextStep(function (resultCallback) {
+            resultCallback(summary);
+        });
 
     var summary = new global.QNAStep()
         .setTitle("Import Summary")
