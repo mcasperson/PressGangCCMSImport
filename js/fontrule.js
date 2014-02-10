@@ -5,6 +5,29 @@
 
     };
 
+    global.FontRule.prototype.equals = function (fontRule) {
+        if (this.font !== fontRule.font) {
+            return false;
+        }
+
+        if (this.size !== fontRule.size) {
+            return false;
+        }
+
+        if (this.bold !== fontRule.bold) {
+            return false;
+        }
+
+        if (this.italics !== fontRule.italics) {
+            return false;
+        }
+
+        if (this.underline !== fontRule.underline) {
+            return false;
+        }
+    };
+
+
     global.FontRule.prototype.setFont = function (font) {
         this.font = font;
         return this;

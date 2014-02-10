@@ -80,8 +80,12 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="169" column="76" selection-start="8032" selection-end="8032" vertical-scroll-proportion="0.3321918" vertical-offset="2244" max-vertical-offset="12015">
-              <folding />
+            <state line="474" column="49" selection-start="21549" selection-end="21558" vertical-scroll-proportion="0.33333334" vertical-offset="6788" max-vertical-offset="13500">
+              <folding>
+                <element signature="e#21007#21150#0" expanded="false" />
+                <marker date="1391998815473" expanded="true" signature="27666:27827" placeholder="..." />
+                <marker date="1391998815473" expanded="true" signature="27741:27827" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,7 +93,7 @@
       <file leaf-file-name="fontrule.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/fontrule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="44" selection-start="787" selection-end="801" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+            <state line="7" column="36" selection-start="112" selection-end="118" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="990">
               <folding />
             </state>
           </provider>
@@ -186,8 +190,8 @@
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/fontrule.js" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
+        <option value="$PROJECT_DIR$/js/fontrule.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
       </list>
     </option>
@@ -756,7 +760,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="34923000" />
+      <workItem from="1391907087418" duration="39942000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1510,7 +1514,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="251668000" />
+    <option name="totallyTimeSpent" value="256687000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1938,15 +1942,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/fontrule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="44" selection-start="787" selection-end="801" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+        <state line="7" column="36" selection-start="112" selection-end="118" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="990">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="76" selection-start="8032" selection-end="8032" vertical-scroll-proportion="0.3321918" vertical-offset="2244" max-vertical-offset="12015">
-          <folding />
+        <state line="474" column="49" selection-start="21549" selection-end="21558" vertical-scroll-proportion="0.33333334" vertical-offset="6788" max-vertical-offset="13500">
+          <folding>
+            <element signature="e#21007#21150#0" expanded="false" />
+            <marker date="1391998815473" expanded="true" signature="27666:27827" placeholder="..." />
+            <marker date="1391998815473" expanded="true" signature="27741:27827" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

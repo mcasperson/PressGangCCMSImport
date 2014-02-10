@@ -168,11 +168,11 @@
                 ])
         ])
         .setNextStep(function (resultCallback, errorCallback, result, config) {
-            resultCallback(config.UseStyleRules ? setParaRules : processOdt);
+            resultCallback(config.UseStyleRules === "Yes" ? setParaRules : processOdt);
         });
 
     /*
-     Step 4 - ask which server this is being uploaded to
+        Step 4 - ask which server this is being uploaded to
      */
     var setParaRules = new global.QNAStep()
         .setTitle("Define a rule for a paragraph")
@@ -449,308 +449,409 @@
                 config.OdtFile,
                 "content.xml",
                 function (contents) {
-                    var topicGraph = new global.TopicGraph();
-                    var xmlDoc = global.jQuery.parseXML(contents);
+                    global.zipModel.getTextFromFileName(
+                        config.OdtFile,
+                        "styles.xml",
+                        function(styles) {
 
-                    // http://www.nczonline.net/blog/2009/03/24/xpath-in-javascript-part-2/
-                    var evaluator = new global.XPathEvaluator();
-                    var resolver = evaluator.createNSResolver(xmlDoc.documentElement);
+                            var topicGraph = new global.TopicGraph();
+                            var contentsXML = global.jQuery.parseXML(contents);
+                            var stylesXML = global.jQuery.parseXML(styles);
 
-                    var body = xmlDoc.evaluate("//office:text", xmlDoc, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    if (body === null) {
-                        errorCallback("Invalid ODT file", "Could not find the <office:body> element!");
-                    } else {
-                        // these nodes make up the content that we will import
-                        var contentNodes = xmlDoc.evaluate("*", body, resolver, global.XPathResult.ANY_TYPE, null);
+                            // http://www.nczonline.net/blog/2009/03/24/xpath-in-javascript-part-2/
+                            var evaluator = new global.XPathEvaluator();
+                            var resolver = evaluator.createNSResolver(contentsXML.documentElement);
 
-                        var images = {};
-
-                        var processTopic = function (title, outlineLevel) {
-                            var content = "";
-                            var contentNode;
-                            while ((contentNode = contentNodes.iterateNext()) !== null) {
-                                // headers indicate container or topic boundaries
-                                if (contentNode.nodeName === "text:h") {
-                                    processHeader(content, contentNode, title, outlineLevel);
-                                    break;
-                                } else if (contentNode.nodeName === "text:p") {
-                                    content = processPara(content, contentNode, images);
-                                } else if (contentNode.nodeName === "text:list") {
-                                    content = processList(content, contentNode, images);
-                                }
-                            }
-                        };
-
-                        var generateSpacing = function (outlineLevel) {
-                            var prefix = "";
-                            for (var i = 0; i < outlineLevel * 2; ++i) {
-                                prefix += " ";
-                            }
-                            return prefix;
-                        };
-
-                        var processPara = function (content, contentNode, imageLinks) {
-                            var images = xmlDoc.evaluate(".//draw:image", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                            var image;
-                            while ((image = images.iterateNext()) !== null) {
-                                if (image.getAttribute("xlink:href") !== null) {
-                                    var href = image.getAttribute("xlink:href").trim();
-                                    // make a not of an image that we need to upload
-                                    imageLinks[href] = null;
-                                    content += '<mediaobject>';
-                                    content += '<imageobject>';
-                                    content += '<imagedata fileref="' + href + '"/>';
-                                    content += '</imageobject>';
-                                    content += '</mediaobject>';
-                                }
-                            }
-
-                            if (contentNode.textContent.trim().length !== 0) {
-                                content += "<para>" + contentNode.textContent + "</para>";
-                            }
-
-                            return content;
-                        };
-
-                        var processList = function (content, contentNode, imageLinks) {
-                            /*
-                                Find out if this is a numbered or bullet list
-                             */
-                            var itemizedList = true;
-                            var styleName = contentNode.getAttribute("text:style-name");
-                            if (styleName !== null) {
-                                var style = xmlDoc.evaluate("//text:list-style[@style:name='" + styleName + "']", xmlDoc, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                if (style !== null) {
-                                    var listStyleNumber = xmlDoc.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                    //var listStyleBullet = xmlDoc.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                    itemizedList = listStyleNumber === null;
-                                }
-                            }
-
-                            var listItems = xmlDoc.evaluate("./text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                            var listHeaders = xmlDoc.evaluate("./text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                            var listItemsHeaderContent = "";
-
-                            var listHeader = listHeaders.iterateNext();
-                            if (listHeader !== null) {
-                                var paras = xmlDoc.evaluate("./text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
-                                var para;
-                                while ((para = paras.iterateNext()) !== null) {
-                                    if (para.textContent.trim().length !== 0) {
-                                        listItemsHeaderContent += "<para>" + para.textContent + "</para>";
-                                    }
-                                }
-                            }
-
-                            var listItem;
-                            if ((listItem = listItems.iterateNext()) !== null) {
-                                content += itemizedList ? "<itemizedlist>" : "<orderedlist>";
-                                content += listItemsHeaderContent;
-
-                                do {
-                                    content += "<listitem>";
-
-                                    global.jQuery.each(listItem.childNodes, function (index, childNode) {
-                                        if (childNode.nodeName === "text:p") {
-                                            content = processPara(content, childNode, imageLinks);
-                                        } else if (childNode.nodeName === "text:list") {
-                                            content = processList(content, childNode, imageLinks);
-                                        }
-                                    });
-
-                                    content += "</listitem>";
-                                } while ((listItem = listItems.iterateNext()) !== null);
-
-                                content += itemizedList ? "</itemizedlist>" : "</orderedlist>";
+                            var body = contentsXML.evaluate("//office:text", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                            if (body === null) {
+                                errorCallback("Invalid ODT file", "Could not find the <office:body> element!");
                             } else {
-                                // we have found a list that contains only a header. this is really just a para
-                                content += listItemsHeaderContent;
-                            }
+                                // these nodes make up the content that we will import
+                                var contentNodes = contentsXML.evaluate("*", body, resolver, global.XPathResult.ANY_TYPE, null);
 
-                            return content;
-                        };
+                                var images = {};
 
-                        var processHeader = function (content, contentNode, title, outlineLevel) {
-                            var prefix = generateSpacing(outlineLevel);
+                                var processTopic = function (title, outlineLevel) {
+                                    var content = [];
+                                    var contentNode;
+                                    while ((contentNode = contentNodes.iterateNext()) !== null) {
+                                        // headers indicate container or topic boundaries
+                                        if (contentNode.nodeName === "text:h") {
+                                            processHeader(content, contentNode, title, outlineLevel);
+                                            break;
+                                        } else if (contentNode.nodeName === "text:p") {
+                                            processPara(content, contentNode, images);
+                                        } else if (contentNode.nodeName === "text:list") {
+                                            processList(content, contentNode, images);
+                                        }
+                                    }
+                                };
 
-                            var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
-                            if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
-                                errorCallback("Outline levels jumped too much");
-                                return;
-                            }
+                                var generateSpacing = function (outlineLevel) {
+                                    var prefix = "";
+                                    for (var i = 0; i < outlineLevel * 2; ++i) {
+                                        prefix += " ";
+                                    }
+                                    return prefix;
+                                };
 
-                            // Last heading had no content before this heading. We only add a container if
-                            // the last heading added a level of depth to the tree, Otherwise it is just
-                            // an empty container.
-                            if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
-                                if (outlineLevel === 0) {
-                                    resultObject.contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
-                                } else {
-                                    resultObject.contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
-                                }
-                            } else if (content.length !== 0) {
-                                /*
-                                 We have found some initial text. Put it under an introduction chapter
-                                 */
-                                if (title === null) {
-                                    title = "Introduction";
-                                    contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
-                                } else {
-                                    if (newOutlineLevel > outlineLevel) {
-                                        resultObject.contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
+                                var getFontRuleForElement = function (element, fontRule) {
+                                    if (fontRule === undefined) {
+                                        fontRule = new global.FontRule();
+                                    }
+
+                                    var styleAttribute = element.getAttribute("text:style-name");
+                                    if (element.parentNode &&
+                                        element.parentNode.getAttribute &&
+                                        element.parentNode.getAttribute(styleAttribute)) {
+                                        var contentXmlStyle = contentsXML.evaluate("//style:style[@style:style='" + styleAttribute + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        var stylesXmlStyle = stylesXML.evaluate("//style:style[@style:style='" + styleAttribute + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                                        var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
+
+                                        if (style !== null) {
+                                            // See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes
+                                            var fontName = style.getAttribute("style:font-name");
+                                            if (fontName !== null && fontRule.font === undefined) {
+                                                fontRule.font = fontName;
+                                            }
+
+                                            var fontSize = style.getAttribute("fo:font-size");
+                                            if (fontSize !== null && fontRule.size === undefined) {
+                                                fontRule.size = fontSize;
+                                            }
+
+                                            var weight = style.getAttribute("fo:font-weight");
+                                            if (weight !== null && fontRule.size === undefined) {
+                                                fontRule.bold = weight === "bold";
+                                            }
+
+                                            var fontStyle = style.getAttribute("fo:font-style");
+                                            if (fontStyle !== null && fontRule.italics === undefined) {
+                                                fontRule.italics = fontStyle === "italic";
+                                            }
+
+                                            var underline = style.getAttribute("style:text-underline-style");
+                                            if (underline !== null && fontRule.underline === undefined) {
+                                                underline.underline = fontStyle !== "none";
+                                            }
+
+                                            if ((fontRule.font &&
+                                                fontRule.size &&
+                                                fontRule.bold &&
+                                                fontRule.italics &&
+                                                fontRule.underline) ||
+                                                !element.parentNode) {
+                                                return fontRule;
+                                            } else {
+                                                return getFontRuleForElement(element.parentNode, fontRule);
+                                            }
+                                        } else {
+                                            return null;
+                                        }
                                     } else {
-                                        resultObject.contentSpec.push(prefix + global.escapeSpecTitle(title));
+                                        return fontRule;
                                     }
-                                }
+                                };
 
-                                var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + content + "</section>");
+                                var processPara = function (content, contentNode, imageLinks) {
+                                    var images = contentsXML.evaluate(".//draw:image", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                    var image;
+                                    while ((image = images.iterateNext()) !== null) {
+                                        if (image.getAttribute("xlink:href") !== null) {
+                                            var href = image.getAttribute("xlink:href").trim();
+                                            // make a not of an image that we need to upload
+                                            imageLinks[href] = null;
+                                            content.push('<mediaobject>\
+                                                            <imageobject>\
+                                                                <imagedata fileref="' + href + '"/>\
+                                                             </imageobject>\
+                                                        </mediaobject>');
+                                        }
+                                    }
 
-                                var topic = new global.TopicGraphNode(topicGraph);
-                                topic.setXml(xml, xml);
-                                topic.setSpecLine(contentSpec.length - 1);
-                                topic.setTitle(title);
-                            }
+                                    if (contentNode.textContent.trim().length !== 0) {
 
-                            var newTitle = contentNode.textContent.trim();
-                            if (newTitle.length === 0) {
-                                newTitle = "Untitled";
-                            }
+                                        var containerElement = "para";
 
-                            newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
-
-                            processTopic(newTitle, newOutlineLevel);
-                        };
-
-                        processTopic(null, 0);
-
-                        config.UploadProgress[1] = progressIncrement;
-                        config.ResolvedBookStructure = true;
-                        resultCallback();
-
-                        var uploadImages = function (index, imagesKeys, callback) {
-                            if (index >= imagesKeys.length) {
-                                callback();
-                            } else {
-                                config.UploadProgress[1] = progressIncrement + (index / topicGraph.nodes.length * progressIncrement);
-                                resultCallback();
-
-                                var imagePath = imagesKeys[index];
-
-                                global.createImage(
-                                    config.OdtFile,
-                                    imagePath,
-                                    config,
-                                    function (id, matched) {
-                                        images[imagePath] = "/images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
-
-                                        config.UploadedImageCount += 1;
-                                        if (matched) {
-                                            config.MatchedImageCount += 1;
+                                        /*
+                                            Find out if there is a single font applied to this para.
+                                         */
+                                        var textNodes = contentsXML.evaluate("/*", contentNode, resolver, global.XPathResult.TEXT_NODE, null);
+                                        var textNode;
+                                        var fontRule;
+                                        var singleRule = false;
+                                        while((textNode = textNodes.iterateNext()) !== null) {
+                                            if (fontRule === undefined) {
+                                                fontRule = getFontRuleForElement(textNode);
+                                                singleRule = true;
+                                            } else {
+                                                var thisFontRule = getFontRuleForElement(textNode);
+                                                if (!thisFontRule.equals(fontRule)) {
+                                                    singleRule = false;
+                                                    break;
+                                                }
+                                            }
                                         }
 
-                                        config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
-                                        resultCallback();
+                                        if (singleRule && resultObject.fontRules !== undefined) {
+                                            global.jQuery.each(resultObject.fontRules, function (index, definedFontRule) {
+                                                if (fontRule.equals(definedFontRule)) {
+                                                    containerElement = definedFontRule.docBookElement;
+                                                    return false;
+                                                }
+                                            });
+                                        }
 
-                                        uploadImages(index + 1, imagesKeys, callback);
-                                    },
-                                    errorCallback
-                                );
-                            }
-                        };
+                                        content.push("<" + containerElement + ">" + contentNode.textContent + "</" + containerElement + ">");
+                                    }
+                                };
 
-                        var uploadImagesLoop = function() {
-                            uploadImages(0, global.keys(images), function(){
-                                config.UploadProgress[1] = progressIncrement * 2;
-                                config.UploadedImages = true;
-                                resultCallback();
-
-                                global.jQuery.each(topicGraph.nodes, function (index, topic) {
-                                    var filerefs = xmlDoc.evaluate(".//@fileref", topic.xml, resolver, global.XPathResult.ANY_TYPE, null);
-                                    var replacements = [];
-                                    var fileref;
-                                    while ((fileref = filerefs.iterateNext()) !== null) {
-                                        replacements.push({attr: fileref, value: images[fileref.nodeValue]});
+                                var processList = function (content, contentNode, imageLinks) {
+                                    /*
+                                        Find out if this is a numbered or bullet list
+                                     */
+                                    var itemizedList = true;
+                                    var styleName = contentNode.getAttribute("text:style-name");
+                                    if (styleName !== null) {
+                                        var style = contentsXML.evaluate("//text:list-style[@style:name='" + styleName + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (style !== null) {
+                                            var listStyleNumber = contentsXML.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            //var listStyleBullet = contentsXML.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            itemizedList = listStyleNumber === null;
+                                        }
                                     }
 
-                                    global.jQuery.each(replacements, function (index, replacement) {
-                                        replacement.attr.nodeValue = replacement.value;
+                                    var listItems = contentsXML.evaluate("./text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                    var listHeaders = contentsXML.evaluate("./text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                    var listItemsHeaderContent = "";
+
+                                    var listHeader = listHeaders.iterateNext();
+                                    if (listHeader !== null) {
+                                        var paras = contentsXML.evaluate("./text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
+                                        var para;
+                                        while ((para = paras.iterateNext()) !== null) {
+                                            if (para.textContent.trim().length !== 0) {
+                                                listItemsHeaderContent += "<para>" + para.textContent + "</para>";
+                                            }
+                                        }
+                                    }
+
+                                    var listItem;
+                                    if ((listItem = listItems.iterateNext()) !== null) {
+                                        content.push(itemizedList ? "<itemizedlist>" : "<orderedlist>");
+                                        content.push(listItemsHeaderContent);
+
+                                        do {
+                                            content.push("<listitem>");
+
+                                            global.jQuery.each(listItem.childNodes, function (index, childNode) {
+                                                if (childNode.nodeName === "text:p") {
+                                                    processPara(content, childNode, imageLinks);
+                                                } else if (childNode.nodeName === "text:list") {
+                                                    processList(content, childNode, imageLinks);
+                                                }
+                                            });
+
+                                            content.push("</listitem>");
+                                        } while ((listItem = listItems.iterateNext()) !== null);
+
+                                        content.push(itemizedList ? "</itemizedlist>" : "</orderedlist>");
+                                    } else {
+                                        // we have found a list that contains only a header. this is really just a para
+                                        content.push(listItemsHeaderContent);
+                                    }
+                                };
+
+                                var processHeader = function (content, contentNode, title, outlineLevel) {
+                                    var prefix = generateSpacing(outlineLevel);
+
+                                    var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
+                                    if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
+                                        errorCallback("Outline levels jumped too much");
+                                        return;
+                                    }
+
+                                    // Last heading had no content before this heading. We only add a container if
+                                    // the last heading added a level of depth to the tree, Otherwise it is just
+                                    // an empty container.
+                                    if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
+                                        if (outlineLevel === 0) {
+                                            resultObject.contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
+                                        } else {
+                                            resultObject.contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
+                                        }
+                                    } else if (content.length !== 0) {
+                                        /*
+                                         We have found some initial text. Put it under an introduction chapter
+                                         */
+                                        if (title === null) {
+                                            title = "Introduction";
+                                            resultObject.contentSpec.push("Chapter: " + global.escapeSpecTitle(title));
+                                        } else {
+                                            if (newOutlineLevel > outlineLevel) {
+                                                resultObject.contentSpec.push(prefix + "Section: " + global.escapeSpecTitle(title));
+                                            } else {
+                                                resultObject.contentSpec.push(prefix + global.escapeSpecTitle(title));
+                                            }
+                                        }
+
+                                        var xmlString = "";
+                                        global.jQuery.each(content, function(index, value){
+                                            xmlString += value;
+                                        });
+
+                                        var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
+
+                                        var topic = new global.TopicGraphNode(topicGraph);
+                                        topic.setXml(xml, xml);
+                                        topic.setSpecLine(resultObject.contentSpec.length - 1);
+                                        topic.setTitle(title);
+                                    }
+
+                                    var newTitle = contentNode.textContent.trim();
+                                    if (newTitle.length === 0) {
+                                        newTitle = "Untitled";
+                                    }
+
+                                    newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
+
+                                    processTopic(newTitle, newOutlineLevel);
+                                };
+
+                                processTopic(null, 0);
+
+                                config.UploadProgress[1] = progressIncrement;
+                                config.ResolvedBookStructure = true;
+                                resultCallback();
+
+                                var uploadImages = function (index, imagesKeys, callback) {
+                                    if (index >= imagesKeys.length) {
+                                        callback();
+                                    } else {
+                                        config.UploadProgress[1] = progressIncrement + (index / topicGraph.nodes.length * progressIncrement);
+                                        resultCallback();
+
+                                        var imagePath = imagesKeys[index];
+
+                                        global.createImage(
+                                            config.OdtFile,
+                                            imagePath,
+                                            config,
+                                            function (id, matched) {
+                                                images[imagePath] = "/images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
+
+                                                config.UploadedImageCount += 1;
+                                                if (matched) {
+                                                    config.MatchedImageCount += 1;
+                                                }
+
+                                                config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
+                                                resultCallback();
+
+                                                uploadImages(index + 1, imagesKeys, callback);
+                                            },
+                                            errorCallback
+                                        );
+                                    }
+                                };
+
+                                var uploadImagesLoop = function() {
+                                    uploadImages(0, global.keys(images), function(){
+                                        config.UploadProgress[1] = progressIncrement * 2;
+                                        config.UploadedImages = true;
+                                        resultCallback();
+
+                                        global.jQuery.each(topicGraph.nodes, function (index, topic) {
+                                            var filerefs = contentsXML.evaluate(".//@fileref", topic.xml, resolver, global.XPathResult.ANY_TYPE, null);
+                                            var replacements = [];
+                                            var fileref;
+                                            while ((fileref = filerefs.iterateNext()) !== null) {
+                                                replacements.push({attr: fileref, value: images[fileref.nodeValue]});
+                                            }
+
+                                            global.jQuery.each(replacements, function (index, replacement) {
+                                                replacement.attr.nodeValue = replacement.value;
+                                            });
+                                        });
+
+                                        createTopicsLoop();
                                     });
-                                });
+                                };
 
-                                createTopicsLoop();
-                            });
-                        };
-
-                        var createTopics = function (index, callback) {
-                            if (index >= topicGraph.nodes.length) {
-                                callback();
-                            } else {
-                                config.UploadProgress[1] = progressIncrement * 2  + (index / topicGraph.nodes.length * progressIncrement);
-                                resultCallback();
-
-                                var topic = topicGraph.nodes[index];
-
-                                global.createTopic(
-                                    true,
-                                    global.xmlToString(topic.xml),
-                                    topic.title,
-                                    null,
-                                    config, function (data) {
-
-                                        config.UploadedTopicCount += 1;
-                                        if (data.matchedExistingTopic) {
-                                            config.MatchedTopicCount += 1;
-                                        }
-
-                                        config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                                var createTopics = function (index, callback) {
+                                    if (index >= topicGraph.nodes.length) {
+                                        callback();
+                                    } else {
+                                        config.UploadProgress[1] = progressIncrement * 2  + (index / topicGraph.nodes.length * progressIncrement);
                                         resultCallback();
 
-                                        topic.setTopicId(data.topic.id);
-                                        topic.xml = global.jQuery.parseXML(data.topic.xml);
+                                        var topic = topicGraph.nodes[index];
 
-                                        createTopics(index + 1, callback);
-                                    },
-                                    errorCallback
-                                );
+                                        global.createTopic(
+                                            true,
+                                            global.xmlToString(topic.xml),
+                                            topic.title,
+                                            null,
+                                            config, function (data) {
+
+                                                config.UploadedTopicCount += 1;
+                                                if (data.matchedExistingTopic) {
+                                                    config.MatchedTopicCount += 1;
+                                                }
+
+                                                config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                                                resultCallback();
+
+                                                topic.setTopicId(data.topic.id);
+                                                topic.xml = global.jQuery.parseXML(data.topic.xml);
+
+                                                createTopics(index + 1, callback);
+                                            },
+                                            errorCallback
+                                        );
+                                    }
+                                };
+
+                                var createTopicsLoop = function() {
+                                    createTopics(0, function(){
+                                        config.UploadProgress[1] = progressIncrement * 3;
+                                        config.UploadedTopics = true;
+                                        resultCallback();
+
+                                        global.jQuery.each(topicGraph.nodes, function (index, topic) {
+                                            resultObject.contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+
+                                        });
+
+                                        var spec = "";
+                                        global.jQuery.each(resultObject.contentSpec, function(index, value) {
+                                            console.log(value);
+                                            spec += value + "\n";
+                                        });
+
+                                        global.createContentSpec(
+                                            spec,
+                                            config,
+                                            function(id) {
+                                                config.ContentSpecID = id;
+
+                                                config.UploadProgress[1] = progressIncrement * 4;
+                                                config.UploadedContentSpecification = true;
+                                                resultCallback(true);
+
+                                                console.log("Content Spec ID: " + id);
+                                            },
+                                            errorCallback
+                                        );
+                                    });
+                                };
+
+                                uploadImagesLoop();
                             }
-                        };
-
-                        var createTopicsLoop = function() {
-                            createTopics(0, function(){
-                                config.UploadProgress[1] = progressIncrement * 3;
-                                config.UploadedTopics = true;
-                                resultCallback();
-
-                                global.jQuery.each(topicGraph.nodes, function (index, topic) {
-                                    contentSpec[topic.specLine] += " [" + topic.topicId + "]";
-
-                                });
-
-                                var spec = "";
-                                global.jQuery.each(contentSpec, function(index, value) {
-                                    console.log(value);
-                                    spec += value + "\n";
-                                });
-
-                                global.createContentSpec(
-                                    spec,
-                                    config,
-                                    function(id) {
-                                        config.ContentSpecID = id;
-
-                                        config.UploadProgress[1] = progressIncrement * 4;
-                                        config.UploadedContentSpecification = true;
-                                        resultCallback(true);
-
-                                        console.log("Content Spec ID: " + id);
-                                    },
-                                    errorCallback
-                                );
-                            });
-                        };
-
-                        uploadImagesLoop();
-                    }
+                        },
+                        errorCallback
+                    );
                 },
                 errorCallback
             );
