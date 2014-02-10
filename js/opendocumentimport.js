@@ -835,7 +835,7 @@
 
                                         var xmlString = "";
                                         global.jQuery.each(content, function(index, value){
-                                            xmlString += value;
+                                            xmlString += value + "\n";
                                         });
 
                                         var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
