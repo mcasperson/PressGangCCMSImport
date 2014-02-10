@@ -297,6 +297,10 @@
                         .setOptions(["programlisting", "screen", "literallayout", "synopsis"]), // http://docbook.org/tdg/en/html/ch02.html#ch02-logdiv
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Merge Consecutive Elements")
+                        .setName("MergeConsecutiveElements"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Define another rule?")
                         .setName("DefineAnotherRule")
                 ])
@@ -309,6 +313,7 @@
                 config.Italics = null;
                 config.Underline = null;
                 config.DocBookElement = null;
+                config.MergeConsecutiveElements = false;
             };
 
             if (result) {
@@ -322,6 +327,7 @@
                     config.Italics = lastRule.italics;
                     config.Underline = lastRule.underline;
                     config.DocBookElement = lastRule.docBookElement;
+                    config.MergeConsecutiveElements = lastRule.merge;
                 } else {
                     resetToDefault();
                 }
@@ -342,6 +348,8 @@
             } else {
                 fontRule.setDocBookElement(config.DocBookElement);
             }
+
+            fontRule.setMerge(config.MergeConsecutiveElements);
 
             var atLeastOneRule = false;
             if (config.FontName) {
@@ -390,6 +398,7 @@
                 config.Italics = null;
                 config.Underline = null;
                 config.DocBookElement = null;
+                config.MergeConsecutiveElements = false;
 
                 resultCallback(JSON.stringify(resultObject));
             }
@@ -533,6 +542,61 @@
                                 /*
                                     See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes.
                                  */
+                                var getFontRuleForStyle = function (styleAttribute, fontRule) {
+                                    var contentXmlStyle = contentsXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    var stylesXmlStyle = stylesXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                                    var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
+
+                                    if (style) {
+                                        var fontName = contentsXML.evaluate(".//@style:font-name", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (fontRule.font === undefined) {
+                                            if (fontName !== null) {
+                                                fontRule.font = fontName.nodeValue;
+                                            }
+                                        }
+
+                                        var fontSize = contentsXML.evaluate(".//@fo:font-size", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (fontRule.size === undefined) {
+                                            if (fontSize !== null) {
+                                                fontRule.size = fontSize.nodeValue;
+                                            }
+                                        }
+
+                                        var weight = contentsXML.evaluate(".//@fo:font-weight", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (fontRule.bold === undefined) {
+                                            if (weight !== null && weight.nodeValue === "bold") {
+                                                fontRule.bold = true;
+                                            }
+                                        }
+
+                                        var fontStyle = contentsXML.evaluate(".//@fo:font-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (fontRule.italics === undefined) {
+                                            if (fontStyle !== null && fontStyle.nodeValue === "italic") {
+                                                fontRule.italics = true;
+                                            }
+                                        }
+
+                                        var underline = contentsXML.evaluate(".//@style:text-underline-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (fontRule.underline === undefined) {
+                                            if (underline !== null && underline.nodeValue !== "none") {
+                                                fontRule.underline = true;
+                                            }
+                                        }
+
+                                        var parentStyleName = style.getAttribute("style:parent-style-name");
+
+                                        if (parentStyleName &&
+                                            (!fontRule.font ||
+                                            !fontRule.size ||
+                                            !fontRule.bold ||
+                                            !fontRule.italics ||
+                                            !fontRule.underline)) {
+                                            getFontRuleForStyle(parentStyleName, fontRule);
+                                        }
+                                    }
+                                }
+
                                 var getFontRuleForElement = function (element, fontRule) {
                                     if (fontRule === undefined) {
                                         fontRule = new global.FontRule();
@@ -540,82 +604,16 @@
 
                                     if (element.parentNode && element.parentNode !== contentsXML.documentElement) {
                                         var styleAttribute = element.parentNode.getAttribute("text:style-name");
-                                        var contentXmlStyle = contentsXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                        var stylesXmlStyle = stylesXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
 
-                                        var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
+                                        getFontRuleForStyle(styleAttribute, fontRule);
 
-                                        if (style !== null) {
-
-                                            var parentStyleName = style.getAttribute("style:parent-style-name");
-                                            var parentStyle;
-                                            if (parentStyleName !== null) {
-                                                var parentContentXmlStyleName = contentsXML.evaluate("//style:style[@style:name='" + parentStyleName + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                                var parentStylesXmlStyle = stylesXML.evaluate("//style:style[@style:name='" + parentStyleName + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-
-                                                parentStyle = parentContentXmlStyleName !== null ? parentContentXmlStyleName : parentStylesXmlStyle;
-                                            }
-
-                                            var fontName = contentsXML.evaluate(".//@style:font-name", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontName = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
-                                            if (fontRule.font === undefined) {
-                                                if (fontName !== null) {
-                                                    fontRule.font = fontName.nodeValue;
-                                                } else if (parentFontName !== null) {
-                                                    fontRule.font = parentFontName.nodeValue;
-                                                }
-                                            }
-
-                                            var fontSize = contentsXML.evaluate(".//@fo:font-size", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontSize = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
-                                            if (fontRule.size === undefined) {
-                                                if (fontSize !== null) {
-                                                    fontRule.size = fontSize.nodeValue;
-                                                } else if (parentFontSize !== null) {
-                                                    fontRule.size = parentFontSize.nodeValue;
-                                                }
-                                            }
-
-                                            var weight = contentsXML.evaluate(".//@fo:font-weight", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontWeight = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
-                                            if (fontRule.bold === undefined) {
-                                                if (weight !== null && weight.nodeValue === "bold") {
-                                                    fontRule.bold = true;
-                                                } else if (parentFontWeight !== null && parentFontWeight.nodeValue === "bold") {
-                                                    fontRule.bold = parentFontWeight.true;
-                                                }
-                                            }
-
-                                            var fontStyle = contentsXML.evaluate(".//@fo:font-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontStyle = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
-                                            if (fontRule.italics === undefined) {
-                                                if (fontStyle !== null && fontStyle.nodeValue === "italic") {
-                                                    fontRule.italics = true;
-                                                } else if (parentFontStyle !== null && parentFontStyle.nodeValue === "italic") {
-                                                    fontRule.italics = true;
-                                                }
-                                            }
-
-                                            var underline = contentsXML.evaluate(".//@style:text-underline-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentUnderline = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
-                                            if (fontRule.underline === undefined) {
-                                                if (underline !== null && underline.nodeValue !== "none") {
-                                                    fontRule.underline = true;
-                                                } else if (parentUnderline !== null && parentUnderline.nodeValue !== "none") {
-                                                    fontRule.underline = true;
-                                                }
-                                            }
-
-                                            if ((fontRule.font &&
-                                                fontRule.size &&
-                                                fontRule.bold &&
-                                                fontRule.italics &&
-                                                fontRule.underline) ||
-                                                !element.parentNode) {
-                                                return fontRule;
-                                            } else {
-                                                return getFontRuleForElement(element.parentNode, fontRule);
-                                            }
+                                        if ((fontRule.font &&
+                                            fontRule.size &&
+                                            fontRule.bold &&
+                                            fontRule.italics &&
+                                            fontRule.underline) ||
+                                            !element.parentNode) {
+                                            return fontRule;
                                         } else {
                                             return getFontRuleForElement(element.parentNode, fontRule);
                                         }
@@ -642,7 +640,7 @@
 
                                     if (contentNode.textContent.trim().length !== 0) {
 
-                                        var containerElement = "para";
+
 
                                         /*
                                             It is common to have unnamed styles used to distinguish types of content. For
@@ -681,16 +679,34 @@
                                             actual number of styles applied in each span) we can then match this
                                             paragraph to the rules defined in the wizard.
                                          */
+                                        var matchingRule;
                                         if (singleRule && resultObject.fontRules !== undefined) {
                                             global.jQuery.each(resultObject.fontRules, function (index, definedFontRule) {
                                                 if (fontRule.equals(definedFontRule)) {
-                                                    containerElement = definedFontRule.docBookElement;
+                                                    matchingRule = definedFontRule.docBookElement;
                                                     return false;
                                                 }
                                             });
                                         }
 
-                                        content.push("<" + containerElement + ">" + contentNode.textContent + "</" + containerElement + ">");
+                                        if (matchingRule !== undefined) {
+                                            content.push("<" + matchingRule.docBookElement + ">" + contentNode.textContent + "</" + matchingRule.docBookElement + ">");
+
+                                            /*
+                                                For elements like screen we almost always want to merge consecutive
+                                                paragraphs into a single container.
+                                             */
+                                            if (matchingRule.merge && content.length >= 2) {
+                                                var endTagRe = new RegExp("</" + matchingRule.docBookElement + ">$");
+                                                var startTagRe = new RegExp("^<" + matchingRule.docBookElement + ">");
+                                                if (endTagRe.test(content[content.length - 2])) {
+                                                    content[content.length - 2] = content[content.length - 2].replace(endTagRe, "");
+                                                    content[content.length - 1] = content[content.length - 1].replace(startTagRe, "");
+                                                }
+                                            }
+                                        } else {
+                                            content.push("<para>" + contentNode.textContent + "</para>");
+                                        }
                                     }
                                 };
 

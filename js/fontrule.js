@@ -65,4 +65,9 @@
         return this;
     };
 
+    global.FontRule.prototype.setMerge = function (merge) {
+        this.merge = merge;
+        return this;
+    };
+
 }(this));
