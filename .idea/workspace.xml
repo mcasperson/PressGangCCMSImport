@@ -64,26 +64,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="35" selection-start="1260" selection-end="1260" vertical-scroll-proportion="-15.625" vertical-offset="0" max-vertical-offset="3135">
-              <folding>
-                <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-                <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-                <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="684" column="88" selection-start="33475" selection-end="33475" vertical-scroll-proportion="0.46232876" vertical-offset="9855" max-vertical-offset="15135">
+            <state line="700" column="131" selection-start="34712" selection-end="34712" vertical-scroll-proportion="0.73630136" vertical-offset="9855" max-vertical-offset="15135">
               <folding>
-                <marker date="1392008715320" expanded="true" signature="29785:29946" placeholder="..." />
-                <marker date="1392008715320" expanded="true" signature="29860:29946" placeholder="..." />
+                <marker date="1392009102988" expanded="true" signature="29785:29946" placeholder="..." />
+                <marker date="1392009102988" expanded="true" signature="29860:29946" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -129,6 +116,15 @@
         <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="220" column="102" selection-start="7777" selection-end="7777" vertical-scroll-proportion="-19.666666" vertical-offset="2769" max-vertical-offset="3645">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="23" selection-start="25" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
               <folding />
             </state>
           </provider>
@@ -759,7 +755,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="49826000" />
+      <workItem from="1391907087418" duration="50213000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1513,7 +1509,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="266571000" />
+    <option name="totallyTimeSpent" value="266958000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1612,9 +1608,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
           <folding>
-            <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1663,9 +1659,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
           <folding>
-            <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1714,9 +1710,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="101" selection-start="2860" selection-end="2860" vertical-scroll-proportion="0.0" vertical-offset="188" max-vertical-offset="1080">
           <folding>
-            <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1758,9 +1754,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1781,9 +1777,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1804,9 +1800,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1900,13 +1896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="6" selection-start="383" selection-end="383" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="121" column="77" selection-start="4741" selection-end="4741" vertical-scroll-proportion="-4.787234" vertical-offset="1590" max-vertical-offset="26295">
@@ -1925,9 +1914,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="35" selection-start="1260" selection-end="1260" vertical-scroll-proportion="-15.625" vertical-offset="0" max-vertical-offset="3135">
           <folding>
-            <marker date="1391985229896" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1391985229896" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1391985229896" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1946,12 +1935,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="23" selection-start="25" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="684" column="88" selection-start="33475" selection-end="33475" vertical-scroll-proportion="0.46232876" vertical-offset="9855" max-vertical-offset="15135">
+        <state line="700" column="131" selection-start="34712" selection-end="34712" vertical-scroll-proportion="0.73630136" vertical-offset="9855" max-vertical-offset="15135">
           <folding>
-            <marker date="1392008715320" expanded="true" signature="29785:29946" placeholder="..." />
-            <marker date="1392008715320" expanded="true" signature="29860:29946" placeholder="..." />
+            <marker date="1392009102988" expanded="true" signature="29785:29946" placeholder="..." />
+            <marker date="1392009102988" expanded="true" signature="29860:29946" placeholder="..." />
           </folding>
         </state>
       </provider>

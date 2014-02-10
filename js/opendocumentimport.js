@@ -697,8 +697,8 @@
                                                 paragraphs into a single container.
                                              */
                                             if (matchingRule.merge && content.length >= 2) {
-                                                var endTagRe = new RegExp("</" + matchingRule.docBookElement + ">$");
-                                                var startTagRe = new RegExp("^<" + matchingRule.docBookElement + ">");
+                                                var endTagRe = new RegExp("</" + global.escapeRegExp(matchingRule.docBookElement) + ">$");
+                                                var startTagRe = new RegExp("^<" + global.escapeRegExp(matchingRule.docBookElement) + ">");
                                                 if (endTagRe.test(content[content.length - 2])) {
                                                     content[content.length - 2] = content[content.length - 2].replace(endTagRe, "");
                                                     content[content.length - 1] = content[content.length - 1].replace(startTagRe, "");
