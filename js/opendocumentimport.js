@@ -746,16 +746,19 @@
                                                     expand the text:s elements.
                                                  */
                                                 var customContainerContent = "";
-                                                var textOrSpaceNodes = contentsXML.evaluate(".//text() | .//text:s", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                                                var textOrSpaceNode;
-                                                while((textOrSpaceNode = textOrSpaceNodes.iterateNext()) !== null) {
+                                                for (var childIndex = 0; childIndex < contentNode.childNodes.length; ++childIndex) {
+                                                    var textOrSpaceNode = contentNode.childNodes[childIndex];
                                                     if (textOrSpaceNode.nodeName === "text:s") {
-                                                        var spaces = parseInt(textOrSpaceNode.getAttribute("text:c"));
+                                                        var spaces = 1;
+                                                        var spacesAttribute = textOrSpaceNode.getAttribute("text:c");
+                                                        if (spacesAttribute !== null) {
+                                                            spaces = parseInt(spacesAttribute);
+                                                        }
                                                         for (var i = 0; i < spaces; ++i) {
                                                             customContainerContent += " ";
                                                         }
 
-                                                    } else {
+                                                    } else if (textOrSpaceNode.nodeType === Node.TEXT_NODE) {
                                                         customContainerContent += textOrSpaceNode.textContent;
                                                     }
                                                 }
