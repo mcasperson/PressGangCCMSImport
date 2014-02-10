@@ -511,7 +511,7 @@
 
                                             var parentStyleName = style.getAttribute("style:parent-style-name");
                                             var parentStyle;
-                                            if (parentStyle !== null) {
+                                            if (parentStyleName !== null) {
                                                 var parentContentXmlStyleName = contentsXML.evaluate("//style:style[@style:name='" + parentStyleName + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                                 var parentStylesXmlStyle = stylesXML.evaluate("//style:style[@style:name='" + parentStyleName + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
 
@@ -520,7 +520,7 @@
 
                                             // See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes
                                             var fontName = contentsXML.evaluate(".//@style:font-name", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontName = contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            var parentFontName = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.font === undefined) {
                                                 if (fontName !== null) {
                                                     fontRule.font = fontName.nodeValue;
@@ -530,7 +530,7 @@
                                             }
 
                                             var fontSize = contentsXML.evaluate(".//@fo:font-size", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontSize = contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            var parentFontSize = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.size === undefined) {
                                                 if (fontSize !== null) {
                                                     fontRule.size = fontSize.nodeValue;
@@ -540,7 +540,7 @@
                                             }
 
                                             var weight = contentsXML.evaluate(".//@fo:font-weight", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontWeight = contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            var parentFontWeight = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.bold === undefined) {
                                                 if (weight !== null) {
                                                     fontRule.bold = weight.nodeValue;
@@ -550,7 +550,7 @@
                                             }
 
                                             var fontStyle = contentsXML.evaluate(".//@fo:font-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentFontStyle = contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            var parentFontStyle = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.italics === undefined) {
                                                 if (fontStyle !== null) {
                                                     fontRule.italics = fontStyle.nodeValue;
@@ -560,7 +560,7 @@
                                             }
 
                                             var underline = contentsXML.evaluate(".//@style:text-underline-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            var parentUnderline = contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            var parentUnderline = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.underline === undefined) {
                                                 if (underline !== null) {
                                                     fontRule.underline = underline.nodeValue;
