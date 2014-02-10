@@ -745,29 +745,35 @@
                                                     up in a container that may preserve the whitespace, so we need to
                                                     expand the text:s elements.
                                                  */
-                                                var customContainerContent = "";
-                                                for (var childIndex = 0; childIndex < contentNode.childNodes.length; ++childIndex) {
-                                                    var textOrSpaceNode = contentNode.childNodes[childIndex];
-                                                    if (textOrSpaceNode.nodeName === "text:s") {
-                                                        var spaces = 1;
-                                                        var spacesAttribute = textOrSpaceNode.getAttribute("text:c");
-                                                        if (spacesAttribute !== null) {
-                                                            spaces = parseInt(spacesAttribute);
-                                                        }
-                                                        for (var i = 0; i < spaces; ++i) {
-                                                            customContainerContent += " ";
+                                                var expandWhitespaceInNodes = function (node) {
+                                                    var customContainerContent = "";
+                                                    for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
+                                                        var textOrSpaceNode = node.childNodes[childIndex];
+                                                        if (textOrSpaceNode.nodeName === "text:s") {
+                                                            var spaces = 1;
+                                                            var spacesAttribute = textOrSpaceNode.getAttribute("text:c");
+                                                            if (spacesAttribute !== null) {
+                                                                spaces = parseInt(spacesAttribute);
+                                                            }
+                                                            for (var i = 0; i < spaces; ++i) {
+                                                                customContainerContent += " ";
+                                                            }
+
+                                                        } else if (textOrSpaceNode.nodeType === Node.TEXT_NODE) {
+                                                            customContainerContent += textOrSpaceNode.textContent;
+                                                        } else {
+                                                            customContainerContent += expandWhitespaceInNodes(textOrSpaceNode);
                                                         }
 
-                                                    } else {
-                                                        customContainerContent += textOrSpaceNode.textContent;
+                                                        return customContainerContent;
                                                     }
-                                                }
+                                                };
 
                                                 /*
                                                     We have defined a container that will hold paragraphs with text all
                                                     of a matching style.
                                                  */
-                                                content.push("<" + matchingRule.docBookElement + ">" + customContainerContent + "</" + matchingRule.docBookElement + ">");
+                                                content.push("<" + matchingRule.docBookElement + ">" + expandWhitespaceInNodes(contentNode) + "</" + matchingRule.docBookElement + ">");
 
                                                 /*
                                                  For elements like screen we almost always want to merge consecutive
