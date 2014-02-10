@@ -67,10 +67,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="837" column="69" selection-start="44808" selection-end="44808" vertical-scroll-proportion="0.28196347" vertical-offset="12308" max-vertical-offset="15585">
+            <state line="547" column="53" selection-start="24046" selection-end="24046" vertical-scroll-proportion="0.28196347" vertical-offset="7958" max-vertical-offset="16305">
               <folding>
-                <marker date="1392013083409" expanded="true" signature="29785:29946" placeholder="..." />
-                <marker date="1392013083409" expanded="true" signature="29860:29946" placeholder="..." />
+                <marker date="1392064878987" expanded="true" signature="31582:31743" placeholder="..." />
+                <marker date="1392064878987" expanded="true" signature="31657:31743" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -80,7 +80,11 @@
         <entry file="file://$PROJECT_DIR$/js/fontrule.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="94" column="47" selection-start="2623" selection-end="2637" vertical-scroll-proportion="-24.037037" vertical-offset="761" max-vertical-offset="1650">
-              <folding />
+              <folding>
+                <marker date="1392008715329" expanded="true" signature="17:2861" placeholder="{...}" />
+                <marker date="1392008715329" expanded="true" signature="79:445" placeholder="{...}" />
+                <marker date="1392008715329" expanded="true" signature="117:439" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -755,7 +759,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="53212000" />
+      <workItem from="1391907087418" duration="55682000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1509,7 +1513,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="269957000" />
+    <option name="totallyTimeSpent" value="272427000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1938,16 +1942,20 @@
     <entry file="file://$PROJECT_DIR$/js/fontrule.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="94" column="47" selection-start="2623" selection-end="2637" vertical-scroll-proportion="-24.037037" vertical-offset="761" max-vertical-offset="1650">
-          <folding />
+          <folding>
+            <marker date="1392008715329" expanded="true" signature="17:2861" placeholder="{...}" />
+            <marker date="1392008715329" expanded="true" signature="79:445" placeholder="{...}" />
+            <marker date="1392008715329" expanded="true" signature="117:439" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="837" column="69" selection-start="44808" selection-end="44808" vertical-scroll-proportion="0.28196347" vertical-offset="12308" max-vertical-offset="15585">
+        <state line="547" column="53" selection-start="24046" selection-end="24046" vertical-scroll-proportion="0.28196347" vertical-offset="7958" max-vertical-offset="16305">
           <folding>
-            <marker date="1392013083409" expanded="true" signature="29785:29946" placeholder="..." />
-            <marker date="1392013083409" expanded="true" signature="29860:29946" placeholder="..." />
+            <marker date="1392064878987" expanded="true" signature="31582:31743" placeholder="..." />
+            <marker date="1392064878987" expanded="true" signature="31657:31743" placeholder="..." />
           </folding>
         </state>
       </provider>

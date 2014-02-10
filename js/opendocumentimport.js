@@ -540,6 +540,35 @@
                                 };
 
                                 /*
+                                    The fonts named in a style may actually map to another font. Here we check to
+                                    see if a font has a mapping, and if so does it match the family.
+                                 */
+                                var matchesFamily = function (font, family) {
+                                    if (font === undefined || family === undefined) {
+                                        return false;
+                                    }
+
+                                    var contentXmlStyle = contentsXML.evaluate("//style:font-face[@style:name='" + font + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    var stylesXmlStyle = stylesXML.evaluate("//style:font-face[@style:name='" + font + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                                    var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
+
+                                    if (style) {
+                                        var familyMap = style.getAttribute("svg:font-family");
+                                        var families = familyMap.split(",");
+                                        global.jQuery.each(families, function(index, value) {
+                                            if (value.replace(/'/g, "").trim() === family.trim()) {
+                                                return true;
+                                            }
+                                        });
+
+                                        return false;
+                                    }
+
+                                    return true;
+                                };
+
+                                /*
                                     See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes.
                                  */
                                 var getFontRuleForStyle = function (styleAttribute, fontRule) {
@@ -595,7 +624,7 @@
                                             getFontRuleForStyle(parentStyleName, fontRule);
                                         }
                                     }
-                                }
+                                };
 
                                 var getFontRuleForElement = function (element, fontRule) {
                                     if (fontRule === undefined) {
@@ -666,6 +695,15 @@
                                                     singleRule = true;
                                                 } else {
                                                     var thisFontRule = getFontRuleForElement(textNode);
+
+                                                    /*
+                                                        Account for the same font having different names
+                                                     */
+                                                    if (matchesFamily(thisFontRule.font, fontRule.font) ||
+                                                        matchesFamily(fontRule.font, thisFontRule.font)) {
+                                                        thisFontRule.font = fontRule.font;
+                                                    }
+
                                                     if (!thisFontRule.equals(fontRule)) {
                                                         singleRule = false;
                                                         break;
@@ -682,7 +720,17 @@
                                         var matchingRule;
                                         if (singleRule && resultObject.fontRules !== undefined) {
                                             global.jQuery.each(resultObject.fontRules, function (index, definedFontRule) {
-                                                if (new global.FontRule(definedFontRule).hasSameSettings(fontRule)) {
+
+                                                var fixedFontRule = new global.FontRule(definedFontRule);
+
+                                                /*
+                                                 Account for the same font having different names
+                                                 */
+                                                if (matchesFamily(fontRule.font, fixedFontRule.font)) {
+                                                    fixedFontRule.font = fontRule.font;
+                                                }
+
+                                                if (fixedFontRule.hasSameSettings(fontRule)) {
                                                     matchingRule = definedFontRule;
                                                     return false;
                                                 }
