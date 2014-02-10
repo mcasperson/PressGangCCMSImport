@@ -495,6 +495,9 @@
                                     return prefix;
                                 };
 
+                                /*
+                                    See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes.
+                                 */
                                 var getFontRuleForElement = function (element, fontRule) {
                                     if (fontRule === undefined) {
                                         fontRule = new global.FontRule();
@@ -518,7 +521,6 @@
                                                 parentStyle = parentContentXmlStyleName !== null ? parentContentXmlStyleName : parentStylesXmlStyle;
                                             }
 
-                                            // See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes
                                             var fontName = contentsXML.evaluate(".//@style:font-name", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             var parentFontName = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.font === undefined) {
