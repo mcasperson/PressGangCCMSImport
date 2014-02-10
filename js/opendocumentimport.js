@@ -758,7 +758,7 @@
                                                             customContainerContent += " ";
                                                         }
 
-                                                    } else if (textOrSpaceNode.nodeType === Node.TEXT_NODE) {
+                                                    } else {
                                                         customContainerContent += textOrSpaceNode.textContent;
                                                     }
                                                 }
