@@ -500,8 +500,8 @@
                                         fontRule = new global.FontRule();
                                     }
 
-                                    var styleAttribute = element.getAttribute("text:style-name");
                                     if (element.parentNode && element.parentNode !== contentsXML.documentElement) {
+                                        var styleAttribute = element.parentNode.getAttribute("text:style-name");
                                         var contentXmlStyle = contentsXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                         var stylesXmlStyle = stylesXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
 
@@ -542,30 +542,30 @@
                                             var weight = contentsXML.evaluate(".//@fo:font-weight", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             var parentFontWeight = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.bold === undefined) {
-                                                if (weight !== null) {
-                                                    fontRule.bold = weight.nodeValue;
-                                                } else if (parentFontWeight !== null) {
-                                                    fontRule.bold = parentFontWeight.nodeValue;
+                                                if (weight !== null && weight.nodeValue === "bold") {
+                                                    fontRule.bold = true;
+                                                } else if (parentFontWeight !== null && parentFontWeight.nodeValue === "bold") {
+                                                    fontRule.bold = parentFontWeight.true;
                                                 }
                                             }
 
                                             var fontStyle = contentsXML.evaluate(".//@fo:font-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             var parentFontStyle = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.italics === undefined) {
-                                                if (fontStyle !== null) {
-                                                    fontRule.italics = fontStyle.nodeValue;
-                                                } else if (parentFontStyle !== null) {
-                                                    fontRule.italics = parentFontStyle.nodeValue;
+                                                if (fontStyle !== null && fontStyle.nodeValue === "italic") {
+                                                    fontRule.italics = true;
+                                                } else if (parentFontStyle !== null && parentFontStyle.nodeValue === "italic") {
+                                                    fontRule.italics = true;
                                                 }
                                             }
 
                                             var underline = contentsXML.evaluate(".//@style:text-underline-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             var parentUnderline = parentStyle ? contentsXML.evaluate(".//@style:font-name", parentStyle, resolver, global.XPathResult.ANY_TYPE, null).iterateNext() : null;
                                             if (fontRule.underline === undefined) {
-                                                if (underline !== null) {
-                                                    fontRule.underline = underline.nodeValue;
-                                                } else if (parentUnderline !== null) {
-                                                    fontRule.underline = parentUnderline.nodeValue;
+                                                if (underline !== null && underline.nodeValue !== "none") {
+                                                    fontRule.underline = true;
+                                                } else if (parentUnderline !== null && parentUnderline.nodeValue !== "none") {
+                                                    fontRule.underline = true;
                                                 }
                                             }
 
@@ -610,19 +610,21 @@
                                         /*
                                             Find out if there is a single font applied to this para.
                                          */
-                                        var textNodes = contentsXML.evaluate(".//* | .", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                        var textNodes = contentsXML.evaluate(".//text()", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                                         var textNode;
                                         var fontRule;
                                         var singleRule = false;
                                         while((textNode = textNodes.iterateNext()) !== null) {
-                                            if (fontRule === undefined) {
-                                                fontRule = getFontRuleForElement(textNode);
-                                                singleRule = true;
-                                            } else {
-                                                var thisFontRule = getFontRuleForElement(textNode);
-                                                if (!thisFontRule.equals(fontRule)) {
-                                                    singleRule = false;
-                                                    break;
+                                            if (textNode.textContent.trim().length !== 0) {
+                                                if (fontRule === undefined) {
+                                                    fontRule = getFontRuleForElement(textNode);
+                                                    singleRule = true;
+                                                } else {
+                                                    var thisFontRule = getFontRuleForElement(textNode);
+                                                    if (!thisFontRule.equals(fontRule)) {
+                                                        singleRule = false;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
@@ -657,23 +659,25 @@
 
                                     var listItems = contentsXML.evaluate("./text:list-item", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                                     var listHeaders = contentsXML.evaluate("./text:list-header", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                                    var listItemsHeaderContent = "";
+                                    var listItemsHeaderContent = [];
 
                                     var listHeader = listHeaders.iterateNext();
                                     if (listHeader !== null) {
                                         var paras = contentsXML.evaluate("./text:p", listHeader, resolver, global.XPathResult.ANY_TYPE, null);
                                         var para;
                                         while ((para = paras.iterateNext()) !== null) {
-                                            if (para.textContent.trim().length !== 0) {
-                                                listItemsHeaderContent += "<para>" + para.textContent + "</para>";
-                                            }
+                                            processPara(listItemsHeaderContent, para, imageLinks);
                                         }
                                     }
 
                                     var listItem;
                                     if ((listItem = listItems.iterateNext()) !== null) {
                                         content.push(itemizedList ? "<itemizedlist>" : "<orderedlist>");
-                                        content.push(listItemsHeaderContent);
+
+                                        global.jQuery.each(listItemsHeaderContent, function (index, value) {
+                                            content.push(value);
+                                        });
+
 
                                         do {
                                             content.push("<listitem>");
@@ -692,7 +696,9 @@
                                         content.push(itemizedList ? "</itemizedlist>" : "</orderedlist>");
                                     } else {
                                         // we have found a list that contains only a header. this is really just a para
-                                        content.push(listItemsHeaderContent);
+                                        global.jQuery.each(listItemsHeaderContent, function (index, value) {
+                                            content.push(value);
+                                        });
                                     }
                                 };
 
