@@ -96,7 +96,7 @@
                             .setIntro("Brand")
                             .setName("ContentSpecBrand")
                             .setValue("RedHat")
-                            .setOptions(["RedHat", "JBoss", "Fedora"])
+                            .setOptions(["RedHat", "JBoss", "Fedora", "OpenShift"])
                     ])
             ]
         )
