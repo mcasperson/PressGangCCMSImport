@@ -123,6 +123,7 @@
                 contentSpec.push("Version = " + config.ContentSpecVersion);
                 contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
                 contentSpec.push("Brand = " + config.ContentSpecBrand);
+                contentSpec.push("# Imported from " + config.OdtFile.name);
                 resultCallback(JSON.stringify({contentSpec: contentSpec}));
             }
         })
