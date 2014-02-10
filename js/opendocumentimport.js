@@ -830,7 +830,7 @@
                                             imagePath,
                                             config,
                                             function (id, matched) {
-                                                images[imagePath] = "/images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
+                                                images[imagePath] = "images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
 
                                                 config.UploadedImageCount += 1;
                                                 if (matched) {
