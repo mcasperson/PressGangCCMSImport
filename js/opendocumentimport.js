@@ -610,7 +610,17 @@
                                         var containerElement = "para";
 
                                         /*
-                                            Find out if there is a single font applied to this para.
+                                            It is common to have unnamed styles used to distinguish types of content. For
+                                            example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
+                                            text displayed on the screen.
+
+                                            Actually, a single paragraph will quite often be made up of mutiple spans,
+                                            with each span having it's own style name. This is not evident to the user
+                                            though because the styles all have the same appearance.
+
+                                            What we do here is find some base level style information (font, size, bold,
+                                            underline, italics - the settings you can easily apply from the toolbar) and
+                                            see if these basic settings are common to each span.
                                          */
                                         var textNodes = contentsXML.evaluate(".//text()", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                                         var textNode;
@@ -631,6 +641,11 @@
                                             }
                                         }
 
+                                        /*
+                                            If there is a single common style applied to the para (regardless of the
+                                            actual number of styles applied in each span) we can then match this
+                                            paragraph to the rules defined in the wizard.
+                                         */
                                         if (singleRule && resultObject.fontRules !== undefined) {
                                             global.jQuery.each(resultObject.fontRules, function (index, definedFontRule) {
                                                 if (fontRule.equals(definedFontRule)) {
