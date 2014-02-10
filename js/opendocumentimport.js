@@ -687,25 +687,53 @@
                                                     return false;
                                                 }
                                             });
-                                        }
 
-                                        if (matchingRule !== undefined) {
-                                            content.push("<" + matchingRule.docBookElement + ">" + contentNode.textContent + "</" + matchingRule.docBookElement + ">");
+                                            if (matchingRule !== undefined) {
+                                                /*
+                                                    We have defined a container that will hold paragraphs with text all
+                                                    of a matching style.
+                                                 */
+                                                content.push("<" + matchingRule.docBookElement + ">" + contentNode.textContent + "</" + matchingRule.docBookElement + ">");
 
-                                            /*
-                                                For elements like screen we almost always want to merge consecutive
-                                                paragraphs into a single container.
-                                             */
-                                            if (matchingRule.merge && content.length >= 2) {
-                                                var endTagRe = new RegExp("</" + global.escapeRegExp(matchingRule.docBookElement) + ">$");
-                                                var startTagRe = new RegExp("^<" + global.escapeRegExp(matchingRule.docBookElement) + ">");
-                                                if (endTagRe.test(content[content.length - 2])) {
-                                                    content[content.length - 2] = content[content.length - 2].replace(endTagRe, "");
-                                                    content[content.length - 1] = content[content.length - 1].replace(startTagRe, "");
+                                                /*
+                                                 For elements like screen we almost always want to merge consecutive
+                                                 paragraphs into a single container.
+                                                 */
+                                                if (matchingRule.merge && content.length >= 2) {
+                                                    var endTagRe = new RegExp("</" + global.escapeRegExp(matchingRule.docBookElement) + ">$");
+                                                    var startTagRe = new RegExp("^<" + global.escapeRegExp(matchingRule.docBookElement) + ">");
+                                                    if (endTagRe.test(content[content.length - 2])) {
+                                                        content[content.length - 2] = content[content.length - 2].replace(endTagRe, "");
+                                                        content[content.length - 1] = content[content.length - 1].replace(startTagRe, "");
+                                                    }
                                                 }
+                                            } else {
+                                                /*
+                                                    This is a plain old paragraph.
+                                                 */
+                                                content.push("<para>" + contentNode.textContent + "</para>");
                                             }
                                         } else {
-                                            content.push("<para>" + contentNode.textContent + "</para>");
+                                            /*
+                                                This is a paragraph made up of multiple styles of spans. There is no
+                                                reliable way to map the different styles to docbook elements. The
+                                                next best thing is to use the <emphasis> element to highlight
+                                                any span that is bold, underlined or italicised. The author can then
+                                                review any highlighted text and change the <emphasis> to a more
+                                                appropriate tag.
+                                             */
+                                            var paraContent = "";
+                                            textNodes = contentsXML.evaluate(".//text()", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                            while((textNode = textNodes.iterateNext()) !== null) {
+                                                if (textNode.textContent.length !== 0) {
+                                                    fontRule = getFontRuleForElement(textNode);
+                                                    if (textNode.textContent.trim().length != 0 && (fontRule.bold || fontRule.italics || fontRule.underline)) {
+                                                        paraContent += "<emphasis>" + textNode.textContent + "</emphasis>";
+                                                    } else {
+                                                        paraContent += textNode.textContent;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 };
