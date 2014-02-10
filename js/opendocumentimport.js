@@ -171,6 +171,70 @@
             resultCallback(config.UseStyleRules === "Yes" ? setParaRules : processOdt);
         });
 
+    function getRulesText(rulesCollection) {
+        var rules = "";
+
+        if (rulesCollection) {
+            global.jQuery.each(rulesCollection, function(index, fontRule) {
+
+                var rule = "";
+
+                if (fontRule.font) {
+                    if (rule.length !== 0) {
+                        rule += ", ";
+                    }
+                    rule += "Font: " + fontRule.font;
+                }
+
+                if (fontRule.size) {
+                    if (rule.length !== 0) {
+                        rule += ", ";
+                    }
+                    rule += "Size: " + fontRule.size;
+                }
+
+                if (fontRule.bold) {
+                    if (rule.length !== 0) {
+                        rule += ", ";
+                    }
+                    rule += "Bold: " + fontRule.bold;
+                }
+
+                if (fontRule.italics) {
+                    if (rule.length !== 0) {
+                        rule += ", ";
+                    }
+                    rule += "Italics: " + fontRule.italics;
+                }
+
+                if (fontRule.underline) {
+                    if (rule.length !== 0) {
+                        rule += ", ";
+                    }
+                    rule += "Italics: " + fontRule.underline;
+                }
+
+                if (fontRule.docBookElement) {
+                    if (rule.length !== 0) {
+                        rule += ", ";
+                    }
+                    rule += "DocBook Element: " + fontRule.docBookElement;
+                }
+
+                if (rules.length !== 0) {
+                    rules += "<br/>";
+                }
+
+                rules += rule;
+            });
+        } else {
+            rules = "No rules currently defined.";
+        }
+
+
+        return rules;
+    }
+
     /*
         Step 4 - ask which server this is being uploaded to
      */
@@ -190,64 +254,9 @@
 
                             if (result) {
                                 var resultObject = JSON.parse(result);
-                                if (resultObject.fontRules) {
-                                    global.jQuery.each(resultObject.fontRules, function(index, fontRule) {
-
-                                        var rule = "";
-
-                                        if (fontRule.font) {
-                                            if (rule.length !== 0) {
-                                                rule += ", ";
-                                            }
-                                            rule += "Font: " + fontRule.font;
-                                        }
-
-                                        if (fontRule.size) {
-                                            if (rule.length !== 0) {
-                                                rule += ", ";
-                                            }
-                                            rule += "Size: " + fontRule.size;
-                                        }
-
-                                        if (fontRule.bold) {
-                                            if (rule.length !== 0) {
-                                                rule += ", ";
-                                            }
-                                            rule += "Bold: " + fontRule.bold;
-                                        }
-
-                                        if (fontRule.italics) {
-                                            if (rule.length !== 0) {
-                                                rule += ", ";
-                                            }
-                                            rule += "Italics: " + fontRule.italics;
-                                        }
-
-                                        if (fontRule.underline) {
-                                            if (rule.length !== 0) {
-                                                rule += ", ";
-                                            }
-                                            rule += "Italics: " + fontRule.underline;
-                                        }
-
-                                        if (fontRule.docBookElement) {
-                                            if (rule.length !== 0) {
-                                                rule += ", ";
-                                            }
-                                            rule += "DocBook Element: " + fontRule.docBookElement;
-                                        }
-
-                                        if (rules.length !== 0) {
-                                            rules += "<br/>";
-                                        }
-
-                                        rules += rule;
-                                    });
-                                } else {
-                                    rules = "No rules currently defined.";
-                                }
+                                rules = getRulesText(resultObject.fontRules);
                             } else {
-                                rules = "No rules currently defined.";
+                                rules = getRulesText();
                             }
 
                             resultCallback(rules);
@@ -400,6 +409,23 @@
             new global.QNAVariables()
                 .setVariables([
                     new global.QNAVariable()
+                        .setType(global.InputEnum.HTML)
+                        .setIntro("Current Rules")
+                        .setName("CurrentRules")
+                        .setValue(function (resultCallback, errorCallback, result, config) {
+
+                            var rules = "";
+
+                            if (result) {
+                                var resultObject = JSON.parse(result);
+                                rules = getRulesText(resultObject.fontRules);
+                            } else {
+                                rules = getRulesText();
+                            }
+
+                            resultCallback(rules);
+                        }),
+                    new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Resolving Book Structure")
                         .setName("ResolvedBookStructure"),
@@ -435,6 +461,16 @@
 
             var progressIncrement = 100 / 4;
 
+            var resultObject = JSON.parse(result);
+
+            /*
+                Add any rules that were defined when parsing this book
+             */
+            var rulesLines = getRulesText(resultObject.fontRules).split("<br/>");
+            global.jQuery.each(rulesLines, function (index, value) {
+                resultObject.contentSpec.push("#" + value);
+            });
+
             /*
              Initialize some config values
              */
@@ -442,8 +478,6 @@
             config.MatchedTopicCount = 0;
             config.UploadedImageCount = 0;
             config.MatchedImageCount = 0;
-
-            var resultObject = JSON.parse(result);
 
             global.zipModel.getTextFromFileName(
                 config.OdtFile,
@@ -614,7 +648,7 @@
                                             example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
                                             text displayed on the screen.
 
-                                            Actually, a single paragraph will quite often be made up of mutiple spans,
+                                            Actually, a single paragraph will quite often be made up of multiple spans,
                                             with each span having it's own style name. This is not evident to the user
                                             though because the styles all have the same appearance.
 
