@@ -734,6 +734,8 @@
                                                     }
                                                 }
                                             }
+
+                                            content.push(paraContent);
                                         }
                                     }
                                 };
