@@ -682,7 +682,7 @@
                                         var matchingRule;
                                         if (singleRule && resultObject.fontRules !== undefined) {
                                             global.jQuery.each(resultObject.fontRules, function (index, definedFontRule) {
-                                                if (fontRule.equals(definedFontRule)) {
+                                                if (new global.FontRule(definedFontRule).hasSameSettings(fontRule)) {
                                                     matchingRule = definedFontRule.docBookElement;
                                                     return false;
                                                 }

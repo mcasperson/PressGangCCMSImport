@@ -80,10 +80,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="441" column="44" selection-start="18399" selection-end="18399" vertical-scroll-proportion="-3.9726028" vertical-offset="10095" max-vertical-offset="15135">
+            <state line="684" column="88" selection-start="33475" selection-end="33475" vertical-scroll-proportion="0.46232876" vertical-offset="9855" max-vertical-offset="15135">
               <folding>
-                <marker date="1392007817791" expanded="true" signature="29785:29946" placeholder="..." />
-                <marker date="1392007817791" expanded="true" signature="29860:29946" placeholder="..." />
+                <marker date="1392008715320" expanded="true" signature="29785:29946" placeholder="..." />
+                <marker date="1392008715320" expanded="true" signature="29860:29946" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -92,7 +92,7 @@
       <file leaf-file-name="fontrule.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/fontrule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="26" selection-start="1806" selection-end="1806" vertical-scroll-proportion="0.0" vertical-offset="179" max-vertical-offset="1170">
+            <state line="11" column="40" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1650">
               <folding />
             </state>
           </provider>
@@ -759,7 +759,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="49010000" />
+      <workItem from="1391907087418" duration="49826000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1513,7 +1513,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="265755000" />
+    <option name="totallyTimeSpent" value="266571000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1941,17 +1941,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/fontrule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="26" selection-start="1806" selection-end="1806" vertical-scroll-proportion="0.0" vertical-offset="179" max-vertical-offset="1170">
+        <state line="11" column="40" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1650">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="441" column="44" selection-start="18399" selection-end="18399" vertical-scroll-proportion="-3.9726028" vertical-offset="10095" max-vertical-offset="15135">
+        <state line="684" column="88" selection-start="33475" selection-end="33475" vertical-scroll-proportion="0.46232876" vertical-offset="9855" max-vertical-offset="15135">
           <folding>
-            <marker date="1392007817791" expanded="true" signature="29785:29946" placeholder="..." />
-            <marker date="1392007817791" expanded="true" signature="29860:29946" placeholder="..." />
+            <marker date="1392008715320" expanded="true" signature="29785:29946" placeholder="..." />
+            <marker date="1392008715320" expanded="true" signature="29860:29946" placeholder="..." />
           </folding>
         </state>
       </provider>
