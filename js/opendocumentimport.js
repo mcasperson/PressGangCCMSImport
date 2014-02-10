@@ -683,7 +683,7 @@
                                         if (singleRule && resultObject.fontRules !== undefined) {
                                             global.jQuery.each(resultObject.fontRules, function (index, definedFontRule) {
                                                 if (new global.FontRule(definedFontRule).hasSameSettings(fontRule)) {
-                                                    matchingRule = definedFontRule.docBookElement;
+                                                    matchingRule = definedFontRule;
                                                     return false;
                                                 }
                                             });
@@ -727,7 +727,7 @@
                                             while((textNode = textNodes.iterateNext()) !== null) {
                                                 if (textNode.textContent.length !== 0) {
                                                     fontRule = getFontRuleForElement(textNode);
-                                                    if (textNode.textContent.trim().length != 0 && (fontRule.bold || fontRule.italics || fontRule.underline)) {
+                                                    if (textNode.textContent.trim().length !== 0 && (fontRule.bold || fontRule.italics || fontRule.underline)) {
                                                         paraContent += "<emphasis>" + textNode.textContent + "</emphasis>";
                                                     } else {
                                                         paraContent += textNode.textContent;
