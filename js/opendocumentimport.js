@@ -149,7 +149,26 @@
                 ])
         ])
         .setNextStep(function (resultCallback) {
-            resultCallback(setParaRules);
+            resultCallback(useStyleRules);
+        });
+
+    var useStyleRules = new global.QNAStep()
+        .setTitle("Do you want to define additional style rules")
+        .setIntro("You have the option of wrapping paragraphs that match certain font styles in DocBook elements other than <para>s. " +
+            "This is useful when the document being imported consistently applies different font to paragraphs that represent screen output or source code.")
+        .setInputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.RADIO_BUTTONS)
+                        .setIntro(["Yes", "No"])
+                        .setOptions(["Yes", "No"])
+                        .setValue("No")
+                        .setName("UseStyleRules")
+                ])
+        ])
+        .setNextStep(function (resultCallback, errorCallback, result, config) {
+            resultCallback(config.UseStyleRules ? setParaRules : processOdt);
         });
 
     /*
