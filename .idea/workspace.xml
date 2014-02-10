@@ -67,10 +67,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="764" column="125" selection-start="38918" selection-end="38918" vertical-scroll-proportion="0.41095892" vertical-offset="11100" max-vertical-offset="16785">
+            <state line="480" column="107" selection-start="20380" selection-end="20380" vertical-scroll-proportion="0.2739726" vertical-offset="6960" max-vertical-offset="16830">
               <folding>
-                <marker date="1392070072160" expanded="true" signature="31690:31851" placeholder="..." />
-                <marker date="1392070072160" expanded="true" signature="31765:31851" placeholder="..." />
+                <marker date="1392070198411" expanded="true" signature="31869:32030" placeholder="..." />
+                <marker date="1392070198411" expanded="true" signature="31944:32030" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -755,7 +755,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="60373000" />
+      <workItem from="1391907087418" duration="60502000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1509,7 +1509,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="277118000" />
+    <option name="totallyTimeSpent" value="277247000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1944,10 +1944,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="764" column="125" selection-start="38918" selection-end="38918" vertical-scroll-proportion="0.41095892" vertical-offset="11100" max-vertical-offset="16785">
+        <state line="480" column="107" selection-start="20380" selection-end="20380" vertical-scroll-proportion="0.2739726" vertical-offset="6960" max-vertical-offset="16830">
           <folding>
-            <marker date="1392070072160" expanded="true" signature="31690:31851" placeholder="..." />
-            <marker date="1392070072160" expanded="true" signature="31765:31851" placeholder="..." />
+            <marker date="1392070198411" expanded="true" signature="31869:32030" placeholder="..." />
+            <marker date="1392070198411" expanded="true" signature="31944:32030" placeholder="..." />
           </folding>
         </state>
       </provider>

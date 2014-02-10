@@ -477,9 +477,12 @@
                 Add any rules that were defined when parsing this book
              */
             var rulesLines = getRulesText(resultObject.fontRules).split("<br/>");
-            global.jQuery.each(rulesLines, function (index, value) {
-                resultObject.contentSpec.push("#" + value);
-            });
+            if (ruleLinex.length !== 0) {
+                resultObject.contentSpec.push("# Content matching rules used while importing this document");
+                global.jQuery.each(rulesLines, function (index, value) {
+                    resultObject.contentSpec.push("# " + value);
+                });
+            }
 
             /*
              Initialize some config values
