@@ -739,11 +739,32 @@
                                             });
 
                                             if (matchingRule !== undefined) {
+
+                                                /*
+                                                    Whitespace is condensed in normal paras. But here we are wrapping the content
+                                                    up in a container that may preserve the whitespace, so we need to
+                                                    expand the text:s elements.
+                                                 */
+                                                var customContainerContent = "";
+                                                var textOrSpaceNodes = contentsXML.evaluate(".//text() | .//text:s", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+                                                var textOrSpaceNode;
+                                                while((textOrSpaceNode = textOrSpaceNodes.iterateNext()) !== null) {
+                                                    if (textOrSpaceNode.nodeName === "text:s") {
+                                                        var spaces = parseInt(textOrSpaceNode.getAttribute("text:c"));
+                                                        for (var i = 0; i < spaces; ++i) {
+                                                            customContainerContent += " ";
+                                                        }
+
+                                                    } else {
+                                                        customContainerContent += textOrSpaceNode.textContent;
+                                                    }
+                                                }
+
                                                 /*
                                                     We have defined a container that will hold paragraphs with text all
                                                     of a matching style.
                                                  */
-                                                content.push("<" + matchingRule.docBookElement + ">" + contentNode.textContent + "</" + matchingRule.docBookElement + ">");
+                                                content.push("<" + matchingRule.docBookElement + ">" + customContainerContent + "</" + matchingRule.docBookElement + ">");
 
                                                 /*
                                                  For elements like screen we almost always want to merge consecutive
