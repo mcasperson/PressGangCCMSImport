@@ -596,22 +596,22 @@
 
                                         var weight = contentsXML.evaluate(".//@fo:font-weight", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                         if (fontRule.bold === undefined) {
-                                            if (weight !== null && weight.nodeValue === "bold") {
-                                                fontRule.bold = true;
+                                            if (weight !== null) {
+                                                fontRule.bold = weight.nodeValue === "bold";
                                             }
                                         }
 
                                         var fontStyle = contentsXML.evaluate(".//@fo:font-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                         if (fontRule.italics === undefined) {
-                                            if (fontStyle !== null && fontStyle.nodeValue === "italic") {
-                                                fontRule.italics = true;
+                                            if (fontStyle !== null ) {
+                                                fontRule.italics = fontStyle.nodeValue === "italic";
                                             }
                                         }
 
                                         var underline = contentsXML.evaluate(".//@style:text-underline-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                         if (fontRule.underline === undefined) {
-                                            if (underline !== null && underline.nodeValue !== "none") {
-                                                fontRule.underline = true;
+                                            if (underline !== null) {
+                                                fontRule.underline = underline.nodeValue !== "none";
                                             }
                                         }
 
