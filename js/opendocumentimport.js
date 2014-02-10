@@ -556,13 +556,15 @@
                                     if (style) {
                                         var familyMap = style.getAttribute("svg:font-family");
                                         var families = familyMap.split(",");
+                                        var retValue = false;
                                         global.jQuery.each(families, function(index, value) {
                                             if (value.replace(/'/g, "").trim() === family.trim()) {
-                                                return true;
+                                                retValue = true;
+                                                return false;
                                             }
                                         });
 
-                                        return false;
+                                        return retValue;
                                     }
 
                                     return true;
