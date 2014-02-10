@@ -735,7 +735,7 @@
                                                 }
                                             }
 
-                                            content.push(paraContent);
+                                            content.push("<para>" + paraContent + "</para>");
                                         }
                                     }
                                 };
