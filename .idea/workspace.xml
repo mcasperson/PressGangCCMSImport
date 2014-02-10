@@ -77,23 +77,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="474" column="49" selection-start="21549" selection-end="21558" vertical-scroll-proportion="0.33333334" vertical-offset="6788" max-vertical-offset="13500">
+            <state line="533" column="56" selection-start="26075" selection-end="26075" vertical-scroll-proportion="-17.481482" vertical-offset="7493" max-vertical-offset="13470">
               <folding>
                 <element signature="e#21007#21150#0" expanded="false" />
-                <marker date="1391998815473" expanded="true" signature="27666:27827" placeholder="..." />
-                <marker date="1391998815473" expanded="true" signature="27741:27827" placeholder="..." />
+                <marker date="1391999955427" expanded="true" signature="28008:28169" placeholder="..." />
+                <marker date="1391999955427" expanded="true" signature="28083:28169" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fontrule.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="fontrule.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/fontrule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="36" selection-start="112" selection-end="118" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="990">
+            <state line="33" column="20" selection-start="960" selection-end="960" vertical-scroll-proportion="0.540393" vertical-offset="0" max-vertical-offset="1095">
               <folding />
             </state>
           </provider>
@@ -191,8 +191,8 @@
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/js/fontrule.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/js/fontrule.js" />
       </list>
     </option>
   </component>
@@ -760,7 +760,7 @@
       <workItem from="1391320260999" duration="49975000" />
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
-      <workItem from="1391907087418" duration="39942000" />
+      <workItem from="1391907087418" duration="41578000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1514,7 +1514,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="256687000" />
+    <option name="totallyTimeSpent" value="258323000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1940,21 +1940,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/fontrule.js">
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="36" selection-start="112" selection-end="118" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="990">
-          <folding />
+        <state line="533" column="56" selection-start="26075" selection-end="26075" vertical-scroll-proportion="-17.481482" vertical-offset="7493" max-vertical-offset="13470">
+          <folding>
+            <element signature="e#21007#21150#0" expanded="false" />
+            <marker date="1391999955427" expanded="true" signature="28008:28169" placeholder="..." />
+            <marker date="1391999955427" expanded="true" signature="28083:28169" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+    <entry file="file://$PROJECT_DIR$/js/fontrule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="474" column="49" selection-start="21549" selection-end="21558" vertical-scroll-proportion="0.33333334" vertical-offset="6788" max-vertical-offset="13500">
-          <folding>
-            <element signature="e#21007#21150#0" expanded="false" />
-            <marker date="1391998815473" expanded="true" signature="27666:27827" placeholder="..." />
-            <marker date="1391998815473" expanded="true" signature="27741:27827" placeholder="..." />
-          </folding>
+        <state line="33" column="20" selection-start="960" selection-end="960" vertical-scroll-proportion="0.540393" vertical-offset="0" max-vertical-offset="1095">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -501,39 +501,37 @@
                                     }
 
                                     var styleAttribute = element.getAttribute("text:style-name");
-                                    if (element.parentNode &&
-                                        element.parentNode.getAttribute &&
-                                        element.parentNode.getAttribute(styleAttribute)) {
-                                        var contentXmlStyle = contentsXML.evaluate("//style:style[@style:style='" + styleAttribute + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                        var stylesXmlStyle = stylesXML.evaluate("//style:style[@style:style='" + styleAttribute + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    if (element.parentNode && element.parentNode !== contentsXML.documentElement) {
+                                        var contentXmlStyle = contentsXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        var stylesXmlStyle = stylesXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", stylesXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                                         var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
 
                                         if (style !== null) {
                                             // See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes
-                                            var fontName = style.getAttribute("style:font-name");
+                                            var fontName = contentsXML.evaluate(".//@style:font-name", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             if (fontName !== null && fontRule.font === undefined) {
-                                                fontRule.font = fontName;
+                                                fontRule.font = fontName.nodeValue;
                                             }
 
-                                            var fontSize = style.getAttribute("fo:font-size");
+                                            var fontSize = contentsXML.evaluate(".//@fo:font-size", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             if (fontSize !== null && fontRule.size === undefined) {
-                                                fontRule.size = fontSize;
+                                                fontRule.size = fontSize.nodeValue;
                                             }
 
-                                            var weight = style.getAttribute("fo:font-weight");
+                                            var weight = contentsXML.evaluate(".//@fo:font-weight", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             if (weight !== null && fontRule.size === undefined) {
-                                                fontRule.bold = weight === "bold";
+                                                fontRule.bold = weight.nodeValue === "bold";
                                             }
 
-                                            var fontStyle = style.getAttribute("fo:font-style");
+                                            var fontStyle = contentsXML.evaluate(".//@fo:font-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             if (fontStyle !== null && fontRule.italics === undefined) {
-                                                fontRule.italics = fontStyle === "italic";
+                                                fontRule.italics = fontStyle.nodeValue === "italic";
                                             }
 
-                                            var underline = style.getAttribute("style:text-underline-style");
+                                            var underline = contentsXML.evaluate(".//@style:text-underline-style", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                             if (underline !== null && fontRule.underline === undefined) {
-                                                underline.underline = fontStyle !== "none";
+                                                fontRule.underline = underline.nodeValue !== "none";
                                             }
 
                                             if ((fontRule.font &&
@@ -547,7 +545,7 @@
                                                 return getFontRuleForElement(element.parentNode, fontRule);
                                             }
                                         } else {
-                                            return null;
+                                            return getFontRuleForElement(element.parentNode, fontRule);
                                         }
                                     } else {
                                         return fontRule;
@@ -577,7 +575,7 @@
                                         /*
                                             Find out if there is a single font applied to this para.
                                          */
-                                        var textNodes = contentsXML.evaluate("/*", contentNode, resolver, global.XPathResult.TEXT_NODE, null);
+                                        var textNodes = contentsXML.evaluate(".//*", contentNode, resolver, global.XPathResult.TEXT_NODE, null);
                                         var textNode;
                                         var fontRule;
                                         var singleRule = false;

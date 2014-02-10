@@ -6,25 +6,32 @@
     };
 
     global.FontRule.prototype.equals = function (fontRule) {
-        if (this.font !== fontRule.font) {
+        if (!(this.font === undefined && fontRule.font === undefined) &&
+            this.font !== fontRule.font) {
             return false;
         }
 
-        if (this.size !== fontRule.size) {
+        if (!(this.size === undefined && fontRule.size === undefined) &&
+            this.size !== fontRule.size) {
             return false;
         }
 
-        if (this.bold !== fontRule.bold) {
+        if (!(this.bold === undefined && fontRule.bold === undefined) &&
+            this.bold !== fontRule.bold) {
             return false;
         }
 
-        if (this.italics !== fontRule.italics) {
+        if (!(this.italics === undefined && fontRule.italics === undefined) &&
+            this.italics !== fontRule.italics) {
             return false;
         }
 
-        if (this.underline !== fontRule.underline) {
+        if (!(this.underline === undefined && fontRule.underline === undefined) &&
+            this.underline !== fontRule.underline) {
             return false;
         }
+
+        return true;
     };
 
 
