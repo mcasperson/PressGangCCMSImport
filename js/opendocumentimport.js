@@ -718,7 +718,11 @@
                                                 }
 
                                             } else if (childNode.nodeName === "office:annotation") {
-                                                processRemark(content, childNode);
+                                                var remarks = [];
+                                                processRemark(remarks, childNode);
+                                                global.jQuery.each(remarks, function (index, value) {
+                                                    customContainerContent += value;
+                                                });
                                             } else if (childNode.nodeType === Node.TEXT_NODE) {
                                                 if (childNode.textContent.length !== 0) {
                                                     fontRule = getFontRuleForElement(childNode);
