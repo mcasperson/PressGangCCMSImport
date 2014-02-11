@@ -661,6 +661,27 @@
                                     }
                                 };
 
+                                var processRemark = function(content, contentNode) {
+                                    var creator = contentsXML.evaluate("./dc:creator", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    var date = contentsXML.evaluate("./dc:date", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    var paras = contentsXML.evaluate("./text:p", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                                    content.push("<remark>");
+
+                                    var para;
+                                    while((para = paras.iterateNext()) !== null) {
+                                        content.push("<para>" + para.textContent + "</para>");
+                                    }
+
+                                    if (creator !== null) {
+                                        content.push("<para>" + creator.textContent + "</para>");
+                                    }
+                                    if (date !== null) {
+                                        content.push("<para>" + date.textContent + "</para>");
+                                    }
+                                    content.push("</remark>");
+                                }
+
                                 var processPara = function (content, contentNode, imageLinks) {
                                     var images = contentsXML.evaluate(".//draw:image", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                                     var image;
