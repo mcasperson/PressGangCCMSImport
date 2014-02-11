@@ -345,10 +345,9 @@
             if (!config.DocBookElement) {
                 errorCallback("incomplete form", "Please specify the DocBook element that this rule will create.");
                 return;
-            } else {
-                fontRule.setDocBookElement(config.DocBookElement);
             }
 
+            fontRule.setDocBookElement(config.DocBookElement);
             fontRule.setMerge(config.MergeConsecutiveElements);
 
             var atLeastOneRule = false;
@@ -823,18 +822,40 @@
                                     }
                                 };
 
-                                var processList = function (content, contentNode, imageLinks) {
+                                var processList = function (content, contentNode, imageLinks, depth, style) {
+
+                                    if (style === undefined) {
+                                        style = contentNode.getAttribute("text:style-name");
+                                    }
+
+                                    if (depth === undefined) {
+                                        depth = 1;
+                                    }
+
                                     /*
                                         Find out if this is a numbered or bullet list
                                      */
-                                    var itemizedList = true;
-                                    var styleName = contentNode.getAttribute("text:style-name");
-                                    if (styleName !== null) {
-                                        var style = contentsXML.evaluate("//text:list-style[@style:name='" + styleName + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                        if (style !== null) {
-                                            var listStyleNumber = contentsXML.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            //var listStyleBullet = contentsXML.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            itemizedList = listStyleNumber === null;
+                                    var listType = "itemizedlist";
+                                    var listStyle = "";
+                                    if (style !== null) {
+                                        var styleNode = contentsXML.evaluate("//text:list-style[@style:name='" + style + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (styleNode !== null) {
+                                            var listStyleNumber = contentsXML.evaluate("./text:list-level-style-number[@text:level='" + depth + "']", styleNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            //var listStyleBullet = contentsXML.evaluate("./text:text:list-level-style-bullet", styleNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            listType = listStyleNumber === null ? "itemizedlist" : "orderedlist";
+
+                                            if (listStyleNumber !== null) {
+                                                var numFormat = listStyleNumber.getAttribute("style:num-format");
+                                                if (numFormat === "a") {
+                                                    listStyle = " numeration='loweralpha'";
+                                                } else if (numFormat === "A") {
+                                                    listStyle = " numeration='upperalpha'";
+                                                }  else if (numFormat === "i") {
+                                                    listStyle = " numeration='lowerroman'";
+                                                } else if (numFormat === "I") {
+                                                    listStyle = " numeration='upperroman'";
+                                                }
+                                            }
                                         }
                                     }
 
@@ -853,7 +874,7 @@
 
                                     var listItem;
                                     if ((listItem = listItems.iterateNext()) !== null) {
-                                        content.push(itemizedList ? "<itemizedlist>" : "<orderedlist>");
+                                        content.push("<" + listType + listStyle + ">");
 
                                         global.jQuery.each(listItemsHeaderContent, function (index, value) {
                                             content.push(value);
@@ -867,14 +888,14 @@
                                                 if (childNode.nodeName === "text:p") {
                                                     processPara(content, childNode, imageLinks);
                                                 } else if (childNode.nodeName === "text:list") {
-                                                    processList(content, childNode, imageLinks);
+                                                    processList(content, childNode, imageLinks, depth + 1, style);
                                                 }
                                             });
 
                                             content.push("</listitem>");
                                         } while ((listItem = listItems.iterateNext()) !== null);
 
-                                        content.push(itemizedList ? "</itemizedlist>" : "</orderedlist>");
+                                        content.push("</" + listType + ">");
                                     } else {
                                         // we have found a list that contains only a header. this is really just a para
                                         global.jQuery.each(listItemsHeaderContent, function (index, value) {
