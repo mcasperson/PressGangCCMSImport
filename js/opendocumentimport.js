@@ -529,6 +529,8 @@
                                             processPara(content, contentNode, images);
                                         } else if (contentNode.nodeName === "text:list") {
                                             processList(content, contentNode, images);
+                                        } else if (contentNode.nodeName == "office:annotation") {
+                                            processRemark(content, contentNode);
                                         }
                                     }
 
@@ -664,7 +666,7 @@
                                 var processRemark = function(content, contentNode) {
                                     var creator = contentsXML.evaluate("./dc:creator", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
                                     var date = contentsXML.evaluate("./dc:date", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                    var paras = contentsXML.evaluate("./text:p", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    var paras = contentsXML.evaluate("./text:p", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
 
                                     content.push("<remark>");
 
@@ -698,10 +700,45 @@
                                         }
                                     }
 
+                                    /*
+                                        Expand the text:s elements and remarks.
+                                     */
+                                    var expandWhitespaceInNodes = function (node, emphasis) {
+                                        var customContainerContent = "";
+                                        for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
+                                            var childNode = node.childNodes[childIndex];
+                                            if (childNode.nodeName === "text:s") {
+                                                var spaces = 1;
+                                                var spacesAttribute = childNode.getAttribute("text:c");
+                                                if (spacesAttribute !== null) {
+                                                    spaces = parseInt(spacesAttribute);
+                                                }
+                                                for (var i = 0; i < spaces; ++i) {
+                                                    customContainerContent += " ";
+                                                }
+
+                                            } else if (childNode.nodeName === "office:annotation") {
+                                                processRemark(content, childNode);
+                                            } else if (childNode.nodeType === Node.TEXT_NODE) {
+                                                if (childNode.textContent.length !== 0) {
+                                                    fontRule = getFontRuleForElement(childNode);
+                                                    if (emphasis &&
+                                                        childNode.textContent.trim().length !== 0 &&
+                                                        (fontRule.bold || fontRule.italics || fontRule.underline)) {
+                                                        customContainerContent += "<emphasis>" + childNode.textContent + "</emphasis>";
+                                                    } else {
+                                                        customContainerContent += childNode.textContent;
+                                                    }
+                                                }
+                                            } else {
+                                                customContainerContent += expandWhitespaceInNodes(childNode);
+                                            }
+                                        }
+
+                                        return customContainerContent;
+                                    };
+
                                     if (contentNode.textContent.trim().length !== 0) {
-
-
-
                                         /*
                                             It is common to have unnamed styles used to distinguish types of content. For
                                             example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
@@ -768,36 +805,6 @@
                                             });
 
                                             if (matchingRule !== undefined) {
-
-                                                /*
-                                                    Whitespace is condensed in normal paras. But here we are wrapping the content
-                                                    up in a container that may preserve the whitespace, so we need to
-                                                    expand the text:s elements.
-                                                 */
-                                                var expandWhitespaceInNodes = function (node) {
-                                                    var customContainerContent = "";
-                                                    for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
-                                                        var textOrSpaceNode = node.childNodes[childIndex];
-                                                        if (textOrSpaceNode.nodeName === "text:s") {
-                                                            var spaces = 1;
-                                                            var spacesAttribute = textOrSpaceNode.getAttribute("text:c");
-                                                            if (spacesAttribute !== null) {
-                                                                spaces = parseInt(spacesAttribute);
-                                                            }
-                                                            for (var i = 0; i < spaces; ++i) {
-                                                                customContainerContent += " ";
-                                                            }
-
-                                                        } else if (textOrSpaceNode.nodeType === Node.TEXT_NODE) {
-                                                            customContainerContent += textOrSpaceNode.textContent;
-                                                        } else {
-                                                            customContainerContent += expandWhitespaceInNodes(textOrSpaceNode);
-                                                        }
-                                                    }
-
-                                                    return customContainerContent;
-                                                };
-
                                                 /*
                                                     We have defined a container that will hold paragraphs with text all
                                                     of a matching style.
@@ -820,7 +827,7 @@
                                                 /*
                                                     This is a plain old paragraph.
                                                  */
-                                                content.push("<para>" + contentNode.textContent + "</para>");
+                                                content.push("<para>" + expandWhitespaceInNodes(contentNode) + "</para>");
                                             }
                                         } else {
                                             /*
@@ -831,20 +838,7 @@
                                                 review any highlighted text and change the <emphasis> to a more
                                                 appropriate tag.
                                              */
-                                            var paraContent = "";
-                                            textNodes = contentsXML.evaluate(".//text()", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                                            while((textNode = textNodes.iterateNext()) !== null) {
-                                                if (textNode.textContent.length !== 0) {
-                                                    fontRule = getFontRuleForElement(textNode);
-                                                    if (textNode.textContent.trim().length !== 0 && (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        paraContent += "<emphasis>" + textNode.textContent + "</emphasis>";
-                                                    } else {
-                                                        paraContent += textNode.textContent;
-                                                    }
-                                                }
-                                            }
-
-                                            content.push("<para>" + paraContent + "</para>");
+                                            content.push("<para>" + expandWhitespaceInNodes(contentNode, true) + "</para>");
                                         }
                                     }
                                 };
