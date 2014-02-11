@@ -541,6 +541,48 @@
                                     }
                                 };
 
+                                /*
+                                 Expand the text:s elements and remarks.
+                                 */
+                                var convertNodeToDocbook = function (node, emphasis) {
+                                    var customContainerContent = "";
+                                    for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
+                                        var childNode = node.childNodes[childIndex];
+                                        if (childNode.nodeName === "text:s") {
+                                            var spaces = 1;
+                                            var spacesAttribute = childNode.getAttribute("text:c");
+                                            if (spacesAttribute !== null) {
+                                                spaces = parseInt(spacesAttribute);
+                                            }
+                                            for (var i = 0; i < spaces; ++i) {
+                                                customContainerContent += " ";
+                                            }
+
+                                        } else if (childNode.nodeName === "office:annotation") {
+                                            var remarks = [];
+                                            processRemark(remarks, childNode);
+                                            global.jQuery.each(remarks, function (index, value) {
+                                                customContainerContent += value;
+                                            });
+                                        } else if (childNode.nodeType === Node.TEXT_NODE) {
+                                            if (childNode.textContent.length !== 0) {
+                                                var fontRule = getFontRuleForElement(childNode);
+                                                if (emphasis &&
+                                                    childNode.textContent.trim().length !== 0 &&
+                                                    (fontRule.bold || fontRule.italics || fontRule.underline)) {
+                                                    customContainerContent += "<emphasis>" + childNode.textContent + "</emphasis>";
+                                                } else {
+                                                    customContainerContent += childNode.textContent;
+                                                }
+                                            }
+                                        } else {
+                                            customContainerContent += convertNodeToDocbook(childNode);
+                                        }
+                                    }
+
+                                    return customContainerContent;
+                                };
+
                                 var generateSpacing = function (outlineLevel) {
                                     var prefix = "";
                                     for (var i = 0; i < outlineLevel * 2; ++i) {
@@ -700,48 +742,6 @@
                                         }
                                     }
 
-                                    /*
-                                        Expand the text:s elements and remarks.
-                                     */
-                                    var expandWhitespaceInNodes = function (node, emphasis) {
-                                        var customContainerContent = "";
-                                        for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
-                                            var childNode = node.childNodes[childIndex];
-                                            if (childNode.nodeName === "text:s") {
-                                                var spaces = 1;
-                                                var spacesAttribute = childNode.getAttribute("text:c");
-                                                if (spacesAttribute !== null) {
-                                                    spaces = parseInt(spacesAttribute);
-                                                }
-                                                for (var i = 0; i < spaces; ++i) {
-                                                    customContainerContent += " ";
-                                                }
-
-                                            } else if (childNode.nodeName === "office:annotation") {
-                                                var remarks = [];
-                                                processRemark(remarks, childNode);
-                                                global.jQuery.each(remarks, function (index, value) {
-                                                    customContainerContent += value;
-                                                });
-                                            } else if (childNode.nodeType === Node.TEXT_NODE) {
-                                                if (childNode.textContent.length !== 0) {
-                                                    fontRule = getFontRuleForElement(childNode);
-                                                    if (emphasis &&
-                                                        childNode.textContent.trim().length !== 0 &&
-                                                        (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        customContainerContent += "<emphasis>" + childNode.textContent + "</emphasis>";
-                                                    } else {
-                                                        customContainerContent += childNode.textContent;
-                                                    }
-                                                }
-                                            } else {
-                                                customContainerContent += expandWhitespaceInNodes(childNode);
-                                            }
-                                        }
-
-                                        return customContainerContent;
-                                    };
-
                                     if (contentNode.textContent.trim().length !== 0) {
                                         /*
                                             It is common to have unnamed styles used to distinguish types of content. For
@@ -813,7 +813,7 @@
                                                     We have defined a container that will hold paragraphs with text all
                                                     of a matching style.
                                                  */
-                                                content.push("<" + matchingRule.docBookElement + ">" + expandWhitespaceInNodes(contentNode) + "</" + matchingRule.docBookElement + ">");
+                                                content.push("<" + matchingRule.docBookElement + ">" + convertNodeToDocbook(contentNode) + "</" + matchingRule.docBookElement + ">");
 
                                                 /*
                                                  For elements like screen we almost always want to merge consecutive
@@ -831,7 +831,7 @@
                                                 /*
                                                     This is a plain old paragraph.
                                                  */
-                                                content.push("<para>" + expandWhitespaceInNodes(contentNode) + "</para>");
+                                                content.push("<para>" + convertNodeToDocbook(contentNode) + "</para>");
                                             }
                                         } else {
                                             /*
@@ -842,7 +842,7 @@
                                                 review any highlighted text and change the <emphasis> to a more
                                                 appropriate tag.
                                              */
-                                            content.push("<para>" + expandWhitespaceInNodes(contentNode, true) + "</para>");
+                                            content.push("<para>" + convertNodeToDocbook(contentNode, true) + "</para>");
                                         }
                                     }
                                 };
@@ -986,7 +986,7 @@
                                         addTopicToSpec(content, title);
                                     }
 
-                                    var newTitle = contentNode.textContent.trim();
+                                    var newTitle = convertNodeToDocbook(contentNode, false);
                                     if (newTitle.length === 0) {
                                         newTitle = "Untitled";
                                     }
