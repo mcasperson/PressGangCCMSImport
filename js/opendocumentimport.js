@@ -671,15 +671,15 @@
                                     content.push("<remark>");
 
                                     var para;
-                                    while((para = paras.iterateNext()) !== null) {
-                                        content.push("<para>" + para.textContent + "</para>");
-                                    }
-
                                     if (creator !== null) {
-                                        content.push("<para>" + creator.textContent + "</para>");
+                                        content.push("<emphasis>" + creator.textContent + " </emphasis>");
                                     }
                                     if (date !== null) {
-                                        content.push("<para>" + date.textContent + "</para>");
+                                        content.push("<emphasis>" + date.textContent + " </emphasis>");
+                                    }
+
+                                    while((para = paras.iterateNext()) !== null) {
+                                        content.push(para.textContent);
                                     }
                                     content.push("</remark>");
                                 }

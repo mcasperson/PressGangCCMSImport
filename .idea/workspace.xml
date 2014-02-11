@@ -133,10 +133,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="668" column="138" selection-start="32152" selection-end="32152" vertical-scroll-proportion="0.18273093" vertical-offset="9838" max-vertical-offset="17625">
+            <state line="677" column="89" selection-start="32615" selection-end="32615" vertical-scroll-proportion="0.33333334" vertical-offset="9823" max-vertical-offset="17625">
               <folding>
-                <marker date="1392090381261" expanded="true" signature="33757:33918" placeholder="..." />
-                <marker date="1392090381261" expanded="true" signature="33832:33918" placeholder="..." />
+                <marker date="1392090795892" expanded="true" signature="33752:33913" placeholder="..." />
+                <marker date="1392090795892" expanded="true" signature="33827:33913" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -559,7 +559,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="62914000" />
-      <workItem from="1392083939292" duration="4953000" />
+      <workItem from="1392083939292" duration="5365000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1325,11 +1325,15 @@
       <created>1392089349126</created>
       <updated>1392089349126</updated>
     </task>
-    <option name="localTasksCounter" value="192" />
+    <task id="LOCAL-00192" summary="Working on comment/remark support&#10;">
+      <created>1392090418479</created>
+      <updated>1392090418479</updated>
+    </task>
+    <option name="localTasksCounter" value="193" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="284612000" />
+    <option name="totallyTimeSpent" value="285024000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -1377,7 +1381,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added Wicked Good XPath - https://code.google.com/p/wicked-good-xpath/" />
     <MESSAGE value="Added processing of revision history" />
     <MESSAGE value="Added processing of revision history&#10;" />
     <MESSAGE value="Working on image upload" />
@@ -1402,7 +1405,8 @@
     <MESSAGE value="Fixed issue with last topic not being added" />
     <MESSAGE value="Fixed issue with last topic not being added&#10;" />
     <MESSAGE value="Working on comment/remark support" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on comment/remark support" />
+    <MESSAGE value="Working on comment/remark support&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on comment/remark support&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1702,10 +1706,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="668" column="138" selection-start="32152" selection-end="32152" vertical-scroll-proportion="0.18273093" vertical-offset="9838" max-vertical-offset="17625">
+        <state line="677" column="89" selection-start="32615" selection-end="32615" vertical-scroll-proportion="0.33333334" vertical-offset="9823" max-vertical-offset="17625">
           <folding>
-            <marker date="1392090381261" expanded="true" signature="33757:33918" placeholder="..." />
-            <marker date="1392090381261" expanded="true" signature="33832:33918" placeholder="..." />
+            <marker date="1392090795892" expanded="true" signature="33752:33913" placeholder="..." />
+            <marker date="1392090795892" expanded="true" signature="33827:33913" placeholder="..." />
           </folding>
         </state>
       </provider>
