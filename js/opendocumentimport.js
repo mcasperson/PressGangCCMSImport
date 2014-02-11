@@ -860,6 +860,8 @@
                                                     listStyle = " numeration='lowerroman'";
                                                 } else if (numFormat === "I") {
                                                     listStyle = " numeration='upperroman'";
+                                                } else {
+                                                    listStyle = " numeration='arabic'";
                                                 }
                                             }
                                         }

@@ -133,10 +133,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="536" column="110" selection-start="23540" selection-end="23540" vertical-scroll-proportion="0.6646586" vertical-offset="7378" max-vertical-offset="17370">
+            <state line="863" column="87" selection-start="46455" selection-end="46455" vertical-scroll-proportion="0.45381525" vertical-offset="12493" max-vertical-offset="17400">
               <folding>
-                <marker date="1392088486651" expanded="true" signature="32228:32389" placeholder="..." />
-                <marker date="1392088486651" expanded="true" signature="32303:32389" placeholder="..." />
+                <marker date="1392088663138" expanded="true" signature="32228:32389" placeholder="..." />
+                <marker date="1392088663138" expanded="true" signature="32303:32389" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -559,7 +559,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="62914000" />
-      <workItem from="1392083939292" duration="3071000" />
+      <workItem from="1392083939292" duration="3255000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1313,11 +1313,15 @@
       <created>1392087838472</created>
       <updated>1392087838472</updated>
     </task>
-    <option name="localTasksCounter" value="189" />
+    <task id="LOCAL-00189" summary="Fixed issue with last topic not being added">
+      <created>1392088543985</created>
+      <updated>1392088543985</updated>
+    </task>
+    <option name="localTasksCounter" value="190" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="282730000" />
+    <option name="totallyTimeSpent" value="282914000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -1365,7 +1369,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Working on parsing the XML" />
     <MESSAGE value="Removed some boilerplate code from the QNA steps" />
     <MESSAGE value="Removed some boilerplate code from the QNA steps&#10;" />
     <MESSAGE value="Added Wicked Good XPath - https://code.google.com/p/wicked-good-xpath/" />
@@ -1390,7 +1393,8 @@
     <MESSAGE value="Started work on ODT import" />
     <MESSAGE value="Started work on ODT import&#10;" />
     <MESSAGE value="Added support for orderedlists with alpha numeration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added support for orderedlists with alpha numeration" />
+    <MESSAGE value="Fixed issue with last topic not being added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with last topic not being added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1690,10 +1694,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="536" column="110" selection-start="23540" selection-end="23540" vertical-scroll-proportion="0.6646586" vertical-offset="7378" max-vertical-offset="17370">
+        <state line="863" column="87" selection-start="46455" selection-end="46455" vertical-scroll-proportion="0.45381525" vertical-offset="12493" max-vertical-offset="17400">
           <folding>
-            <marker date="1392088486651" expanded="true" signature="32228:32389" placeholder="..." />
-            <marker date="1392088486651" expanded="true" signature="32303:32389" placeholder="..." />
+            <marker date="1392088663138" expanded="true" signature="32228:32389" placeholder="..." />
+            <marker date="1392088663138" expanded="true" signature="32303:32389" placeholder="..." />
           </folding>
         </state>
       </provider>
