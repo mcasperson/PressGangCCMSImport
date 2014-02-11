@@ -531,6 +531,12 @@
                                             processList(content, contentNode, images);
                                         }
                                     }
+
+                                    if (content.length !== 0) {
+                                        var prefix = generateSpacing(outlineLevel);
+                                        resultObject.contentSpec.push(prefix + global.escapeSpecTitle(title));
+                                        addTopicToSpec(content, title);
+                                    }
                                 };
 
                                 var generateSpacing = function (outlineLevel) {
@@ -904,6 +910,25 @@
                                     }
                                 };
 
+                                var addTopicToSpec = function (content, title) {
+                                    var xmlString = "";
+                                    global.jQuery.each(content, function(index, value){
+                                        xmlString += value + "\n";
+                                    });
+
+                                    var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
+
+                                    var topic = new global.TopicGraphNode(topicGraph);
+                                    topic.setXml(xml, xml);
+                                    topic.setSpecLine(resultObject.contentSpec.length - 1);
+                                    topic.setTitle(title);
+
+                                    /*
+                                        Empty the array to indicate that we have processed the contents
+                                     */
+                                    content.length = 0;
+                                };
+
                                 var processHeader = function (content, contentNode, title, outlineLevel) {
                                     var prefix = generateSpacing(outlineLevel);
 
@@ -924,7 +949,7 @@
                                         }
                                     } else if (content.length !== 0) {
                                         /*
-                                         We have found some initial text. Put it under an introduction chapter
+                                            We have found some initial text. Put it under an introduction chapter
                                          */
                                         if (title === null) {
                                             title = "Introduction";
@@ -937,17 +962,7 @@
                                             }
                                         }
 
-                                        var xmlString = "";
-                                        global.jQuery.each(content, function(index, value){
-                                            xmlString += value + "\n";
-                                        });
-
-                                        var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
-
-                                        var topic = new global.TopicGraphNode(topicGraph);
-                                        topic.setXml(xml, xml);
-                                        topic.setSpecLine(resultObject.contentSpec.length - 1);
-                                        topic.setTitle(title);
+                                        addTopicToSpec(content, title);
                                     }
 
                                     var newTitle = contentNode.textContent.trim();
