@@ -954,9 +954,14 @@
                                     var prefix = generateSpacing(outlineLevel);
 
                                     var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
-                                    if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
-                                        errorCallback("Outline levels jumped too much");
-                                        return;
+
+                                    for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel; ++missedSteps) {
+                                        if (missedSteps === 0) {
+                                            resultObject.contentSpec.push("Chapter: Missing Chapter");
+                                        } else {
+                                            var myPrefix = generateSpacing(missedSteps);
+                                            resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
+                                        }
                                     }
 
                                     // Last heading had no content before this heading. We only add a container if
@@ -1082,6 +1087,9 @@
 
                                                 topic.setTopicId(data.topic.id);
                                                 topic.xml = global.jQuery.parseXML(data.topic.xml);
+
+                                                //topic.setTopicId(data.id);
+                                                //topic.xml = global.jQuery.parseXML(data.xml);
 
                                                 createTopics(index + 1, callback);
                                             },
