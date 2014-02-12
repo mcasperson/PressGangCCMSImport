@@ -119,6 +119,21 @@
         return this;
     };
 
+    global.QNAStep.prototype.getShowNextName = function () {
+        return typeof this.processedShowNext === "string" ?
+            this.processedShowNext : "Next";
+    };
+
+    global.QNAStep.prototype.getShowPreviousName = function () {
+        return typeof this.processedShowPrevious === "string" ?
+            this.processedShowPrevious : "Previous";
+    };
+
+    global.QNAStep.prototype.getShowRestartName = function () {
+        return typeof this.showRestartProcessed === "string" ?
+            this.showRestartProcessed : "Restart";
+    };
+
     global.QNAStep.prototype.setShowRestart = function (showRestart) {
         this.showRestart = showRestart;
         return this;

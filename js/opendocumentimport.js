@@ -128,7 +128,7 @@
             }
         })
         .setNextStep(function (resultCallback) {
-            resultCallback(specifyTheServer);
+            resultCallback(useStyleRules);
         });
 
     /*
@@ -150,8 +150,9 @@
                 ])
         ])
         .setNextStep(function (resultCallback) {
-            resultCallback(useStyleRules);
-        });
+            resultCallback(processOdt);
+        })
+        .setShowNext("Start Import");
 
     var useStyleRules = new global.QNAStep()
         .setTitle("Do you want to define additional style rules")
@@ -169,7 +170,7 @@
                 ])
         ])
         .setNextStep(function (resultCallback, errorCallback, result, config) {
-            resultCallback(config.UseStyleRules === "Yes" ? setParaRules : processOdt);
+            resultCallback(config.UseStyleRules === "Yes" ? setParaRules : specifyTheServer);
         });
 
     function getRulesText(rulesCollection) {
@@ -403,7 +404,7 @@
             }
         })
         .setNextStep(function (resultCallback, errorCallback, result, config) {
-            resultCallback(config.DefineAnotherRule ? setParaRules : processOdt);
+            resultCallback(config.DefineAnotherRule ? setParaRules : specifyTheServer);
         });
 
     /*
