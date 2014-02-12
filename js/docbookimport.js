@@ -269,7 +269,8 @@
         ])
         .setNextStep(function (resultCallback) {
             resultCallback(processZipFile);
-        });
+        })
+        .setShowNext("Start Import");
 
     /*
      Step 5 - Process the zip file
