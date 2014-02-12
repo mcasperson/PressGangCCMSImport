@@ -366,6 +366,10 @@
         ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
+            global.onbeforeunload=function(){
+                return "The import process is in progress. Are you sure you want to quit?";
+            };
+
             /**
              * A collection of entity definitions
              * @type {Array}
@@ -1707,6 +1711,8 @@
             resolveXiIncludes();
         })
         .setNextStep(function (resultCallback) {
+            global.onunload = undefined;
+
             resultCallback(summary);
         })
         .setShowNext(false)

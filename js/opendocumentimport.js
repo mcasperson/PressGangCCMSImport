@@ -345,10 +345,9 @@
             if (!config.DocBookElement) {
                 errorCallback("incomplete form", "Please specify the DocBook element that this rule will create.");
                 return;
-            } else {
-                fontRule.setDocBookElement(config.DocBookElement);
             }
 
+            fontRule.setDocBookElement(config.DocBookElement);
             fontRule.setMerge(config.MergeConsecutiveElements);
 
             var atLeastOneRule = false;
@@ -469,6 +468,10 @@
         ])
         .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
+            global.onbeforeunload=function(){
+                return "The import process is in progress. Are you sure you want to quit?";
+            };
+
             var progressIncrement = 100 / 4;
 
             var resultObject = JSON.parse(result);
@@ -515,23 +518,93 @@
                             } else {
                                 // these nodes make up the content that we will import
                                 var contentNodes = contentsXML.evaluate("*", body, resolver, global.XPathResult.ANY_TYPE, null);
+                                var childNodeCount = 0;
+                                var contentNode;
+                                while ((contentNode = contentNodes.iterateNext()) !== null) {
+                                    ++childNodeCount;
+                                }
+
+                                contentNodes = contentsXML.evaluate("*", body, resolver, global.XPathResult.ANY_TYPE, null);
 
                                 var images = {};
 
-                                var processTopic = function (title, outlineLevel) {
+                                var currentChild = 0;
+                                var processTopic = function (title, outlineLevel, contentNodes, successCallback) {
                                     var content = [];
-                                    var contentNode;
-                                    while ((contentNode = contentNodes.iterateNext()) !== null) {
+                                    var contentNode = contentNodes.iterateNext();
+                                    if (contentNode !== null) {
+
+                                        config.UploadProgress[1] = progressIncrement * (currentChild / body.childNodes.length);
+                                        resultCallback();
+                                        ++currentChild;
+
                                         // headers indicate container or topic boundaries
                                         if (contentNode.nodeName === "text:h") {
-                                            processHeader(content, contentNode, title, outlineLevel);
-                                            break;
+                                            processHeader(content, contentNode, title, outlineLevel, contentNodes, successCallback);
+                                            return;
                                         } else if (contentNode.nodeName === "text:p") {
                                             processPara(content, contentNode, images);
                                         } else if (contentNode.nodeName === "text:list") {
                                             processList(content, contentNode, images);
+                                        } else if (contentNode.nodeName == "office:annotation") {
+                                            processRemark(content, contentNode);
+                                        }
+
+                                        global.setTimeout(function() {
+                                            processTopic(title, outlineLevel, contentNodes, successCallback);
+                                        }, 0);
+                                    } else {
+
+                                        if (content.length !== 0) {
+                                            var prefix = generateSpacing(outlineLevel);
+                                            resultObject.contentSpec.push(prefix + global.escapeSpecTitle(title));
+                                            addTopicToSpec(content, title);
+                                        }
+
+                                        successCallback();
+                                    }
+                                };
+
+                                /*
+                                 Expand the text:s elements and remarks.
+                                 */
+                                var convertNodeToDocbook = function (node, emphasis) {
+                                    var customContainerContent = "";
+                                    for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
+                                        var childNode = node.childNodes[childIndex];
+                                        if (childNode.nodeName === "text:s") {
+                                            var spaces = 1;
+                                            var spacesAttribute = childNode.getAttribute("text:c");
+                                            if (spacesAttribute !== null) {
+                                                spaces = parseInt(spacesAttribute);
+                                            }
+                                            for (var i = 0; i < spaces; ++i) {
+                                                customContainerContent += " ";
+                                            }
+
+                                        } else if (childNode.nodeName === "office:annotation") {
+                                            var remarks = [];
+                                            processRemark(remarks, childNode);
+                                            global.jQuery.each(remarks, function (index, value) {
+                                                customContainerContent += value;
+                                            });
+                                        } else if (childNode.nodeType === Node.TEXT_NODE) {
+                                            if (childNode.textContent.length !== 0) {
+                                                var fontRule = getFontRuleForElement(childNode);
+                                                if (emphasis &&
+                                                    childNode.textContent.trim().length !== 0 &&
+                                                    (fontRule.bold || fontRule.italics || fontRule.underline)) {
+                                                    customContainerContent += "<emphasis>" + childNode.textContent + "</emphasis>";
+                                                } else {
+                                                    customContainerContent += childNode.textContent;
+                                                }
+                                            }
+                                        } else {
+                                            customContainerContent += convertNodeToDocbook(childNode);
                                         }
                                     }
+
+                                    return customContainerContent;
                                 };
 
                                 var generateSpacing = function (outlineLevel) {
@@ -656,6 +729,27 @@
                                     }
                                 };
 
+                                var processRemark = function(content, contentNode) {
+                                    var creator = contentsXML.evaluate("./dc:creator", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    var date = contentsXML.evaluate("./dc:date", contentNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    var paras = contentsXML.evaluate("./text:p", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
+
+                                    content.push("<remark>");
+
+                                    var para;
+                                    if (creator !== null) {
+                                        content.push("<emphasis>" + creator.textContent + " </emphasis>");
+                                    }
+                                    if (date !== null) {
+                                        content.push("<emphasis>" + date.textContent + " </emphasis>");
+                                    }
+
+                                    while((para = paras.iterateNext()) !== null) {
+                                        content.push(para.textContent);
+                                    }
+                                    content.push("</remark>");
+                                }
+
                                 var processPara = function (content, contentNode, imageLinks) {
                                     var images = contentsXML.evaluate(".//draw:image", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
                                     var image;
@@ -673,9 +767,6 @@
                                     }
 
                                     if (contentNode.textContent.trim().length !== 0) {
-
-
-
                                         /*
                                             It is common to have unnamed styles used to distinguish types of content. For
                                             example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
@@ -742,41 +833,11 @@
                                             });
 
                                             if (matchingRule !== undefined) {
-
-                                                /*
-                                                    Whitespace is condensed in normal paras. But here we are wrapping the content
-                                                    up in a container that may preserve the whitespace, so we need to
-                                                    expand the text:s elements.
-                                                 */
-                                                var expandWhitespaceInNodes = function (node) {
-                                                    var customContainerContent = "";
-                                                    for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
-                                                        var textOrSpaceNode = node.childNodes[childIndex];
-                                                        if (textOrSpaceNode.nodeName === "text:s") {
-                                                            var spaces = 1;
-                                                            var spacesAttribute = textOrSpaceNode.getAttribute("text:c");
-                                                            if (spacesAttribute !== null) {
-                                                                spaces = parseInt(spacesAttribute);
-                                                            }
-                                                            for (var i = 0; i < spaces; ++i) {
-                                                                customContainerContent += " ";
-                                                            }
-
-                                                        } else if (textOrSpaceNode.nodeType === Node.TEXT_NODE) {
-                                                            customContainerContent += textOrSpaceNode.textContent;
-                                                        } else {
-                                                            customContainerContent += expandWhitespaceInNodes(textOrSpaceNode);
-                                                        }
-                                                    }
-
-                                                    return customContainerContent;
-                                                };
-
                                                 /*
                                                     We have defined a container that will hold paragraphs with text all
                                                     of a matching style.
                                                  */
-                                                content.push("<" + matchingRule.docBookElement + ">" + expandWhitespaceInNodes(contentNode) + "</" + matchingRule.docBookElement + ">");
+                                                content.push("<" + matchingRule.docBookElement + ">" + convertNodeToDocbook(contentNode) + "</" + matchingRule.docBookElement + ">");
 
                                                 /*
                                                  For elements like screen we almost always want to merge consecutive
@@ -794,7 +855,7 @@
                                                 /*
                                                     This is a plain old paragraph.
                                                  */
-                                                content.push("<para>" + contentNode.textContent + "</para>");
+                                                content.push("<para>" + convertNodeToDocbook(contentNode) + "</para>");
                                             }
                                         } else {
                                             /*
@@ -805,36 +866,47 @@
                                                 review any highlighted text and change the <emphasis> to a more
                                                 appropriate tag.
                                              */
-                                            var paraContent = "";
-                                            textNodes = contentsXML.evaluate(".//text()", contentNode, resolver, global.XPathResult.ANY_TYPE, null);
-                                            while((textNode = textNodes.iterateNext()) !== null) {
-                                                if (textNode.textContent.length !== 0) {
-                                                    fontRule = getFontRuleForElement(textNode);
-                                                    if (textNode.textContent.trim().length !== 0 && (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        paraContent += "<emphasis>" + textNode.textContent + "</emphasis>";
-                                                    } else {
-                                                        paraContent += textNode.textContent;
-                                                    }
-                                                }
-                                            }
-
-                                            content.push("<para>" + paraContent + "</para>");
+                                            content.push("<para>" + convertNodeToDocbook(contentNode, true) + "</para>");
                                         }
                                     }
                                 };
 
-                                var processList = function (content, contentNode, imageLinks) {
+                                var processList = function (content, contentNode, imageLinks, depth, style) {
+
+                                    if (style === undefined) {
+                                        style = contentNode.getAttribute("text:style-name");
+                                    }
+
+                                    if (depth === undefined) {
+                                        depth = 1;
+                                    }
+
                                     /*
                                         Find out if this is a numbered or bullet list
                                      */
-                                    var itemizedList = true;
-                                    var styleName = contentNode.getAttribute("text:style-name");
-                                    if (styleName !== null) {
-                                        var style = contentsXML.evaluate("//text:list-style[@style:name='" + styleName + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                        if (style !== null) {
-                                            var listStyleNumber = contentsXML.evaluate("./text:list-level-style-number", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            //var listStyleBullet = contentsXML.evaluate("./text:text:list-level-style-bullet", style, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
-                                            itemizedList = listStyleNumber === null;
+                                    var listType = "itemizedlist";
+                                    var listStyle = "";
+                                    if (style !== null) {
+                                        var styleNode = contentsXML.evaluate("//text:list-style[@style:name='" + style + "']", contentsXML, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                        if (styleNode !== null) {
+                                            var listStyleNumber = contentsXML.evaluate("./text:list-level-style-number[@text:level='" + depth + "']", styleNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            //var listStyleBullet = contentsXML.evaluate("./text:text:list-level-style-bullet", styleNode, resolver, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                            listType = listStyleNumber === null ? "itemizedlist" : "orderedlist";
+
+                                            if (listStyleNumber !== null) {
+                                                var numFormat = listStyleNumber.getAttribute("style:num-format");
+                                                if (numFormat === "a") {
+                                                    listStyle = " numeration='loweralpha'";
+                                                } else if (numFormat === "A") {
+                                                    listStyle = " numeration='upperalpha'";
+                                                }  else if (numFormat === "i") {
+                                                    listStyle = " numeration='lowerroman'";
+                                                } else if (numFormat === "I") {
+                                                    listStyle = " numeration='upperroman'";
+                                                } else {
+                                                    listStyle = " numeration='arabic'";
+                                                }
+                                            }
                                         }
                                     }
 
@@ -853,7 +925,7 @@
 
                                     var listItem;
                                     if ((listItem = listItems.iterateNext()) !== null) {
-                                        content.push(itemizedList ? "<itemizedlist>" : "<orderedlist>");
+                                        content.push("<" + listType + listStyle + ">");
 
                                         global.jQuery.each(listItemsHeaderContent, function (index, value) {
                                             content.push(value);
@@ -867,14 +939,14 @@
                                                 if (childNode.nodeName === "text:p") {
                                                     processPara(content, childNode, imageLinks);
                                                 } else if (childNode.nodeName === "text:list") {
-                                                    processList(content, childNode, imageLinks);
+                                                    processList(content, childNode, imageLinks, depth + 1, style);
                                                 }
                                             });
 
                                             content.push("</listitem>");
                                         } while ((listItem = listItems.iterateNext()) !== null);
 
-                                        content.push(itemizedList ? "</itemizedlist>" : "</orderedlist>");
+                                        content.push("</" + listType + ">");
                                     } else {
                                         // we have found a list that contains only a header. this is really just a para
                                         global.jQuery.each(listItemsHeaderContent, function (index, value) {
@@ -883,13 +955,37 @@
                                     }
                                 };
 
-                                var processHeader = function (content, contentNode, title, outlineLevel) {
+                                var addTopicToSpec = function (content, title) {
+                                    var xmlString = "";
+                                    global.jQuery.each(content, function(index, value){
+                                        xmlString += value + "\n";
+                                    });
+
+                                    var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
+
+                                    var topic = new global.TopicGraphNode(topicGraph);
+                                    topic.setXml(xml, xml);
+                                    topic.setSpecLine(resultObject.contentSpec.length - 1);
+                                    topic.setTitle(title);
+
+                                    /*
+                                        Empty the array to indicate that we have processed the contents
+                                     */
+                                    content.length = 0;
+                                };
+
+                                var processHeader = function (content, contentNode, title, outlineLevel, contentNodes, successCallback) {
                                     var prefix = generateSpacing(outlineLevel);
 
                                     var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
-                                    if (newOutlineLevel > outlineLevel && Math.abs(newOutlineLevel - outlineLevel) > 1) {
-                                        errorCallback("Outline levels jumped too much");
-                                        return;
+
+                                    for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel; ++missedSteps) {
+                                        if (missedSteps === 0) {
+                                            resultObject.contentSpec.push("Chapter: Missing Chapter");
+                                        } else {
+                                            var myPrefix = generateSpacing(missedSteps);
+                                            resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
+                                        }
                                     }
 
                                     // Last heading had no content before this heading. We only add a container if
@@ -903,7 +999,7 @@
                                         }
                                     } else if (content.length !== 0) {
                                         /*
-                                         We have found some initial text. Put it under an introduction chapter
+                                            We have found some initial text. Put it under an introduction chapter
                                          */
                                         if (title === null) {
                                             title = "Introduction";
@@ -916,34 +1012,30 @@
                                             }
                                         }
 
-                                        var xmlString = "";
-                                        global.jQuery.each(content, function(index, value){
-                                            xmlString += value + "\n";
-                                        });
-
-                                        var xml = global.jQuery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
-
-                                        var topic = new global.TopicGraphNode(topicGraph);
-                                        topic.setXml(xml, xml);
-                                        topic.setSpecLine(resultObject.contentSpec.length - 1);
-                                        topic.setTitle(title);
+                                        addTopicToSpec(content, title);
                                     }
 
-                                    var newTitle = contentNode.textContent.trim();
+                                    var newTitle = convertNodeToDocbook(contentNode, false);
                                     if (newTitle.length === 0) {
                                         newTitle = "Untitled";
                                     }
 
                                     newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
 
-                                    processTopic(newTitle, newOutlineLevel);
+                                    global.setTimeout(function() {
+                                            processTopic(newTitle, newOutlineLevel, contentNodes, successCallback);
+                                    }, 0);
                                 };
 
-                                processTopic(null, 0);
+                                processTopic(null, 0, contentNodes, function() {
+                                    config.UploadProgress[1] = progressIncrement;
+                                    config.ResolvedBookStructure = true;
+                                    resultCallback();
 
-                                config.UploadProgress[1] = progressIncrement;
-                                config.ResolvedBookStructure = true;
-                                resultCallback();
+                                    uploadImagesLoop();
+                                });
+
+
 
                                 var uploadImages = function (index, imagesKeys, callback) {
                                     if (index >= imagesKeys.length) {
@@ -1026,6 +1118,9 @@
                                                 topic.setTopicId(data.topic.id);
                                                 topic.xml = global.jQuery.parseXML(data.topic.xml);
 
+                                                //topic.setTopicId(data.id);
+                                                //topic.xml = global.jQuery.parseXML(data.xml);
+
                                                 createTopics(index + 1, callback);
                                             },
                                             errorCallback
@@ -1066,8 +1161,6 @@
                                         );
                                     });
                                 };
-
-                                uploadImagesLoop();
                             }
                         },
                         errorCallback
@@ -1077,6 +1170,8 @@
             );
         })
         .setNextStep(function (resultCallback) {
+            global.onunload = undefined;
+
             resultCallback(summary);
         });
 
