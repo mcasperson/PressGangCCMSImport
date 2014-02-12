@@ -736,7 +736,7 @@
                         contentSpec.push("Version = " + reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
                     }
 
-                    contentSpec.push("DTD = Docbook 4.5");
+                    contentSpec.push("Format = Docbook 4.5");
                     contentSpec.push("Copyright Holder = Red Hat");
 
                     if (xmlDoc.documentElement.nodeName === "book") {
