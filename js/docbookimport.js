@@ -166,7 +166,9 @@
 
                                 global.angular.forEach(entries, function (value, key) {
                                     if (/^.*?\.xml$/.test(value.filename)) {
-                                        retValue.push(value.filename);
+                                        if (!/^tmp\//.test(value.filename)) {
+                                            retValue.push(value.filename);
+                                        }
                                     }
                                 });
 
