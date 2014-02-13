@@ -19,8 +19,35 @@
     var ABSTRACT_TAG_ID = 692;
 
     function removeXmlPreamble (xmlText) {
-        xmlText = xmlText.replace(/<\?xml.*?>/g, "");
-        xmlText = xmlText.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*?\])*>/g, "");
+
+        var replaceMatchesNotInCDATA = function(regex, text) {
+            var retValue = "";
+            var match;
+            while ((match = regex.exec(text)) !== null) {
+                var previousString = text.substr(0, match.index);
+                var lastStartCDATA = previousString.lastIndexOf("<[CDATA[");
+                var lastEndCDATA = previousString.lastIndexOf("]]>");
+
+                /*
+                 The xml preface element was in a cdata element, so ignore it
+                 */
+                if ((lastStartCDATA === -1 && lastEndCDATA === -1) ||
+                    (lastStartCDATA !== -1 &&
+                    (lastEndCDATA === -1 || lastEndCDATA < lastStartCDATA))) {
+                    retValue += text.substr(0, match.index);
+                } else {
+                    retValue += text.substr(0, match.index + match[0].length);
+                }
+
+                text = text.substr(match.index + match[0].length);
+            }
+
+            return retValue;
+        };
+
+        xmlText = replaceMatchesNotInCDATA(/<\?xml.*?>/, xmlText);
+        xmlText = replaceMatchesNotInCDATA(/<!DOCTYPE[\s\S]*?(\[[\s\S]*?\])*>/, xmlText);
+
         return xmlText;
     }
 
