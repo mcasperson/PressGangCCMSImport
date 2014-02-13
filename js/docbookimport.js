@@ -872,7 +872,7 @@
                     if (revHistoryTitle) {
                         contentSpec.push("Revision History = ");
 
-                        var id = revHistory.getAttribute("id");
+                        var id = parentAppendix.getAttribute("id");
 
                         var revHistoryFixedXML = global.jQuery.parseXML("<appendix><title>" +
                             revHistoryTitleContents +
@@ -881,7 +881,7 @@
                             "</simpara></appendix>");
 
                         var topic = new global.TopicGraphNode(topicGraph)
-                            .setXml(removeIdAttribute(revHistory), xmlDoc)
+                            .setXml(revHistoryFixedXML, xmlDoc)
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle(revHistoryTitleContents)
                             .addTag(REVISION_HISTORY_TAG_ID);

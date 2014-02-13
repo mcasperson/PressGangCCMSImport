@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1110" />
+    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1116" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/specelement.js" afterPath="$PROJECT_DIR$/js/specelement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -132,19 +131,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="882" column="0" selection-start="41210" selection-end="41244" vertical-scroll-proportion="-12.925926" vertical-offset="12881" max-vertical-offset="27900">
+            <state line="874" column="47" selection-start="40852" selection-end="40852" vertical-scroll-proportion="0.2578125" vertical-offset="12879" max-vertical-offset="27990">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="specelement.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="38" selection-start="3436" selection-end="3436" vertical-scroll-proportion="-0.11551155" vertical-offset="1485" max-vertical-offset="7095">
+            <state line="99" column="9" selection-start="3739" selection-end="3739" vertical-scroll-proportion="-13.333333" vertical-offset="1125" max-vertical-offset="7095">
               <folding />
             </state>
           </provider>
@@ -197,8 +196,8 @@
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
-        <option value="$PROJECT_DIR$/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/js/specelement.js" />
+        <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -766,7 +765,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="17130000" />
+      <workItem from="1392244121755" duration="19321000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1572,11 +1571,19 @@
       <created>1392263369255</created>
       <updated>1392263369255</updated>
     </task>
-    <option name="localTasksCounter" value="202" />
+    <task id="LOCAL-00202" summary="Added ability to find preface&#10;">
+      <created>1392267211922</created>
+      <updated>1392267211922</updated>
+    </task>
+    <task id="LOCAL-00203" summary="Added ability to find preface&#10;">
+      <created>1392268076921</created>
+      <updated>1392268076921</updated>
+    </task>
+    <option name="localTasksCounter" value="204" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="298587000" />
+    <option name="totallyTimeSpent" value="300778000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1995,16 +2002,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
+    <entry file="file://$PROJECT_DIR$/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="882" column="0" selection-start="41210" selection-end="41244" vertical-scroll-proportion="-12.925926" vertical-offset="12881" max-vertical-offset="27900">
+        <state line="99" column="9" selection-start="3739" selection-end="3739" vertical-scroll-proportion="-13.333333" vertical-offset="1125" max-vertical-offset="7095">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/specelement.js">
+    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="38" selection-start="3436" selection-end="3436" vertical-scroll-proportion="-0.11551155" vertical-offset="1485" max-vertical-offset="7095">
+        <state line="874" column="47" selection-start="40852" selection-end="40852" vertical-scroll-proportion="0.2578125" vertical-offset="12879" max-vertical-offset="27990">
           <folding />
         </state>
       </provider>
