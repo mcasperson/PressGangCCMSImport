@@ -90,7 +90,7 @@
         this.xrefs = [];
 
         // find any xrefs in the xml
-        var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
+        var xrefs = xmlDoc.evaluate(".//xref", xml, null, global.XPathResult.ANY_TYPE, null);
         var xref;
         while ((xref = xrefs.iterateNext()) !== null) {
             if (xref.hasAttribute("linkend")) {
@@ -104,6 +104,14 @@
 
     global.TopicGraphNode.prototype.setTitle = function (title) {
         this.title = title;
+        return this;
+    };
+
+    global.TopicGraphNode.prototype.addTag = function (tag) {
+        if (this.tags === undefined) {
+            this.tags = [];
+        }
+        this.tags.push(tag);
         return this;
     };
 

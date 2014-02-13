@@ -751,6 +751,13 @@
                 findBookInfo(xmlDoc, entities);
             }
 
+            var removeIdAttribute = function (xml) {
+                if (xml.hasAttribute("id")) {
+                    xml.removeAttribute("id");
+                }
+                return xml;
+            };
+
             /*
              Find the book info details
              */
@@ -841,15 +848,17 @@
                 extractRevisionHistory(xmlDoc, contentSpec);
             }
 
-            function extractRevisionHistory (xmlDoc, contentSpec) {
-                var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+            function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
+                if (topics === undefined) {
+                    topics = [];
+                }
 
-                var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 7 * progressIncrement;
-                    config.FoundRevisionHistory = true;
-                    resultCallback();
-                    extractAuthorGroup(xmlDoc, contentSpec);
-                };
+                // the graph that holds the topics
+                if (topicGraph === undefined) {
+                    topicGraph = new global.TopicGraph();
+                }
+
+                var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                 if (revHistory) {
 
@@ -858,155 +867,148 @@
 
                     }
                     var revHistoryTitle = xmlDoc.evaluate("./title", parentAppendix, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(global.xmlToString(revHistoryTitle))[1];
 
                     if (revHistoryTitle) {
-                        createTopic(
-                            true,
-                            "<appendix>" + global.xmlToString(revHistoryTitle) + "<simpara>" + reencode(global.xmlToString(revHistory), replacements).trim() + "</simpara></appendix>",
-                            "Revision History",
-                            [REVISION_HISTORY_TAG_ID],
-                            config,
-                            function (data) {
-                                config.RevisionHistoryTopicID = data.topic.id;
-                                config.UploadedTopicCount += 1;
-                                if (data.matchedExistingTopic) {
-                                    config.MatchedTopicCount += 1;
-                                }
+                        contentSpec.push("Revision History = ");
 
-                                config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                        var id = revHistory.getAttribute("id");
 
-                                contentSpec.push("Revision History = [" + data.topic.id + "]");
+                        var topic = new global.TopicGraphNode(topicGraph)
+                            .setXml(removeIdAttribute(revHistory), xmlDoc)
+                            .setSpecLine(contentSpec.length - 1)
+                            .setTitle(revHistoryTitleContents)
+                            .addTag(REVISION_HISTORY_TAG_ID);
 
-                                done(xmlDoc, contentSpec);
-                            },
-                            errorCallback
-                        );
-                    } else {
-                        done(xmlDoc, contentSpec);
+                        if (id) {
+                            topic.addXmlId(id);
+                        }
+
+                        topics.push(topic);
                     }
-                } else {
-                    done(xmlDoc, contentSpec);
                 }
+
+                config.UploadProgress[1] = 7 * progressIncrement;
+                config.FoundRevisionHistory = true;
+                resultCallback();
+                extractAuthorGroup(xmlDoc, contentSpec, topics, topicGraph);
             }
 
-            function extractAuthorGroup (xmlDoc, contentSpec) {
+            function extractAuthorGroup (xmlDoc, contentSpec, topics, topicGraph) {
+                if (topics === undefined) {
+                    topics = [];
+                }
+
+                // the graph that holds the topics
+                if (topicGraph === undefined) {
+                    topicGraph = new global.TopicGraph();
+                }
+
                 var authorGroup = xmlDoc.evaluate("//authorgroup", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
-                var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 8 * progressIncrement;
-                    config.FoundAuthorGroup = true;
-                    resultCallback();
-
-                    extractAbstract(xmlDoc, contentSpec);
-                };
-
                 if (authorGroup) {
-                    createTopic(
-                        true,
-                        setDocumentNodeToSection(reencode(global.xmlToString(authorGroup), replacements).trim()),
-                        "Author Group",
-                        [AUTHOR_GROUP_TAG_ID],
-                        config,
-                        function (data) {
-                            config.AuthorGroupTopicID = data.topic.id;
-                            config.UploadedTopicCount += 1;
-                            if (data.matchedExistingTopic) {
-                                config.MatchedTopicCount += 1;
-                            }
+                    contentSpec.push("Author Group = ");
 
-                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                    var id = authorGroup.getAttribute("id");
 
-                            contentSpec.push("Author Group = [" + data.topic.id + "]");
+                    var topic = new global.TopicGraphNode(topicGraph)
+                        .setXml(removeIdAttribute(authorGroup), xmlDoc)
+                        .setSpecLine(contentSpec.length - 1)
+                        .setTitle("Author Group")
+                        .addTag(AUTHOR_GROUP_TAG_ID);
 
-                            done(xmlDoc, contentSpec);
-                        },
-                        errorCallback
-                    );
-                } else {
-                    done(xmlDoc, contentSpec);
+                    if (id) {
+                        topic.addXmlId(id);
+                    }
+
+                    topics.push(topic);
                 }
+
+
+                config.UploadProgress[1] = 8 * progressIncrement;
+                config.FoundAuthorGroup = true;
+                resultCallback();
+
+                extractAbstract(xmlDoc, contentSpec, topics, topicGraph);
             }
 
-            function extractAbstract (xmlDoc, contentSpec) {
+            function extractAbstract (xmlDoc, contentSpec, topics, topicGraph) {
+                if (topics === undefined) {
+                    topics = [];
+                }
+
+                // the graph that holds the topics
+                if (topicGraph === undefined) {
+                    topicGraph = new global.TopicGraph();
+                }
+
                 var abstractContent = xmlDoc.evaluate("//bookinfo/abstract", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
-                var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 9 * progressIncrement;
-                    config.FoundAbstract = true;
-                    resultCallback();
-
-                    extractPreface(xmlDoc, contentSpec);
-                };
-
                 if (abstractContent) {
-                    createTopic(
-                        true,
-                        setDocumentNodeToSection(reencode(global.xmlToString(abstractContent), replacements).trim()),
-                        "Abstract",
-                        [ABSTRACT_TAG_ID],
-                        config,
-                        function (data) {
-                            config.AbstractID = data.topic.id;
-                            config.UploadedTopicCount += 1;
-                            if (data.matchedExistingTopic) {
-                                config.MatchedTopicCount += 1;
-                            }
+                    contentSpec.push("Abstract = ");
 
-                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                    var id = abstractContent.getAttribute("id");
 
-                            contentSpec.push("Abstract = [" + data.topic.id + "]");
+                    var topic = new global.TopicGraphNode(topicGraph)
+                        .setXml(removeIdAttribute(abstractContent), xmlDoc)
+                        .setSpecLine(contentSpec.length - 1)
+                        .setTitle("Abstract")
+                        .addTag(ABSTRACT_TAG_ID);
 
-                            done(xmlDoc, contentSpec);
-                        },
-                        errorCallback
-                    );
-                } else {
-                    done(xmlDoc, contentSpec);
+                    if (id) {
+                        topic.addXmlId(id);
+                    }
+
+                    topics.push(topic);
                 }
+
+                config.UploadProgress[1] = 9 * progressIncrement;
+                config.FoundAbstract = true;
+                resultCallback();
+
+                extractPreface(xmlDoc, contentSpec, topics, topicGraph);
             }
 
-            function extractPreface (xmlDoc, contentSpec) {
+            function extractPreface (xmlDoc, contentSpec, topics, topicGraph) {
+                if (topics === undefined) {
+                    topics = [];
+                }
+
+                // the graph that holds the topics
+                if (topicGraph === undefined) {
+                    topicGraph = new global.TopicGraph();
+                }
+
                 var preface = xmlDoc.evaluate("//preface", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-
-                var done = function (xmlDoc, contentSpec) {
-                    config.UploadProgress[1] = 9 * progressIncrement;
-                    config.FoundPreface = true;
-                    resultCallback();
-
-                    uploadImages(xmlDoc, contentSpec);
-                };
-
                 if (preface) {
-                    createTopic(
-                        true,
-                        setDocumentNodeToSection(reencode(global.xmlToString(preface), replacements).trim()),
-                        "Preface",
-                        [],
-                        config,
-                        function (data) {
-                            config.PrefaceId = data.topic.id;
-                            config.UploadedTopicCount += 1;
-                            if (data.matchedExistingTopic) {
-                                config.MatchedTopicCount += 1;
-                            }
+                    var prefaceTitle = xmlDoc.evaluate("./title", preface, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var prefaceTitleContents = /<title>(.*?)<\/title>/.exec(global.xmlToString(prefaceTitle))[1];
 
-                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                    contentSpec.push("Preface: " + prefaceTitleContents);
 
-                            var title = /<title>(.*?)<\/title>/.exec(data.topic.xml);
-                            if (title) {
-                                contentSpec.push("Preface: " + title[1] + " [" + data.topic.id + "]");
-                            }
+                    var id = preface.getAttribute("id");
 
-                            done(xmlDoc, contentSpec);
-                        },
-                        errorCallback
-                    );
-                } else {
-                    done(xmlDoc, contentSpec);
+                    var topic = new global.TopicGraphNode(topicGraph)
+                        .setXml(removeIdAttribute(preface), xmlDoc)
+                        .setSpecLine(contentSpec.length - 1)
+                        .setTitle(prefaceTitleContents);
+
+                    if (id) {
+                        topic.addXmlId(id);
+                    }
+
+                    topics.push(topic);
                 }
+
+                config.UploadProgress[1] = 9 * progressIncrement;
+                config.FoundPreface = true;
+                resultCallback();
+
+                uploadImages(xmlDoc, contentSpec, topics, topicGraph);
+
             }
 
-            function uploadImages (xmlDoc, contentSpec) {
+            function uploadImages (xmlDoc, contentSpec, topics, topicGraph) {
                 // count the numbe of images we are uploading
                 var images = xmlDoc.evaluate("//@fileref", xmlDoc, null, global.XPathResult.ANY_TYPE, null);
                 var numImages = 0;
@@ -1094,33 +1096,19 @@
                         config.FoundImages = true;
                         resultCallback();
 
-                        resolveBookStructure(xmlDoc, contentSpec);
+                        resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
                     }
                 };
 
                 processImages(images.iterateNext(), 0);
             }
 
-            function resolveBookStructure (xmlDoc, contentSpec) {
-
+            function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
                 // so we can work back to the original source
                 contentSpec.push("# Imported from " + config.ZipFile.name);
 
-                // the graph that holds the topics
-                var topicGraph = new global.TopicGraph();
-
                 // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
                 var sectionTypes = ["part", "chapter", "appendix", "section"];
-
-                // a collection of all the topics we will e uploading
-                var topics = [];
-
-                var removeIdAttribute = function (xml) {
-                    if (xml.hasAttribute("id")) {
-                        xml.removeAttribute("id");
-                    }
-                    return xml;
-                };
 
                 var processXml = function (parentXML, containerId, depth) {
                     // loop over the containers under the root element
@@ -1407,8 +1395,6 @@
 
                 }
 
-
-
                 var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
                 /*
@@ -1688,7 +1674,7 @@
                                 false,
                                 setDocumentNodeToSection(reencode(global.xmlToString(topic.xml), replacements).trim()),
                                 topic.title,
-                                null,
+                                topic.tags,
                                 config, function (data) {
                                     topic.setTopicId(data.id);
                                     topic.createdTopic = true;
