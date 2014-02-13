@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -70,10 +71,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="183" column="36" selection-start="8509" selection-end="8509" vertical-scroll-proportion="-46.0" vertical-offset="1503" max-vertical-offset="18270">
+            <state line="777" column="92" selection-start="39138" selection-end="39142" vertical-scroll-proportion="-10.703704" vertical-offset="11366" max-vertical-offset="18270">
               <folding>
-                <marker date="1392248663895" expanded="true" signature="37957:38118" placeholder="..." />
-                <marker date="1392248663895" expanded="true" signature="38032:38118" placeholder="..." />
+                <marker date="1392254049528" expanded="true" signature="37957:38118" placeholder="..." />
+                <marker date="1392254049528" expanded="true" signature="38032:38118" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -118,7 +119,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="29" selection-start="1942" selection-end="1942" vertical-scroll-proportion="0.5224396" vertical-offset="191" max-vertical-offset="26850">
+            <state line="824" column="41" selection-start="38687" selection-end="38701" vertical-scroll-proportion="0.26352128" vertical-offset="12131" max-vertical-offset="27015">
               <folding />
             </state>
           </provider>
@@ -170,8 +171,8 @@
         <option value="$PROJECT_DIR$/js/fontrule.js" />
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
+        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
@@ -740,7 +741,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="8513000" />
+      <workItem from="1392244121755" duration="9847000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1518,11 +1519,15 @@
       <created>1392252889634</created>
       <updated>1392252889634</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <task id="LOCAL-00195" summary="xml preface content will no longer be removed from cdata elements&#10;">
+      <created>1392253134146</created>
+      <updated>1392253134146</updated>
+    </task>
+    <option name="localTasksCounter" value="196" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="289970000" />
+    <option name="totallyTimeSpent" value="291304000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1924,16 +1929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="36" selection-start="8509" selection-end="8509" vertical-scroll-proportion="-46.0" vertical-offset="1503" max-vertical-offset="18270">
-          <folding>
-            <marker date="1392248663895" expanded="true" signature="37957:38118" placeholder="..." />
-            <marker date="1392248663895" expanded="true" signature="38032:38118" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="132" column="22" selection-start="3333" selection-end="3333" vertical-scroll-proportion="0.0" vertical-offset="3702" max-vertical-offset="6765">
@@ -1948,9 +1943,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="777" column="92" selection-start="39138" selection-end="39142" vertical-scroll-proportion="-10.703704" vertical-offset="11366" max-vertical-offset="18270">
+          <folding>
+            <marker date="1392254049528" expanded="true" signature="37957:38118" placeholder="..." />
+            <marker date="1392254049528" expanded="true" signature="38032:38118" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="29" selection-start="1942" selection-end="1942" vertical-scroll-proportion="0.5224396" vertical-offset="191" max-vertical-offset="26850">
+        <state line="824" column="41" selection-start="38687" selection-end="38701" vertical-scroll-proportion="0.26352128" vertical-offset="12131" max-vertical-offset="27015">
           <folding />
         </state>
       </provider>

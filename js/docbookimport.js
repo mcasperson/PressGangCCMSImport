@@ -820,27 +820,38 @@
                 };
 
                 if (revHistory) {
-                    createTopic(
-                        true,
-                        setDocumentNodeToSection(reencode(global.xmlToString(revHistory), replacements).trim()),
-                        "Revision History",
-                        [REVISION_HISTORY_TAG_ID],
-                        config,
-                        function (data) {
-                            config.RevisionHistoryTopicID = data.topic.id;
-                            config.UploadedTopicCount += 1;
-                            if (data.matchedExistingTopic) {
-                                config.MatchedTopicCount += 1;
-                            }
 
-                            config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+                    var parentAppendix = revHistory;
+                    while (parentAppendix.parentNode && (parentAppendix = parentAppendix.parentNode).nodeName !== "appendix") {
 
-                            contentSpec.push("Revision History = [" + data.topic.id + "]");
+                    }
+                    var revHistoryTitle = xmlDoc.evaluate("./title", parentAppendix, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
-                            done(xmlDoc, contentSpec);
-                        },
-                        errorCallback
-                    );
+                    if (revHistoryTitle) {
+                        createTopic(
+                            true,
+                            "<appendix>" + global.xmlToString(revHistoryTitle) + reencode(global.xmlToString(revHistory), replacements).trim() + "</appendix>",
+                            "Revision History",
+                            [REVISION_HISTORY_TAG_ID],
+                            config,
+                            function (data) {
+                                config.RevisionHistoryTopicID = data.topic.id;
+                                config.UploadedTopicCount += 1;
+                                if (data.matchedExistingTopic) {
+                                    config.MatchedTopicCount += 1;
+                                }
+
+                                config.NewTopicsCreated = (config.UploadedTopicCount -config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+
+                                contentSpec.push("Revision History = [" + data.topic.id + "]");
+
+                                done(xmlDoc, contentSpec);
+                            },
+                            errorCallback
+                        );
+                    } else {
+                        done(xmlDoc, contentSpec);
+                    }
                 } else {
                     done(xmlDoc, contentSpec);
                 }
@@ -1742,7 +1753,7 @@
             resolveXiIncludes();
         })
         .setNextStep(function (resultCallback) {
-            global.onunload = undefined;
+            global.onbeforeunload = undefined;
 
             resultCallback(summary);
         })

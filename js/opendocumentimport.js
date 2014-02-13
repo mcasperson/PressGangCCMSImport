@@ -1171,7 +1171,7 @@
             );
         })
         .setNextStep(function (resultCallback) {
-            global.onunload = undefined;
+            global.onbeforeunload = undefined;
 
             resultCallback(summary);
         });
