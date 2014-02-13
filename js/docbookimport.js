@@ -1770,7 +1770,8 @@
                                     var destinationTopic = topicGraph.getNodeFromXMLId(linkend);
                                     if (destinationTopic !== undefined) {
 
-                                        if (destinationTopic.topicId === undefined || destinationTopic.topicId === -1) {
+                                        if (destinationTopic instanceof global.TopicGraphNode &&
+                                            (destinationTopic.topicId === undefined || destinationTopic.topicId === -1)) {
                                             throw "All topics should be resolved by this point";
                                         }
 
