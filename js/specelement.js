@@ -30,21 +30,19 @@
                 });
             }
         });
-        return retValue;
-    };
 
-    global.TopicGraph.prototype.getNodeFromXMLId = function (xmlId) {
-        var retValue;
-        global.jQuery.each(this.conatiners, function(index, conatiner) {
-            if (conatiner.xmlIds !== undefined) {
-                global.jQuery.each(conatiner.xmlIds, function(index, value) {
-                    if (value === xmlId) {
-                        retValue = conatiner;
-                        return false;
-                    }
-                });
-            }
-        });
+        if (retValue === undefined) {
+            global.jQuery.each(this.conatiners, function(index, conatiner) {
+                if (conatiner.xmlIds !== undefined) {
+                    global.jQuery.each(conatiner.xmlIds, function(index, value) {
+                        if (value === xmlId) {
+                            retValue = conatiner;
+                            return false;
+                        }
+                    });
+                }
+            });
+        }
         return retValue;
     };
 
@@ -450,6 +448,10 @@
             var outgoingRetValue = null;
             global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
                 var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
+
+                if (node === undefined) {
+                    throw "All outgoing links should resolve to a topic or container.";
+                }
 
                 if (node instanceof global.TopicGraphNode) {
                     // if the outgoing link is another topic, we need to see if that
