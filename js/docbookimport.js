@@ -819,7 +819,7 @@
                             config.FoundBookInfo = true;
                             resultCallback();
 
-                            extractRevisionHistory(xmlDoc, contentSpec);
+                            findIndex(xmlDoc, contentSpec);
                         },
                         errorCallback
                     );
@@ -827,6 +827,14 @@
                     errorCallback("Invalid content", "The <bookinfo> element could not be found");
                 }
 
+            }
+
+            function findIndex (xmlDoc, contentSpec) {
+                var index = xmlDoc.evaluate("//index", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                if (index) {
+                    contentSpec.push("Index = On");
+                }
+                extractRevisionHistory(xmlDoc, contentSpec);
             }
 
             function extractRevisionHistory (xmlDoc, contentSpec) {
