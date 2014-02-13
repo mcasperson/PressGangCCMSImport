@@ -41,6 +41,8 @@
                 text = text.substr(match.index + match[0].length);
             }
 
+            retValue += text;
+
             return retValue;
         };
 
