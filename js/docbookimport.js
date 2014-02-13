@@ -874,6 +874,12 @@
 
                         var id = revHistory.getAttribute("id");
 
+                        var revHistoryFixedXML = global.jQuery.parseXML("<appendix><title>" +
+                            revHistoryTitleContents +
+                            "</title><simpara>" +
+                            global.xmlToString(removeIdAttribute(revHistory)) +
+                            "</simpara></appendix>");
+
                         var topic = new global.TopicGraphNode(topicGraph)
                             .setXml(removeIdAttribute(revHistory), xmlDoc)
                             .setSpecLine(contentSpec.length - 1)
