@@ -1281,7 +1281,7 @@
                                             containerRemoveNodes.push(containerTitleNode);
                                         }
 
-                                        var containerRevHistoryNodes = xmlDoc.evaluate(".//revhistory", clone2, null, global.XPathResult.ANY_TYPE, null);
+                                        var containerRevHistoryNodes = xmlDoc.evaluate(".//revhistory", containerClone, null, global.XPathResult.ANY_TYPE, null);
 
                                         var containerRevHistoryNode;
                                         while ((containerRevHistoryNode = containerRevHistoryNodes.iterateNext()) !== null) {
