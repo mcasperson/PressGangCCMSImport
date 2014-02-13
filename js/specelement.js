@@ -459,7 +459,7 @@
                     retValue = node.isValid(outgoingPGId, retValue);
                 } else {
                     // if the outgoing link is a container, it needs to have the same target number
-                    retValue = node.targetNum === outgoingPGId;
+                    retValue = "T" + node.targetNum === outgoingPGId;
                 }
 
                 if (retValue === null) {

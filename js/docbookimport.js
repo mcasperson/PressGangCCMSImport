@@ -1162,7 +1162,9 @@
                 // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
                 var sectionTypes = ["part", "chapter", "appendix", "section"];
 
-                var processXml = function (parentXML, depth, containerTargetNum) {
+                var containerTargetNum = 0;
+
+                var processXml = function (parentXML, depth) {
                     // loop over the containers under the root element
                     global.jQuery.each(parentXML.childNodes, function (index, value) {
                         if (sectionTypes.indexOf(value.nodeName) !== -1) {
@@ -1331,14 +1333,14 @@
                                         }
                                     }
 
-                                    processXml(value, depth + 1, containerTargetNum);
+                                    processXml(value, depth + 1);
                                 }
                             }
                         }
                     });
                 };
 
-                processXml(xmlDoc.documentElement, 0, 0);
+                processXml(xmlDoc.documentElement, 0);
 
                 config.UploadProgress[1] = 11 * progressIncrement;
                 config.ResolvedBookStructure = true;

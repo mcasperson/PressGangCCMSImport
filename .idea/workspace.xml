@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/specelement.js" afterPath="$PROJECT_DIR$/js/specelement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -138,7 +139,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="470" column="24" selection-start="21676" selection-end="21676" vertical-scroll-proportion="-261.1111" vertical-offset="0" max-vertical-offset="28650">
+            <state line="1565" column="62" selection-start="75369" selection-end="75389" vertical-scroll-proportion="-18.777779" vertical-offset="22968" max-vertical-offset="28680">
               <folding />
             </state>
           </provider>
@@ -158,7 +159,7 @@
       <file leaf-file-name="specelement.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="34" selection-start="989" selection-end="989" vertical-scroll-proportion="0.45465118" vertical-offset="104" max-vertical-offset="8460">
+            <state line="461" column="37" selection-start="16686" selection-end="16686" vertical-scroll-proportion="0.38488373" vertical-offset="6584" max-vertical-offset="8460">
               <folding />
             </state>
           </provider>
@@ -790,7 +791,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="25338000" />
+      <workItem from="1392244121755" duration="26043000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1640,11 +1641,15 @@
       <created>1392329087060</created>
       <updated>1392329087060</updated>
     </task>
-    <option name="localTasksCounter" value="213" />
+    <task id="LOCAL-00213" summary="Started work on enabling target injections on container elements&#10;">
+      <created>1392329451806</created>
+      <updated>1392329451806</updated>
+    </task>
+    <option name="localTasksCounter" value="214" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="306795000" />
+    <option name="totallyTimeSpent" value="307500000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -2077,14 +2082,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="470" column="24" selection-start="21676" selection-end="21676" vertical-scroll-proportion="-261.1111" vertical-offset="0" max-vertical-offset="28650">
+        <state line="1565" column="62" selection-start="75369" selection-end="75389" vertical-scroll-proportion="-18.777779" vertical-offset="22968" max-vertical-offset="28680">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="34" selection-start="989" selection-end="989" vertical-scroll-proportion="0.45465118" vertical-offset="104" max-vertical-offset="8460">
+        <state line="461" column="37" selection-start="16686" selection-end="16686" vertical-scroll-proportion="0.38488373" vertical-offset="6584" max-vertical-offset="8460">
           <folding />
         </state>
       </provider>
