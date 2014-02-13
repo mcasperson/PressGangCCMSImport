@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/specelement.js" afterPath="$PROJECT_DIR$/js/specelement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -135,10 +136,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1283" column="118" selection-start="60899" selection-end="60899" vertical-scroll-proportion="0.4214876" vertical-offset="18888" max-vertical-offset="28650">
+            <state line="470" column="24" selection-start="21676" selection-end="21676" vertical-scroll-proportion="-261.1111" vertical-offset="0" max-vertical-offset="28650">
               <folding />
             </state>
           </provider>
@@ -155,10 +156,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="specelement.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="115" column="9" selection-start="3642" selection-end="3642" vertical-scroll-proportion="-7.814815" vertical-offset="1514" max-vertical-offset="8385">
+            <state line="266" column="47" selection-start="9125" selection-end="9125" vertical-scroll-proportion="0.3151163" vertical-offset="3719" max-vertical-offset="8430">
               <folding />
             </state>
           </provider>
@@ -202,9 +203,9 @@
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/moment/moment-with-langs.min.js" />
-        <option value="$PROJECT_DIR$/js/specelement.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/js/specelement.js" />
       </list>
     </option>
   </component>
@@ -790,7 +791,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="24674000" />
+      <workItem from="1392244121755" duration="24974000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1632,11 +1633,15 @@
       <created>1392328725599</created>
       <updated>1392328725599</updated>
     </task>
-    <option name="localTasksCounter" value="211" />
+    <task id="LOCAL-00211" summary="Started work on enabling target injections on container elements&#10;">
+      <created>1392328787516</created>
+      <updated>1392328787516</updated>
+    </task>
+    <option name="localTasksCounter" value="212" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="306131000" />
+    <option name="totallyTimeSpent" value="306431000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1684,7 +1689,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added some comments" />
     <MESSAGE value="Added some comments&#10;" />
     <MESSAGE value="Working on importing cluser guide 5.8" />
     <MESSAGE value="Working on importing cluser guide 5.8&#10;" />
@@ -1709,7 +1713,8 @@
     <MESSAGE value="Extracted copyright holder and year from entities" />
     <MESSAGE value="Extracted copyright holder and year from entities&#10;" />
     <MESSAGE value="Started work on enabling target injections on container elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started work on enabling target injections on container elements" />
+    <MESSAGE value="Started work on enabling target injections on container elements&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started work on enabling target injections on container elements&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2055,13 +2060,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/specelement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="9" selection-start="3642" selection-end="3642" vertical-scroll-proportion="-7.814815" vertical-offset="1514" max-vertical-offset="8385">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="185" column="79" selection-start="13175" selection-end="13175" vertical-scroll-proportion="-25.625" vertical-offset="2160" max-vertical-offset="3150">
@@ -2076,7 +2074,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1283" column="118" selection-start="60899" selection-end="60899" vertical-scroll-proportion="0.4214876" vertical-offset="18888" max-vertical-offset="28650">
+        <state line="470" column="24" selection-start="21676" selection-end="21676" vertical-scroll-proportion="-261.1111" vertical-offset="0" max-vertical-offset="28650">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="266" column="47" selection-start="9125" selection-end="9125" vertical-scroll-proportion="0.3151163" vertical-offset="3719" max-vertical-offset="8430">
           <folding />
         </state>
       </provider>

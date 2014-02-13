@@ -264,27 +264,30 @@
         // setup the incoming link on the other node
         var otherNode = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
 
-        if (otherNode.fixedIncomingLinks === undefined) {
-            otherNode.fixedIncomingLinks = {};
-        }
-
-        if (otherNode.fixedIncomingLinks[outgoingPGId] === undefined) {
-            otherNode.fixedIncomingLinks[outgoingPGId] = [];
-        }
-
-        var me = this;
-        var existing;
-        global.jQuery.each(otherNode.fixedIncomingLinks[outgoingPGId], function(index, value){
-            if (value.node === me) {
-                existing = value;
-                return false;
+        // we only add incoming links to topics
+        if (otherNode instanceof global.TopicGraphNode) {
+            if (otherNode.fixedIncomingLinks === undefined) {
+                otherNode.fixedIncomingLinks = {};
             }
-        });
 
-        if (existing) {
-            existing.ids.push(pgId);
-        } else {
-            otherNode.fixedIncomingLinks[outgoingPGId].push({node: this, ids: [pgId]});
+            if (otherNode.fixedIncomingLinks[outgoingPGId] === undefined) {
+                otherNode.fixedIncomingLinks[outgoingPGId] = [];
+            }
+
+            var me = this;
+            var existing;
+            global.jQuery.each(otherNode.fixedIncomingLinks[outgoingPGId], function(index, value){
+                if (value.node === me) {
+                    existing = value;
+                    return false;
+                }
+            });
+
+            if (existing) {
+                existing.ids.push(pgId);
+            } else {
+                otherNode.fixedIncomingLinks[outgoingPGId].push({node: this, ids: [pgId]});
+            }
         }
 
         return this;

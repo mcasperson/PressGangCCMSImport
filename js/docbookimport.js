@@ -468,7 +468,7 @@
                     var xmlPathIndex = 4;
                     if (!match) {
                         match = xiInclude2Re.exec(xmlText);
-                        var xmlPathIndex = 2;
+                        xmlPathIndex = 2;
                     }
 
                     if (match !== null) {
