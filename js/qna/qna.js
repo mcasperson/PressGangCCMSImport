@@ -16,7 +16,8 @@
         LISTBOX: 6,
         PROGRESS: 7,
         PLAIN_TEXT: 8,
-        HTML: 9
+        HTML: 9,
+        PRE_HTML: 10
     });
 
 

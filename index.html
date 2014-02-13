@@ -5,6 +5,12 @@
         <script type="text/javascript">
             // http://stackoverflow.com/a/10556743/157605
             window.onerror = function(msg, url, line) {
+                document.innerHTML = "<pre>\n\
+▄██████████████▄▐█▄▄▄▄█▌\n\
+██████▌▄▌▄▐▐▌███▌▀▀██▀▀\n\
+████▄█▌▄▌▄▐▐▌▀███▄▄█▌\n\
+▄▄▄▄▄██████████████▀</pre>"
+
                 alert("Error: " + msg + "\nURL: " + url + "\nLine #: " + line);
                 var suppressErrorAlert = true;
                 return suppressErrorAlert;
@@ -128,6 +134,13 @@
                                 </div>
                             </div>
 
+                            <!-- Preformatted HTML -->
+                            <div class="col-lg-12" ng-if="variable.processedType == inputTypes.HTML">
+                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <pre>{{qna.config[variable.processedName]}}</pre>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
