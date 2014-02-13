@@ -813,11 +813,13 @@
                         var entityMatch;
                         if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
                             removedEntities.push(index);
+                            // save the last one
                             copyrightHolder = "Copyright Holder = " + entityMatch[2];
                         }
 
                         if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
                             removedEntities.push(index);
+                            // save the last one
                             copyrightYear = "Copyright Year = " + entityMatch[2];
                         }
                     });
@@ -1160,7 +1162,7 @@
                 // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
                 var sectionTypes = ["part", "chapter", "appendix", "section"];
 
-                var processXml = function (parentXML, containerId, depth) {
+                var processXml = function (parentXML, depth, containerTargetNum) {
                     // loop over the containers under the root element
                     global.jQuery.each(parentXML.childNodes, function (index, value) {
                         if (sectionTypes.indexOf(value.nodeName) !== -1) {
@@ -1203,14 +1205,14 @@
                                         var clone2 = clone.cloneNode(true);
                                         var removeNodes = [];
 
-                                        var titles = xmlDoc.evaluate("/title", clone2, null, global.XPathResult.ANY_TYPE, null);
+                                        var titles = xmlDoc.evaluate("./title", clone2, null, global.XPathResult.ANY_TYPE, null);
 
                                         var titleNode;
                                         while ((titleNode = titles.iterateNext()) !== null) {
                                             removeNodes.push(titleNode);
                                         }
 
-                                        var revHistoryNodes = xmlDoc.evaluate("//revhistory", clone2, null, global.XPathResult.ANY_TYPE, null);
+                                        var revHistoryNodes = xmlDoc.evaluate(".//revhistory", clone2, null, global.XPathResult.ANY_TYPE, null);
 
                                         var revHistoryNode;
                                         while ((revHistoryNode = revHistoryNodes.iterateNext()) !== null) {
@@ -1253,24 +1255,6 @@
                                             standaloneContainerTopic.addXmlId(id.nodeValue);
                                         }
 
-                                        /*
-                                         Because of a limitation in the content specs, we can't link
-                                         to a container. This is a workaround to link to the first
-                                         topic under a container.
-                                         */
-                                        if (containerId !== undefined && containerId !== null) {
-
-                                            if (topicGraph.hasXMLId(containerId.nodeValue)) {
-                                                throw "The XML id attribute from the parent container " + containerId.nodeValue + " has been duplicated. The source book is not valid";
-                                            }
-
-                                            standaloneContainerTopic.addXmlId(containerId.nodeValue);
-                                            /*
-                                             The first topic created under the container with the id gets the container's id
-                                             */
-                                            containerId = undefined;
-                                        }
-
                                         topics.push(standaloneContainerTopic);
                                     }
                                 } else {
@@ -1280,26 +1264,38 @@
                                             value.nodeName.substring(1, value.nodeName.length) +
                                             ": " + titleText);
 
+                                    if (id) {
+                                        ++containerTargetNum;
+                                        contentSpec[contentSpec.length - 1] += " [T" + containerTargetNum + "]";
+                                    }
+
                                     var hasIntroText = false;
                                     if (clone.childNodes.length !== 0) {
-                                        var clone2 = clone.cloneNode(true);
-                                        var removeNodes = [];
+                                        var containerClone = clone.cloneNode(true);
+                                        var containerRemoveNodes = [];
 
-                                        var titles = xmlDoc.evaluate("/title", clone2, null, global.XPathResult.ANY_TYPE, null);
+                                        var containerTitles = xmlDoc.evaluate("./title", containerClone, null, global.XPathResult.ANY_TYPE, null);
 
-                                        var titleNode;
-                                        while ((titleNode = titles.iterateNext()) !== null) {
-                                            removeNodes.push(titleNode);
+                                        var containerTitleNode;
+                                        while ((containerTitleNode = containerTitles.iterateNext()) !== null) {
+                                            containerRemoveNodes.push(containerTitleNode);
                                         }
 
-                                        global.jQuery.each(removeNodes, function (index, value){
+                                        var containerRevHistoryNodes = xmlDoc.evaluate(".//revhistory", clone2, null, global.XPathResult.ANY_TYPE, null);
+
+                                        var containerRevHistoryNode;
+                                        while ((containerRevHistoryNode = containerRevHistoryNodes.iterateNext()) !== null) {
+                                            containerRemoveNodes.push(containerRevHistoryNode);
+                                        }
+
+                                        global.jQuery.each(containerRemoveNodes, function (index, value){
                                             value.parentNode.removeChild(value);
                                         });
 
                                         /*
                                          Once we take out the title and revhistory, is there any content left?
                                          */
-                                        hasIntroText = clone2.textContent.trim().length !== 0;
+                                        hasIntroText = containerClone.textContent.trim().length !== 0;
                                     }
 
                                     /*
@@ -1319,32 +1315,30 @@
                                             initialTextTopic.addXmlId(id.nodeValue);
                                         }
 
-                                        if (containerId !== undefined && containerId !== null) {
-                                            if (topicGraph.hasXMLId(containerId.nodeValue)) {
-                                                throw "The XML id attribute from the parent container " + containerId.nodeValue + " has been duplicated. The source book is not valid";
-                                            }
-
-                                            initialTextTopic.addXmlId(containerId.nodeValue);
-                                            /*
-                                             The first topic created under the container with the id gets the container's id
-                                             */
-                                            containerId = undefined;
-                                        }
-
-                                        // consume this id
-                                        id = undefined;
 
                                         topics.push(initialTextTopic);
+                                    } else {
+                                        var container = new global.TopicGraphContainer(topicGraph)
+                                            .setSpecLine(contentSpec.length - 1)
+                                            .setContainerTargetNum(containerTargetNum);
+
+                                        if (id) {
+                                            if (topicGraph.hasXMLId(id.nodeValue)) {
+                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            container.addXmlId(id.nodeValue);
+                                        }
                                     }
 
-                                    processXml(value, id, depth + 1);
+                                    processXml(value, depth + 1, containerTargetNum);
                                 }
                             }
                         }
                     });
                 };
 
-                processXml(xmlDoc.documentElement, null, 0);
+                processXml(xmlDoc.documentElement, 0, 0);
 
                 config.UploadProgress[1] = 11 * progressIncrement;
                 config.ResolvedBookStructure = true;
@@ -1564,10 +1558,10 @@
                                         throw "There is a mismatch between the xrefs and the injects.";
                                     }
 
-                                    var topicId = match[1];
+                                    var topicIdOrContainerTarget = match[1];
                                     var xref = outgoingXrefs[count];
 
-                                    topic.addFixedOutgoingLink(pgid, xref, topicId);
+                                    topic.addFixedOutgoingLink(pgid, xref, topicIdOrContainerTarget);
 
                                     ++count;
                                 }
@@ -1778,9 +1772,15 @@
                                             throw "All topics should be resolved by this point";
                                         }
 
-                                        // we are pointing to a saved topic, so replace the xref with an injection
-                                        var injection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
-                                        xrefReplacements.push({original: xref, replacement: injection});
+                                        if (destinationTopic instanceof global.TopicGraphNode) {
+                                            // we are pointing to a saved topic, so replace the xref with an injection
+                                            var topicInjection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
+                                            xrefReplacements.push({original: xref, replacement: topicInjection});
+                                        } else {
+                                            // we are pointing to a container, so replace the xref with a target injection
+                                            var containerInjection = xmlDoc.createComment("Inject: T" + destinationTopic.targetNum);
+                                            xrefReplacements.push({original: xref, replacement: containerInjection});
+                                        }
                                     }
                                 }
                             }

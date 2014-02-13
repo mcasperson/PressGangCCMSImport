@@ -3,11 +3,18 @@
 
     global.TopicGraph = function () {
         this.nodes = [];
+        this.conatiners = [];
     };
 
     global.TopicGraph.prototype.addNode = function (node) {
         if (this.nodes.indexOf(node) === -1) {
             this.nodes.push(node);
+        }
+    };
+
+    global.TopicGraph.prototype.addContainer = function (container) {
+        if (this.conatiners.indexOf(container) === -1) {
+            this.conatiners.push(container);
         }
     };
 
@@ -18,6 +25,21 @@
                 global.jQuery.each(node.xmlIds, function(index, value) {
                     if (value === xmlId) {
                         retValue = node;
+                        return false;
+                    }
+                });
+            }
+        });
+        return retValue;
+    };
+
+    global.TopicGraph.prototype.getNodeFromXMLId = function (xmlId) {
+        var retValue;
+        global.jQuery.each(this.conatiners, function(index, conatiner) {
+            if (conatiner.xmlIds !== undefined) {
+                global.jQuery.each(conatiner.xmlIds, function(index, value) {
+                    if (value === xmlId) {
+                        retValue = conatiner;
                         return false;
                     }
                 });
@@ -38,6 +60,22 @@
                 });
             }
         });
+
+        if (retValue) {
+            return retValue;
+        }
+
+        global.jQuery.each(this.conatiners, function(index, conatiner) {
+            if (conatiner.xmlIds !== undefined) {
+                global.jQuery.each(conatiner.xmlIds, function(index, value) {
+                    if (value === xmlId) {
+                        retValue = true;
+                        return false;
+                    }
+                });
+            }
+        });
+
         return retValue;
     };
 
@@ -52,7 +90,46 @@
                 });
             }
         });
+
+        global.jQuery.each(this.conatiners, function(index, conatiner) {
+            if (conatiner.xmlIds !== undefined) {
+                global.jQuery.each(conatiner.xmlIds, function(index, xmlId) {
+                    if (retValue.indexOf(xmlId) === -1) {
+                        retValue.push(xmlId);
+                    }
+                });
+            }
+        });
+
         return retValue;
+    };
+
+    global.TopicGraphContainer = function (topicGraph) {
+        topicGraph.addContainer(this);
+        this.topicGraph = topicGraph;
+        return this;
+    };
+
+    global.TopicGraphContainer.prototype.addXmlId = function (xmlId) {
+        if (this.xmlIds === undefined) {
+            this.xmlIds = [];
+        }
+
+        if (this.xmlIds.indexOf(xmlId) === -1) {
+            this.xmlIds.push(xmlId);
+        }
+
+        return this;
+    };
+
+    global.TopicGraphContainer.prototype.setSpecLine = function (specLine) {
+        this.specLine = specLine;
+        return this;
+    };
+
+    global.TopicGraphContainer.prototype.setContainerTargetNum = function (targetNum) {
+        this.targetNum = targetNum;
+        return this;
     };
 
     /**
@@ -239,7 +316,8 @@
             global.jQuery.each(this.fixedOutgoingLinks, function (pgId, outgoingPGIds) {
                 global.jQuery.each(outgoingPGIds, function (outgoingXmlId, outgoingPGId) {
                     var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-                    if (node.topicId === undefined) {
+                    // unresolved graph can only be made up of topics
+                    if (node instanceof global.TopicGraphNode && node.topicId === undefined) {
                         node.getUnresolvedGraph(validNodes);
                     }
                 });
@@ -369,7 +447,15 @@
             var outgoingRetValue = null;
             global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
                 var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-                retValue = node.isValid(outgoingPGId, retValue);
+
+                if (node instanceof global.TopicGraphNode) {
+                    // if the outgoing link is another topic, we need to see if that
+                    // topic can be resolved it it assumes an id of outgoingPGId
+                    retValue = node.isValid(outgoingPGId, retValue);
+                } else {
+                    // if the outgoing link is a container, it needs to have the same target number
+                    retValue = node.targetNum === outgoingPGId;
+                }
 
                 if (retValue === null) {
                     return false;
