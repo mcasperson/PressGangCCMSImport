@@ -870,6 +870,22 @@
                     var revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(global.xmlToString(revHistoryTitle))[1];
 
                     if (revHistoryTitle) {
+
+                        // fix any dates. right now we just trim strings, but this could be
+                        // a good opportunity to fix common date formats
+                        var dates = xmlDoc.evaluate(".//date", revHistory, null, global.XPathResult.ANY_TYPE, null);
+                        var date;
+                        var replacementDates = [];
+                        while ((date = dates.iterateNext()) !== null) {
+                            var dateContents = date.textContent;
+                            replacementDates.push({original: date, replacement: dateContents.trim()});
+                        }
+
+                        global.jQuery.each(replacementDates, function(index, value){
+                            value.original.nodeValue = value.replacement;
+                        });
+
+
                         contentSpec.push("Revision History = ");
 
                         var id = parentAppendix.getAttribute("id");

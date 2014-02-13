@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1116" />
+    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1132" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/moment/moment-with-langs.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -72,11 +75,11 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="58" selection-start="9093" selection-end="9111" vertical-scroll-proportion="-32.333332" vertical-offset="1339" max-vertical-offset="3135">
+            <state line="12" column="57" selection-start="530" selection-end="530" vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="3150">
               <folding>
-                <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-                <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-                <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
+                <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+                <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+                <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -133,8 +136,19 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="874" column="47" selection-start="40852" selection-end="40852" vertical-scroll-proportion="0.2578125" vertical-offset="12879" max-vertical-offset="27990">
+            <state line="874" column="72" selection-start="40904" selection-end="40904" vertical-scroll-proportion="0.26430205" vertical-offset="12879" max-vertical-offset="28230">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="moment-with-langs.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/moment/moment-with-langs.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="11975" selection-start="109267" selection-end="109267" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -152,15 +166,6 @@
         <entry file="file://$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="4" column="0" selection-start="83623" selection-end="83623" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="150">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="controller.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="13" selection-start="2078" selection-end="2078" vertical-scroll-proportion="0.0" vertical-offset="756" max-vertical-offset="1665">
               <folding />
             </state>
           </provider>
@@ -191,11 +196,12 @@
         <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/fontrule.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/specelement.js" />
+        <option value="$PROJECT_DIR$/js/moment/moment-with-langs.min.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
@@ -322,6 +328,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="qna" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="moment" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -764,7 +788,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="19671000" />
+      <workItem from="1392244121755" duration="20502000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1582,11 +1606,15 @@
       <created>1392269400865</created>
       <updated>1392269400865</updated>
     </task>
-    <option name="localTasksCounter" value="205" />
+    <task id="LOCAL-00205" summary="Added ability to find preface&#10;">
+      <created>1392269750408</created>
+      <updated>1392269750408</updated>
+    </task>
+    <option name="localTasksCounter" value="206" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="301128000" />
+    <option name="totallyTimeSpent" value="301959000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1667,13 +1695,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="36" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1605">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="54" selection-start="1293" selection-end="1293" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1215" />
@@ -1683,9 +1704,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
           <folding>
-            <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1732,9 +1753,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
           <folding>
-            <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1781,9 +1802,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="101" selection-start="2860" selection-end="2860" vertical-scroll-proportion="0.0" vertical-offset="188" max-vertical-offset="1080">
           <folding>
-            <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1823,9 +1844,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1846,9 +1867,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1869,9 +1890,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1987,17 +2008,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="58" selection-start="9093" selection-end="9111" vertical-scroll-proportion="-32.333332" vertical-offset="1339" max-vertical-offset="3135">
-          <folding>
-            <marker date="1392248482378" expanded="true" signature="1941:2003" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2044:2099" placeholder="..." />
-            <marker date="1392248482378" expanded="true" signature="2142:2245" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="11" selection-start="389" selection-end="389" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3645">
@@ -2012,9 +2022,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/moment/moment-with-langs.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="11975" selection-start="109267" selection-end="109267" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="57" selection-start="530" selection-end="530" vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="3150">
+          <folding>
+            <marker date="1392270286024" expanded="true" signature="2008:2070" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2111:2166" placeholder="..." />
+            <marker date="1392270286024" expanded="true" signature="2209:2312" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="874" column="47" selection-start="40852" selection-end="40852" vertical-scroll-proportion="0.2578125" vertical-offset="12879" max-vertical-offset="27990">
+        <state line="874" column="72" selection-start="40904" selection-end="40904" vertical-scroll-proportion="0.26430205" vertical-offset="12879" max-vertical-offset="28230">
           <folding />
         </state>
       </provider>
