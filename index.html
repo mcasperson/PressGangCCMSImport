@@ -135,7 +135,7 @@
                             </div>
 
                             <!-- Preformatted HTML -->
-                            <div class="col-lg-12" ng-if="variable.processedType == inputTypes.HTML">
+                            <div class="col-lg-12" ng-if="variable.processedType == inputTypes.PRE_HTML">
                                 <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                 <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     <pre>{{qna.config[variable.processedName]}}</pre>
