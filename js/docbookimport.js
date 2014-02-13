@@ -369,6 +369,10 @@
                         .setName("FoundAbstract"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
+                        .setIntro("Finding preface")
+                        .setName("FoundPreface"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Finding and uploading images*")
                         .setName("FoundImages"),
                     new global.QNAVariable()
@@ -440,7 +444,7 @@
              There are 17 steps, so this is how far to move the progress bar with each
              step.
              */
-            var progressIncrement = 100 / 17;
+            var progressIncrement = 100 / 18;
 
             /*
              Resolve xi:includes
@@ -931,7 +935,7 @@
                     config.FoundAbstract = true;
                     resultCallback();
 
-                    uploadImages(xmlDoc, contentSpec);
+                    extractPreface(xmlDoc, contentSpec);
                 };
 
                 if (abstractContent) {
@@ -951,6 +955,44 @@
                             config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                             contentSpec.push("Abstract = [" + data.topic.id + "]");
+
+                            done(xmlDoc, contentSpec);
+                        },
+                        errorCallback
+                    );
+                } else {
+                    done(xmlDoc, contentSpec);
+                }
+            }
+
+            function extractPreface (xmlDoc, contentSpec) {
+                var preface = xmlDoc.evaluate("//preface", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+
+                var done = function (xmlDoc, contentSpec) {
+                    config.UploadProgress[1] = 9 * progressIncrement;
+                    config.FoundPreface = true;
+                    resultCallback();
+
+                    uploadImages(xmlDoc, contentSpec);
+                };
+
+                if (preface) {
+                    createTopic(
+                        true,
+                        setDocumentNodeToSection(reencode(global.xmlToString(preface), replacements).trim()),
+                        "Preface",
+                        [],
+                        config,
+                        function (data) {
+                            config.PrefaceId = data.topic.id;
+                            config.UploadedTopicCount += 1;
+                            if (data.matchedExistingTopic) {
+                                config.MatchedTopicCount += 1;
+                            }
+
+                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+
+                            contentSpec.push("Preface = [" + data.topic.id + "]");
 
                             done(xmlDoc, contentSpec);
                         },
