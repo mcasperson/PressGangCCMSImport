@@ -31,12 +31,11 @@
                 /*
                  The xml preface element was in a cdata element, so ignore it
                  */
-                if ((lastStartCDATA === -1 && lastEndCDATA === -1) ||
-                    (lastStartCDATA !== -1 &&
-                    (lastEndCDATA === -1 || lastEndCDATA < lastStartCDATA))) {
-                    retValue += text.substr(0, match.index);
-                } else {
+                if (lastStartCDATA !== -1 &&
+                    (lastEndCDATA === -1 || lastEndCDATA < lastStartCDATA)) {
                     retValue += text.substr(0, match.index + match[0].length);
+                } else {
+                    retValue += text.substr(0, match.index);
                 }
 
                 text = text.substr(match.index + match[0].length);

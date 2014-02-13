@@ -118,7 +118,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="27" selection-start="2012" selection-end="2012" vertical-scroll-proportion="0.48791716" vertical-offset="236" max-vertical-offset="26835">
+            <state line="34" column="77" selection-start="1646" selection-end="1646" vertical-scroll-proportion="0.36708862" vertical-offset="191" max-vertical-offset="26820">
               <folding />
             </state>
           </provider>
@@ -740,7 +740,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="8180000" />
+      <workItem from="1392244121755" duration="8268000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1510,11 +1510,15 @@
       <created>1392249572104</created>
       <updated>1392249572104</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="xml preface content will no longer be removed from cdata elements">
+      <created>1392252820106</created>
+      <updated>1392252820106</updated>
+    </task>
+    <option name="localTasksCounter" value="194" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="289637000" />
+    <option name="totallyTimeSpent" value="289725000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1562,7 +1566,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Removed some boilerplate code from the QNA steps&#10;" />
     <MESSAGE value="Added Wicked Good XPath - https://code.google.com/p/wicked-good-xpath/" />
     <MESSAGE value="Added processing of revision history" />
     <MESSAGE value="Added processing of revision history&#10;" />
@@ -1587,7 +1590,8 @@
     <MESSAGE value="tweaking ODT import&#10;" />
     <MESSAGE value="Added warning messages when the window is closed, and improved the progress reporting for the odt import." />
     <MESSAGE value="fixed bugs&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bugs&#10;" />
+    <MESSAGE value="xml preface content will no longer be removed from cdata elements" />
+    <option name="LAST_COMMIT_MESSAGE" value="xml preface content will no longer be removed from cdata elements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1942,7 +1946,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="27" selection-start="2012" selection-end="2012" vertical-scroll-proportion="0.48791716" vertical-offset="236" max-vertical-offset="26835">
+        <state line="34" column="77" selection-start="1646" selection-end="1646" vertical-scroll-proportion="0.36708862" vertical-offset="191" max-vertical-offset="26820">
           <folding />
         </state>
       </provider>
