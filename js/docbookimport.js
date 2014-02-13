@@ -897,20 +897,32 @@
 
                     if (revHistoryTitle) {
 
+                        var replacementNodeDetails = [];
+
                         // fix any dates. right now we just trim strings, but this could be
                         // a good opportunity to fix common date formats
                         var dates = xmlDoc.evaluate(".//date", revHistory, null, global.XPathResult.ANY_TYPE, null);
                         var date;
-                        var replacementDates = [];
+
                         while ((date = dates.iterateNext()) !== null) {
                             var dateContents = date.textContent;
-                            replacementDates.push({original: date, replacement: dateContents.trim()});
+                            replacementNodeDetails.push({original: date, replacement: dateContents.trim()});
+                        }
+
+                        // fix rev numbers
+                        var revnumbers = xmlDoc.evaluate(".//revnumber", revHistory, null, global.XPathResult.ANY_TYPE, null);
+                        var revnumber;
+                        while ((revnumber = revnumbers.iterateNext()) !== null) {
+                            var revContents = revnumber.textContent;
+                            var revMatch = /(\d+)\.(\d+)/.exec(revContents);
+                            if (revMatch !== null) {
+                                replacementNodeDetails.push({original: revContents, replacement: revMatch[1] + "-" + revMatch[2]});
+                            }
                         }
 
                         global.jQuery.each(replacementDates, function(index, value){
                             value.original.nodeValue = value.replacement;
                         });
-
 
                         contentSpec.push("Revision History = ");
 
