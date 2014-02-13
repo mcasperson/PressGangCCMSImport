@@ -369,10 +369,6 @@
                         .setName("FoundAbstract"),
                     new global.QNAVariable()
                         .setType(global.InputEnum.CHECKBOX)
-                        .setIntro("Finding preface")
-                        .setName("FoundPreface"),
-                    new global.QNAVariable()
-                        .setType(global.InputEnum.CHECKBOX)
                         .setIntro("Finding and uploading images*")
                         .setName("FoundImages"),
                     new global.QNAVariable()
@@ -444,7 +440,7 @@
              There are 17 steps, so this is how far to move the progress bar with each
              step.
              */
-            var progressIncrement = 100 / 18;
+            var progressIncrement = 100 / 17;
 
             /*
              Resolve xi:includes
@@ -1018,46 +1014,7 @@
                 config.FoundAbstract = true;
                 resultCallback();
 
-                extractPreface(xmlDoc, contentSpec, topics, topicGraph);
-            }
-
-            function extractPreface (xmlDoc, contentSpec, topics, topicGraph) {
-                if (topics === undefined) {
-                    topics = [];
-                }
-
-                // the graph that holds the topics
-                if (topicGraph === undefined) {
-                    topicGraph = new global.TopicGraph();
-                }
-
-                var preface = xmlDoc.evaluate("//preface", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                if (preface) {
-                    var prefaceTitle = xmlDoc.evaluate("./title", preface, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var prefaceTitleContents = /<title>(.*?)<\/title>/.exec(global.xmlToString(prefaceTitle))[1];
-
-                    contentSpec.push("Preface: " + prefaceTitleContents);
-
-                    var id = preface.getAttribute("id");
-
-                    var topic = new global.TopicGraphNode(topicGraph)
-                        .setXml(removeIdAttribute(preface), xmlDoc)
-                        .setSpecLine(contentSpec.length - 1)
-                        .setTitle(prefaceTitleContents);
-
-                    if (id) {
-                        topic.addXmlId(id);
-                    }
-
-                    topics.push(topic);
-                }
-
-                config.UploadProgress[1] = 9 * progressIncrement;
-                config.FoundPreface = true;
-                resultCallback();
-
                 uploadImages(xmlDoc, contentSpec, topics, topicGraph);
-
             }
 
             function uploadImages (xmlDoc, contentSpec, topics, topicGraph) {
@@ -1160,7 +1117,7 @@
                 contentSpec.push("# Imported from " + config.ZipFile.name);
 
                 // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
-                var sectionTypes = ["part", "chapter", "appendix", "section"];
+                var sectionTypes = ["part", "chapter", "appendix", "section", "preface"];
 
                 var containerTargetNum = 0;
 

@@ -5,13 +5,18 @@
         <script type="text/javascript">
             // http://stackoverflow.com/a/10556743/157605
             window.onerror = function(msg, url, line) {
+                var bugLink = 'https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMScomment=Message: ' + encodeURIComponent(msg) + '%0D%0A%0D%0AURL: ' + encodeURIComponent(url) + '%0D%0A%0D%0ALine: ' + encodeURIComponent(line);
                 document.documentElement.innerHTML = "<pre>\n\
 ▄██████████████▄▐█▄▄▄▄█▌\n\
 ██████▌▄▌▄▐▐▌███▌▀▀██▀▀\n\
 ████▄█▌▄▌▄▐▐▌▀███▄▄█▌\n\
-▄▄▄▄▄██████████████▀</pre><p>The code is willing but the logic is weak.</p><p>Please log a bug.</p>";
+▄▄▄▄▄██████████████▀</pre>\n\
+                        <p>The code is willing but the logic is weak.</p>\n\
+                        <p>Please log a <a href='bugLink'>bug</a>.</p>\n\
+                        <p>Message: " + msg + "</p>\n\
+                        <p>URL: " + url + "</p>\n\
+                        <p>Line: " + line + "</p>";
 
-                alert("Error: " + msg + "\nURL: " + url + "\nLine #: " + line);
                 var suppressErrorAlert = true;
                 return suppressErrorAlert;
             };
