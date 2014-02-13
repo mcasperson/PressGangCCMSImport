@@ -992,7 +992,10 @@
 
                             config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                            contentSpec.push("Preface = [" + data.topic.id + "]");
+                            var title = /<title>(.*?)<\/title>/.exec(data.topic.xml);
+                            if (title) {
+                                contentSpec.push("Preface: " + title[1] + " [" + data.topic.id + "]");
+                            }
 
                             done(xmlDoc, contentSpec);
                         },

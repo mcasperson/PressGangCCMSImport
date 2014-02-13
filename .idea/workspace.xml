@@ -131,7 +131,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="446" column="44" selection-start="20402" selection-end="20402" vertical-scroll-proportion="0.58573073" vertical-offset="6181" max-vertical-offset="28065">
+            <state line="996" column="76" selection-start="46494" selection-end="46494" vertical-scroll-proportion="0.43613347" vertical-offset="14561" max-vertical-offset="28110">
               <folding />
             </state>
           </provider>
@@ -762,7 +762,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="13057000" />
+      <workItem from="1392244121755" duration="13487000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1560,11 +1560,15 @@
       <created>1392258948608</created>
       <updated>1392258948608</updated>
     </task>
-    <option name="localTasksCounter" value="200" />
+    <task id="LOCAL-00200" summary="Added ability to find preface">
+      <created>1392262946947</created>
+      <updated>1392262946947</updated>
+    </task>
+    <option name="localTasksCounter" value="201" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="294514000" />
+    <option name="totallyTimeSpent" value="294944000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1612,7 +1616,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Working on resolving the docbook structure" />
     <MESSAGE value="Working on resolving the docbook structure&#10;" />
     <MESSAGE value="Completely rewrote the existing topic detection logic to be more robust." />
     <MESSAGE value="Completely rewrote the existing topic detection logic to be more robust.&#10;" />
@@ -1637,7 +1640,8 @@
     <MESSAGE value="Fixed revision history import&#10;" />
     <MESSAGE value="Added the ability to specify a revision message" />
     <MESSAGE value="Added the ability to specify a revision message&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added the ability to specify a revision message&#10;" />
+    <MESSAGE value="Added ability to find preface" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added ability to find preface" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1992,7 +1996,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="446" column="44" selection-start="20402" selection-end="20402" vertical-scroll-proportion="0.58573073" vertical-offset="6181" max-vertical-offset="28065">
+        <state line="996" column="76" selection-start="46494" selection-end="46494" vertical-scroll-proportion="0.43613347" vertical-offset="14561" max-vertical-offset="28110">
           <folding />
         </state>
       </provider>
