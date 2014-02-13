@@ -830,7 +830,7 @@
                     if (revHistoryTitle) {
                         createTopic(
                             true,
-                            "<appendix>" + global.xmlToString(revHistoryTitle) + reencode(global.xmlToString(revHistory), replacements).trim() + "</appendix>",
+                            "<appendix>" + global.xmlToString(revHistoryTitle) + "<simpara>" + reencode(global.xmlToString(revHistory), replacements).trim() + "</simpara></appendix>",
                             "Revision History",
                             [REVISION_HISTORY_TAG_ID],
                             config,
