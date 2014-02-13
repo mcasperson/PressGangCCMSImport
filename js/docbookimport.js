@@ -280,7 +280,7 @@
         });
 
     /*
-     Step 4 - ask which server this is being uploaded to
+        Ask which server this is being uploaded to
      */
     var specifyTheServer = new global.QNAStep()
         .setTitle("Select the server to import in to")
@@ -298,12 +298,32 @@
                 ])
         ])
         .setNextStep(function (resultCallback) {
+            resultCallback(askForRevisionMessage);
+        });
+
+    /*
+     Ask for a revision message
+     */
+    var askForRevisionMessage = new global.QNAStep()
+        .setTitle("Enter a message for the revision log")
+        .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
+        .setInputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.TEXTBOX)
+                        .setIntro("Revision Log Message")
+                        .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.ZipFile.name);})
+                        .setName("RevisionMessage")
+                ])
+        ])
+        .setNextStep(function (resultCallback) {
             resultCallback(processZipFile);
         })
         .setShowNext("Start Import");
 
     /*
-     Step 5 - Process the zip file
+     Process the zip file
      */
     var processZipFile = new global.QNAStep()
         .setTitle("Importing Publican Book")

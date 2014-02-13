@@ -150,7 +150,7 @@
                 ])
         ])
         .setNextStep(function (resultCallback) {
-            resultCallback(processOdt);
+            resultCallback(askForRevisionMessage);
         })
         .setShowNext("Start Import");
 
@@ -406,6 +406,27 @@
         .setNextStep(function (resultCallback, errorCallback, result, config) {
             resultCallback(config.DefineAnotherRule ? setParaRules : specifyTheServer);
         });
+
+    /*
+     Ask for a revision message
+     */
+    var askForRevisionMessage = new global.QNAStep()
+        .setTitle("Enter a message for the revision log")
+        .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
+        .setInputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.TEXTBOX)
+                        .setIntro("Revision Log Message")
+                        .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.ZipFile.name);})
+                        .setName("RevisionMessage")
+                ])
+        ])
+        .setNextStep(function (resultCallback) {
+            resultCallback(processOdt);
+        })
+        .setShowNext("Start Import");
 
     /*
         STEP 5 - process the ODT file

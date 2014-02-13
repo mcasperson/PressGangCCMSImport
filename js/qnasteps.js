@@ -49,7 +49,7 @@
 
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/' + (tryToMatch ? 'createormatch' : 'create') + '/json?message=Initial+Topic+Creation&flag=2&userId=89',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/' + (tryToMatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
             data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",
@@ -152,7 +152,7 @@
 
                 global.jQuery.ajax({
                     type: 'POST',
-                    url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/createormatch/json?message=Initial+Image+Creation&flag=2&userId=89',
+                    url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/createormatch/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                     data: JSON.stringify(postBody),
                     contentType: "application/json",
                     dataType: "json",
@@ -179,7 +179,7 @@
 
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/create/json+text?message=Initial+Topic+Creation&flag=2&userId=89',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/create/json+text?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
             data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",
@@ -203,7 +203,7 @@
 
         global.jQuery.ajax({
             type: 'POST',
-            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/json+text/?message=Initial+Topic+Creation&flag=2&userId=89',
+            url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/json+text/?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
             data: JSON.stringify(postBody),
             contentType: "application/json",
             dataType: "json",

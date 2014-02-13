@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qnasteps.js" afterPath="$PROJECT_DIR$/js/qnasteps.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -67,13 +69,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="777" column="92" selection-start="39138" selection-end="39142" vertical-scroll-proportion="-10.703704" vertical-offset="11366" max-vertical-offset="18270">
+            <state line="426" column="37" selection-start="17842" selection-end="17842" vertical-scroll-proportion="0.5742232" vertical-offset="5891" max-vertical-offset="18585">
               <folding>
-                <marker date="1392254049528" expanded="true" signature="37957:38118" placeholder="..." />
-                <marker date="1392254049528" expanded="true" signature="38032:38118" placeholder="..." />
+                <marker date="1392256962411" expanded="true" signature="38893:39054" placeholder="..." />
+                <marker date="1392256962411" expanded="true" signature="38968:39054" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -100,7 +102,7 @@
       <file leaf-file-name="qnasteps.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="227" column="92" selection-start="8103" selection-end="8103" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3645">
+            <state line="205" column="169" selection-start="7294" selection-end="7294" vertical-scroll-proportion="0.0" vertical-offset="1804" max-vertical-offset="3645">
               <folding />
             </state>
           </provider>
@@ -115,10 +117,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="832" column="170" selection-start="39237" selection-end="39237" vertical-scroll-proportion="0.40161106" vertical-offset="12131" max-vertical-offset="27015">
+            <state line="306" column="29" selection-start="13545" selection-end="13566" vertical-scroll-proportion="-9.407408" vertical-offset="4336" max-vertical-offset="27315">
               <folding />
             </state>
           </provider>
@@ -168,11 +170,11 @@
         <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/fontrule.js" />
-        <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
       </list>
     </option>
   </component>
@@ -740,7 +742,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="10277000" />
+      <workItem from="1392244121755" duration="11182000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1526,11 +1528,15 @@
       <created>1392254476794</created>
       <updated>1392254476794</updated>
     </task>
-    <option name="localTasksCounter" value="197" />
+    <task id="LOCAL-00197" summary="Fixed revision history import&#10;">
+      <created>1392254899496</created>
+      <updated>1392254899496</updated>
+    </task>
+    <option name="localTasksCounter" value="198" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="291734000" />
+    <option name="totallyTimeSpent" value="292639000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1578,7 +1584,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added processing of revision history&#10;" />
     <MESSAGE value="Working on image upload" />
     <MESSAGE value="Working on image upload&#10;" />
     <MESSAGE value="Working on resolving the docbook structure" />
@@ -1603,7 +1608,8 @@
     <MESSAGE value="xml preface content will no longer be removed from cdata elements" />
     <MESSAGE value="xml preface content will no longer be removed from cdata elements&#10;" />
     <MESSAGE value="Fixed revision history import" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed revision history import" />
+    <MESSAGE value="Fixed revision history import&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed revision history import&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1941,25 +1947,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="227" column="92" selection-start="8103" selection-end="8103" vertical-scroll-proportion="0.0" vertical-offset="2769" max-vertical-offset="3645">
+        <state line="205" column="169" selection-start="7294" selection-end="7294" vertical-scroll-proportion="0.0" vertical-offset="1804" max-vertical-offset="3645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="306" column="29" selection-start="13545" selection-end="13566" vertical-scroll-proportion="-9.407408" vertical-offset="4336" max-vertical-offset="27315">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="777" column="92" selection-start="39138" selection-end="39142" vertical-scroll-proportion="-10.703704" vertical-offset="11366" max-vertical-offset="18270">
+        <state line="426" column="37" selection-start="17842" selection-end="17842" vertical-scroll-proportion="0.5742232" vertical-offset="5891" max-vertical-offset="18585">
           <folding>
-            <marker date="1392254049528" expanded="true" signature="37957:38118" placeholder="..." />
-            <marker date="1392254049528" expanded="true" signature="38032:38118" placeholder="..." />
+            <marker date="1392256962411" expanded="true" signature="38893:39054" placeholder="..." />
+            <marker date="1392256962411" expanded="true" signature="38968:39054" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="832" column="170" selection-start="39237" selection-end="39237" vertical-scroll-proportion="0.40161106" vertical-offset="12131" max-vertical-offset="27015">
-          <folding />
         </state>
       </provider>
     </entry>
