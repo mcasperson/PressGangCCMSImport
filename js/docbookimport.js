@@ -806,24 +806,30 @@
                     }
 
                     // some entities are metadata elements in the spec
-                    var copyrightHolderFound = false;
                     var removedEntities = [];
+                    var copyrightYear = null;
+                    var copyrightHolder = null;
                     global.jQuery.each(entities, function(index, value){
                         var entityMatch;
                         if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
                             removedEntities.push(index);
-                            contentSpec.push("Copyright Holder = " + entityMatch[2]);
-                            copyrightHolderFound = true;
+                            copyrightHolder = "Copyright Holder = " + entityMatch[2];
                         }
 
                         if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
                             removedEntities.push(index);
-                            contentSpec.push("Copyright Year = " + entityMatch[2]);
+                            copyrightYear = "Copyright Year = " + entityMatch[2];
                         }
                     });
 
-                    if (!copyrightHolderFound) {
+                    if (!copyrightHolder) {
                         contentSpec.push("Copyright Holder = Red Hat");
+                    } else {
+                        contentSpec.push(copyrightHolder);
+                    }
+
+                    if (copyrightYear) {
+                        contentSpec.push(copyrightYear);
                     }
 
                     // save the remaining entities
