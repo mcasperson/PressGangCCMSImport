@@ -5,11 +5,11 @@
         <script type="text/javascript">
             // http://stackoverflow.com/a/10556743/157605
             window.onerror = function(msg, url, line) {
-                document.innerHTML = "<pre>\n\
+                document.documentElement.innerHTML = "<pre>\n\
 ▄██████████████▄▐█▄▄▄▄█▌\n\
 ██████▌▄▌▄▐▐▌███▌▀▀██▀▀\n\
 ████▄█▌▄▌▄▐▐▌▀███▄▄█▌\n\
-▄▄▄▄▄██████████████▀</pre>"
+▄▄▄▄▄██████████████▀</pre>";
 
                 alert("Error: " + msg + "\nURL: " + url + "\nLine #: " + line);
                 var suppressErrorAlert = true;
