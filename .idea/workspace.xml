@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1153" />
+    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1154" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
@@ -134,7 +134,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="832" column="32" selection-start="39329" selection-end="39329" vertical-scroll-proportion="0.7933884" vertical-offset="11808" max-vertical-offset="28545">
+            <state line="828" column="50" selection-start="39090" selection-end="39090" vertical-scroll-proportion="0.72255015" vertical-offset="11808" max-vertical-offset="28560">
               <folding />
             </state>
           </provider>
@@ -786,7 +786,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="21635000" />
+      <workItem from="1392244121755" duration="21693000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1612,11 +1612,15 @@
       <created>1392270583586</created>
       <updated>1392270583586</updated>
     </task>
-    <option name="localTasksCounter" value="207" />
+    <task id="LOCAL-00207" summary="Extracted copyright holder and year from entities">
+      <created>1392272092434</created>
+      <updated>1392272092434</updated>
+    </task>
+    <option name="localTasksCounter" value="208" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="303092000" />
+    <option name="totallyTimeSpent" value="303150000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1664,7 +1668,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Completely rewrote the existing topic detection logic to be more robust." />
     <MESSAGE value="Completely rewrote the existing topic detection logic to be more robust.&#10;" />
     <MESSAGE value="First commit where a test book is completely resolved to existing topics as expected." />
     <MESSAGE value="Added some comments" />
@@ -1689,7 +1692,8 @@
     <MESSAGE value="Added the ability to specify a revision message&#10;" />
     <MESSAGE value="Added ability to find preface" />
     <MESSAGE value="Added ability to find preface&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ability to find preface&#10;" />
+    <MESSAGE value="Extracted copyright holder and year from entities" />
+    <option name="LAST_COMMIT_MESSAGE" value="Extracted copyright holder and year from entities" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2046,7 +2050,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="832" column="32" selection-start="39329" selection-end="39329" vertical-scroll-proportion="0.7933884" vertical-offset="11808" max-vertical-offset="28545">
+        <state line="828" column="50" selection-start="39090" selection-end="39090" vertical-scroll-proportion="0.72255015" vertical-offset="11808" max-vertical-offset="28560">
           <folding />
         </state>
       </provider>

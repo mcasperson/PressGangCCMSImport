@@ -826,6 +826,7 @@
                         contentSpec.push("Copyright Holder = Red Hat");
                     }
 
+                    // save the remaining entities
                     if (entities.length !== 0) {
                         contentSpec.push("Entities = [");
                         global.jQuery.each(entities, function(index, value){
