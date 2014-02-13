@@ -700,8 +700,6 @@
                 });
             }
 
-
-
             /*
              Strip out any XML preabmle that might have been pulled in with the
              xi:inject resolution. Once this step is done we have plain xml
@@ -799,7 +797,7 @@
                     }
 
                     contentSpec.push("Format = Docbook 4.5");
-                    contentSpec.push("Copyright Holder = Red Hat");
+
 
                     if (xmlDoc.documentElement.nodeName === "book") {
                         contentSpec.push("Type = Book");
@@ -807,10 +805,33 @@
                         contentSpec.push("Type = Article");
                     }
 
+                    // some entities are metadata elements in the spec
+                    var copyrightHolderFound = false;
+                    var removedEntities = [];
+                    global.jQuery.each(entities, function(index, value){
+                        var entityMatch;
+                        if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
+                            removedEntities.push(index);
+                            contentSpec.push("Copyright Holder = " + entityMatch[2]);
+                            copyrightHolderFound = true;
+                        }
+
+                        if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
+                            removedEntities.push(index);
+                            contentSpec.push("Copyright Year = " + entityMatch[2]);
+                        }
+                    });
+
+                    if (!copyrightHolderFound) {
+                        contentSpec.push("Copyright Holder = Red Hat");
+                    }
+
                     if (entities.length !== 0) {
                         contentSpec.push("Entities = [");
                         global.jQuery.each(entities, function(index, value){
-                            contentSpec.push(value);
+                            if (removedEntities.indexOf(index) === -1) {
+                                contentSpec.push(value);
+                            }
                         });
 
                         contentSpec.push("]");
