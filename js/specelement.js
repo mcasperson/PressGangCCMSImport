@@ -162,6 +162,7 @@
 
     global.TopicGraphNode.prototype.setXml = function (xml, xmlDoc) {
         this.xml = xml;
+        this.xmlDoc = xmlDoc;
         this.xrefs = [];
 
         // find any xrefs in the xml

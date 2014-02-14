@@ -18,9 +18,22 @@
     var AUTHOR_GROUP_TAG_ID = 664;
     var ABSTRACT_TAG_ID = 692;
     // docbook elements whose contents have to match exactly
-    var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address"];
+    var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
+    // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
+    var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect"];
 
     var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
+
+    /*
+        Some containers are remaped when placed in a content spec
+     */
+    function remapContainer(container) {
+        if (container === "simplesect") {
+            return "section";
+        }
+
+        return conatiner;
+    }
 
     function removeXmlPreamble (xmlText) {
 
@@ -1136,15 +1149,14 @@
                 // so we can work back to the original source
                 contentSpec.push("# Imported from " + config.ZipFile.name);
 
-                // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
-                var sectionTypes = ["part", "chapter", "appendix", "section", "preface"];
+
 
                 var containerTargetNum = 0;
 
                 var processXml = function (parentXML, depth) {
                     // loop over the containers under the root element
                     global.jQuery.each(parentXML.childNodes, function (index, value) {
-                        if (sectionTypes.indexOf(value.nodeName) !== -1) {
+                        if (CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
                             // take a copy of this container
                             var clone = value.cloneNode(true);
 
@@ -1156,7 +1168,7 @@
                                 // strip away any child containers
                                 var removeChildren = [];
                                 global.jQuery.each(clone.childNodes, function (index, containerChild) {
-                                    if (sectionTypes.indexOf(containerChild.nodeName) !== -1 ||
+                                    if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1 ||
                                         containerChild.nodeName === "revhistory") {
                                         removeChildren.push(containerChild);
                                     }
@@ -1213,10 +1225,11 @@
                                         if (value.nodeName === "section") {
                                             contentSpec.push(contentSpecLine + titleText);
                                         } else {
+                                            var containerName = remapContainer(value.nodeName);
                                             contentSpec.push(
                                                 contentSpecLine +
-                                                    value.nodeName.substring(0, 1).toUpperCase() +
-                                                    value.nodeName.substring(1, value.nodeName.length) +
+                                                    containerName.substring(0, 1).toUpperCase() +
+                                                    containerName.substring(1, value.nodeName.length) +
                                                     ": " + titleText);
                                         }
 
@@ -1237,10 +1250,11 @@
                                         topics.push(standaloneContainerTopic);
                                     }
                                 } else {
+                                    var containerName = remapContainer(value.nodeName);
                                     contentSpec.push(
                                         contentSpecLine +
-                                            value.nodeName.substring(0, 1).toUpperCase() +
-                                            value.nodeName.substring(1, value.nodeName.length) +
+                                            containerName.substring(0, 1).toUpperCase() +
+                                            containerName.substring(1, value.nodeName.length) +
                                             ": " + titleText);
 
                                     if (id) {
@@ -1335,7 +1349,7 @@
                  Take every xref that points to a topic (and not just a place in a topic), and replace it
                  with a injection placeholder. This is done on topics to be imported.
                  */
-                function normalizeXrefs (xml, topicAndContainerIDs) {
+                function normalizeXrefs (xml, xmlDoc, topicAndContainerIDs) {
                     var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
                     var xrefReplacements = [];
@@ -1458,8 +1472,8 @@
                                  topics then match we have a potential candidate to reuse.
                                  */
                                 var topicXMLCopy = topic.xml.cloneNode(true);
-                                normalizeXrefs(normalizeInjections(topicXMLCopy, xmlDoc), topicOrContainerIDs);
-                                reorderAttributes(xmlDoc, topicXMLCopy);
+                                normalizeXrefs(normalizeInjections(topicXMLCopy, topicXMLCopy), topicXMLCopy, topicOrContainerIDs);
+                                reorderAttributes(topicXMLCopy, topicXMLCopy);
 
                                 var topicXMLCompare = global.xmlToString(topicXMLCopy);
                                 topicXMLCompare = removeWhiteSpace(topicXMLCompare);
@@ -1526,7 +1540,7 @@
                                          */
                                         var verbatimMatch = true;
                                         global.jQuery.each(VERBATIM_ELEMENTS, function (index, elementName) {
-                                            var originalNodes = xmlDoc.evaluate(".//" + elementName, topicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
+                                            var originalNodes = topicXMLCopy.evaluate(".//" + elementName, topicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
                                             var matchingNodes = matchingTopicXMLCopy.evaluate(".//" + elementName, matchingTopicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
 
                                             var originalNode;
