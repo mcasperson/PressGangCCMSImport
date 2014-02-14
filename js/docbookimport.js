@@ -20,7 +20,7 @@
     // docbook elements whose contents have to match exactly
     var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
     // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
-    var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect"];
+    var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
 
     var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
@@ -29,6 +29,26 @@
      */
     function remapContainer(container) {
         if (container === "simplesect") {
+            return "section";
+        }
+
+        if (container === "sect1") {
+            return "section";
+        }
+
+        if (container === "sect2") {
+            return "section";
+        }
+
+        if (container === "sect3") {
+            return "section";
+        }
+
+        if (container === "sect4") {
+            return "section";
+        }
+
+        if (container === "sect5") {
             return "section";
         }
 
@@ -1178,7 +1198,7 @@
                                 });
 
                                 // the id attribute assigned to this container
-                                var id = xmlDoc.evaluate("/@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                var id = xmlDoc.evaluate("./@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                                 // what we have left is the contents of a initial text topic
                                 var contentSpecLine = "";
