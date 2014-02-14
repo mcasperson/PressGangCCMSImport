@@ -73,13 +73,13 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="46" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.21871203" vertical-offset="0" max-vertical-offset="3435">
+            <state line="15" column="116" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.27339002" vertical-offset="0" max-vertical-offset="3465">
               <folding>
                 <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-                <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-                <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+                <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+                <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+                <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -130,7 +130,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1382" column="24" selection-start="66297" selection-end="66297" vertical-scroll-proportion="-11.555555" vertical-offset="20418" max-vertical-offset="28350">
+            <state line="1844" column="33" selection-start="88824" selection-end="88838" vertical-scroll-proportion="-10.444445" vertical-offset="27378" max-vertical-offset="28350">
               <folding />
             </state>
           </provider>
@@ -791,7 +791,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="33056000" />
+      <workItem from="1392244121755" duration="33165000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1685,11 +1685,15 @@
       <created>1392338230770</created>
       <updated>1392338230770</updated>
     </task>
-    <option name="localTasksCounter" value="224" />
+    <task id="LOCAL-00224" summary="Started work on enabling target injections on container elements&#10;">
+      <created>1392338313173</created>
+      <updated>1392338313173</updated>
+    </task>
+    <option name="localTasksCounter" value="225" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="314513000" />
+    <option name="totallyTimeSpent" value="314622000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1781,9 +1785,9 @@
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1832,9 +1836,9 @@
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1883,9 +1887,9 @@
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1927,9 +1931,9 @@
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1952,9 +1956,9 @@
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1977,9 +1981,9 @@
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2123,20 +2127,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1382" column="24" selection-start="66297" selection-end="66297" vertical-scroll-proportion="-11.555555" vertical-offset="20418" max-vertical-offset="28350">
+        <state line="1844" column="33" selection-start="88824" selection-end="88838" vertical-scroll-proportion="-10.444445" vertical-offset="27378" max-vertical-offset="28350">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="46" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.21871203" vertical-offset="0" max-vertical-offset="3435">
+        <state line="15" column="116" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.27339002" vertical-offset="0" max-vertical-offset="3465">
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#1;n#div#5;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392338293865" expanded="true" signature="3193:3255" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3296:3351" placeholder="..." />
-            <marker date="1392338293865" expanded="true" signature="3394:3497" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3254:3316" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3357:3412" placeholder="..." />
+            <marker date="1392338395255" expanded="true" signature="3455:3558" placeholder="..." />
           </folding>
         </state>
       </provider>
