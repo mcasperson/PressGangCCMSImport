@@ -105,8 +105,8 @@
     }
 
     function replaceWhiteSpace(text) {
-        text = text.replace(/\n/g, " ");
-        text = text.replace(/\s+/g, " ");
+        text = text.replace(/\n/g, "");
+        text = text.replace(/\s/g, "");
         return text;
     }
 
