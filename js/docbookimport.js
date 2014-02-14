@@ -1379,12 +1379,7 @@
                     TODO: take into account those elements that preserve whitespace like screen, programlisting etc
                  */
                 function removeWhiteSpace (xml) {
-                    xml = xml.replace(/\n/g, " ");
-                    while (/\s\s+/.test(xml)) {
-                        xml = xml.replace(/\s\s+/g, " ");
-                    }
-
-                    return xml;
+                    return xml.replace(/\s/g, "");
                 }
 
                 /*

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qnasteps.js" afterPath="$PROJECT_DIR$/js/qnasteps.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -73,7 +74,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="98" selection-start="415" selection-end="415" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="3465">
+            <state line="9" column="98" selection-start="415" selection-end="415" vertical-scroll-proportion="-0.0" vertical-offset="135" max-vertical-offset="3465">
               <folding>
                 <marker date="1392338435558" expanded="true" signature="3255:3317" placeholder="..." />
                 <marker date="1392338435558" expanded="true" signature="3358:3413" placeholder="..." />
@@ -88,11 +89,8 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="125" column="75" selection-start="5934" selection-end="5934" vertical-scroll-proportion="0.0" vertical-offset="1875" max-vertical-offset="18585">
               <folding>
-                <marker date="1392258941468" expanded="true" signature="25394:25547" placeholder="{...}" />
                 <marker date="1392258941468" expanded="true" signature="38893:39054" placeholder="..." />
                 <marker date="1392258941468" expanded="true" signature="38968:39054" placeholder="..." />
-                <marker date="1392258941468" expanded="true" signature="57171:57326" placeholder="{...}" />
-                <marker date="1392258941468" expanded="true" signature="57447:57748" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -110,16 +108,7 @@
       <file leaf-file-name="qnasteps.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="72" selection-start="1905" selection-end="1908" vertical-scroll-proportion="-10.444445" vertical-offset="603" max-vertical-offset="3645">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="23" selection-start="25" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="360">
+            <state line="9" column="6" selection-start="254" selection-end="254" vertical-scroll-proportion="97.81481" vertical-offset="2776" max-vertical-offset="3645">
               <folding />
             </state>
           </provider>
@@ -128,7 +117,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="36" selection-start="4011" selection-end="4011" vertical-scroll-proportion="0.3683589" vertical-offset="1308" max-vertical-offset="28365">
+            <state line="1381" column="0" selection-start="66308" selection-end="66308" vertical-scroll-proportion="0.32451093" vertical-offset="20433" max-vertical-offset="28290">
               <folding />
             </state>
           </provider>
@@ -202,12 +191,12 @@
         <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/fontrule.js" />
-        <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/moment/moment-with-langs.min.js" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
         <option value="$PROJECT_DIR$/js/specelement.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
@@ -796,7 +785,7 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="1215000" />
+      <workItem from="1392346294593" duration="2030000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1710,11 +1699,15 @@
       <created>1392338851394</created>
       <updated>1392338851395</updated>
     </task>
-    <option name="localTasksCounter" value="229" />
+    <task id="LOCAL-00229" summary="Started work on enabling target injections on container elements&#10;">
+      <created>1392348681246</created>
+      <updated>1392348681247</updated>
+    </task>
+    <option name="localTasksCounter" value="230" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="318940000" />
+    <option name="totallyTimeSpent" value="319755000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1906" height="1080" extended-state="4" />
@@ -1733,6 +1726,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1743,7 +1737,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32979852" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2054,30 +2047,10 @@
         <state line="39" column="52" selection-start="1161" selection-end="1180" vertical-scroll-proportion="0.0" vertical-offset="426" max-vertical-offset="1995" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="23" selection-start="25" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/fontrule.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="61" column="31" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0" vertical-offset="446" max-vertical-offset="1650">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="75" selection-start="5934" selection-end="5934" vertical-scroll-proportion="0.0" vertical-offset="1875" max-vertical-offset="18585">
-          <folding>
-            <marker date="1392258941468" expanded="true" signature="25394:25547" placeholder="{...}" />
-            <marker date="1392258941468" expanded="true" signature="38893:39054" placeholder="..." />
-            <marker date="1392258941468" expanded="true" signature="38968:39054" placeholder="..." />
-            <marker date="1392258941468" expanded="true" signature="57171:57326" placeholder="{...}" />
-            <marker date="1392258941468" expanded="true" signature="57447:57748" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2125,16 +2098,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="75" selection-start="5934" selection-end="5934" vertical-scroll-proportion="0.0" vertical-offset="1875" max-vertical-offset="18585">
+          <folding>
+            <marker date="1392258941468" expanded="true" signature="38893:39054" placeholder="..." />
+            <marker date="1392258941468" expanded="true" signature="38968:39054" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="23" selection-start="25" selection-end="44" vertical-scroll-proportion="0.016910935" vertical-offset="0" max-vertical-offset="887">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="72" selection-start="1905" selection-end="1908" vertical-scroll-proportion="-10.444445" vertical-offset="603" max-vertical-offset="3645">
+        <state line="9" column="6" selection-start="254" selection-end="254" vertical-scroll-proportion="97.81481" vertical-offset="2776" max-vertical-offset="3645">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="36" selection-start="4011" selection-end="4011" vertical-scroll-proportion="0.3683589" vertical-offset="1308" max-vertical-offset="28365">
+        <state line="1381" column="0" selection-start="66308" selection-end="66308" vertical-scroll-proportion="0.32451093" vertical-offset="20433" max-vertical-offset="28290">
           <folding />
         </state>
       </provider>
