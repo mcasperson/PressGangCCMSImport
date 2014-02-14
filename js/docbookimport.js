@@ -17,6 +17,8 @@
     var REVISION_HISTORY_TAG_ID = 598;
     var AUTHOR_GROUP_TAG_ID = 664;
     var ABSTRACT_TAG_ID = 692;
+    // docbook elements whose contents have to match exactly
+    var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address"];
 
     function removeXmlPreamble (xmlText) {
 
@@ -1384,7 +1386,8 @@
                     This will cause issues if a topic already exists in the database that has only whitespace
                     changes.
 
-                    TODO: take into account those elements that preserve whitespace like screen, programlisting etc
+                    To fix this we run a second check against the content of any elements where whitespace is
+                    significant.
                  */
                 function removeWhiteSpace(xml) {
                     xml = xml.replace(/\n/gm, " ");                     // replace all existing line breaks
@@ -1512,7 +1515,41 @@
                                     matchingTopicXMLCompare = reencode(matchingTopicXMLCompare, replacedTextResult.replacements);
 
                                     if (matchingTopicXMLCompare === topicXMLCompare) {
-                                        topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
+
+                                        /*
+                                            This is the second level of checking. If we reach this point we know the
+                                            two XML file have the same structure and content ignoring any whitespace.
+                                            Now we make sure that any elements where whitespace is signifiant also
+                                            match.
+                                         */
+                                        var verbatimMatch = true;
+                                        global.jQuery.each(VERBATIM_ELEMENTS, function (index, elementName) {
+                                            var originalNodes = xmlDoc.evaluate(".//" + elementName, topicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
+                                            var matchingNodes = matchingTopicXMLCopy.evaluate(".//" + elementName, matchingTopicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
+
+                                            var originalNode;
+                                            var matchingNode;
+                                            while ((originalNode = originalNodes.iterateNext()) !== null) {
+                                                matchingNode = matchingNodes.iterateNext();
+
+                                                if (matchingNode === null) {
+                                                    throw "There was a mismatch between verbatim elements in similar topics!";
+                                                }
+
+                                                if (originalNode.textContent !== matchingNode.textContent) {
+                                                    verbatimMatch = false;
+                                                    return false;
+                                                }
+                                            }
+
+                                            if ((matchingNode = matchingNodes.iterateNext()) !== null) {
+                                                throw "There was a mismatch between verbatim elements in similar topics!";
+                                            }
+                                        });
+
+                                        if (verbatimMatch) {
+                                            topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
+                                        }
                                     }
                                 });
 
