@@ -20,6 +20,8 @@
     // docbook elements whose contents have to match exactly
     var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address"];
 
+    var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
+
     function removeXmlPreamble (xmlText) {
 
         var replaceMatchesNotInCDATA = function(regex, text) {
@@ -1363,7 +1365,7 @@
                     var comment;
                     var commentReplacements = [];
                     while ((comment = comments.iterateNext()) !== null) {
-                        if (/^\s*Inject\s*:\s*\d+\s*$/.test(comment.textContent)) {
+                        if (INJECTION_RE.test(comment.textContent)) {
                             var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
                             commentReplacements.push({original: comment, replacement: commentReplacement});
                         }
@@ -1536,7 +1538,12 @@
                                                     throw "There was a mismatch between verbatim elements in similar topics!";
                                                 }
 
-                                                if (originalNode.textContent !== matchingNode.textContent) {
+                                                var reencodedOriginal = reencode(global.xmlToString(originalNode), replacements);
+                                                var reencodedMatch = reencode(global.xmlToString(matchingNode), replacedTextResult.replacements);
+
+                                                // the original
+
+                                                if (reencodedOriginal !==reencodedMatch) {
                                                     verbatimMatch = false;
                                                     return false;
                                                 }
@@ -1588,7 +1595,7 @@
                          */
                         if (topic.pgIds) {
                             global.jQuery.each(topic.pgIds, function (pgid, details) {
-                                var InjectionRE = /<!--\s*Inject\s*:\s*(\d+)\s*-->/g;
+                                var InjectionRE = /<!--\s*Inject\s*:\s*(T?\d+)\s*-->/g;
                                 var match;
                                 var count = 0;
                                 while ((match = InjectionRE.exec(details.originalXML)) !== null) {
