@@ -107,8 +107,8 @@
     }
 
     function replaceWhiteSpace(text) {
-        text = text.replace(/\n/g, "");
-        text = text.replace(/\s/g, "");
+        text = text.replace(/\n/g, " ");
+        text = text.replace(/\s+/g, " ");
         return text;
     }
 
@@ -1394,8 +1394,8 @@
                     xml = xml.replace(/\t/gm, " ");                     // replace all existing tabs
                     xml = xml.replace(/>/gm, ">\n");                    // break after a the end of an element
                     xml = xml.replace(/</gm, "\n<");                    // break before the start of an element
-                    xml = xml.replace(/^\s+/gm, "$1");                  // remove leading whitespace
-                    xml = xml.replace(/\s+$/gm, "$1");                  // remove trailing whitespace
+                    xml = xml.replace(/^\s+/gm, "");                  // remove leading whitespace
+                    xml = xml.replace(/\s+$/gm, "");                  // remove trailing whitespace
                     xml = xml.replace(/(\S+)([ ]{2,})/gm, "$1 ");       // remove double spaces within text
                     return xml;
                 }
