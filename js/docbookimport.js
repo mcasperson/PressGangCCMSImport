@@ -943,7 +943,7 @@
                             "</simpara></appendix>");
 
                         var topic = new global.TopicGraphNode(topicGraph)
-                            .setXml(revHistoryFixedXML, xmlDoc)
+                            .setXml(revHistoryFixedXML, revHistoryFixedXML)
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle(revHistoryTitleContents)
                             .addTag(REVISION_HISTORY_TAG_ID);

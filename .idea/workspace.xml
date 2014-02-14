@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -115,7 +116,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1541" column="85" selection-start="75888" selection-end="75888" vertical-scroll-proportion="0.57042253" vertical-offset="22791" max-vertical-offset="29340">
+            <state line="945" column="74" selection-start="44499" selection-end="44499" vertical-scroll-proportion="0.57042253" vertical-offset="13851" max-vertical-offset="29340">
               <folding />
             </state>
           </provider>
@@ -142,15 +143,8 @@
       <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="461" column="46" selection-start="16695" selection-end="16695" vertical-scroll-proportion="0.0" vertical-offset="6629" max-vertical-offset="8490">
-              <folding>
-                <marker date="1392331322692" expanded="true" signature="19:20764" placeholder="{...}" />
-                <marker date="1392331322692" expanded="true" signature="12473:20760" placeholder="{...}" />
-                <marker date="1392331322692" expanded="true" signature="15861:16995" placeholder="{...}" />
-                <marker date="1392331322692" expanded="true" signature="16005:16902" placeholder="{...}" />
-                <marker date="1392331322692" expanded="true" signature="16547:16794" placeholder="{...}" />
-                <marker date="1392331322692" expanded="true" signature="16712:16776" placeholder="{...}" />
-              </folding>
+            <state line="461" column="46" selection-start="16695" selection-end="16695" vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="8490">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -784,7 +778,7 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="12059000" />
+      <workItem from="1392346294593" duration="13026000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1734,11 +1728,15 @@
       <created>1392362114831</created>
       <updated>1392362114831</updated>
     </task>
-    <option name="localTasksCounter" value="238" />
+    <task id="LOCAL-00238" summary="Working on a better way to compare xml while observing significant whitespace&#10;">
+      <created>1392362176482</created>
+      <updated>1392362176482</updated>
+    </task>
+    <option name="localTasksCounter" value="239" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="329784000" />
+    <option name="totallyTimeSpent" value="330751000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -2099,20 +2097,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/specelement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="461" column="46" selection-start="16695" selection-end="16695" vertical-scroll-proportion="0.0" vertical-offset="6629" max-vertical-offset="8490">
-          <folding>
-            <marker date="1392331322692" expanded="true" signature="19:20764" placeholder="{...}" />
-            <marker date="1392331322692" expanded="true" signature="12473:20760" placeholder="{...}" />
-            <marker date="1392331322692" expanded="true" signature="15861:16995" placeholder="{...}" />
-            <marker date="1392331322692" expanded="true" signature="16005:16902" placeholder="{...}" />
-            <marker date="1392331322692" expanded="true" signature="16547:16794" placeholder="{...}" />
-            <marker date="1392331322692" expanded="true" signature="16712:16776" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="16" selection-start="510" selection-end="518" vertical-scroll-proportion="0.32130778" vertical-offset="0" max-vertical-offset="6780" />
@@ -2153,9 +2137,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="461" column="46" selection-start="16695" selection-end="16695" vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="8490">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1541" column="85" selection-start="75888" selection-end="75888" vertical-scroll-proportion="0.57042253" vertical-offset="22791" max-vertical-offset="29340">
+        <state line="945" column="74" selection-start="44499" selection-end="44499" vertical-scroll-proportion="0.57042253" vertical-offset="13851" max-vertical-offset="29340">
           <folding />
         </state>
       </provider>
