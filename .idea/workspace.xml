@@ -113,7 +113,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="8" selection-start="1986" selection-end="1986" vertical-scroll-proportion="0.8487395" vertical-offset="245" max-vertical-offset="29850">
+            <state line="54" column="24" selection-start="2080" selection-end="2080" vertical-scroll-proportion="0.87147886" vertical-offset="315" max-vertical-offset="29910">
               <folding />
             </state>
           </provider>
@@ -775,7 +775,7 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="15560000" />
+      <workItem from="1392346294593" duration="16379000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1737,11 +1737,15 @@
       <created>1392373989413</created>
       <updated>1392373989413</updated>
     </task>
-    <option name="localTasksCounter" value="241" />
+    <task id="LOCAL-00241" summary="Working on a better way to compare xml while observing significant whitespace&#10;">
+      <created>1392374172207</created>
+      <updated>1392374172207</updated>
+    </task>
+    <option name="localTasksCounter" value="242" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="333285000" />
+    <option name="totallyTimeSpent" value="334104000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -2131,13 +2135,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/specelement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="29" selection-start="5636" selection-end="5636" vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="8505">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="32" selection-start="1566" selection-end="1566" vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="3480">
@@ -2149,9 +2146,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="164" column="29" selection-start="5636" selection-end="5636" vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="8505">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="8" selection-start="1986" selection-end="1986" vertical-scroll-proportion="0.8487395" vertical-offset="245" max-vertical-offset="29850">
+        <state line="54" column="24" selection-start="2080" selection-end="2080" vertical-scroll-proportion="0.87147886" vertical-offset="315" max-vertical-offset="29910">
           <folding />
         </state>
       </provider>

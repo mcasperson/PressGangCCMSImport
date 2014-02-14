@@ -52,7 +52,7 @@
             return "section";
         }
 
-        return conatiner;
+        return container;
     }
 
     function removeXmlPreamble (xmlText) {
@@ -1199,6 +1199,10 @@
 
                                 // the id attribute assigned to this container
                                 var id = xmlDoc.evaluate("./@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                if (id === null) {
+                                    // the docbook 5 version of the id attribute
+                                    id = xmlDoc.evaluate("./@xml:id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                }
 
                                 // what we have left is the contents of a initial text topic
                                 var contentSpecLine = "";
