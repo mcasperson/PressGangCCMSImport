@@ -24,6 +24,10 @@
 
     var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
+    function getOwnerDoc(node) {
+        return node.ownerDocument ? node.ownerDocument : node;
+    }
+
     /*
         Some containers are remaped when placed in a content spec
      */
@@ -591,7 +595,8 @@
                                     var replacedTextResult = replaceEntitiesInText(referencedXmlText);
                                     var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
                                     var cleanedReferencedXmlDom = global.jQuery.parseXML(cleanedReferencedXmlText);
-                                    var subset = cleanedReferencedXmlDom.evaluate(match[7], cleanedReferencedXmlDom, null, global.XPathResult.ANY_TYPE, null);
+
+                                    var subset = getOwnerDoc(cleanedReferencedXmlDom).evaluate(match[7], cleanedReferencedXmlDom, null, global.XPathResult.ANY_TYPE, null);
 
                                     var replacement = "";
                                     var matchedNode;
@@ -933,7 +938,7 @@
                     while (parentAppendix.parentNode && (parentAppendix = parentAppendix.parentNode).nodeName !== "appendix") {
 
                     }
-                    var revHistoryTitle = xmlDoc.evaluate("./title", parentAppendix, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var revHistoryTitle = getOwnerDoc(parentAppendix).evaluate("./title", parentAppendix, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                     var revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(global.xmlToString(revHistoryTitle))[1];
 
                     if (revHistoryTitle) {
@@ -942,7 +947,7 @@
 
                         // fix any dates. right now we just trim strings, but this could be
                         // a good opportunity to fix common date formats
-                        var dates = xmlDoc.evaluate(".//date", revHistory, null, global.XPathResult.ANY_TYPE, null);
+                        var dates = getOwnerDoc(revHistory).evaluate(".//date", revHistory, null, global.XPathResult.ANY_TYPE, null);
                         var date;
 
                         while ((date = dates.iterateNext()) !== null) {
@@ -951,7 +956,7 @@
                         }
 
                         // fix rev numbers
-                        var revnumbers = xmlDoc.evaluate(".//revnumber", revHistory, null, global.XPathResult.ANY_TYPE, null);
+                        var revnumbers = getOwnerDoc(revHistory).evaluate(".//revnumber", revHistory, null, global.XPathResult.ANY_TYPE, null);
                         var revnumber;
                         while ((revnumber = revnumbers.iterateNext()) !== null) {
                             var revContents = revnumber.textContent;
@@ -1181,7 +1186,7 @@
                             var clone = value.cloneNode(true);
 
                             // find the title
-                            var title = xmlDoc.evaluate("./title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                            var title = getOwnerDoc(clone).evaluate("./title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                             if (title) {
                                 var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
@@ -1198,10 +1203,10 @@
                                 });
 
                                 // the id attribute assigned to this container
-                                var id = xmlDoc.evaluate("./@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                var id = getOwnerDoc(clone).evaluate("./@id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                                 if (id === null) {
                                     // the docbook 5 version of the id attribute
-                                    id = xmlDoc.evaluate("./@xml:id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                                    id = getOwnerDoc(clone).evaluate("./@xml:id", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                                 }
 
                                 // what we have left is the contents of a initial text topic
@@ -1220,14 +1225,14 @@
                                         var clone2 = clone.cloneNode(true);
                                         var removeNodes = [];
 
-                                        var titles = xmlDoc.evaluate("./title", clone2, null, global.XPathResult.ANY_TYPE, null);
+                                        var titles = getOwnerDoc(clone2).evaluate("./title", clone2, null, global.XPathResult.ANY_TYPE, null);
 
                                         var titleNode;
                                         while ((titleNode = titles.iterateNext()) !== null) {
                                             removeNodes.push(titleNode);
                                         }
 
-                                        var revHistoryNodes = xmlDoc.evaluate(".//revhistory", clone2, null, global.XPathResult.ANY_TYPE, null);
+                                        var revHistoryNodes = getOwnerDoc(clone2).evaluate(".//revhistory", clone2, null, global.XPathResult.ANY_TYPE, null);
 
                                         var revHistoryNode;
                                         while ((revHistoryNode = revHistoryNodes.iterateNext()) !== null) {
@@ -1291,14 +1296,14 @@
                                         var containerClone = clone.cloneNode(true);
                                         var containerRemoveNodes = [];
 
-                                        var containerTitles = xmlDoc.evaluate("./title", containerClone, null, global.XPathResult.ANY_TYPE, null);
+                                        var containerTitles = getOwnerDoc(containerClone).evaluate("./title", containerClone, null, global.XPathResult.ANY_TYPE, null);
 
                                         var containerTitleNode;
                                         while ((containerTitleNode = containerTitles.iterateNext()) !== null) {
                                             containerRemoveNodes.push(containerTitleNode);
                                         }
 
-                                        var containerRevHistoryNodes = xmlDoc.evaluate(".//revhistory", containerClone, null, global.XPathResult.ANY_TYPE, null);
+                                        var containerRevHistoryNodes = getOwnerDoc(containerClone).evaluate(".//revhistory", containerClone, null, global.XPathResult.ANY_TYPE, null);
 
                                         var containerRevHistoryNode;
                                         while ((containerRevHistoryNode = containerRevHistoryNodes.iterateNext()) !== null) {
@@ -1374,10 +1379,7 @@
                  with a injection placeholder. This is done on topics to be imported.
                  */
                 function normalizeXrefs (xml, topicAndContainerIDs) {
-
-                    var xmlDoc = xml.ownerDocument ? xml.ownerDocument : xml;
-
-                    var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var xrefs = getOwnerDoc(xml).evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
                     var xrefReplacements = [];
                     while ((xref = xrefs.iterateNext()) !== null) {
@@ -1402,8 +1404,7 @@
                  from PressGang.
                  */
                 function normalizeInjections (xml) {
-                    var xmlDoc = xml.ownerDocument ? xml.ownerDocument : xml;
-                    var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var comments = getOwnerDoc(xml).evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
                     var commentReplacements = [];
                     while ((comment = comments.iterateNext()) !== null) {
@@ -1450,8 +1451,7 @@
                  we order any attributes in any node.
                  */
                 function reorderAttributes(xml) {
-                    var xmlDoc = xml.ownerDocument ? xml.ownerDocument : xml;
-                    var allElements = xmlDoc.evaluate(".//*", xml, null, global.XPathResult.ANY_TYPE, null);
+                    var allElements = getOwnerDoc(xml).evaluate(".//*", xml, null, global.XPathResult.ANY_TYPE, null);
                     var elements = [];
                     var elementIter;
                     while ((elementIter = allElements.iterateNext()) !== null) {
@@ -1569,8 +1569,8 @@
                                          */
                                         var verbatimMatch = true;
                                         global.jQuery.each(VERBATIM_ELEMENTS, function (index, elementName) {
-                                            var originalNodes = topicXMLCopy.evaluate(".//" + elementName, topicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
-                                            var matchingNodes = matchingTopicXMLCopy.evaluate(".//" + elementName, matchingTopicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
+                                            var originalNodes = getOwnerDoc(topicXMLCopy).evaluate(".//" + elementName, topicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
+                                            var matchingNodes = getOwnerDoc(matchingTopicXMLCopy).evaluate(".//" + elementName, matchingTopicXMLCopy, null, global.XPathResult.ANY_TYPE, null);
 
                                             var originalNode;
                                             var matchingNode;
@@ -1846,7 +1846,7 @@
 
                         var topic = topics[index];
                         if (topic.createdTopic) {
-                            var xrefs = xmlDoc.evaluate(".//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
+                            var xrefs = getOwnerDoc(topic.xml).evaluate(".//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
                             var xref;
                             var xrefReplacements = [];
                             while ((xref = xrefs.iterateNext()) !== null) {
