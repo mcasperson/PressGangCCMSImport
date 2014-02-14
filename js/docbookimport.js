@@ -920,12 +920,12 @@
                             var revContents = revnumber.textContent;
                             var revMatch = /(\d+)\.(\d+)/.exec(revContents);
                             if (revMatch !== null) {
-                                replacementNodeDetails.push({original: revContents, replacement: revMatch[1] + "-" + revMatch[2]});
+                                replacementNodeDetails.push({original: revnumber, replacement: revMatch[1] + "-" + revMatch[2]});
                             }
                         }
 
                         global.jQuery.each(replacementNodeDetails, function(index, value){
-                            value.original.nodeValue = value.replacement;
+                            value.original.textContent = value.replacement;
                         });
 
                         contentSpec.push("Revision History = ");
@@ -1375,12 +1375,21 @@
                 }
 
                 /*
-                    Remove all duplicate whitespace
+                    This function takes the xml and strips out ignored whitespace. This allows us to compare
+                    two xml documents that may have been formatted differently.
                     TODO: take into account those elements that preserve whitespace like screen, programlisting etc
                  */
-                function removeWhiteSpace (xml) {
-                    return xml.replace(/\s/g, "");
+                function removeWhiteSpace(xml) {
+                    xml = xml.replace(/\n/gm, " ");
+                    xml = xml.replace(/>/gm, ">\n");
+                    xml = xml.replace(/<\//gm, "\n<\/");
+                    xml = xml.replace(/^\s+</gm, "<");
+                    xml = xml.replace(/>\s+$/gm, ">");
+                    xml = xml.replace(/^\s{2,}([^<])/gm, " $1");
+                    xml = xml.replace(/([^>])\s{2,}$/gm, "$1 ");
+                    return xml;
                 }
+
 
                 /*
                  The order of the attributes is changed by PressGang, so before we do a comparasion
