@@ -130,7 +130,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1381" column="33" selection-start="66266" selection-end="66266" vertical-scroll-proportion="0.3683589" vertical-offset="20403" max-vertical-offset="28350">
+            <state line="1378" column="115" selection-start="66240" selection-end="66240" vertical-scroll-proportion="0.31523022" vertical-offset="20403" max-vertical-offset="28365">
               <folding />
             </state>
           </provider>
@@ -791,7 +791,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="33511000" />
+      <workItem from="1392244121755" duration="33594000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1697,11 +1697,15 @@
       <created>1392338530276</created>
       <updated>1392338530276</updated>
     </task>
-    <option name="localTasksCounter" value="227" />
+    <task id="LOCAL-00227" summary="Started work on enabling target injections on container elements&#10;">
+      <created>1392338768329</created>
+      <updated>1392338768329</updated>
+    </task>
+    <option name="localTasksCounter" value="228" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="314968000" />
+    <option name="totallyTimeSpent" value="315051000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -2148,7 +2152,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1381" column="33" selection-start="66266" selection-end="66266" vertical-scroll-proportion="0.3683589" vertical-offset="20403" max-vertical-offset="28350">
+        <state line="1378" column="115" selection-start="66240" selection-end="66240" vertical-scroll-proportion="0.31523022" vertical-offset="20403" max-vertical-offset="28365">
           <folding />
         </state>
       </provider>

@@ -1375,7 +1375,8 @@
                 }
 
                 /*
-                 Remove all whitespace
+                    Remove all duplicate whitespace
+                    TODO: take into account those elements that preserve whitespace like screen, programlisting etc
                  */
                 function removeWhiteSpace (xml) {
                     xml = xml.replace(/\n/g, " ");
