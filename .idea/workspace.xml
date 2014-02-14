@@ -4,7 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1135" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="Started work on enabling target injections on container elements&#10;">
+    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -116,7 +116,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1378" column="79" selection-start="66258" selection-end="66258" vertical-scroll-proportion="0.2899885" vertical-offset="20418" max-vertical-offset="28425">
+            <state line="1389" column="61" selection-start="66907" selection-end="66907" vertical-scroll-proportion="0.49712312" vertical-offset="20403" max-vertical-offset="28440">
               <folding />
             </state>
           </provider>
@@ -784,7 +784,7 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="5377000" />
+      <workItem from="1392346294593" duration="5658000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1706,11 +1706,15 @@
       <created>1392349570132</created>
       <updated>1392349570132</updated>
     </task>
-    <option name="localTasksCounter" value="231" />
+    <task id="LOCAL-00231" summary="Started work on enabling target injections on container elements&#10;">
+      <created>1392354508254</created>
+      <updated>1392354508254</updated>
+    </task>
+    <option name="localTasksCounter" value="232" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="323102000" />
+    <option name="totallyTimeSpent" value="323383000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1906" height="1080" extended-state="4" />
@@ -2127,7 +2131,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1378" column="79" selection-start="66258" selection-end="66258" vertical-scroll-proportion="0.2899885" vertical-offset="20418" max-vertical-offset="28425">
+        <state line="1389" column="61" selection-start="66907" selection-end="66907" vertical-scroll-proportion="0.49712312" vertical-offset="20403" max-vertical-offset="28440">
           <folding />
         </state>
       </provider>
