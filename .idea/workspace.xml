@@ -116,7 +116,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1389" column="61" selection-start="66907" selection-end="66907" vertical-scroll-proportion="0.49712312" vertical-offset="20403" max-vertical-offset="28440">
+            <state line="1390" column="48" selection-start="66946" selection-end="66946" vertical-scroll-proportion="0.5143843" vertical-offset="20403" max-vertical-offset="28455">
               <folding />
             </state>
           </provider>
@@ -784,7 +784,7 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="5658000" />
+      <workItem from="1392346294593" duration="6565000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1710,11 +1710,15 @@
       <created>1392354508254</created>
       <updated>1392354508254</updated>
     </task>
-    <option name="localTasksCounter" value="232" />
+    <task id="LOCAL-00232" summary="Working on a better way to compare xml while observing significant whitespace">
+      <created>1392354808568</created>
+      <updated>1392354808568</updated>
+    </task>
+    <option name="localTasksCounter" value="233" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="323383000" />
+    <option name="totallyTimeSpent" value="324290000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1906" height="1080" extended-state="4" />
@@ -1762,7 +1766,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added some comments&#10;" />
     <MESSAGE value="Working on importing cluser guide 5.8" />
     <MESSAGE value="Working on importing cluser guide 5.8&#10;" />
     <MESSAGE value="Fixing bugs in Firefox" />
@@ -1787,7 +1790,8 @@
     <MESSAGE value="Extracted copyright holder and year from entities&#10;" />
     <MESSAGE value="Started work on enabling target injections on container elements" />
     <MESSAGE value="Started work on enabling target injections on container elements&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started work on enabling target injections on container elements&#10;" />
+    <MESSAGE value="Working on a better way to compare xml while observing significant whitespace" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on a better way to compare xml while observing significant whitespace" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2131,7 +2135,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1389" column="61" selection-start="66907" selection-end="66907" vertical-scroll-proportion="0.49712312" vertical-offset="20403" max-vertical-offset="28440">
+        <state line="1390" column="48" selection-start="66946" selection-end="66946" vertical-scroll-proportion="0.5143843" vertical-offset="20403" max-vertical-offset="28455">
           <folding />
         </state>
       </provider>

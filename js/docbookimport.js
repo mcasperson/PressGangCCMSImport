@@ -1381,13 +1381,14 @@
                  */
                 function removeWhiteSpace(xml) {
                     xml = xml.replace(/\n/gm, " ");
+                    xml = xml.replace(/\t/gm, " ");
                     xml = xml.replace(/>/gm, ">\n");
                     xml = xml.replace(/<\//gm, "\n<\/");
                     xml = xml.replace(/^\s+</gm, "<");
                     xml = xml.replace(/>\s+$/gm, ">");
                     xml = xml.replace(/^\s{2,}([^<])/gm, " $1");
                     xml = xml.replace(/([^>])\s{2,}$/gm, "$1 ");
-                    xml = xml.replace(/(\S+)(\s{2,})./gm, "$1 ");
+                    xml = xml.replace(/(\S+)([ ]{2,})./gm, "$1 ");
                     return xml;
                 }
 
