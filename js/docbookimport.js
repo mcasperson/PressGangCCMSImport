@@ -291,9 +291,9 @@
                 .setVariables([
                     new global.QNAVariable()
                         .setType(global.InputEnum.RADIO_BUTTONS)
-                        .setIntro(["Production Server", "Test Server"])
-                        .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
-                        .setValue("skynet-dev.usersys.redhat.com")
+                        .setIntro(["Production Server", "Test Server", "Local Server"])
+                        .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com", "localhost"])
+                        .setValue("localhost")
                         .setName("PressGangHost")
                 ])
         ])
@@ -1377,18 +1377,23 @@
                 /*
                     This function takes the xml and strips out ignored whitespace. This allows us to compare
                     two xml documents that may have been formatted differently.
+
+                    This is a bit of a hack. Technically, all white space is significant unless otherwise
+                    specified by the DTD. We assume here that all whitespace is insignificant.
+
+                    This will cause issues if a topic already exists in the database that has only whitespace
+                    changes.
+
                     TODO: take into account those elements that preserve whitespace like screen, programlisting etc
                  */
                 function removeWhiteSpace(xml) {
-                    xml = xml.replace(/\n/gm, " ");
-                    xml = xml.replace(/\t/gm, " ");
-                    xml = xml.replace(/>/gm, ">\n");
-                    xml = xml.replace(/<\//gm, "\n<\/");
-                    xml = xml.replace(/^\s+</gm, "<");
-                    xml = xml.replace(/>\s+$/gm, ">");
-                    xml = xml.replace(/^\s{2,}([^<])/gm, " $1");
-                    xml = xml.replace(/([^>])\s{2,}$/gm, "$1 ");
-                    xml = xml.replace(/(\S+)([ ]{2,})./gm, "$1 ");
+                    xml = xml.replace(/\n/gm, " ");                     // replace all existing line breaks
+                    xml = xml.replace(/\t/gm, " ");                     // replace all existing tabs
+                    xml = xml.replace(/>/gm, ">\n");                    // break after a the end of an element
+                    xml = xml.replace(/</gm, "\n<");                    // break before the start of an element
+                    xml = xml.replace(/^\s+/gm, "$1");                  // remove leading whitespace
+                    xml = xml.replace(/\s+$/gm, "$1");                  // remove trailing whitespace
+                    xml = xml.replace(/(\S+)([ ]{2,})/gm, "$1 ");       // remove double spaces within text
                     return xml;
                 }
 
@@ -1464,7 +1469,17 @@
                                  We are now ready to compare it directly to topics pulled from PressGang and
                                  normalized.
                                  */
+                                data.items.sort(function(a,b){
+                                    if (a.item.id < b.item.id) {
+                                        return 1;
+                                    }
 
+                                    if (a.item.id === b.item.id) {
+                                        return 0;
+                                    }
+
+                                    return -1;
+                                });
                                 global.jQuery.each(data.items, function(index, matchingTopic) {
                                     /*
                                      Strip out the entities which can cause issues with the XML Parsing
