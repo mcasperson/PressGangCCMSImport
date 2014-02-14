@@ -1379,8 +1379,8 @@
                  */
                 function removeWhiteSpace (xml) {
                     xml = xml.replace(/\n/g, " ");
-                    while (/\s+/.test(xml)) {
-                        xml = xml.replace(/\s+/g, " ");
+                    while (/\s\s+/.test(xml)) {
+                        xml = xml.replace(/\s\s+/g, " ");
                     }
 
                     return xml;
