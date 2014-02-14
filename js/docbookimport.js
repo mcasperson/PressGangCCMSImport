@@ -1378,8 +1378,12 @@
                  Remove all whitespace
                  */
                 function removeWhiteSpace (xml) {
-                    return xml.replace(/\n/g, "")
-                        .replace(/\s/g, "");
+                    xml = xml.replace(/\n/g, " ");
+                    while (/\s+/.test(xml)) {
+                        xml = xml.replace(/\s+/g, " ");
+                    }
+
+                    return xml;
                 }
 
                 /*
