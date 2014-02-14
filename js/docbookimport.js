@@ -809,14 +809,18 @@
                         var entityMatch;
                         if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
                             removedEntities.push(index);
-                            // save the last one
-                            copyrightHolder = "Copyright Holder = " + entityMatch[2];
+                            // save the first one
+                            if (!copyrightHolder) {
+                                copyrightHolder = "Copyright Holder = " + entityMatch[2];
+                            }
                         }
 
                         if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
                             removedEntities.push(index);
-                            // save the last one
-                            copyrightYear = "Copyright Year = " + entityMatch[2];
+                            // save the first one
+                            if (!copyrightYear) {
+                                copyrightYear = "Copyright Year = " + entityMatch[2];
+                            }
                         }
                     });
 

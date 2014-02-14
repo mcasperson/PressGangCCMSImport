@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1131" />
+    <bookmark url="file://$PROJECT_DIR$/js/docbookimport.js" description="&#10;                // a collection of all the topics..." line="1135" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
@@ -131,7 +131,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="911" column="42" selection-start="42650" selection-end="42650" vertical-scroll-proportion="0.35064936" vertical-offset="13368" max-vertical-offset="28230">
+            <state line="821" column="0" selection-start="38768" selection-end="38768" vertical-scroll-proportion="0.6162928" vertical-offset="11793" max-vertical-offset="28290">
               <folding />
             </state>
           </provider>
@@ -792,7 +792,7 @@
       <workItem from="1391547743164" duration="78859000" />
       <workItem from="1391734259244" duration="13694000" />
       <workItem from="1391907087418" duration="64712000" />
-      <workItem from="1392244121755" duration="30601000" />
+      <workItem from="1392244121755" duration="30901000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1674,11 +1674,15 @@
       <created>1392334764370</created>
       <updated>1392334764370</updated>
     </task>
-    <option name="localTasksCounter" value="221" />
+    <task id="LOCAL-00221" summary="Started work on enabling target injections on container elements&#10;">
+      <created>1392335734097</created>
+      <updated>1392335734097</updated>
+    </task>
+    <option name="localTasksCounter" value="222" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="312058000" />
+    <option name="totallyTimeSpent" value="312358000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -2132,7 +2136,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="911" column="42" selection-start="42650" selection-end="42650" vertical-scroll-proportion="0.35064936" vertical-offset="13368" max-vertical-offset="28230">
+        <state line="821" column="0" selection-start="38768" selection-end="38768" vertical-scroll-proportion="0.6162928" vertical-offset="11793" max-vertical-offset="28290">
           <folding />
         </state>
       </provider>
