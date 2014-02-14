@@ -924,7 +924,7 @@
                             }
                         }
 
-                        global.jQuery.each(replacementDates, function(index, value){
+                        global.jQuery.each(replacementNodeDetails, function(index, value){
                             value.original.nodeValue = value.replacement;
                         });
 
