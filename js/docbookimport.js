@@ -798,12 +798,12 @@
 
                 var bookinfo = xmlDoc.evaluate("//bookinfo", xmlDoc, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                 if (bookinfo) {
-                    var title = xmlDoc.evaluate("title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var subtitle = xmlDoc.evaluate("subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var edition = xmlDoc.evaluate("edition", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var pubsnumber = xmlDoc.evaluate("pubsnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var productname = xmlDoc.evaluate("productname", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
-                    var productnumber = xmlDoc.evaluate("productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var title = xmlDoc.evaluate("./title", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var subtitle = xmlDoc.evaluate("./subtitle", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var edition = xmlDoc.evaluate("./edition", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var pubsnumber = xmlDoc.evaluate("./pubsnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productname = xmlDoc.evaluate("./productname", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                    var productnumber = xmlDoc.evaluate("./productnumber", bookinfo, null, global.XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (title) {
                         contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));
@@ -1181,7 +1181,7 @@
                             var clone = value.cloneNode(true);
 
                             // find the title
-                            var title = xmlDoc.evaluate("/title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
+                            var title = xmlDoc.evaluate("./title", clone, null, global.XPathResult.ANY_TYPE, null).iterateNext();
                             if (title) {
                                 var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
@@ -1373,7 +1373,10 @@
                  Take every xref that points to a topic (and not just a place in a topic), and replace it
                  with a injection placeholder. This is done on topics to be imported.
                  */
-                function normalizeXrefs (xml, xmlDoc, topicAndContainerIDs) {
+                function normalizeXrefs (xml, topicAndContainerIDs) {
+
+                    var xmlDoc = xml.ownerDocument ? xml.ownerDocument : xml;
+
                     var xrefs = xmlDoc.evaluate("//xref", xml, null, global.XPathResult.ANY_TYPE, null);
                     var xref;
                     var xrefReplacements = [];
@@ -1398,7 +1401,8 @@
                  Take every injection and replace it with a placeholder. This is done on existing topics
                  from PressGang.
                  */
-                function normalizeInjections (xml, xmlDoc) {
+                function normalizeInjections (xml) {
+                    var xmlDoc = xml.ownerDocument ? xml.ownerDocument : xml;
                     var comments = xmlDoc.evaluate("//comment()", xml, null, global.XPathResult.ANY_TYPE, null);
                     var comment;
                     var commentReplacements = [];
@@ -1445,8 +1449,9 @@
                  The order of the attributes is changed by PressGang, so before we do a comparasion
                  we order any attributes in any node.
                  */
-                function reorderAttributes(xmlDoc, xml) {
-                    var allElements = xmlDoc.evaluate("//*", xml, null, global.XPathResult.ANY_TYPE, null);
+                function reorderAttributes(xml) {
+                    var xmlDoc = xml.ownerDocument ? xml.ownerDocument : xml;
+                    var allElements = xmlDoc.evaluate(".//*", xml, null, global.XPathResult.ANY_TYPE, null);
                     var elements = [];
                     var elementIter;
                     while ((elementIter = allElements.iterateNext()) !== null) {
@@ -1496,8 +1501,8 @@
                                  topics then match we have a potential candidate to reuse.
                                  */
                                 var topicXMLCopy = topic.xml.cloneNode(true);
-                                normalizeXrefs(normalizeInjections(topicXMLCopy, topicXMLCopy), topicXMLCopy, topicOrContainerIDs);
-                                reorderAttributes(topicXMLCopy, topicXMLCopy);
+                                normalizeXrefs(normalizeInjections(topicXMLCopy), topicOrContainerIDs);
+                                reorderAttributes(topicXMLCopy);
 
                                 var topicXMLCompare = global.xmlToString(topicXMLCopy);
                                 topicXMLCompare = removeWhiteSpace(topicXMLCompare);
@@ -1841,7 +1846,7 @@
 
                         var topic = topics[index];
                         if (topic.createdTopic) {
-                            var xrefs = xmlDoc.evaluate("//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
+                            var xrefs = xmlDoc.evaluate(".//xref", topic.xml, null, global.XPathResult.ANY_TYPE, null);
                             var xref;
                             var xrefReplacements = [];
                             while ((xref = xrefs.iterateNext()) !== null) {
