@@ -324,7 +324,7 @@
      Step 3 - Ask about creating a new spec or overwriting an old one
      */
     var askToReuseTopics = new global.QNAStep()
-        .setTitle("Do you want to reuse existing topics?")
+        .setTitle("Do you want to reuse existing topics and images?")
         .setIntro("This wizard can attempt to reuse any existing topics whose contents and xref relationships match those defined in the imported content. " +
                     "You also have the choice to reuse any images that exactly match those that are being imported. " +
                     "It is highly recommended that you reuse existing topics and images.")
