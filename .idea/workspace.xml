@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qnasteps.js" afterPath="$PROJECT_DIR$/js/qnasteps.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -104,7 +105,7 @@
       <file leaf-file-name="qnasteps.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="6" selection-start="254" selection-end="254" vertical-scroll-proportion="97.81481" vertical-offset="2776" max-vertical-offset="3645">
+            <state line="159" column="44" selection-start="5685" selection-end="5685" vertical-scroll-proportion="-10.333333" vertical-offset="2106" max-vertical-offset="3645">
               <folding />
             </state>
           </provider>
@@ -113,7 +114,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1505" column="25" selection-start="71953" selection-end="71953" vertical-scroll-proportion="-2.5985916" vertical-offset="24051" max-vertical-offset="30345">
+            <state line="1146" column="132" selection-start="52471" selection-end="52471" vertical-scroll-proportion="0.27992958" vertical-offset="17031" max-vertical-offset="30510">
               <folding />
             </state>
           </provider>
@@ -183,10 +184,10 @@
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/moment/moment-with-langs.min.js" />
         <option value="$PROJECT_DIR$/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/js/qnasteps.js" />
         <option value="$PROJECT_DIR$/js/specelement.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/js/qnasteps.js" />
       </list>
     </option>
   </component>
@@ -775,7 +776,7 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="56048000" />
+      <workItem from="1392346294593" duration="56903000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1753,11 +1754,15 @@
       <created>1392378648347</created>
       <updated>1392378648347</updated>
     </task>
-    <option name="localTasksCounter" value="245" />
+    <task id="LOCAL-00245" summary="Working on a better way to compare xml while observing significant whitespace&#10;">
+      <created>1392438013887</created>
+      <updated>1392438013887</updated>
+    </task>
+    <option name="localTasksCounter" value="246" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="373773000" />
+    <option name="totallyTimeSpent" value="374628000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -2140,13 +2145,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="6" selection-start="254" selection-end="254" vertical-scroll-proportion="97.81481" vertical-offset="2776" max-vertical-offset="3645">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="32" selection-start="1566" selection-end="1566" vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="3480">
@@ -2165,9 +2163,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="159" column="44" selection-start="5685" selection-end="5685" vertical-scroll-proportion="-10.333333" vertical-offset="2106" max-vertical-offset="3645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1505" column="25" selection-start="71953" selection-end="71953" vertical-scroll-proportion="-2.5985916" vertical-offset="24051" max-vertical-offset="30345">
+        <state line="1146" column="132" selection-start="52471" selection-end="52471" vertical-scroll-proportion="0.27992958" vertical-offset="17031" max-vertical-offset="30510">
           <folding />
         </state>
       </provider>

@@ -326,14 +326,21 @@
     var askToReuseTopics = new global.QNAStep()
         .setTitle("Do you want to reuse existing topics?")
         .setIntro("This wizard can attempt to reuse any existing topics whose contents and xref relationships match those defined in the imported content. " +
-                    "It is highly recommended that you reuse existing topics.")
+                    "You also have the choice to reuse any images that exactly match those that are being imported. " +
+                    "It is highly recommended that you reuse existing topics and images.")
         .setInputs([
             new global.QNAVariables()
                 .setVariables([
                     new global.QNAVariable()
                         .setType(global.InputEnum.RADIO_BUTTONS)
                         .setIntro(["Reuse existing topics", "Create new topics"])
-                        .setName("CreateOrResuse")
+                        .setName("CreateOrResuseTopics")
+                        .setOptions(["REUSE", "CREATE"])
+                        .setValue("REUSE"),
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.RADIO_BUTTONS)
+                        .setIntro(["Reuse existing images", "Create new images"])
+                        .setName("CreateOrResuseImages")
                         .setOptions(["REUSE", "CREATE"])
                         .setValue("REUSE")
                 ])
@@ -1132,12 +1139,16 @@
                                     function (result) {
                                         if (result) {
                                             global.createImage(
+                                                config.CreateOrResuseImages === "REUSE",
                                                 config.ZipFile,
                                                 filename,
                                                 config,
-                                                function (imageId, matchedExisting) {
+                                                function (data) {
+                                                    var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
+
                                                     config.UploadedImageCount += 1;
-                                                    if (matchedExisting) {
+
+                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
                                                         config.MatchedImageCount += 1;
                                                     }
 
@@ -1630,7 +1641,7 @@
                     }
                 }
 
-                if (config.CreateOrResuse === "REUSE") {
+                if (config.CreateOrResuseTopics === "REUSE") {
                     getPossibleMatches(0, function() {
                         populateOutgoingLinks();
                     });

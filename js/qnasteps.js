@@ -112,7 +112,7 @@
         });
     };
 
-    global.createImage = function(zipfile, image, config, successCallback, errorCallback) {
+    global.createImage = function(trytomatch, zipfile, image, config, successCallback, errorCallback) {
 
         global.zipModel.getByteArrayFromFileName(
             zipfile,
@@ -152,12 +152,12 @@
 
                 global.jQuery.ajax({
                     type: 'POST',
-                    url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/createormatch/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                    url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/' + (trytomatch ? 'createormatch' : 'match') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                     data: JSON.stringify(postBody),
                     contentType: "application/json",
                     dataType: "json",
                     success: function (data) {
-                        successCallback(data.image.id, data.matchedExistingImage);
+                        successCallback(data);
                     },
                     error: function () {
                         errorCallback("Connection Error", "An error occurred while uploading an image.");
