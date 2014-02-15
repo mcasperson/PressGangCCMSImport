@@ -295,7 +295,7 @@
                 ])
         ])
         .setNextStep(function (resultCallback, errorCallback, result, config) {
-            resultCallback(config.CreateOrOverwrite === "CREATE" ? specifyTheServer : getExistingContentSpecID);
+            resultCallback(config.CreateOrOverwrite === "CREATE" ? askToReuseTopics : getExistingContentSpecID);
         });
 
     var getExistingContentSpecID = new global.QNAStep()
@@ -317,6 +317,28 @@
             }
         })
         .setNextStep(function (resultCallback) {
+            resultCallback(askToReuseTopics);
+        });
+
+    /*
+     Step 3 - Ask about creating a new spec or overwriting an old one
+     */
+    var askToReuseTopics = new global.QNAStep()
+        .setTitle("Do you want to reuse existing topics?")
+        .setIntro("This wizard can attempt to reuse any existing topics whose contents and xref relationships match those defined in the imported content. " +
+                    "It is highly recommended that you reuse existing topics.")
+        .setInputs([
+            new global.QNAVariables()
+                .setVariables([
+                    new global.QNAVariable()
+                        .setType(global.InputEnum.RADIO_BUTTONS)
+                        .setIntro(["Reuse existing topics", "Create new topics"])
+                        .setName("CreateOrResuse")
+                        .setOptions(["REUSE", "CREATE"])
+                        .setValue("REUSE")
+                ])
+        ])
+        .setNextStep(function (resultCallback, errorCallback, result, config) {
             resultCallback(specifyTheServer);
         });
 
@@ -1174,8 +1196,6 @@
                 // so we can work back to the original source
                 contentSpec.push("# Imported from " + config.ZipFile.name);
 
-
-
                 var containerTargetNum = 0;
 
                 var processXml = function (parentXML, depth) {
@@ -1610,9 +1630,13 @@
                     }
                 }
 
-                getPossibleMatches(0, function() {
+                if (config.CreateOrResuse === "REUSE") {
+                    getPossibleMatches(0, function() {
+                        populateOutgoingLinks();
+                    });
+                } else {
                     populateOutgoingLinks();
-                });
+                }
 
                 /*
                  Step 2: Populate outgoing links

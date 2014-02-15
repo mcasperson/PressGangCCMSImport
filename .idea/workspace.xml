@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="Working on a better way to compare xml while observing significant whitespace&#10;">
+    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -113,7 +113,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="803" column="47" selection-start="36661" selection-end="36670" vertical-scroll-proportion="0.33274648" vertical-offset="11856" max-vertical-offset="29985">
+            <state line="1505" column="25" selection-start="71953" selection-end="71953" vertical-scroll-proportion="-2.5985916" vertical-offset="24051" max-vertical-offset="30345">
               <folding />
             </state>
           </provider>
@@ -775,7 +775,7 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="18220000" />
+      <workItem from="1392346294593" duration="56048000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1749,11 +1749,15 @@
       <created>1392377369989</created>
       <updated>1392377369989</updated>
     </task>
-    <option name="localTasksCounter" value="244" />
+    <task id="LOCAL-00244" summary="Working on a better way to compare xml while observing significant whitespace&#10;">
+      <created>1392378648347</created>
+      <updated>1392378648347</updated>
+    </task>
+    <option name="localTasksCounter" value="245" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="335945000" />
+    <option name="totallyTimeSpent" value="373773000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -2163,7 +2167,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="803" column="47" selection-start="36661" selection-end="36670" vertical-scroll-proportion="0.33274648" vertical-offset="11856" max-vertical-offset="29985">
+        <state line="1505" column="25" selection-start="71953" selection-end="71953" vertical-scroll-proportion="-2.5985916" vertical-offset="24051" max-vertical-offset="30345">
           <folding />
         </state>
       </provider>
