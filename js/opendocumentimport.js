@@ -1120,9 +1120,6 @@ define(
                                                     topic.setTopicId(data.topic.id);
                                                     topic.xml = jquery.parseXML(data.topic.xml);
     
-                                                    //topic.setTopicId(data.id);
-                                                    //topic.xml = jquery.parseXML(data.xml);
-    
                                                     createTopics(index + 1, callback);
                                                 },
                                                 errorCallback
