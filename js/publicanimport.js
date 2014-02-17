@@ -29,7 +29,7 @@ define(
                     qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
 
                         var foundPublicanCfg = false;
-                        jquery(entries, function (index, value) {
+                        jquery.each(entries, function (index, value) {
                             if (value.filename === "publican.cfg") {
                                 foundPublicanCfg = true;
                                 return false;
@@ -68,7 +68,7 @@ define(
                                 qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
                                     var retValue = [];
 
-                                    jquery(entries, function (index, value) {
+                                    jquery.each(entries, function (index, value) {
                                         if (/^.*?\.xml$/.test(value.filename)) {
                                             if (!/^tmp\//.test(value.filename)) {
                                                 retValue.push(value.filename);

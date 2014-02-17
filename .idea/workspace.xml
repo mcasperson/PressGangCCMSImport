@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/publicanimport.js" afterPath="$PROJECT_DIR$/js/publicanimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -143,7 +142,7 @@
       <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="0" selection-start="5615" selection-end="5615" vertical-scroll-proportion="0.7781753" vertical-offset="1035" max-vertical-offset="1770">
+            <state line="31" column="35" selection-start="1704" selection-end="1704" vertical-scroll-proportion="0.3488372" vertical-offset="270" max-vertical-offset="1770">
               <folding />
             </state>
           </provider>
@@ -206,8 +205,8 @@
         <option value="$PROJECT_DIR$/js/qnaangular/app.js" />
         <option value="$PROJECT_DIR$/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
-        <option value="$PROJECT_DIR$/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/publicanimport.js" />
       </list>
     </option>
   </component>
@@ -744,7 +743,7 @@
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
       <workItem from="1392346294593" duration="57586000" />
-      <workItem from="1392580875880" duration="15210000" />
+      <workItem from="1392580875880" duration="15357000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1738,11 +1737,15 @@
       <created>1392595332276</created>
       <updated>1392595332276</updated>
     </task>
-    <option name="localTasksCounter" value="249" />
+    <task id="LOCAL-00249" summary="Incorporated require.js&#10;">
+      <created>1392596102193</created>
+      <updated>1392596102193</updated>
+    </task>
+    <option name="localTasksCounter" value="250" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="390521000" />
+    <option name="totallyTimeSpent" value="390668000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1818,7 +1821,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Fixing bugs in Firefox" />
     <MESSAGE value="Removed min files" />
     <MESSAGE value="Removed min files&#10;" />
     <MESSAGE value="Fixing bugs" />
@@ -1843,7 +1845,8 @@
     <MESSAGE value="Working on a better way to compare xml while observing significant whitespace" />
     <MESSAGE value="Working on a better way to compare xml while observing significant whitespace&#10;" />
     <MESSAGE value="Incorporated require.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Incorporated require.js" />
+    <MESSAGE value="Incorporated require.js&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Incorporated require.js&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2193,7 +2196,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="0" selection-start="5615" selection-end="5615" vertical-scroll-proportion="0.7781753" vertical-offset="1035" max-vertical-offset="1770">
+        <state line="31" column="35" selection-start="1704" selection-end="1704" vertical-scroll-proportion="0.3488372" vertical-offset="270" max-vertical-offset="1770">
           <folding />
         </state>
       </provider>
