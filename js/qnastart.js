@@ -112,7 +112,7 @@ define(
 
         exports.createImage = function(trytomatch, zipfile, image, config, successCallback, errorCallback) {
 
-            global.zipModel.getByteArrayFromFileName(
+            exports.zipModel.getByteArrayFromFileName(
                 zipfile,
                 image,
                 function (arrayBuffer) {

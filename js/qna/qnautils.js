@@ -18,7 +18,7 @@ define (['exports'], function (exports) {
     };
 
     exports.xmlToString = function(xmlDoc) {
-        return (new global.XMLSerializer()).serializeToString(xmlDoc);
+        return (new XMLSerializer()).serializeToString(xmlDoc);
     };
 });
 
