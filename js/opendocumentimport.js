@@ -55,29 +55,8 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(askForRevisionMessage);
-            });
-
-        /*
-         Ask for a revision message
-         */
-        var askForRevisionMessage = new qna.QNAStep()
-            .setTitle("Enter a message for the revision log")
-            .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
-            .setInputs([
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.TEXTBOX)
-                            .setIntro("Revision Log Message")
-                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.ZipFile.name);})
-                            .setName("RevisionMessage")
-                    ])
-            ])
-            .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(getSpecDetails);
-            })
-            .setShowNext("Start Import");
+            });
     
         /*
             STEP 2 - Get content spec details
@@ -170,7 +149,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : processOdt);
+                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : askForRevisionMessage);
             });
     
         function getRulesText(rulesCollection) {
@@ -404,8 +383,29 @@ define(
                 }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.DefineAnotherRule ? setParaRules : processOdt);
+                resultCallback(config.DefineAnotherRule ? setParaRules : askForRevisionMessage);
             });
+
+        /*
+         Ask for a revision message
+         */
+        var askForRevisionMessage = new qna.QNAStep()
+            .setTitle("Enter a message for the revision log")
+            .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Revision Log Message")
+                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.OdtFile.name);})
+                            .setName("RevisionMessage")
+                    ])
+            ])
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(processOdt);
+            })
+            .setShowNext("Start Import");
     
         /*
             STEP 5 - process the ODT file
@@ -505,9 +505,9 @@ define(
                             "styles.xml",
                             function(styles) {
     
-                                var topicGraph = new qna.TopicGraph();
-                                var contentsXML = qna.jQuery.parseXML(contents);
-                                var stylesXML = qna.jQuery.parseXML(styles);
+                                var topicGraph = new specelement.TopicGraph();
+                                var contentsXML = jquery.parseXML(contents);
+                                var stylesXML = jquery.parseXML(styles);
     
                                 // http://www.nczonline.net/blog/2009/03/24/xpath-in-javascript-part-2/
                                 var evaluator = new XPathEvaluator();
@@ -845,8 +845,8 @@ define(
                                                      paragraphs into a single container.
                                                      */
                                                     if (matchingRule.merge && content.length >= 2) {
-                                                        var endTagRe = new RegExp("</" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">$");
-                                                        var startTagRe = new RegExp("^<" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">");
+                                                        var endTagRe = new RegExp("</" + qnastart.escapeRegExp(matchingRule.docBookElement) + ">$");
+                                                        var startTagRe = new RegExp("^<" + qnastart.escapeRegExp(matchingRule.docBookElement) + ">");
                                                         if (endTagRe.test(content[content.length - 2])) {
                                                             content[content.length - 2] = content[content.length - 2].replace(endTagRe, "");
                                                             content[content.length - 1] = content[content.length - 1].replace(startTagRe, "");
@@ -994,9 +994,9 @@ define(
                                         // an empty container.
                                         if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
                                             if (outlineLevel === 0) {
-                                                resultObject.contentSpec.push("Chapter: " + qnautils.escapeSpecTitle(title));
+                                                resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
-                                                resultObject.contentSpec.push(prefix + "Section: " + qnautils.escapeSpecTitle(title));
+                                                resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                             }
                                         } else if (content.length !== 0) {
                                             /*
@@ -1004,12 +1004,12 @@ define(
                                              */
                                             if (title === null) {
                                                 title = "Introduction";
-                                                resultObject.contentSpec.push("Chapter: " + qnautils.escapeSpecTitle(title));
+                                                resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
                                                 if (newOutlineLevel > outlineLevel) {
-                                                    resultObject.contentSpec.push(prefix + "Section: " + qnautils.escapeSpecTitle(title));
+                                                    resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                                 } else {
-                                                    resultObject.contentSpec.push(prefix + qnautils.escapeSpecTitle(title));
+                                                    resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                                 }
                                             }
     

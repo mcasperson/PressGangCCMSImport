@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/js/opendocumentimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/publicanimport.js" afterPath="$PROJECT_DIR$/js/publicanimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qnastart.js" afterPath="$PROJECT_DIR$/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -117,13 +114,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="52" selection-start="2844" selection-end="2865" vertical-scroll-proportion="-15.074074" vertical-offset="448" max-vertical-offset="18285">
+            <state line="1011" column="99" selection-start="59242" selection-end="59242" vertical-scroll-proportion="0.74542123" vertical-offset="14758" max-vertical-offset="18285">
               <folding>
-                <marker date="1392598760405" expanded="true" signature="40672:40841" placeholder="..." />
-                <marker date="1392598760405" expanded="true" signature="40751:40841" placeholder="..." />
+                <marker date="1392599479612" expanded="true" signature="40683:40852" placeholder="..." />
+                <marker date="1392599479612" expanded="true" signature="40762:40852" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -138,10 +135,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="109" column="66" selection-start="6077" selection-end="6077" vertical-scroll-proportion="1.8246869" vertical-offset="615" max-vertical-offset="1800">
+            <state line="109" column="66" selection-start="6077" selection-end="6077" vertical-scroll-proportion="-37.77778" vertical-offset="615" max-vertical-offset="1800">
               <folding />
             </state>
           </provider>
@@ -202,10 +199,10 @@
         <option value="$PROJECT_DIR$/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/js/publicanimport.js" />
+        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
       </list>
     </option>
   </component>
@@ -778,7 +775,7 @@
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
       <workItem from="1392346294593" duration="57586000" />
-      <workItem from="1392580875880" duration="18189000" />
+      <workItem from="1392580875880" duration="18610000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1796,11 +1793,15 @@
       <created>1392597923662</created>
       <updated>1392597923662</updated>
     </task>
-    <option name="localTasksCounter" value="255" />
+    <task id="LOCAL-00255" summary="Incorporated require.js&#10;">
+      <created>1392599083295</created>
+      <updated>1392599083295</updated>
+    </task>
+    <option name="localTasksCounter" value="256" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="393500000" />
+    <option name="totallyTimeSpent" value="393921000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -2225,16 +2226,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="52" selection-start="2844" selection-end="2865" vertical-scroll-proportion="-15.074074" vertical-offset="448" max-vertical-offset="18285">
-          <folding>
-            <marker date="1392598760405" expanded="true" signature="40672:40841" placeholder="..." />
-            <marker date="1392598760405" expanded="true" signature="40751:40841" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="173" column="37" selection-start="6665" selection-end="6686" vertical-scroll-proportion="-8.888889" vertical-offset="2355" max-vertical-offset="27465">
@@ -2251,8 +2242,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="66" selection-start="6077" selection-end="6077" vertical-scroll-proportion="1.8246869" vertical-offset="615" max-vertical-offset="1800">
+        <state line="109" column="66" selection-start="6077" selection-end="6077" vertical-scroll-proportion="-37.77778" vertical-offset="615" max-vertical-offset="1800">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1011" column="99" selection-start="59242" selection-end="59242" vertical-scroll-proportion="0.74542123" vertical-offset="14758" max-vertical-offset="18285">
+          <folding>
+            <marker date="1392599479612" expanded="true" signature="40683:40852" placeholder="..." />
+            <marker date="1392599479612" expanded="true" signature="40762:40852" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
