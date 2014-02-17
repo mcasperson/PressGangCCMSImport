@@ -23,6 +23,8 @@ define(
         var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
         // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
         var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
+        // these docbook elements represent topics
+        var TOPIC_CONTAINER_TYPES = ["section", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
@@ -51,6 +53,10 @@ define(
          * @returns {Object|*}
          */
         function xPath(path, referenceNode) {
+            if (referenceNode === null || referenceNode === undefined) {
+                throw "referenceNode should be a valid xml node";
+            }
+
             var ownerDoc = getOwnerDoc(referenceNode);
 
             var evaluator = new XPathEvaluator();
@@ -1135,7 +1141,7 @@ define(
 
                                         if (!isHistoryTopicAppendix) {
 
-                                            if (value.nodeName === "section") {
+                                            if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName)) {
                                                 contentSpec.push(contentSpecLine + titleText);
                                             } else {
                                                 var containerName = remapContainer(value.nodeName);
@@ -1697,6 +1703,7 @@ define(
                             if (topic.topicId === -1) {
                                 qnastart.createTopic(
                                     false,
+                                    config.ImportOption === "DocBook5" ? 5 : 4.5,
                                     setDocumentNodeToSection(reencode(qnautils.xmlToString(topic.xml), replacements).trim()),
                                     topic.title,
                                     topic.tags,
@@ -1706,8 +1713,16 @@ define(
 
                                         var replacedTextResult = replaceEntitiesInText(data.xml);
 
-                                        topic.xml = qnautils.stringToXML(replacedTextResult.xml);
-                                        topic.replacements = replacedTextResult.replacements;
+                                        var entityFreeXml = qnautils.stringToXML(replacedTextResult.xml);
+                                        // this might be null due to bugs like https://bugzilla.redhat.com/show_bug.cgi?id=1066169
+                                        if (entityFreeXml !== null) {
+                                            topic.xml = qnautils.stringToXML(replacedTextResult.xml);
+                                            topic.replacements = replacedTextResult.replacements;
+                                        } else {
+                                            // work around this bug by allowing the existing xml to be reencoded. The
+                                            // final book would have invalid topics, but at least it will build.
+                                            topic.replacements = replacements;
+                                        }
 
                                         createTopics(index + 1, callback);
                                     },

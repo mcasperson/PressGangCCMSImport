@@ -11,7 +11,7 @@ define(
                 .replace(/\]/g, "\\]");
         };
 
-        exports.createTopic = function(tryToMatch, xml, title, tags, config, successCallback, errorCallback) {
+        exports.createTopic = function(tryToMatch, format, xml, title, tags, config, successCallback, errorCallback) {
 
             var postBody = {
                 xml: xml,
@@ -21,6 +21,14 @@ define(
                     "locale"
                 ]
             };
+
+            if (format === 4.5) {
+                postBody.format = "DocBook 4.5";
+                postBody.configuredParameters.push("format");
+            } else if (format === 5.0) {
+                postBody.format = "DocBook 5.0";
+                postBody.configuredParameters.push("format");
+            }
 
             if (title) {
                 postBody.title = title;
@@ -223,8 +231,8 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
-                                .setIntro(["Publican (Alpha)", "DocBook (Alpha)", "OpenDocument (Super Duper Alpha)"])
-                                .setOptions(["Publican", "DocBook", "OpenDocument"])
+                                .setIntro(["Publican (Alpha)", "DocBook 5 (Alpha)", "OpenDocument (Super Duper Alpha)"])
+                                .setOptions(["Publican", "DocBook5", "OpenDocument"])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])
@@ -330,7 +338,7 @@ define(
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 if (config.ImportOption === "Publican") {
                     resultCallback(publicanimport.askForPublicanZipFile);
-                } else if (config.ImportOption === "DocBook") {
+                } else if (config.ImportOption === "DocBook5") {
                     resultCallback(generaldocbookimport.askForDocBookFile);
                 } else {
                     resultCallback(opendocumentimport.askForOpenDocumentFile);
