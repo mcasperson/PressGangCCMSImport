@@ -530,8 +530,8 @@ define(
                                     var images = {};
     
                                     var currentChild = 0;
-                                    var processTopic = function (title, outlineLevel, contentNodes, successCallback) {
-                                        var content = [];
+                                    var processTopic = function (title, outlineLevel, contentNodes, content, successCallback) {
+
                                         var contentNode = contentNodes.iterateNext();
                                         if (contentNode !== null) {
     
@@ -552,7 +552,7 @@ define(
                                             }
     
                                             setTimeout(function() {
-                                                processTopic(title, outlineLevel, contentNodes, successCallback);
+                                                processTopic(title, outlineLevel, contentNodes, content, successCallback);
                                             }, 0);
                                         } else {
     
@@ -1024,11 +1024,11 @@ define(
                                         newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
     
                                         setTimeout(function() {
-                                                processTopic(newTitle, newOutlineLevel, contentNodes, successCallback);
+                                                processTopic(newTitle, newOutlineLevel, contentNodes, [], successCallback);
                                         }, 0);
                                     };
     
-                                    processTopic(null, 0, contentNodes, function() {
+                                    processTopic(null, 0, contentNodes, [], function() {
                                         config.UploadProgress[1] = progressIncrement;
                                         config.ResolvedBookStructure = true;
                                         resultCallback();
