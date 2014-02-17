@@ -978,9 +978,9 @@ define(
                                     var processHeader = function (content, contentNode, title, outlineLevel, contentNodes, successCallback) {
                                         var prefix = generateSpacing(outlineLevel);
     
-                                        var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level")) - 1;
+                                        var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
     
-                                        for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel; ++missedSteps) {
+                                        for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel - 1; ++missedSteps) {
                                             if (missedSteps === 0) {
                                                 resultObject.contentSpec.push("Chapter: Missing Chapter");
                                             } else {
@@ -1028,7 +1028,7 @@ define(
                                         }, 0);
                                     };
     
-                                    processTopic(null, 0, contentNodes, [], function() {
+                                    processTopic(null, 1, contentNodes, [], function() {
                                         config.UploadProgress[1] = progressIncrement;
                                         config.ResolvedBookStructure = true;
                                         resultCallback();

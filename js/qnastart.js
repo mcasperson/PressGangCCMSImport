@@ -1,6 +1,6 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'opendocumentimport', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, opendocumentimport, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'opendocumentimport', 'generaldocbookimport', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, opendocumentimport, generaldocbookimport, exports) {
         'use strict';
 
         // a zip model to be shared
@@ -223,9 +223,9 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
-                                .setIntro(["Publican (Alpha)", "OpenDocument (Super Duper Alpha)"])
-                                .setOptions(["Publican", "OpenDocument"])
-                                .setValue("Pubilcan")
+                                .setIntro(["Publican (Alpha)", "DocBook (Alpha)", "OpenDocument (Super Duper Alpha)"])
+                                .setOptions(["Publican", "DocBook", "OpenDocument"])
+                                .setValue("Publican")
                                 .setName("ImportOption")
                         ])
                 ]
@@ -328,7 +328,13 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.ImportOption === "Publican" ? publicanimport.askForPublicanZipFile : opendocumentimport.askForOpenDocumentFile);
+                if (config.ImportOption === "Publican") {
+                    resultCallback(publicanimport.askForPublicanZipFile);
+                } else if (config.ImportOption === "DocBook") {
+                    resultCallback(generaldocbookimport.askForDocBookFile);
+                } else {
+                    resultCallback(opendocumentimport.askForOpenDocumentFile);
+                }
             });
 
     }

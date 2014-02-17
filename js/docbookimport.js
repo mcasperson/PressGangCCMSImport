@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, exports) {
         'use strict';
 
         /*
@@ -313,8 +313,7 @@ define(
                  Resolve xi:includes
                  */
                 function resolveXiIncludes () {
-                    var xiIncludeRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*\/\s*>/;
-                    var xiInclude2Re = /<\s*xi:include\s+href\s*=\s*("|')(.*?\.xml)("|')\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s*\/\s*>/;
+                    var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|')).*?\/\s*>/;
                     var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')\/\s*>/;
                     var commonContent = /^Common_Content/;
 
@@ -328,11 +327,7 @@ define(
                         }
 
                         var match = xiIncludeRe.exec(xmlText);
-                        var xmlPathIndex = 4;
-                        if (!match) {
-                            match = xiInclude2Re.exec(xmlText);
-                            xmlPathIndex = 2;
-                        }
+                        var xmlPathIndex = 3;
 
                         if (match !== null) {
 
@@ -349,16 +344,12 @@ define(
                                 return;
                             }
 
-                            var relativePath = "";
-                            var lastIndexOf;
-                            if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
-                                relativePath = filename.substring(0, lastIndexOf);
-                            }
-
                             if (commonContent.test(match[xmlPathIndex])) {
                                 resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
                             } else {
-                                var referencedXMLFilename = relativePath + "/" + match[xmlPathIndex];
+                                var thisFile = new URI(filename);
+                                var referencedXMLFilenameRelative = new URI(match[xmlPathIndex]);
+                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
                                     errorCallback("Circular reference detected");
@@ -454,7 +445,7 @@ define(
                             resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
 
                             function resolveXIIncludeLoop(xmlText, visitedFiles) {
-                                if (xiIncludeRe.test(xmlText) || xiInclude2Re.test(xmlText)) {
+                                if (xiIncludeRe.test(xmlText)) {
                                     resolveXIInclude(
                                         xmlText,
                                         config.MainXMLFile,
@@ -732,8 +723,11 @@ define(
                             },
                             errorCallback
                         );
-                    } else {
+                    } else if (config.ImportOption === "Publican") {
+                        // we expect a publican book to have this. Generic docbook imports might not have it
                         errorCallback("Invalid content", "The <bookinfo> element could not be found");
+                    } else {
+                        findIndex(xmlDoc, contentSpec);
                     }
 
                 }
