@@ -81,14 +81,14 @@ define(
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
                                 qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
-                                    jquery(entries, function (index, value) {
+                                    jquery.each(entries, function (index, value) {
                                         if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
                                             qnastart.zipModel.getTextFromFile(value, function (textFile) {
                                                 var match = /<title>(.*?)<\/title>/.exec(textFile);
                                                 if (match) {
                                                     var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
 
-                                                    jquery(entries, function (index, value) {
+                                                    jquery.each(entries, function (index, value) {
                                                         if (value.filename === assumedMainXMLFile) {
                                                             resultCallback(assumedMainXMLFile);
                                                             return;

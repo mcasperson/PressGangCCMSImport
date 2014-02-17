@@ -67,8 +67,13 @@
         </script>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/qna.css" rel="stylesheet">
+        <style>
+            [ng-cloak] {
+                display: none;
+            }
+        </style>
     </head>
-    <body>
+    <body ng-cloak>
         <div ng-controller="QNAController">
             <!-- defines a ok dialog box -->
             <script type="text/ng-template" id="okDialog.html">
