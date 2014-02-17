@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
         'use strict';
         /*
          STEP 1 - Get the ZIP file
@@ -107,7 +107,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback) {
-                resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
+                resultCallback(docbookimport.askToCreateNewSpecOrOverwriteExistingOne);
             });
     }
 );
