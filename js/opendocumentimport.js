@@ -1048,6 +1048,7 @@ define(
                                             var imagePath = imagesKeys[index];
     
                                             qnastart.createImage(
+                                                true,
                                                 config.OdtFile,
                                                 imagePath,
                                                 config,
