@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="qna">
+<html lang="en">
     <head>
         <title>PressGang CCMS Publican Book Import</title>
         <script type="text/javascript">
             // http://stackoverflow.com/a/10556743/157605
-            window.onerror = function(msg, url, line) {
+            /*window.onerror = function(msg, url, line) {
                 window.onbeforeunload = null;
 
                 var bugLink = 'https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&comment=Message: ' + encodeURIComponent(msg) + '%0D%0A%0D%0AURL: ' + encodeURIComponent(url) + '%0D%0A%0D%0ALine: ' + encodeURIComponent(line);
@@ -17,35 +17,53 @@
                     <p>Message: " + msg + "</p>\n\
                     <p>URL: " + url + "</p>\n\
                     <p>Line: " + line + "</p>";
-                console.trace();
                 document.documentElement.innerHTML = output;
 
 
                 var suppressErrorAlert = true;
                 return suppressErrorAlert;
-            };
+            };*/
         </script>
-        <script src="js/moment/moment-with-langs.min.js"></script>
-        <script src="js/jquery/jquery-2.1.0.min.js"></script>
-        <script src="js/wgxpath/wgxpath.install.js"></script>
-        <script src="js/angular/angular.min.js"></script>
-        <script src="js/angular/angular-sanitize.js"></script>
-        <script src="js/angularfileupload/angular-file-upload.min.js"></script>
-        <script src="js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
-        <script src="js/zip/zip.js"></script>
-        <script src="js/zip/inflate.js"></script>
-        <script src="js/qna/qnazipmodel.js"></script>
-        <script src="js/qna/qnautils.js"></script>
-        <script src="js/qna/qna.js"></script>
-        <script src="js/qna/controller.js"></script>
-        <script src="js/specelement.js"></script>
-        <script src="js/fontrule.js"></script>
-        <script src="js/qnasteps.js"></script>
-        <script src="js/docbookimport.js"></script>
-        <script src="js/opendocumentimport.js"></script>
+        <script src="js/require.js"></script>
         <script type="application/javascript">
-            angular.module('qna', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize']);
-            wgxpath.install();
+            'use strict';
+
+            requirejs.config({
+                baseUrl: 'js',
+                paths: {
+                    'jquery': 'jquery/jquery-2.1.0.min',
+                    'zip': 'zip/zip',
+                    'angular': 'angular/angular',
+                    'angular-sanitize': 'angular/angular-sanitize',
+                    'angular-file-upload': 'angularfileupload/angular-file-upload',
+                    'angular-bootstrap': 'bootstrap/ui-bootstrap-tpls-0.10.0.min',
+                    'wgxpath': 'wgxpath/wgxpath'
+                },
+                shim: {
+                    'wgxpath': {
+                        exports: "wgxpath"
+                    },
+                    'zip': {
+                        exports: 'zip'
+                    },
+                    'angular': {
+                        exports: "angular"
+                    },
+                    'angular-sanitize': {
+                        deps: ["angular"]
+                    },
+                    'angular-file-upload': {
+                        deps: ["angular"]
+                    },
+                    'angular-bootstrap': {
+                        deps: ["angular"]
+                    }
+                }
+            });
+
+            require(["wgxpath", "qnaangular/controller"], function(wgxpath, app) {
+                wgxpath.install();
+            });
         </script>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/qna.css" rel="stylesheet">

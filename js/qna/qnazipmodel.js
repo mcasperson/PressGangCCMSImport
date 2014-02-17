@@ -1,22 +1,22 @@
-(function (global) {
+define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
     'use strict';
 
-    global.zip.workerScriptsPath = "js/zip/";
+    zip.workerScriptsPath = "js/zip/";
 
-    global.QNAZipModel = function () {
+    exports.QNAZipModel = function () {
 
     };
 
-    global.QNAZipModel.prototype.cache = {};
+    exports.QNAZipModel.prototype.cache = {};
 
-    global.QNAZipModel.prototype.getEntry = function (entry, onend) {
-        entry.getData(new global.zip.BlobWriter(), onend);
+    exports.QNAZipModel.prototype.getEntry = function (entry, onend) {
+        entry.getData(new zip.BlobWriter(), onend);
     };
 
-    global.QNAZipModel.prototype.getTextFromFile = function (entry, onend) {
+    exports.QNAZipModel.prototype.getTextFromFile = function (entry, onend) {
         this.getEntry(entry, function (blob) {
 
-            var reader = new global.FileReader();
+            var reader = new FileReader();
             reader.addEventListener("load", function (event) {
                 var textFile = event.target.result;
                 onend(textFile);
@@ -25,10 +25,10 @@
         });
     };
 
-    global.QNAZipModel.prototype.getByteArrayFromFile = function (entry, onend) {
+    exports.QNAZipModel.prototype.getByteArrayFromFile = function (entry, onend) {
         this.getEntry(entry, function (blob) {
 
-            var reader = new global.FileReader();
+            var reader = new FileReader();
             reader.addEventListener("load", function (event) {
                 var arrayBuffer = event.target.result;
                 onend(arrayBuffer);
@@ -37,11 +37,11 @@
         });
     };
 
-    global.QNAZipModel.prototype.getTextFromFileName = function (file, filename, onend, onerror) {
+    exports.QNAZipModel.prototype.getTextFromFileName = function (file, filename, onend, onerror) {
         var me = this;
         this.getCachedEntries(file, function (entries) {
             var foundFile = false;
-            global.jQuery.each(entries, function (index, value) {
+            jquery.each(entries, function (index, value) {
                 if (value.filename === filename) {
                     me.getTextFromFile(value, onend);
                     foundFile = true;
@@ -55,11 +55,11 @@
         }, onerror);
     };
 
-    global.QNAZipModel.prototype.getByteArrayFromFileName = function (file, filename, onend, onerror) {
+    exports.QNAZipModel.prototype.getByteArrayFromFileName = function (file, filename, onend, onerror) {
         var me = this;
         this.getCachedEntries(file, function (entries) {
             var foundFile = false;
-            global.jQuery.each(entries, function (index, value) {
+            jquery.each(entries, function (index, value) {
                 if (value.filename === filename) {
                     me.getByteArrayFromFile(value, onend);
                     foundFile = true;
@@ -73,9 +73,9 @@
         }, onerror);
     };
 
-    global.QNAZipModel.prototype.getEntries = function (file, onend, onerror) {
-        global.zip.createReader(
-            new global.zip.BlobReader(file),
+    exports.QNAZipModel.prototype.getEntries = function (file, onend, onerror) {
+        zip.createReader(
+            new zip.BlobReader(file),
             function (zipReader) {
                 zipReader.getEntries(onend);
             },
@@ -83,7 +83,7 @@
         );
     };
 
-    global.QNAZipModel.prototype.getCachedEntries = function (file, onend, onerror) {
+    exports.QNAZipModel.prototype.getCachedEntries = function (file, onend, onerror) {
         if (this.cache[file]) {
             onend(this.cache[file]);
         } else {
@@ -100,12 +100,12 @@
         }
     };
 
-    global.QNAZipModel.prototype.hasFileName = function (file, filename, resultCallback, errorCallback) {
+    exports.QNAZipModel.prototype.hasFileName = function (file, filename, resultCallback, errorCallback) {
         this.getCachedEntries(
             file,
             function (entries) {
                 var found = false;
-                global.jQuery.each(entries, function (index, value) {
+                jquery.each(entries, function (index, value) {
                     if (value.filename === filename) {
                         found = true;
                         resultCallback(found);
@@ -122,7 +122,7 @@
     };
 
 
-    global.QNAZipModel.prototype.clearCache = function () {
+    exports.QNAZipModel.prototype.clearCache = function () {
         this.cache = {};
     };
-}(this));
+});

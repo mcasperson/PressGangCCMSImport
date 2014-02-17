@@ -2,7 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/qnaangular/controller.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/publicanimport.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/require.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/require.min.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/js/qna/controller.js" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/js/qnasteps.js" afterPath="$PROJECT_DIR$/js/qnastart.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/js/wgxpath/wgxpath.install.js" afterPath="$PROJECT_DIR$/js/wgxpath/wgxpath.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/fontrule.js" afterPath="$PROJECT_DIR$/js/fontrule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qna/qna.js" afterPath="$PROJECT_DIR$/js/qna/qna.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/js/qna/qnautils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qna/qnazipmodel.js" afterPath="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/specelement.js" afterPath="$PROJECT_DIR$/js/specelement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -67,15 +81,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="require.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/require.min.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="32" selection-start="1566" selection-end="1566" vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="3480">
+            <state line="36" column="0" selection-start="15366" selection-end="15366" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
               <folding>
-                <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-                <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-                <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
+                <element signature="n#!!doc" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ui-bootstrap-tpls-0.10.0.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="2776" selection-start="34920" selection-end="34920" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="angular-file-upload.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="149" column="15" selection-start="4137" selection-end="4139" vertical-scroll-proportion="-82.77778" vertical-offset="0" max-vertical-offset="2835">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qnastart.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/qnastart.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="0" selection-start="347" selection-end="347" vertical-scroll-proportion="0.1826087" vertical-offset="0" max-vertical-offset="3630">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,11 +122,20 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="75" selection-start="5934" selection-end="5934" vertical-scroll-proportion="0.0" vertical-offset="1875" max-vertical-offset="18585">
+            <state line="15" column="21" selection-start="657" selection-end="657" vertical-scroll-proportion="649.96295" vertical-offset="17774" max-vertical-offset="18630">
               <folding>
-                <marker date="1392258941468" expanded="true" signature="38893:39054" placeholder="..." />
-                <marker date="1392258941468" expanded="true" signature="38968:39054" placeholder="..." />
+                <marker date="1392587493738" expanded="true" signature="41848:42017" placeholder="..." />
+                <marker date="1392587493738" expanded="true" signature="41927:42017" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controller.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/qnaangular/controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="107" column="59" selection-start="3968" selection-end="3968" vertical-scroll-proportion="-12.777778" vertical-offset="1260" max-vertical-offset="1935">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -95,43 +143,16 @@
       <file leaf-file-name="fontrule.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/fontrule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="31" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0" vertical-offset="915" max-vertical-offset="1650">
+            <state line="99" column="11" selection-start="2785" selection-end="2785" vertical-scroll-proportion="0.0" vertical-offset="732" max-vertical-offset="1650">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qnasteps.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="159" column="44" selection-start="5685" selection-end="5685" vertical-scroll-proportion="-10.333333" vertical-offset="2106" max-vertical-offset="3645">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="326" column="66" selection-start="13834" selection-end="13834" vertical-scroll-proportion="0.33274648" vertical-offset="4701" max-vertical-offset="30510">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="moment-with-langs.min.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/moment/moment-with-langs.min.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="11975" selection-start="109267" selection-end="109267" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="210">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="controller.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="16" selection-start="1954" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1665">
+            <state line="90" column="90" selection-start="5124" selection-end="5124" vertical-scroll-proportion="-16.62963" vertical-offset="901" max-vertical-offset="1770">
               <folding />
             </state>
           </provider>
@@ -140,17 +161,19 @@
       <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="29" selection-start="5636" selection-end="5636" vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="8505">
+            <state line="382" column="12" selection-start="13408" selection-end="13408" vertical-scroll-proportion="-102.32143" vertical-offset="0" max-vertical-offset="8505">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jquery-2.1.0.min.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.js">
+      <file leaf-file-name="require.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/require.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="83623" selection-end="83623" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="150">
-              <folding />
+            <state line="2067" column="9" selection-start="82226" selection-end="82226" vertical-scroll-proportion="0.0" vertical-offset="30139" max-vertical-offset="31095">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -174,19 +197,26 @@
         <option value="$PROJECT_DIR$/js/qna/okdialog.js" />
         <option value="$PROJECT_DIR$/css/qna.css" />
         <option value="$PROJECT_DIR$/js/qna/qnafileinput.js" />
-        <option value="$PROJECT_DIR$/js/qna/controller.js" />
         <option value="$PROJECT_DIR$/dependencies.txt" />
         <option value="$PROJECT_DIR$/js/jquery/jquery.js" />
-        <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
-        <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
-        <option value="$PROJECT_DIR$/js/fontrule.js" />
-        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/moment/moment-with-langs.min.js" />
-        <option value="$PROJECT_DIR$/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/js/specelement.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/qnasteps.js" />
+        <option value="$PROJECT_DIR$/js/require/require.min.js" />
+        <option value="$PROJECT_DIR$/js/specelement.js" />
+        <option value="$PROJECT_DIR$/js/fontrule.js" />
+        <option value="$PROJECT_DIR$/js/qna/qna.js" />
+        <option value="$PROJECT_DIR$/js/qna/app.js" />
+        <option value="$PROJECT_DIR$/js/qna/controller.js" />
+        <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/js/publicanimport.js" />
+        <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
+        <option value="$PROJECT_DIR$/js/require.js" />
+        <option value="$PROJECT_DIR$/js/qnaangular/app.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/qnaangular/controller.js" />
+        <option value="$PROJECT_DIR$/js/qnastart.js" />
       </list>
     </option>
   </component>
@@ -246,7 +276,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -279,63 +308,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zip" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qna" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="moment" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -381,10 +357,11 @@
       <recent name="$PROJECT_DIR$/js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js/qnaangular" />
+      <recent name="$PROJECT_DIR$/js" />
       <recent name="$PROJECT_DIR$/js/qna" />
       <recent name="$PROJECT_DIR$/js/angular" />
       <recent name="$PROJECT_DIR$/js/zip" />
-      <recent name="$PROJECT_DIR$/js/bootstrap" />
     </key>
   </component>
   <component name="RunManager">
@@ -775,7 +752,8 @@
       <workItem from="1391907087418" duration="64712000" />
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
-      <workItem from="1392346294593" duration="56982000" />
+      <workItem from="1392346294593" duration="57586000" />
+      <workItem from="1392580875880" duration="14421000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1761,11 +1739,15 @@
       <created>1392440461515</created>
       <updated>1392440461515</updated>
     </task>
-    <option name="localTasksCounter" value="247" />
+    <task id="LOCAL-00247" summary="Working on a better way to compare xml while observing significant whitespace&#10;">
+      <created>1392440540575</created>
+      <updated>1392440540575</updated>
+    </task>
+    <option name="localTasksCounter" value="248" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="374707000" />
+    <option name="totallyTimeSpent" value="389732000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1776,7 +1758,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32661718" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32592592" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1785,7 +1767,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1793,11 +1774,40 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24387646" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24387646" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32592592" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1846,39 +1856,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="54" selection-start="1293" selection-end="1293" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1215" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
-          <folding>
-            <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dependencies.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="24" selection-start="162" selection-end="162" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="16" selection-start="408" selection-end="416" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4425" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7815">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="17" selection-start="17" selection-end="17" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
@@ -1886,7 +1863,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+    <entry file="file://$PROJECT_DIR$/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="63" column="36" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1605">
           <folding />
@@ -1902,9 +1879,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
           <folding>
-            <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1919,7 +1896,7 @@
         <state line="14" column="16" selection-start="408" selection-end="416" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4425" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="6939" max-vertical-offset="7815">
           <folding />
@@ -1933,7 +1910,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+    <entry file="file://$PROJECT_DIR$/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="63" column="36" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="254" max-vertical-offset="1605">
           <folding />
@@ -1949,9 +1926,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="101" selection-start="2860" selection-end="2860" vertical-scroll-proportion="0.0" vertical-offset="188" max-vertical-offset="1080">
           <folding>
-            <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1966,14 +1943,14 @@
         <state line="78" column="55" selection-start="2959" selection-end="2959" vertical-scroll-proportion="0.0" vertical-offset="836" max-vertical-offset="2625" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+    <entry file="file://$PROJECT_DIR$/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="6" selection-start="874" selection-end="874" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="945">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
+    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="45" column="155" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1560">
           <folding />
@@ -1989,9 +1966,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2010,9 +1987,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2031,9 +2008,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270">
           <folding>
-            <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2058,11 +2035,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3060" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="903" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/qna.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="1" selection-start="56" selection-end="56" vertical-scroll-proportion="0.049126636" vertical-offset="0" max-vertical-offset="916" />
@@ -2073,41 +2045,14 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2835" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dependencies.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="24" selection-start="162" selection-end="162" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/wgxpath/wgxpath.install.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="903" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="0" selection-start="83623" selection-end="83623" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/zip/zip.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="395" column="57" selection-start="10703" selection-end="10720" vertical-scroll-proportion="0.0" vertical-offset="5925" max-vertical-offset="12105" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="52" selection-start="1161" selection-end="1180" vertical-scroll-proportion="0.0" vertical-offset="426" max-vertical-offset="1995" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/fontrule.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="31" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0" vertical-offset="446" max-vertical-offset="1650">
           <folding />
         </state>
       </provider>
@@ -2119,63 +2064,141 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/controller.js">
+    <entry file="file://$PROJECT_DIR$/js/zip/inflate.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="16" selection-start="1954" selection-end="1974" vertical-scroll-proportion="0.0" vertical-offset="778" max-vertical-offset="1665">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="32535">
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/zip/zip.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="797" column="21" selection-start="24798" selection-end="24811" vertical-scroll-proportion="-15.222222" vertical-offset="11154" max-vertical-offset="11715">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+    <entry file="file://$PROJECT_DIR$/js/wgxpath/wgxpath.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="16" selection-start="510" selection-end="518" vertical-scroll-proportion="0.32130778" vertical-offset="0" max-vertical-offset="6780" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="75" selection-start="5934" selection-end="5934" vertical-scroll-proportion="0.0" vertical-offset="1875" max-vertical-offset="18585">
-          <folding>
-            <marker date="1392258941468" expanded="true" signature="38893:39054" placeholder="..." />
-            <marker date="1392258941468" expanded="true" signature="38968:39054" placeholder="..." />
-          </folding>
+        <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1995">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="23" selection-start="25" selection-end="44" vertical-scroll-proportion="0.016910935" vertical-offset="0" max-vertical-offset="887">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="32" selection-start="1566" selection-end="1566" vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="3480">
-          <folding>
-            <marker date="1392372825386" expanded="true" signature="3288:3350" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3391:3446" placeholder="..." />
-            <marker date="1392372825386" expanded="true" signature="3489:3592" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/specelement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="29" selection-start="5636" selection-end="5636" vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="8505">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnasteps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="159" column="44" selection-start="5685" selection-end="5685" vertical-scroll-proportion="-10.333333" vertical-offset="2106" max-vertical-offset="3645">
+        <state line="19" column="11" selection-start="438" selection-end="438" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="326" column="66" selection-start="13834" selection-end="13834" vertical-scroll-proportion="0.33274648" vertical-offset="4701" max-vertical-offset="30510">
+        <state line="463" column="49" selection-start="22009" selection-end="22017" vertical-scroll-proportion="377.375" vertical-offset="28078" max-vertical-offset="28905">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/fontrule.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="11" selection-start="2785" selection-end="2785" vertical-scroll-proportion="0.0" vertical-offset="754" max-vertical-offset="1650">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="21" selection-start="657" selection-end="657" vertical-scroll-proportion="649.96295" vertical-offset="17774" max-vertical-offset="18630">
+          <folding>
+            <marker date="1392587493738" expanded="true" signature="41848:42017" placeholder="..." />
+            <marker date="1392587493738" expanded="true" signature="41927:42017" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="90" selection-start="5124" selection-end="5124" vertical-scroll-proportion="-16.62963" vertical-offset="901" max-vertical-offset="1770">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/require.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="0" selection-start="15366" selection-end="15366" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="382" column="12" selection-start="13408" selection-end="13408" vertical-scroll-proportion="-102.32143" vertical-offset="0" max-vertical-offset="8505">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="20" selection-start="482" selection-end="482" vertical-scroll-proportion="0.26143792" vertical-offset="0" max-vertical-offset="6765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="2776" selection-start="34920" selection-end="34920" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="149" column="15" selection-start="4137" selection-end="4139" vertical-scroll-proportion="-82.77778" vertical-offset="0" max-vertical-offset="2835">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="54" selection-start="3092" selection-end="3092" vertical-scroll-proportion="0.7350272" vertical-offset="540" max-vertical-offset="3750">
+          <folding>
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392594718605" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/require.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2067" column="9" selection-start="82226" selection-end="82226" vertical-scroll-proportion="0.0" vertical-offset="30139" max-vertical-offset="31095">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnaangular/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="59" selection-start="3968" selection-end="3968" vertical-scroll-proportion="-12.777778" vertical-offset="1260" max-vertical-offset="1935">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="347" selection-end="347" vertical-scroll-proportion="0.1826087" vertical-offset="0" max-vertical-offset="3630">
           <folding />
         </state>
       </provider>

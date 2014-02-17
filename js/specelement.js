@@ -1,28 +1,28 @@
-(function (global) {
+define(['jquery', 'exports'], function(jquery, exports) {
     'use strict';
 
-    global.TopicGraph = function () {
+    exports.TopicGraph = function () {
         this.nodes = [];
         this.conatiners = [];
     };
 
-    global.TopicGraph.prototype.addNode = function (node) {
+    exports.TopicGraph.prototype.addNode = function (node) {
         if (this.nodes.indexOf(node) === -1) {
             this.nodes.push(node);
         }
     };
 
-    global.TopicGraph.prototype.addContainer = function (container) {
+    exports.TopicGraph.prototype.addContainer = function (container) {
         if (this.conatiners.indexOf(container) === -1) {
             this.conatiners.push(container);
         }
     };
 
-    global.TopicGraph.prototype.getNodeFromXMLId = function (xmlId) {
+    exports.TopicGraph.prototype.getNodeFromXMLId = function (xmlId) {
         var retValue;
-        global.jQuery.each(this.nodes, function(index, node) {
+        jquery.each(this.nodes, function(index, node) {
             if (node.xmlIds !== undefined) {
-                global.jQuery.each(node.xmlIds, function(index, value) {
+                jquery.each(node.xmlIds, function(index, value) {
                     if (value === xmlId) {
                         retValue = node;
                         return false;
@@ -32,9 +32,9 @@
         });
 
         if (retValue === undefined) {
-            global.jQuery.each(this.conatiners, function(index, conatiner) {
+            jquery.each(this.conatiners, function(index, conatiner) {
                 if (conatiner.xmlIds !== undefined) {
-                    global.jQuery.each(conatiner.xmlIds, function(index, value) {
+                    jquery.each(conatiner.xmlIds, function(index, value) {
                         if (value === xmlId) {
                             retValue = conatiner;
                             return false;
@@ -46,11 +46,11 @@
         return retValue;
     };
 
-    global.TopicGraph.prototype.hasXMLId = function (xmlId) {
+    exports.TopicGraph.prototype.hasXMLId = function (xmlId) {
         var retValue = false;
-        global.jQuery.each(this.nodes, function(index, node) {
+        jquery.each(this.nodes, function(index, node) {
             if (node.xmlIds !== undefined) {
-                global.jQuery.each(node.xmlIds, function(index, value) {
+                jquery.each(node.xmlIds, function(index, value) {
                     if (value === xmlId) {
                         retValue = true;
                         return false;
@@ -63,9 +63,9 @@
             return retValue;
         }
 
-        global.jQuery.each(this.conatiners, function(index, conatiner) {
+        jquery.each(this.conatiners, function(index, conatiner) {
             if (conatiner.xmlIds !== undefined) {
-                global.jQuery.each(conatiner.xmlIds, function(index, value) {
+                jquery.each(conatiner.xmlIds, function(index, value) {
                     if (value === xmlId) {
                         retValue = true;
                         return false;
@@ -77,11 +77,11 @@
         return retValue;
     };
 
-    global.TopicGraph.prototype.getAllTopicOrContainerIDs = function () {
+    exports.TopicGraph.prototype.getAllTopicOrContainerIDs = function () {
         var retValue = [];
-        global.jQuery.each(this.nodes, function (index, value) {
+        jquery.each(this.nodes, function (index, value) {
             if (value.xmlIds !== undefined) {
-                global.jQuery.each(value.xmlIds, function (index, xmlId) {
+                jquery.each(value.xmlIds, function (index, xmlId) {
                     if (retValue.indexOf(xmlId) === -1) {
                         retValue.push(xmlId);
                     }
@@ -89,9 +89,9 @@
             }
         });
 
-        global.jQuery.each(this.conatiners, function(index, conatiner) {
+        jquery.each(this.conatiners, function(index, conatiner) {
             if (conatiner.xmlIds !== undefined) {
-                global.jQuery.each(conatiner.xmlIds, function(index, xmlId) {
+                jquery.each(conatiner.xmlIds, function(index, xmlId) {
                     if (retValue.indexOf(xmlId) === -1) {
                         retValue.push(xmlId);
                     }
@@ -102,13 +102,13 @@
         return retValue;
     };
 
-    global.TopicGraphContainer = function (topicGraph) {
+    exports.TopicGraphContainer = function (topicGraph) {
         topicGraph.addContainer(this);
         this.topicGraph = topicGraph;
         return this;
     };
 
-    global.TopicGraphContainer.prototype.addXmlId = function (xmlId) {
+    exports.TopicGraphContainer.prototype.addXmlId = function (xmlId) {
         if (this.xmlIds === undefined) {
             this.xmlIds = [];
         }
@@ -120,12 +120,12 @@
         return this;
     };
 
-    global.TopicGraphContainer.prototype.setSpecLine = function (specLine) {
+    exports.TopicGraphContainer.prototype.setSpecLine = function (specLine) {
         this.specLine = specLine;
         return this;
     };
 
-    global.TopicGraphContainer.prototype.setContainerTargetNum = function (targetNum) {
+    exports.TopicGraphContainer.prototype.setContainerTargetNum = function (targetNum) {
         this.targetNum = targetNum;
         return this;
     };
@@ -151,22 +151,22 @@
      * all of the other nodes in its xref graph.
      *
      * @param topicGraph The graph that will hold this node
-     * @returns {global.TopicGraphNode} this
+     * @returns {exports.TopicGraphNode} this
      * @constructor
      */
-    global.TopicGraphNode = function (topicGraph) {
+    exports.TopicGraphNode = function (topicGraph) {
         topicGraph.addNode(this);
         this.topicGraph = topicGraph;
         return this;
     };
 
-    global.TopicGraphNode.prototype.setXml = function (xml, xmlDoc) {
+    exports.TopicGraphNode.prototype.setXml = function (xml, xmlDoc) {
         this.xml = xml;
         this.xmlDoc = xmlDoc;
         this.xrefs = [];
 
         // find any xrefs in the xml
-        var xrefs = xmlDoc.evaluate(".//xref", xml, null, global.XPathResult.ANY_TYPE, null);
+        var xrefs = xmlDoc.evaluate(".//xref", xml, null, XPathResult.ANY_TYPE, null);
         var xref;
         while ((xref = xrefs.iterateNext()) !== null) {
             if (xref.hasAttribute("linkend")) {
@@ -178,12 +178,12 @@
         return this;
     };
 
-    global.TopicGraphNode.prototype.setTitle = function (title) {
+    exports.TopicGraphNode.prototype.setTitle = function (title) {
         this.title = title;
         return this;
     };
 
-    global.TopicGraphNode.prototype.addTag = function (tag) {
+    exports.TopicGraphNode.prototype.addTag = function (tag) {
         if (this.tags === undefined) {
             this.tags = [];
         }
@@ -191,12 +191,12 @@
         return this;
     };
 
-    global.TopicGraphNode.prototype.setSpecLine = function (specLine) {
+    exports.TopicGraphNode.prototype.setSpecLine = function (specLine) {
         this.specLine = specLine;
         return this;
     };
 
-    global.TopicGraphNode.prototype.addXmlId = function (xmlId) {
+    exports.TopicGraphNode.prototype.addXmlId = function (xmlId) {
         if (this.xmlIds === undefined) {
             this.xmlIds = [];
         }
@@ -208,7 +208,7 @@
         return this;
     };
 
-    global.TopicGraphNode.prototype.setTopicId = function (topicId) {
+    exports.TopicGraphNode.prototype.setTopicId = function (topicId) {
         this.topicId = topicId;
         return this;
     };
@@ -217,9 +217,9 @@
      * Adds an existing topic id that this topic can assume
      * @param pgId The topic id
      * @param xml The xml of the exiting topic
-     * @returns {global.TopicGraphNode}
+     * @returns {exports.TopicGraphNode}
      */
-    global.TopicGraphNode.prototype.addPGId = function (pgId, xml) {
+    exports.TopicGraphNode.prototype.addPGId = function (pgId, xml) {
         // A mapping of PG IDs to a true/false value indicating if this topic is valid
         if (this.pgIds === undefined) {
             this.pgIds = {};
@@ -239,9 +239,9 @@
      * @param pgId The topic id that this topic can assume
      * @param outgoingXmlId The xml id that needs to be resolved
      * @param outgoingPGId The topic id that the topic with the xml id of outgoingXmlId must be able to assume
-     * @returns {global.TopicGraphNode}
+     * @returns {exports.TopicGraphNode}
      */
-    global.TopicGraphNode.prototype.addFixedOutgoingLink = function (pgId, outgoingXmlId, outgoingPGId) {
+    exports.TopicGraphNode.prototype.addFixedOutgoingLink = function (pgId, outgoingXmlId, outgoingPGId) {
         if (this.fixedOutgoingLinks === undefined) {
             this.fixedOutgoingLinks = {};
         }
@@ -264,7 +264,7 @@
         var otherNode = this.topicGraph.getNodeFromXMLId(outgoingXmlId);
 
         // we only add incoming links to topics
-        if (otherNode instanceof global.TopicGraphNode) {
+        if (otherNode instanceof exports.TopicGraphNode) {
             if (otherNode.fixedIncomingLinks === undefined) {
                 otherNode.fixedIncomingLinks = {};
             }
@@ -275,7 +275,7 @@
 
             var me = this;
             var existing;
-            global.jQuery.each(otherNode.fixedIncomingLinks[outgoingPGId], function(index, value){
+            jquery.each(otherNode.fixedIncomingLinks[outgoingPGId], function(index, value){
                 if (value.node === me) {
                     existing = value;
                     return false;
@@ -297,7 +297,7 @@
      * for determining the nodes that form part of a xref graph that can't be resolved to existing topics.
      * @param validNodes an array of the unresolved nodes that form this xref network
      */
-    global.TopicGraphNode.prototype.getUnresolvedGraph = function (validNodes) {
+    exports.TopicGraphNode.prototype.getUnresolvedGraph = function (validNodes) {
         if (this.pgIds === undefined) {
             return;
         }
@@ -315,11 +315,11 @@
         var topicGraph = this.topicGraph;
 
         if (this.fixedOutgoingLinks) {
-            global.jQuery.each(this.fixedOutgoingLinks, function (pgId, outgoingPGIds) {
-                global.jQuery.each(outgoingPGIds, function (outgoingXmlId, outgoingPGId) {
+            jquery.each(this.fixedOutgoingLinks, function (pgId, outgoingPGIds) {
+                jquery.each(outgoingPGIds, function (outgoingXmlId, outgoingPGId) {
                     var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
                     // unresolved graph can only be made up of topics
-                    if (node instanceof global.TopicGraphNode && node.topicId === undefined) {
+                    if (node instanceof exports.TopicGraphNode && node.topicId === undefined) {
                         node.getUnresolvedGraph(validNodes);
                     }
                 });
@@ -333,8 +333,8 @@
         }
 
         if (this.fixedIncomingLinks) {
-            global.jQuery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
-                global.jQuery.each(incomingNodes, function (index, nodeDetails) {
+            jquery.each(this.fixedIncomingLinks, function (pgId, incomingNodes) {
+                jquery.each(incomingNodes, function (index, nodeDetails) {
                     if (nodeDetails.node.topicId === undefined) {
                         nodeDetails.node.getUnresolvedGraph(validNodes);
                     }
@@ -351,7 +351,7 @@
      * @param existingNetwork An array that holds the nodes that were resolved to get to this point
      * @returns {Array}
      */
-    global.TopicGraphNode.prototype.isValid = function (pgId, existingNetwork) {
+    exports.TopicGraphNode.prototype.isValid = function (pgId, existingNetwork) {
         if (pgId === undefined) {
             throw "pgId should never be undefined";
         }
@@ -371,7 +371,7 @@
         if (this.pgIds === undefined) {
 
             var ids = "";
-            global.jQuery.each(this.xmlIds, function(index, xmlId){
+            jquery.each(this.xmlIds, function(index, xmlId){
                if (ids.length !== 0) {
                    ids += ", ";
                }
@@ -388,7 +388,7 @@
 
         // test that the supplied PG ID one of the possible values we have
         var valid = false;
-        global.jQuery.each(this.pgIds, function(index, value) {
+        jquery.each(this.pgIds, function(index, value) {
             if (index === pgId && value) {
                 valid = true;
                 return false;
@@ -415,7 +415,7 @@
             valid request for this node is the same pgId.
          */
         var alreadyProcessed;
-        global.jQuery.each(retValue, (function(me) {
+        jquery.each(retValue, (function(me) {
             return function(index, existingNode) {
                 if (me === existingNode.node) {
                     alreadyProcessed = existingNode.assumedId === pgId;
@@ -447,14 +447,14 @@
          */
         if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
             var outgoingRetValue = null;
-            global.jQuery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
+            jquery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
                 var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
 
                 if (node === undefined) {
                     throw "All outgoing links should resolve to a topic or container.";
                 }
 
-                if (node instanceof global.TopicGraphNode) {
+                if (node instanceof exports.TopicGraphNode) {
                     // if the outgoing link is another topic, we need to see if that
                     // topic can be resolved it it assumes an id of outgoingPGId
                     retValue = node.isValid(outgoingPGId, retValue);
@@ -496,13 +496,13 @@
                 get all the incoming node details for this topic at the particular id it
                 is being tested against
              */
-            global.jQuery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
+            jquery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
                 /*
                     It is possible that our backwards links have already been resolved, so
                     don't try to resolve them again.
                  */
                 var alreadyResolved = false;
-                global.jQuery.each(retValue, function(index, validNode) {
+                jquery.each(retValue, function(index, validNode) {
                     if (nodeDetails.node === validNode.node) {
                         alreadyResolved = true;
                         return false;
@@ -515,7 +515,7 @@
                         that works the best.
                      */
                     var validIncomingNodesOptions = [];
-                    global.jQuery.each(nodeDetails.ids, function (index, incomingPGId) {
+                    jquery.each(nodeDetails.ids, function (index, incomingPGId) {
                         var validIncomingNodes = nodeDetails.node.isValid(incomingPGId, retValue);
                         if (validIncomingNodes !== null) {
                             /*
@@ -535,9 +535,9 @@
                         return false;
                     }
 
-                    var mostSuccess = undefined;
-                    global.jQuery.each(validIncomingNodesOptions, function(index, validIncomingNodesOption){
-                        if (mostSuccess === undefined || validIncomingNodesOption.length > mostSuccess.length) {
+                    var mostSuccess = null;
+                    jquery.each(validIncomingNodesOptions, function(index, validIncomingNodesOption){
+                        if (mostSuccess === null || validIncomingNodesOption.length > mostSuccess.length) {
                             mostSuccess = validIncomingNodesOption;
                         }
                     });
@@ -559,4 +559,4 @@
         return retValue;
     };
 
-}(this));
+});

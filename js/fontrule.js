@@ -1,7 +1,7 @@
-(function(global){
+define(['exports'], function(exports) {
     'use strict';
 
-    global.FontRule = function(fontRule) {
+    exports.FontRule = function(fontRule) {
         if (fontRule !== undefined) {
             this.font = fontRule.font;
             this.size = fontRule.size;
@@ -13,7 +13,7 @@
         }
     };
 
-    global.FontRule.prototype.hasSameSettings = function (fontRule) {
+    exports.FontRule.prototype.hasSameSettings = function (fontRule) {
         if (this.font !== undefined && this.font !== fontRule.font) {
             return false;
         }
@@ -35,9 +35,9 @@
         }
 
         return true;
-    }
+    };
 
-    global.FontRule.prototype.equals = function (fontRule) {
+    exports.FontRule.prototype.equals = function (fontRule) {
         if (!(this.font === undefined && fontRule.font === undefined) &&
             this.font && !fontRule.font) {
             return false;
@@ -67,39 +67,39 @@
     };
 
 
-    global.FontRule.prototype.setFont = function (font) {
+    exports.FontRule.prototype.setFont = function (font) {
         this.font = font;
         return this;
     };
 
-    global.FontRule.prototype.setSize = function (size) {
+    exports.FontRule.prototype.setSize = function (size) {
         this.size = size;
         return this;
     };
 
-    global.FontRule.prototype.setBold = function (bold) {
+    exports.FontRule.prototype.setBold = function (bold) {
         this.bold = bold;
         return this;
     };
 
-    global.FontRule.prototype.setItalics = function (italics) {
+    exports.FontRule.prototype.setItalics = function (italics) {
         this.italics = italics;
         return this;
     };
 
-    global.FontRule.prototype.setUnderline = function (underline) {
+    exports.FontRule.prototype.setUnderline = function (underline) {
         this.underline = underline;
         return this;
     };
 
-    global.FontRule.prototype.setDocBookElement = function (docBookElement) {
+    exports.FontRule.prototype.setDocBookElement = function (docBookElement) {
         this.docBookElement = docBookElement;
         return this;
     };
 
-    global.FontRule.prototype.setMerge = function (merge) {
+    exports.FontRule.prototype.setMerge = function (merge) {
         this.merge = merge;
         return this;
     };
 
-}(this));
+});

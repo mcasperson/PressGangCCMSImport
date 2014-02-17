@@ -1,9 +1,11 @@
-(function (global) {
-    global.escapeRegExp = function(str) {
+define (['exports'], function (exports) {
+    'use strict';
+
+    exports.escapeRegExp = function(str) {
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     };
 
-    global.keys = function(obj)
+    exports.keys = function(obj)
     {
         var keys = [];
         for(var key in obj) {
@@ -14,5 +16,9 @@
         keys.sort();
         return keys;
     };
-}(this));
+
+    exports.xmlToString = function(xmlDoc) {
+        return (new global.XMLSerializer()).serializeToString(xmlDoc);
+    };
+});
 

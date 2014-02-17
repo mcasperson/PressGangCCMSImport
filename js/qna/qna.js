@@ -1,4 +1,4 @@
-(function (global) {
+define(['exports'], function (exports) {
     'use strict';
 
     /**
@@ -6,7 +6,7 @@
      * @const
      * @enum {number}
      */
-    global.InputEnum = Object.freeze({
+    exports.InputEnum = Object.freeze({
         SINGLE_FILE: 0,                     // single file selection
         MULTIPLE_FILES: 1,                  // multiple file selection
         RADIO_BUTTONS: 2,
@@ -20,122 +20,121 @@
         PRE_HTML: 10
     });
 
-
-    global.QNAVariable = function () {
+    exports.QNAVariable = function () {
 
     };
 
-    global.QNAVariable.prototype.setType = function (type) {
+    exports.QNAVariable.prototype.setType = function (type) {
         this.type = type;
         return this;
     };
 
-    global.QNAVariable.prototype.setIntro = function (intro) {
+    exports.QNAVariable.prototype.setIntro = function (intro) {
         this.intro = intro;
         return this;
     };
 
-    global.QNAVariable.prototype.setName = function (name) {
+    exports.QNAVariable.prototype.setName = function (name) {
         this.name = name;
         return this;
     };
 
-    global.QNAVariable.prototype.setOptions = function (options) {
+    exports.QNAVariable.prototype.setOptions = function (options) {
         this.options = options;
         return this;
     };
 
-    global.QNAVariable.prototype.setValue = function (value) {
+    exports.QNAVariable.prototype.setValue = function (value) {
         this.value = value;
         return this;
     };
 
-    global.QNAVariables = function () {
+    exports.QNAVariables = function () {
 
     };
 
-    global.QNAVariables.prototype.setIntro = function (intro) {
+    exports.QNAVariables.prototype.setIntro = function (intro) {
         this.intro = intro;
         return this;
     };
 
-    global.QNAVariables.prototype.setVariables = function (variables) {
+    exports.QNAVariables.prototype.setVariables = function (variables) {
         this.variables = variables;
         return this;
     };
 
-    global.QNAStep = function () {
+    exports.QNAStep = function () {
         this.showNext = true;
         this.showPrevious = true;
         this.showRestart = false;
     };
 
-    global.QNAStep.prototype.setTitle = function (title) {
+    exports.QNAStep.prototype.setTitle = function (title) {
         this.title = title;
         return this;
     };
 
-    global.QNAStep.prototype.setIntro = function (intro) {
+    exports.QNAStep.prototype.setIntro = function (intro) {
         this.intro = intro;
         return this;
     };
 
-    global.QNAStep.prototype.setInputs = function (inputs) {
+    exports.QNAStep.prototype.setInputs = function (inputs) {
         this.inputs = inputs;
         return this;
     };
 
-    global.QNAStep.prototype.setOutputs = function (outputs) {
+    exports.QNAStep.prototype.setOutputs = function (outputs) {
         this.outputs = outputs;
         return this;
     };
 
-    global.QNAStep.prototype.setProcessStep = function (processStep) {
+    exports.QNAStep.prototype.setProcessStep = function (processStep) {
         this.processStep = processStep;
         return this;
     };
 
-    global.QNAStep.prototype.setNextStep = function (nextStep) {
+    exports.QNAStep.prototype.setNextStep = function (nextStep) {
         this.nextStep = nextStep;
         return this;
     };
 
-    global.QNAStep.prototype.setEnterStep = function (enterStep) {
+    exports.QNAStep.prototype.setEnterStep = function (enterStep) {
         this.enterStep = enterStep;
         return this;
     };
 
-    global.QNAStep.prototype.setBackStep = function (backStep) {
+    exports.QNAStep.prototype.setBackStep = function (backStep) {
         this.backStep = backStep;
         return this;
     };
 
-    global.QNAStep.prototype.setShowPrevious = function (showPrevious) {
+    exports.QNAStep.prototype.setShowPrevious = function (showPrevious) {
         this.showPrevious = showPrevious;
         return this;
     };
 
-    global.QNAStep.prototype.setShowNext = function (showNext) {
+    exports.QNAStep.prototype.setShowNext = function (showNext) {
         this.showNext = showNext;
         return this;
     };
 
-    global.QNAStep.prototype.getShowNextName = function () {
+    exports.QNAStep.prototype.getShowNextName = function () {
         return typeof this.processedShowNext === "string" ?
             this.processedShowNext : "Next";
     };
 
-    global.QNAStep.prototype.getShowPreviousName = function () {
+    exports.QNAStep.prototype.getShowPreviousName = function () {
         return typeof this.processedShowPrevious === "string" ?
             this.processedShowPrevious : "Previous";
     };
 
-    global.QNAStep.prototype.getShowRestartName = function () {
+    exports.QNAStep.prototype.getShowRestartName = function () {
         return typeof this.showRestartProcessed === "string" ?
             this.showRestartProcessed : "Restart";
     };
 
-    global.QNAStep.prototype.setShowRestart = function (showRestart) {
+    exports.QNAStep.prototype.setShowRestart = function (showRestart) {
         this.showRestart = showRestart;
         return this;
     };
@@ -147,14 +146,14 @@
      *   the details of the current step
      * @constructor
      */
-    global.QNA = function (step, previousSteps, results, config) {
+    exports.QNA = function (step, previousSteps, results, config) {
         this.step = step;
         this.previousSteps = previousSteps || [];
         this.results = results || [null];
         this.config = config || {};
     };
 
-    global.QNA.prototype.initialize = function (successCallback, errorCallback) {
+    exports.QNA.prototype.initialize = function (successCallback, errorCallback) {
         var result = this.results[this.results.length - 1];
         var step = this.step;
         var config = this.config;
@@ -315,7 +314,7 @@
                                                                     resolveInput(0, outputs, function () {
                                                                         // this function is always async to avoid issues with the $apply()
                                                                         // function in angular
-                                                                        global.setTimeout(function () {successCallback(me); }, 0);
+                                                                        setTimeout(function () {successCallback(me); }, 0);
                                                                     });
                                                                 });
                                                             }
@@ -340,7 +339,7 @@
         );
     };
 
-    global.QNA.prototype.hasNext = function () {
+    exports.QNA.prototype.hasNext = function () {
         if (this.step) {
             if (this.step.nextStep) {
                 return true;
@@ -350,11 +349,11 @@
         return false;
     };
 
-    global.QNA.prototype.hasPrevious = function () {
+    exports.QNA.prototype.hasPrevious = function () {
         return this.previousSteps.length > 0;
     };
 
-    global.QNA.prototype.next = function (callback, errorCallback) {
+    exports.QNA.prototype.next = function (callback, errorCallback) {
         if (this.step && this.step.nextStep) {
 
             var gotoNextStep = (function (me) {
@@ -363,7 +362,7 @@
                         (function (me) {
                             return function (nextStep) {
                                 if (nextStep) {
-                                    callback(new global.QNA(
+                                    callback(new exports.QNA(
                                         nextStep,
                                         me.previousSteps.concat([me.step]),
                                         newResults,
@@ -407,12 +406,12 @@
         }
     };
 
-    global.QNA.prototype.previous = function (callback, errorCallback) {
+    exports.QNA.prototype.previous = function (callback, errorCallback) {
         if (this.previousSteps.length > 0) {
 
             var gotoPreviousStep = (function (me) {
                 return function () {
-                    callback(new global.QNA(
+                    callback(new exports.QNA(
                         me.previousSteps[me.previousSteps.length - 1],
                         me.previousSteps.splice(0, me.previousSteps.length - 1),
                         me.results.splice(0, me.results.length - 1),
@@ -444,4 +443,4 @@
 
         return this;
     };
-}(this));
+});
