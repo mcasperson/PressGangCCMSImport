@@ -106,7 +106,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="101" selection-start="3701" selection-end="3701" vertical-scroll-proportion="0.30442804" vertical-offset="855" max-vertical-offset="28200">
+            <state line="36" column="36" selection-start="1982" selection-end="1990" vertical-scroll-proportion="0.3321033" vertical-offset="360" max-vertical-offset="28140">
               <folding />
             </state>
           </provider>
@@ -738,7 +738,7 @@
       <workItem from="1392346129229" duration="104000" />
       <workItem from="1392346294593" duration="57586000" />
       <workItem from="1392580875880" duration="27269000" />
-      <workItem from="1392617752222" duration="2998000" />
+      <workItem from="1392617752222" duration="3796000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1780,11 +1780,15 @@
       <created>1392618160833</created>
       <updated>1392618160833</updated>
     </task>
-    <option name="localTasksCounter" value="261" />
+    <task id="LOCAL-00261" summary="Working on DocBook 5 import&#10;">
+      <created>1392621193817</created>
+      <updated>1392621193817</updated>
+    </task>
+    <option name="localTasksCounter" value="262" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="405578000" />
+    <option name="totallyTimeSpent" value="406376000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1810,7 +1814,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24358974" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24358974" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1860,7 +1864,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Fixing bugs" />
     <MESSAGE value="Fixing bugs&#10;" />
     <MESSAGE value="Started work on ODT import" />
     <MESSAGE value="Started work on ODT import&#10;" />
@@ -1885,7 +1888,8 @@
     <MESSAGE value="Incorporated require.js&#10;" />
     <MESSAGE value="Fixing up ODT import" />
     <MESSAGE value="Working on DocBook 5 import" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on DocBook 5 import" />
+    <MESSAGE value="Working on DocBook 5 import&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on DocBook 5 import&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1917,7 +1921,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="6939" max-vertical-offset="7815" />
+        <state line="490" column="74" selection-start="26063" selection-end="26063" vertical-scroll-proportion="0.0" vertical-offset="6939" max-vertical-offset="7815">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
@@ -1959,7 +1965,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="155" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1560" />
+        <state line="45" column="155" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1560">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
@@ -2106,7 +2114,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="20" selection-start="482" selection-end="482" vertical-scroll-proportion="0.26143792" vertical-offset="0" max-vertical-offset="6765" />
+        <state line="16" column="20" selection-start="482" selection-end="482" vertical-scroll-proportion="0.26143792" vertical-offset="0" max-vertical-offset="6765">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
@@ -2149,7 +2159,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="330" column="54" selection-start="14685" selection-end="14719" vertical-scroll-proportion="0.0" vertical-offset="4512" max-vertical-offset="5190" />
+        <state line="330" column="54" selection-start="14685" selection-end="14719" vertical-scroll-proportion="0.0" vertical-offset="4512" max-vertical-offset="5190">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
@@ -2192,7 +2204,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="101" selection-start="3701" selection-end="3701" vertical-scroll-proportion="0.30442804" vertical-offset="855" max-vertical-offset="28200">
+        <state line="36" column="36" selection-start="1982" selection-end="1990" vertical-scroll-proportion="0.3321033" vertical-offset="360" max-vertical-offset="28140">
           <folding />
         </state>
       </provider>
