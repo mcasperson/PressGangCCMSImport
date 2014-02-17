@@ -26,8 +26,62 @@ define(
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
+        var evaluator = new XPathEvaluator();
+        var systemResolver = evaluator.createNSResolver(contentsXML.documentElement);
+        /*
+         https://developer.mozilla.org/en-US/docs/Introduction_to_using_XPath_in_JavaScript#Implementing_a_User_Defined_Namespace_Resolver
+         We need to use the fake namespace "docbook" to match anything in the default namespace. This is a work around
+         for the docbook 5 default namespace.
+         */
+        function resolver(namespace) {
+            var ns = systemResolver(namespace);
+            if (ns) {
+                return ns;
+            }
+
+            if (namespace === "docbook") {
+                return "http://docbook.org/ns/docbook";
+            }
+
+            return null;
+        }
+
         function getOwnerDoc(node) {
             return node.ownerDocument || node;
+        }
+
+        /**
+         * Running xpath queries is not as straight forward as it might seem. If the nodes are in the default namespace,
+         * we need a custom resolver and a fake namespace in our xpath query. Here we use the namespace "docbook" to
+         * find any node in the DocBook 5 default namespace.
+         *
+         * First, we try to get a match using no namespaces. The path has to have the docbook prefix for all nodes,
+         * which we remove to do the query.
+         *
+         * If that fails, we do the query again with the fake namespace and use our custom resolver to return
+         * the correct namespace.
+         *
+         * Also, Firefox will complain if the xml document used to evaluate the xpath is not the paret of the
+         * reference node. So we always get the parent document of the reference node
+         *
+         * @param path The xpath query, with all nodes in the fake "docspace" namespace
+         * @param referenceNode The reference node for relative xpath queries
+         * @param xmlDoc if referenceNode is null, this is the document to execute the xpath query on
+         * @returns {Object|*}
+         */
+        function xPath(path, referenceNode, xmlDoc) {
+            var ownerDoc = null;
+            if (referenceNode == null) {
+                ownerDoc = xmlDoc;
+            } else {
+                ownerDoc = getOwnerDoc(referenceNode);
+            }
+
+            if (ownerDoc.evaluate(xPath.replace(/docbook:/g, ""), referenceNode, resolver, XPathResult.ANY_TYPE, null).iterateNext()) {
+                return ownerDoc.evaluate(xPath.replace(/docbook:/g, ""), referenceNode, resolver, XPathResult.ANY_TYPE, null);
+            }
+
+            return ownerDoc.evaluate(xPath, referenceNode, resolver, XPathResult.ANY_TYPE, null);
         }
 
         /*
@@ -597,11 +651,12 @@ define(
                  */
                 function parseAsXML (xmlText, entities) {
                     var xmlDoc = jquery.parseXML(xmlText);
+
                     config.UploadProgress[1] = 5 * progressIncrement;
                     config.ParsedAsXML = true;
                     resultCallback();
 
-                    findBookInfo(xmlDoc, entities);
+                    findBookInfo(xmlDoc, entities, resolver);
                 }
 
                 var removeIdAttribute = function (xml) {
@@ -614,18 +669,18 @@ define(
                 /*
                  Find the book info details
                  */
-                function findBookInfo (xmlDoc, entities) {
+                function findBookInfo (xmlDoc, entities, resolver) {
                     // the content spec
                     var contentSpec = [];
 
-                    var bookinfo = xmlDoc.evaluate("//bookinfo", xmlDoc, null, XPathResult.ANY_TYPE, null).iterateNext();
+                    var bookinfo = xmlDoc.evaluate("//bookinfo", xmlDoc, resolver, XPathResult.ANY_TYPE, null).iterateNext();
                     if (bookinfo) {
-                        var title = xmlDoc.evaluate("./title", bookinfo, null, XPathResult.ANY_TYPE, null).iterateNext();
-                        var subtitle = xmlDoc.evaluate("./subtitle", bookinfo, null, XPathResult.ANY_TYPE, null).iterateNext();
-                        var edition = xmlDoc.evaluate("./edition", bookinfo, null, XPathResult.ANY_TYPE, null).iterateNext();
-                        var pubsnumber = xmlDoc.evaluate("./pubsnumber", bookinfo, null, XPathResult.ANY_TYPE, null).iterateNext();
-                        var productname = xmlDoc.evaluate("./productname", bookinfo, null, XPathResult.ANY_TYPE, null).iterateNext();
-                        var productnumber = xmlDoc.evaluate("./productnumber", bookinfo, null, XPathResult.ANY_TYPE, null).iterateNext();
+                        var title = xmlDoc.evaluate("./title", bookinfo, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                        var subtitle = xmlDoc.evaluate("./subtitle", bookinfo, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                        var edition = xmlDoc.evaluate("./edition", bookinfo, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                        var pubsnumber = xmlDoc.evaluate("./pubsnumber", bookinfo, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                        var productname = xmlDoc.evaluate("./productname", bookinfo, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                        var productnumber = xmlDoc.evaluate("./productnumber", bookinfo, resolver, XPathResult.ANY_TYPE, null).iterateNext();
 
                         if (title) {
                             contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));
@@ -727,20 +782,20 @@ define(
                         // we expect a publican book to have this. Generic docbook imports might not have it
                         errorCallback("Invalid content", "The <bookinfo> element could not be found");
                     } else {
-                        findIndex(xmlDoc, contentSpec);
+                        findIndex(xmlDoc, contentSpec, resolver);
                     }
 
                 }
 
-                function findIndex (xmlDoc, contentSpec) {
-                    var index = xmlDoc.evaluate("//index", xmlDoc, null, XPathResult.ANY_TYPE, null).iterateNext();
+                function findIndex (xmlDoc, contentSpec, resolver) {
+                    var index = xmlDoc.evaluate("//index", xmlDoc, resolver, XPathResult.ANY_TYPE, null).iterateNext();
                     if (index) {
                         contentSpec.push("Index = On");
                     }
-                    extractRevisionHistory(xmlDoc, contentSpec);
+                    extractRevisionHistory(xmlDoc, contentSpec, resolver);
                 }
 
-                function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
+                function extractRevisionHistory (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     if (topics === undefined) {
                         topics = [];
                     }
@@ -750,7 +805,7 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, null, XPathResult.ANY_TYPE, null).iterateNext();
+                    var revHistory = xmlDoc.evaluate("//revhistory", xmlDoc, resolver, XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (revHistory) {
 
@@ -758,7 +813,7 @@ define(
                         while (parentAppendix.parentNode && (parentAppendix = parentAppendix.parentNode).nodeName !== "appendix") {
 
                         }
-                        var revHistoryTitle = getOwnerDoc(parentAppendix).evaluate("./title", parentAppendix, null, XPathResult.ANY_TYPE, null).iterateNext();
+                        var revHistoryTitle = getOwnerDoc(parentAppendix).evaluate("./title", parentAppendix, resolver, XPathResult.ANY_TYPE, null).iterateNext();
                         var revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle))[1];
 
                         if (revHistoryTitle) {
@@ -767,7 +822,7 @@ define(
 
                             // fix any dates. right now we just trim strings, but this could be
                             // a good opportunity to fix common date formats
-                            var dates = getOwnerDoc(revHistory).evaluate(".//date", revHistory, null, XPathResult.ANY_TYPE, null);
+                            var dates = getOwnerDoc(revHistory).evaluate(".//date", revHistory, resolver, XPathResult.ANY_TYPE, null);
                             var date;
 
                             while ((date = dates.iterateNext()) !== null) {
@@ -776,7 +831,7 @@ define(
                             }
 
                             // fix rev numbers
-                            var revnumbers = getOwnerDoc(revHistory).evaluate(".//revnumber", revHistory, null, XPathResult.ANY_TYPE, null);
+                            var revnumbers = getOwnerDoc(revHistory).evaluate(".//revnumber", revHistory, resolver, XPathResult.ANY_TYPE, null);
                             var revnumber;
                             while ((revnumber = revnumbers.iterateNext()) !== null) {
                                 var revContents = revnumber.textContent;
@@ -817,10 +872,10 @@ define(
                     config.UploadProgress[1] = 7 * progressIncrement;
                     config.FoundRevisionHistory = true;
                     resultCallback();
-                    extractAuthorGroup(xmlDoc, contentSpec, topics, topicGraph);
+                    extractAuthorGroup(xmlDoc, contentSpec, resolver, topics, topicGraph);
                 }
 
-                function extractAuthorGroup (xmlDoc, contentSpec, topics, topicGraph) {
+                function extractAuthorGroup (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     if (topics === undefined) {
                         topics = [];
                     }
@@ -830,7 +885,7 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var authorGroup = xmlDoc.evaluate("//authorgroup", xmlDoc, null, XPathResult.ANY_TYPE, null).iterateNext();
+                    var authorGroup = xmlDoc.evaluate("//authorgroup", xmlDoc, resolver, XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (authorGroup) {
                         contentSpec.push("Author Group = ");
@@ -855,10 +910,10 @@ define(
                     config.FoundAuthorGroup = true;
                     resultCallback();
 
-                    extractAbstract(xmlDoc, contentSpec, topics, topicGraph);
+                    extractAbstract(xmlDoc, contentSpec, resolver, topics, topicGraph);
                 }
 
-                function extractAbstract (xmlDoc, contentSpec, topics, topicGraph) {
+                function extractAbstract (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     if (topics === undefined) {
                         topics = [];
                     }
@@ -868,7 +923,7 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var abstractContent = xmlDoc.evaluate("//bookinfo/abstract", xmlDoc, null, XPathResult.ANY_TYPE, null).iterateNext();
+                    var abstractContent = xmlDoc.evaluate("//bookinfo/abstract", xmlDoc, resolver, XPathResult.ANY_TYPE, null).iterateNext();
 
                     if (abstractContent) {
                         contentSpec.push("Abstract = ");
@@ -892,12 +947,12 @@ define(
                     config.FoundAbstract = true;
                     resultCallback();
 
-                    uploadImages(xmlDoc, contentSpec, topics, topicGraph);
+                    uploadImages(xmlDoc, contentSpec, resolver, topics, topicGraph);
                 }
 
-                function uploadImages (xmlDoc, contentSpec, topics, topicGraph) {
+                function uploadImages (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     // count the numbe of images we are uploading
-                    var images = xmlDoc.evaluate("//@fileref", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                    var images = xmlDoc.evaluate("//@fileref", xmlDoc, resolver, XPathResult.ANY_TYPE, null);
                     var numImages = 0;
 
                     var image;
@@ -905,7 +960,7 @@ define(
                         ++numImages;
                     }
 
-                    images = xmlDoc.evaluate("//@fileref", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                    images = xmlDoc.evaluate("//@fileref", xmlDoc, resolver, XPathResult.ANY_TYPE, null);
                     var uploadedImages = {};
 
                     var processImages = function (image, count) {
@@ -970,7 +1025,7 @@ define(
                                 processImages(images.iterateNext(), ++count);
                             }
                         } else {
-                            var filerefs = xmlDoc.evaluate("//@fileref", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                            var filerefs = xmlDoc.evaluate("//@fileref", xmlDoc, resolver, XPathResult.ANY_TYPE, null);
                             var updatedRefs = [];
                             var fileref;
                             while ((fileref = filerefs.iterateNext()) !== null) {
@@ -987,14 +1042,14 @@ define(
                             config.FoundImages = true;
                             resultCallback();
 
-                            resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
+                            resolveBookStructure(xmlDoc, contentSpec, resolver, topics, topicGraph);
                         }
                     };
 
                     processImages(images.iterateNext(), 0);
                 }
 
-                function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
+                function resolveBookStructure (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     // so we can work back to the original source
                     contentSpec.push("# Imported from " + config.ZipFile.name);
 
@@ -1008,7 +1063,7 @@ define(
                                 var clone = value.cloneNode(true);
 
                                 // find the title
-                                var title = getOwnerDoc(clone).evaluate("./title", clone, null, XPathResult.ANY_TYPE, null).iterateNext();
+                                var title = getOwnerDoc(clone).evaluate("./title", clone, resolver, XPathResult.ANY_TYPE, null).iterateNext();
                                 if (title) {
                                     var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
@@ -1025,10 +1080,10 @@ define(
                                     });
 
                                     // the id attribute assigned to this container
-                                    var id = getOwnerDoc(clone).evaluate("./@id", clone, null, XPathResult.ANY_TYPE, null).iterateNext();
+                                    var id = getOwnerDoc(clone).evaluate("./@id", clone, resolver, XPathResult.ANY_TYPE, null).iterateNext();
                                     if (id === null) {
                                         // the docbook 5 version of the id attribute
-                                        id = getOwnerDoc(clone).evaluate("./@xml:id", clone, null, XPathResult.ANY_TYPE, null).iterateNext();
+                                        id = getOwnerDoc(clone).evaluate("./@xml:id", clone, resolver, XPathResult.ANY_TYPE, null).iterateNext();
                                     }
 
                                     // what we have left is the contents of a initial text topic
@@ -1047,14 +1102,14 @@ define(
                                             var clone2 = clone.cloneNode(true);
                                             var removeNodes = [];
 
-                                            var titles = getOwnerDoc(clone2).evaluate("./title", clone2, null, XPathResult.ANY_TYPE, null);
+                                            var titles = getOwnerDoc(clone2).evaluate("./title", clone2, resolver, XPathResult.ANY_TYPE, null);
 
                                             var titleNode;
                                             while ((titleNode = titles.iterateNext()) !== null) {
                                                 removeNodes.push(titleNode);
                                             }
 
-                                            var revHistoryNodes = getOwnerDoc(clone2).evaluate(".//revhistory", clone2, null, XPathResult.ANY_TYPE, null);
+                                            var revHistoryNodes = getOwnerDoc(clone2).evaluate(".//revhistory", clone2, resolver, XPathResult.ANY_TYPE, null);
 
                                             var revHistoryNode;
                                             while ((revHistoryNode = revHistoryNodes.iterateNext()) !== null) {
@@ -1118,14 +1173,14 @@ define(
                                             var containerClone = clone.cloneNode(true);
                                             var containerRemoveNodes = [];
 
-                                            var containerTitles = getOwnerDoc(containerClone).evaluate("./title", containerClone, null, XPathResult.ANY_TYPE, null);
+                                            var containerTitles = getOwnerDoc(containerClone).evaluate("./title", containerClone, resolver, XPathResult.ANY_TYPE, null);
 
                                             var containerTitleNode;
                                             while ((containerTitleNode = containerTitles.iterateNext()) !== null) {
                                                 containerRemoveNodes.push(containerTitleNode);
                                             }
 
-                                            var containerRevHistoryNodes = getOwnerDoc(containerClone).evaluate(".//revhistory", containerClone, null, XPathResult.ANY_TYPE, null);
+                                            var containerRevHistoryNodes = getOwnerDoc(containerClone).evaluate(".//revhistory", containerClone, resolver, XPathResult.ANY_TYPE, null);
 
                                             var containerRevHistoryNode;
                                             while ((containerRevHistoryNode = containerRevHistoryNodes.iterateNext()) !== null) {
@@ -1188,20 +1243,20 @@ define(
                     config.ResolvedBookStructure = true;
                     resultCallback();
 
-                    matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph);
+                    matchExistingTopics(xmlDoc, contentSpec, resolver, topics, topicGraph);
                 }
 
                 /*
                  Resolve the topics either to existing topics in the database, or to new topics
                  */
-                function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph) {
+                function matchExistingTopics (xmlDoc, contentSpec, resolver, topics, topicGraph) {
 
                     /*
                      Take every xref that points to a topic (and not just a place in a topic), and replace it
                      with a injection placeholder. This is done on topics to be imported.
                      */
                     function normalizeXrefs (xml, topicAndContainerIDs) {
-                        var xrefs = getOwnerDoc(xml).evaluate("//xref", xml, null, XPathResult.ANY_TYPE, null);
+                        var xrefs = getOwnerDoc(xml).evaluate("//xref", xml, resolver, XPathResult.ANY_TYPE, null);
                         var xref;
                         var xrefReplacements = [];
                         while ((xref = xrefs.iterateNext()) !== null) {
@@ -1225,8 +1280,8 @@ define(
                      Take every injection and replace it with a placeholder. This is done on existing topics
                      from PressGang.
                      */
-                    function normalizeInjections (xml) {
-                        var comments = getOwnerDoc(xml).evaluate("//comment()", xml, null, XPathResult.ANY_TYPE, null);
+                    function normalizeInjections (xml, resolver) {
+                        var comments = getOwnerDoc(xml).evaluate("//comment()", xml, resolver, XPathResult.ANY_TYPE, null);
                         var comment;
                         var commentReplacements = [];
                         while ((comment = comments.iterateNext()) !== null) {
@@ -1272,8 +1327,8 @@ define(
                      The order of the attributes is changed by PressGang, so before we do a comparasion
                      we order any attributes in any node.
                      */
-                    function reorderAttributes(xml) {
-                        var allElements = getOwnerDoc(xml).evaluate(".//*", xml, null, XPathResult.ANY_TYPE, null);
+                    function reorderAttributes(xml, resolver) {
+                        var allElements = getOwnerDoc(xml).evaluate(".//*", xml, resolver, XPathResult.ANY_TYPE, null);
                         var elements = [];
                         var elementIter;
                         while ((elementIter = allElements.iterateNext()) !== null) {
@@ -1305,7 +1360,7 @@ define(
                     /*
                      Step 1: find any potential matches already in the PressGang server
                      */
-                    function getPossibleMatches(index, callback) {
+                    function getPossibleMatches(index, resolver, callback) {
                         if (index >= topics.length) {
                             callback();
                         } else {
@@ -1363,11 +1418,11 @@ define(
                                          Normalize injections. We do this against a XML DOM because it is more
                                          robust than doing regexes on strings.
                                          */
-                                        normalizeInjections(matchingTopicXMLCopy, matchingTopicXMLCopy);
+                                        normalizeInjections(matchingTopicXMLCopy, resolver);
                                         /*
                                          Order the attributes in nodes in a consistent way
                                          */
-                                        reorderAttributes(matchingTopicXMLCopy, matchingTopicXMLCopy);
+                                        reorderAttributes(matchingTopicXMLCopy, resolver);
                                         /*
                                          Convert back to a string
                                          */
@@ -1391,8 +1446,8 @@ define(
                                              */
                                             var verbatimMatch = true;
                                             jquery.each(VERBATIM_ELEMENTS, function (index, elementName) {
-                                                var originalNodes = getOwnerDoc(topicXMLCopy).evaluate(".//" + elementName, topicXMLCopy, null, XPathResult.ANY_TYPE, null);
-                                                var matchingNodes = getOwnerDoc(matchingTopicXMLCopy).evaluate(".//" + elementName, matchingTopicXMLCopy, null, XPathResult.ANY_TYPE, null);
+                                                var originalNodes = getOwnerDoc(topicXMLCopy).evaluate(".//" + elementName, topicXMLCopy, resolver, XPathResult.ANY_TYPE, null);
+                                                var matchingNodes = getOwnerDoc(matchingTopicXMLCopy).evaluate(".//" + elementName, matchingTopicXMLCopy, resolver, XPathResult.ANY_TYPE, null);
 
                                                 var originalNode;
                                                 var matchingNode;
@@ -1425,7 +1480,7 @@ define(
                                         }
                                     });
 
-                                    getPossibleMatches(index + 1, callback);
+                                    getPossibleMatches(index + 1, resolver, callback);
                                 },
                                 errorCallback
                             );
@@ -1433,7 +1488,7 @@ define(
                     }
 
                     if (config.CreateOrResuseTopics === "REUSE") {
-                        getPossibleMatches(0, function() {
+                        getPossibleMatches(0, resolver, function() {
                             populateOutgoingLinks();
                         });
                     } else {
@@ -1491,7 +1546,7 @@ define(
                         config.MatchedExistingTopics = true;
                         resultCallback();
 
-                        resolveXrefs(xmlDoc, contentSpec, topics, topicGraph);
+                        resolveXrefs(xmlDoc, contentSpec, resolver, topics, topicGraph);
                     }
                 }
 
@@ -1512,7 +1567,7 @@ define(
                  are also resolved
                  4. Create new topics that could not be matched, and reuse those that can be matched
                  */
-                function resolveXrefs (xmlDoc, contentSpec, topics, topicGraph) {
+                function resolveXrefs (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     /*
                      Return a node without a topic ID (which means it hasn't been resolved) and
                      outgoing or incoming links (which means it is part of a xref graph).
@@ -1615,10 +1670,10 @@ define(
                     config.ResolvedXRefGraphs = true;
                     resultCallback();
 
-                    uploadTopics(xmlDoc, contentSpec, topics, topicGraph);
+                    uploadTopics(xmlDoc, contentSpec, resolver, topics, topicGraph);
                 }
 
-                function uploadTopics (xmlDoc, contentSpec, topics, topicGraph) {
+                function uploadTopics (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     function createTopics(index, callback) {
                         if (index >= topics.length) {
                             callback();
@@ -1658,11 +1713,11 @@ define(
                         config.UploadedTopics = true;
                         resultCallback();
 
-                        resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph);
+                        resolveXrefsInCreatedTopics(xmlDoc, contentSpec, resolver, topics, topicGraph);
                     });
                 }
 
-                function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph) {
+                function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, resolver, topics, topicGraph) {
                     function resolve(index, callback) {
                         if (index >= topics.length) {
                             callback();
@@ -1672,7 +1727,7 @@ define(
 
                             var topic = topics[index];
                             if (topic.createdTopic) {
-                                var xrefs = getOwnerDoc(topic.xml).evaluate(".//xref", topic.xml, null, XPathResult.ANY_TYPE, null);
+                                var xrefs = getOwnerDoc(topic.xml).evaluate(".//xref", topic.xml, resolver, XPathResult.ANY_TYPE, null);
                                 var xref;
                                 var xrefReplacements = [];
                                 while ((xref = xrefs.iterateNext()) !== null) {
