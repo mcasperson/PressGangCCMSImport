@@ -61,7 +61,7 @@ define(
              for the docbook 5 default namespace.
              */
             function resolver(namespace) {
-                var ns = systemResolver(namespace);
+                var ns = systemResolver.lookupNamespaceURI(namespace);
                 if (ns) {
                     return ns;
                 }
