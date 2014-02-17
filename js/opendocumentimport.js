@@ -26,7 +26,7 @@ define(
                 } else if (config.OdtFile.name.lastIndexOf(".odt") !== config.OdtFile.name.length - 4) {
                     errorCallback("Please select a file", "You need to select an ODT file before continuing.");
                 } else {
-                    qnazipmodel.zipModel.getCachedEntries(config.OdtFile, function (entries) {
+                    qnastart.zipModel.getCachedEntries(config.OdtFile, function (entries) {
     
                         var foundContentFile = false;
                         jquery.each(entries, function (index, value) {

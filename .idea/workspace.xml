@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/angular/angular.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -68,10 +67,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="51" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.5464481" vertical-offset="225" max-vertical-offset="3825">
+            <state line="35" column="51" selection-start="2068" selection-end="2068" vertical-scroll-proportion="-12.5" vertical-offset="225" max-vertical-offset="3825">
               <folding>
                 <marker date="1392597269454" expanded="true" signature="3639:3701" placeholder="..." />
                 <marker date="1392597269454" expanded="true" signature="3742:3797" placeholder="..." />
@@ -119,13 +118,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="21" selection-start="657" selection-end="657" vertical-scroll-proportion="649.96295" vertical-offset="17774" max-vertical-offset="18630">
+            <state line="525" column="41" selection-start="24159" selection-end="24167" vertical-scroll-proportion="0.33333334" vertical-offset="7693" max-vertical-offset="18630">
               <folding>
-                <marker date="1392587493738" expanded="true" signature="41848:42017" placeholder="..." />
-                <marker date="1392587493738" expanded="true" signature="41927:42017" placeholder="..." />
+                <marker date="1392597917395" expanded="true" signature="41845:42014" placeholder="..." />
+                <marker date="1392597917395" expanded="true" signature="41924:42014" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -199,7 +198,6 @@
         <option value="$PROJECT_DIR$/js/qna/app.js" />
         <option value="$PROJECT_DIR$/js/qna/controller.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
-        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/js/require.js" />
         <option value="$PROJECT_DIR$/js/qnaangular/app.js" />
@@ -208,6 +206,7 @@
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
       </list>
     </option>
   </component>
@@ -780,7 +779,7 @@
       <workItem from="1392244121755" duration="36164000" />
       <workItem from="1392346129229" duration="104000" />
       <workItem from="1392346294593" duration="57586000" />
-      <workItem from="1392580875880" duration="16392000" />
+      <workItem from="1392580875880" duration="17031000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1790,11 +1789,15 @@
       <created>1392596927068</created>
       <updated>1392596927068</updated>
     </task>
-    <option name="localTasksCounter" value="253" />
+    <task id="LOCAL-00253" summary="Incorporated require.js&#10;">
+      <created>1392597285955</created>
+      <updated>1392597285955</updated>
+    </task>
+    <option name="localTasksCounter" value="254" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="391703000" />
+    <option name="totallyTimeSpent" value="392342000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1820,7 +1823,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24387646" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24387646" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2148,16 +2151,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="21" selection-start="657" selection-end="657" vertical-scroll-proportion="649.96295" vertical-offset="17774" max-vertical-offset="18630">
-          <folding>
-            <marker date="1392587493738" expanded="true" signature="41848:42017" placeholder="..." />
-            <marker date="1392587493738" expanded="true" signature="41927:42017" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/require.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="0" selection-start="15366" selection-end="15366" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
@@ -2241,11 +2234,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="51" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.5464481" vertical-offset="225" max-vertical-offset="3825">
+        <state line="35" column="51" selection-start="2068" selection-end="2068" vertical-scroll-proportion="-12.5" vertical-offset="225" max-vertical-offset="3825">
           <folding>
             <marker date="1392597269454" expanded="true" signature="3639:3701" placeholder="..." />
             <marker date="1392597269454" expanded="true" signature="3742:3797" placeholder="..." />
             <marker date="1392597269454" expanded="true" signature="3840:3943" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="525" column="41" selection-start="24159" selection-end="24167" vertical-scroll-proportion="0.33333334" vertical-offset="7693" max-vertical-offset="18630">
+          <folding>
+            <marker date="1392597917395" expanded="true" signature="41845:42014" placeholder="..." />
+            <marker date="1392597917395" expanded="true" signature="41924:42014" placeholder="..." />
           </folding>
         </state>
       </provider>
