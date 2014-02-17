@@ -27,6 +27,8 @@ define (['jquery', 'exports'], function (jquery, exports) {
         } catch (error) {
             console.log(error);
         }
+
+        return null;
     };
 });
 

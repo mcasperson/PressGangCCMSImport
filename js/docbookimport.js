@@ -1422,67 +1422,72 @@ define(
                                          */
                                         var matchingTopicXMLCopy = qnautils.stringToXML(replacedTextResult.xml);
                                         /*
-                                         Normalize injections. We do this against a XML DOM because it is more
-                                         robust than doing regexes on strings.
+                                            Check for invalid XML stored in the database
                                          */
-                                        normalizeInjections(matchingTopicXMLCopy);
-                                        /*
-                                         Order the attributes in nodes in a consistent way
-                                         */
-                                        reorderAttributes(matchingTopicXMLCopy);
-                                        /*
-                                         Convert back to a string
-                                         */
-                                        var matchingTopicXMLCompare = qnautils.xmlToString(matchingTopicXMLCopy);
-                                        /*
-                                         Strip whitespace
-                                         */
-                                        matchingTopicXMLCompare = removeWhiteSpace(matchingTopicXMLCompare);
-                                        /*
-                                         Restore entities
-                                         */
-                                        matchingTopicXMLCompare = reencode(matchingTopicXMLCompare, replacedTextResult.replacements);
-
-                                        if (matchingTopicXMLCompare === topicXMLCompare) {
-
+                                        if (matchingTopicXMLCopy !== null) {
                                             /*
-                                                This is the second level of checking. If we reach this point we know the
-                                                two XML file have the same structure and content ignoring any whitespace.
-                                                Now we make sure that any elements where whitespace is signifiant also
-                                                match.
+                                             Normalize injections. We do this against a XML DOM because it is more
+                                             robust than doing regexes on strings.
                                              */
-                                            var verbatimMatch = true;
-                                            jquery.each(VERBATIM_ELEMENTS, function (index, elementName) {
-                                                var originalNodes = xPath(".//docbook:" + elementName, topicXMLCopy);
-                                                var matchingNodes = xPath(".//docbook:" + elementName, matchingTopicXMLCopy);
+                                            normalizeInjections(matchingTopicXMLCopy);
+                                            /*
+                                             Order the attributes in nodes in a consistent way
+                                             */
+                                            reorderAttributes(matchingTopicXMLCopy);
+                                            /*
+                                             Convert back to a string
+                                             */
+                                            var matchingTopicXMLCompare = qnautils.xmlToString(matchingTopicXMLCopy);
+                                            /*
+                                             Strip whitespace
+                                             */
+                                            matchingTopicXMLCompare = removeWhiteSpace(matchingTopicXMLCompare);
+                                            /*
+                                             Restore entities
+                                             */
+                                            matchingTopicXMLCompare = reencode(matchingTopicXMLCompare, replacedTextResult.replacements);
 
-                                                var originalNode;
-                                                var matchingNode;
-                                                while ((originalNode = originalNodes.iterateNext()) !== null) {
-                                                    matchingNode = matchingNodes.iterateNext();
+                                            if (matchingTopicXMLCompare === topicXMLCompare) {
 
-                                                    if (matchingNode === null) {
+                                                /*
+                                                    This is the second level of checking. If we reach this point we know the
+                                                    two XML file have the same structure and content ignoring any whitespace.
+                                                    Now we make sure that any elements where whitespace is signifiant also
+                                                    match.
+                                                 */
+                                                var verbatimMatch = true;
+                                                jquery.each(VERBATIM_ELEMENTS, function (index, elementName) {
+                                                    var originalNodes = xPath(".//docbook:" + elementName, topicXMLCopy);
+                                                    var matchingNodes = xPath(".//docbook:" + elementName, matchingTopicXMLCopy);
+
+                                                    var originalNode;
+                                                    var matchingNode;
+                                                    while ((originalNode = originalNodes.iterateNext()) !== null) {
+                                                        matchingNode = matchingNodes.iterateNext();
+
+                                                        if (matchingNode === null) {
+                                                            throw "There was a mismatch between verbatim elements in similar topics!";
+                                                        }
+
+                                                        var reencodedOriginal = reencode(qnautils.xmlToString(originalNode), replacements);
+                                                        var reencodedMatch = reencode(qnautils.xmlToString(matchingNode), replacedTextResult.replacements);
+
+                                                        // the original
+
+                                                        if (reencodedOriginal !==reencodedMatch) {
+                                                            verbatimMatch = false;
+                                                            return false;
+                                                        }
+                                                    }
+
+                                                    if ((matchingNode = matchingNodes.iterateNext()) !== null) {
                                                         throw "There was a mismatch between verbatim elements in similar topics!";
                                                     }
+                                                });
 
-                                                    var reencodedOriginal = reencode(qnautils.xmlToString(originalNode), replacements);
-                                                    var reencodedMatch = reencode(qnautils.xmlToString(matchingNode), replacedTextResult.replacements);
-
-                                                    // the original
-
-                                                    if (reencodedOriginal !==reencodedMatch) {
-                                                        verbatimMatch = false;
-                                                        return false;
-                                                    }
+                                                if (verbatimMatch) {
+                                                    topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
                                                 }
-
-                                                if ((matchingNode = matchingNodes.iterateNext()) !== null) {
-                                                    throw "There was a mismatch between verbatim elements in similar topics!";
-                                                }
-                                            });
-
-                                            if (verbatimMatch) {
-                                                topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
                                             }
                                         }
                                     });
