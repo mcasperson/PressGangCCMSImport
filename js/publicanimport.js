@@ -107,7 +107,9 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback) {
-                resultCallback(docbookimport.askToCreateNewSpecOrOverwriteExistingOne);
+                resultCallback(docbookimport.askForRevisionMessage);
             });
+
+
     }
 );

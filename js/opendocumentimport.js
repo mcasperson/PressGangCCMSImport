@@ -55,8 +55,29 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(getSpecDetails);
+                resultCallback(askForRevisionMessage);
             });
+
+        /*
+         Ask for a revision message
+         */
+        var askForRevisionMessage = new qna.QNAStep()
+            .setTitle("Enter a message for the revision log")
+            .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Revision Log Message")
+                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.ZipFile.name);})
+                            .setName("RevisionMessage")
+                    ])
+            ])
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(getSpecDetails);
+            })
+            .setShowNext("Start Import");
     
         /*
             STEP 2 - Get content spec details
@@ -133,29 +154,6 @@ define(
                 resultCallback(useStyleRules);
             });
     
-        /*
-            Step 3 - ask which server this is being uploaded to
-         */
-        var specifyTheServer = new qna.QNAStep()
-            .setTitle("Select the server to import in to")
-            .setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
-                "Using the test server is recommended for the first import to check the results before adding the content to the production server.")
-            .setInputs([
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Production Server", "Test Server"])
-                            .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
-                            .setValue("skynet-dev.usersys.redhat.com")
-                            .setName("PressGangHost")
-                    ])
-            ])
-            .setNextStep(function (resultCallback) {
-                resultCallback(askForRevisionMessage);
-            })
-            .setShowNext("Start Import");
-    
         var useStyleRules = new qna.QNAStep()
             .setTitle("Do you want to define additional style rules")
             .setIntro("You have the option of wrapping paragraphs that match certain font styles in DocBook elements other than <para>s. " +
@@ -172,7 +170,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : specifyTheServer);
+                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : processOdt);
             });
     
         function getRulesText(rulesCollection) {
@@ -406,29 +404,8 @@ define(
                 }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.DefineAnotherRule ? setParaRules : specifyTheServer);
+                resultCallback(config.DefineAnotherRule ? setParaRules : processOdt);
             });
-    
-        /*
-         Ask for a revision message
-         */
-        var askForRevisionMessage = new qna.QNAStep()
-            .setTitle("Enter a message for the revision log")
-            .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
-            .setInputs([
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.TEXTBOX)
-                            .setIntro("Revision Log Message")
-                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.ZipFile.name);})
-                            .setName("RevisionMessage")
-                    ])
-            ])
-            .setNextStep(function (resultCallback) {
-                resultCallback(processOdt);
-            })
-            .setShowNext("Start Import");
     
         /*
             STEP 5 - process the ODT file

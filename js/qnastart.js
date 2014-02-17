@@ -231,7 +231,105 @@ define(
                 ]
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
+            });
+
+
+        /*
+         Step 3 - Ask about creating a new spec or overwriting an old one
+         */
+        var askToCreateNewSpecOrOverwriteExistingOne = new qna.QNAStep()
+            .setTitle("Create or overwrite a content spec?")
+            .setIntro("This wizard can create a new content specification, or overwrite the contents of an existing one. " +
+                "You will usually want to create a new content specification, but if you are reimporting a book and want to overwrite the previously imported content spec, " +
+                "select the overwrite option.")
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Create a new content spec", "Overwrite an existing content spec"])
+                            .setName("CreateOrOverwrite")
+                            .setOptions(["CREATE", "OVERWRITE"])
+                            .setValue("CREATE")
+                    ])
+            ])
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(config.CreateOrOverwrite === "CREATE" ? askToReuseTopics : getExistingContentSpecID);
+            });
+
+        var getExistingContentSpecID = new qna.QNAStep()
+            .setTitle("Specify the ID of the content specification to overwrite")
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Existing content specification ID")
+                            .setName("ExistingContentSpecID")
+                    ])
+            ])
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                if (!/\d+/.test(config.ExistingContentSpecID)) {
+                    errorCallback("Invalid Content Specification ID", "You need to enter a valid content specification id. The ID is a sequence of numbers, like 12321.");
+                } else {
+                    resultCallback(null);
+                }
+            })
+            .setNextStep(function (resultCallback) {
+                resultCallback(askToReuseTopics);
+            });
+
+        /*
+         Step 3 - Ask about creating a new spec or overwriting an old one
+         */
+        var askToReuseTopics = new qna.QNAStep()
+            .setTitle("Do you want to reuse existing topics and images?")
+            .setIntro("This wizard can attempt to reuse any existing topics whose contents and xref relationships match those defined in the imported content. " +
+                "You also have the choice to reuse any images that exactly match those that are being imported. " +
+                "It is highly recommended that you reuse existing topics and images.")
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Reuse existing topics", "Create new topics"])
+                            .setName("CreateOrResuseTopics")
+                            .setOptions(["REUSE", "CREATE"])
+                            .setValue("REUSE"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Reuse existing images", "Create new images"])
+                            .setName("CreateOrResuseImages")
+                            .setOptions(["REUSE", "CREATE"])
+                            .setValue("REUSE")
+                    ])
+            ])
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(specifyTheServer);
+            });
+
+        /*
+         Ask which server this is being uploaded to
+         */
+        var specifyTheServer = new qna.QNAStep()
+            .setTitle("Select the server to import in to")
+            .setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
+                "Using the test server is recommended for the first import to check the results before adding the content to the production server.")
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Production Server", "Test Server", "Local Server"])
+                            .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com", "localhost"])
+                            .setValue("localhost")
+                            .setName("PressGangHost")
+                    ])
+            ])
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(config.ImportOption === "Publican" ? publicanimport.askForPublicanZipFile : opendocumentimport.askForOpenDocumentFile);
             });
+
     }
 );
