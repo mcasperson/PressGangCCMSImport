@@ -1,4 +1,4 @@
-define (['exports'], function (exports) {
+define (['jquery', 'exports'], function (jquery, exports) {
     'use strict';
 
     exports.escapeRegExp = function(str) {
@@ -19,6 +19,14 @@ define (['exports'], function (exports) {
 
     exports.xmlToString = function(xmlDoc) {
         return (new XMLSerializer()).serializeToString(xmlDoc);
+    };
+
+    exports.stringToXML = function(xml) {
+        try {
+            return jquery.parseXML(xml);
+        } catch (error) {
+            console.log(error);
+        }
     };
 });
 

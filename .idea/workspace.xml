@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/js/qna/qnautils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -67,15 +68,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="36" selection-start="2392" selection-end="2392" vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="3840">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="IPv6.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/uri/IPv6.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -88,7 +80,16 @@
       <file leaf-file-name="ui-bootstrap-tpls-0.10.0.min.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="2776" selection-start="34920" selection-end="34920" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="210">
+            <state line="8" column="2776" selection-start="34920" selection-end="34920" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="31" selection-start="716" selection-end="716" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
               <folding />
             </state>
           </provider>
@@ -106,7 +107,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="15" selection-start="2691" selection-end="2691" vertical-scroll-proportion="0.16605166" vertical-offset="630" max-vertical-offset="28140">
+            <state line="1703" column="72" selection-start="86453" selection-end="86453" vertical-scroll-proportion="36.385963" vertical-offset="6879" max-vertical-offset="28305">
               <folding />
             </state>
           </provider>
@@ -193,13 +194,13 @@
         <option value="$PROJECT_DIR$/js/require.js" />
         <option value="$PROJECT_DIR$/js/qnaangular/app.js" />
         <option value="$PROJECT_DIR$/js/qnaangular/controller.js" />
-        <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
         <option value="$PROJECT_DIR$/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/js/uri/URI.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
@@ -738,7 +739,7 @@
       <workItem from="1392346129229" duration="104000" />
       <workItem from="1392346294593" duration="57586000" />
       <workItem from="1392580875880" duration="27269000" />
-      <workItem from="1392617752222" duration="4026000" />
+      <workItem from="1392617752222" duration="7200000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1788,11 +1789,15 @@
       <created>1392621991572</created>
       <updated>1392621991572</updated>
     </task>
-    <option name="localTasksCounter" value="263" />
+    <task id="LOCAL-00263" summary="Working on DocBook 5 import&#10;">
+      <created>1392622222523</created>
+      <updated>1392622222523</updated>
+    </task>
+    <option name="localTasksCounter" value="264" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="406606000" />
+    <option name="totallyTimeSpent" value="409780000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -1932,7 +1937,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="17" selection-start="17" selection-end="17" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180" />
+        <state line="0" column="17" selection-start="17" selection-end="17" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnaangular/controller.js">
@@ -2149,21 +2156,9 @@
         <state line="107" column="59" selection-start="3968" selection-end="3968" vertical-scroll-proportion="-12.777778" vertical-offset="1260" max-vertical-offset="1935" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="20" selection-start="492" selection-end="492" vertical-scroll-proportion="0.51194537" vertical-offset="0" max-vertical-offset="586" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="41" selection-start="0" selection-end="6106" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1800">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="330" column="54" selection-start="14685" selection-end="14719" vertical-scroll-proportion="0.0" vertical-offset="4512" max-vertical-offset="5190">
           <folding />
         </state>
       </provider>
@@ -2206,9 +2201,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="330" column="54" selection-start="14685" selection-end="14719" vertical-scroll-proportion="8.699472" vertical-offset="0" max-vertical-offset="5190">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="31" selection-start="716" selection-end="716" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="15" selection-start="2691" selection-end="2691" vertical-scroll-proportion="0.16605166" vertical-offset="630" max-vertical-offset="28140">
+        <state line="1703" column="72" selection-start="86453" selection-end="86453" vertical-scroll-proportion="36.385963" vertical-offset="6879" max-vertical-offset="28305">
           <folding />
         </state>
       </provider>

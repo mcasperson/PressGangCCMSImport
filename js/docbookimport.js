@@ -73,10 +73,17 @@ define(
                 return null;
             }
 
-            if (ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, resolver, XPathResult.ANY_TYPE, null).iterateNext()) {
-                return ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, resolver, XPathResult.ANY_TYPE, null);
+            try {
+                // first try without the fake prefix. this will fail if looking up something like xml:id, which is
+                // why we have a catch block
+                if (ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, null, XPathResult.ANY_TYPE, null).iterateNext()) {
+                    return ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, null, XPathResult.ANY_TYPE, null);
+                }
+            } catch (error) {
+                console.log(error);
             }
 
+            // if that fails, try it again with the fake prefix which resolves to the docbook namespace
             return ownerDoc.evaluate(path, referenceNode, resolver, XPathResult.ANY_TYPE, null);
         }
 
@@ -461,7 +468,7 @@ define(
                                     function (referencedXmlText) {
                                         var replacedTextResult = replaceEntitiesInText(referencedXmlText);
                                         var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
-                                        var cleanedReferencedXmlDom = jquery.parseXML(cleanedReferencedXmlText);
+                                        var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
 
                                         var subset = getOwnerDoc(cleanedReferencedXmlDom).evaluate(match[7], cleanedReferencedXmlDom, null, XPathResult.ANY_TYPE, null);
 
@@ -646,7 +653,7 @@ define(
                  Take the sanitised XML and convert it to an actual XML DOM
                  */
                 function parseAsXML (xmlText, entities) {
-                    var xmlDoc = jquery.parseXML(xmlText);
+                    var xmlDoc = qnautils.stringToXML(xmlText);
 
                     config.UploadProgress[1] = 5 * progressIncrement;
                     config.ParsedAsXML = true;
@@ -809,60 +816,64 @@ define(
                         while (parentAppendix.parentNode && (parentAppendix = parentAppendix.parentNode).nodeName !== "appendix") {
 
                         }
+
+                        var revHistoryTitleContents;
                         var revHistoryTitle = xPath("./docbook:title", parentAppendix).iterateNext();
-                        var revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle))[1];
-
-                        if (revHistoryTitle) {
-
-                            var replacementNodeDetails = [];
-
-                            // fix any dates. right now we just trim strings, but this could be
-                            // a good opportunity to fix common date formats
-                            var dates = xPath(".//docbook:date", revHistory);
-                            var date;
-
-                            while ((date = dates.iterateNext()) !== null) {
-                                var dateContents = date.textContent;
-                                replacementNodeDetails.push({original: date, replacement: dateContents.trim()});
-                            }
-
-                            // fix rev numbers
-                            var revnumbers = xPath(".//docbook:revnumber", revHistory);
-                            var revnumber;
-                            while ((revnumber = revnumbers.iterateNext()) !== null) {
-                                var revContents = revnumber.textContent;
-                                var revMatch = /(\d+)\.(\d+)/.exec(revContents);
-                                if (revMatch !== null) {
-                                    replacementNodeDetails.push({original: revnumber, replacement: revMatch[1] + "-" + revMatch[2]});
-                                }
-                            }
-
-                            jquery.each(replacementNodeDetails, function(index, value){
-                                value.original.textContent = value.replacement;
-                            });
-
-                            contentSpec.push("Revision History = ");
-
-                            var id = parentAppendix.getAttribute("id");
-
-                            var revHistoryFixedXML = jquery.parseXML("<appendix><title>" +
-                                revHistoryTitleContents +
-                                "</title><simpara>" +
-                                qnautils.xmlToString(removeIdAttribute(revHistory)) +
-                                "</simpara></appendix>");
-
-                            var topic = new specelement.TopicGraphNode(topicGraph)
-                                .setXml(revHistoryFixedXML, revHistoryFixedXML)
-                                .setSpecLine(contentSpec.length - 1)
-                                .setTitle(revHistoryTitleContents)
-                                .addTag(REVISION_HISTORY_TAG_ID);
-
-                            if (id) {
-                                topic.addXmlId(id);
-                            }
-
-                            topics.push(topic);
+                        if (revHistoryTitle !== null) {
+                            revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle))[1];
+                        } else {
+                            revHistoryTitleContents = "Revision History";
                         }
+
+                        var replacementNodeDetails = [];
+
+                        // fix any dates. right now we just trim strings, but this could be
+                        // a good opportunity to fix common date formats
+                        var dates = xPath(".//docbook:date", revHistory);
+                        var date;
+
+                        while ((date = dates.iterateNext()) !== null) {
+                            var dateContents = date.textContent;
+                            replacementNodeDetails.push({original: date, replacement: dateContents.trim()});
+                        }
+
+                        // fix rev numbers
+                        var revnumbers = xPath(".//docbook:revnumber", revHistory);
+                        var revnumber;
+                        while ((revnumber = revnumbers.iterateNext()) !== null) {
+                            var revContents = revnumber.textContent;
+                            var revMatch = /(\d+)\.(\d+)/.exec(revContents);
+                            if (revMatch !== null) {
+                                replacementNodeDetails.push({original: revnumber, replacement: revMatch[1] + "-" + revMatch[2]});
+                            }
+                        }
+
+                        jquery.each(replacementNodeDetails, function(index, value){
+                            value.original.textContent = value.replacement;
+                        });
+
+                        contentSpec.push("Revision History = ");
+
+                        var id = parentAppendix.getAttribute ? parentAppendix.getAttribute("id") : null;
+
+                        var revHistoryFixedXML = qnautils.stringToXML("<appendix><title>" +
+                            revHistoryTitleContents +
+                            "</title><simpara>" +
+                            qnautils.xmlToString(removeIdAttribute(revHistory)) +
+                            "</simpara></appendix>");
+
+                        var topic = new specelement.TopicGraphNode(topicGraph)
+                            .setXml(revHistoryFixedXML, revHistoryFixedXML)
+                            .setSpecLine(contentSpec.length - 1)
+                            .setTitle(revHistoryTitleContents)
+                            .addTag(REVISION_HISTORY_TAG_ID);
+
+                        if (id) {
+                            topic.addXmlId(id);
+                        }
+
+                        topics.push(topic);
+
                     }
 
                     config.UploadProgress[1] = 7 * progressIncrement;
@@ -1409,7 +1420,7 @@ define(
                                         /*
                                          Parse to XML
                                          */
-                                        var matchingTopicXMLCopy = jquery.parseXML(replacedTextResult.xml);
+                                        var matchingTopicXMLCopy = qnautils.stringToXML(replacedTextResult.xml);
                                         /*
                                          Normalize injections. We do this against a XML DOM because it is more
                                          robust than doing regexes on strings.
@@ -1690,7 +1701,7 @@ define(
 
                                         var replacedTextResult = replaceEntitiesInText(data.xml);
 
-                                        topic.xml = jquery.parseXML(replacedTextResult.xml);
+                                        topic.xml = qnautils.stringToXML(replacedTextResult.xml);
                                         topic.replacements = replacedTextResult.replacements;
 
                                         createTopics(index + 1, callback);
