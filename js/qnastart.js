@@ -23,10 +23,10 @@ define(
             };
 
             if (format === 4.5) {
-                postBody.xmlFormat = "0";
+                postBody.xmlFormat = "DOCBOOK_45";
                 postBody.configuredParameters.push("format");
             } else if (format === 5.0) {
-                postBody.xmlFormat = "1";
+                postBody.xmlFormat = "DOCBOOK_50";
                 postBody.configuredParameters.push("format");
             }
 

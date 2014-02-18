@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="Working on DocBook 5 import&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qnastart.js" afterPath="$PROJECT_DIR$/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -71,7 +70,7 @@
       <file leaf-file-name="qnastart.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/qnastart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="39" selection-start="957" selection-end="957" vertical-scroll-proportion="0.40609136" vertical-offset="135" max-vertical-offset="5310">
+            <state line="28" column="48" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.4822335" vertical-offset="135" max-vertical-offset="5310">
               <folding />
             </state>
           </provider>
@@ -682,7 +681,7 @@
       <workItem from="1392346129229" duration="104000" />
       <workItem from="1392346294593" duration="57586000" />
       <workItem from="1392580875880" duration="27269000" />
-      <workItem from="1392617752222" duration="16125000" />
+      <workItem from="1392617752222" duration="16566000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1748,11 +1747,15 @@
       <created>1392680161662</created>
       <updated>1392680161662</updated>
     </task>
-    <option name="localTasksCounter" value="267" />
+    <task id="LOCAL-00267" summary="Working on DocBook 5 import&#10;">
+      <created>1392682229376</created>
+      <updated>1392682229376</updated>
+    </task>
+    <option name="localTasksCounter" value="268" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="418705000" />
+    <option name="totallyTimeSpent" value="419146000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -2172,7 +2175,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="39" selection-start="957" selection-end="957" vertical-scroll-proportion="0.40609136" vertical-offset="135" max-vertical-offset="5310">
+        <state line="28" column="48" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.4822335" vertical-offset="135" max-vertical-offset="5310">
           <folding />
         </state>
       </provider>
