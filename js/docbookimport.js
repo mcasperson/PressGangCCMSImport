@@ -715,8 +715,7 @@ define(
                             contentSpec.push("Version = " + reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
                         }
 
-                        contentSpec.push("Format = Docbook 4.5");
-
+                        contentSpec.push("Format = Docbook " + config.ImportOption === "DocBook5" ? 5 : 4.5);
 
                         if (xmlDoc.documentElement.nodeName === "book") {
                             contentSpec.push("Type = Book");
@@ -1707,7 +1706,8 @@ define(
                                     setDocumentNodeToSection(reencode(qnautils.xmlToString(topic.xml), replacements).trim()),
                                     topic.title,
                                     topic.tags,
-                                    config, function (data) {
+                                    config,
+                                    function (data) {
                                         topic.setTopicId(data.id);
                                         topic.createdTopic = true;
 
@@ -1734,7 +1734,7 @@ define(
                         }
                     }
 
-                    createTopics(0, function(){
+                    createTopics(0, function() {
 
                         config.UploadProgress[1] = 14 * progressIncrement;
                         config.UploadedTopics = true;
