@@ -565,6 +565,13 @@ define(
                                             successCallback();
                                         }
                                     };
+
+                                    var cleanTextContent = function(text) {
+                                        text = text.replace(/’/g, '&apos;');
+                                        text = text.replace(/“/g, '&quot;');
+                                        text = text.replace(/”/g, '&quot;');
+                                        return text;
+                                    };
     
                                     /*
                                      Expand the text:s elements and remarks.
@@ -595,10 +602,17 @@ define(
                                                     if (emphasis &&
                                                         childNode.textContent.trim().length !== 0 &&
                                                         (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        customContainerContent += "<emphasis>" + childNode.textContent + "</emphasis>";
+                                                        customContainerContent += "<emphasis>" + cleanTextContent(childNode.textContent) + "</emphasis>";
                                                     } else {
-                                                        customContainerContent += childNode.textContent;
+                                                        customContainerContent += cleanTextContent(childNode.textContent);
                                                     }
+                                                }
+                                            } else if (childNode.nodeName === "text:a") {
+                                                var href = childNode.getAttribute("xlink:href");
+                                                if (href !== null) {
+                                                    customContainerContent += '<ulink url="' + href + '">' + cleanTextContent(childNode.textContent) + '</ulink>';
+                                                } else {
+                                                    customContainerContent += cleanTextContent(childNode.textContent);
                                                 }
                                             } else {
                                                 customContainerContent += convertNodeToDocbook(childNode);
@@ -610,7 +624,7 @@ define(
     
                                     var generateSpacing = function (outlineLevel) {
                                         var prefix = "";
-                                        for (var i = 0; i < outlineLevel * 2; ++i) {
+                                        for (var i = 0; i < (outlineLevel - 1) * 2; ++i) {
                                             prefix += " ";
                                         }
                                         return prefix;
@@ -739,14 +753,14 @@ define(
     
                                         var para;
                                         if (creator !== null) {
-                                            content.push("<emphasis>" + creator.textContent + " </emphasis>");
+                                            content.push("<emphasis>" + cleanTextContent(creator.textContent) + " </emphasis>");
                                         }
                                         if (date !== null) {
-                                            content.push("<emphasis>" + date.textContent + " </emphasis>");
+                                            content.push("<emphasis>" + cleanTextContent(date.textContent) + " </emphasis>");
                                         }
     
                                         while((para = paras.iterateNext()) !== null) {
-                                            content.push(para.textContent);
+                                            content.push(cleanTextContent(para.textContent));
                                         }
                                         content.push("</remark>");
                                     };
@@ -979,7 +993,7 @@ define(
                                         var prefix = generateSpacing(outlineLevel);
     
                                         var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
-    
+
                                         for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel - 1; ++missedSteps) {
                                             if (missedSteps === 0) {
                                                 resultObject.contentSpec.push("Chapter: Missing Chapter");
@@ -1028,7 +1042,7 @@ define(
                                         }, 0);
                                     };
     
-                                    processTopic(null, 1, contentNodes, [], function() {
+                                    processTopic(null, 0, contentNodes, [], function() {
                                         config.UploadProgress[1] = progressIncrement;
                                         config.ResolvedBookStructure = true;
                                         resultCallback();

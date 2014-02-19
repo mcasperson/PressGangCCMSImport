@@ -79,10 +79,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1106" column="52" selection-start="64780" selection-end="64780" vertical-scroll-proportion="0.3847032" vertical-offset="16253" max-vertical-offset="18270">
+            <state line="755" column="82" selection-start="40302" selection-end="40307" vertical-scroll-proportion="0.33333334" vertical-offset="11033" max-vertical-offset="18480">
               <folding>
-                <marker date="1392772316641" expanded="true" signature="40644:40813" placeholder="..." />
-                <marker date="1392772316641" expanded="true" signature="40723:40813" placeholder="..." />
+                <marker date="1392776453444" expanded="true" signature="41785:41954" placeholder="..." />
+                <marker date="1392776453444" expanded="true" signature="41864:41954" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -679,7 +679,7 @@
       <workItem from="1392346294593" duration="57586000" />
       <workItem from="1392580875880" duration="27269000" />
       <workItem from="1392617752222" duration="17187000" />
-      <workItem from="1392771986851" duration="486000" />
+      <workItem from="1392771986851" duration="4374000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1753,11 +1753,15 @@
       <created>1392682670200</created>
       <updated>1392682670200</updated>
     </task>
-    <option name="localTasksCounter" value="269" />
+    <task id="LOCAL-00269" summary="Working on ODT import">
+      <created>1392772484845</created>
+      <updated>1392772484846</updated>
+    </task>
+    <option name="localTasksCounter" value="270" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="420253000" />
+    <option name="totallyTimeSpent" value="424141000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1776,6 +1780,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1787,7 +1792,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3258547" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -1833,7 +1837,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Fixing bugs&#10;" />
     <MESSAGE value="Started work on ODT import" />
     <MESSAGE value="Started work on ODT import&#10;" />
     <MESSAGE value="tweaking ODT import&#10;" />
@@ -1858,7 +1861,8 @@
     <MESSAGE value="Fixing up ODT import" />
     <MESSAGE value="Working on DocBook 5 import" />
     <MESSAGE value="Working on DocBook 5 import&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on DocBook 5 import&#10;" />
+    <MESSAGE value="Working on ODT import" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on ODT import" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2056,7 +2060,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="382" column="12" selection-start="13408" selection-end="13408" vertical-scroll-proportion="-102.32143" vertical-offset="0" max-vertical-offset="8505" />
+        <state line="382" column="12" selection-start="13408" selection-end="13408" vertical-scroll-proportion="-102.32143" vertical-offset="0" max-vertical-offset="8505">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
@@ -2081,7 +2087,9 @@
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="880" column="2" selection-start="13823" selection-end="13823" vertical-scroll-proportion="0.0" vertical-offset="12900" max-vertical-offset="14055" />
+        <state line="880" column="2" selection-start="13823" selection-end="13823" vertical-scroll-proportion="0.0" vertical-offset="12900" max-vertical-offset="14055">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/uri/IPv6.js">
@@ -2132,10 +2140,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1106" column="52" selection-start="64780" selection-end="64780" vertical-scroll-proportion="0.3847032" vertical-offset="16253" max-vertical-offset="18270">
+        <state line="755" column="82" selection-start="40302" selection-end="40307" vertical-scroll-proportion="0.33333334" vertical-offset="11033" max-vertical-offset="18480">
           <folding>
-            <marker date="1392772316641" expanded="true" signature="40644:40813" placeholder="..." />
-            <marker date="1392772316641" expanded="true" signature="40723:40813" placeholder="..." />
+            <marker date="1392776453444" expanded="true" signature="41785:41954" placeholder="..." />
+            <marker date="1392776453444" expanded="true" signature="41864:41954" placeholder="..." />
           </folding>
         </state>
       </provider>
