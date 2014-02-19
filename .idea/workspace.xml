@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/js/opendocumentimport.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/mojoimport-0.0.1.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/pgimport.user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -76,14 +77,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="755" column="82" selection-start="40302" selection-end="40307" vertical-scroll-proportion="0.33333334" vertical-offset="11033" max-vertical-offset="18480">
+            <state line="755" column="82" selection-start="40302" selection-end="40307" vertical-scroll-proportion="-405.92593" vertical-offset="365" max-vertical-offset="18480">
               <folding>
                 <marker date="1392776453444" expanded="true" signature="41785:41954" placeholder="..." />
                 <marker date="1392776453444" expanded="true" signature="41864:41954" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pgimport.user.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/pgimport.user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="83" selection-start="660" selection-end="660" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mojoimport-0.0.1.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/mojoimport-0.0.1.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="79" selection-start="437" selection-end="437" vertical-scroll-proportion="0.14737992" vertical-offset="0" max-vertical-offset="916">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,6 +159,8 @@
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/js/pgimport.user.js" />
+        <option value="$PROJECT_DIR$/js/mojoimport-0.0.1.js" />
       </list>
     </option>
   </component>
@@ -245,7 +266,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PressGangCCMSREST" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DocBuilder2" />
     <property name="FullScreen" value="false" />
     <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -679,7 +700,7 @@
       <workItem from="1392346294593" duration="57586000" />
       <workItem from="1392580875880" duration="27269000" />
       <workItem from="1392617752222" duration="17187000" />
-      <workItem from="1392771986851" duration="4374000" />
+      <workItem from="1392771986851" duration="6762000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1757,11 +1778,15 @@
       <created>1392772484845</created>
       <updated>1392772484846</updated>
     </task>
-    <option name="localTasksCounter" value="270" />
+    <task id="LOCAL-00270" summary="Working on ODT import&#10;">
+      <created>1392776849866</created>
+      <updated>1392776849867</updated>
+    </task>
+    <option name="localTasksCounter" value="271" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="424141000" />
+    <option name="totallyTimeSpent" value="426529000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1918" y="-3" width="1924" height="1087" extended-state="6" />
@@ -1837,7 +1862,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Started work on ODT import" />
     <MESSAGE value="Started work on ODT import&#10;" />
     <MESSAGE value="tweaking ODT import&#10;" />
     <MESSAGE value="Added warning messages when the window is closed, and improved the progress reporting for the odt import." />
@@ -1862,7 +1886,8 @@
     <MESSAGE value="Working on DocBook 5 import" />
     <MESSAGE value="Working on DocBook 5 import&#10;" />
     <MESSAGE value="Working on ODT import" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on ODT import" />
+    <MESSAGE value="Working on ODT import&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on ODT import&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1870,16 +1895,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="54" selection-start="1293" selection-end="1293" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1215" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="22" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dependencies.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="24" selection-start="162" selection-end="162" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="120" />
@@ -2028,7 +2043,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/zip/inflate.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="32535" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="32535">
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/zip/zip.js">
@@ -2140,11 +2159,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="755" column="82" selection-start="40302" selection-end="40307" vertical-scroll-proportion="0.33333334" vertical-offset="11033" max-vertical-offset="18480">
+        <state line="755" column="82" selection-start="40302" selection-end="40307" vertical-scroll-proportion="-405.92593" vertical-offset="365" max-vertical-offset="18480">
           <folding>
             <marker date="1392776453444" expanded="true" signature="41785:41954" placeholder="..." />
             <marker date="1392776453444" expanded="true" signature="41864:41954" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/pgimport.user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="83" selection-start="660" selection-end="660" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/mojoimport-0.0.1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="79" selection-start="437" selection-end="437" vertical-scroll-proportion="0.14737992" vertical-offset="0" max-vertical-offset="916">
+          <folding />
         </state>
       </provider>
     </entry>
