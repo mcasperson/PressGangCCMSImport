@@ -1104,6 +1104,7 @@ define(
     
                                             qnastart.createTopic(
                                                 true,
+                                                4.5,
                                                 qnautils.xmlToString(topic.xml),
                                                 topic.title,
                                                 null,
