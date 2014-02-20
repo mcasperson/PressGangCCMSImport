@@ -244,13 +244,10 @@ define(
                 } else {
                     resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
                 }
-
-
             });
 
         var reportNoUserScript = new qna.QNAStep()
-            .setTitle("Select import source")
-            .setIntro("You can either import an existing Publican DocBook archive, or from an OpenDocument.")
+            .setTitle("Install the user script")
             .setOutputs(
                 [
                     new qna.QNAVariables()
@@ -265,8 +262,9 @@ define(
                         ])
                 ]
             )
-            .setShowNext(function() {return window.greaseMonkeyShare !== undefined;})
-            .setShowPrevious(function() {return window.greaseMonkeyShare !== undefined;});
+            .setShowNext(false)
+            .setShowPrevious(false);
+
 
 
         /*
