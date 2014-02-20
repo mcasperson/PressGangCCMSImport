@@ -239,8 +239,34 @@ define(
                 ]
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
+                if (config.ImportOption === "Mojo" && window.greaseMonkeyShare === undefined) {
+                    resultCallback(reportNoUserScript);
+                } else {
+                    resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
+                }
+
+
             });
+
+        var reportNoUserScript = new qna.QNAStep()
+            .setTitle("Select import source")
+            .setIntro("You can either import an existing Publican DocBook archive, or from an OpenDocument.")
+            .setOutputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.HTML)
+                                .setValue("To continue you need to install the PressGang Import Tool user script.<br/>" +
+                                            "Firefox users will need to install the <a href='https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/'>GreaseMonkey</a> addon.<br/>" +
+                                            "Chrome users will need to install the <a href='https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en'>Tampermonkey</a> extension<br/>" +
+                                            "Then click <a href='/js/pgimport.user.js'>here</a> to install the user script.<br/>" +
+                                            "Once the user script is installed, refresh the page to ensure it is active.")
+                        ])
+                ]
+            )
+            .setShowNext(function() {return window.greaseMonkeyShare !== undefined;})
+            .setShowPrevious(function() {return window.greaseMonkeyShare !== undefined;});
 
 
         /*
