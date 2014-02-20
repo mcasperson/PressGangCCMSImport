@@ -39,12 +39,26 @@ define(
 
         var processHTML = new qna.QNAStep()
             .setTitle("Importing Mojo Document")
-            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+            .setOutputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.CHECKBOX)
+                                .setIntro("Getting Mojo Document")
+                        ])
+                ]
+            )
+            .setEnterStep(function (resultCallback, errorCallback, result, config) {
                 var id = /^.*?(\d+)$/.exec(config.MojoURL);
 
-                window.greaseMonkeyShare.mojoDocId = mojoId;
-                window.greaseMonkeyShare.errorCallback = errorCallback;
-                window.greaseMonkeyShare.resultCallback = resultCallback;
+                window.greaseMonkeyShare.getMojoDoc(
+                    id[1],
+                    function (data) {
+                        console.log(data);
+                    },
+                    errorCallback
+                );
             });
     }
 );
