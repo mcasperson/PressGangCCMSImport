@@ -55,84 +55,9 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(getSpecDetails);
-            });
-    
-        /*
-            STEP 2 - Get content spec details
-         */
-        var getSpecDetails = new qna.QNAStep()
-            .setTitle("Enter content specification details")
-            .setIntro("Enter the basic details of the content specification")
-            .setInputs(
-                [
-                    new qna.QNAVariables()
-                        .setVariables([
-                            new qna.QNAVariable()
-                                .setType(qna.InputEnum.TEXTBOX)
-                                .setIntro("Title")
-                                .setName("ContentSpecTitle")
-                                .setValue("Title"),
-                            new qna.QNAVariable()
-                                .setType(qna.InputEnum.TEXTBOX)
-                                .setIntro("Subtitle")
-                                .setName("ContentSpecSubtitle")
-                                .setValue("Subtitle"),
-                            new qna.QNAVariable()
-                                .setType(qna.InputEnum.TEXTBOX)
-                                .setIntro("Product")
-                                .setName("ContentSpecProduct")
-                                .setValue("Product"),
-                            new qna.QNAVariable()
-                                .setType(qna.InputEnum.TEXTBOX)
-                                .setIntro("Version")
-                                .setName("ContentSpecVersion")
-                                .setValue("1"),
-                            new qna.QNAVariable()
-                                .setType(qna.InputEnum.TEXTBOX)
-                                .setIntro("Copyright Holder")
-                                .setName("ContentSpecCopyrightHolder")
-                                .setValue("Red Hat"),
-                            new qna.QNAVariable()
-                                .setType(qna.InputEnum.COMBOBOX)
-                                .setIntro("Brand")
-                                .setName("ContentSpecBrand")
-                                .setValue("RedHat")
-                                .setOptions(["RedHat", "JBoss", "Fedora", "OpenShift"])
-                        ])
-                ]
-            )
-            .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.ContentSpecTitle) {
-                    errorCallback("Please enter a title.");
-                } else if (!config.ContentSpecProduct) {
-                    errorCallback("Please enter a product.");
-                } else if (!config.ContentSpecVersion) {
-                    errorCallback("Please enter a version.");
-                } else if (!config.ContentSpecCopyrightHolder) {
-                    errorCallback("Please enter a copyright holder.");
-                } else {
-                    var contentSpec = [];
-                    contentSpec.push("Title = " + config.ContentSpecTitle);
-    
-                    if (config.ContentSpecSubtitle !== undefined &&
-                        config.ContentSpecSubtitle !== null &&
-                        config.ContentSpecSubtitle.trim().length !== 0) {
-                        contentSpec.push("Subtitle = " + config.ContentSpecProduct);
-                    }
-    
-                    contentSpec.push("Product = " + config.ContentSpecProduct);
-                    contentSpec.push("Version = " + config.ContentSpecVersion);
-                    contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
-                    contentSpec.push("Brand = " + config.ContentSpecBrand);
-                    contentSpec.push("# Imported from " + config.OdtFile.name);
-                    resultCallback(JSON.stringify({contentSpec: contentSpec}));
-                }
-            })
-            .setNextStep(function (resultCallback) {
                 resultCallback(useStyleRules);
             });
-    
+
         var useStyleRules = new qna.QNAStep()
             .setTitle("Do you want to define additional style rules")
             .setIntro("You have the option of wrapping paragraphs that match certain font styles in DocBook elements other than <para>s. " +

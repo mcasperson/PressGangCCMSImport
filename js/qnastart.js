@@ -1,6 +1,6 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'opendocumentimport', 'generaldocbookimport', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, opendocumentimport, generaldocbookimport, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'opendocumentimport', 'generaldocbookimport', 'mojoimport', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, opendocumentimport, generaldocbookimport, mojoimport, exports) {
         'use strict';
 
         // a zip model to be shared
@@ -231,8 +231,8 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
-                                .setIntro(["Publican (Alpha)", "DocBook 5 (Alpha)", "OpenDocument (Super Duper Alpha)"])
-                                .setOptions(["Publican", "DocBook5", "OpenDocument"])
+                                .setIntro(["Publican", "DocBook 5", "OpenDocument", "Mojo"])
+                                .setOptions(["Publican", "DocBook5", "OpenDocument", "Mojo"])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])
@@ -340,6 +340,8 @@ define(
                     resultCallback(publicanimport.askForPublicanZipFile);
                 } else if (config.ImportOption === "DocBook5") {
                     resultCallback(generaldocbookimport.askForDocBookFile);
+                } else if (config.ImportOption === "Mojo") {
+                    resultCallback(mojoimport.askForMojoDoc);
                 } else {
                     resultCallback(opendocumentimport.askForOpenDocumentFile);
                 }
