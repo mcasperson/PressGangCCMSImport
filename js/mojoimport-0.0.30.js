@@ -53,6 +53,8 @@
             GM_xmlhttpRequest({
                 method: 'GET',
                 url: mojoUrl,
+                overrideMimeType: 'text\/plain; charset=x-user-defined',                // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data#Receiving_binary_data_in_older_browsers
+                binary: true,
                 //onprogress: function() {logToConsole("onprogress");},
                 //onreadystatechange: function() {logToConsole("onreadystatechange");},
                 onabort: function(response) {
@@ -69,20 +71,14 @@
                     if (response.status === 401) {
                         errorCallback("Not logged in", "The requested document could not be retrieved because you are not logged into Mojo.");
                     } else if (response.status === 200) {
-                        successCallback(byteArray(response.responseText));
+                        var bytearray = [];
+                        for (var i = 0; i < response.responseText.length; ++i) {
+                            bytearray.push(response.responseText.charCodeAt(i) & 0xff);
+                        }
+                        successCallback(bytearray);
                     }
                 }
             });
         }, 0);
     };
-
-    function byteArray(str) {
-        var utf8 = unescape(encodeURIComponent(str));
-
-        var arr = [];
-        for (var i = 0; i < utf8.length; i++) {
-            arr.push(utf8.charCodeAt(i));
-        }
-        return arr;
-    }
 }());
