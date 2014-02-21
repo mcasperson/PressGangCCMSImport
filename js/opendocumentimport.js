@@ -484,19 +484,14 @@ define(
                                             if (content.length !== 0) {
                                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                 resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec - 1);
+                                                generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec - 1);
                                             }
     
                                             successCallback();
                                         }
                                     };
 
-                                    var cleanTextContent = function(text) {
-                                        text = text.replace(/’/g, '&apos;');
-                                        text = text.replace(/“/g, '&quot;');
-                                        text = text.replace(/”/g, '&quot;');
-                                        return text;
-                                    };
+
     
                                     /*
                                      Expand the text:s elements and remarks.
@@ -527,17 +522,17 @@ define(
                                                     if (emphasis &&
                                                         childNode.textContent.trim().length !== 0 &&
                                                         (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        customContainerContent += "<emphasis>" + cleanTextContent(childNode.textContent) + "</emphasis>";
+                                                        customContainerContent += "<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>";
                                                     } else {
-                                                        customContainerContent += cleanTextContent(childNode.textContent);
+                                                        customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
                                                     }
                                                 }
                                             } else if (childNode.nodeName === "text:a") {
                                                 var href = childNode.getAttribute("xlink:href");
                                                 if (href !== null) {
-                                                    customContainerContent += '<ulink url="' + href + '">' + cleanTextContent(childNode.textContent) + '</ulink>';
+                                                    customContainerContent += '<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>';
                                                 } else {
-                                                    customContainerContent += cleanTextContent(childNode.textContent);
+                                                    customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
                                                 }
                                             } else {
                                                 customContainerContent += convertNodeToDocbook(childNode);
@@ -670,14 +665,14 @@ define(
     
                                         var para;
                                         if (creator !== null) {
-                                            content.push("<emphasis>" + cleanTextContent(creator.textContent) + " </emphasis>");
+                                            content.push("<emphasis>" + generalexternalimport.cleanTextContent(creator.textContent) + " </emphasis>");
                                         }
                                         if (date !== null) {
-                                            content.push("<emphasis>" + cleanTextContent(date.textContent) + " </emphasis>");
+                                            content.push("<emphasis>" + generalexternalimport.cleanTextContent(date.textContent) + " </emphasis>");
                                         }
     
                                         while((para = paras.iterateNext()) !== null) {
-                                            content.push(cleanTextContent(para.textContent));
+                                            content.push(generalexternalimport.cleanTextContent(para.textContent));
                                         }
                                         content.push("</remark>");
                                     };
@@ -925,7 +920,7 @@ define(
                                                 }
                                             }
     
-                                            generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec.length - 1);
+                                            generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                         }
     
                                         var newTitle = convertNodeToDocbook(contentNode, false);

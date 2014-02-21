@@ -142,7 +142,7 @@ define(
                                     if (content.length !== 0) {
                                         var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                         resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                        generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec.length - 1);
+                                        generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                     }
 
                                     successCallback();
@@ -168,13 +168,6 @@ define(
                                 }
                             };
 
-                            var cleanTextContent = function(text) {
-                                text = text.replace(/’/g, '&apos;');
-                                text = text.replace(/“/g, '&quot;');
-                                text = text.replace(/”/g, '&quot;');
-                                return text;
-                            };
-
                             /*
                              Expand the text:s elements and remarks.
                              */
@@ -183,13 +176,13 @@ define(
                                 for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                     var childNode = node.childNodes[childIndex];
                                     if (childNode.nodeType === Node.TEXT_NODE) {
-                                        customContainerContent += cleanTextContent(childNode.textContent);
+                                        customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
                                     } else if (/a/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
                                         if (href !== null) {
-                                            customContainerContent += '<ulink url="' + href + '">' + cleanTextContent(childNode.textContent) + '</ulink>';
+                                            customContainerContent += '<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>';
                                         } else {
-                                            customContainerContent += cleanTextContent(childNode.textContent);
+                                            customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
                                         }
                                     } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
@@ -276,7 +269,7 @@ define(
                                         }
                                     }
 
-                                    generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec.length - 1);
+                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                 }
 
                                 var newTitle = convertNodeToDocbook(contentNode, false);

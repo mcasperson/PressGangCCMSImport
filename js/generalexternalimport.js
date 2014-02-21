@@ -15,7 +15,7 @@ define(
             return prefix;
         };
 
-        exports.addTopicToSpec = function (content, title, line) {
+        exports.addTopicToSpec = function (topicGraph, content, title, line) {
             var xmlString = "";
             jquery.each(content, function(index, value){
                 xmlString += value + "\n";
@@ -32,6 +32,16 @@ define(
              Empty the array to indicate that we have processed the contents
              */
             content.length = 0;
+        };
+
+        exports.cleanTextContent = function(text) {
+            return text.replace(/’/g, '&apos;')
+                .replace(/“/g, '&quot;')
+                .replace(/”/g, '&quot;')
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
         };
 
         /*
