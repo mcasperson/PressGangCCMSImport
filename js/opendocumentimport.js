@@ -1,6 +1,6 @@
 define(    
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, exports) {
         'use strict';
     
         /*
@@ -482,9 +482,9 @@ define(
                                         } else {
     
                                             if (content.length !== 0) {
-                                                var prefix = generateSpacing(outlineLevel);
+                                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                 resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                addTopicToSpec(content, title);
+                                                generalexternalimport.addTopicToSpec(content, title);
                                             }
     
                                             successCallback();
@@ -545,14 +545,6 @@ define(
                                         }
     
                                         return customContainerContent;
-                                    };
-    
-                                    var generateSpacing = function (outlineLevel) {
-                                        var prefix = "";
-                                        for (var i = 0; i < (outlineLevel - 1) * 2; ++i) {
-                                            prefix += " ";
-                                        }
-                                        return prefix;
                                     };
     
                                     /*
@@ -895,27 +887,8 @@ define(
                                         }
                                     };
     
-                                    var addTopicToSpec = function (content, title) {
-                                        var xmlString = "";
-                                        jquery.each(content, function(index, value){
-                                            xmlString += value + "\n";
-                                        });
-    
-                                        var xml = jquery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
-    
-                                        var topic = new specelement.TopicGraphNode(topicGraph);
-                                        topic.setXml(xml, xml);
-                                        topic.setSpecLine(resultObject.contentSpec.length - 1);
-                                        topic.setTitle(title);
-    
-                                        /*
-                                            Empty the array to indicate that we have processed the contents
-                                         */
-                                        content.length = 0;
-                                    };
-    
                                     var processHeader = function (content, contentNode, title, outlineLevel, contentNodes, successCallback) {
-                                        var prefix = generateSpacing(outlineLevel);
+                                        var prefix = generalexternalimport.generateSpacing(outlineLevel);
     
                                         var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
 
@@ -923,7 +896,7 @@ define(
                                             if (missedSteps === 0) {
                                                 resultObject.contentSpec.push("Chapter: Missing Chapter");
                                             } else {
-                                                var myPrefix = generateSpacing(missedSteps);
+                                                var myPrefix = generalexternalimport.generateSpacing(missedSteps);
                                                 resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
                                             }
                                         }
@@ -952,7 +925,7 @@ define(
                                                 }
                                             }
     
-                                            addTopicToSpec(content, title);
+                                            generalexternalimport.addTopicToSpec(content, title);
                                         }
     
                                         var newTitle = convertNodeToDocbook(contentNode, false);

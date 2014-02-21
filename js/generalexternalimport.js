@@ -7,6 +7,33 @@ define(
     function(jquery, qna, opendocumentimport, mojoimport, exports) {
         'use strict';
 
+        exports.generateSpacing = function (outlineLevel) {
+            var prefix = "";
+            for (var i = 0; i < (outlineLevel - 1) * 2; ++i) {
+                prefix += " ";
+            }
+            return prefix;
+        };
+
+        exports.addTopicToSpec = function (content, title) {
+            var xmlString = "";
+            jquery.each(content, function(index, value){
+                xmlString += value + "\n";
+            });
+
+            var xml = jquery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
+
+            var topic = new specelement.TopicGraphNode(topicGraph);
+            topic.setXml(xml, xml);
+            topic.setSpecLine(resultObject.contentSpec.length - 1);
+            topic.setTitle(title);
+
+            /*
+             Empty the array to indicate that we have processed the contents
+             */
+            content.length = 0;
+        };
+
         /*
             Get content spec details
          */
