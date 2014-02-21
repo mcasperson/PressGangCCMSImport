@@ -196,6 +196,8 @@ define(
                                         }
                                     }  else if (/table/i.test(childNode.nodeName)) {
                                         processTable(customContainerContent, childNode, images);
+                                    } else if (/br/i.test(childNode.nodeName)) {
+                                        customContainerContent += "\n";
                                     } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
                                         customContainerContent += convertNodeToDocbook(childNode);
@@ -207,6 +209,12 @@ define(
 
                             var processPara = function (content, contentNode, imageLinks) {
                                 if (contentNode.textContent.trim().length !== 0) {
+
+                                    var contentNodeText = convertNodeToDocbook(contentNode, true);
+                                    contentNodeText = contentNodeText.reaplce(/<br\/>/g, "</para><para>");
+
+                                    content.push(contentNodeText);
+
                                     content.push("<para>" + convertNodeToDocbook(contentNode, true) + "</para>");
                                 }
                             };
@@ -295,22 +303,14 @@ define(
                                 var listItems = jquery("li", contentNode);
                                 content.push("<" + listType + ">");
                                 jquery.each(listItems, function(key, listItem) {
-                                    content.push("<listitem>");
+                                    content.push("<listitem><para>");
 
-                                    var listItemChildren = jquery(listItem).children();
-                                    if (listItemChildren.length === 0) {
-                                        content.push("<para>" + generalexternalimport.cleanTextContent(listItem.textContent) + "</para>");
-                                    } else {
-                                        jquery.each(listItemChildren, function (index, childNode) {
-                                            if (/p/i.test(childNode.nodeName)) {
-                                                processPara(content, childNode, imageLinks);
-                                            } else if (/ul|ol/i.test(childNode.nodeName)) {
-                                                processList(content, childNode, imageLinks, depth + 1);
-                                            }
-                                        });
-                                    }
+                                    var listitemText = convertNodeToDocbook(listItem, true);
+                                    listitemText = listitemText.reaplce(/<br\/>/g, "</para><para>");
 
-                                    content.push("</listitem>");
+                                    content.push(listitemText);
+
+                                    content.push("</para></listitem>");
                                 });
                                 content.push("</" + listType + ">");
                             };
