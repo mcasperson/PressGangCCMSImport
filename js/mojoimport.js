@@ -29,12 +29,12 @@ define(
                     } else if (!mojoURLRE.test(config.MojoURL.trim())) {
                         errorCallback("URL is not valid", "Please enter a valid Mojo document URL.");
                     } else {
-                        resultCallback(null);
+                        resultCallback(result);
                     }
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(processHTML);
+                resultCallback(askForRevisionMessage);
             });
 
         /*
@@ -113,7 +113,8 @@ define(
                 var progressIncrement = 100 / 4;
 
                 var resultObject = JSON.parse(result) || {};
-                resultObject.contentSpec = resultObject.contentSpec || [];
+
+                resultObject.contentSpec.push("# Imported from " + config.MojoURL);
 
                 /*
                  Initialize some config values

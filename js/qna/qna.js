@@ -376,7 +376,7 @@ define(['exports'], function (exports) {
                         function (title, message) {
                             errorCallback(title, message);
                         },
-                        newResults[newResults.length],
+                        newResults[newResults.length - 1],
                         me.config
                     );
                 };

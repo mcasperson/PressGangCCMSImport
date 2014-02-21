@@ -1,6 +1,6 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'opendocumentimport', 'generaldocbookimport', 'mojoimport', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, opendocumentimport, generaldocbookimport, mojoimport, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, exports) {
         'use strict';
 
         // a zip model to be shared
@@ -364,10 +364,8 @@ define(
                     resultCallback(publicanimport.askForPublicanZipFile);
                 } else if (config.ImportOption === "DocBook5") {
                     resultCallback(generaldocbookimport.askForDocBookFile);
-                } else if (config.ImportOption === "Mojo") {
-                    resultCallback(mojoimport.askForMojoDoc);
-                } else {
-                    resultCallback(opendocumentimport.askForOpenDocumentFile);
+                } else if (config.ImportOption === "Mojo" || "OpenDocument") {
+                    resultCallback(generalexternalimport.getSpecDetails);
                 }
             });
 

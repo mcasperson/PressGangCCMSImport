@@ -47,7 +47,7 @@ define(
                         if (!foundContentFile || !foundStyleFile) {
                             errorCallback("Error", "The ODT file did not contain either a styles.xml or content.xml file. The selected file is not a valid OpenDocument file.");
                         } else {
-                            resultCallback(null);
+                            resultCallback(result);
                         }
                     }, function (message) {
                         errorCallback("Error", "Could not process the ODT file!");
@@ -401,6 +401,8 @@ define(
                 var progressIncrement = 100 / 4;
     
                 var resultObject = JSON.parse(result);
+
+                resultObject.contentSpec.push("# Imported from " + config.OdtFile.name);
     
                 /*
                     Add any rules that were defined when parsing this book
