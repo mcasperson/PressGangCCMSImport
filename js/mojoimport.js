@@ -241,12 +241,14 @@ define(
                                  */
                                 var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
 
-                                for (var missedSteps = parentLevel; missedSteps < outlineLevel - 1; ++missedSteps) {
-                                    if (missedSteps === 1) {
-                                        resultObject.contentSpec.push("Chapter: Missing Chapter");
-                                    } else {
-                                        var myPrefix = generalexternalimport.generateSpacing(missedSteps);
-                                        resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
+                                if (content.length !== 0) {
+                                    for (var missedSteps = parentLevel + 1; missedSteps < outlineLevel; ++missedSteps) {
+                                        if (missedSteps === 1) {
+                                            resultObject.contentSpec.push("Chapter: Missing Chapter");
+                                        } else {
+                                            var myPrefix = generalexternalimport.generateSpacing(missedSteps);
+                                            resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
+                                        }
                                     }
                                 }
 
