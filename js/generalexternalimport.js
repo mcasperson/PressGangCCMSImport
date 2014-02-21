@@ -21,7 +21,14 @@ define(
                 xmlString += value + "\n";
             });
 
-            var xml = jquery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
+            var xml = null;
+            try {
+                xml = jquery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
+            } catch (error) {
+                console.log("<section><title>" + title + "</title>" + xmlString + "</section>");
+                console.log(error);
+                throw error;
+            }
 
             var topic = new specelement.TopicGraphNode(topicGraph);
             topic.setXml(xml, xml);

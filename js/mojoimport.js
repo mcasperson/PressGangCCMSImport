@@ -182,27 +182,27 @@ define(
                              Expand the text:s elements and remarks.
                              */
                             var convertNodeToDocbook = function (node, emphasis) {
-                                var customContainerContent = "";
+                                var customContainerContent = [];
                                 for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                     var childNode = node.childNodes[childIndex];
                                     if (childNode.nodeType === Node.TEXT_NODE) {
-                                        customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
+                                        customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
                                     } else if (/a/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
                                         if (href !== null) {
-                                            customContainerContent += '<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>';
+                                            customContainerContent.push('<ulink url="' + generalexternalimport.cleanTextContent(href) + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
                                         } else {
-                                            customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
+                                            customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
                                         }
                                     }  else if (/table/i.test(childNode.nodeName)) {
                                         processTable(customContainerContent, childNode, images);
                                     } else if (/ul|ol/i.test(childNode.nodeName)) {
                                         processList(customContainerContent, childNode, images);
                                     } else if (/br/i.test(childNode.nodeName)) {
-                                        customContainerContent += "\n";
+                                        customContainerContent.push("\n");
                                     } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
-                                        customContainerContent += convertNodeToDocbook(childNode);
+                                        jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis));
                                     }
                                 }
 
@@ -213,9 +213,14 @@ define(
                                 if (contentNode.textContent.trim().length !== 0) {
 
                                     var contentNodeText = convertNodeToDocbook(contentNode, true);
-                                    contentNodeText = contentNodeText.replace(/\n/g, "</para><para>");
 
-                                    content.push("<para>" + contentNodeText + "</para>");
+                                    jquery.each(contentNodeText, function(index, value) {
+                                        contentNodeText[index] = value.replace(/\n/g, "</para><para>");
+                                    });
+
+                                    content.push("<para>");
+                                    jquery.merge(content, contentNodeText);
+                                    content.push("</para>");
                                 }
                             };
 
@@ -244,7 +249,7 @@ define(
                                             var ths = jquery("th", jquery(tr));
                                             jquery.each(ths, function(index, th) {
                                                 content.push("<entry>");
-                                                content.push(convertNodeToDocbook(th, true));
+                                                jquery.merge(content, convertNodeToDocbook(th, true));
                                                 content.push("</entry>");
                                             });
 
@@ -272,7 +277,7 @@ define(
                                             var tds = jquery("td", jquery(tr));
                                             jquery.each(tds, function(index, td) {
                                                 content.push("<entry>");
-                                                content.push(convertNodeToDocbook(td, true));
+                                                jquery.merge(content, convertNodeToDocbook(td, true));
                                                 content.push("</entry>");
                                             });
 
@@ -300,15 +305,18 @@ define(
                                     listType = "orderedlist";
                                 }
 
-                                var listItems = jquery("li", contentNode);
+                                var listItems = jquery(">li", contentNode);
                                 content.push("<" + listType + ">");
                                 jquery.each(listItems, function(key, listItem) {
                                     content.push("<listitem><para>");
 
                                     var listitemText = convertNodeToDocbook(listItem, true);
-                                    listitemText = listitemText.replace(/\n/g, "</para><para>");
 
-                                    content.push(listitemText);
+                                    jquery.each(listitemText, function(index, value) {
+                                        listitemText[index] = value.replace(/\n/g, "</para><para>");
+                                    });
+
+                                    jquery.merge(content, listitemText);
 
                                     content.push("</para></listitem>");
                                 });
@@ -362,7 +370,11 @@ define(
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                 }
 
-                                var newTitle = convertNodeToDocbook(contentNode, false);
+                                var newTitleArray = convertNodeToDocbook(contentNode, false);
+                                var newTitle = "";
+                                jquery.each(newTitleArray, function(index, value){
+                                   newTitle += value;
+                                });
                                 if (newTitle.length === 0) {
                                     newTitle = "Untitled";
                                 }
