@@ -71,7 +71,8 @@ define(
                     .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Getting Mojo Document"),
+                            .setIntro("Getting Mojo Document")
+                            .setName("GotMojoDocument"),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Resolving Book Structure")
@@ -129,6 +130,10 @@ define(
                 window.greaseMonkeyShare.getMojoDoc(
                     id[1],
                     function (data) {
+
+                        config.GotMojoDocument = true;
+                        resultCallback();
+
                         var topicGraph = new specelement.TopicGraph();
                         var mojoDoc = jquery(data);
 
@@ -162,6 +167,8 @@ define(
                                             processPara(content, contentNode, images);
                                         } else if (/table/i.test(contentNode.nodeName)) {
                                             processTable(content, contentNode, images);
+                                        } else if (/ul|ol/i.test(contentNode.nodeName)) {
+                                            processList(content, contentNode, images);
                                         }
 
                                         setTimeout(function() {
@@ -241,8 +248,6 @@ define(
 
                                             content.push("</row>");
                                         });
-
-
                                     }
 
                                     content.push("</thead>");
@@ -292,13 +297,18 @@ define(
                                 jquery.each(listItems, function(key, listItem) {
                                     content.push("<listitem>");
 
-                                    jquery.each(jquery(listItem).children(), function (index, childNode) {
-                                        if (/p/i.test(childNode.nodeName)) {
-                                            processPara(content, childNode, imageLinks);
-                                        } else if (/ul|ol/i.test(childNode.nodeName)) {
-                                            processList(content, childNode, imageLinks, depth + 1, style);
-                                        }
-                                    });
+                                    var listItemChildren = jquery(listItem).children();
+                                    if (listItemChildren.length === 0) {
+                                        content.push("<para>" + generalexternalimport.cleanTextContent(listItem.textContent) + "</para>");
+                                    } else {
+                                        jquery.each(listItemChildren, function (index, childNode) {
+                                            if (/p/i.test(childNode.nodeName)) {
+                                                processPara(content, childNode, imageLinks);
+                                            } else if (/ul|ol/i.test(childNode.nodeName)) {
+                                                processList(content, childNode, imageLinks, depth + 1);
+                                            }
+                                        });
+                                    }
 
                                     content.push("</listitem>");
                                 });
