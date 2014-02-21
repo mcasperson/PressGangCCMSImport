@@ -174,6 +174,54 @@ define(
             );
         };
 
+        exports.createImageFromURL = function(trytomatch, url, config, successCallback, errorCallback) {
+
+            greaseMonkeyShare.getMojoImage(
+                url,
+                function(byteArray) {
+                    var postBody = {
+                        description: url,
+                        languageImages_OTM: {
+                            items: [
+                                {
+                                    item: {
+                                        imageData: byteArray,
+                                        locale: "en-US",
+                                        filename: url,
+                                        configuredParameters: [
+                                            "locale",
+                                            "imageData",
+                                            "filename"
+                                        ]
+                                    },
+                                    state: 1
+                                }
+                            ]
+                        },
+                        configuredParameters: [
+                            "description",
+                            "languageImages"
+                        ]
+                    };
+
+                    jquery.ajax({
+                        type: 'POST',
+                        url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/' + (trytomatch ? 'createormatch' : 'match') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                        data: JSON.stringify(postBody),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (data) {
+                            successCallback(data);
+                        },
+                        error: function () {
+                            errorCallback("Connection Error", "An error occurred while uploading an image.");
+                        }
+                    });
+                },
+                errorCallback
+            );
+        };
+
         exports.createContentSpec = function(spec, config, successCallback, errorCallback) {
 
             var postBody = {

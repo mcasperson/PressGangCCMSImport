@@ -16,7 +16,8 @@ define(
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Mojo URL")
                                 .setName("MojoURL")
-                                .setValue("https://mojo.redhat.com/docs/DOC-26753")
+                                //.setValue("https://mojo.redhat.com/docs/DOC-26753")
+                                .setValue("https://mojo.redhat.com/docs/DOC-142125")
                         ])
                 ]
             )
@@ -181,7 +182,7 @@ define(
                             /*
                              Expand the text:s elements and remarks.
                              */
-                            var convertNodeToDocbook = function (node, emphasis) {
+                            var convertNodeToDocbook = function (node, emphasis, imageLinks) {
                                 var customContainerContent = [];
                                 for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                     var childNode = node.childNodes[childIndex];
@@ -190,7 +191,17 @@ define(
                                     } else if (/a/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
                                         if (href !== null) {
-                                            customContainerContent.push('<ulink url="' + generalexternalimport.cleanTextContent(href) + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
+                                            var imgs = jquery(">img", jquery(childNode));
+                                            if (imgs.length !== 0) {
+                                                imageLinks[href] = null;
+                                                customContainerContent.push('<mediaobject>\
+                                                                    <imageobject>\
+                                                                        <imagedata fileref="' + href + '"/>\
+                                                                     </imageobject>\
+                                                                </mediaobject>');
+                                            } else {
+                                                customContainerContent.push('<ulink url="' + generalexternalimport.cleanTextContent(href) + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
+                                            }
                                         } else {
                                             customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
                                         }
@@ -202,7 +213,7 @@ define(
                                         customContainerContent.push("\n");
                                     } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
-                                        jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis));
+                                        jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks));
                                     }
                                 }
 
@@ -210,10 +221,9 @@ define(
                             };
 
                             var processPara = function (content, contentNode, imageLinks) {
-                                if (contentNode.textContent.trim().length !== 0) {
+                                var contentNodeText = convertNodeToDocbook(contentNode, true, imageLinks);
 
-                                    var contentNodeText = convertNodeToDocbook(contentNode, true);
-
+                                if (contentNodeText.length !== 0) {
                                     jquery.each(contentNodeText, function(index, value) {
                                         contentNodeText[index] = value.replace(/\n/g, "</para><para>");
                                     });
@@ -222,6 +232,7 @@ define(
                                     jquery.merge(content, contentNodeText);
                                     content.push("</para>");
                                 }
+
                             };
 
                             var processTable = function (content, contentNode, imageLinks) {
@@ -249,7 +260,7 @@ define(
                                             var ths = jquery("th", jquery(tr));
                                             jquery.each(ths, function(index, th) {
                                                 content.push("<entry>");
-                                                jquery.merge(content, convertNodeToDocbook(th, true));
+                                                jquery.merge(content, convertNodeToDocbook(th, true, imageLinks));
                                                 content.push("</entry>");
                                             });
 
@@ -277,7 +288,7 @@ define(
                                             var tds = jquery("td", jquery(tr));
                                             jquery.each(tds, function(index, td) {
                                                 content.push("<entry>");
-                                                jquery.merge(content, convertNodeToDocbook(td, true));
+                                                jquery.merge(content, convertNodeToDocbook(td, true, imageLinks));
                                                 content.push("</entry>");
                                             });
 
@@ -310,7 +321,7 @@ define(
                                 jquery.each(listItems, function(key, listItem) {
                                     content.push("<listitem><para>");
 
-                                    var listitemText = convertNodeToDocbook(listItem, true);
+                                    var listitemText = convertNodeToDocbook(listItem, true, imageLinks);
 
                                     jquery.each(listitemText, function(index, value) {
                                         listitemText[index] = value.replace(/\n/g, "</para><para>");
@@ -414,9 +425,8 @@ define(
 
                         var imagePath = imagesKeys[index];
 
-                        qnastart.createImage(
+                        qnastart.createImageFromURL(
                             true,
-                            config.OdtFile,
                             imagePath,
                             config,
                             function (id, matched) {

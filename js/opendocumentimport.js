@@ -685,7 +685,7 @@ define(
                                         while ((image = images.iterateNext()) !== null) {
                                             if (image.getAttribute("xlink:href") !== null) {
                                                 var href = image.getAttribute("xlink:href").trim();
-                                                // make a not of an image that we need to upload
+                                                // make a note of an image that we need to upload
                                                 imageLinks[href] = null;
                                                 content.push('<mediaobject>\
                                                                 <imageobject>\
