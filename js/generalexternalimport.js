@@ -3,8 +3,8 @@
     presents that step to the user.
  */
 define(
-    ['jquery', 'qna/qna', 'opendocumentimport', 'mojoimport', 'exports'],
-    function(jquery, qna, opendocumentimport, mojoimport, exports) {
+    ['jquery', 'qna/qna', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
+    function(jquery, qna, specelement, opendocumentimport, mojoimport, exports) {
         'use strict';
 
         exports.generateSpacing = function (outlineLevel) {
@@ -15,7 +15,7 @@ define(
             return prefix;
         };
 
-        exports.addTopicToSpec = function (content, title) {
+        exports.addTopicToSpec = function (content, title, line) {
             var xmlString = "";
             jquery.each(content, function(index, value){
                 xmlString += value + "\n";
@@ -25,7 +25,7 @@ define(
 
             var topic = new specelement.TopicGraphNode(topicGraph);
             topic.setXml(xml, xml);
-            topic.setSpecLine(resultObject.contentSpec.length - 1);
+            topic.setSpecLine(line);
             topic.setTitle(title);
 
             /*

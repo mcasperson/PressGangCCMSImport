@@ -112,7 +112,8 @@ define(
 
                 var progressIncrement = 100 / 4;
 
-                var resultObject = JSON.parse(result);
+                var resultObject = JSON.parse(result) || {};
+                resultObject.contentSpec = resultObject.contentSpec || [];
 
                 /*
                  Initialize some config values
@@ -141,7 +142,7 @@ define(
                                     if (content.length !== 0) {
                                         var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                         resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                        generalexternalimport.addTopicToSpec(content, title);
+                                        generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec.length - 1);
                                     }
 
                                     successCallback();
@@ -183,14 +184,15 @@ define(
                                     var childNode = node.childNodes[childIndex];
                                     if (childNode.nodeType === Node.TEXT_NODE) {
                                         customContainerContent += cleanTextContent(childNode.textContent);
-                                    } else if (/a/i.test(contentNode.nodeName)) {
+                                    } else if (/a/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
                                         if (href !== null) {
                                             customContainerContent += '<ulink url="' + href + '">' + cleanTextContent(childNode.textContent) + '</ulink>';
                                         } else {
                                             customContainerContent += cleanTextContent(childNode.textContent);
                                         }
-                                    } else {
+                                    } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
+                                        // we don't import the mojo toc
                                         customContainerContent += convertNodeToDocbook(childNode);
                                     }
                                 }
@@ -239,7 +241,7 @@ define(
                             var processHeader = function (content, contentNode, title, outlineLevel, index, successCallback) {
                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
 
-                                var newOutlineLevel = parseInt(/h(\d)/.exec(contentNode.nodeName)[1]);
+                                var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
 
                                 for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel - 1; ++missedSteps) {
                                     if (missedSteps === 0) {
@@ -274,7 +276,7 @@ define(
                                         }
                                     }
 
-                                    generalexternalimport.addTopicToSpec(content, title);
+                                    generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec.length - 1);
                                 }
 
                                 var newTitle = convertNodeToDocbook(contentNode, false);

@@ -484,7 +484,7 @@ define(
                                             if (content.length !== 0) {
                                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                 resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                generalexternalimport.addTopicToSpec(content, title);
+                                                generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec - 1);
                                             }
     
                                             successCallback();
@@ -925,7 +925,7 @@ define(
                                                 }
                                             }
     
-                                            generalexternalimport.addTopicToSpec(content, title);
+                                            generalexternalimport.addTopicToSpec(content, title, resultObject.contentSpec.length - 1);
                                         }
     
                                         var newTitle = convertNodeToDocbook(contentNode, false);
