@@ -16,7 +16,7 @@ define(
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Mojo URL")
                                 .setName("MojoURL")
-                                .setValue("https://mojo.redhat.com/docs/DOC-935113")
+                                .setValue("https://mojo.redhat.com/docs/DOC-26753")
                         ])
                 ]
             )
@@ -196,6 +196,8 @@ define(
                                         }
                                     }  else if (/table/i.test(childNode.nodeName)) {
                                         processTable(customContainerContent, childNode, images);
+                                    } else if (/ul|ol/i.test(childNode.nodeName)) {
+                                        processList(customContainerContent, childNode, images);
                                     } else if (/br/i.test(childNode.nodeName)) {
                                         customContainerContent += "\n";
                                     } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
@@ -211,11 +213,9 @@ define(
                                 if (contentNode.textContent.trim().length !== 0) {
 
                                     var contentNodeText = convertNodeToDocbook(contentNode, true);
-                                    contentNodeText = contentNodeText.replace(/<br\/>/g, "</para><para>");
+                                    contentNodeText = contentNodeText.replace(/\n/g, "</para><para>");
 
-                                    content.push(contentNodeText);
-
-                                    content.push("<para>" + convertNodeToDocbook(contentNode, true) + "</para>");
+                                    content.push("<para>" + contentNodeText + "</para>");
                                 }
                             };
 
@@ -306,7 +306,7 @@ define(
                                     content.push("<listitem><para>");
 
                                     var listitemText = convertNodeToDocbook(listItem, true);
-                                    listitemText = listitemText.replace(/<br\/>/g, "</para><para>");
+                                    listitemText = listitemText.replace(/\n/g, "</para><para>");
 
                                     content.push(listitemText);
 
