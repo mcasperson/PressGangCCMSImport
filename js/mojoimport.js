@@ -429,11 +429,11 @@ define(
                             true,
                             imagePath,
                             config,
-                            function (id, matched) {
-                                images[imagePath] = "images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
+                            function (data) {
+                                images[imagePath] = "images/" + data.image.id + imagePath.substr(imagePath.lastIndexOf("."));
 
                                 config.UploadedImageCount += 1;
-                                if (matched) {
+                                if (data.matchedExistingImage) {
                                     config.MatchedImageCount += 1;
                                 }
 
