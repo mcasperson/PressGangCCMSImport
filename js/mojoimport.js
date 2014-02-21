@@ -211,7 +211,7 @@ define(
                                 if (contentNode.textContent.trim().length !== 0) {
 
                                     var contentNodeText = convertNodeToDocbook(contentNode, true);
-                                    contentNodeText = contentNodeText.reaplce(/<br\/>/g, "</para><para>");
+                                    contentNodeText = contentNodeText.replace(/<br\/>/g, "</para><para>");
 
                                     content.push(contentNodeText);
 
@@ -306,7 +306,7 @@ define(
                                     content.push("<listitem><para>");
 
                                     var listitemText = convertNodeToDocbook(listItem, true);
-                                    listitemText = listitemText.reaplce(/<br\/>/g, "</para><para>");
+                                    listitemText = listitemText.replace(/<br\/>/g, "</para><para>");
 
                                     content.push(listitemText);
 
