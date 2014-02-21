@@ -67,6 +67,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/qnastart.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="265" column="34" selection-start="11335" selection-end="11335" vertical-scroll-proportion="0.0" vertical-offset="3150" max-vertical-offset="5700">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -118,7 +127,7 @@
       <file leaf-file-name="generalexternalimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/generalexternalimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="32" selection-start="1258" selection-end="1274" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
+            <state line="11" column="50" selection-start="480" selection-end="480" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
               <folding />
             </state>
           </provider>
@@ -136,7 +145,7 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="458" column="61" selection-start="23985" selection-end="23985" vertical-scroll-proportion="0.59268004" vertical-offset="6368" max-vertical-offset="7215">
+            <state line="294" column="34" selection-start="16596" selection-end="16596" vertical-scroll-proportion="0.4746163" vertical-offset="4008" max-vertical-offset="7380">
               <folding />
             </state>
           </provider>
@@ -146,15 +155,6 @@
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="918" column="40" selection-start="43120" selection-end="43125" vertical-scroll-proportion="-10.444445" vertical-offset="13488" max-vertical-offset="27675">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="55" selection-start="2728" selection-end="2728" vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="1545">
               <folding />
             </state>
           </provider>
@@ -201,11 +201,11 @@
         <option value="$PROJECT_DIR$/js/mojoimport-0.0.2.js" />
         <option value="$PROJECT_DIR$/js/mojoimport-0.0.3.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
-        <option value="$PROJECT_DIR$/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/js/mojoimport.js" />
       </list>
     </option>
@@ -294,24 +294,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qna" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -764,7 +746,7 @@
       <workItem from="1392580875880" duration="27269000" />
       <workItem from="1392617752222" duration="17187000" />
       <workItem from="1392771986851" duration="9968000" />
-      <workItem from="1392851872276" duration="11128000" />
+      <workItem from="1392851872276" duration="14148000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1886,11 +1868,15 @@
       <created>1392947044551</created>
       <updated>1392947044551</updated>
     </task>
-    <option name="localTasksCounter" value="281" />
+    <task id="LOCAL-00281" summary="Working on Mojo import&#10;">
+      <created>1392947115689</created>
+      <updated>1392947115689</updated>
+    </task>
+    <option name="localTasksCounter" value="282" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="440863000" />
+    <option name="totallyTimeSpent" value="443883000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -2234,13 +2220,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/generalexternalimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="32" selection-start="1258" selection-end="1274" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="237" column="0" selection-start="15707" selection-end="15707" vertical-scroll-proportion="-32.291668" vertical-offset="2780" max-vertical-offset="3840">
@@ -2265,13 +2244,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="265" column="34" selection-start="11335" selection-end="11335" vertical-scroll-proportion="0.94393593" vertical-offset="3150" max-vertical-offset="5700">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="49" selection-start="833" selection-end="833" vertical-scroll-proportion="-4.017857" vertical-offset="0" max-vertical-offset="1800">
@@ -2293,9 +2265,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="265" column="34" selection-start="11335" selection-end="11335" vertical-scroll-proportion="0.0" vertical-offset="3150" max-vertical-offset="5700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/generalexternalimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="50" selection-start="480" selection-end="480" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="458" column="61" selection-start="23985" selection-end="23985" vertical-scroll-proportion="0.59268004" vertical-offset="6368" max-vertical-offset="7215">
+        <state line="294" column="34" selection-start="16596" selection-end="16596" vertical-scroll-proportion="0.4746163" vertical-offset="4008" max-vertical-offset="7380">
           <folding />
         </state>
       </provider>

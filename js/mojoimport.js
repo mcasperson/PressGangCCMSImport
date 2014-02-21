@@ -137,7 +137,7 @@ define(
                             var childNodeCount = jquery(mojoDoc[1]).children().length;
                             var images = {};
 
-                            var processTopic = function (title, outlineLevel, index, content, successCallback) {
+                            var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
                                 if (index >= childNodeCount) {
                                     if (content.length !== 0) {
                                         var prefix = generalexternalimport.generateSpacing(outlineLevel);
@@ -155,14 +155,14 @@ define(
 
                                         // headers indicate container or topic boundaries
                                         if (/h\d/i.test(contentNode.nodeName)) {
-                                            processHeader(content, contentNode, title, outlineLevel, index, successCallback);
+                                            processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                             return;
                                         } else if (/p/i.test(contentNode.nodeName)) {
                                             processPara(content, contentNode, images);
                                         }
 
                                         setTimeout(function() {
-                                            processTopic(title, outlineLevel, index + 1, content, successCallback);
+                                            processTopic(title, parentLevel, outlineLevel, index + 1, content, successCallback);
                                         }, 0);
                                     }
                                 }
@@ -231,7 +231,7 @@ define(
                                 content.push("</" + listType + ">");
                             };
 
-                            var processHeader = function (content, contentNode, title, outlineLevel, index, successCallback) {
+                            var processHeader = function (content, contentNode, title, parentLevel, outlineLevel, index, successCallback) {
                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
 
                                 var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
@@ -245,24 +245,23 @@ define(
                                     }
                                 }
 
-                                // Last heading had no content before this heading. We only add a container if
-                                // the last heading added a level of depth to the tree, Otherwise it is just
-                                // an empty container.
-                                if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
-                                    if (outlineLevel === 0) {
+                                if (content.length === 0 && outlineLevel > parentLevel) {
+                                    /*
+                                     Last heading had no content before this heading. We only add a container if
+                                     the last heading added a level of depth to the tree, Otherwise it is just
+                                     an empty container.
+                                    */
+
+                                    if (outlineLevel === 1) {
                                         resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
                                         resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                     }
                                 } else if (content.length !== 0) {
-                                    /*
-                                     We have found some initial text. Put it under an introduction chapter
-                                     */
-                                    if (title === null) {
-                                        title = "Introduction";
+                                    if (outlineLevel === 1) {
                                         resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
-                                        if (newOutlineLevel > outlineLevel) {
+                                        if (outlineLevel > parentLevel) {
                                             resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                         } else {
                                             resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
@@ -270,6 +269,11 @@ define(
                                     }
 
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                } else {
+                                    /*
+                                        This was an empty container, so don't change the outline level
+                                    */
+                                    newOutlineLevel = outlineLevel;
                                 }
 
                                 var newTitle = convertNodeToDocbook(contentNode, false);
@@ -280,17 +284,24 @@ define(
                                 newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
 
                                 setTimeout(function() {
-                                    processTopic(newTitle, newOutlineLevel, index + 1, [], successCallback);
+                                    processTopic(newTitle, outlineLevel, newOutlineLevel, index + 1, [], successCallback);
                                 }, 0);
                             };
 
-                            processTopic(null, 0, 0, [], function() {
-                                config.UploadProgress[1] = progressIncrement;
-                                config.ResolvedBookStructure = true;
-                                resultCallback();
+                            processTopic(
+                                "Untitled",
+                                1,
+                                1,
+                                0,
+                                [],
+                                function() {
+                                    config.UploadProgress[1] = progressIncrement;
+                                    config.ResolvedBookStructure = true;
+                                    resultCallback();
 
-                                uploadImagesLoop(topicGraph, images);
-                            });
+                                    uploadImagesLoop(topicGraph, images);
+                                }
+                            );
                         }
                     },
                     errorCallback
