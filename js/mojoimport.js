@@ -456,7 +456,7 @@ define(
                             .setIntro("Imported From")
                             .setName("ImportedFrom")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback(config.OdtFile.name);
+                                resultCallback(config.MojoURL);
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
