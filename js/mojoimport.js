@@ -236,8 +236,8 @@ define(
 
                                 var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
 
-                                for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel - 1; ++missedSteps) {
-                                    if (missedSteps === 0) {
+                                for (var missedSteps = parentLevel; missedSteps < outlineLevel - 1; ++missedSteps) {
+                                    if (missedSteps === 1) {
                                         resultObject.contentSpec.push("Chapter: Missing Chapter");
                                     } else {
                                         var myPrefix = generalexternalimport.generateSpacing(missedSteps);
