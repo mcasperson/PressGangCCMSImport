@@ -289,7 +289,7 @@ define(
                                 config.ResolvedBookStructure = true;
                                 resultCallback();
 
-                                uploadImagesLoop(images, topicGraph);
+                                uploadImagesLoop(topicGraph, images);
                             });
                         }
                     },
@@ -385,7 +385,7 @@ define(
                                 topic.setTopicId(data.topic.id);
                                 topic.xml = jquery.parseXML(data.topic.xml);
 
-                                createTopics(index + 1, callback);
+                                createTopics(index + 1, topicGraph, callback);
                             },
                             errorCallback
                         );

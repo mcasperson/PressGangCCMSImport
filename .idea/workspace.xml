@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/mojoimport.js" afterPath="$PROJECT_DIR$/js/mojoimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/js/qna/qnautils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -138,7 +136,7 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="353" column="24" selection-start="19406" selection-end="19406" vertical-scroll-proportion="0.7933884" vertical-offset="4623" max-vertical-offset="7215">
+            <state line="395" column="33" selection-start="21139" selection-end="21139" vertical-scroll-proportion="0.6694215" vertical-offset="5358" max-vertical-offset="7215">
               <folding />
             </state>
           </provider>
@@ -156,7 +154,7 @@
       <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="23" selection-start="3495" selection-end="3506" vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="1545">
+            <state line="72" column="55" selection-start="2728" selection-end="2728" vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="1545">
               <folding />
             </state>
           </provider>
@@ -766,7 +764,7 @@
       <workItem from="1392580875880" duration="27269000" />
       <workItem from="1392617752222" duration="17187000" />
       <workItem from="1392771986851" duration="9968000" />
-      <workItem from="1392851872276" duration="10909000" />
+      <workItem from="1392851872276" duration="11057000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1880,11 +1878,15 @@
       <created>1392946180799</created>
       <updated>1392946180799</updated>
     </task>
-    <option name="localTasksCounter" value="279" />
+    <task id="LOCAL-00279" summary="Working on Mojo import&#10;">
+      <created>1392946896446</created>
+      <updated>1392946896446</updated>
+    </task>
+    <option name="localTasksCounter" value="280" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="440644000" />
+    <option name="totallyTimeSpent" value="440792000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1918" height="1080" extended-state="4" />
@@ -2273,13 +2275,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="23" selection-start="3495" selection-end="3506" vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="1545">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="918" column="40" selection-start="43120" selection-end="43125" vertical-scroll-proportion="-10.444445" vertical-offset="13488" max-vertical-offset="27675">
@@ -2287,9 +2282,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="55" selection-start="2728" selection-end="2728" vertical-scroll-proportion="0.0" vertical-offset="598" max-vertical-offset="1545">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="353" column="24" selection-start="19406" selection-end="19406" vertical-scroll-proportion="0.7933884" vertical-offset="4623" max-vertical-offset="7215">
+        <state line="395" column="33" selection-start="21139" selection-end="21139" vertical-scroll-proportion="0.6694215" vertical-offset="5358" max-vertical-offset="7215">
           <folding />
         </state>
       </provider>
