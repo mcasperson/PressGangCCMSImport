@@ -426,14 +426,16 @@ define(
                         var imagePath = imagesKeys[index];
 
                         qnastart.createImageFromURL(
-                            true,
+                            config.CreateOrResuseImages === "REUSE",
                             imagePath,
                             config,
                             function (data) {
-                                images[imagePath] = "images/" + data.image.id + imagePath.substr(imagePath.lastIndexOf("."));
+                                var id = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
+                                images[imagePath] = "images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
 
                                 config.UploadedImageCount += 1;
-                                if (data.matchedExistingImage) {
+
+                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
                                     config.MatchedImageCount += 1;
                                 }
 
