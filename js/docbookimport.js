@@ -30,69 +30,7 @@ define(
 
 
 
-        function getOwnerDoc(node) {
-            return node.ownerDocument || node;
-        }
-
-        /**
-         * Running xpath queries is not as straight forward as it might seem. If the nodes are in the default namespace,
-         * we need a custom resolver and a fake namespace in our xpath query. Here we use the namespace "docbook" to
-         * find any node in the DocBook 5 default namespace.
-         *
-         * First, we try to get a match using no namespaces. The path has to have the docbook prefix for all nodes,
-         * which we remove to do the query.
-         *
-         * If that fails, we do the query again with the fake namespace and use our custom resolver to return
-         * the correct namespace.
-         *
-         * Also, Firefox will complain if the xml document used to evaluate the xpath is not the paret of the
-         * reference node. So we always get the parent document of the reference node
-         *
-         * @param path The xpath query, with all nodes in the fake "docspace" namespace
-         * @param referenceNode The reference node for relative xpath queries
-         * @returns {Object|*}
-         */
-        function xPath(path, referenceNode) {
-            if (referenceNode === null || referenceNode === undefined) {
-                throw "referenceNode should be a valid xml node";
-            }
-
-            var ownerDoc = getOwnerDoc(referenceNode);
-
-            var evaluator = new XPathEvaluator();
-            var systemResolver = evaluator.createNSResolver(ownerDoc.documentElement);
-            /*
-             https://developer.mozilla.org/en-US/docs/Introduction_to_using_XPath_in_JavaScript#Implementing_a_User_Defined_Namespace_Resolver
-             We need to use the fake namespace "docbook" to match anything in the default namespace. This is a work around
-             for the docbook 5 default namespace.
-             */
-            function resolver(namespace) {
-                var ns = systemResolver.lookupNamespaceURI(namespace);
-                if (ns) {
-                    return ns;
-                }
-
-                if (namespace === "docbook") {
-                    return "http://docbook.org/ns/docbook";
-                }
-
-                return null;
-            }
-
-            try {
-                // first try without the fake prefix. this will fail if looking up something like xml:id, which is
-                // why we have a catch block
-                if (ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, null, XPathResult.ANY_TYPE, null).iterateNext()) {
-                    return ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, null, XPathResult.ANY_TYPE, null);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-
-            // if that fails, try it again with the fake prefix which resolves to the docbook namespace
-            return ownerDoc.evaluate(path, referenceNode, resolver, XPathResult.ANY_TYPE, null);
-        }
-
+       
         /*
             Some containers are remaped when placed in a content spec
          */
@@ -476,7 +414,7 @@ define(
                                         var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
                                         var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
 
-                                        var subset = getOwnerDoc(cleanedReferencedXmlDom).evaluate(match[7], cleanedReferencedXmlDom, null, XPathResult.ANY_TYPE, null);
+                                        var subset = qnautils.xPath(match[7], cleanedReferencedXmlDom);
 
                                         var replacement = "";
                                         var matchedNode;
@@ -682,14 +620,14 @@ define(
                     // the content spec
                     var contentSpec = [];
 
-                    var bookinfo = xPath("//docbook:bookinfo", xmlDoc).iterateNext()
+                    var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext()
                     if (bookinfo) {
-                        var title = xPath("./docbook:title", bookinfo).iterateNext();
-                        var subtitle = xPath("./doocbook:subtitle", bookinfo).iterateNext();
-                        var edition = xPath("./doocbook:edition", bookinfo).iterateNext();
-                        var pubsnumber = xPath("./doocbook:pubsnumber", bookinfo).iterateNext();
-                        var productname = xPath("./doocbook:productname", bookinfo).iterateNext();
-                        var productnumber = xPath("./doocbook:productnumber", bookinfo).iterateNext();
+                        var title = qnautils.xPath("./docbook:title", bookinfo).iterateNext();
+                        var subtitle = qnautils.xPath("./doocbook:subtitle", bookinfo).iterateNext();
+                        var edition = qnautils.xPath("./doocbook:edition", bookinfo).iterateNext();
+                        var pubsnumber = qnautils.xPath("./doocbook:pubsnumber", bookinfo).iterateNext();
+                        var productname = qnautils.xPath("./doocbook:productname", bookinfo).iterateNext();
+                        var productnumber = qnautils.xPath("./doocbook:productnumber", bookinfo).iterateNext();
 
                         if (title) {
                             contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));
@@ -796,7 +734,7 @@ define(
                 }
 
                 function findIndex (xmlDoc, contentSpec) {
-                    var index = xPath("//docbook:index", xmlDoc).iterateNext();
+                    var index = qnautils.xPath("//docbook:index", xmlDoc).iterateNext();
                     if (index) {
                         contentSpec.push("Index = On");
                     }
@@ -813,7 +751,7 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var revHistory = xPath("//docbook:revhistory", xmlDoc).iterateNext();
+                    var revHistory = qnautils.xPath("//docbook:revhistory", xmlDoc).iterateNext();
 
                     if (revHistory) {
 
@@ -823,7 +761,7 @@ define(
                         }
 
                         var revHistoryTitleContents;
-                        var revHistoryTitle = xPath("./docbook:title", parentAppendix).iterateNext();
+                        var revHistoryTitle = qnautils.xPath("./docbook:title", parentAppendix).iterateNext();
                         if (revHistoryTitle !== null) {
                             revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle))[1];
                         } else {
@@ -834,7 +772,7 @@ define(
 
                         // fix any dates. right now we just trim strings, but this could be
                         // a good opportunity to fix common date formats
-                        var dates = xPath(".//docbook:date", revHistory);
+                        var dates = qnautils.xPath(".//docbook:date", revHistory);
                         var date;
 
                         while ((date = dates.iterateNext()) !== null) {
@@ -843,7 +781,7 @@ define(
                         }
 
                         // fix rev numbers
-                        var revnumbers = xPath(".//docbook:revnumber", revHistory);
+                        var revnumbers = qnautils.xPath(".//docbook:revnumber", revHistory);
                         var revnumber;
                         while ((revnumber = revnumbers.iterateNext()) !== null) {
                             var revContents = revnumber.textContent;
@@ -897,7 +835,7 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var authorGroup = xPath("//docbook:authorgroup", xmlDoc).iterateNext();
+                    var authorGroup = qnautils.xPath("//docbook:authorgroup", xmlDoc).iterateNext();
 
                     if (authorGroup) {
                         contentSpec.push("Author Group = ");
@@ -935,7 +873,7 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var abstractContent = xPath("//docbook:bookinfo/docbook:abstract", xmlDoc).iterateNext();
+                    var abstractContent = qnautils.xPath("//docbook:bookinfo/docbook:abstract", xmlDoc).iterateNext();
 
                     if (abstractContent) {
                         contentSpec.push("Abstract = ");
@@ -964,7 +902,7 @@ define(
 
                 function uploadImages (xmlDoc, contentSpec, topics, topicGraph) {
                     // count the number of images we are uploading
-                    var images = xPath("//@fileref", xmlDoc);
+                    var images = qnautils.xPath("//@fileref", xmlDoc);
                     var numImages = 0;
 
                     var image;
@@ -972,7 +910,7 @@ define(
                         ++numImages;
                     }
 
-                    images = xPath("//@fileref", xmlDoc);
+                    images = qnautils.xPath("//@fileref", xmlDoc);
                     var uploadedImages = {};
 
                     var processImages = function (image, count) {
@@ -1037,7 +975,7 @@ define(
                                 processImages(images.iterateNext(), ++count);
                             }
                         } else {
-                            var filerefs = xPath("//@fileref", xmlDoc);
+                            var filerefs = qnautils.xPath("//@fileref", xmlDoc);
                             var updatedRefs = [];
                             var fileref;
                             while ((fileref = filerefs.iterateNext()) !== null) {
@@ -1075,7 +1013,7 @@ define(
                                 var clone = value.cloneNode(true);
 
                                 // find the title
-                                var title = xPath("./docbook:title", clone).iterateNext();
+                                var title = qnautils.xPath("./docbook:title", clone).iterateNext();
                                 if (title) {
                                     var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
@@ -1092,10 +1030,10 @@ define(
                                     });
 
                                     // the id attribute assigned to this container
-                                    var id = xPath("./@id", clone).iterateNext();
+                                    var id = qnautils.xPath("./@id", clone).iterateNext();
                                     if (id === null) {
                                         // the docbook 5 version of the id attribute
-                                        id = xPath("./@xml:id", clone).iterateNext();
+                                        id = qnautils.xPath("./@xml:id", clone).iterateNext();
                                     }
 
                                     // what we have left is the contents of a initial text topic
@@ -1114,14 +1052,14 @@ define(
                                             var clone2 = clone.cloneNode(true);
                                             var removeNodes = [];
 
-                                            var titles = xPath("./docbook:title", clone2);
+                                            var titles = qnautils.xPath("./docbook:title", clone2);
 
                                             var titleNode;
                                             while ((titleNode = titles.iterateNext()) !== null) {
                                                 removeNodes.push(titleNode);
                                             }
 
-                                            var revHistoryNodes = xPath(".//docbook:revhistory", clone2);
+                                            var revHistoryNodes = qnautils.xPath(".//docbook:revhistory", clone2);
 
                                             var revHistoryNode;
                                             while ((revHistoryNode = revHistoryNodes.iterateNext()) !== null) {
@@ -1185,14 +1123,14 @@ define(
                                             var containerClone = clone.cloneNode(true);
                                             var containerRemoveNodes = [];
 
-                                            var containerTitles = xPath("./docbook:title", containerClone);
+                                            var containerTitles = qnautils.xPath("./docbook:title", containerClone);
 
                                             var containerTitleNode;
                                             while ((containerTitleNode = containerTitles.iterateNext()) !== null) {
                                                 containerRemoveNodes.push(containerTitleNode);
                                             }
 
-                                            var containerRevHistoryNodes = xPath(".//docbook:revhistory", containerClone);
+                                            var containerRevHistoryNodes = qnautils.xPath(".//docbook:revhistory", containerClone);
 
                                             var containerRevHistoryNode;
                                             while ((containerRevHistoryNode = containerRevHistoryNodes.iterateNext()) !== null) {
@@ -1268,7 +1206,7 @@ define(
                      with a injection placeholder. This is done on topics to be imported.
                      */
                     function normalizeXrefs (xml, topicAndContainerIDs) {
-                        var xrefs = xPath("//docbook:xref", xml);
+                        var xrefs = qnautils.xPath("//docbook:xref", xml);
                         var xref;
                         var xrefReplacements = [];
                         while ((xref = xrefs.iterateNext()) !== null) {
@@ -1293,7 +1231,7 @@ define(
                      from PressGang.
                      */
                     function normalizeInjections (xml) {
-                        var comments = xPath("//comment()", xml);
+                        var comments = qnautils.xPath("//comment()", xml);
                         var comment;
                         var commentReplacements = [];
                         while ((comment = comments.iterateNext()) !== null) {
@@ -1340,7 +1278,7 @@ define(
                      we order any attributes in any node.
                      */
                     function reorderAttributes(xml) {
-                        var allElements = xPath(".//docbook:*", xml);
+                        var allElements = qnautils.xPath(".//docbook:*", xml);
                         var elements = [];
                         var elementIter;
                         while ((elementIter = allElements.iterateNext()) !== null) {
@@ -1462,8 +1400,8 @@ define(
                                                  */
                                                 var verbatimMatch = true;
                                                 jquery.each(VERBATIM_ELEMENTS, function (index, elementName) {
-                                                    var originalNodes = xPath(".//docbook:" + elementName, topicXMLCopy);
-                                                    var matchingNodes = xPath(".//docbook:" + elementName, matchingTopicXMLCopy);
+                                                    var originalNodes = qnautils.xPath(".//docbook:" + elementName, topicXMLCopy);
+                                                    var matchingNodes = qnautils.xPath(".//docbook:" + elementName, matchingTopicXMLCopy);
 
                                                     var originalNode;
                                                     var matchingNode;
@@ -1754,7 +1692,7 @@ define(
 
                             var topic = topics[index];
                             if (topic.createdTopic) {
-                                var xrefs = xPath(".//docbook:xref", topic.xml);
+                                var xrefs = qnautils.xPath(".//docbook:xref", topic.xml);
                                 var xref;
                                 var xrefReplacements = [];
                                 while ((xref = xrefs.iterateNext()) !== null) {

@@ -289,14 +289,14 @@ define(
                                 config.ResolvedBookStructure = true;
                                 resultCallback();
 
-                                uploadImagesLoop();
+                                uploadImagesLoop(images, topicGraph);
                             });
                         }
                     },
                     errorCallback
                 );
 
-                var uploadImages = function (index, imagesKeys, callback) {
+                var uploadImages = function (index, topicGraph, images, imagesKeys, callback) {
                     if (index >= imagesKeys.length) {
                         callback();
                     } else {
@@ -321,37 +321,43 @@ define(
                                 config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
                                 resultCallback();
 
-                                uploadImages(index + 1, imagesKeys, callback);
+                                uploadImages(index + 1, topicGraph, images, imagesKeys, callback);
                             },
                             errorCallback
                         );
                     }
                 };
 
-                var uploadImagesLoop = function() {
-                    uploadImages(0, qnautils.keys(images), function(){
-                        config.UploadProgress[1] = progressIncrement * 2;
-                        config.UploadedImages = true;
-                        resultCallback();
+                var uploadImagesLoop = function(topicGraph, images) {
+                    uploadImages(
+                        0,
+                        topicGraph,
+                        images,
+                        qnautils.keys(images),
+                        function() {
+                            config.UploadProgress[1] = progressIncrement * 2;
+                            config.UploadedImages = true;
+                            resultCallback();
 
-                        jquery.each(topicGraph.nodes, function (index, topic) {
-                            var filerefs = contentsXML.evaluate(".//@fileref", topic.xml, resolver, XPathResult.ANY_TYPE, null);
-                            var replacements = [];
-                            var fileref;
-                            while ((fileref = filerefs.iterateNext()) !== null) {
-                                replacements.push({attr: fileref, value: images[fileref.nodeValue]});
+                            jquery.each(topicGraph.nodes, function (index, topic) {
+                                var filerefs = qnautils.xPath(".//@fileref", topic.xml);
+                                var replacements = [];
+                                var fileref;
+                                while ((fileref = filerefs.iterateNext()) !== null) {
+                                    replacements.push({attr: fileref, value: images[fileref.nodeValue]});
+                                }
+
+                                jquery.each(replacements, function (index, replacement) {
+                                    replacement.attr.nodeValue = replacement.value;
+                                });
                             }
+                        );
 
-                            jquery.each(replacements, function (index, replacement) {
-                                replacement.attr.nodeValue = replacement.value;
-                            });
-                        });
-
-                        createTopicsLoop();
+                        createTopicsLoop(topicGraph);
                     });
                 };
 
-                var createTopics = function (index, callback) {
+                var createTopics = function (index, topicGraph, callback) {
                     if (index >= topicGraph.nodes.length) {
                         callback();
                     } else {
@@ -386,38 +392,42 @@ define(
                     }
                 };
 
-                var createTopicsLoop = function() {
-                    createTopics(0, function(){
-                        config.UploadProgress[1] = progressIncrement * 3;
-                        config.UploadedTopics = true;
-                        resultCallback();
+                var createTopicsLoop = function(topicGraph) {
+                    createTopics(
+                        0,
+                        topicGraph,
+                        function() {
+                            config.UploadProgress[1] = progressIncrement * 3;
+                            config.UploadedTopics = true;
+                            resultCallback();
 
-                        jquery.each(topicGraph.nodes, function (index, topic) {
-                            resultObject.contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                            jquery.each(topicGraph.nodes, function (index, topic) {
+                                resultObject.contentSpec[topic.specLine] += " [" + topic.topicId + "]";
 
-                        });
+                            });
 
-                        var spec = "";
-                        jquery.each(resultObject.contentSpec, function(index, value) {
-                            console.log(value);
-                            spec += value + "\n";
-                        });
+                            var spec = "";
+                            jquery.each(resultObject.contentSpec, function(index, value) {
+                                console.log(value);
+                                spec += value + "\n";
+                            });
 
-                        qnastart.createContentSpec(
-                            spec,
-                            config,
-                            function(id) {
-                                config.ContentSpecID = id;
+                            qnastart.createContentSpec(
+                                spec,
+                                config,
+                                function(id) {
+                                    config.ContentSpecID = id;
 
-                                config.UploadProgress[1] = progressIncrement * 4;
-                                config.UploadedContentSpecification = true;
-                                resultCallback(true);
+                                    config.UploadProgress[1] = progressIncrement * 4;
+                                    config.UploadedContentSpecification = true;
+                                    resultCallback(true);
 
-                                console.log("Content Spec ID: " + id);
-                            },
-                            errorCallback
-                        );
-                    });
+                                    console.log("Content Spec ID: " + id);
+                                },
+                                errorCallback
+                            );
+                        }
+                    );
                 };
 
 
