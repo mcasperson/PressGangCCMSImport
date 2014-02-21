@@ -47,7 +47,7 @@ define(
                         if (!foundContentFile || !foundStyleFile) {
                             errorCallback("Error", "The ODT file did not contain either a styles.xml or content.xml file. The selected file is not a valid OpenDocument file.");
                         } else {
-                            resultCallback(result);
+                            resultCallback();
                         }
                     }, function (message) {
                         errorCallback("Error", "Could not process the ODT file!");

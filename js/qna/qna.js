@@ -388,7 +388,12 @@ define(['exports'], function (exports) {
                 this.step.processStep(
                     (function (results) {
                         return function (result) {
-                            gotoNextStep(results.concat([result]));
+                            if (result !== undefined) {
+                                gotoNextStep(results.concat([result]));
+                            } else {
+                                // reuse the same last result
+                                gotoNextStep(results.concat([results[results.length - 1]]));
+                            }
                         };
                     }(this.results)),
                     function (title, message) {

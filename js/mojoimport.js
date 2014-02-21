@@ -29,7 +29,7 @@ define(
                     } else if (!mojoURLRE.test(config.MojoURL.trim())) {
                         errorCallback("URL is not valid", "Please enter a valid Mojo document URL.");
                     } else {
-                        resultCallback(result);
+                        resultCallback();
                     }
                 }
             })
