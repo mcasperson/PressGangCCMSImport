@@ -227,7 +227,7 @@ define(
                                             content.push("<row>");
 
                                             var ths = jquery("th", jquery(tr));
-                                            jquery.each(theadTrs, function(index, th) {
+                                            jquery.each(ths, function(index, th) {
                                                 content.push("<entry>");
                                                 content.push(convertNodeToDocbook(th, true));
                                                 content.push("</entry>");
@@ -238,9 +238,11 @@ define(
                                                 content.push("<entry>");
                                                 content.push("</entry>");
                                             }
+
+                                            content.push("</row>");
                                         });
 
-                                        content.push("</row>");
+
                                     }
 
                                     content.push("</thead>");
@@ -254,8 +256,8 @@ define(
                                         jquery.each(tbodyTrs, function(index, tr) {
                                             content.push("<row>");
 
-                                            var ths = jquery("td", jquery(tr));
-                                            jquery.each(ths, function(index, td) {
+                                            var tds = jquery("td", jquery(tr));
+                                            jquery.each(tds, function(index, td) {
                                                 content.push("<entry>");
                                                 content.push(convertNodeToDocbook(td, true));
                                                 content.push("</entry>");
