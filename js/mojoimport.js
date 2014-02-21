@@ -234,6 +234,11 @@ define(
                             var processHeader = function (content, contentNode, title, parentLevel, outlineLevel, index, successCallback) {
                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
 
+                                /*
+                                    This value represents the depth of the topic to be created using the title
+                                    of the header we just found, and any sibling content nodes before the next
+                                    heading.
+                                 */
                                 var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
 
                                 for (var missedSteps = parentLevel; missedSteps < outlineLevel - 1; ++missedSteps) {
@@ -245,7 +250,7 @@ define(
                                     }
                                 }
 
-                                if (content.length === 0 && outlineLevel > parentLevel) {
+                                if (content.length === 0 && newOutlineLevel > outlineLevel) {
                                     /*
                                      Last heading had no content before this heading. We only add a container if
                                      the last heading added a level of depth to the tree, Otherwise it is just
@@ -261,7 +266,7 @@ define(
                                     if (outlineLevel === 1) {
                                         resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
-                                        if (outlineLevel > parentLevel) {
+                                        if (newOutlineLevel > outlineLevel) {
                                             resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                         } else {
                                             resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
@@ -269,11 +274,6 @@ define(
                                     }
 
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
-                                } else {
-                                    /*
-                                        This was an empty container, so don't change the outline level
-                                    */
-                                    newOutlineLevel = outlineLevel;
                                 }
 
                                 var newTitle = convertNodeToDocbook(contentNode, false);
