@@ -159,6 +159,8 @@ define(
                                             return;
                                         } else if (/p/i.test(contentNode.nodeName)) {
                                             processPara(content, contentNode, images);
+                                        } else if (/table/i.test(contentNode.nodeName)) {
+                                            processTable(content, contentNode, images);
                                         }
 
                                         setTimeout(function() {
@@ -184,6 +186,8 @@ define(
                                         } else {
                                             customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
                                         }
+                                    }  else if (/table/i.test(childNode.nodeName)) {
+                                        processTable(customContainerContent, childNode, images);
                                     } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
                                         customContainerContent += convertNodeToDocbook(childNode);
@@ -196,6 +200,73 @@ define(
                             var processPara = function (content, contentNode, imageLinks) {
                                 if (contentNode.textContent.trim().length !== 0) {
                                     content.push("<para>" + convertNodeToDocbook(contentNode, true) + "</para>");
+                                }
+                            };
+
+                            var processTable = function (content, contentNode, imageLinks) {
+                                var trs = jquery("tr", jquery(contentNode));
+                                var maxCols;
+                                jquery.each(trs, function (index, value) {
+                                    var tds = jquery("td, th", jquery(value));
+                                    if (maxCols === undefined || tds.length > maxCols) {
+                                        maxCols = tds.length;
+                                    }
+                                });
+
+                                if (maxCols !== undefined) {
+                                    content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
+
+                                    var thead = jquery("thead", jquery(contentNode));
+                                    if (thead.length !== 0) {
+
+                                        content.push("<thead>");
+
+                                        var theadTrs = jquery("tr", jquery(thead[0]));
+                                        jquery.each(theadTrs, function(index, tr) {
+                                            content.push("<row>");
+
+                                            var ths = jquery("th", jquery(tr));
+                                            jquery.each(theadTrs, function(index, th) {
+                                                content.push("<entry>");
+                                                content.push(convertNodeToDocbook(th, true));
+                                                content.push("</entry>");
+                                            });
+
+                                            // fill in empty cells
+                                            for (var i = ths.length; i < maxCols; ++i) {
+                                                content.push("<entry>");
+                                                content.push("</entry>");
+                                            }
+                                        });
+
+                                        content.push("</row>");
+                                    }
+
+                                    content.push("</thead>");
+
+                                    var tbody = jquery("tbody", jquery(contentNode));
+                                    if (tbody.length !== 0) {
+
+                                        content.push("<tbody>");
+
+                                        var tbodyTrs = jquery("tr", jquery(tbody[0]));
+                                        jquery.each(tbodyTrs, function(index, tr) {
+                                            content.push("<row>");
+
+                                            var ths = jquery("td", jquery(tr));
+                                            jquery.each(ths, function(index, td) {
+                                                content.push("<entry>");
+                                                content.push(convertNodeToDocbook(td, true));
+                                                content.push("</entry>");
+                                            });
+
+                                            content.push("</row>");
+                                        });
+
+                                        content.push("</tbody>");
+                                    }
+
+                                    content.push("</tgroup></table>");
                                 }
                             };
 
