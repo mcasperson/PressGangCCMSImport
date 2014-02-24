@@ -225,7 +225,7 @@ define(
 
                                 // mojo has a fondness for creating <p> elements with a single space
                                 if (contentNodeText.length !== 0 &&
-                                    !(contentNodeText.length === 1 && contentNodeText[0] !== " ")) {
+                                    !(contentNodeText.length === 1 && contentNodeText[0] === "\u00a0")) {
                                     jquery.each(contentNodeText, function(index, value) {
                                         contentNodeText[index] = value.replace(/\n/g, "</para><para>");
                                     });
