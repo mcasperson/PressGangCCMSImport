@@ -168,10 +168,15 @@ define(
                                         resultCallback();
 
                                         // headers indicate container or topic boundaries
-                                        if (/h\d/i.test(contentNode.nodeName)) {
+                                        if (/h\d/i.test(contentNode.nodeName) && contentNode.textContent.trim().length !== 0) {
                                             processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                             return;
-                                        } else if (/p/i.test(contentNode.nodeName)) {
+                                        } else if (/p/i.test(contentNode.nodeName) ||
+                                            (/h\d/i.test(contentNode.nodeName) && contentNode.textContent.trim().length === 0)) {
+                                            /*
+                                                It is possible that a header contains only a link to an image. We treat this
+                                                like a para.
+                                             */
                                             processPara(content, contentNode, images);
                                         } else if (/table/i.test(contentNode.nodeName)) {
                                             processTable(content, contentNode, images);
