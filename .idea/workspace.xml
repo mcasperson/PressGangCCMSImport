@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/mojoimport.js" afterPath="$PROJECT_DIR$/js/mojoimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qnastart.js" afterPath="$PROJECT_DIR$/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -110,11 +109,11 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="308" column="43" selection-start="19052" selection-end="19052" vertical-scroll-proportion="0.52399606" vertical-offset="4085" max-vertical-offset="10950">
+            <state line="314" column="58" selection-start="19363" selection-end="19363" vertical-scroll-proportion="0.61214495" vertical-offset="4085" max-vertical-offset="11040">
               <folding>
-                <marker date="1393278699981" expanded="true" signature="14469:14664" placeholder="..." />
-                <marker date="1393278699981" expanded="true" signature="14563:14664" placeholder="..." />
-                <marker date="1393278699981" expanded="true" signature="14563:14643" placeholder="..." />
+                <marker date="1393278804516" expanded="true" signature="14469:14664" placeholder="..." />
+                <marker date="1393278804516" expanded="true" signature="14563:14664" placeholder="..." />
+                <marker date="1393278804516" expanded="true" signature="14563:14643" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -615,7 +614,7 @@
       <workItem from="1392771986851" duration="9968000" />
       <workItem from="1392851872276" duration="34168000" />
       <workItem from="1393213292239" duration="7189000" />
-      <workItem from="1393222338716" duration="5066000" />
+      <workItem from="1393222338716" duration="5123000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1889,11 +1888,15 @@
       <created>1393227384164</created>
       <updated>1393227384164</updated>
     </task>
-    <option name="localTasksCounter" value="319" />
+    <task id="LOCAL-00319" summary="Working on mojo import&#10;">
+      <created>1393278751511</created>
+      <updated>1393278751511</updated>
+    </task>
+    <option name="localTasksCounter" value="320" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="476158000" />
+    <option name="totallyTimeSpent" value="476215000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2283,11 +2286,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="308" column="43" selection-start="19052" selection-end="19052" vertical-scroll-proportion="0.52399606" vertical-offset="4085" max-vertical-offset="10950">
+        <state line="314" column="58" selection-start="19363" selection-end="19363" vertical-scroll-proportion="0.61214495" vertical-offset="4085" max-vertical-offset="11040">
           <folding>
-            <marker date="1393278699981" expanded="true" signature="14469:14664" placeholder="..." />
-            <marker date="1393278699981" expanded="true" signature="14563:14664" placeholder="..." />
-            <marker date="1393278699981" expanded="true" signature="14563:14643" placeholder="..." />
+            <marker date="1393278804516" expanded="true" signature="14469:14664" placeholder="..." />
+            <marker date="1393278804516" expanded="true" signature="14563:14664" placeholder="..." />
+            <marker date="1393278804516" expanded="true" signature="14563:14643" placeholder="..." />
           </folding>
         </state>
       </provider>

@@ -307,6 +307,12 @@ define(
                                     jquery.merge(content, convertNodeToDocbook(contentNode, false, imageLinks, false));
 
                                     content.push("</programlisting>");
+                                } else {
+                                    content.push('<screen>');
+
+                                    jquery.merge(content, convertNodeToDocbook(contentNode, false, imageLinks, false));
+
+                                    content.push("</screen>");
                                 }
                             };
 
