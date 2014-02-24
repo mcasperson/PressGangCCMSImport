@@ -213,11 +213,11 @@ define(
                                             var imgs = jquery(">img", jquery(childNode));
                                             if (imgs.length !== 0) {
                                                 imageLinks[href] = null;
-                                                customContainerContent.push('<mediaobject>\
-                                                                    <imageobject>\
-                                                                        <imagedata fileref="' + href + '"/>\
-                                                                     </imageobject>\
-                                                                </mediaobject>');
+                                                customContainerContent.push('<mediaobject>');
+                                                customContainerContent.push('<imageobject>');
+                                                customContainerContent.push('<imagedata fileref="' + href + '"/>');
+                                                customContainerContent.push('</imageobject>');
+                                                customContainerContent.push('</mediaobject>');
                                             } else {
                                                 customContainerContent.push('<ulink url="' + generalexternalimport.cleanTextContent(href) + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
                                             }
@@ -231,7 +231,27 @@ define(
                                     } else if (/^br$/i.test(childNode.nodeName) && lineBreaks) {
                                         customContainerContent.push("\n");
                                     } else if (/^(strong|em)$/i.test(childNode.nodeName) && emphasis) {
-                                        customContainerContent.push("<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>");
+                                        var emphasisChildren = convertNodeToDocbook(childNode, emphasis, imageLinks, false);
+
+                                        // emphasis elements are limited in what child nodes they can accomodate.
+                                        // loop over the children to make sure we are not adding any that might conflict
+                                        var useEmphasis = true;
+                                        jquery.each(emphasisChildren, function (index, value) {
+                                            if (/^<\w+/.test(value) && !/^<ulink/.test(value)) {
+                                                useEmphasis = false;
+                                                return false;
+                                            }
+                                        });
+
+                                        if (useEmphasis) {
+                                            customContainerContent.push("<emphasis>");
+                                        }
+
+                                        jquery.merge(customContainerContent, emphasisChildren);
+
+                                        if (useEmphasis) {
+                                            customContainerContent.push("</emphasis>");
+                                        }
                                     } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
                                         jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks, lineBreaks));

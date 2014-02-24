@@ -79,7 +79,7 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="-8.68" vertical-offset="14153" max-vertical-offset="16980">
+            <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="0.0" vertical-offset="14370" max-vertical-offset="16980">
               <folding>
                 <marker date="1393214373704" expanded="true" signature="37410:37579" placeholder="..." />
                 <marker date="1393214373704" expanded="true" signature="37489:37579" placeholder="..." />
@@ -91,7 +91,7 @@
       <file leaf-file-name="generaldocbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="29" selection-start="1560" selection-end="1561" vertical-scroll-proportion="-14.56" vertical-offset="86" max-vertical-offset="1095">
+            <state line="30" column="29" selection-start="1560" selection-end="1561" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="1095">
               <folding />
             </state>
           </provider>
@@ -100,7 +100,7 @@
       <file leaf-file-name="pgimport.user.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/pgimport.user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="58" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+            <state line="7" column="58" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="300">
               <folding />
             </state>
           </provider>
@@ -109,10 +109,11 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="236" column="141" selection-start="14180" selection-end="14180" vertical-scroll-proportion="0.7480799" vertical-offset="3053" max-vertical-offset="9915">
+            <state line="249" column="93" selection-start="14846" selection-end="14846" vertical-scroll-proportion="0.81329423" vertical-offset="2903" max-vertical-offset="10215">
               <folding>
-                <marker date="1393221144652" expanded="true" signature="12125:12302" placeholder="..." />
-                <marker date="1393221144652" expanded="true" signature="12208:12302" placeholder="..." />
+                <marker date="1393223386256" expanded="true" signature="12125:12320" placeholder="..." />
+                <marker date="1393223386256" expanded="true" signature="12219:12320" placeholder="..." />
+                <marker date="1393223386256" expanded="true" signature="12219:12299" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -139,7 +140,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="948" column="62" selection-start="44466" selection-end="44917" vertical-scroll-proportion="-15.88" vertical-offset="13823" max-vertical-offset="27675">
+            <state line="948" column="62" selection-start="44466" selection-end="44917" vertical-scroll-proportion="0.0" vertical-offset="13823" max-vertical-offset="27675">
               <folding />
             </state>
           </provider>
@@ -268,8 +269,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -603,7 +604,8 @@
       <workItem from="1392617752222" duration="17187000" />
       <workItem from="1392771986851" duration="9968000" />
       <workItem from="1392851872276" duration="34168000" />
-      <workItem from="1393213292239" duration="7183000" />
+      <workItem from="1393213292239" duration="7189000" />
+      <workItem from="1393222338716" duration="1050000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1845,11 +1847,15 @@
       <created>1393220278597</created>
       <updated>1393220278597</updated>
     </task>
-    <option name="localTasksCounter" value="311" />
+    <task id="LOCAL-00311" summary="Working on mojo import&#10;">
+      <created>1393221189438</created>
+      <updated>1393221189438</updated>
+    </task>
+    <option name="localTasksCounter" value="312" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="471086000" />
+    <option name="totallyTimeSpent" value="472142000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -1860,7 +1866,6 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32516494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1869,7 +1874,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1880,15 +1884,17 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32516494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1906,8 +1912,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2009,9 +2015,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="155" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1560">
-          <folding />
-        </state>
+        <state line="45" column="155" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="1560" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
@@ -2113,9 +2117,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/wgxpath/wgxpath.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/fontrule.js">
@@ -2130,9 +2132,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="382" column="12" selection-start="13408" selection-end="13408" vertical-scroll-proportion="-102.32143" vertical-offset="0" max-vertical-offset="8505">
-          <folding />
-        </state>
+        <state line="382" column="12" selection-start="13408" selection-end="13408" vertical-scroll-proportion="-102.32143" vertical-offset="0" max-vertical-offset="8505" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
@@ -2193,16 +2193,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="6" selection-start="4671" selection-end="4671" vertical-scroll-proportion="0.84780157" vertical-offset="1168" max-vertical-offset="2055">
-          <folding />
-        </state>
+        <state line="128" column="6" selection-start="4671" selection-end="4671" vertical-scroll-proportion="0.84780157" vertical-offset="1168" max-vertical-offset="2055" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="142" selection-start="6322" selection-end="6322" vertical-scroll-proportion="-11.555555" vertical-offset="2088" max-vertical-offset="6390">
-          <folding />
-        </state>
+        <state line="160" column="142" selection-start="6322" selection-end="6322" vertical-scroll-proportion="-11.555555" vertical-offset="2088" max-vertical-offset="6390" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnazipmodel.js">
@@ -2221,21 +2217,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="29" selection-start="1560" selection-end="1561" vertical-scroll-proportion="-14.56" vertical-offset="86" max-vertical-offset="1095">
+        <state line="30" column="29" selection-start="1560" selection-end="1561" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="1095">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="948" column="62" selection-start="44466" selection-end="44917" vertical-scroll-proportion="-15.88" vertical-offset="13823" max-vertical-offset="27675">
+        <state line="948" column="62" selection-start="44466" selection-end="44917" vertical-scroll-proportion="0.0" vertical-offset="13823" max-vertical-offset="27675">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="-8.68" vertical-offset="14153" max-vertical-offset="16980">
+        <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="0.0" vertical-offset="14370" max-vertical-offset="16980">
           <folding>
             <marker date="1393214373704" expanded="true" signature="37410:37579" placeholder="..." />
             <marker date="1393214373704" expanded="true" signature="37489:37579" placeholder="..." />
@@ -2245,10 +2241,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="236" column="141" selection-start="14180" selection-end="14180" vertical-scroll-proportion="0.7480799" vertical-offset="3053" max-vertical-offset="9915">
+        <state line="249" column="93" selection-start="14846" selection-end="14846" vertical-scroll-proportion="0.81329423" vertical-offset="2903" max-vertical-offset="10215">
           <folding>
-            <marker date="1393221144652" expanded="true" signature="12125:12302" placeholder="..." />
-            <marker date="1393221144652" expanded="true" signature="12208:12302" placeholder="..." />
+            <marker date="1393223386256" expanded="true" signature="12125:12320" placeholder="..." />
+            <marker date="1393223386256" expanded="true" signature="12219:12320" placeholder="..." />
+            <marker date="1393223386256" expanded="true" signature="12219:12299" placeholder="..." />
           </folding>
         </state>
       </provider>
