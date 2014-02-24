@@ -189,7 +189,9 @@ define(
                             /*
                              Expand the text:s elements and remarks.
                              */
-                            var convertNodeToDocbook = function (node, emphasis, imageLinks) {
+                            var convertNodeToDocbook = function (node, emphasis, imageLinks, lineBreaks) {
+                                lineBreaks = lineBreaks === undefined ? true : lineBreaks;
+
                                 var customContainerContent = [];
                                 for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                     var childNode = node.childNodes[childIndex];
@@ -226,13 +228,13 @@ define(
                                         processTable(customContainerContent, childNode, images);
                                     } else if (/^(ul|ol)$/i.test(childNode.nodeName)) {
                                         processList(customContainerContent, childNode, images);
-                                    } else if (/^br$/i.test(childNode.nodeName)) {
+                                    } else if (/^br$/i.test(childNode.nodeName) && lineBreaks) {
                                         customContainerContent.push("\n");
                                     } else if (/^(strong|em)$/i.test(childNode.nodeName) && emphasis) {
                                         customContainerContent.push("<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>");
                                     } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
-                                        jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks));
+                                        jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks, lineBreaks));
                                     }
                                 }
 
@@ -293,9 +295,9 @@ define(
 
                                             content.push("</row>");
                                         });
-                                    }
 
-                                    content.push("</thead>");
+                                        content.push("</thead>");
+                                    }
 
                                     var tbody = jquery("tbody", jquery(contentNode));
                                     if (tbody.length !== 0) {
@@ -434,7 +436,7 @@ define(
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                 }
 
-                                var newTitleArray = convertNodeToDocbook(contentNode, false);
+                                var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
                                 var newTitle = "";
                                 jquery.each(newTitleArray, function(index, value){
                                    newTitle += value;
