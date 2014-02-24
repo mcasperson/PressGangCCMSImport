@@ -187,7 +187,11 @@ define(
                                 for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                     var childNode = node.childNodes[childIndex];
                                     if (childNode.nodeType === Node.TEXT_NODE) {
-                                        customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
+                                        if (customContainerContent.length === 0) {
+                                            customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
+                                        } else {
+                                            customContainerContent[customContainerContent.length - 1] += generalexternalimport.cleanTextContent(childNode.textContent);
+                                        }
                                     } else if (/^a$/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
                                         if (href !== null) {
@@ -211,6 +215,8 @@ define(
                                         processList(customContainerContent, childNode, images);
                                     } else if (/^br$/i.test(childNode.nodeName)) {
                                         customContainerContent.push("\n");
+                                    } else if (/^strong$/i.test(childNode.nodeName) && emphasis) {
+                                        customContainerContent.push("<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>");
                                     } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
                                         jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks));
