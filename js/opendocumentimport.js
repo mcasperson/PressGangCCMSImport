@@ -957,15 +957,18 @@ define(
                                             var imagePath = imagesKeys[index];
     
                                             qnastart.createImage(
-                                                true,
+                                                config.CreateOrResuseImages === "REUSE",
                                                 config.OdtFile,
                                                 imagePath,
                                                 config,
-                                                function (id, matched) {
-                                                    images[imagePath] = "images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
-    
+                                                function (data) {
+                                                    var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
+
+                                                    images[imagePath] = "images/" + imageId + imagePath.substr(imagePath.lastIndexOf("."));
+
                                                     config.UploadedImageCount += 1;
-                                                    if (matched) {
+
+                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
                                                         config.MatchedImageCount += 1;
                                                     }
     
@@ -1012,23 +1015,25 @@ define(
                                             var topic = topicGraph.nodes[index];
     
                                             qnastart.createTopic(
-                                                true,
+                                                config.CreateOrResuseTopics === "REUSE",
                                                 4.5,
                                                 qnautils.xmlToString(topic.xml),
                                                 topic.title,
                                                 null,
                                                 config, function (data) {
-    
-                                                    config.UploadedTopicCount += 1;
-                                                    if (data.matchedExistingTopic) {
-                                                        config.MatchedTopicCount += 1;
+
+                                                    var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
+                                                    var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
+
+                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                                                        config.MatchedImageCount += 1;
                                                     }
-    
+
                                                     config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
                                                     resultCallback();
     
-                                                    topic.setTopicId(data.topic.id);
-                                                    topic.xml = jquery.parseXML(data.topic.xml);
+                                                    topic.setTopicId(topicId);
+                                                    topic.xml = jquery.parseXML(topicXML);
     
                                                     createTopics(index + 1, callback);
                                                 },

@@ -489,23 +489,27 @@ define(
                         var topic = topicGraph.nodes[index];
 
                         qnastart.createTopic(
-                            true,
+                            config.CreateOrResuseTopics === "REUSE",
                             4.5,
                             qnautils.xmlToString(topic.xml),
                             topic.title,
                             null,
                             config, function (data) {
 
-                                config.UploadedTopicCount += 1;
-                                if (data.matchedExistingTopic) {
-                                    config.MatchedTopicCount += 1;
+                                var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
+                                var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
+
+                                config.UploadedImageCount += 1;
+
+                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                                    config.MatchedImageCount += 1;
                                 }
 
                                 config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
                                 resultCallback();
 
-                                topic.setTopicId(data.topic.id);
-                                topic.xml = jquery.parseXML(data.topic.xml);
+                                topic.setTopicId(topicId);
+                                topic.xml = jquery.parseXML(topicXML);
 
                                 createTopics(index + 1, topicGraph, callback);
                             },
