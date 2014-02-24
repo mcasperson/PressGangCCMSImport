@@ -224,7 +224,8 @@ define(
                                 var contentNodeText = convertNodeToDocbook(contentNode, true, imageLinks);
 
                                 // mojo has a fondness for creating <p> elements with a single space
-                                if (contentNodeText.length !== 0 && contentNodeText !== " ") {
+                                if (contentNodeText.length !== 0 &&
+                                    !(contentNodeText.length === 1 && contentNodeText[0] !== " ")) {
                                     jquery.each(contentNodeText, function(index, value) {
                                         contentNodeText[index] = value.replace(/\n/g, "</para><para>");
                                     });
@@ -499,10 +500,10 @@ define(
                                 var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
                                 var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
 
-                                config.UploadedImageCount += 1;
+                                config.UploadedTopicCount += 1;
 
-                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
-                                    config.MatchedImageCount += 1;
+                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingTopic) {
+                                    config.MatchedTopicCount += 1;
                                 }
 
                                 config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/mojoimport.js" afterPath="$PROJECT_DIR$/js/mojoimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -77,10 +76,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="0.33333334" vertical-offset="14153" max-vertical-offset="16980">
+            <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="-8.68" vertical-offset="14153" max-vertical-offset="16980">
               <folding>
                 <marker date="1393214373704" expanded="true" signature="37410:37579" placeholder="..." />
                 <marker date="1393214373704" expanded="true" signature="37489:37579" placeholder="..." />
@@ -107,13 +106,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="428" column="44" selection-start="23988" selection-end="23999" vertical-scroll-proportion="-8.68" vertical-offset="6203" max-vertical-offset="9105">
+            <state line="227" column="98" selection-start="13272" selection-end="13272" vertical-scroll-proportion="0.3563748" vertical-offset="3173" max-vertical-offset="9120">
               <folding>
-                <marker date="1393214214680" expanded="true" signature="10881:11058" placeholder="..." />
-                <marker date="1393214214680" expanded="true" signature="10964:11058" placeholder="..." />
+                <marker date="1393214595603" expanded="true" signature="10881:11058" placeholder="..." />
+                <marker date="1393214595603" expanded="true" signature="10964:11058" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -208,8 +207,8 @@
         <option value="$PROJECT_DIR$/js/mojoimport-0.0.29.js" />
         <option value="$PROJECT_DIR$/js/mojoimport-0.0.30.js" />
         <option value="$PROJECT_DIR$/js/pgimport.user.js" />
-        <option value="$PROJECT_DIR$/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/js/mojoimport.js" />
       </list>
     </option>
   </component>
@@ -604,7 +603,7 @@
       <workItem from="1392617752222" duration="17187000" />
       <workItem from="1392771986851" duration="9968000" />
       <workItem from="1392851872276" duration="34168000" />
-      <workItem from="1393213292239" duration="1125000" />
+      <workItem from="1393213292239" duration="1305000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1802,11 +1801,15 @@
       <created>1393213940075</created>
       <updated>1393213940075</updated>
     </task>
-    <option name="localTasksCounter" value="300" />
+    <task id="LOCAL-00300" summary="Working on mojo import&#10;">
+      <created>1393214420327</created>
+      <updated>1393214420327</updated>
+    </task>
+    <option name="localTasksCounter" value="301" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="465028000" />
+    <option name="totallyTimeSpent" value="465208000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -1882,7 +1885,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="fixed bugs&#10;" />
     <MESSAGE value="xml preface content will no longer be removed from cdata elements" />
     <MESSAGE value="xml preface content will no longer be removed from cdata elements&#10;" />
     <MESSAGE value="Fixed revision history import" />
@@ -1907,7 +1909,8 @@
     <MESSAGE value="Working on Mojo import" />
     <MESSAGE value="Working on Mojo import&#10;" />
     <MESSAGE value="Working on mojo import" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on mojo import" />
+    <MESSAGE value="Working on mojo import&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on mojo import&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2190,22 +2193,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
+    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="428" column="44" selection-start="23988" selection-end="23999" vertical-scroll-proportion="-8.68" vertical-offset="6203" max-vertical-offset="9105">
+        <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="-8.68" vertical-offset="14153" max-vertical-offset="16980">
           <folding>
-            <marker date="1393214214680" expanded="true" signature="10881:11058" placeholder="..." />
-            <marker date="1393214214680" expanded="true" signature="10964:11058" placeholder="..." />
+            <marker date="1393214373704" expanded="true" signature="37410:37579" placeholder="..." />
+            <marker date="1393214373704" expanded="true" signature="37489:37579" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/opendocumentimport.js">
+    <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="958" column="62" selection-start="56933" selection-end="56942" vertical-scroll-proportion="0.33333334" vertical-offset="14153" max-vertical-offset="16980">
+        <state line="227" column="98" selection-start="13272" selection-end="13272" vertical-scroll-proportion="0.3563748" vertical-offset="3173" max-vertical-offset="9120">
           <folding>
-            <marker date="1393214373704" expanded="true" signature="37410:37579" placeholder="..." />
-            <marker date="1393214373704" expanded="true" signature="37489:37579" placeholder="..." />
+            <marker date="1393214595603" expanded="true" signature="10881:11058" placeholder="..." />
+            <marker date="1393214595603" expanded="true" signature="10964:11058" placeholder="..." />
           </folding>
         </state>
       </provider>
