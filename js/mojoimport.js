@@ -188,7 +188,7 @@ define(
                                     var childNode = node.childNodes[childIndex];
                                     if (childNode.nodeType === Node.TEXT_NODE) {
                                         customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
-                                    } else if (/a/i.test(childNode.nodeName)) {
+                                    } else if (/^a$/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
                                         if (href !== null) {
                                             var imgs = jquery(">img", jquery(childNode));
@@ -205,13 +205,13 @@ define(
                                         } else {
                                             customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
                                         }
-                                    }  else if (/table/i.test(childNode.nodeName)) {
+                                    }  else if (/^table$/i.test(childNode.nodeName)) {
                                         processTable(customContainerContent, childNode, images);
-                                    } else if (/ul|ol/i.test(childNode.nodeName)) {
+                                    } else if (/^(ul|ol)$/i.test(childNode.nodeName)) {
                                         processList(customContainerContent, childNode, images);
-                                    } else if (/br/i.test(childNode.nodeName)) {
+                                    } else if (/^br$/i.test(childNode.nodeName)) {
                                         customContainerContent.push("\n");
-                                    } else if (!(/div/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
+                                    } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
                                         jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks));
                                     }
