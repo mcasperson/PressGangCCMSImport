@@ -334,43 +334,50 @@ define(
                             };
 
                             var processTable = function (content, contentNode, imageLinks) {
-                                var trs = jquery("tr", jquery(contentNode));
+                                var trs = jquery(">thead>th, >tbody>tr", jquery(contentNode));
                                 var maxCols;
                                 jquery.each(trs, function (index, value) {
-                                    var tds = jquery("td, th", jquery(value));
-                                    if (maxCols === undefined || tds.length > maxCols) {
-                                        maxCols = tds.length;
+                                    var tds = jquery(">td, >th", jquery(value));
+                                    var entries =  tds.length;
+                                    if (maxCols === undefined || entries > maxCols) {
+                                        maxCols = entries;
                                     }
                                 });
 
                                 if (maxCols !== undefined) {
                                     content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
 
-                                    var thead = jquery("thead", jquery(contentNode));
+                                    var processCellContents = function (cells) {
+                                        jquery.each(cells, function(index, cell) {
+                                            var cellContents = convertNodeToDocbook(cell, true, imageLinks);
+                                            // nested tables need to be handled specially
+                                            if (cellContents.length !== 0 && /^<table/.test(cellContents[0])) {
+                                                var nestedMaxCols = /cols='(\d+)'>/.exec(cellContents[0])[1];
+                                                var fixedCellContents = ["<entrytbl cols='" + nestedMaxCols + "'>"];
+                                                // remove the table element, and the last tgroup element close
+                                                jquery.merge(fixedCellContents, cellContents.slice(1, cellContents.length - 1));
+                                                fixedCellContents.push("</entrytbl>");
+
+                                                jquery.merge(content, fixedCellContents);
+                                            } else {
+                                                content.push("<entry>");
+                                                jquery.merge(content, cellContents);
+                                                content.push("</entry>");
+                                            }
+                                        });
+                                    };
+
+                                    var thead = jquery(">thead", jquery(contentNode));
                                     if (thead.length !== 0) {
 
                                         content.push("<thead>");
 
-                                        var theadTrs = jquery("tr", jquery(thead[0]));
+                                        var theadTrs = jquery(">tr", jquery(thead[0]));
                                         jquery.each(theadTrs, function(index, tr) {
                                             content.push("<row>");
 
-                                            var ths = jquery("th", jquery(tr));
-                                            jquery.each(ths, function(index, th) {
-                                                var cellContents = convertNodeToDocbook(th, true, imageLinks);
-                                                // nested tables need to be handled specially
-                                                if (cellContents.length !== 0 && /^<table/.test(cellContents[0])) {
-                                                    var nestedMaxCols = /cols='(\d+)'>/.exec(cellContents[0])[1];
-                                                    var fixedCellContents = ["<entrytbl cols='" + nestedMaxCols + "'>"];
-                                                    // remove the table element, and the last tgroup element close
-                                                    jquery.merge(fixedCellContents, cellContents.slice(1, cellContents.length - 1));
-                                                    fixedCellContents.push("</entrytbl>");
-                                                } else {
-                                                    content.push("<entry>");
-                                                    jquery.merge(content, cellContents);
-                                                    content.push("</entry>");
-                                                }
-                                            });
+                                            var ths = jquery(">th", jquery(tr));
+                                            processCellContents(ths);
 
                                             // fill in empty cells
                                             for (var i = ths.length; i < maxCols; ++i) {
@@ -384,12 +391,12 @@ define(
                                         content.push("</thead>");
                                     }
 
-                                    var tbody = jquery("tbody", jquery(contentNode));
+                                    var tbody = jquery(">tbody", jquery(contentNode));
                                     if (tbody.length !== 0) {
 
                                         content.push("<tbody>");
 
-                                        var tbodyTrs = jquery("tr", jquery(tbody[0]));
+                                        var tbodyTrs = jquery(">tr", jquery(tbody[0]));
 
                                         jquery.each(tbodyTrs, function(index, tr) {
                                             /*
@@ -397,7 +404,7 @@ define(
                                              HTML allows this, but DocBook does not. So we need to start a new
                                              table.
                                              */
-                                            var ths = jquery("th", jquery(tr));
+                                            var ths = jquery(">th", jquery(tr));
                                             if (ths.length !== 0) {
                                                 content.push("</tbody>");
                                                 content.push("</tgroup></table>");
@@ -420,22 +427,8 @@ define(
                                             } else {
                                                 content.push("<row>");
 
-                                                var tds = jquery("td", jquery(tr));
-                                                jquery.each(tds, function(index, td) {
-                                                    var cellContents = convertNodeToDocbook(td, true, imageLinks);
-                                                    // nested tables need to be handled specially
-                                                    if (cellContents.length !== 0 && /^<table/.test(cellContents[0])) {
-                                                        var nestedMaxCols = /cols='(\d+)'>/.exec(cellContents[0])[1];
-                                                        var fixedCellContents = ["<entrytbl cols='" + nestedMaxCols + "'>"];
-                                                        // remove the table element, and the last tgroup element close
-                                                        jquery.merge(fixedCellContents, cellContents.slice(1, cellContents.length - 1));
-                                                        fixedCellContents.push("</entrytbl>");
-                                                    } else {
-                                                        content.push("<entry>");
-                                                        jquery.merge(content, cellContents);
-                                                        content.push("</entry>");
-                                                    }
-                                                });
+                                                var tds = jquery(">td", jquery(tr));
+                                                processCellContents(tds);
 
                                                 content.push("</row>");
                                             }
