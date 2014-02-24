@@ -175,7 +175,13 @@ define(
                                             (/h\d/i.test(contentNode.nodeName) && contentNode.textContent.trim().length === 0)) {
                                             /*
                                                 It is possible that a header contains only a link to an image. We treat this
-                                                like a para.
+                                                like a para. e.g.
+
+                                                 <h2>
+                                                     <a href="https://mojo.redhat.com/servlet/JiveServlet/showImage/102-934727-22-934162/drupal_use_case.png">
+                                                        <img alt="drupal_use_case.png" class="jive-image" height="953" src="https://mojo.redhat.com/servlet/JiveServlet/downloadImage/102-934727-22-934162/drupal_use_case.png" style="width: 620px; height: 479px;" width="1234"/>
+                                                     </a>
+                                                 </h2>
                                              */
                                             processPara(content, contentNode, images);
                                         } else if (/table/i.test(contentNode.nodeName)) {
