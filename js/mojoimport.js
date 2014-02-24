@@ -319,13 +319,15 @@ define(
                                  Find out if this is a numbered or bullet list
                                  */
                                 var listType = "itemizedlist";
+                                var style = "";
 
                                 if (/ol/i.test(contentNode.nodeName)) {
                                     listType = "orderedlist";
+                                    style= ' numeration="arabic"';
                                 }
 
                                 var listItems = jquery(">li", contentNode);
-                                content.push("<" + listType + ">");
+                                content.push("<" + listType + style + ">");
                                 jquery.each(listItems, function(key, listItem) {
                                     content.push("<listitem><para>");
 
