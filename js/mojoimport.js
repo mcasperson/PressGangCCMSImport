@@ -290,17 +290,45 @@ define(
                                         content.push("<tbody>");
 
                                         var tbodyTrs = jquery("tr", jquery(tbody[0]));
+
                                         jquery.each(tbodyTrs, function(index, tr) {
-                                            content.push("<row>");
+                                            /*
+                                             It is possible to get header rows in the body of a table.
+                                             HTML allows this, but DocBook does not. So we need to start a new
+                                             table.
+                                             */
+                                            var ths = jquery("th", jquery(tr));
+                                            if (ths.length !== 0) {
+                                                content.push("</tbody>");
+                                                content.push("</tgroup></table>");
+                                                content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
+                                                content.push("<thead>");
 
-                                            var tds = jquery("td", jquery(tr));
-                                            jquery.each(tds, function(index, td) {
-                                                content.push("<entry>");
-                                                jquery.merge(content, convertNodeToDocbook(td, true, imageLinks));
-                                                content.push("</entry>");
-                                            });
+                                                content.push("<row>");
 
-                                            content.push("</row>");
+                                                jquery.each(ths, function(index, td) {
+                                                    content.push("<entry>");
+                                                    jquery.merge(content, convertNodeToDocbook(td, true, imageLinks));
+                                                    content.push("</entry>");
+                                                });
+
+                                                content.push("</row>");
+
+                                                content.push("</thead>");
+
+                                                content.push("<tbody>");
+                                            } else {
+                                                content.push("<row>");
+
+                                                var tds = jquery("td", jquery(tr));
+                                                jquery.each(tds, function(index, td) {
+                                                    content.push("<entry>");
+                                                    jquery.merge(content, convertNodeToDocbook(td, true, imageLinks));
+                                                    content.push("</entry>");
+                                                });
+
+                                                content.push("</row>");
+                                            }
                                         });
 
                                         content.push("</tbody>");
