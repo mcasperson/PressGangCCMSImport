@@ -223,7 +223,8 @@ define(
                             var processPara = function (content, contentNode, imageLinks) {
                                 var contentNodeText = convertNodeToDocbook(contentNode, true, imageLinks);
 
-                                if (contentNodeText.length !== 0) {
+                                // mojo has a fondness for creating <p> elements with a single space
+                                if (contentNodeText.length !== 0 && contentNodeText !== " ") {
                                     jquery.each(contentNodeText, function(index, value) {
                                         contentNodeText[index] = value.replace(/\n/g, "</para><para>");
                                     });

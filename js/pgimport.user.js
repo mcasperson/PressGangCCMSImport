@@ -5,7 +5,7 @@
 // @author      Matthew Casperson
 // @include     http://localhost:8000*
 // @require     http://code.jquery.com/jquery-2.0.3.min.js
-// @require     http://localhost:8000/js/mojoimport-0.0.22.js
+// @require     http://localhost:8000/js/mojoimport-0.0.30.js
 // @version     0.0.1
 // @grant       GM_xmlhttpRequest
 // @grant       unsafeWindow
