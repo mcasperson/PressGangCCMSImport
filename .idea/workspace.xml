@@ -109,11 +109,11 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="249" column="93" selection-start="14846" selection-end="14846" vertical-scroll-proportion="0.81329423" vertical-offset="2903" max-vertical-offset="10215">
+            <state line="235" column="113" selection-start="13963" selection-end="13963" vertical-scroll-proportion="-2.6082273" vertical-offset="6188" max-vertical-offset="10215">
               <folding>
-                <marker date="1393223386256" expanded="true" signature="12125:12320" placeholder="..." />
-                <marker date="1393223386256" expanded="true" signature="12219:12320" placeholder="..." />
-                <marker date="1393223386256" expanded="true" signature="12219:12299" placeholder="..." />
+                <marker date="1393223405955" expanded="true" signature="12125:12320" placeholder="..." />
+                <marker date="1393223405955" expanded="true" signature="12219:12320" placeholder="..." />
+                <marker date="1393223405955" expanded="true" signature="12219:12299" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -605,7 +605,7 @@
       <workItem from="1392771986851" duration="9968000" />
       <workItem from="1392851872276" duration="34168000" />
       <workItem from="1393213292239" duration="7189000" />
-      <workItem from="1393222338716" duration="1050000" />
+      <workItem from="1393222338716" duration="1136000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1851,11 +1851,15 @@
       <created>1393221189438</created>
       <updated>1393221189438</updated>
     </task>
-    <option name="localTasksCounter" value="312" />
+    <task id="LOCAL-00312" summary="Working on mojo import&#10;">
+      <created>1393223392187</created>
+      <updated>1393223392187</updated>
+    </task>
+    <option name="localTasksCounter" value="313" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="472142000" />
+    <option name="totallyTimeSpent" value="472228000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -1874,6 +1878,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1885,7 +1890,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32516494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2241,11 +2245,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="93" selection-start="14846" selection-end="14846" vertical-scroll-proportion="0.81329423" vertical-offset="2903" max-vertical-offset="10215">
+        <state line="235" column="113" selection-start="13963" selection-end="13963" vertical-scroll-proportion="-2.6082273" vertical-offset="6188" max-vertical-offset="10215">
           <folding>
-            <marker date="1393223386256" expanded="true" signature="12125:12320" placeholder="..." />
-            <marker date="1393223386256" expanded="true" signature="12219:12320" placeholder="..." />
-            <marker date="1393223386256" expanded="true" signature="12219:12299" placeholder="..." />
+            <marker date="1393223405955" expanded="true" signature="12125:12320" placeholder="..." />
+            <marker date="1393223405955" expanded="true" signature="12219:12320" placeholder="..." />
+            <marker date="1393223405955" expanded="true" signature="12219:12299" placeholder="..." />
           </folding>
         </state>
       </provider>

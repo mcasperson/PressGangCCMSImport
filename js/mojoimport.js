@@ -233,7 +233,7 @@ define(
                                     } else if (/^(strong|em)$/i.test(childNode.nodeName) && emphasis) {
                                         var emphasisChildren = convertNodeToDocbook(childNode, emphasis, imageLinks, false);
 
-                                        // emphasis elements are limited in what child nodes they can accomodate.
+                                        // emphasis elements are limited in what child nodes they can accommodate.
                                         // loop over the children to make sure we are not adding any that might conflict
                                         var useEmphasis = true;
                                         jquery.each(emphasisChildren, function (index, value) {
