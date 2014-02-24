@@ -143,12 +143,19 @@ define(
                         } else {
                             var childNodeCount = jquery(mojoDoc[1]).children().length;
                             var images = {};
+                            var topicsAdded = 0;
 
                             var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
                                 if (index >= childNodeCount) {
                                     if (content.length !== 0) {
-                                        var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                        resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                        if (topicsAdded > 1) {
+                                            var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                                            resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                        } else {
+                                            resultObject.contentSpec.push("Type = Article");
+                                            resultObject.contentSpec.push("Initial Text:");
+                                            resultObject.contentSpec.push("  " + qnastart.escapeSpecTitle(title));
+                                        }
                                         generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                     }
 
@@ -373,6 +380,8 @@ define(
                             };
 
                             var processHeader = function (content, contentNode, title, parentLevel, outlineLevel, index, successCallback) {
+                                ++topicsAdded;
+
                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
 
                                 /*
