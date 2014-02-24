@@ -215,7 +215,7 @@ define(
                                         processList(customContainerContent, childNode, images);
                                     } else if (/^br$/i.test(childNode.nodeName)) {
                                         customContainerContent.push("\n");
-                                    } else if (/^strong$/i.test(childNode.nodeName) && emphasis) {
+                                    } else if (/^(strong|em)$/i.test(childNode.nodeName) && emphasis) {
                                         customContainerContent.push("<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>");
                                     } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
