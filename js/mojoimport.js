@@ -263,6 +263,8 @@ define(
                                         if (useEmphasis) {
                                             customContainerContent.push("</emphasis>");
                                         }
+                                    } else if (/^p$/i.test(childNode.nodeName)) {
+                                        processPara(customContainerContent, childNode, images);
                                     } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
                                         jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks, lineBreaks));
