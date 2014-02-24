@@ -403,7 +403,7 @@ define(
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Production Server", "Test Server", "Local Server"])
                             .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com", "localhost"])
-                            .setValue("localhost")
+                            .setValue("skynet-dev.usersys.redhat.com")
                             .setName("PressGangHost")
                     ])
             ])

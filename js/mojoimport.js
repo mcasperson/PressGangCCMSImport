@@ -177,12 +177,17 @@ define(
                                         config.UploadProgress[1] = progressIncrement * (index / childNodeCount);
                                         resultCallback();
 
+                                        /*
+                                            The list of rules here controls the top level content that can be placed in a topic.
+                                            This usually means paras, lists, programlisting etc.
+                                         */
+
                                         // headers indicate container or topic boundaries
-                                        if (/h\d/i.test(contentNode.nodeName) && contentNode.textContent.trim().length !== 0) {
+                                        if (/^h\d$/i.test(contentNode.nodeName) && contentNode.textContent.trim().length !== 0) {
                                             processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                             return;
-                                        } else if (/p/i.test(contentNode.nodeName) ||
-                                            (/h\d/i.test(contentNode.nodeName) && contentNode.textContent.trim().length === 0)) {
+                                        } else if (/^p$/i.test(contentNode.nodeName) ||
+                                            (/^h\d$/i.test(contentNode.nodeName) && contentNode.textContent.trim().length === 0)) {
                                             /*
                                                 It is possible that a header contains only a link to an image. We treat this
                                                 like a para. e.g.
@@ -194,10 +199,12 @@ define(
                                                  </h2>
                                              */
                                             processPara(content, contentNode, images);
-                                        } else if (/table/i.test(contentNode.nodeName)) {
+                                        } else if (/^table$/i.test(contentNode.nodeName)) {
                                             processTable(content, contentNode, images);
-                                        } else if (/ul|ol/i.test(contentNode.nodeName)) {
+                                        } else if (/^ul|ol$/i.test(contentNode.nodeName)) {
                                             processList(content, contentNode, images);
+                                        } else if (/^pre$/i.test(contentNode.nodeName)) {
+                                            processPre(content, contentNode, images);
                                         }
 
                                         setTimeout(function() {
@@ -208,7 +215,7 @@ define(
                             };
 
                             /*
-                             Expand the text:s elements and remarks.
+                                The list of formatting rules here define how content inside the parent nodes is processed.
                              */
                             var convertNodeToDocbook = function (node, emphasis, imageLinks, lineBreaks) {
                                 lineBreaks = lineBreaks === undefined ? true : lineBreaks;
@@ -275,6 +282,8 @@ define(
                                         }
                                     } else if (/^p$/i.test(childNode.nodeName)) {
                                         processPara(customContainerContent, childNode, images);
+                                    } else if (/^pre$/i.test(childNode.nodeName)) {
+                                        processPre(customContainerContent, childNode, images);
                                     } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
                                         jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks, lineBreaks));
@@ -282,6 +291,23 @@ define(
                                 }
 
                                 return customContainerContent;
+                            };
+
+                            var processPre = function (content, contentNode, imageLinks) {
+                                var name = contentNode.getAttribute("name");
+                                var elementClass = contentNode.getAttribute("class");
+
+                                if (name === "code") {
+                                    if (elementClass !== null) {
+                                        content.push('<programlisting language="' + elementClass + '">');
+                                    } else {
+                                        content.push('<programlisting>');
+                                    }
+
+                                    jquery.merge(content, convertNodeToDocbook(contentNode, false, imageLinks, false));
+
+                                    content.push("</programlisting>");
+                                }
                             };
 
                             var processPara = function (content, contentNode, imageLinks) {
