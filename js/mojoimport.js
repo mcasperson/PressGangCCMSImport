@@ -149,8 +149,18 @@ define(
                                 if (index >= childNodeCount) {
                                     if (content.length !== 0) {
                                         if (topicsAdded > 1) {
-                                            var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                            resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                            if (outlineLevel > 1) {
+                                                /*
+                                                    This is a child of an existing container. Add it as a regular topic.
+                                                 */
+                                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                                                resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                            } else {
+                                                /*
+                                                    This is a chapter with a initial text topic
+                                                 */
+                                                resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                            }
                                         } else {
                                             resultObject.contentSpec.push("Type = Article");
                                             resultObject.contentSpec.push("Initial Text:");
