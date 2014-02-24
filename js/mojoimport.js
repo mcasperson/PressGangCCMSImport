@@ -202,6 +202,12 @@ define(
                                     } else if (/^a$/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
                                         if (href !== null) {
+
+                                            // convert relative to absolute
+                                            if (/^\//.test(href)) {
+                                                href = "https://mojo.redhat.com" + href;
+                                            }
+
                                             var imgs = jquery(">img", jquery(childNode));
                                             if (imgs.length !== 0) {
                                                 imageLinks[href] = null;

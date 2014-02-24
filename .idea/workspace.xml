@@ -109,10 +109,10 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="77" selection-start="8187" selection-end="8187" vertical-scroll-proportion="0.51035506" vertical-offset="1995" max-vertical-offset="9795">
+            <state line="205" column="75" selection-start="11495" selection-end="11495" vertical-scroll-proportion="0.46597633" vertical-offset="2760" max-vertical-offset="9885">
               <folding>
-                <marker date="1393219641147" expanded="true" signature="11740:11917" placeholder="..." />
-                <marker date="1393219641147" expanded="true" signature="11823:11917" placeholder="..." />
+                <marker date="1393220115554" expanded="true" signature="12021:12198" placeholder="..." />
+                <marker date="1393220115554" expanded="true" signature="12104:12198" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -603,7 +603,7 @@
       <workItem from="1392617752222" duration="17187000" />
       <workItem from="1392771986851" duration="9968000" />
       <workItem from="1392851872276" duration="34168000" />
-      <workItem from="1393213292239" duration="5715000" />
+      <workItem from="1393213292239" duration="6117000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1833,11 +1833,15 @@
       <created>1393218822251</created>
       <updated>1393218822251</updated>
     </task>
-    <option name="localTasksCounter" value="308" />
+    <task id="LOCAL-00308" summary="Working on mojo import&#10;">
+      <created>1393219721365</created>
+      <updated>1393219721365</updated>
+    </task>
+    <option name="localTasksCounter" value="309" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="469618000" />
+    <option name="totallyTimeSpent" value="470020000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2233,10 +2237,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="77" selection-start="8187" selection-end="8187" vertical-scroll-proportion="0.51035506" vertical-offset="1995" max-vertical-offset="9795">
+        <state line="205" column="75" selection-start="11495" selection-end="11495" vertical-scroll-proportion="0.46597633" vertical-offset="2760" max-vertical-offset="9885">
           <folding>
-            <marker date="1393219641147" expanded="true" signature="11740:11917" placeholder="..." />
-            <marker date="1393219641147" expanded="true" signature="11823:11917" placeholder="..." />
+            <marker date="1393220115554" expanded="true" signature="12021:12198" placeholder="..." />
+            <marker date="1393220115554" expanded="true" signature="12104:12198" placeholder="..." />
           </folding>
         </state>
       </provider>
