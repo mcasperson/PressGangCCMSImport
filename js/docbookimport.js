@@ -1078,7 +1078,7 @@ define(
 
                                         if (!isHistoryTopicAppendix) {
 
-                                            if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName)) {
+                                            if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
                                                 contentSpec.push(contentSpecLine + titleText);
                                             } else {
                                                 var containerName = remapContainer(value.nodeName);
