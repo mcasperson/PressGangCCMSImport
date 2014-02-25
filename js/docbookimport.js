@@ -368,7 +368,8 @@ define(
                                         );
                                     },
                                     function (error) {
-                                        errorCallback(error);
+                                        resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                                        //errorCallback(error);
                                     }
                                 );
                             }
