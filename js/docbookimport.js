@@ -426,7 +426,8 @@ define(
                                         resolveXIIncludePointer(xmlText.replace(match[0], replacement), filename, visitedFiles, callback);
                                     },
                                     function (error) {
-                                        errorCallback(error);
+                                        resolveXIIncludePointer(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                                        //errorCallback(error);
                                     }
                                 );
                             }

@@ -158,7 +158,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="370" column="85" selection-start="17397" selection-end="17397" vertical-scroll-proportion="0.5790554" vertical-offset="4986" max-vertical-offset="28170">
+            <state line="428" column="92" selection-start="20831" selection-end="20831" vertical-scroll-proportion="0.825462" vertical-offset="5616" max-vertical-offset="28185">
               <folding />
             </state>
           </provider>
@@ -642,7 +642,7 @@
       <workItem from="1392851872276" duration="34168000" />
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
-      <workItem from="1393297727492" duration="10400000" />
+      <workItem from="1393297727492" duration="10455000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1996,11 +1996,15 @@
       <created>1393319548713</created>
       <updated>1393319548713</updated>
     </task>
-    <option name="localTasksCounter" value="339" />
+    <task id="LOCAL-00339" summary="Working on mojo import&#10;">
+      <created>1393321251326</created>
+      <updated>1393321251326</updated>
+    </task>
+    <option name="localTasksCounter" value="340" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="492730000" />
+    <option name="totallyTimeSpent" value="492785000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2398,7 +2402,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="370" column="85" selection-start="17397" selection-end="17397" vertical-scroll-proportion="0.5790554" vertical-offset="4986" max-vertical-offset="28170">
+        <state line="428" column="92" selection-start="20831" selection-end="20831" vertical-scroll-proportion="0.825462" vertical-offset="5616" max-vertical-offset="28185">
           <folding />
         </state>
       </provider>
