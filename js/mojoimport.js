@@ -347,8 +347,31 @@ define(
                                 if (maxCols !== undefined) {
                                     content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
 
+                                    for (var col = 1; col <= maxCols; ++col) {
+                                        content.push("<colspec colname='c" + col + "'/>");
+                                    }
+
                                     var processCellContents = function (cells) {
+
+                                        var currentColumn = 1;
+
                                         jquery.each(cells, function(index, cell) {
+                                            var rowSpan = "";
+                                            var colSpan = "";
+
+                                            if (cell.getAttribute("rowspan") !== null) {
+                                                var numRowsToSpan = parseInt(cell.getAttribute("rowspan"));
+                                                colSpan = " morerows='" + (numRowsToSpan - 1) + "'";
+                                            }
+
+                                            if (cell.getAttribute("colspan") !== null) {
+                                                var numColsToSpan = parseInt(cell.getAttribute("colspan"));
+                                                colSpan = " namest='c" + currentColumn + "' nameend='c" + (currentColumn + numColsToSpan - 1) + "'";
+                                                currentColumn += numColsToSpan - 1;
+                                            }
+
+                                            ++currentColumn;
+
                                             var cellContents = convertNodeToDocbook(cell, true, imageLinks);
                                             // nested tables need to be handled specially
                                             if (cellContents.length !== 0 && /^<table/.test(cellContents[0])) {
@@ -360,7 +383,7 @@ define(
 
                                                 jquery.merge(content, fixedCellContents);
                                             } else {
-                                                content.push("<entry>");
+                                                content.push("<entry" + rowSpan + colSpan + ">");
                                                 jquery.merge(content, cellContents);
                                                 content.push("</entry>");
                                             }
