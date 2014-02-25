@@ -623,11 +623,11 @@ define(
                     var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext()
                     if (bookinfo) {
                         var title = qnautils.xPath("./docbook:title", bookinfo).iterateNext();
-                        var subtitle = qnautils.xPath("./doocbook:subtitle", bookinfo).iterateNext();
-                        var edition = qnautils.xPath("./doocbook:edition", bookinfo).iterateNext();
-                        var pubsnumber = qnautils.xPath("./doocbook:pubsnumber", bookinfo).iterateNext();
-                        var productname = qnautils.xPath("./doocbook:productname", bookinfo).iterateNext();
-                        var productnumber = qnautils.xPath("./doocbook:productnumber", bookinfo).iterateNext();
+                        var subtitle = qnautils.xPath("./docbook:subtitle", bookinfo).iterateNext();
+                        var edition = qnautils.xPath("./docbook:edition", bookinfo).iterateNext();
+                        var pubsnumber = qnautils.xPath("./docbook:pubsnumber", bookinfo).iterateNext();
+                        var productname = qnautils.xPath("./docbook:productname", bookinfo).iterateNext();
+                        var productnumber = qnautils.xPath("./docbook:productnumber", bookinfo).iterateNext();
 
                         if (title) {
                             contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));

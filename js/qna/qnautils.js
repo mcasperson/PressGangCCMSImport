@@ -87,7 +87,12 @@ define (['jquery', 'exports'], function (jquery, exports) {
         }
 
         // if that fails, try it again with the fake prefix which resolves to the docbook namespace
-        return ownerDoc.evaluate(path, referenceNode, resolver, XPathResult.ANY_TYPE, null);
+        try {
+            return ownerDoc.evaluate(path, referenceNode, resolver, XPathResult.ANY_TYPE, null);
+        } catch (error) {
+            // if that fails, return a iterator that has nothing to iterate
+            return ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, null, XPathResult.ANY_TYPE, null);
+        }
     };
 
     exports.getOwnerDoc = function (node) {
