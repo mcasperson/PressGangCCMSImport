@@ -361,7 +361,7 @@ define(
 
                                             if (cell.getAttribute("rowspan") !== null) {
                                                 var numRowsToSpan = parseInt(cell.getAttribute("rowspan"));
-                                                colSpan = " morerows='" + (numRowsToSpan - 1) + "'";
+                                                rowSpan = " morerows='" + (numRowsToSpan - 1) + "'";
                                             }
 
                                             if (cell.getAttribute("colspan") !== null) {
