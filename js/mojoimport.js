@@ -183,21 +183,36 @@ define(
                                          */
 
                                         // headers indicate container or topic boundaries
-                                        if (/^h\d$/i.test(contentNode.nodeName) && contentNode.textContent.trim().length !== 0) {
-                                            processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
-                                            return;
-                                        } else if (/^p$/i.test(contentNode.nodeName) ||
-                                            (/^h\d$/i.test(contentNode.nodeName) && contentNode.childNodes.length !== 0 && /^a$/i.test(contentNode.childNodes[0].nodeName))) {
-                                            /*
-                                                It is possible that a header contains only a link, or a link to an image. We treat this
-                                                like a para. e.g.
+                                        if (/^h\d$/i.test(contentNode.nodeName)) {
 
-                                                 <h2>
-                                                     <a href="https://mojo.redhat.com/servlet/JiveServlet/showImage/102-934727-22-934162/drupal_use_case.png">
-                                                        <img alt="drupal_use_case.png" class="jive-image" height="953" src="https://mojo.redhat.com/servlet/JiveServlet/downloadImage/102-934727-22-934162/drupal_use_case.png" style="width: 620px; height: 479px;" width="1234"/>
-                                                     </a>
-                                                 </h2>
-                                             */
+                                            var firstChildIsLink = false;
+                                            jquery.each(contentNode.childNodes, function(index, value){
+                                                if (value.nodeName !== "#text") {
+                                                    firstChildIsLink = /^a$/i.test(value.nodeName)
+                                                    return false;
+                                                }
+                                            });
+
+                                            if (firstChildIsLink) {
+                                                /*
+                                                    It is possible that a header contains only a link, or a link to an image. We treat this
+                                                    like a para. e.g.
+
+                                                    <h2>
+                                                    <a href="https://mojo.redhat.com/servlet/JiveServlet/showImage/102-934727-22-934162/drupal_use_case.png">
+                                                    <img alt="drupal_use_case.png" class="jive-image" height="953" src="https://mojo.redhat.com/servlet/JiveServlet/downloadImage/102-934727-22-934162/drupal_use_case.png" style="width: 620px; height: 479px;" width="1234"/>
+                                                    </a>
+                                                    </h2>
+                                                 */
+
+                                                processPara(content, contentNode, images);
+                                            } else {
+                                                processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
+                                            }
+
+                                            return;
+                                        } else if (/^p$/i.test(contentNode.nodeName)) {
+
                                             processPara(content, contentNode, images);
                                         } else if (/^table$/i.test(contentNode.nodeName)) {
                                             processTable(content, contentNode, images);
