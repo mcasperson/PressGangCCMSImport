@@ -70,7 +70,16 @@
       <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="49" selection-start="833" selection-end="833" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1800">
+            <state line="57" column="78" selection-start="2802" selection-end="2804" vertical-scroll-proportion="-13.16" vertical-offset="526" max-vertical-offset="1800">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/specelement.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="382" column="31" selection-start="13421" selection-end="13427" vertical-scroll-proportion="-13.16" vertical-offset="5401" max-vertical-offset="8505">
               <folding />
             </state>
           </provider>
@@ -146,19 +155,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HTML5.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1624" column="0" selection-start="28559" selection-end="28559" vertical-scroll-proportion="0.0" vertical-offset="24065" max-vertical-offset="32700">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1080" column="100" selection-start="52478" selection-end="52478" vertical-scroll-proportion="0.41889116" vertical-offset="15792" max-vertical-offset="27675">
+            <state line="1211" column="45" selection-start="60891" selection-end="60891" vertical-scroll-proportion="1.349076" vertical-offset="16851" max-vertical-offset="28155">
               <folding />
             </state>
           </provider>
@@ -642,7 +642,7 @@
       <workItem from="1392851872276" duration="34168000" />
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
-      <workItem from="1393297727492" duration="7053000" />
+      <workItem from="1393297727492" duration="8323000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1972,11 +1972,15 @@
       <created>1393316050674</created>
       <updated>1393316050674</updated>
     </task>
-    <option name="localTasksCounter" value="333" />
+    <task id="LOCAL-00333" summary="Working on mojo import&#10;">
+      <created>1393316225312</created>
+      <updated>1393316225312</updated>
+    </task>
+    <option name="localTasksCounter" value="334" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="489383000" />
+    <option name="totallyTimeSpent" value="490653000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2253,11 +2257,6 @@
         <state line="36" column="0" selection-start="15366" selection-end="15366" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/specelement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="382" column="12" selection-start="13408" selection-end="13408" vertical-scroll-proportion="-102.32143" vertical-offset="0" max-vertical-offset="8505" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="2776" selection-start="34920" selection-end="34920" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120" />
@@ -2293,13 +2292,6 @@
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="237" column="0" selection-start="15707" selection-end="15707" vertical-scroll-proportion="-32.291668" vertical-offset="2780" max-vertical-offset="3840" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="49" selection-start="833" selection-end="833" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1800">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qna.js">
@@ -2370,9 +2362,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="78" selection-start="2802" selection-end="2804" vertical-scroll-proportion="-13.16" vertical-offset="526" max-vertical-offset="1800">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="382" column="31" selection-start="13421" selection-end="13427" vertical-scroll-proportion="-13.16" vertical-offset="5401" max-vertical-offset="8505">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1080" column="100" selection-start="52478" selection-end="52478" vertical-scroll-proportion="0.41889116" vertical-offset="15792" max-vertical-offset="27675">
+        <state line="1211" column="45" selection-start="60891" selection-end="60891" vertical-scroll-proportion="1.349076" vertical-offset="16851" max-vertical-offset="28155">
           <folding />
         </state>
       </provider>

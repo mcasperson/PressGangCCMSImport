@@ -28,9 +28,6 @@ define(
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
-
-
-       
         /*
             Some containers are remaped when placed in a content spec
          */
@@ -1017,6 +1014,7 @@ define(
                                 if (title) {
                                     var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
+
                                     // strip away any child containers
                                     var removeChildren = [];
                                     jquery.each(clone.childNodes, function (index, containerChild) {
@@ -1034,6 +1032,14 @@ define(
                                     if (id === null) {
                                         // the docbook 5 version of the id attribute
                                         id = qnautils.xPath("./@xml:id", clone).iterateNext();
+                                    }
+
+                                    // some books have ids in the title. these are not supported, so xrefs to titles
+                                    // are redirected to the parent element
+                                    var titleId = qnautils.xPath("./@id", title).iterateNext();
+                                    if (titleId === null) {
+                                        // the docbook 5 version of the id attribute
+                                        titleId = qnautils.xPath("./@xml:id", clone).iterateNext();
                                     }
 
                                     // what we have left is the contents of a initial text topic
@@ -1103,6 +1109,15 @@ define(
                                                 standaloneContainerTopic.addXmlId(id.nodeValue);
                                             }
 
+                                            if (titleId) {
+
+                                                if (topicGraph.hasXMLId(titleId.nodeValue)) {
+                                                    throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
+                                                }
+
+                                                standaloneContainerTopic.addXmlId(titleId.nodeValue);
+                                            }
+
                                             topics.push(standaloneContainerTopic);
                                         }
                                     } else {
@@ -1164,6 +1179,14 @@ define(
                                                 initialTextTopic.addXmlId(id.nodeValue);
                                             }
 
+                                            if (titleId) {
+
+                                                if (topicGraph.hasXMLId(titleId.nodeValue)) {
+                                                    throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
+                                                }
+
+                                                standaloneContainerTopic.addXmlId(titleId.nodeValue);
+                                            }
 
                                             topics.push(initialTextTopic);
                                         } else {
@@ -1177,6 +1200,15 @@ define(
                                                 }
 
                                                 container.addXmlId(id.nodeValue);
+                                            }
+
+                                            if (titleId) {
+
+                                                if (topicGraph.hasXMLId(titleId.nodeValue)) {
+                                                    throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
+                                                }
+
+                                                standaloneContainerTopic.addXmlId(titleId.nodeValue);
                                             }
                                         }
 
