@@ -311,9 +311,20 @@ define(
                  Resolve xi:includes
                  */
                 function resolveXiIncludes () {
-                    var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|')).*?\/\s*>/;
-                    var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')\/\s*>/;
+                    var xiFallbackRe = /<\s*xi:fallback.*?>.*?<\s*\/\s*xi:fallback\s*>/g;
+                    var closeXiIncludeRe = /<\s*\/xi:include\s*>/g;
+                    // Note the self closing tag is optional. clearFallbacks will remove those.
+                    var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|'))[^\/>]*?(\/)?\s*>/;
+                    // Note the self closing tag is optional. clearFallbacks will remove those.
+                    var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')[^\/>]*?(\/)?\s*>/;
                     var commonContent = /^Common_Content/;
+
+                    // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
+                    // non-existant content and relies on the fallback, but we don't support that.
+                    function clearFallbacks(xmlText) {
+                        return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
+                    }
+
 
                     function resolveXIInclude (xmlText, filename, visitedFiles, callback) {
 
@@ -440,6 +451,8 @@ define(
                         config.ZipFile,
                         config.MainXMLFile,
                         function (xmlText) {
+
+                            xmlText = clearFallbacks(xmlText);
 
                             var count = 0;
                             resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
