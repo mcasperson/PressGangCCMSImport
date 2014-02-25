@@ -635,6 +635,10 @@ define(
                     var contentSpec = [];
 
                     var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext();
+                    if (bookinfo === null) {
+                        bookinfo = qnautils.xPath("//docbook:articleinfo", xmlDoc).iterateNext();
+                    }
+
                     if (bookinfo) {
                         var title = qnautils.xPath("./docbook:title", bookinfo).iterateNext();
                         var subtitle = qnautils.xPath("./docbook:subtitle", bookinfo).iterateNext();

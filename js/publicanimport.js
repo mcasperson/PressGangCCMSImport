@@ -82,7 +82,7 @@ define(
                             .setValue(function (resultCallback, errorCallback, result, config) {
                                 qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
                                     jquery.each(entries, function (index, value) {
-                                        if (/^en-US\/Book_Info\.xml$/.test(value.filename)) {
+                                        if (/^en-US\/(Book)|(Article)_Info\.xml$/.test(value.filename)) {
                                             qnastart.zipModel.getTextFromFile(value, function (textFile) {
                                                 var match = /<title>(.*?)<\/title>/.exec(textFile);
                                                 if (match) {
