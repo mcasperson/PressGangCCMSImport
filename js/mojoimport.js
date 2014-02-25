@@ -187,9 +187,9 @@ define(
                                             processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                             return;
                                         } else if (/^p$/i.test(contentNode.nodeName) ||
-                                            (/^h\d$/i.test(contentNode.nodeName) && contentNode.textContent.trim().length === 0)) {
+                                            (/^h\d$/i.test(contentNode.nodeName) && contentNode.childNodes.length !== 0 && /^a$/i.test(contentNode.childNodes[0].nodeName))) {
                                             /*
-                                                It is possible that a header contains only a link to an image. We treat this
+                                                It is possible that a header contains only a link, or a link to an image. We treat this
                                                 like a para. e.g.
 
                                                  <h2>
