@@ -311,12 +311,12 @@ define(
                  Resolve xi:includes
                  */
                 function resolveXiIncludes () {
-                    var xiFallbackRe = /<\s*xi:fallback.*?>.*?<\s*\/\s*xi:fallback\s*>/g;
+                    var xiFallbackRe = /<\s*xi:fallback.*?>[\s\S]*?<\s*\/\s*xi:fallback\s*>/g;
                     var closeXiIncludeRe = /<\s*\/xi:include\s*>/g;
                     // Note the self closing tag is optional. clearFallbacks will remove those.
-                    var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|'))[^\/>]*?(\/)?\s*>/;
+                    var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|'))[^>]*>/;
                     // Note the self closing tag is optional. clearFallbacks will remove those.
-                    var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')[^\/>]*?(\/)?\s*>/;
+                    var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')[^>]*>/;
                     var commonContent = /^Common_Content/;
 
                     // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
@@ -327,6 +327,8 @@ define(
 
 
                     function resolveXIInclude (xmlText, filename, visitedFiles, callback) {
+
+                        xmlText = clearFallbacks(xmlText);
 
                         /*
                          Make sure we are not entering an infinite loop
@@ -390,6 +392,8 @@ define(
                     }
 
                     function resolveXIIncludePointer (xmlText, filename, visitedFiles, callback) {
+                        xmlText = clearFallbacks(xmlText);
+
                         var match = xiIncludeWithPointerRe.exec(xmlText);
 
                         if (match !== null) {
@@ -451,8 +455,6 @@ define(
                         config.ZipFile,
                         config.MainXMLFile,
                         function (xmlText) {
-
-                            xmlText = clearFallbacks(xmlText);
 
                             var count = 0;
                             resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
@@ -632,7 +634,7 @@ define(
                     // the content spec
                     var contentSpec = [];
 
-                    var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext()
+                    var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext();
                     if (bookinfo) {
                         var title = qnautils.xPath("./docbook:title", bookinfo).iterateNext();
                         var subtitle = qnautils.xPath("./docbook:subtitle", bookinfo).iterateNext();
