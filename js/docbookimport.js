@@ -1185,7 +1185,7 @@ define(
                                                     throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
                                                 }
 
-                                                standaloneContainerTopic.addXmlId(titleId.nodeValue);
+                                                initialTextTopic.addXmlId(titleId.nodeValue);
                                             }
 
                                             topics.push(initialTextTopic);
@@ -1208,7 +1208,7 @@ define(
                                                     throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
                                                 }
 
-                                                standaloneContainerTopic.addXmlId(titleId.nodeValue);
+                                                container.addXmlId(titleId.nodeValue);
                                             }
                                         }
 
