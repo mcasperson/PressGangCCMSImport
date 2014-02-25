@@ -188,7 +188,7 @@ define(
                                             var firstChildIsLink = false;
                                             jquery.each(contentNode.childNodes, function(index, value){
                                                 if (value.nodeName !== "#text") {
-                                                    firstChildIsLink = /^a$/i.test(value.nodeName)
+                                                    firstChildIsLink = /^a$/i.test(value.nodeName);
                                                     return false;
                                                 }
                                             });
@@ -208,9 +208,8 @@ define(
                                                 processPara(content, contentNode, images);
                                             } else {
                                                 processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
+                                                return;
                                             }
-
-                                            return;
                                         } else if (/^p$/i.test(contentNode.nodeName)) {
 
                                             processPara(content, contentNode, images);
@@ -525,16 +524,16 @@ define(
                                  */
                                 var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
 
-                                if (content.length !== 0) {
-                                    for (var missedSteps = parentLevel + 1; missedSteps < outlineLevel; ++missedSteps) {
-                                        if (missedSteps === 1) {
-                                            resultObject.contentSpec.push("Chapter: Missing Chapter");
-                                        } else {
-                                            var myPrefix = generalexternalimport.generateSpacing(missedSteps);
-                                            resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
-                                        }
+
+                                for (var missedSteps = parentLevel + 1; missedSteps < outlineLevel; ++missedSteps) {
+                                    if (missedSteps === 1) {
+                                        resultObject.contentSpec.push("Chapter: Missing Chapter");
+                                    } else {
+                                        var myPrefix = generalexternalimport.generateSpacing(missedSteps);
+                                        resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
                                     }
                                 }
+
 
                                 if (content.length === 0 && newOutlineLevel > outlineLevel) {
                                     /*

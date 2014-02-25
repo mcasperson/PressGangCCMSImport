@@ -109,11 +109,11 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="197" column="52" selection-start="10781" selection-end="11541" vertical-scroll-proportion="0.42115572" vertical-offset="2525" max-vertical-offset="11805">
+            <state line="527" column="32" selection-start="31003" selection-end="31581" vertical-scroll-proportion="0.34769833" vertical-offset="7550" max-vertical-offset="11790">
               <folding>
-                <marker date="1393310861685" expanded="true" signature="15107:15302" placeholder="..." />
-                <marker date="1393310861685" expanded="true" signature="15201:15302" placeholder="..." />
-                <marker date="1393310861685" expanded="true" signature="15201:15281" placeholder="..." />
+                <marker date="1393314130738" expanded="true" signature="15111:15306" placeholder="..." />
+                <marker date="1393314130738" expanded="true" signature="15205:15306" placeholder="..." />
+                <marker date="1393314130738" expanded="true" signature="15205:15285" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -615,7 +615,7 @@
       <workItem from="1392851872276" duration="34168000" />
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
-      <workItem from="1393297727492" duration="3835000" />
+      <workItem from="1393297727492" duration="5443000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -1921,11 +1921,15 @@
       <created>1393310052628</created>
       <updated>1393310052628</updated>
     </task>
-    <option name="localTasksCounter" value="327" />
+    <task id="LOCAL-00327" summary="Working on mojo import&#10;">
+      <created>1393310866419</created>
+      <updated>1393310866419</updated>
+    </task>
+    <option name="localTasksCounter" value="328" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="486165000" />
+    <option name="totallyTimeSpent" value="487773000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2315,11 +2319,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="52" selection-start="10781" selection-end="11541" vertical-scroll-proportion="0.42115572" vertical-offset="2525" max-vertical-offset="11805">
+        <state line="527" column="32" selection-start="31003" selection-end="31581" vertical-scroll-proportion="0.34769833" vertical-offset="7550" max-vertical-offset="11790">
           <folding>
-            <marker date="1393310861685" expanded="true" signature="15107:15302" placeholder="..." />
-            <marker date="1393310861685" expanded="true" signature="15201:15302" placeholder="..." />
-            <marker date="1393310861685" expanded="true" signature="15201:15281" placeholder="..." />
+            <marker date="1393314130738" expanded="true" signature="15111:15306" placeholder="..." />
+            <marker date="1393314130738" expanded="true" signature="15205:15306" placeholder="..." />
+            <marker date="1393314130738" expanded="true" signature="15205:15285" placeholder="..." />
           </folding>
         </state>
       </provider>
