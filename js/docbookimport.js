@@ -653,7 +653,7 @@ define(
                             contentSpec.push("Version = " + reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
                         }
 
-                        contentSpec.push("Format = Docbook " + config.ImportOption === "DocBook5" ? 5 : 4.5);
+                        contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? 5 : 4.5));
 
                         if (xmlDoc.documentElement.nodeName === "book") {
                             contentSpec.push("Type = Book");
