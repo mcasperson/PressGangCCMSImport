@@ -1091,7 +1091,7 @@ define(
                                                 contentSpec.push(
                                                     contentSpecLine +
                                                         containerName.substring(0, 1).toUpperCase() +
-                                                        containerName.substring(1, value.nodeName.length) +
+                                                        containerName.substring(1, containerName.nodeName.length) +
                                                         ": " + titleText);
                                             }
 
@@ -1125,7 +1125,7 @@ define(
                                         contentSpec.push(
                                             contentSpecLine +
                                                 containerName.substring(0, 1).toUpperCase() +
-                                                containerName.substring(1, value.nodeName.length) +
+                                                containerName.substring(1, containerName.nodeName.length) +
                                                 ": " + titleText);
 
                                         if (id) {
