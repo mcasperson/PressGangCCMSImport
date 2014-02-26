@@ -387,14 +387,14 @@ define(
                                     );
                                 }
 
-                                qnazipmodel.hasFileName(
+                                qnastart.zipModel.hasFileName(
                                     config.ZipFile,
                                     referencedXMLFilename,
                                     function(exists) {
                                         if (!exists) {
                                             referencedXMLFilename = match[xmlPathIndex];
 
-                                            qnazipmodel.hasFileName(
+                                            qnastart.zipModel.hasFileName(
                                                 config.ZipFile,
                                                 referencedXMLFilename,
                                                 function(exists) {
