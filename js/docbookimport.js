@@ -893,6 +893,10 @@ define(
 
                     var abstractContent = qnautils.xPath("//docbook:bookinfo/docbook:abstract", xmlDoc).iterateNext();
 
+                    if (abstractContent === null) {
+                        abstractContent = qnautils.xPath("//docbook:articleinfo/docbook:abstract", xmlDoc).iterateNext();
+                    }
+
                     if (abstractContent) {
                         contentSpec.push("Abstract = ");
 
