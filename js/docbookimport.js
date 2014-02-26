@@ -311,8 +311,6 @@ define(
                  Resolve xi:includes
                  */
                 function resolveXiIncludes () {
-                    var xiFallbackRe = /<\s*xi:fallback.*?>[\s\S]*?<\s*\/\s*xi:fallback\s*>/g;
-                    var closeXiIncludeRe = /<\s*\/xi:include\s*>/g;
                     // Note the self closing tag is optional. clearFallbacks will remove those.
                     var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|'))[^>]*>/;
                     // Note the self closing tag is optional. clearFallbacks will remove those.
@@ -322,6 +320,8 @@ define(
                     // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
                     // non-existant content and relies on the fallback, but we don't support that.
                     function clearFallbacks(xmlText) {
+                        var xiFallbackRe = /<\s*xi:fallback.*?>[\s\S]*?<\s*\/\s*xi:fallback\s*>/g;
+                        var closeXiIncludeRe = /<\s*\/xi:include\s*>/g;
                         return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
                     }
 
@@ -351,7 +351,7 @@ define(
                              */
                             if (lastStartComment !== -1 &&
                                 (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                                resolveXIInclude(xmlText.replace(match[0], match[0].replace("xi:include", "xi:include-comment")), filename, visitedFiles, callback);
+                                resolveXIInclude(xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment")), filename, visitedFiles, callback);
                                 return;
                             }
 
@@ -404,7 +404,7 @@ define(
 
                             if (lastStartComment !== -1 &&
                                 (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                                resolveXIIncludePointer(xmlText.replace(match[0], match[0].replace("xi:include", "xi:include-comment")), filename, visitedFiles, callback);
+                                resolveXIIncludePointer(xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment")), filename, visitedFiles, callback);
                                 return;
                             }
 
@@ -492,7 +492,7 @@ define(
                                         }
                                     );
                                 } else {
-                                    xmlText = xmlText.replace(/xi:include-comment/g, "xi:include");
+                                    xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
 
                                     config.UploadProgress[1] = progressIncrement;
                                     config.ResolvedXIIncludes = true;

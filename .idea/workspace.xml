@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/qnastart.js" afterPath="$PROJECT_DIR$/js/qnastart.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -100,7 +100,7 @@
       <file leaf-file-name="generaldocbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="38" selection-start="3055" selection-end="3062" vertical-scroll-proportion="-37.2" vertical-offset="0" max-vertical-offset="1095">
+            <state line="62" column="38" selection-start="3055" selection-end="3062" vertical-scroll-proportion="-32.88" vertical-offset="108" max-vertical-offset="1095">
               <folding />
             </state>
           </provider>
@@ -139,19 +139,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="673" column="97" selection-start="32763" selection-end="32771" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="28875">
+            <state line="494" column="73" selection-start="24417" selection-end="24417" vertical-scroll-proportion="0.33264887" vertical-offset="7086" max-vertical-offset="28875">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qnastart.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/qnastart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="414" column="85" selection-start="19003" selection-end="19003" vertical-scroll-proportion="0.8151951" vertical-offset="5416" max-vertical-offset="6390">
+            <state line="414" column="85" selection-start="19003" selection-end="19003" vertical-scroll-proportion="-31.76" vertical-offset="5416" max-vertical-offset="6390">
               <folding />
             </state>
           </provider>
@@ -228,8 +228,8 @@
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/publicanimport.js" />
-        <option value="$PROJECT_DIR$/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
+        <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -627,7 +627,7 @@
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
-      <workItem from="1393386062190" duration="3472000" />
+      <workItem from="1393386062190" duration="4139000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2029,11 +2029,15 @@
       <created>1393389616202</created>
       <updated>1393389616202</updated>
     </task>
-    <option name="localTasksCounter" value="351" />
+    <task id="LOCAL-00351" summary="Working on mojo import&#10;">
+      <created>1393397839164</created>
+      <updated>1393397839164</updated>
+    </task>
+    <option name="localTasksCounter" value="352" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="505335000" />
+    <option name="totallyTimeSpent" value="506002000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2421,23 +2425,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
+    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="673" column="97" selection-start="32763" selection-end="32771" vertical-scroll-proportion="0.0" vertical-offset="2115" max-vertical-offset="28875">
+        <state line="414" column="85" selection-start="19003" selection-end="19003" vertical-scroll-proportion="-31.76" vertical-offset="5416" max-vertical-offset="6390">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="38" selection-start="3055" selection-end="3062" vertical-scroll-proportion="-37.2" vertical-offset="0" max-vertical-offset="1095">
+        <state line="62" column="38" selection-start="3055" selection-end="3062" vertical-scroll-proportion="-32.88" vertical-offset="108" max-vertical-offset="1095">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/qnastart.js">
+    <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="414" column="85" selection-start="19003" selection-end="19003" vertical-scroll-proportion="0.8151951" vertical-offset="5416" max-vertical-offset="6390">
+        <state line="494" column="73" selection-start="24417" selection-end="24417" vertical-scroll-proportion="0.33264887" vertical-offset="7086" max-vertical-offset="28875">
           <folding />
         </state>
       </provider>
