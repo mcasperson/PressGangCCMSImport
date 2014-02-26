@@ -638,6 +638,9 @@ define(
                     if (bookinfo === null) {
                         bookinfo = qnautils.xPath("//docbook:articleinfo", xmlDoc).iterateNext();
                     }
+                    if (bookinfo === null) {
+                        bookinfo = qnautils.xPath("//docbook:info", xmlDoc).iterateNext();
+                    }
 
                     if (bookinfo) {
                         var title = qnautils.xPath("./docbook:title", bookinfo).iterateNext();
