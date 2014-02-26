@@ -392,6 +392,10 @@ define(
                                     referencedXMLFilename,
                                     function(exists) {
                                         if (!exists) {
+
+                                            /*
+                                                Sometimes the path is not relative
+                                             */
                                             referencedXMLFilename = match[xmlPathIndex];
 
                                             qnastart.zipModel.hasFileName(
