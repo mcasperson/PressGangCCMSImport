@@ -367,10 +367,6 @@ define(
                                     return;
                                 }
 
-                                function testForFileExistanceAndProcess(filename) {
-
-                                }
-
                                 var processTargetFile = function (filename) {
                                     qnastart.zipModel.getTextFromFileName(
                                         config.ZipFile,
