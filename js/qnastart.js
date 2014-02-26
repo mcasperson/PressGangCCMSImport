@@ -279,8 +279,8 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
-                                .setIntro(["Publican", "DocBook 5", "OpenDocument", "Mojo"])
-                                .setOptions(["Publican", "DocBook5", "OpenDocument", "Mojo"])
+                                .setIntro(["Publican", "Docbook 4.5", "DocBook 5.0", "OpenDocument", "Mojo"])
+                                .setOptions(["Publican", "DocBook45", "DocBook5", "OpenDocument", "Mojo"])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])
@@ -410,9 +410,9 @@ define(
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 if (config.ImportOption === "Publican") {
                     resultCallback(publicanimport.askForPublicanZipFile);
-                } else if (config.ImportOption === "DocBook5") {
+                } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
                     resultCallback(generaldocbookimport.askForDocBookFile);
-                } else if (config.ImportOption === "Mojo" || "OpenDocument") {
+                } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
                     resultCallback(generalexternalimport.getSpecDetails);
                 }
             });
