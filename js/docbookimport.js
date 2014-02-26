@@ -1023,6 +1023,20 @@ define(
 
                     var containerTargetNum = 0;
 
+                    /*
+                     Some books will assign an id to the title element of a topic. This import tool
+                     redirects these links to the topic itself. But to compare the XML to an existing
+                     topic, we need to remove the title id attribute.
+                     */
+                    function removeTitleId(xml) {
+                        var title =  qnautils.xPath("./docbook:title", xml).iterateNext();
+                        if (title !== null) {
+                            if (title.hasAttribute("id")) {
+                                title.removeAttribute("id");
+                            }
+                        }
+                    }
+
                     var processXml = function (parentXML, depth) {
                         // loop over the containers under the root element
                         jquery.each(parentXML.childNodes, function (index, value) {
@@ -1034,7 +1048,6 @@ define(
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
                                 if (title) {
                                     var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
-
 
                                     // strip away any child containers
                                     var removeChildren = [];
@@ -1062,6 +1075,8 @@ define(
                                         // the docbook 5 version of the id attribute
                                         titleId = qnautils.xPath("./@xml:id", clone).iterateNext();
                                     }
+
+                                    removeTitleId(clone);
 
                                     // what we have left is the contents of a initial text topic
                                     var contentSpecLine = "";
@@ -1354,8 +1369,6 @@ define(
                                 element.setAttribute(attrName, attributes[attrName]);
                             });
                         });
-
-
                     }
 
                     var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
