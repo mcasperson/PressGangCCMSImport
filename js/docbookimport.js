@@ -674,7 +674,7 @@ define(
                             contentSpec.push("Version = " + reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
                         }
 
-                        contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? 5 : 4.5));
+                        contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
 
                         if (xmlDoc.documentElement.nodeName === "book") {
                             contentSpec.push("Type = Book");
@@ -727,27 +727,10 @@ define(
                             contentSpec.push("]");
                         }
 
-                        qnastart.zipModel.getTextFromFileName(
-                            config.ZipFile,
-                            "publican.cfg",
-                            function (text) {
-                                var brand = loadSetting(text, "brand");
-                                contentSpec.push("Brand = " + brand);
-                                contentSpec.push("publican.cfg = [");
-                                contentSpec.push(text);
-                                contentSpec.push("]");
-
-                                config.UploadProgress[1] = 6 * progressIncrement;
-                                config.FoundBookInfo = true;
-                                resultCallback();
-
-                                findIndex(xmlDoc, contentSpec);
-                            },
-                            errorCallback
-                        );
+                        findIndex(xmlDoc, contentSpec);
                     } else if (config.ImportOption === "Publican") {
                         // we expect a publican book to have this. Generic docbook imports might not have it
-                        errorCallback("Invalid content", "The <bookinfo> element could not be found");
+                        errorCallback("Invalid content", "The <bookinfo>, <articleinfo> or <info> element could not be found");
                     } else {
                         findIndex(xmlDoc, contentSpec);
                     }
