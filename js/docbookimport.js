@@ -1082,7 +1082,7 @@ define(
                                     var titleId = qnautils.xPath("./@id", title).iterateNext();
                                     if (titleId === null) {
                                         // the docbook 5 version of the id attribute
-                                        titleId = qnautils.xPath("./@xml:id", clone).iterateNext();
+                                        titleId = qnautils.xPath("./@xml:id", title).iterateNext();
                                     }
 
                                     /*
