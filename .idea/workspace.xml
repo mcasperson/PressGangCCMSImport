@@ -140,7 +140,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1039" column="51" selection-start="49980" selection-end="49980" vertical-scroll-proportion="0.26426426" vertical-offset="15321" max-vertical-offset="28740">
+            <state line="1085" column="61" selection-start="52853" selection-end="52853" vertical-scroll-proportion="0.5945946" vertical-offset="15681" max-vertical-offset="28815">
               <folding />
             </state>
           </provider>
@@ -665,7 +665,7 @@
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
-      <workItem from="1393386062190" duration="859000" />
+      <workItem from="1393386062190" duration="919000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2047,11 +2047,15 @@
       <created>1393385362114</created>
       <updated>1393385362114</updated>
     </task>
-    <option name="localTasksCounter" value="346" />
+    <task id="LOCAL-00346" summary="Working on mojo import&#10;">
+      <created>1393388004886</created>
+      <updated>1393388004886</updated>
+    </task>
+    <option name="localTasksCounter" value="347" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="502722000" />
+    <option name="totallyTimeSpent" value="502782000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2070,6 +2074,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2081,7 +2086,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32516494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2449,7 +2453,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1039" column="51" selection-start="49980" selection-end="49980" vertical-scroll-proportion="0.26426426" vertical-offset="15321" max-vertical-offset="28740">
+        <state line="1085" column="61" selection-start="52853" selection-end="52853" vertical-scroll-proportion="0.5945946" vertical-offset="15681" max-vertical-offset="28815">
           <folding />
         </state>
       </provider>

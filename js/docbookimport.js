@@ -1035,6 +1035,7 @@ define(
                         }
                     }
 
+
                     function removeAttributes(xml) {
                         while (xml.attributes.length !== 0) {
                             xml.removeAttribute(xml.attributes[0].nodeName);
@@ -1080,6 +1081,10 @@ define(
                                         titleId = qnautils.xPath("./@xml:id", clone).iterateNext();
                                     }
 
+                                    /*
+                                     Some books will assign additional attributes to container elements like arch="".
+                                     We need to remove these.
+                                     */
                                     removeAttributes(clone);
                                     removeTitleAttributes(clone);
 
