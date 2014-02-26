@@ -1028,12 +1028,16 @@ define(
                      redirects these links to the topic itself. But to compare the XML to an existing
                      topic, we need to remove the title id attribute.
                      */
-                    function removeTitleId(xml) {
+                    function removeTitleAttributes(xml) {
                         var title =  qnautils.xPath("./docbook:title", xml).iterateNext();
                         if (title !== null) {
-                            if (title.hasAttribute("id")) {
-                                title.removeAttribute("id");
-                            }
+                            removeAttributes(title);
+                        }
+                    }
+
+                    function removeAttributes(xml) {
+                        while (xml.attributes.length !== 0) {
+                            xml.removeAttribute(xml.attributes[0].nodeName);
                         }
                     }
 
@@ -1076,7 +1080,8 @@ define(
                                         titleId = qnautils.xPath("./@xml:id", clone).iterateNext();
                                     }
 
-                                    removeTitleId(clone);
+                                    removeAttributes(clone);
+                                    removeTitleAttributes(clone);
 
                                     // what we have left is the contents of a initial text topic
                                     var contentSpecLine = "";
