@@ -367,24 +367,58 @@ define(
                                     return;
                                 }
 
-                                qnastart.zipModel.getTextFromFileName(
+                                function testForFileExistanceAndProcess(filename) {
+
+                                }
+
+                                var processTargetFile = function (filename) {
+                                    qnastart.zipModel.getTextFromFileName(
+                                        config.ZipFile,
+                                        referencedXMLFilename,
+                                        function (referencedXmlText) {
+                                            resolveXIInclude(
+                                                referencedXmlText,
+                                                referencedXMLFilename,
+                                                visitedFiles,
+                                                function (fixedReferencedXmlText) {
+                                                    resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, visitedFiles, callback);
+                                                }
+                                            );
+                                        },
+                                        function (error) {
+                                            errorCallback(error);
+                                        }
+                                    );
+                                }
+
+                                qnazipmodel.hasFileName(
                                     config.ZipFile,
                                     referencedXMLFilename,
-                                    function (referencedXmlText) {
-                                        resolveXIInclude(
-                                            referencedXmlText,
-                                            referencedXMLFilename,
-                                            visitedFiles,
-                                            function (fixedReferencedXmlText) {
-                                                resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, visitedFiles, callback);
-                                            }
-                                        );
+                                    function(exists) {
+                                        if (!exists) {
+                                            referencedXMLFilename = match[xmlPathIndex];
+
+                                            qnazipmodel.hasFileName(
+                                                config.ZipFile,
+                                                referencedXMLFilename,
+                                                function(exists) {
+                                                    if (!exists) {
+                                                        // stay calm and carry on
+                                                        resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                                                    } else {
+                                                        processTargetFile(referencedXMLFilename);
+                                                    }
+                                                },
+                                                errorCallback
+                                            );
+                                        } else {
+                                            processTargetFile(referencedXMLFilename);
+                                        }
                                     },
-                                    function (error) {
-                                        resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
-                                        //errorCallback(error);
-                                    }
+                                    errorCallback
                                 );
+
+
                             }
                         } else {
                             callback(xmlText, visitedFiles);
