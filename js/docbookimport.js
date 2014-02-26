@@ -933,7 +933,12 @@ define(
 
                                 // find the absolute path
                                 var pathPrefix = config.MainXMLFile.substring(0, config.MainXMLFile.lastIndexOf("/"));
-                                var filename = pathPrefix + "/" + fixedNodeValue;
+                                var filename = "";
+                                if (pathPrefix.trim().length === 0) {
+                                    filename = fixedNodeValue;
+                                }   else {
+                                    filename = pathPrefix + "/" + fixedNodeValue;
+                                }
 
                                 if (!uploadedImages[nodeValue]) {
 

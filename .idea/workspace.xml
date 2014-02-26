@@ -142,7 +142,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="676" column="114" selection-start="32951" selection-end="32951" vertical-scroll-proportion="0.33227345" vertical-offset="9931" max-vertical-offset="28665">
+            <state line="939" column="81" selection-start="44701" selection-end="44701" vertical-scroll-proportion="0.33227345" vertical-offset="13876" max-vertical-offset="28740">
               <folding />
             </state>
           </provider>
@@ -627,7 +627,7 @@
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
-      <workItem from="1393386062190" duration="5581000" />
+      <workItem from="1393386062190" duration="6572000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2045,11 +2045,15 @@
       <created>1393400450938</created>
       <updated>1393400450938</updated>
     </task>
-    <option name="localTasksCounter" value="355" />
+    <task id="LOCAL-00355" summary="Working on mojo import&#10;">
+      <created>1393400788579</created>
+      <updated>1393400788579</updated>
+    </task>
+    <option name="localTasksCounter" value="356" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="507444000" />
+    <option name="totallyTimeSpent" value="508435000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2455,7 +2459,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="676" column="114" selection-start="32951" selection-end="32951" vertical-scroll-proportion="0.33227345" vertical-offset="9931" max-vertical-offset="28665">
+        <state line="939" column="81" selection-start="44701" selection-end="44701" vertical-scroll-proportion="0.33227345" vertical-offset="13876" max-vertical-offset="28740">
           <folding />
         </state>
       </provider>
