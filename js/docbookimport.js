@@ -803,9 +803,9 @@ define(
                         var revnumber;
                         while ((revnumber = revnumbers.iterateNext()) !== null) {
                             var revContents = revnumber.textContent;
-                            var revMatch = /(\d+)\.(\d+)/.exec(revContents);
+                            var revMatch = /^(\d+)\.(\d+)$/.exec(revContents.trim());
                             if (revMatch !== null) {
-                                replacementNodeDetails.push({original: revnumber, replacement: revMatch[1] + "-" + revMatch[2]});
+                                replacementNodeDetails.push({original: revnumber, replacement: revContents.replace(/\./g, "-")});
                             }
                         }
 

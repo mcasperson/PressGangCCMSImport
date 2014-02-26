@@ -140,7 +140,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="896" column="75" selection-start="42916" selection-end="42916" vertical-scroll-proportion="0.5790554" vertical-offset="12876" max-vertical-offset="28875">
+            <state line="805" column="83" selection-start="39134" selection-end="39134" vertical-scroll-proportion="0.59445584" vertical-offset="11496" max-vertical-offset="28875">
               <folding />
             </state>
           </provider>
@@ -665,7 +665,7 @@
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
-      <workItem from="1393386062190" duration="1913000" />
+      <workItem from="1393386062190" duration="2313000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2059,11 +2059,15 @@
       <created>1393388419755</created>
       <updated>1393388419755</updated>
     </task>
-    <option name="localTasksCounter" value="349" />
+    <task id="LOCAL-00349" summary="Working on mojo import&#10;">
+      <created>1393389216779</created>
+      <updated>1393389216779</updated>
+    </task>
+    <option name="localTasksCounter" value="350" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="503776000" />
+    <option name="totallyTimeSpent" value="504176000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2348,7 +2352,9 @@
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="880" column="2" selection-start="13823" selection-end="13823" vertical-scroll-proportion="0.0" vertical-offset="12900" max-vertical-offset="14055" />
+        <state line="880" column="2" selection-start="13823" selection-end="13823" vertical-scroll-proportion="0.0" vertical-offset="12900" max-vertical-offset="14055">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/uri/IPv6.js">
@@ -2461,7 +2467,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="896" column="75" selection-start="42916" selection-end="42916" vertical-scroll-proportion="0.5790554" vertical-offset="12876" max-vertical-offset="28875">
+        <state line="805" column="83" selection-start="39134" selection-end="39134" vertical-scroll-proportion="0.59445584" vertical-offset="11496" max-vertical-offset="28875">
           <folding />
         </state>
       </provider>
