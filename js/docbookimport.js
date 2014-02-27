@@ -363,7 +363,7 @@ define(
                                 var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                    errorCallback("Circular reference detected");
+                                    errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
                                     return;
                                 }
 
