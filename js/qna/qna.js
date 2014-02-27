@@ -69,6 +69,11 @@ define(['exports'], function (exports) {
         this.showRestart = false;
     };
 
+    exports.QNAStep.prototype.setTitlePrefix = function(titlePrefix) {
+        this.titlePrefix = titlePrefix;
+        return this;
+    };
+
     exports.QNAStep.prototype.setTitle = function (title) {
         this.title = title;
         return this;

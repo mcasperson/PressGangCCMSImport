@@ -364,7 +364,7 @@ define(
                     function resolveXIInclude (xmlText, base, filename, visitedFiles, callback) {
 
                         xmlText = clearFallbacks(xmlText);
-                        xmlText = resolveFileRefs(xmlText);
+                        xmlText = resolveFileRefs(xmlText, filename);
 
                         /*
                          Make sure we are not entering an infinite loop
@@ -568,6 +568,7 @@ define(
                                     xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
 
                                     config.UploadProgress[1] = progressIncrement;
+
                                     config.ResolvedXIIncludes = true;
                                     resultCallback();
 
