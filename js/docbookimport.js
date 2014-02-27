@@ -332,7 +332,10 @@ define(
                         var baseMatch = /xml:base=('|")(.*?)('|")/.exec(xmlText);
 
                         if (baseMatch !== null) {
-                            return baseMatch[2] === "./" ? null : baseMatch[2];
+                            var base = baseMatch[2];
+                            if (base !== "." && base !== "./") {
+                                return base;
+                            }
                         }
 
                         return null;
@@ -364,14 +367,12 @@ define(
                             if (lastStartComment !== -1 &&
                                 (lastEndComment === -1 || lastEndComment < lastStartComment)) {
                                 xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                                var base = getXmlBaseAttribute(xmlText);
                                 resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                                 return;
                             }
 
                             if (commonContent.test(match[xmlPathIndex])) {
                                 xmlText = xmlText.replace(match[0], "");
-                                var base = getXmlBaseAttribute(xmlText);
                                 resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                             } else {
                                 var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
@@ -395,15 +396,13 @@ define(
                                                     config.ZipFile,
                                                     referencedXMLFilename,
                                                     function (referencedXmlText) {
-                                                        var base = getXmlBaseAttribute(referencedXmlText);
                                                         resolveXIInclude(
                                                             referencedXmlText,
-                                                            base,
+                                                            getXmlBaseAttribute(referencedXmlText),
                                                             referencedXMLFilename,
                                                             visitedFiles,
                                                             function (fixedReferencedXmlText) {
                                                                 xmlText = xmlText.replace(match[0], fixedReferencedXmlText);
-                                                                var base = getXmlBaseAttribute(xmlText);
                                                                 resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                                                             }
                                                         );
@@ -440,14 +439,12 @@ define(
                             if (lastStartComment !== -1 &&
                                 (lastEndComment === -1 || lastEndComment < lastStartComment)) {
                                 xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                                var base = getXmlBaseAttribute(xmlText);
                                 resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                 return;
                             }
 
                             if (commonContent.test(match[4])) {
                                 xmlText = xmlText.replace(match[0], "");
-                                var base = getXmlBaseAttribute(xmlText);
                                 resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                             } else {
                                 var thisFile = new URI(filename);
@@ -477,15 +474,12 @@ define(
                                         }
 
                                         xmlText = xmlText.replace(match[0], replacement);
-                                        var base = getXmlBaseAttribute(xmlText);
-
                                         resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                     },
                                     function (error) {
-                                        xmlText = xmlText.replace(match[0], "");
-                                        var base = getXmlBaseAttribute(xmlText);
-                                        resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
-                                        //errorCallback(error);
+                                        //xmlText = xmlText.replace(match[0], "");
+                                        //resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
+                                        errorCallback(error);
                                     }
                                 );
                             }
