@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/generaldocbookimport.js" afterPath="$PROJECT_DIR$/js/generaldocbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -91,7 +92,7 @@
       <file leaf-file-name="generaldocbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="98" selection-start="4427" selection-end="4427" vertical-scroll-proportion="-20.56" vertical-offset="791" max-vertical-offset="1455">
+            <state line="61" column="87" selection-start="3221" selection-end="3221" vertical-scroll-proportion="-6.76" vertical-offset="746" max-vertical-offset="1515">
               <folding />
             </state>
           </provider>
@@ -147,7 +148,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="456" column="122" selection-start="22642" selection-end="22642" vertical-scroll-proportion="0.64228934" vertical-offset="6436" max-vertical-offset="29730">
+            <state line="381" column="54" selection-start="17837" selection-end="17837" vertical-scroll-proportion="0.5007949" vertical-offset="5400" max-vertical-offset="29745">
               <folding />
             </state>
           </provider>
@@ -232,8 +233,8 @@
         <option value="$PROJECT_DIR$/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
-        <option value="$PROJECT_DIR$/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/js/docbookimport.js" />
       </list>
     </option>
@@ -323,42 +324,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qnaangular" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qna" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -682,7 +647,7 @@
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
-      <workItem from="1393386062190" duration="17714000" />
+      <workItem from="1393386062190" duration="18084000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2160,11 +2125,15 @@
       <created>1393479983728</created>
       <updated>1393479983728</updated>
     </task>
-    <option name="localTasksCounter" value="370" />
+    <task id="LOCAL-00370" summary="Working on docbook 5 import&#10;">
+      <created>1393480306668</created>
+      <updated>1393480306668</updated>
+    </task>
+    <option name="localTasksCounter" value="371" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="519577000" />
+    <option name="totallyTimeSpent" value="519947000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2240,7 +2209,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="xml preface content will no longer be removed from cdata elements&#10;" />
     <MESSAGE value="Fixed revision history import" />
     <MESSAGE value="Fixed revision history import&#10;" />
     <MESSAGE value="Added the ability to specify a revision message" />
@@ -2265,7 +2233,8 @@
     <MESSAGE value="Working on mojo import" />
     <MESSAGE value="Working on mojo import&#10;" />
     <MESSAGE value="Working on docbook 5 import" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on docbook 5 import" />
+    <MESSAGE value="Working on docbook 5 import&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on docbook 5 import&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2555,13 +2524,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="98" selection-start="4427" selection-end="4427" vertical-scroll-proportion="-20.56" vertical-offset="791" max-vertical-offset="1455">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="12" selection-start="1761" selection-end="1761" vertical-scroll-proportion="0.3328336" vertical-offset="543" max-vertical-offset="2130">
@@ -2569,9 +2531,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/generaldocbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="87" selection-start="3221" selection-end="3221" vertical-scroll-proportion="-6.76" vertical-offset="746" max-vertical-offset="1515">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="456" column="122" selection-start="22642" selection-end="22642" vertical-scroll-proportion="0.64228934" vertical-offset="6436" max-vertical-offset="29730">
+        <state line="381" column="54" selection-start="17837" selection-end="17837" vertical-scroll-proportion="0.5007949" vertical-offset="5400" max-vertical-offset="29745">
           <folding />
         </state>
       </provider>

@@ -59,25 +59,29 @@ define(
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
                                 qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                    // don't spend all day trying to find the main file
+                                    if (entries.length < 25) {
+                                        var mainFile = null;
 
-                                    var mainFile = null;
+                                        var processEntry = function(index) {
+                                            if (index >= entries.length) {
+                                                resultCallback(null);
+                                            } else {
+                                                qnastart.zipModel.getTextFromFile(entries[index], function (textFile) {
+                                                    var match = /<(book)|(article)>/.exec(textFile);
+                                                    if (match) {
+                                                        resultCallback(entries[index].filename);
+                                                    } else {
+                                                        processEntry(++index);
+                                                    }
+                                                });
+                                            }
+                                        };
 
-                                    var processEntry = function(index) {
-                                        if (index >= entries.length) {
-                                            resultCallback(null);
-                                        } else {
-                                            qnastart.zipModel.getTextFromFile(entries[index], function (textFile) {
-                                                var match = /<(book)|(article)>/.exec(textFile);
-                                                if (match) {
-                                                    resultCallback(entries[index].filename);
-                                                } else {
-                                                    processEntry(++index);
-                                                }
-                                            });
-                                        }
-                                    };
-
-                                    processEntry(0);
+                                        processEntry(0);
+                                    } else {
+                                        resultCallback(null);
+                                    }
                                 });
                             })
                     ])

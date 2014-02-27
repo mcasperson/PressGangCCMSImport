@@ -374,11 +374,12 @@ define(
                                 var base = getXmlBaseAttribute(xmlText);
                                 resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                             } else {
+                                var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
                                 var thisFile = new URI(filename);
                                 var referencedXMLFilename = "";
                                 var referencedXMLFilenameRelative = base !== null ?
-                                    new URI(base + match[xmlPathIndex]) :
-                                    new URI(match[xmlPathIndex]);
+                                    new URI(base + fixedMatch) :
+                                    new URI(fixedMatch);
                                 var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
