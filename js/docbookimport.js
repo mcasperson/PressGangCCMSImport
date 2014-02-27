@@ -369,26 +369,26 @@ define(
 
                                     //errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
                                     //return;
-                                }
-
-                                var processTargetFile = function (filename) {
-                                    qnastart.zipModel.getTextFromFileName(
-                                        config.ZipFile,
-                                        referencedXMLFilename,
-                                        function (referencedXmlText) {
-                                            resolveXIInclude(
-                                                referencedXmlText,
-                                                referencedXMLFilename,
-                                                visitedFiles,
-                                                function (fixedReferencedXmlText) {
-                                                    resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, visitedFiles, callback);
-                                                }
-                                            );
-                                        },
-                                        function (error) {
-                                            errorCallback(error);
-                                        }
-                                    );
+                                } else {
+                                    var processTargetFile = function (filename) {
+                                        qnastart.zipModel.getTextFromFileName(
+                                            config.ZipFile,
+                                            referencedXMLFilename,
+                                            function (referencedXmlText) {
+                                                resolveXIInclude(
+                                                    referencedXmlText,
+                                                    referencedXMLFilename,
+                                                    visitedFiles,
+                                                    function (fixedReferencedXmlText) {
+                                                        resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, visitedFiles, callback);
+                                                    }
+                                                );
+                                            },
+                                            function (error) {
+                                                errorCallback(error);
+                                            }
+                                        );
+                                    }
                                 }
 
                                 qnastart.zipModel.hasFileName(
