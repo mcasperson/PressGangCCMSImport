@@ -388,40 +388,39 @@ define(
                                                 errorCallback(error);
                                             }
                                         );
-                                    }
+                                    };
+
+                                    qnastart.zipModel.hasFileName(
+                                        config.ZipFile,
+                                        referencedXMLFilename,
+                                        function(exists) {
+                                            if (!exists) {
+
+                                                /*
+                                                    Sometimes the path is not relative
+                                                 */
+                                                referencedXMLFilename = match[xmlPathIndex];
+
+                                                qnastart.zipModel.hasFileName(
+                                                    config.ZipFile,
+                                                    referencedXMLFilename,
+                                                    function(exists) {
+                                                        if (!exists) {
+                                                            // stay calm and carry on
+                                                            resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                                                        } else {
+                                                            processTargetFile(referencedXMLFilename);
+                                                        }
+                                                    },
+                                                    errorCallback
+                                                );
+                                            } else {
+                                                processTargetFile(referencedXMLFilename);
+                                            }
+                                        },
+                                        errorCallback
+                                    );
                                 }
-
-                                qnastart.zipModel.hasFileName(
-                                    config.ZipFile,
-                                    referencedXMLFilename,
-                                    function(exists) {
-                                        if (!exists) {
-
-                                            /*
-                                                Sometimes the path is not relative
-                                             */
-                                            referencedXMLFilename = match[xmlPathIndex];
-
-                                            qnastart.zipModel.hasFileName(
-                                                config.ZipFile,
-                                                referencedXMLFilename,
-                                                function(exists) {
-                                                    if (!exists) {
-                                                        // stay calm and carry on
-                                                        resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
-                                                    } else {
-                                                        processTargetFile(referencedXMLFilename);
-                                                    }
-                                                },
-                                                errorCallback
-                                            );
-                                        } else {
-                                            processTargetFile(referencedXMLFilename);
-                                        }
-                                    },
-                                    errorCallback
-                                );
-
 
                             }
                         } else {
