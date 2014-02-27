@@ -363,8 +363,12 @@ define(
                                 var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                    errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
-                                    return;
+
+                                    // This happened a lot in jDocBook documents. It is easier to ignore circular references
+                                    resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+
+                                    //errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
+                                    //return;
                                 }
 
                                 var processTargetFile = function (filename) {
