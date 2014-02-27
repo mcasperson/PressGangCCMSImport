@@ -147,7 +147,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1254" column="95" selection-start="63542" selection-end="63542" vertical-scroll-proportion="0.5259939" vertical-offset="18466" max-vertical-offset="29505">
+            <state line="1258" column="81" selection-start="63791" selection-end="63791" vertical-scroll-proportion="0.617737" vertical-offset="18466" max-vertical-offset="29535">
               <folding />
             </state>
           </provider>
@@ -682,7 +682,7 @@
       <workItem from="1393213292239" duration="7189000" />
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
-      <workItem from="1393386062190" duration="15370000" />
+      <workItem from="1393386062190" duration="15519000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2148,11 +2148,15 @@
       <created>1393471888831</created>
       <updated>1393471888831</updated>
     </task>
-    <option name="localTasksCounter" value="367" />
+    <task id="LOCAL-00367" summary="Working on mojo import&#10;">
+      <created>1393475462943</created>
+      <updated>1393475462943</updated>
+    </task>
+    <option name="localTasksCounter" value="368" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="517233000" />
+    <option name="totallyTimeSpent" value="517382000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2559,7 +2563,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1254" column="95" selection-start="63542" selection-end="63542" vertical-scroll-proportion="0.5259939" vertical-offset="18466" max-vertical-offset="29505">
+        <state line="1258" column="81" selection-start="63791" selection-end="63791" vertical-scroll-proportion="0.617737" vertical-offset="18466" max-vertical-offset="29535">
           <folding />
         </state>
       </provider>

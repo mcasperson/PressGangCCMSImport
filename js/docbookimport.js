@@ -1253,8 +1253,10 @@ define(
                                                 var partintro = qnautils.xPath(".//docbook:partintro", clone).iterateNext();
                                                 if (partintro !== null) {
                                                     while (partintro.childNodes.length !== 0) {
-                                                        clone.appendChild(partintro.childNodes[0]);
+                                                        clone.insertBefore(partintro.childNodes[0], partintro);
                                                     }
+
+                                                    clone.removeChild(partintro);
                                                 }
                                             }
 
