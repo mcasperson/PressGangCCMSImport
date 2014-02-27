@@ -325,8 +325,20 @@ define(
                         return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
                     }
 
+                    /*
+                        See if the xiincludes have some other base dir
+                     */
+                    function getXmlBaseAttribute(xmlText) {
+                        var baseMatch = /xml:base=('|")(.*?)('|")/.exec(xmlText);
 
-                    function resolveXIInclude (xmlText, filename, visitedFiles, callback) {
+                        if (baseMatch !== null) {
+                            return baseMatch[2] === "./" ? null : baseMatch[2];
+                        }
+
+                        return null;
+                    }
+
+                    function resolveXIInclude (xmlText, base, filename, visitedFiles, callback) {
 
                         xmlText = clearFallbacks(xmlText);
 
@@ -351,71 +363,59 @@ define(
                              */
                             if (lastStartComment !== -1 &&
                                 (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                                resolveXIInclude(xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment")), filename, visitedFiles, callback);
+                                xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
+                                var base = getXmlBaseAttribute(xmlText);
+                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                                 return;
                             }
 
                             if (commonContent.test(match[xmlPathIndex])) {
-                                resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                                xmlText = xmlText.replace(match[0], "");
+                                var base = getXmlBaseAttribute(xmlText);
+                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                             } else {
-                                var thisFile = new URI(filename);
-                                var referencedXMLFilenameRelative = new URI(match[xmlPathIndex]);
-                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+                                var referencedXMLFilename = "";
+
+                                if (base) {
+                                    referencedXMLFilename = base + match[xmlPathIndex];
+                                } else {
+                                    var thisFile = new URI(filename);
+                                    var referencedXMLFilenameRelative = new URI(match[xmlPathIndex]);
+                                    referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+                                }
 
                                 if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-
-                                    // This happened a lot in jDocBook documents. It is easier to ignore circular references
-                                    resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
-
-                                    //errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
-                                    //return;
+                                    errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
+                                    return;
                                 } else {
-                                    var processTargetFile = function (filename) {
-                                        qnastart.zipModel.getTextFromFileName(
-                                            config.ZipFile,
-                                            referencedXMLFilename,
-                                            function (referencedXmlText) {
-                                                resolveXIInclude(
-                                                    referencedXmlText,
-                                                    referencedXMLFilename,
-                                                    visitedFiles,
-                                                    function (fixedReferencedXmlText) {
-                                                        resolveXIInclude(xmlText.replace(match[0], fixedReferencedXmlText), filename, visitedFiles, callback);
-                                                    }
-                                                );
-                                            },
-                                            function (error) {
-                                                errorCallback(error);
-                                            }
-                                        );
-                                    };
-
                                     qnastart.zipModel.hasFileName(
                                         config.ZipFile,
                                         referencedXMLFilename,
                                         function(exists) {
-                                            if (!exists) {
-
-                                                /*
-                                                    Sometimes the path is not relative
-                                                 */
-                                                referencedXMLFilename = match[xmlPathIndex];
-
-                                                qnastart.zipModel.hasFileName(
+                                            if (exists) {
+                                                qnastart.zipModel.getTextFromFileName(
                                                     config.ZipFile,
                                                     referencedXMLFilename,
-                                                    function(exists) {
-                                                        if (!exists) {
-                                                            // stay calm and carry on
-                                                            resolveXIInclude(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
-                                                        } else {
-                                                            processTargetFile(referencedXMLFilename);
-                                                        }
+                                                    function (referencedXmlText) {
+                                                        var base = getXmlBaseAttribute(referencedXmlText);
+                                                        resolveXIInclude(
+                                                            referencedXmlText,
+                                                            base,
+                                                            referencedXMLFilename,
+                                                            visitedFiles,
+                                                            function (fixedReferencedXmlText) {
+                                                                xmlText = xmlText.replace(match[0], fixedReferencedXmlText);
+                                                                var base = getXmlBaseAttribute(xmlText);
+                                                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                                            }
+                                                        );
                                                     },
-                                                    errorCallback
+                                                    function (error) {
+                                                        errorCallback(error);
+                                                    }
                                                 );
                                             } else {
-                                                processTargetFile(referencedXMLFilename);
+                                                errorCallback("Could not find file " + referencedXMLFilename);
                                             }
                                         },
                                         errorCallback
@@ -428,7 +428,7 @@ define(
                         }
                     }
 
-                    function resolveXIIncludePointer (xmlText, filename, visitedFiles, callback) {
+                    function resolveXIIncludePointer (xmlText, base, filename, visitedFiles, callback) {
                         xmlText = clearFallbacks(xmlText);
 
                         var match = xiIncludeWithPointerRe.exec(xmlText);
@@ -441,20 +441,26 @@ define(
 
                             if (lastStartComment !== -1 &&
                                 (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                                resolveXIIncludePointer(xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment")), filename, visitedFiles, callback);
+                                xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
+                                var base = getXmlBaseAttribute(xmlText);
+                                resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                 return;
                             }
 
-                            var relativePath = "";
-                            var lastIndexOf;
-                            if ((lastIndexOf = filename.lastIndexOf("/")) !== -1) {
-                                relativePath = filename.substring(0, lastIndexOf);
-                            }
-
                             if (commonContent.test(match[4])) {
-                                resolveXIIncludePointer(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                                xmlText = xmlText.replace(match[0], "");
+                                var base = getXmlBaseAttribute(xmlText);
+                                resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                             } else {
-                                var referencedXMLFilename = relativePath + "/" + match[4];
+                                var referencedXMLFilename = "";
+
+                                if (base) {
+                                    referencedXMLFilename = base + match[4];
+                                } else {
+                                    var thisFile = new URI(filename);
+                                    var referencedXMLFilenameRelative = new URI(match[4]);
+                                    referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+                                }
 
                                 qnastart.zipModel.getTextFromFileName(
                                     config.ZipFile,
@@ -475,10 +481,15 @@ define(
                                             replacement += reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
                                         }
 
-                                        resolveXIIncludePointer(xmlText.replace(match[0], replacement), filename, visitedFiles, callback);
+                                        xmlText = xmlText.replace(match[0], replacement);
+                                        var base = getXmlBaseAttribute(xmlText);
+
+                                        resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                     },
                                     function (error) {
-                                        resolveXIIncludePointer(xmlText.replace(match[0], ""), filename, visitedFiles, callback);
+                                        xmlText = xmlText.replace(match[0], "");
+                                        var base = getXmlBaseAttribute(xmlText);
+                                        resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                         //errorCallback(error);
                                     }
                                 );
@@ -498,8 +509,12 @@ define(
 
                             function resolveXIIncludeLoop(xmlText, visitedFiles) {
                                 if (xiIncludeRe.test(xmlText)) {
+
+                                    var base = getXmlBaseAttribute(xmlText);
+
                                     resolveXIInclude(
                                         xmlText,
+                                        base,
                                         config.MainXMLFile,
                                         visitedFiles,
                                         function (xmlText, visitedFiles) {
@@ -513,8 +528,12 @@ define(
 
                             function resolveXIIncludePointerLoop(xmlText, visitedFiles) {
                                 if (xiIncludeWithPointerRe.test(xmlText)) {
+
+                                    var base = getXmlBaseAttribute(xmlText);
+
                                     resolveXIIncludePointer(
                                         xmlText,
+                                        base,
                                         config.MainXMLFile,
                                         visitedFiles,
                                         function (xmlText) {
