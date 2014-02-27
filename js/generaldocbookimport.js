@@ -57,8 +57,32 @@ define(
                                     resultCallback(retValue);
                                 });
                             })
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+
+                                    var mainFile = null;
+
+                                    var processEntry = function(index) {
+                                        if (index >= entries.length) {
+                                            resultCallback(null);
+                                        } else {
+                                            qnastart.zipModel.getTextFromFile(entries[index], function (textFile) {
+                                                var match = /<(book)|(article)>/.exec(textFile);
+                                                if (match) {
+                                                    resultCallback(entries[index]);
+                                                } else {
+                                                    processEntry(++index);
+                                                }
+                                            });
+                                        }
+                                    };
+
+                                    processEntry(0);
+                                });
+                            })
                     ])
             ])
+
             .setNextStep(function (resultCallback) {
                 resultCallback(docbookimport.askForRevisionMessage);
             });
