@@ -1091,231 +1091,236 @@ define(
 
                                 // find the title
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
+                                var titleText = "";
                                 if (title) {
-                                    var titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
+                                    titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
+                                } else {
+                                    titleText = "Untitled";
+                                }
 
-                                    // strip away any child containers
-                                    var removeChildren = [];
-                                    jquery.each(clone.childNodes, function (index, containerChild) {
-                                        if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1 ||
-                                            containerChild.nodeName === "revhistory") {
-                                            removeChildren.push(containerChild);
-                                        }
-                                    });
-                                    jquery.each(removeChildren, function (index, containerChild) {
-                                        clone.removeChild(containerChild);
-                                    });
-
-                                    // the id attribute assigned to this container
-                                    var id = qnautils.xPath("./@id", clone).iterateNext();
-                                    if (id === null) {
-                                        // the docbook 5 version of the id attribute
-                                        id = qnautils.xPath("./@xml:id", clone).iterateNext();
+                                // strip away any child containers
+                                var removeChildren = [];
+                                jquery.each(clone.childNodes, function (index, containerChild) {
+                                    if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1 ||
+                                        containerChild.nodeName === "revhistory") {
+                                        removeChildren.push(containerChild);
                                     }
+                                });
+                                jquery.each(removeChildren, function (index, containerChild) {
+                                    clone.removeChild(containerChild);
+                                });
 
-                                    // some books have ids in the title. these are not supported, so xrefs to titles
-                                    // are redirected to the parent element
+                                // the id attribute assigned to this container
+                                var id = qnautils.xPath("./@id", clone).iterateNext();
+                                if (id === null) {
+                                    // the docbook 5 version of the id attribute
+                                    id = qnautils.xPath("./@xml:id", clone).iterateNext();
+                                }
+
+                                // some books have ids in the title. these are not supported, so xrefs to titles
+                                // are redirected to the parent element
+                                if (title !== null) {
                                     var titleId = qnautils.xPath("./@id", title).iterateNext();
                                     if (titleId === null) {
                                         // the docbook 5 version of the id attribute
                                         titleId = qnautils.xPath("./@xml:id", title).iterateNext();
                                     }
+                                }
 
-                                    /*
-                                     Some books will assign additional attributes to container elements like arch="".
-                                     We need to remove these.
-                                     */
-                                    removeAttributes(clone);
-                                    removeTitleAttributes(clone);
+                                /*
+                                 Some books will assign additional attributes to container elements like arch="".
+                                 We need to remove these.
+                                 */
+                                removeAttributes(clone);
+                                removeTitleAttributes(clone);
 
-                                    // what we have left is the contents of a initial text topic
-                                    var contentSpecLine = "";
-                                    for (var i = 0; i < depth * 2; ++i) {
-                                        contentSpecLine += " ";
-                                    }
+                                // what we have left is the contents of a initial text topic
+                                var contentSpecLine = "";
+                                for (var i = 0; i < depth * 2; ++i) {
+                                    contentSpecLine += " ";
+                                }
 
-                                    // if there were no child container elements to be removed, it
-                                    // means this element stands alone. It is either a topic,
-                                    // or a container that has only initial text
-                                    if (removeChildren.length === 0) {
+                                // if there were no child container elements to be removed, it
+                                // means this element stands alone. It is either a topic,
+                                // or a container that has only initial text
+                                if (removeChildren.length === 0) {
 
-                                        var isHistoryTopicAppendix = false;
-                                        if (clone.nodeName === "appendix") {
-                                            var clone2 = clone.cloneNode(true);
-                                            var removeNodes = [];
+                                    var isHistoryTopicAppendix = false;
+                                    if (clone.nodeName === "appendix") {
+                                        var clone2 = clone.cloneNode(true);
+                                        var removeNodes = [];
 
-                                            var titles = qnautils.xPath("./docbook:title", clone2);
+                                        var titles = qnautils.xPath("./docbook:title", clone2);
 
-                                            var titleNode;
-                                            while ((titleNode = titles.iterateNext()) !== null) {
-                                                removeNodes.push(titleNode);
-                                            }
-
-                                            var revHistoryNodes = qnautils.xPath(".//docbook:revhistory", clone2);
-
-                                            var revHistoryNode;
-                                            while ((revHistoryNode = revHistoryNodes.iterateNext()) !== null) {
-                                                removeNodes.push(revHistoryNode);
-                                            }
-
-                                            jquery.each(removeNodes, function (index, value){
-                                                value.parentNode.removeChild(value);
-                                            });
-
-                                            /*
-                                             Once we take out the title and revhistory, is there any content left?
-                                             */
-                                            isHistoryTopicAppendix = clone2.textContent.trim().length === 0;
+                                        var titleNode;
+                                        while ((titleNode = titles.iterateNext()) !== null) {
+                                            removeNodes.push(titleNode);
                                         }
 
-                                        if (!isHistoryTopicAppendix) {
+                                        var revHistoryNodes = qnautils.xPath(".//docbook:revhistory", clone2);
 
-                                            if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
-                                                contentSpec.push(contentSpecLine + titleText);
-                                            } else {
-                                                var containerName = remapContainer(value.nodeName);
-                                                contentSpec.push(
-                                                    contentSpecLine +
-                                                        containerName.substring(0, 1).toUpperCase() +
-                                                        containerName.substring(1, containerName.length) +
-                                                        ": " + titleText);
-                                            }
-
-                                            var standaloneContainerTopic = new specelement.TopicGraphNode(topicGraph)
-                                                .setXml(removeIdAttribute(clone), xmlDoc)
-                                                .setSpecLine(contentSpec.length - 1)
-                                                .setTitle(titleText);
-
-                                            if (id) {
-
-                                                if (topicGraph.hasXMLId(id.nodeValue)) {
-                                                    throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
-                                                }
-
-                                                standaloneContainerTopic.addXmlId(id.nodeValue);
-                                            }
-
-                                            if (titleId) {
-
-                                                if (topicGraph.hasXMLId(titleId.nodeValue)) {
-                                                    throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
-                                                }
-
-                                                standaloneContainerTopic.addXmlId(titleId.nodeValue);
-                                            }
-
-                                            topics.push(standaloneContainerTopic);
-                                        }
-                                    } else {
-                                        var containerName = remapContainer(value.nodeName);
-                                        contentSpec.push(
-                                            contentSpecLine +
-                                                containerName.substring(0, 1).toUpperCase() +
-                                                containerName.substring(1, containerName.length) +
-                                                ": " + titleText);
-
-                                        if (id) {
-                                            ++containerTargetNum;
-                                            contentSpec[contentSpec.length - 1] += " [T" + containerTargetNum + "]";
+                                        var revHistoryNode;
+                                        while ((revHistoryNode = revHistoryNodes.iterateNext()) !== null) {
+                                            removeNodes.push(revHistoryNode);
                                         }
 
-                                        var hasIntroText = false;
-                                        if (clone.childNodes.length !== 0) {
-                                            var containerClone = clone.cloneNode(true);
-                                            var containerRemoveNodes = [];
-
-                                            var containerTitles = qnautils.xPath("./docbook:title", containerClone);
-
-                                            var containerTitleNode;
-                                            while ((containerTitleNode = containerTitles.iterateNext()) !== null) {
-                                                containerRemoveNodes.push(containerTitleNode);
-                                            }
-
-                                            var containerRevHistoryNodes = qnautils.xPath(".//docbook:revhistory", containerClone);
-
-                                            var containerRevHistoryNode;
-                                            while ((containerRevHistoryNode = containerRevHistoryNodes.iterateNext()) !== null) {
-                                                containerRemoveNodes.push(containerRevHistoryNode);
-                                            }
-
-                                            jquery.each(containerRemoveNodes, function (index, value){
-                                                value.parentNode.removeChild(value);
-                                            });
-
-                                            /*
-                                             Once we take out the title and revhistory, is there any content left?
-                                             */
-                                            hasIntroText = containerClone.textContent.trim().length !== 0;
-                                        }
+                                        jquery.each(removeNodes, function (index, value){
+                                            value.parentNode.removeChild(value);
+                                        });
 
                                         /*
-                                         If this container has front matter content, create a topic to represent it
+                                         Once we take out the title and revhistory, is there any content left?
                                          */
-                                        if (hasIntroText) {
+                                        isHistoryTopicAppendix = clone2.textContent.trim().length === 0;
+                                    }
 
-                                            /*
-                                                We want any content under partintro to be just content in the
-                                                initial text topic.
-                                             */
-                                            if (/^part$/i.test(containerName)) {
-                                                var partintro = qnautils.xPath(".//docbook:partintro", clone).iterateNext();
-                                                if (partintro !== null) {
-                                                    while (partintro.childNodes.length !== 0) {
-                                                        clone.insertBefore(partintro.childNodes[0], partintro);
-                                                    }
+                                    if (!isHistoryTopicAppendix) {
 
-                                                    clone.removeChild(partintro);
-                                                }
-                                            }
-
-                                            var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
-                                                .setXml(removeIdAttribute(clone), xmlDoc)
-                                                .setSpecLine(contentSpec.length - 1)
-                                                .setTitle(titleText);
-
-                                            if (id) {
-                                                if (topicGraph.hasXMLId(id.nodeValue)) {
-                                                    throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
-                                                }
-
-                                                initialTextTopic.addXmlId(id.nodeValue);
-                                            }
-
-                                            if (titleId) {
-
-                                                if (topicGraph.hasXMLId(titleId.nodeValue)) {
-                                                    throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
-                                                }
-
-                                                initialTextTopic.addXmlId(titleId.nodeValue);
-                                            }
-
-                                            topics.push(initialTextTopic);
+                                        if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
+                                            contentSpec.push(contentSpecLine + titleText);
                                         } else {
-                                            var container = new specelement.TopicGraphContainer(topicGraph)
-                                                .setSpecLine(contentSpec.length - 1)
-                                                .setContainerTargetNum(containerTargetNum);
+                                            var containerName = remapContainer(value.nodeName);
+                                            contentSpec.push(
+                                                contentSpecLine +
+                                                    containerName.substring(0, 1).toUpperCase() +
+                                                    containerName.substring(1, containerName.length) +
+                                                    ": " + titleText);
+                                        }
 
-                                            if (id) {
-                                                if (topicGraph.hasXMLId(id.nodeValue)) {
-                                                    throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
-                                                }
+                                        var standaloneContainerTopic = new specelement.TopicGraphNode(topicGraph)
+                                            .setXml(removeIdAttribute(clone), xmlDoc)
+                                            .setSpecLine(contentSpec.length - 1)
+                                            .setTitle(titleText);
 
-                                                container.addXmlId(id.nodeValue);
+                                        if (id) {
+
+                                            if (topicGraph.hasXMLId(id.nodeValue)) {
+                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
                                             }
 
-                                            if (titleId) {
+                                            standaloneContainerTopic.addXmlId(id.nodeValue);
+                                        }
 
-                                                if (topicGraph.hasXMLId(titleId.nodeValue)) {
-                                                    throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
+                                        if (titleId) {
+
+                                            if (topicGraph.hasXMLId(titleId.nodeValue)) {
+                                                throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            standaloneContainerTopic.addXmlId(titleId.nodeValue);
+                                        }
+
+                                        topics.push(standaloneContainerTopic);
+                                    }
+                                } else {
+                                    var containerName = remapContainer(value.nodeName);
+                                    contentSpec.push(
+                                        contentSpecLine +
+                                            containerName.substring(0, 1).toUpperCase() +
+                                            containerName.substring(1, containerName.length) +
+                                            ": " + titleText);
+
+                                    if (id) {
+                                        ++containerTargetNum;
+                                        contentSpec[contentSpec.length - 1] += " [T" + containerTargetNum + "]";
+                                    }
+
+                                    var hasIntroText = false;
+                                    if (clone.childNodes.length !== 0) {
+                                        var containerClone = clone.cloneNode(true);
+                                        var containerRemoveNodes = [];
+
+                                        var containerTitles = qnautils.xPath("./docbook:title", containerClone);
+
+                                        var containerTitleNode;
+                                        while ((containerTitleNode = containerTitles.iterateNext()) !== null) {
+                                            containerRemoveNodes.push(containerTitleNode);
+                                        }
+
+                                        var containerRevHistoryNodes = qnautils.xPath(".//docbook:revhistory", containerClone);
+
+                                        var containerRevHistoryNode;
+                                        while ((containerRevHistoryNode = containerRevHistoryNodes.iterateNext()) !== null) {
+                                            containerRemoveNodes.push(containerRevHistoryNode);
+                                        }
+
+                                        jquery.each(containerRemoveNodes, function (index, value){
+                                            value.parentNode.removeChild(value);
+                                        });
+
+                                        /*
+                                         Once we take out the title and revhistory, is there any content left?
+                                         */
+                                        hasIntroText = containerClone.textContent.trim().length !== 0;
+                                    }
+
+                                    /*
+                                     If this container has front matter content, create a topic to represent it
+                                     */
+                                    if (hasIntroText) {
+
+                                        /*
+                                            We want any content under partintro to be just content in the
+                                            initial text topic.
+                                         */
+                                        if (/^part$/i.test(containerName)) {
+                                            var partintro = qnautils.xPath(".//docbook:partintro", clone).iterateNext();
+                                            if (partintro !== null) {
+                                                while (partintro.childNodes.length !== 0) {
+                                                    clone.insertBefore(partintro.childNodes[0], partintro);
                                                 }
 
-                                                container.addXmlId(titleId.nodeValue);
+                                                clone.removeChild(partintro);
                                             }
                                         }
 
-                                        processXml(value, depth + 1);
+                                        var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
+                                            .setXml(removeIdAttribute(clone), xmlDoc)
+                                            .setSpecLine(contentSpec.length - 1)
+                                            .setTitle(titleText);
+
+                                        if (id) {
+                                            if (topicGraph.hasXMLId(id.nodeValue)) {
+                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            initialTextTopic.addXmlId(id.nodeValue);
+                                        }
+
+                                        if (titleId) {
+
+                                            if (topicGraph.hasXMLId(titleId.nodeValue)) {
+                                                throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            initialTextTopic.addXmlId(titleId.nodeValue);
+                                        }
+
+                                        topics.push(initialTextTopic);
+                                    } else {
+                                        var container = new specelement.TopicGraphContainer(topicGraph)
+                                            .setSpecLine(contentSpec.length - 1)
+                                            .setContainerTargetNum(containerTargetNum);
+
+                                        if (id) {
+                                            if (topicGraph.hasXMLId(id.nodeValue)) {
+                                                throw "The XML id attribute " + id.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            container.addXmlId(id.nodeValue);
+                                        }
+
+                                        if (titleId) {
+
+                                            if (topicGraph.hasXMLId(titleId.nodeValue)) {
+                                                throw "The XML id attribute " + titleId.nodeValue + " has been duplicated. The source book is not valid";
+                                            }
+
+                                            container.addXmlId(titleId.nodeValue);
+                                        }
                                     }
+
+                                    processXml(value, depth + 1);
                                 }
                             }
                         });
