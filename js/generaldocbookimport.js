@@ -69,7 +69,7 @@ define(
                                             qnastart.zipModel.getTextFromFile(entries[index], function (textFile) {
                                                 var match = /<(book)|(article)>/.exec(textFile);
                                                 if (match) {
-                                                    resultCallback(entries[index]);
+                                                    resultCallback(entries[index].filename);
                                                 } else {
                                                     processEntry(++index);
                                                 }
