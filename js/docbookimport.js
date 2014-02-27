@@ -1244,6 +1244,20 @@ define(
                                          If this container has front matter content, create a topic to represent it
                                          */
                                         if (hasIntroText) {
+
+                                            /*
+                                                We want any content under partintro to be just content in the
+                                                initial text topic.
+                                             */
+                                            if (/^part$/i.test(containerName)) {
+                                                var partintro = qnautils.xPath(".//docbook:partintro", clone).iterateNext();
+                                                if (partintro !== null) {
+                                                    while (partintro.childNodes.length !== 0) {
+                                                        clone.appendChild(partintro.childNodes[0]);
+                                                    }
+                                                }
+                                            }
+
                                             var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
                                                 .setXml(removeIdAttribute(clone), xmlDoc)
                                                 .setSpecLine(contentSpec.length - 1)
