@@ -316,6 +316,7 @@ define(
                     // Note the self closing tag is optional. clearFallbacks will remove those.
                     var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')[^>]*>/;
                     var commonContent = /^Common_Content/;
+                    var images = /^images/;
 
                     // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
                     // non-existant content and relies on the fallback, but we don't support that.
@@ -333,9 +334,11 @@ define(
 
                         var match;
                         while ((match = filerefRe.exec(xmlText)) !== null) {
-                            var fileref = new URI(match[2]);
-                            var absoluteFileRef = fileref.absoluteTo(thisFile).toString();
-                            replacements.push({original: fileref, replacement: absoluteFileRef});
+                            if (!(commonContent.test(match[2]) || images.test(match[2]))) {
+                                var fileref = new URI(match[2]);
+                                var absoluteFileRef = fileref.absoluteTo(thisFile).toString();
+                                replacements.push({original: fileref, replacement: absoluteFileRef});
+                            }
                         }
 
                         jquery.each(replacements, function(index, value) {
