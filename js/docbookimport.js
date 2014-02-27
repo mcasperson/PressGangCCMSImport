@@ -374,15 +374,12 @@ define(
                                 var base = getXmlBaseAttribute(xmlText);
                                 resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                             } else {
+                                var thisFile = new URI(filename);
                                 var referencedXMLFilename = "";
-
-                                if (base) {
-                                    referencedXMLFilename = base + match[xmlPathIndex];
-                                } else {
-                                    var thisFile = new URI(filename);
-                                    var referencedXMLFilenameRelative = new URI(match[xmlPathIndex]);
-                                    referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
-                                }
+                                var referencedXMLFilenameRelative = base !== null ?
+                                    new URI(base + match[xmlPathIndex]) :
+                                    new URI(match[xmlPathIndex]);
+                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
                                     errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
@@ -452,15 +449,12 @@ define(
                                 var base = getXmlBaseAttribute(xmlText);
                                 resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                             } else {
+                                var thisFile = new URI(filename);
                                 var referencedXMLFilename = "";
-
-                                if (base) {
-                                    referencedXMLFilename = base + match[4];
-                                } else {
-                                    var thisFile = new URI(filename);
-                                    var referencedXMLFilenameRelative = new URI(match[4]);
-                                    referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
-                                }
+                                var referencedXMLFilenameRelative = base !== null ?
+                                    new URI(base + match[xmlPathIndex]) :
+                                    new URI(match[xmlPathIndex]);
+                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 qnastart.zipModel.getTextFromFileName(
                                     config.ZipFile,
