@@ -3,6 +3,8 @@ define(
     function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, exports) {
         'use strict';
 
+        var RETRY_COUNT = 2;
+        
         // a zip model to be shared
         exports.zipModel = new qnazipmodel.QNAZipModel();
 
@@ -11,7 +13,11 @@ define(
                 .replace(/\]/g, "\\]");
         };
 
-        exports.createTopic = function(tryToMatch, format, xml, title, tags, config, successCallback, errorCallback) {
+        exports.createTopic = function(tryToMatch, format, xml, title, tags, config, successCallback, errorCallback, retryCount) {
+
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
 
             var postBody = {
                 xml: xml,
@@ -63,12 +69,20 @@ define(
                     successCallback(data);
                 },
                 error: function () {
-                    errorCallback("Connection Error", "An error occurred while uploading the topic.");
+                    if (retryCount < RETRY_COUNT) {
+                        exports.createTopic(tryToMatch, format, xml, title, tags, config, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while uploading the topic.");
+                    }
                 }
             });
         };
 
-        exports.getSimilarTopics = function(xml, config, successCallback, errorCallback) {
+        exports.getSimilarTopics = function(xml, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
+
             jquery.ajax({
                 type: 'POST',
                 url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/minhashsimilar/get/json?threshold=0.6&expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
@@ -79,12 +93,19 @@ define(
                     successCallback(data);
                 },
                 error: function () {
-                    errorCallback("Connection Error", "An error occurred while getting similar topics.");
+                    if (retryCount < RETRY_COUNT) {
+                        exports.getSimilarTopics(xml, config, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while getting similar topics.");
+                    }
                 }
             });
         };
 
-        exports.updateTopic = function(id, xml, title, config, successCallback, errorCallback) {
+        exports.updateTopic = function(id, xml, title, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
 
             var postBody = {
                 id: id,
@@ -113,12 +134,19 @@ define(
                     successCallback(data.id);
                 },
                 error: function () {
-                    errorCallback("Connection Error", "An error occurred while uploading a topic.");
+                    if (retryCount < RETRY_COUNT) {
+                        exports.updateTopic(id, xml, title, config, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while uploading a topic.");
+                    }
                 }
             });
         };
 
-        exports.createImage = function(trytomatch, zipfile, image, config, successCallback, errorCallback) {
+        exports.createImage = function(trytomatch, zipfile, image, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
 
             exports.zipModel.getByteArrayFromFileName(
                 zipfile,
@@ -166,7 +194,12 @@ define(
                             successCallback(data);
                         },
                         error: function () {
-                            errorCallback("Connection Error", "An error occurred while uploading an image.");
+                            if (retryCount < RETRY_COUNT) {
+                                exports.createImage(trytomatch, zipfile, image, config, successCallback, errorCallback, ++retryCount);
+                            } else {
+                                errorCallback("Connection Error", "An error occurred while uploading an image.");
+                            }
+
                         }
                     });
                 },
@@ -174,7 +207,10 @@ define(
             );
         };
 
-        exports.createImageFromURL = function(trytomatch, url, config, successCallback, errorCallback) {
+        exports.createImageFromURL = function(trytomatch, url, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
 
             greaseMonkeyShare.getMojoImage(
                 url,
@@ -214,7 +250,12 @@ define(
                             successCallback(data);
                         },
                         error: function () {
-                            errorCallback("Connection Error", "An error occurred while uploading an image.");
+                            if (retryCount < RETRY_COUNT) {
+                                exports.createImageFromURL(trytomatch, url, config, successCallback, errorCallback, ++retryCount);
+                            } else {
+                                errorCallback("Connection Error", "An error occurred while uploading an image.");
+                            }
+
                         }
                     });
                 },
@@ -222,7 +263,10 @@ define(
             );
         };
 
-        exports.createContentSpec = function(spec, config, successCallback, errorCallback) {
+        exports.createContentSpec = function(spec, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
 
             var postBody = {
                 text: spec,
@@ -241,12 +285,21 @@ define(
                     successCallback(data.id);
                 },
                 error: function () {
-                    errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+                    if (retryCount < RETRY_COUNT) {
+                        exports.createContentSpec(spec, config, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+                    }
+                   
                 }
             });
         };
 
-        exports.updateContentSpec = function(id, spec, config, successCallback, errorCallback) {
+        exports.updateContentSpec = function(id, spec, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
+            
             var postBody = {
                 id: id,
                 text: "ID = " + id + "\n" + spec,
@@ -265,7 +318,12 @@ define(
                     successCallback(data.id);
                 },
                 error: function () {
-                    errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+                    if (retryCount < RETRY_COUNT) {
+                        exports.updateContentSpec(id, spec, config, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+                    }
+                    
                 }
             });
         };
