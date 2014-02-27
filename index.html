@@ -92,8 +92,7 @@
             <!-- The panel that contains the current wizard step -->
             <div class="panel panel-default" style="min-height: 400px; position: relative">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{qna.step.processedTitle}}</h3>
-                    <img src="images/spinner.gif" ng-show="disabled" class="pull-right"/>
+                    <h3 class="panel-title">{{qna.step.processedTitle}}<img src="images/spinner.gif" ng-show="disabled" class="pull-right"/></h3>
                 </div>
                 <div class="panel-body" style="margin-bottom: 40px">
                     <div ng-if="qna.step.processedIntro != null">{{qna.step.processedIntro}}</div>
