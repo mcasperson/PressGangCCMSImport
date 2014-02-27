@@ -325,6 +325,26 @@ define(
                         return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
                     }
 
+                    function resolveFileRefs(xmlText, filename) {
+                        var thisFile = new URI(filename);
+                        var filerefRe=/fileref\s*=\s*('|")(.*?)('|")/g;
+
+                        var replacements = [];
+
+                        var match;
+                        while ((match = filerefRe.exec(xmlText)) !== null) {
+                            var fileref = new URI(match[2]);
+                            var absoluteFileRef = fileref.absoluteTo(thisFile).toString();
+                            replacements.push({original: fileref, replacement: absoluteFileRef});
+                        }
+
+                        jquery.each(replacements, function(index, value) {
+                            xmlText = xmlText.replace(value.original, value.replacement);
+                        });
+
+                        return xmlText;
+                    }
+
                     /*
                         See if the xiincludes have some other base dir
                      */
@@ -344,6 +364,7 @@ define(
                     function resolveXIInclude (xmlText, base, filename, visitedFiles, callback) {
 
                         xmlText = clearFallbacks(xmlText);
+                        xmlText = resolveFileRefs(xmlText);
 
                         /*
                          Make sure we are not entering an infinite loop
@@ -375,6 +396,11 @@ define(
                                 xmlText = xmlText.replace(match[0], "");
                                 resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                             } else {
+                                /*
+                                    We need to work out where the files to be included will come from. This is a
+                                    combination of the href, the xml:base attribute, and the location of the
+                                    xml file that is doing the importing.
+                                 */
                                 var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
                                 var thisFile = new URI(filename);
                                 var referencedXMLFilename = "";
@@ -412,7 +438,9 @@ define(
                                                     }
                                                 );
                                             } else {
-                                                errorCallback("Could not find file " + referencedXMLFilename);
+                                                //errorCallback("Could not find file " + referencedXMLFilename);
+                                                xmlText = xmlText.replace(match[0], "");
+                                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                                             }
                                         },
                                         errorCallback
@@ -477,9 +505,9 @@ define(
                                         resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                     },
                                     function (error) {
-                                        //xmlText = xmlText.replace(match[0], "");
-                                        //resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
-                                        errorCallback(error);
+                                        xmlText = xmlText.replace(match[0], "");
+                                        resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
+                                        //errorCallback(error);
                                     }
                                 );
                             }
