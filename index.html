@@ -93,6 +93,7 @@
             <div class="panel panel-default" style="min-height: 400px; position: relative">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{qna.step.processedTitle}}</h3>
+                    <img src="images/spinner.gif" ng-show="disabled" class="pull-right"/>
                 </div>
                 <div class="panel-body" style="margin-bottom: 40px">
                     <div ng-if="qna.step.processedIntro != null">{{qna.step.processedIntro}}</div>
@@ -237,7 +238,6 @@
                     </div>
 
                     <div style="position: absolute; left: 10px; bottom: 10px; right: 10px">
-                        <img src="images/spinner.gif" ng-show="disabled"/>
                         <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">{{qna.step.getShowNextName()}}</button>
                         <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious() && qna.step.processedShowPrevious" ng-disabled="disabled">{{qna.step.getShowPreviousName()}}</button>
                         <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="restart()" ng-if="qna.step.processedShowRestart" ng-disabled="disabled">{{qna.step.getShowRestartName()}}</button>
