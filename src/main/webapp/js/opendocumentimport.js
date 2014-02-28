@@ -444,19 +444,19 @@ define(
                                 var evaluator = new XPathEvaluator();
                                 var resolver = evaluator.createNSResolver(contentsXML.documentElement);
     
-                                var body = contentsXML.evaluate("//office:text", contentsXML, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                var body = qnautils.xPath("//office:text", contentsXML).iterateNext();
                                 if (body === null) {
                                     errorCallback("Invalid ODT file", "Could not find the <office:body> element!", true);
                                 } else {
                                     // these nodes make up the content that we will import
-                                    var contentNodes = contentsXML.evaluate("*", body, resolver, XPathResult.ANY_TYPE, null);
+                                    var contentNodes = qnautils.xPath("*", body);
                                     var childNodeCount = 0;
                                     var contentNode;
                                     while ((contentNode = contentNodes.iterateNext()) !== null) {
                                         ++childNodeCount;
                                     }
     
-                                    contentNodes = contentsXML.evaluate("*", body, resolver, XPathResult.ANY_TYPE, null);
+                                    contentNodes = qnautils.xPath("*", body);
     
                                     var images = {};
     
@@ -557,8 +557,8 @@ define(
                                             return false;
                                         }
     
-                                        var contentXmlStyle = contentsXML.evaluate("//style:font-face[@style:name='" + font + "']", contentsXML, resolver, XPathResult.ANY_TYPE, null).iterateNext();
-                                        var stylesXmlStyle = stylesXML.evaluate("//style:font-face[@style:name='" + font + "']", stylesXML, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                        var contentXmlStyle = qnautils.xPath("//style:font-face[@style:name='" + font + "']", contentsXML).iterateNext();
+                                        var stylesXmlStyle = qnautils.xPath("//style:font-face[@style:name='" + font + "']", stylesXML).iterateNext();
     
                                         var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
     
@@ -583,41 +583,41 @@ define(
                                         See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes.
                                      */
                                     var getFontRuleForStyle = function (styleAttribute, fontRule) {
-                                        var contentXmlStyle = contentsXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", contentsXML, resolver, XPathResult.ANY_TYPE, null).iterateNext();
-                                        var stylesXmlStyle = stylesXML.evaluate("//style:style[@style:name='" + styleAttribute + "']", stylesXML, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                        var contentXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "']", contentsXML).iterateNext();
+                                        var stylesXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "']", stylesXML).iterateNext();
     
                                         var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
     
                                         if (style) {
-                                            var fontName = contentsXML.evaluate(".//@style:font-name", style, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                            var fontName = qnautils.xPath(".//@style:font-name", style).iterateNext();
                                             if (fontRule.font === undefined) {
                                                 if (fontName !== null) {
                                                     fontRule.font = fontName.nodeValue;
                                                 }
                                             }
     
-                                            var fontSize = contentsXML.evaluate(".//@fo:font-size", style, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                            var fontSize = qnautils.xPath(".//@fo:font-size", style).iterateNext();
                                             if (fontRule.size === undefined) {
                                                 if (fontSize !== null) {
                                                     fontRule.size = fontSize.nodeValue;
                                                 }
                                             }
     
-                                            var weight = contentsXML.evaluate(".//@fo:font-weight", style, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                            var weight = qnautils.xPath(".//@fo:font-weight", style).iterateNext();
                                             if (fontRule.bold === undefined) {
                                                 if (weight !== null) {
                                                     fontRule.bold = weight.nodeValue === "bold";
                                                 }
                                             }
     
-                                            var fontStyle = contentsXML.evaluate(".//@fo:font-style", style, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                            var fontStyle = qnautils.xPath(".//@fo:font-style", style).iterateNext();
                                             if (fontRule.italics === undefined) {
                                                 if (fontStyle !== null ) {
                                                     fontRule.italics = fontStyle.nodeValue === "italic";
                                                 }
                                             }
     
-                                            var underline = contentsXML.evaluate(".//@style:text-underline-style", style, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                            var underline = qnautils.xPath(".//@style:text-underline-style", style).iterateNext();
                                             if (fontRule.underline === undefined) {
                                                 if (underline !== null) {
                                                     fontRule.underline = underline.nodeValue !== "none";
@@ -663,9 +663,9 @@ define(
                                     };
     
                                     var processRemark = function(content, contentNode) {
-                                        var creator = contentsXML.evaluate("./dc:creator", contentNode, resolver, XPathResult.ANY_TYPE, null).iterateNext();
-                                        var date = contentsXML.evaluate("./dc:date", contentNode, resolver, XPathResult.ANY_TYPE, null).iterateNext();
-                                        var paras = contentsXML.evaluate("./text:p", contentNode, resolver, XPathResult.ANY_TYPE, null);
+                                        var creator = qnautils.xPath("./dc:creator", contentNode).iterateNext();
+                                        var date = qnautils.xPath("./dc:date", contentNode).iterateNext();
+                                        var paras = qnautils.xPath("./text:p", contentNode);
     
                                         content.push("<remark>");
     
@@ -684,7 +684,7 @@ define(
                                     };
     
                                     var processPara = function (content, contentNode, imageLinks) {
-                                        var images = contentsXML.evaluate(".//draw:image", contentNode, resolver, XPathResult.ANY_TYPE, null);
+                                        var images = qnautils.xPath(".//draw:image", contentNode);
                                         var image;
                                         while ((image = images.iterateNext()) !== null) {
                                             if (image.getAttribute("xlink:href") !== null) {
@@ -713,7 +713,7 @@ define(
                                                 underline, italics - the settings you can easily apply from the toolbar) and
                                                 see if these basic settings are common to each span.
                                              */
-                                            var textNodes = contentsXML.evaluate(".//text()", contentNode, resolver, XPathResult.ANY_TYPE, null);
+                                            var textNodes = qnautils.xPath(".//text()", contentNode);
                                             var textNode;
                                             var fontRule;
                                             var singleRule = false;
@@ -820,10 +820,10 @@ define(
                                         var listType = "itemizedlist";
                                         var listStyle = "";
                                         if (style !== null) {
-                                            var styleNode = contentsXML.evaluate("//text:list-style[@style:name='" + style + "']", contentsXML, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                            var styleNode = qnautils.xPath("//text:list-style[@style:name='" + style + "']", contentsXML).iterateNext();
                                             if (styleNode !== null) {
-                                                var listStyleNumber = contentsXML.evaluate("./text:list-level-style-number[@text:level='" + depth + "']", styleNode, resolver, XPathResult.ANY_TYPE, null).iterateNext();
-                                                //var listStyleBullet = contentsXML.evaluate("./text:text:list-level-style-bullet", styleNode, resolver, XPathResult.ANY_TYPE, null).iterateNext();
+                                                var listStyleNumber = qnautils.xPath("./text:list-level-style-number[@text:level='" + depth + "']", styleNode).iterateNext();
+                                                //var listStyleBullet = qnautils.xPath("./text:text:list-level-style-bullet", styleNode).iterateNext();
                                                 listType = listStyleNumber === null ? "itemizedlist" : "orderedlist";
     
                                                 if (listStyleNumber !== null) {
@@ -843,13 +843,13 @@ define(
                                             }
                                         }
     
-                                        var listItems = contentsXML.evaluate("./text:list-item", contentNode, resolver, XPathResult.ANY_TYPE, null);
-                                        var listHeaders = contentsXML.evaluate("./text:list-header", contentNode, resolver, XPathResult.ANY_TYPE, null);
+                                        var listItems = qnautils.xPath("./text:list-item", contentNode);
+                                        var listHeaders = qnautils.xPath("./text:list-header", contentNode);
                                         var listItemsHeaderContent = [];
     
                                         var listHeader = listHeaders.iterateNext();
                                         if (listHeader !== null) {
-                                            var paras = contentsXML.evaluate("./text:p", listHeader, resolver, XPathResult.ANY_TYPE, null);
+                                            var paras = qnautils.xPath("./text:p", listHeader);
                                             var para;
                                             while ((para = paras.iterateNext()) !== null) {
                                                 processPara(listItemsHeaderContent, para, imageLinks);
@@ -993,7 +993,7 @@ define(
                                             resultCallback();
     
                                             jquery.each(topicGraph.nodes, function (index, topic) {
-                                                var filerefs = contentsXML.evaluate(".//@fileref", topic.xml, resolver, XPathResult.ANY_TYPE, null);
+                                                var filerefs = qnautils.xPath(".//@fileref", topic.xml);
                                                 var replacements = [];
                                                 var fileref;
                                                 while ((fileref = filerefs.iterateNext()) !== null) {
