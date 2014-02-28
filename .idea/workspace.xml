@@ -2,70 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/bootstrap-theme.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-theme.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/bootstrap-theme.min.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap-theme.min.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/bootstrap.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap.min.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/qna.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/qna.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.eot" afterPath="$PROJECT_DIR$/src/main/webapp/fonts/glyphicons-halflings-regular.eot" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.svg" afterPath="$PROJECT_DIR$/src/main/webapp/fonts/glyphicons-halflings-regular.svg" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.ttf" afterPath="$PROJECT_DIR$/src/main/webapp/fonts/glyphicons-halflings-regular.ttf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.woff" afterPath="$PROJECT_DIR$/src/main/webapp/fonts/glyphicons-halflings-regular.woff" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/images/bug.png" afterPath="$PROJECT_DIR$/src/main/webapp/images/bug.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/images/spinner.gif" afterPath="$PROJECT_DIR$/src/main/webapp/images/spinner.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angular/angular-sanitize.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angular/angular-sanitize.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angular/angular.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angular/angular.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angular/angular.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angular/angular.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/FileAPI.flash.swf" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/FileAPI.flash.swf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/FileAPI.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/FileAPI.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/angular-file-upload-html5-shim.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload-html5-shim.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/angular-file-upload-html5-shim.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload-html5-shim.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/angular-file-upload-shim.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload-shim.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/angular-file-upload-shim.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload-shim.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/angular-file-upload.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/angularfileupload/angular-file-upload.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/bootstrap/bootstrap.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap/bootstrap.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/bootstrap/bootstrap.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap/bootstrap.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/fontrule.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/fontrule.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/generaldocbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/generalexternalimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/jquery/jquery-2.1.0.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/jquery/jquery-2.1.0.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/mojoimport-0.0.30.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport-0.0.30.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/mojoimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/moment/moment-with-langs.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/moment/moment-with-langs.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/pgimport.user.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/qna/qna.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/qna/qnazipmodel.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/qnaangular/controller.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/qnastart.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/require.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/require.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/require.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/require.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/specelement.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/IPv6.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/IPv6.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/SecondLevelDomains.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/SecondLevelDomains.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/URI.fragmentQuery.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/URI.fragmentQuery.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/URI.fragmentURI.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/URI.fragmentURI.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/URI.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/URI.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/URI.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/URI.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/URITemplate.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/URITemplate.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/jquery.URI.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/jquery.URI.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/jquery.URI.min.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/jquery.URI.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/uri/punycode.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/uri/punycode.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/wgxpath/wgxpath.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/wgxpath/wgxpath.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/zip/deflate.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/zip/deflate.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/zip/inflate.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/zip/inflate.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/zip/mime-types.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/zip/mime-types.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/zip/zip-ext.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/zip/zip-ext.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/zip/zip-fs.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/zip/zip-fs.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/zip/zip.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/zip/zip.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -187,6 +125,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="239" column="48" selection-start="15965" selection-end="15965" vertical-scroll-proportion="-36.416668" vertical-offset="2711" max-vertical-offset="3855">
+              <folding>
+                <element signature="n#style#0;n#img#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1393549151448" expanded="true" signature="3698:3760" placeholder="..." />
+                <marker date="1393549151448" expanded="true" signature="3801:3856" placeholder="..." />
+                <marker date="1393549151448" expanded="true" signature="3899:4002" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -205,19 +157,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="456" column="175" selection-start="20624" selection-end="20624" vertical-scroll-proportion="0.0" vertical-offset="6386" max-vertical-offset="7395">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="24" selection-start="564" selection-end="564" vertical-scroll-proportion="0.1860203" vertical-offset="0" max-vertical-offset="887">
+            <state line="14" column="40" selection-start="662" selection-end="662" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
               <folding />
             </state>
           </provider>
@@ -236,7 +179,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/require/require.min.js" />
         <option value="$PROJECT_DIR$/js/specelement.js" />
         <option value="$PROJECT_DIR$/js/fontrule.js" />
         <option value="$PROJECT_DIR$/js/qna/app.js" />
@@ -286,13 +228,16 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/pgimport.user.js" />
         <option value="$PROJECT_DIR$/js/qnastart.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1918" />
-    <option name="height" value="1080" />
+    <option name="x" value="-2" />
+    <option name="y" value="-1" />
+    <option name="width" value="1924" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -398,7 +343,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PressGangCCMSREST/pom.xml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PressGangCCMSUI/pom.xml" />
     <property name="FullScreen" value="false" />
     <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -839,7 +784,7 @@
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
       <workItem from="1393386062190" duration="22617000" />
-      <workItem from="1393534414769" duration="6760000" />
+      <workItem from="1393534414769" duration="7414000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2381,14 +2326,18 @@
       <created>1393548155683</created>
       <updated>1393548155683</updated>
     </task>
-    <option name="localTasksCounter" value="386" />
+    <task id="LOCAL-00386" summary="Converted project to Maven WAR">
+      <created>1393549095519</created>
+      <updated>1393549095519</updated>
+    </task>
+    <option name="localTasksCounter" value="387" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="531240000" />
+    <option name="totallyTimeSpent" value="531894000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1918" height="1080" extended-state="4" />
+    <frame x="-2" y="-1" width="1924" height="1085" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2410,7 +2359,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24252136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24174654" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2461,7 +2410,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added ability to find preface&#10;" />
     <MESSAGE value="Extracted copyright holder and year from entities" />
     <MESSAGE value="Extracted copyright holder and year from entities&#10;" />
     <MESSAGE value="Started work on enabling target injections on container elements" />
@@ -2486,7 +2434,8 @@
     <MESSAGE value="Fixed bug when selecting a new zip file" />
     <MESSAGE value="Fixed bug when selecting a new zip file&#10;" />
     <MESSAGE value="Getting ready for alpha release" />
-    <option name="LAST_COMMIT_MESSAGE" value="Getting ready for alpha release" />
+    <MESSAGE value="Converted project to Maven WAR" />
+    <option name="LAST_COMMIT_MESSAGE" value="Converted project to Maven WAR" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2762,18 +2711,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="109" selection-start="16026" selection-end="16026" vertical-scroll-proportion="-25.166666" vertical-offset="2981" max-vertical-offset="3855">
-          <folding>
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1393548687473" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1393548687473" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1393548687473" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="38" selection-start="268" selection-end="268" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
@@ -2788,9 +2725,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="239" column="48" selection-start="15965" selection-end="15965" vertical-scroll-proportion="-36.416668" vertical-offset="2711" max-vertical-offset="3855">
+          <folding>
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1393549151448" expanded="true" signature="3698:3760" placeholder="..." />
+            <marker date="1393549151448" expanded="true" signature="3801:3856" placeholder="..." />
+            <marker date="1393549151448" expanded="true" signature="3899:4002" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="24" selection-start="564" selection-end="564" vertical-scroll-proportion="0.1860203" vertical-offset="0" max-vertical-offset="887">
+        <state line="14" column="40" selection-start="662" selection-end="662" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
           <folding />
         </state>
       </provider>

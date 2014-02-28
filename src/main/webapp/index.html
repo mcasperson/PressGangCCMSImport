@@ -237,7 +237,7 @@
                     </div>
 
                     <div style="position: absolute; left: 10px; bottom: 10px; right: 10px">
-                        <a href="https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=Web-UI"><img style="width:32px; height: 32px" src="images/bug.png"/></a>
+                        <a title="Report a bug" href="https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=Web-UI"><img style="width:32px; height: 32px" src="images/bug.png"/></a>
                         <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">{{qna.step.getShowNextName()}}</button>
                         <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious() && qna.step.processedShowPrevious" ng-disabled="disabled">{{qna.step.getShowPreviousName()}}</button>
                         <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="restart()" ng-if="qna.step.processedShowRestart" ng-disabled="disabled">{{qna.step.getShowRestartName()}}</button>

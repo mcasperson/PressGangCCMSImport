@@ -11,4 +11,7 @@
     <version>1.5-SNAPSHOT</version>
     <name>PressGang CCMS Import</name>
     <packaging>war</packaging>
+    <build>
+        <finalName>pressgang-ccms-import</finalName>
+    </build>
 </project>
