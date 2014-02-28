@@ -57,7 +57,7 @@ define(
             .setNextStep(function (resultCallback) {
                 resultCallback(useStyleRules);
             })
-            .setEnterStep(function(){
+            .setEnterStep(function(resultCallback){
                 qnastart.zipModel.clearCache();
                 resultCallback(false);
             });
