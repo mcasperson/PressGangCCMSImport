@@ -330,7 +330,7 @@ define(
 
         exports.qnastart = new qna.QNAStep()
             .setTitle("Select import source")
-            .setIntro("You can either import an existing Publican DocBook archive, or from an OpenDocument.")
+            .setIntro("You can import an existing Publican DocBook archive, an OpenDocument file, or a general DocBook 4.5 or 5.0 archive.")
             .setInputs(
                 [
                     new qna.QNAVariables()
@@ -452,15 +452,24 @@ define(
          */
         var specifyTheServer = new qna.QNAStep()
             .setTitle("Select the server to import in to")
-            .setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
-                "Using the test server is recommended for the first import to check the results before adding the content to the production server.")
+            /*.setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
+                "Using the test server is recommended for the first import to check the results before adding the content to the production server.")*/
+            .setIntro("During the alpha you can only import content into the test server. Future releases will allow content to be imported into the production server as well.")
             .setInputs([
                 new qna.QNAVariables()
-                    .setVariables([
+                    /*.setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Production Server", "Test Server", "Local Server"])
                             .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com", "localhost"])
+                            .setValue("skynet-dev.usersys.redhat.com")
+                            .setName("PressGangHost")
+                    ])*/
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Test Server"])
+                            .setOptions(["skynet-dev.usersys.redhat.com"])
                             .setValue("skynet-dev.usersys.redhat.com")
                             .setName("PressGangHost")
                     ])
