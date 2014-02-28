@@ -16,8 +16,6 @@ define(
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Mojo URL")
                                 .setName("MojoURL")
-                                //.setValue("https://mojo.redhat.com/docs/DOC-26753")
-                                .setValue("https://mojo.redhat.com/docs/DOC-142125")
                         ])
                 ]
             )
@@ -604,7 +602,7 @@ define(
                     if (index >= imagesKeys.length) {
                         callback();
                     } else {
-                        config.UploadProgress[1] = progressIncrement + (index / topicGraph.nodes.length * progressIncrement);
+                        config.UploadProgress[1] = progressIncrement + (index / imagesKeys.length * progressIncrement);
                         resultCallback();
 
                         var imagePath = imagesKeys[index];

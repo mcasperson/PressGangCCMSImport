@@ -363,7 +363,7 @@ define(
                                 .setValue("To continue you need to install the PressGang Import Tool user script.<br/>" +
                                             "Firefox users will need to install the <a href='https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/'>GreaseMonkey</a> addon.<br/>" +
                                             "Chrome users will need to install the <a href='https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en'>Tampermonkey</a> extension<br/>" +
-                                            "Then click <a href='/src/main/webapp/js/pgimport.user.js'>here</a> to install the user script.<br/>" +
+                                            "Then click <a href='js/pgimport.user.js'>here</a> to install the user script.<br/>" +
                                             "Once the user script is installed, refresh the page to ensure it is active.")
                         ])
                 ]

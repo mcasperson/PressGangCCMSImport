@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -115,25 +116,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="755" column="45" selection-start="42111" selection-end="42111" vertical-scroll-proportion="0.0" vertical-offset="10976" max-vertical-offset="11850">
+            <state line="604" column="97" selection-start="35454" selection-end="35454" vertical-scroll-proportion="0.45657277" vertical-offset="8671" max-vertical-offset="11820">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="248" column="175" selection-start="17107" selection-end="17107" vertical-scroll-proportion="0.84210527" vertical-offset="3000" max-vertical-offset="3855">
-              <folding>
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1393550048092" expanded="true" signature="3698:3760" placeholder="..." />
-                <marker date="1393550048092" expanded="true" signature="3801:3856" placeholder="..." />
-                <marker date="1393550048092" expanded="true" signature="3899:4002" placeholder="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -147,10 +134,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="365" column="65" selection-start="15647" selection-end="15647" vertical-scroll-proportion="0.0" vertical-offset="5031" max-vertical-offset="7395">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="mojoimport-0.0.30.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport-0.0.30.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="34" selection-start="3138" selection-end="3152" vertical-scroll-proportion="-17.481482" vertical-offset="488" max-vertical-offset="1335">
+            <state line="64" column="34" selection-start="3138" selection-end="3152" vertical-scroll-proportion="-17.666666" vertical-offset="483" max-vertical-offset="1335">
               <folding />
             </state>
           </provider>
@@ -178,8 +174,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/fontrule.js" />
-        <option value="$PROJECT_DIR$/js/qna/app.js" />
         <option value="$PROJECT_DIR$/js/qna/controller.js" />
         <option value="$PROJECT_DIR$/js/require.js" />
         <option value="$PROJECT_DIR$/js/qnaangular/app.js" />
@@ -229,6 +223,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
       </list>
     </option>
   </component>
@@ -809,7 +805,7 @@
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
       <workItem from="1393386062190" duration="22617000" />
-      <workItem from="1393534414769" duration="7848000" />
+      <workItem from="1393534414769" duration="8705000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2367,11 +2363,15 @@
       <created>1393549913458</created>
       <updated>1393549913458</updated>
     </task>
-    <option name="localTasksCounter" value="390" />
+    <task id="LOCAL-00390" summary="Converted project to Maven WAR&#10;">
+      <created>1393550187693</created>
+      <updated>1393550187693</updated>
+    </task>
+    <option name="localTasksCounter" value="391" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="532328000" />
+    <option name="totallyTimeSpent" value="533185000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-1" width="1924" height="1085" extended-state="6" />
@@ -2684,13 +2684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport-0.0.30.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="34" selection-start="3138" selection-end="3152" vertical-scroll-proportion="-17.481482" vertical-offset="488" max-vertical-offset="1335">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="254" column="34" selection-start="11321" selection-end="11335" vertical-scroll-proportion="-10.444445" vertical-offset="3528" max-vertical-offset="17040">
@@ -2741,20 +2734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="755" column="45" selection-start="42111" selection-end="42111" vertical-scroll-proportion="0.0" vertical-offset="11325" max-vertical-offset="11850">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="456" column="175" selection-start="20624" selection-end="20624" vertical-scroll-proportion="0.0" vertical-offset="6386" max-vertical-offset="7395">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="40" selection-start="662" selection-end="662" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
@@ -2771,13 +2750,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="175" selection-start="17107" selection-end="17107" vertical-scroll-proportion="0.84210527" vertical-offset="3000" max-vertical-offset="3855">
+        <state line="248" column="175" selection-start="17107" selection-end="17107" vertical-scroll-proportion="-30.0" vertical-offset="3000" max-vertical-offset="3855">
           <folding>
             <element signature="n#style#0;n#img#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1393550048092" expanded="true" signature="3698:3760" placeholder="..." />
-            <marker date="1393550048092" expanded="true" signature="3801:3856" placeholder="..." />
-            <marker date="1393550048092" expanded="true" signature="3899:4002" placeholder="..." />
+            <marker date="1393550048092" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1393550048092" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1393550048092" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport-0.0.30.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="34" selection-start="3138" selection-end="3152" vertical-scroll-proportion="-17.666666" vertical-offset="483" max-vertical-offset="1335">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="365" column="65" selection-start="15647" selection-end="15647" vertical-scroll-proportion="0.0" vertical-offset="5031" max-vertical-offset="7395">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="604" column="97" selection-start="35454" selection-end="35454" vertical-scroll-proportion="0.45657277" vertical-offset="8671" max-vertical-offset="11820">
+          <folding />
         </state>
       </provider>
     </entry>
