@@ -109,7 +109,7 @@
       <file leaf-file-name="pgimport.user.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="60" selection-start="892" selection-end="892" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
+            <state line="7" column="41" selection-start="401" selection-end="401" vertical-scroll-proportion="0.117713004" vertical-offset="0" max-vertical-offset="892">
               <folding />
             </state>
           </provider>
@@ -809,7 +809,7 @@
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
       <workItem from="1393386062190" duration="22617000" />
-      <workItem from="1393534414769" duration="7527000" />
+      <workItem from="1393534414769" duration="7574000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2359,11 +2359,15 @@
       <created>1393549753178</created>
       <updated>1393549753178</updated>
     </task>
-    <option name="localTasksCounter" value="388" />
+    <task id="LOCAL-00388" summary="Converted project to Maven WAR&#10;">
+      <created>1393549866700</created>
+      <updated>1393549866701</updated>
+    </task>
+    <option name="localTasksCounter" value="389" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="532007000" />
+    <option name="totallyTimeSpent" value="532054000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-1" width="1924" height="1085" extended-state="6" />
@@ -2768,7 +2772,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="60" selection-start="892" selection-end="892" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
+        <state line="7" column="41" selection-start="401" selection-end="401" vertical-scroll-proportion="0.117713004" vertical-offset="0" max-vertical-offset="892">
           <folding />
         </state>
       </provider>
