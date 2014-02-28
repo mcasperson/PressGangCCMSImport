@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -107,10 +106,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pgimport.user.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="pgimport.user.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="38" selection-start="268" selection-end="268" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+            <state line="14" column="60" selection-start="892" selection-end="892" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
               <folding />
             </state>
           </provider>
@@ -157,10 +156,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="40" selection-start="662" selection-end="662" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
+            <state line="14" column="40" selection-start="662" selection-end="662" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
               <folding />
             </state>
           </provider>
@@ -179,7 +178,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/specelement.js" />
         <option value="$PROJECT_DIR$/js/fontrule.js" />
         <option value="$PROJECT_DIR$/js/qna/app.js" />
         <option value="$PROJECT_DIR$/js/qna/controller.js" />
@@ -230,6 +228,7 @@
         <option value="$PROJECT_DIR$/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js" />
       </list>
     </option>
   </component>
@@ -327,6 +326,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -784,7 +809,7 @@
       <workItem from="1393222338716" duration="11238000" />
       <workItem from="1393297727492" duration="19533000" />
       <workItem from="1393386062190" duration="22617000" />
-      <workItem from="1393534414769" duration="7414000" />
+      <workItem from="1393534414769" duration="7527000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2330,11 +2355,15 @@
       <created>1393549095519</created>
       <updated>1393549095519</updated>
     </task>
-    <option name="localTasksCounter" value="387" />
+    <task id="LOCAL-00387" summary="Converted project to Maven WAR&#10;">
+      <created>1393549753178</created>
+      <updated>1393549753178</updated>
+    </task>
+    <option name="localTasksCounter" value="388" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="531894000" />
+    <option name="totallyTimeSpent" value="532007000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-1" width="1924" height="1085" extended-state="6" />
@@ -2410,7 +2439,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Extracted copyright holder and year from entities" />
     <MESSAGE value="Extracted copyright holder and year from entities&#10;" />
     <MESSAGE value="Started work on enabling target injections on container elements" />
     <MESSAGE value="Started work on enabling target injections on container elements&#10;" />
@@ -2435,7 +2463,8 @@
     <MESSAGE value="Fixed bug when selecting a new zip file&#10;" />
     <MESSAGE value="Getting ready for alpha release" />
     <MESSAGE value="Converted project to Maven WAR" />
-    <option name="LAST_COMMIT_MESSAGE" value="Converted project to Maven WAR" />
+    <MESSAGE value="Converted project to Maven WAR&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Converted project to Maven WAR&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2711,13 +2740,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="38" selection-start="268" selection-end="268" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="456" column="175" selection-start="20624" selection-end="20624" vertical-scroll-proportion="0.0" vertical-offset="6386" max-vertical-offset="7395">
@@ -2739,7 +2761,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="40" selection-start="662" selection-end="662" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
+        <state line="14" column="40" selection-start="662" selection-end="662" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="60" selection-start="892" selection-end="892" vertical-scroll-proportion="0.23542601" vertical-offset="0" max-vertical-offset="892">
           <folding />
         </state>
       </provider>
