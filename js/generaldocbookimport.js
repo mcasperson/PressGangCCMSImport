@@ -84,13 +84,12 @@ define(
                                     }
                                 });
                             })
-                            .setEnterStep(function(){
-                                qnastart.zipModel.clearCache();
-                                resultCallback(false);
-                            })
                     ])
             ])
-
+            .setEnterStep(function(){
+                qnastart.zipModel.clearCache();
+                resultCallback(false);
+            })
             .setNextStep(function (resultCallback) {
                 resultCallback(docbookimport.askForRevisionMessage);
             });
