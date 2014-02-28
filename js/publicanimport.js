@@ -48,6 +48,10 @@ define(
             })
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
+            })
+            .setEnterStep(function(resultCallback){
+                qnastart.zipModel.clearCache();
+                resultCallback(false);
             });
 
         /*

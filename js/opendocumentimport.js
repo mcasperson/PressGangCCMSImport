@@ -56,6 +56,10 @@ define(
             })
             .setNextStep(function (resultCallback) {
                 resultCallback(useStyleRules);
+            })
+            .setEnterStep(function(){
+                qnastart.zipModel.clearCache();
+                resultCallback(false);
             });
 
         var useStyleRules = new qna.QNAStep()

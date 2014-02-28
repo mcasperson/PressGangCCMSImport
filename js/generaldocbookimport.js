@@ -84,6 +84,10 @@ define(
                                     }
                                 });
                             })
+                            .setEnterStep(function(){
+                                qnastart.zipModel.clearCache();
+                                resultCallback(false);
+                            })
                     ])
             ])
 
