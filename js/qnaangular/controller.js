@@ -55,8 +55,12 @@ require(
                                         }
                                     }
                                 },
-                                function (title, message) {
+                                function (title, message, critical) {
                                     alert(title, message);
+
+                                    if (critical === true) {
+                                        $scope.restart();
+                                    }
                                 },
                                 result,
                                 config
