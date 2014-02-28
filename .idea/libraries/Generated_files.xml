@@ -24,8 +24,8 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/js/require.min.js" />
-      <root url="file://$PROJECT_DIR$/js/require.min.js" />
+      <root url="file://$PROJECT_DIR$/src/main/webapp/js/require.min.js" />
+      <root url="file://$PROJECT_DIR$/src/main/webapp/js/require.min.js" />
       <root url="file://$PROJECT_DIR$/js/import.min.js" />
       <root url="file://$PROJECT_DIR$/js/import.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/okcontroller.min.js" />
@@ -51,10 +51,10 @@
       <root url="file://$PROJECT_DIR$/js/qna/controller.min.js" />
       <root url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload-html5-shim.min.min.js" />
-      <root url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload-html5-shim.min.js" />
-      <root url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload-shim.min.js" />
+      <root url="file://$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload-html5-shim.min.js" />
+      <root url="file://$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload-shim.min.js" />
       <root url="file://$PROJECT_DIR$/js/angular/angular-sanitize.min.js" />
-      <root url="file://$PROJECT_DIR$/js/angularfileupload/angular-file-upload.min.js" />
+      <root url="file://$PROJECT_DIR$/src/main/webapp/js/angularfileupload/angular-file-upload.min.js" />
       <root url="file://$PROJECT_DIR$/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.min.js" />
       <root url="file://$PROJECT_DIR$/js/qna/qnazipmodel.min.js" />
       <root url="file://$PROJECT_DIR$/js/zip/deflate.min.js" />
