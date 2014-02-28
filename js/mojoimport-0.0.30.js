@@ -17,22 +17,22 @@
                 //onprogress: function() {logToConsole("onprogress");},
                 //onreadystatechange: function() {logToConsole("onreadystatechange");},
                 onabort: function() {
-                    errorCallback("Error", "The request to Mojo failed.");
+                    errorCallback("Error", "The request to Mojo failed.", true);
                 },
                 onerror: function() {
-                    errorCallback("Error", "The request to Mojo failed.");
+                    errorCallback("Error", "The request to Mojo failed.", true);
                 },
                 ontimeout: function() {
-                    errorCallback("Error", "The request to Mojo failed.");
+                    errorCallback("Error", "The request to Mojo failed.", true);
                 },
                 onload: function(solutionsResponse) {
                     if (solutionsResponse.status === 401) {
-                        errorCallback("Not logged in", "The requested document could not be retrieved because you are not logged into Mojo.");
+                        errorCallback("Not logged in", "The requested document could not be retrieved because you are not logged into Mojo.", true);
                     } else if (solutionsResponse.status === 200) {
                         //https://developers.jivesoftware.com/community/message/5127#5127
                         var documents = JSON.parse(solutionsResponse.responseText.replace(/^throw [^;]*;/, ''));
                         if (documents.list.length === 0) {
-                            errorCallback("Document not found", "The requested document could not be found.");
+                            errorCallback("Document not found", "The requested document could not be found.", true);
 
                         } else {
                             var document = documents.list[0];
@@ -58,18 +58,18 @@
                 //onprogress: function() {logToConsole("onprogress");},
                 //onreadystatechange: function() {logToConsole("onreadystatechange");},
                 onabort: function(response) {
-                    errorCallback("Error", "The request to Mojo was aborted.");
+                    errorCallback("Error", "The request to Mojo was aborted.", true);
                 },
                 onerror: function(response) {
                     console.log(response.responseHeaders);
-                    errorCallback("Error", "The request to Mojo had an error.");
+                    errorCallback("Error", "The request to Mojo had an error.", true);
                 },
                 ontimeout: function(response) {
-                    errorCallback("Error", "The request to Mojo timed out.");
+                    errorCallback("Error", "The request to Mojo timed out.", true);
                 },
                 onload: function(response) {
                     if (response.status === 401) {
-                        errorCallback("Not logged in", "The requested document could not be retrieved because you are not logged into Mojo.");
+                        errorCallback("Not logged in", "The requested document could not be retrieved because you are not logged into Mojo.", true);
                     } else if (response.status === 200) {
                         var bytearray = [];
                         for (var i = 0; i < response.responseText.length; ++i) {

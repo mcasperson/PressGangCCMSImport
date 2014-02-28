@@ -67,8 +67,12 @@ require(
 
                         $rootScope.$apply();
                     },
-                    function (title, error) {
+                    function (title, error, critical) {
                         alert(title, error);
+
+                        if (critical === true) {
+                            $scope.restart();
+                        }
                     }
                 );
             };

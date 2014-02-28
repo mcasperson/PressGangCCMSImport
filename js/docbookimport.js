@@ -413,7 +413,7 @@ define(
                                 var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                    errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename);
+                                    errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename, true);
                                     return;
                                 } else {
                                     qnastart.zipModel.hasFileName(
@@ -437,11 +437,11 @@ define(
                                                         );
                                                     },
                                                     function (error) {
-                                                        errorCallback(error);
+                                                        errorCallback("Error reading file", "There was an error readiong the file " + referencedXMLFilename, true);
                                                     }
                                                 );
                                             } else {
-                                                //errorCallback("Could not find file " + referencedXMLFilename);
+                                                //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
                                                 xmlText = xmlText.replace(match[0], "");
                                                 resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                                             }
@@ -561,7 +561,7 @@ define(
                                             // a poor man's circular dependency detection, but I can't
                                             // see any book nesting XIncludes with xpointers 100 deep.
                                             if (count > 100) {
-                                                errorCallback("Circular dependency detected in XML");
+                                                errorCallback("Error detected", "Circular dependency detected in XML", true);
                                             } else {
                                                 resolveXIIncludeLoop(xmlText, visitedFiles);
                                             }
@@ -807,7 +807,7 @@ define(
                         findIndex(xmlDoc, contentSpec);
                     } else if (config.ImportOption === "Publican") {
                         // we expect a publican book to have this. Generic docbook imports might not have it
-                        errorCallback("Invalid content", "The <bookinfo>, <articleinfo> or <info> element could not be found");
+                        errorCallback("Invalid content", "The <bookinfo>, <articleinfo> or <info> element could not be found", true);
                     } else {
                         findIndex(xmlDoc, contentSpec);
                     }

@@ -446,7 +446,7 @@ define(
     
                                 var body = contentsXML.evaluate("//office:text", contentsXML, resolver, XPathResult.ANY_TYPE, null).iterateNext();
                                 if (body === null) {
-                                    errorCallback("Invalid ODT file", "Could not find the <office:body> element!");
+                                    errorCallback("Invalid ODT file", "Could not find the <office:body> element!", true);
                                 } else {
                                     // these nodes make up the content that we will import
                                     var contentNodes = contentsXML.evaluate("*", body, resolver, XPathResult.ANY_TYPE, null);
