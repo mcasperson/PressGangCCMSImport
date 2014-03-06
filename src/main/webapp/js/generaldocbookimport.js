@@ -86,7 +86,7 @@ define(
                             })
                     ])
             ])
-            .setEnterStep(function(){
+            .setEnterStep(function(resultCallback){
                 qnastart.zipModel.clearCache();
                 resultCallback(false);
             })
