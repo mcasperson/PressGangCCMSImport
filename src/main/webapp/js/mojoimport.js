@@ -236,10 +236,21 @@ define(
                                 for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                     var childNode = node.childNodes[childIndex];
                                     if (childNode.nodeType === Node.TEXT_NODE) {
+                                        /*
+                                            We want to get the text in the text node with entities. You can only get
+                                            the resolved text from a text node (i.e. textContent will return " " if the
+                                            text is "&nbsp;" (see http://stackoverflow.com/a/17583527/157605).
+
+                                            So to work around this we take the text node, clone it, append it to a
+                                            html element, and use innerHTML to get the text with entities.
+                                         */
+
+                                        var textContentWithEntities = jquery("<div/>").append(jquery(childNode).clone()).html();
+
                                         if (customContainerContent.length === 0) {
-                                            customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
+                                            customContainerContent.push(textContentWithEntities);
                                         } else {
-                                            customContainerContent[customContainerContent.length - 1] += generalexternalimport.cleanTextContent(childNode.textContent);
+                                            customContainerContent[customContainerContent.length - 1] += textContentWithEntities;
                                         }
                                     } else if (/^a$/i.test(childNode.nodeName)) {
                                         var href = childNode.getAttribute("href");
@@ -672,7 +683,7 @@ define(
                         qnastart.createTopic(
                             config.CreateOrResuseTopics === "REUSE",
                             4.5,
-                            qnautils.xmlToString(topic.xml),
+                            qnautils.reencode(qnautils.xmlToString(topic.xml), topic.xmlReplacements).trim(),
                             topic.title,
                             null,
                             config, function (data) {
@@ -690,7 +701,7 @@ define(
                                 resultCallback();
 
                                 topic.setTopicId(topicId);
-                                topic.xml = jquery.parseXML(topicXML);
+                                topic.setXmlReplacements(qnautils.replaceEntitiesInText(topicXML));
 
                                 createTopics(index + 1, topicGraph, callback);
                             },

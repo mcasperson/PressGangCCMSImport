@@ -93,29 +93,6 @@ define(
             return xmlText;
         }
 
-        /*
-         Replace entities with markers so we can process the XML without worrying about resolving entities
-         */
-        function replaceEntitiesInText (xmlText) {
-            var retValue = [];
-
-            var entityRe = /&.*?;/;
-
-            var match;
-            while ((match = entityRe.exec(xmlText)) !== null) {
-                var randomReplacement;
-                while (xmlText.indexOf(randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#") !== -1) {
-
-                }
-
-                retValue.push({placeholder: randomReplacement, entity: match[0]});
-
-                xmlText = xmlText.replace(new RegExp(qnautils.escapeRegExp(match[0]), "g"), randomReplacement);
-            }
-
-            return {xml: xmlText, replacements: retValue};
-        }
-
         function loadSetting(file, setting) {
             var retValue;
             var lines = file.split("\n");
@@ -131,13 +108,7 @@ define(
             return retValue;
         }
 
-        function reencode(xmlString, replacements) {
-            var reversed = replacements.reverse();
-            jquery.each(reversed, function (index, value) {
-                xmlString = xmlString.replace(new RegExp(qnautils.escapeRegExp(value.placeholder), "g"), value.entity);
-            });
-            return xmlString;
-        }
+
 
         function replaceSpecialChars(text) {
             return text.replace(/"/g, "\\\"")
@@ -489,7 +460,7 @@ define(
                                     config.ZipFile,
                                     referencedXMLFilename,
                                     function (referencedXmlText) {
-                                        var replacedTextResult = replaceEntitiesInText(referencedXmlText);
+                                        var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
                                         var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
                                         var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
 
@@ -501,7 +472,7 @@ define(
                                             if (replacement.length !== 0) {
                                                 replacement += "\n";
                                             }
-                                            replacement += reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
+                                            replacement += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
                                         }
 
                                         xmlText = xmlText.replace(match[0], replacement);
@@ -575,7 +546,7 @@ define(
                                     config.ResolvedXIIncludes = true;
                                     resultCallback();
 
-                                    replaceEntities(xmlText);
+                                    findEntities(xmlText);
                                 }
                             }
                         }
@@ -583,7 +554,7 @@ define(
                 }
 
                 function replaceEntities (xmlText) {
-                    var fixedXMLResult = replaceEntitiesInText(xmlText);
+                    var fixedXMLResult = qnautils.replaceEntitiesInText(xmlText);
                     replacements = fixedXMLResult.replacements;
                     xmlText = fixedXMLResult.xml;
 
@@ -728,27 +699,27 @@ define(
                         var productnumber = qnautils.xPath("./docbook:productnumber", bookinfo).iterateNext();
 
                         if (title) {
-                            contentSpec.push("Title = " + reencode(replaceWhiteSpace(title.innerHTML), replacements));
+                            contentSpec.push("Title = " + qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements));
                         }
 
                         if (subtitle) {
-                            contentSpec.push("Subtitle = " + reencode(replaceWhiteSpace(subtitle.innerHTML), replacements));
+                            contentSpec.push("Subtitle = " + qnautils.reencode(replaceWhiteSpace(subtitle.innerHTML), replacements));
                         }
 
                         if (edition) {
-                            contentSpec.push("Edition = " + reencode(replaceWhiteSpace(edition.innerHTML), replacements));
+                            contentSpec.push("Edition = " + qnautils.reencode(replaceWhiteSpace(edition.innerHTML), replacements));
                         }
 
                         if (pubsnumber) {
-                            contentSpec.push("Pubsnumber = " + reencode(replaceWhiteSpace(pubsnumber.innerHTML), replacements));
+                            contentSpec.push("Pubsnumber = " + qnautils.reencode(replaceWhiteSpace(pubsnumber.innerHTML), replacements));
                         }
 
                         if (productname) {
-                            contentSpec.push("Product = " + reencode(replaceWhiteSpace(productname.innerHTML), replacements));
+                            contentSpec.push("Product = " + qnautils.reencode(replaceWhiteSpace(productname.innerHTML), replacements));
                         }
 
                         if (productnumber) {
-                            contentSpec.push("Version = " + reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
+                            contentSpec.push("Version = " + qnautils.reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
                         }
 
                         contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
@@ -887,7 +858,7 @@ define(
                             "</simpara></appendix>");
 
                         var topic = new specelement.TopicGraphNode(topicGraph)
-                            .setXml(revHistoryFixedXML, revHistoryFixedXML)
+                            .setXml(revHistoryFixedXML)
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle(revHistoryTitleContents)
                             .addTag(REVISION_HISTORY_TAG_ID);
@@ -924,7 +895,7 @@ define(
                         var id = authorGroup.getAttribute("id");
 
                         var topic = new specelement.TopicGraphNode(topicGraph)
-                            .setXml(removeIdAttribute(authorGroup), xmlDoc)
+                            .setXml(removeIdAttribute(authorGroup))
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle("Author Group")
                             .addTag(AUTHOR_GROUP_TAG_ID);
@@ -966,7 +937,7 @@ define(
                         var id = abstractContent.getAttribute("id");
 
                         var topic = new specelement.TopicGraphNode(topicGraph)
-                            .setXml(removeIdAttribute(abstractContent), xmlDoc)
+                            .setXml(removeIdAttribute(abstractContent))
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle("Abstract")
                             .addTag(ABSTRACT_TAG_ID);
@@ -1125,7 +1096,7 @@ define(
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
                                 var titleText = "";
                                 if (title) {
-                                    titleText = reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
+                                    titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
                                 } else {
                                     titleText = "Untitled";
                                 }
@@ -1220,7 +1191,7 @@ define(
                                         }
 
                                         var standaloneContainerTopic = new specelement.TopicGraphNode(topicGraph)
-                                            .setXml(removeIdAttribute(clone), xmlDoc)
+                                            .setXml(removeIdAttribute(clone))
                                             .setSpecLine(contentSpec.length - 1)
                                             .setTitle(titleText);
 
@@ -1307,7 +1278,7 @@ define(
                                         }
 
                                         var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
-                                            .setXml(removeIdAttribute(clone), xmlDoc)
+                                            .setXml(removeIdAttribute(clone))
                                             .setSpecLine(contentSpec.length - 1)
                                             .setTitle(titleText);
 
@@ -1488,7 +1459,7 @@ define(
 
                             var topic = topics[index];
                             qnastart.getSimilarTopics(
-                                reencode(qnautils.xmlToString(topic.xml), replacements),
+                                qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                 config,
                                 function (data) {
                                     /*
@@ -1502,7 +1473,7 @@ define(
 
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
-                                    topicXMLCompare = reencode(topicXMLCompare, replacements);
+                                    topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
 
                                     /*
@@ -1528,7 +1499,7 @@ define(
                                         /*
                                          Strip out the entities which can cause issues with the XML Parsing
                                          */
-                                        var replacedTextResult = replaceEntitiesInText(matchingTopic.item.xml);
+                                        var replacedTextResult = qnautils.replaceEntitiesInText(matchingTopic.item.xml);
                                         /*
                                          Parse to XML
                                          */
@@ -1557,7 +1528,7 @@ define(
                                             /*
                                              Restore entities
                                              */
-                                            matchingTopicXMLCompare = reencode(matchingTopicXMLCompare, replacedTextResult.replacements);
+                                            matchingTopicXMLCompare = qnautils.reencode(matchingTopicXMLCompare, replacedTextResult.replacements);
 
                                             if (matchingTopicXMLCompare === topicXMLCompare) {
 
@@ -1581,12 +1552,12 @@ define(
                                                             throw "There was a mismatch between verbatim elements in similar topics!";
                                                         }
 
-                                                        var reencodedOriginal = reencode(qnautils.xmlToString(originalNode), replacements);
-                                                        var reencodedMatch = reencode(qnautils.xmlToString(matchingNode), replacedTextResult.replacements);
+                                                        var reencodedOriginal = qnautils.reencode(qnautils.xmlToString(originalNode), replacements);
+                                                        var reencodedMatch = qnautils.reencode(qnautils.xmlToString(matchingNode), replacedTextResult.replacements);
 
                                                         // the original
 
-                                                        if (reencodedOriginal !==reencodedMatch) {
+                                                        if (qnautils.reencodedOriginal !==qnautils.reencodedMatch) {
                                                             verbatimMatch = false;
                                                             return false;
                                                         }
@@ -1810,7 +1781,7 @@ define(
                                 qnastart.createTopic(
                                     false,
                                     config.ImportOption === "DocBook5" ? 5 : 4.5,
-                                    setDocumentNodeToSection(reencode(qnautils.xmlToString(topic.xml), replacements).trim()),
+                                    setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim()),
                                     topic.title,
                                     topic.tags,
                                     config,
@@ -1818,7 +1789,7 @@ define(
                                         topic.setTopicId(data.id);
                                         topic.createdTopic = true;
 
-                                        var replacedTextResult = replaceEntitiesInText(data.xml);
+                                        var replacedTextResult = qnautils.replaceEntitiesInText(data.xml);
 
                                         var entityFreeXml = qnautils.stringToXML(replacedTextResult.xml);
                                         // this might be null due to bugs like https://bugzilla.redhat.com/show_bug.cgi?id=1066169
@@ -1826,7 +1797,7 @@ define(
                                             topic.xml = qnautils.stringToXML(replacedTextResult.xml);
                                             topic.replacements = replacedTextResult.replacements;
                                         } else {
-                                            // work around this bug by allowing the existing xml to be reencoded. The
+                                            // work around this bug by allowing the existing xml to be qnautils.reencoded. The
                                             // final book would have invalid topics, but at least it will build.
                                             topic.replacements = replacements;
                                         }
@@ -1895,7 +1866,7 @@ define(
 
                                 qnastart.updateTopic(
                                     topic.topicId,
-                                    setDocumentNodeToSection(reencode(qnautils.xmlToString(topic.xml), topic.replacements)),
+                                    setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements)),
                                     topic.title,
                                     config,
                                     function (data) {

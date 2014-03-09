@@ -3,8 +3,8 @@
     presents that step to the user.
  */
 define(
-    ['jquery', 'qna/qna', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
-    function(jquery, qna, specelement, opendocumentimport, mojoimport, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
+    function(jquery, qna, qnautils, specelement, opendocumentimport, mojoimport, exports) {
         'use strict';
 
         exports.generateSpacing = function (outlineLevel) {
@@ -21,17 +21,25 @@ define(
                 xmlString += value + "\n";
             });
 
+            /*
+             It is possible that the source xml has some entities that are assumed to be available
+             in DocBook but which have not actually been defined (i.e. nbsp). So we strip out the entities
+             before trying to parse.
+             */
+            var fixedXML = "<section><title>" + title + "</title>" + xmlString + "</section>";
+            var replacements = qnautils.replaceEntitiesInText(fixedXML);
+
             var xml = null;
             try {
-                xml = jquery.parseXML("<section><title>" + title + "</title>" + xmlString + "</section>");
+                xml = jquery.parseXML(replacements.xml);
             } catch (error) {
-                console.log("<section><title>" + title + "</title>" + xmlString + "</section>");
+                console.log(replacements.xml);
                 console.log(error);
                 throw error;
             }
 
             var topic = new specelement.TopicGraphNode(topicGraph);
-            topic.setXml(xml, xml);
+            topic.setXmlReplacements(replacements);
             topic.setSpecLine(line);
             topic.setTitle(title);
 

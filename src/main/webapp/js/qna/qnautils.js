@@ -21,6 +21,11 @@ define (['jquery', 'exports'], function (jquery, exports) {
         return (new XMLSerializer()).serializeToString(xmlDoc);
     };
 
+    exports.encodedXmlToString = function(xmlReplacements) {
+        var retValue = (new XMLSerializer()).serializeToString(xmlReplacements.xml);
+        exports.reencode(retValue, xmlReplacements.replacements);
+    };
+
     exports.stringToXML = function(xml) {
         try {
             return jquery.parseXML(xml);
@@ -131,6 +136,37 @@ define (['jquery', 'exports'], function (jquery, exports) {
 
     exports.imageToByteArray = function (img) {
         return exports.base64ToByteArray(exports.imageToBase64(img));
+    };
+
+    /*
+     Replace entities with markers so we can process the XML without worrying about resolving entities
+     */
+    exports.replaceEntitiesInText =function (xmlText) {
+        var retValue = [];
+
+        var entityRe = /&.*?;/;
+
+        var match;
+        while ((match = entityRe.exec(xmlText)) !== null) {
+            var randomReplacement;
+            while (xmlText.indexOf(randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#") !== -1) {
+
+            }
+
+            retValue.push({placeholder: randomReplacement, entity: match[0]});
+
+            xmlText = xmlText.replace(new RegExp(exports.escapeRegExp(match[0]), "g"), randomReplacement);
+        }
+
+        return {xml: xmlText, replacements: retValue};
+    };
+
+    exports.reencode = function(xmlString, replacements) {
+        var reversed = replacements.reverse();
+        jquery.each(reversed, function (index, value) {
+            xmlString = xmlString.replace(new RegExp(exports.escapeRegExp(value.placeholder), "g"), value.entity);
+        });
+        return xmlString;
     };
 });
 

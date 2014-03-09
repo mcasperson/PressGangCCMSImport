@@ -1,4 +1,4 @@
-define(['jquery', 'exports'], function(jquery, exports) {
+define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports) {
     'use strict';
 
     exports.TopicGraph = function () {
@@ -160,13 +160,36 @@ define(['jquery', 'exports'], function(jquery, exports) {
         return this;
     };
 
-    exports.TopicGraphNode.prototype.setXml = function (xml, xmlDoc) {
+    /**
+     * Use this to define the XML associated with a topic when the XML has already been
+     * stripped of any entities. This is the case when importing existing docbook books.
+     * @param xml
+     * @returns {exports}
+     */
+    exports.TopicGraphNode.prototype.setXml = function (xml) {
         this.xml = xml;
-        this.xmlDoc = xmlDoc;
         this.xrefs = [];
+        this.findXRefs();
+        return this;
+    };
 
+    /**
+     * Use this when importing content from other formats, like HTML or ODT. This is because sources like HTML
+     * may contain useful entities (like nbsp) that we want to preserve.
+     * @param xmlReplacements
+     * @returns {exports}
+     */
+    exports.TopicGraphNode.prototype.setXmlReplacements = function (xmlReplacements) {
+        this.xmlReplacements = xmlReplacements.replacements;
+        this.xml = jquery.parseXML(xmlReplacements.xml);
+        this.xrefs = [];
+        this.findXRefs();
+        return this;
+    };
+
+    exports.TopicGraphNode.prototype.findXRefs = function() {
         // find any xrefs in the xml
-        var xrefs = xmlDoc.evaluate(".//xref", xml, null, XPathResult.ANY_TYPE, null);
+        var xrefs = qnautils.getOwnerDoc(this.xml).evaluate(".//xref", this.xml, null, XPathResult.ANY_TYPE, null);
         var xref;
         while ((xref = xrefs.iterateNext()) !== null) {
             if (xref.hasAttribute("linkend")) {
@@ -174,9 +197,7 @@ define(['jquery', 'exports'], function(jquery, exports) {
                 this.xrefs.push(linkend);
             }
         }
-
-        return this;
-    };
+    }
 
     exports.TopicGraphNode.prototype.setTitle = function (title) {
         this.title = title;

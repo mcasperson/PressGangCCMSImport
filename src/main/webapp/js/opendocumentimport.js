@@ -1021,7 +1021,7 @@ define(
                                             qnastart.createTopic(
                                                 config.CreateOrResuseTopics === "REUSE",
                                                 4.5,
-                                                qnautils.xmlToString(topic.xml),
+                                                qnautils.reencode(qnautils.xmlToString(topic.xml), topic.xmlReplacements).trim(),
                                                 topic.title,
                                                 null,
                                                 config, function (data) {
@@ -1037,7 +1037,7 @@ define(
                                                     resultCallback();
     
                                                     topic.setTopicId(topicId);
-                                                    topic.xml = jquery.parseXML(topicXML);
+                                                    topic.setXmlReplacements(qnautils.replaceEntitiesInText(topicXML));
     
                                                     createTopics(index + 1, callback);
                                                 },
