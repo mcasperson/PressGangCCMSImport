@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -128,14 +127,14 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="248" column="63" selection-start="17024" selection-end="17024" vertical-scroll-proportion="0.6978022" vertical-offset="3339" max-vertical-offset="3885">
+            <state line="253" column="7" selection-start="17272" selection-end="17272" vertical-scroll-proportion="0.83516484" vertical-offset="3339" max-vertical-offset="3885">
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1394403374230" expanded="true" signature="3723:3785" placeholder="..." />
-                <marker date="1394403374230" expanded="true" signature="3826:3881" placeholder="..." />
-                <marker date="1394403374230" expanded="true" signature="3924:4027" placeholder="..." />
+                <marker date="1394403423180" expanded="true" signature="3723:3785" placeholder="..." />
+                <marker date="1394403423180" expanded="true" signature="3826:3881" placeholder="..." />
+                <marker date="1394403423180" expanded="true" signature="3924:4027" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -843,7 +842,7 @@
       <workItem from="1393386062190" duration="22617000" />
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
-      <workItem from="1394395325600" duration="7063000" />
+      <workItem from="1394395325600" duration="7119000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2433,11 +2432,15 @@
       <created>1394402758756</created>
       <updated>1394402758756</updated>
     </task>
-    <option name="localTasksCounter" value="398" />
+    <task id="LOCAL-00398" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071048&#10;">
+      <created>1394403378671</created>
+      <updated>1394403378671</updated>
+    </task>
+    <option name="localTasksCounter" value="399" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="542854000" />
+    <option name="totallyTimeSpent" value="542910000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1914" height="1080" extended-state="4" />
@@ -2819,14 +2822,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="63" selection-start="17024" selection-end="17024" vertical-scroll-proportion="0.6978022" vertical-offset="3339" max-vertical-offset="3885">
+        <state line="253" column="7" selection-start="17272" selection-end="17272" vertical-scroll-proportion="0.83516484" vertical-offset="3339" max-vertical-offset="3885">
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1394403374230" expanded="true" signature="3723:3785" placeholder="..." />
-            <marker date="1394403374230" expanded="true" signature="3826:3881" placeholder="..." />
-            <marker date="1394403374230" expanded="true" signature="3924:4027" placeholder="..." />
+            <marker date="1394403423180" expanded="true" signature="3723:3785" placeholder="..." />
+            <marker date="1394403423180" expanded="true" signature="3826:3881" placeholder="..." />
+            <marker date="1394403423180" expanded="true" signature="3924:4027" placeholder="..." />
           </folding>
         </state>
       </provider>
