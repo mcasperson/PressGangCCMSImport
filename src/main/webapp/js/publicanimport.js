@@ -37,7 +37,7 @@ define(
                         });
 
                         if (!foundPublicanCfg) {
-                            errorCallback("Error", "The ZIP file did not contain a publican.cfg file.");
+                            errorCallback("Error", "The ZIP file did not contain a publican.cfg file in the root folder of the ZIP archive.");
                         } else {
                             resultCallback(null);
                         }

@@ -146,7 +146,7 @@ define(
                             var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
                                 if (index >= childNodeCount) {
                                     if (content.length !== 0) {
-                                        if (topicsAdded > 1) {
+                                        if (topicsAdded > 0) {
                                             if (outlineLevel > 1) {
                                                 /*
                                                     This is a child of an existing container. Add it as a regular topic.
@@ -342,18 +342,24 @@ define(
                             var processPara = function (content, contentNode, imageLinks) {
                                 var contentNodeText = convertNodeToDocbook(contentNode, true, imageLinks);
 
-                                // mojo has a fondness for creating <p> elements with a single space
-                                if (contentNodeText.length !== 0 &&
-                                    !(contentNodeText.length === 1 && contentNodeText[0] === "\u00a0")) {
-                                    jquery.each(contentNodeText, function(index, value) {
-                                        contentNodeText[index] = value.replace(/\n/g, "</para><para>");
-                                    });
+                                var hasContent = false;
+                                jquery.each(contentNodeText, function(index, value) {
+                                    // replace various space characters with a simple space
+                                    var fixedValue = value.replace(/\u00a0/g, " ")
+                                        .replace(/&nbsp;/g, " ");
+                                    if (fixedValue.trim().length !== 0) {
+                                        hasContent = true;
+                                        return false;
+                                    }
+                                });
 
-                                    content.push("<para>");
-                                    jquery.merge(content, contentNodeText);
-                                    content.push("</para>");
+                                if (!hasContent) {
+                                    return;
                                 }
 
+                                content.push("<para>");
+                                jquery.merge(content, contentNodeText);
+                                content.push("</para>");
                             };
 
                             var processTable = function (content, contentNode, imageLinks) {

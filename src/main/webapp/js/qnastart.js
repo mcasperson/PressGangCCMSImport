@@ -72,7 +72,7 @@ define(
                     if (retryCount < RETRY_COUNT) {
                         exports.createTopic(tryToMatch, format, xml, title, tags, config, successCallback, errorCallback, ++retryCount);
                     } else {
-                        errorCallback("Connection Error", "An error occurred while uploading the topic.");
+                        errorCallback("Connection Error", "An error occurred while uploading the topic. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
                 }
             });
@@ -96,7 +96,7 @@ define(
                     if (retryCount < RETRY_COUNT) {
                         exports.getSimilarTopics(xml, config, successCallback, errorCallback, ++retryCount);
                     } else {
-                        errorCallback("Connection Error", "An error occurred while getting similar topics.");
+                        errorCallback("Connection Error", "An error occurred while getting similar topics. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
                 }
             });
@@ -137,7 +137,7 @@ define(
                     if (retryCount < RETRY_COUNT) {
                         exports.updateTopic(id, xml, title, config, successCallback, errorCallback, ++retryCount);
                     } else {
-                        errorCallback("Connection Error", "An error occurred while uploading a topic.");
+                        errorCallback("Connection Error", "An error occurred while uploading a topic. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
                 }
             });
@@ -197,7 +197,7 @@ define(
                             if (retryCount < RETRY_COUNT) {
                                 exports.createImage(trytomatch, zipfile, image, config, successCallback, errorCallback, ++retryCount);
                             } else {
-                                errorCallback("Connection Error", "An error occurred while uploading an image.");
+                                errorCallback("Connection Error", "An error occurred while uploading an image. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
 
                         }
@@ -253,7 +253,7 @@ define(
                             if (retryCount < RETRY_COUNT) {
                                 exports.createImageFromURL(trytomatch, url, config, successCallback, errorCallback, ++retryCount);
                             } else {
-                                errorCallback("Connection Error", "An error occurred while uploading an image.");
+                                errorCallback("Connection Error", "An error occurred while uploading an image. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
 
                         }
@@ -288,7 +288,7 @@ define(
                     if (retryCount < RETRY_COUNT) {
                         exports.createContentSpec(spec, config, successCallback, errorCallback, ++retryCount);
                     } else {
-                        errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+                        errorCallback("Connection Error", "An error occurred while uploading the content spec. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
                    
                 }
@@ -321,7 +321,7 @@ define(
                     if (retryCount < RETRY_COUNT) {
                         exports.updateContentSpec(id, spec, config, successCallback, errorCallback, ++retryCount);
                     } else {
-                        errorCallback("Connection Error", "An error occurred while uploading the content spec.");
+                        errorCallback("Connection Error", "An error occurred while uploading the content spec. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
                     
                 }
