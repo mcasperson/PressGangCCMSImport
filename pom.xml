@@ -6,6 +6,9 @@
         <artifactId>pressgang-parent</artifactId>
         <version>1.6</version>
     </parent>
+    <properties>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    </properties>
     <groupId>org.jboss.pressgang.ccms</groupId>
     <artifactId>pressgang-ccms-import</artifactId>
     <version>1.5-SNAPSHOT</version>
@@ -13,5 +16,30 @@
     <packaging>war</packaging>
     <build>
         <finalName>pressgang-ccms-import</finalName>
+        <plugins>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.1</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <file>src/main/webapp/index.html</file>
+                    <replacements>
+                        <replacement>
+                            <token>Build \d+(\.\d+)*-SNAPSHOT \d{12}</token>
+                            <value>Build ${project.version} ${maven.build.timestamp}</value>
+                        </replacement>
+                    </replacements>
+                </configuration>
+            </plugin>
+
+        </plugins>
     </build>
 </project>
