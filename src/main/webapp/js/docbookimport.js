@@ -546,7 +546,7 @@ define(
                                     config.ResolvedXIIncludes = true;
                                     resultCallback();
 
-                                    findEntities(xmlText);
+                                    replaceEntities(xmlText);
                                 }
                             }
                         }
@@ -660,6 +660,11 @@ define(
                  */
                 function parseAsXML (xmlText, entities) {
                     var xmlDoc = qnautils.stringToXML(xmlText);
+
+                    if (xmlDoc === null) {
+                        console.log(xmlText);
+                        throw "xmlText was not valid XML";
+                    }
 
                     config.UploadProgress[1] = 5 * progressIncrement;
                     config.ParsedAsXML = true;
