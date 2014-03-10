@@ -348,12 +348,9 @@ define(
                                         if (exists) {
                                             /*
                                              We replace the relative file ref with an absolute path. This is done on the xml each
-                                             time a new XML file is included. We set any resolved paths to filerefresolved
-                                             so they won't be resolved twice. This is fixed up after all the injections are handled.
+                                             time a new XML file is included.
                                              */
-                                            retValue = retValue.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "filerefresolved='" + value.replacement + "'");
-                                        } else {
-                                            retValue = retValue.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "filerefresolved='" + value.original + "'");
+                                            retValue = retValue.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "fileref='" + value.replacement + "'");
                                         }
 
                                         processImageFileRefs(++index);
@@ -580,7 +577,6 @@ define(
                                     );
                                 } else {
                                     xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
-                                    xmlText = xmlText.replace(/filerefresolved=/g, "fileref=");
 
                                     config.UploadProgress[1] = progressIncrement;
                                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
