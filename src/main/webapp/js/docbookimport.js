@@ -302,8 +302,11 @@ define(
                 function resolveXiIncludes () {
                     // Note the self closing tag is optional. clearFallbacks will remove those.
                     var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|'))[^>]*>/;
+                    var xiIncludeReHrefGroup = 2;
                     // Note the self closing tag is optional. clearFallbacks will remove those.
                     var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')[^>]*>/;
+                    var xiIncludeWithPointerReHrefGroup = 4;
+                    var xiIncludeWithPointerReXPointerGroup = 7;
                     var commonContent = /^Common_Content/;
 
                     // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
@@ -323,8 +326,8 @@ define(
 
                         var match;
                         while ((match = filerefRe.exec(xmlText)) !== null) {
-                            if (!(commonContent.test(match[2]))) {
-                                var imageFilename = match[2].replace(/^\.\//, "");
+                            if (!(commonContent.test(match[xiIncludeReHrefGroup]))) {
+                                var imageFilename = match[xiIncludeReHrefGroup].replace(/^\.\//, "");
                                 var fileref = base === null ?
                                     new URI(imageFilename) :
                                     new URI(base + imageFilename);
@@ -481,15 +484,14 @@ define(
                                 return;
                             }
 
-                            if (commonContent.test(match[4])) {
+                            if (commonContent.test(match[xiIncludeWithPointerReHrefGroup])) {
                                 xmlText = xmlText.replace(match[0], "");
                                 resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                             } else {
                                 var thisFile = new URI(filename);
-                                var referencedXMLFilename = "";
                                 var referencedXMLFilenameRelative = base !== null ?
-                                    new URI(base + match[xmlPathIndex]) :
-                                    new URI(match[xmlPathIndex]);
+                                    new URI(base + match[xiIncludeWithPointerReHrefGroup]) :
+                                    new URI(match[xiIncludeWithPointerReHrefGroup]);
                                 var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                 qnastart.zipModel.getTextFromFileName(
@@ -501,7 +503,7 @@ define(
                                             var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
                                             var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
 
-                                            var subset = qnautils.xPath(match[7], cleanedReferencedXmlDom);
+                                            var subset = qnautils.xPath(match[xiIncludeWithPointerReXPointerGroup], cleanedReferencedXmlDom);
 
                                             var replacement = "";
                                             var matchedNode;
@@ -1680,6 +1682,8 @@ define(
                                                     topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
                                                 }
                                             }
+                                        } else {
+                                            console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
                                         }
                                     });
 
