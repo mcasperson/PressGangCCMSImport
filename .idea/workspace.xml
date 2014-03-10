@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -143,19 +142,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="335" column="174" selection-start="16355" selection-end="16355" vertical-scroll-proportion="0.6372007" vertical-offset="4679" max-vertical-offset="30120">
+            <state line="820" column="44" selection-start="41897" selection-end="41897" vertical-scroll-proportion="-16.703703" vertical-offset="11849" max-vertical-offset="30240">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qnazipmodel.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js">
+      <file leaf-file-name="qnastart.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="115" column="29" selection-start="3717" selection-end="3717" vertical-scroll-proportion="0.0" vertical-offset="1412" max-vertical-offset="1995">
+            <state line="5" column="27" selection-start="332" selection-end="332" vertical-scroll-proportion="0.13157895" vertical-offset="0" max-vertical-offset="7395">
               <folding />
             </state>
           </provider>
@@ -223,8 +222,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
       </list>
     </option>
   </component>
@@ -866,7 +865,7 @@
       <workItem from="1393386062190" duration="22617000" />
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
-      <workItem from="1394395325600" duration="18045000" />
+      <workItem from="1394395325600" duration="19929000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2468,11 +2467,19 @@
       <created>1394408292143</created>
       <updated>1394408292143</updated>
     </task>
-    <option name="localTasksCounter" value="401" />
+    <task id="LOCAL-00401" summary="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340">
+      <created>1394418398493</created>
+      <updated>1394418398493</updated>
+    </task>
+    <task id="LOCAL-00402" summary="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340&#10;">
+      <created>1394420121595</created>
+      <updated>1394420121595</updated>
+    </task>
+    <option name="localTasksCounter" value="403" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="553836000" />
+    <option name="totallyTimeSpent" value="555720000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1914" height="1080" extended-state="4" />
@@ -2548,8 +2555,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Working on a better way to compare xml while observing significant whitespace&#10;" />
-    <MESSAGE value="Incorporated require.js" />
     <MESSAGE value="Incorporated require.js&#10;" />
     <MESSAGE value="Fixing up ODT import" />
     <MESSAGE value="Working on DocBook 5 import" />
@@ -2573,7 +2578,9 @@
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071048" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071048&#10;" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072691" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072691" />
+    <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340" />
+    <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2830,13 +2837,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="323" column="164" selection-start="14114" selection-end="14145" vertical-scroll-proportion="0.4990792" vertical-offset="4574" max-vertical-offset="7395">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="248" column="67" selection-start="17016" selection-end="17028" vertical-scroll-proportion="-15.875" vertical-offset="3339" max-vertical-offset="3885">
@@ -2867,7 +2867,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="335" column="174" selection-start="16355" selection-end="16355" vertical-scroll-proportion="0.6372007" vertical-offset="4679" max-vertical-offset="30120">
+        <state line="820" column="44" selection-start="41897" selection-end="41897" vertical-scroll-proportion="-16.703703" vertical-offset="11849" max-vertical-offset="30240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="27" selection-start="332" selection-end="332" vertical-scroll-proportion="0.13157895" vertical-offset="0" max-vertical-offset="7395">
           <folding />
         </state>
       </provider>

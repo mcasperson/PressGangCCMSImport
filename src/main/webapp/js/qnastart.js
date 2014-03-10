@@ -3,7 +3,7 @@ define(
     function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, exports) {
         'use strict';
 
-        var RETRY_COUNT = 2;
+        var RETRY_COUNT = 5;
         
         // a zip model to be shared
         exports.zipModel = new qnazipmodel.QNAZipModel();
