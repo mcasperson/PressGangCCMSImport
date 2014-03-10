@@ -1379,22 +1379,25 @@ define(
                      with a injection placeholder. This is done on topics to be imported.
                      */
                     function normalizeXrefs (xml, topicAndContainerIDs) {
-                        var xrefs = qnautils.xPath("//docbook:xref", xml);
-                        var xref;
-                        var xrefReplacements = [];
-                        while ((xref = xrefs.iterateNext()) !== null) {
-                            if (xref.hasAttribute("linkend")) {
-                                var linkend = xref.getAttribute("linkend");
-                                if (topicAndContainerIDs.indexOf(linkend) !== -1) {
-                                    var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
-                                    xrefReplacements.push({original: xref, replacement: xrefReplacement});
+                        jquery.each(['xref', 'link'], function(index, linkElement) {
+                            var xrefs = qnautils.xPath("//docbook:" + linkElement, xml);
+                            var xref;
+                            var xrefReplacements = [];
+                            while ((xref = xrefs.iterateNext()) !== null) {
+                                if (xref.hasAttribute("linkend")) {
+                                    var linkend = xref.getAttribute("linkend");
+                                    if (topicAndContainerIDs.indexOf(linkend) !== -1) {
+                                        var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
+                                        xrefReplacements.push({original: xref, replacement: xrefReplacement});
+                                    }
                                 }
                             }
-                        }
 
-                        jquery.each(xrefReplacements, function (index, value) {
-                            value.original.parentNode.replaceChild(value.replacement, value.original);
+                            jquery.each(xrefReplacements, function (index, value) {
+                                value.original.parentNode.replaceChild(value.replacement, value.original);
+                            });
                         });
+
 
                         return xml;
                     }
