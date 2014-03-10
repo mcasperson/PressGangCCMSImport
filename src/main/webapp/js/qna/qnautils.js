@@ -88,7 +88,7 @@ define (['jquery', 'exports'], function (jquery, exports) {
                 return ownerDoc.evaluate(path.replace(/docbook:/g, ""), referenceNode, null, XPathResult.ANY_TYPE, null);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
 
         // if that fails, try it again with the fake prefix which resolves to the docbook namespace
