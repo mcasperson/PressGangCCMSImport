@@ -297,7 +297,7 @@ define(
                         return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
                     }
 
-                    function resolveFileRefs(xmlText, filename) {
+                    function resolveFileRefs(xmlText, filename, callback) {
                         var thisFile = new URI(filename);
                         var filerefRe=/fileref\s*=\s*('|")(.*?)('|")/g;
 
@@ -306,17 +306,44 @@ define(
                         var match;
                         while ((match = filerefRe.exec(xmlText)) !== null) {
                             if (!(commonContent.test(match[2]) || images.test(match[2]))) {
-                                var fileref = new URI(match[2]);
+                                var imageFilename = match[2].replace(/^\.\//, "");
+                                var fileref = new URI(imageFilename);
                                 var absoluteFileRef = fileref.absoluteTo(thisFile).toString();
-                                replacements.push({original: fileref, replacement: absoluteFileRef});
+                                replacements.push({original: fileref.toString(), replacement: absoluteFileRef});
                             }
                         }
 
-                        jquery.each(replacements, function(index, value) {
-                            xmlText = xmlText.replace(value.original, value.replacement);
-                        });
+                        var retValue = xmlText;
 
-                        return xmlText;
+                        var processImageFileRefs = function(index) {
+                            if (index >= replacements.length) {
+                                callback(retValue);
+                            } else {
+                                var value = replacements[index];
+
+                                qnastart.zipModel.hasFileName(
+                                    config.ZipFile,
+                                    value.replacement,
+                                    function(exists) {
+                                        if (exists) {
+                                            /*
+                                             We replace the relative file ref with an absolute path. This is done on the xml each
+                                             time a new XML file is included. We set any resolved paths to filerefresolved
+                                             so they won't be resolved twice. This is fixed up after all the injections are handled.
+                                             */
+                                            retValue = retValue.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "filerefresolved='" + value.replacement + "'");
+                                        } else {
+                                            retValue = retValue.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "filerefresolved='" + value.original + "'");
+                                        }
+
+                                        processImageFileRefs(++index);
+                                    },
+                                    errorCallback
+                                );
+                            }
+                        };
+
+                        processImageFileRefs(0);
                     }
 
                     /*
@@ -338,93 +365,93 @@ define(
                     function resolveXIInclude (xmlText, base, filename, visitedFiles, callback) {
 
                         xmlText = clearFallbacks(xmlText);
-                        xmlText = resolveFileRefs(xmlText, filename);
-
-                        /*
-                         Make sure we are not entering an infinite loop
-                         */
-                        if (visitedFiles.indexOf(filename) === -1) {
-                            visitedFiles.push(filename);
-                        }
-
-                        var match = xiIncludeRe.exec(xmlText);
-                        var xmlPathIndex = 3;
-
-                        if (match !== null) {
-
-                            var previousString = xmlText.substr(0, match.index);
-                            var lastStartComment = previousString.lastIndexOf("<!--");
-                            var lastEndComment = previousString.lastIndexOf("-->");
-
+                        resolveFileRefs(xmlText, filename, function(xmlText) {
                             /*
-                             The xi:include was in a comment, so ignore it
+                             Make sure we are not entering an infinite loop
                              */
-                            if (lastStartComment !== -1 &&
-                                (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                                xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
-                                return;
+                            if (visitedFiles.indexOf(filename) === -1) {
+                                visitedFiles.push(filename);
                             }
 
-                            if (commonContent.test(match[xmlPathIndex])) {
-                                xmlText = xmlText.replace(match[0], "");
-                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
-                            } else {
-                                /*
-                                    We need to work out where the files to be included will come from. This is a
-                                    combination of the href, the xml:base attribute, and the location of the
-                                    xml file that is doing the importing.
-                                 */
-                                var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
-                                var thisFile = new URI(filename);
-                                var referencedXMLFilename = "";
-                                var referencedXMLFilenameRelative = base !== null ?
-                                    new URI(base + fixedMatch) :
-                                    new URI(fixedMatch);
-                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+                            var match = xiIncludeRe.exec(xmlText);
+                            var xmlPathIndex = 3;
 
-                                if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                    errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename, true);
+                            if (match !== null) {
+
+                                var previousString = xmlText.substr(0, match.index);
+                                var lastStartComment = previousString.lastIndexOf("<!--");
+                                var lastEndComment = previousString.lastIndexOf("-->");
+
+                                /*
+                                 The xi:include was in a comment, so ignore it
+                                 */
+                                if (lastStartComment !== -1 &&
+                                    (lastEndComment === -1 || lastEndComment < lastStartComment)) {
+                                    xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
+                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
                                     return;
-                                } else {
-                                    qnastart.zipModel.hasFileName(
-                                        config.ZipFile,
-                                        referencedXMLFilename,
-                                        function(exists) {
-                                            if (exists) {
-                                                qnastart.zipModel.getTextFromFileName(
-                                                    config.ZipFile,
-                                                    referencedXMLFilename,
-                                                    function (referencedXmlText) {
-                                                        resolveXIInclude(
-                                                            referencedXmlText,
-                                                            getXmlBaseAttribute(referencedXmlText),
-                                                            referencedXMLFilename,
-                                                            visitedFiles,
-                                                            function (fixedReferencedXmlText) {
-                                                                xmlText = xmlText.replace(match[0], fixedReferencedXmlText);
-                                                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
-                                                            }
-                                                        );
-                                                    },
-                                                    function (error) {
-                                                        errorCallback("Error reading file", "There was an error readiong the file " + referencedXMLFilename, true);
-                                                    }
-                                                );
-                                            } else {
-                                                //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
-                                                xmlText = xmlText.replace(match[0], "");
-                                                resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
-                                            }
-                                        },
-                                        errorCallback
-                                    );
                                 }
 
+                                if (commonContent.test(match[xmlPathIndex])) {
+                                    xmlText = xmlText.replace(match[0], "");
+                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                } else {
+                                    /*
+                                        We need to work out where the files to be included will come from. This is a
+                                        combination of the href, the xml:base attribute, and the location of the
+                                        xml file that is doing the importing.
+                                     */
+                                    var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
+                                    var thisFile = new URI(filename);
+                                    var referencedXMLFilename = "";
+                                    var referencedXMLFilenameRelative = base !== null ?
+                                        new URI(base + fixedMatch) :
+                                        new URI(fixedMatch);
+                                    var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+
+                                    if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
+                                        errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename, true);
+                                        return;
+                                    } else {
+                                        qnastart.zipModel.hasFileName(
+                                            config.ZipFile,
+                                            referencedXMLFilename,
+                                            function(exists) {
+                                                if (exists) {
+                                                    qnastart.zipModel.getTextFromFileName(
+                                                        config.ZipFile,
+                                                        referencedXMLFilename,
+                                                        function (referencedXmlText) {
+                                                            resolveXIInclude(
+                                                                referencedXmlText,
+                                                                getXmlBaseAttribute(referencedXmlText),
+                                                                referencedXMLFilename,
+                                                                visitedFiles,
+                                                                function (fixedReferencedXmlText) {
+                                                                    xmlText = xmlText.replace(match[0], fixedReferencedXmlText);
+                                                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                                                }
+                                                            );
+                                                        },
+                                                        function (error) {
+                                                            errorCallback("Error reading file", "There was an error readiong the file " + referencedXMLFilename, true);
+                                                        }
+                                                    );
+                                                } else {
+                                                    //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
+                                                    xmlText = xmlText.replace(match[0], "");
+                                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                                }
+                                            },
+                                            errorCallback
+                                        );
+                                    }
+
+                                }
+                            } else {
+                                callback(xmlText, visitedFiles);
                             }
-                        } else {
-                            callback(xmlText, visitedFiles);
-                        }
+                        });
                     }
 
                     function resolveXIIncludePointer (xmlText, base, filename, visitedFiles, callback) {
@@ -540,6 +567,7 @@ define(
                                     );
                                 } else {
                                     xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
+                                    xmlText = xmlText.replace(/filerefresolved=/g, "fileref=");
 
                                     config.UploadProgress[1] = progressIncrement;
 
@@ -979,65 +1007,48 @@ define(
 
                             var nodeValue = image.nodeValue;
 
-                            // remove the local directory prefix
-                            var fixedNodeValue = nodeValue.replace(/^\.\//, "");
+                            if (!uploadedImages[nodeValue]) {
 
-                            if (fixedNodeValue.indexOf("images") === 0) {
+                                qnastart.zipModel.hasFileName(
+                                    config.ZipFile,
+                                    nodeValue,
+                                    function (result) {
+                                        if (result) {
+                                            qnastart.createImage(
+                                                config.CreateOrResuseImages === "REUSE",
+                                                config.ZipFile,
+                                                nodeValue,
+                                                config,
+                                                function (data) {
+                                                    var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
 
-                                // find the absolute path
-                                var pathPrefix = config.MainXMLFile.substring(0, config.MainXMLFile.lastIndexOf("/"));
-                                var filename = "";
-                                if (pathPrefix.trim().length === 0) {
-                                    filename = fixedNodeValue;
-                                }   else {
-                                    filename = pathPrefix + "/" + fixedNodeValue;
-                                }
+                                                    config.UploadedImageCount += 1;
 
-                                if (!uploadedImages[nodeValue]) {
+                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                                                        config.MatchedImageCount += 1;
+                                                    }
 
-                                    qnastart.zipModel.hasFileName(
-                                        config.ZipFile,
-                                        filename,
-                                        function (result) {
-                                            if (result) {
-                                                qnastart.createImage(
-                                                    config.CreateOrResuseImages === "REUSE",
-                                                    config.ZipFile,
-                                                    filename,
-                                                    config,
-                                                    function (data) {
-                                                        var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
+                                                    config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
+                                                    resultCallback();
 
-                                                        config.UploadedImageCount += 1;
+                                                    uploadedImages[nodeValue] = imageId + nodeValue.substr(nodeValue.lastIndexOf("."));
 
-                                                        if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
-                                                            config.MatchedImageCount += 1;
-                                                        }
+                                                    ++count;
 
-                                                        config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
-                                                        resultCallback();
+                                                    config.UploadProgress[1] = (9 * progressIncrement) + (count / numImages * progressIncrement);
+                                                    resultCallback();
 
-                                                        uploadedImages[nodeValue] = imageId + filename.substr(filename.lastIndexOf("."));
-
-                                                        ++count;
-
-                                                        config.UploadProgress[1] = (9 * progressIncrement) + (count / numImages * progressIncrement);
-                                                        resultCallback();
-
-                                                        processImages(images.iterateNext(), count);
-                                                    },
-                                                    errorCallback
-                                                );
-                                            } else {
-                                                processImages(images.iterateNext(), ++count);
-                                            }
-                                        },
-                                        errorCallback
-                                    );
-                                }  else {
-                                    processImages(images.iterateNext(), ++count);
-                                }
-                            } else {
+                                                    processImages(images.iterateNext(), count);
+                                                },
+                                                errorCallback
+                                            );
+                                        } else {
+                                            processImages(images.iterateNext(), ++count);
+                                        }
+                                    },
+                                    errorCallback
+                                );
+                            }  else {
                                 processImages(images.iterateNext(), ++count);
                             }
                         } else {
@@ -1102,6 +1113,13 @@ define(
                                 var titleText = "";
                                 if (title) {
                                     titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
+
+                                    /*
+                                        Title is mandatory
+                                     */
+                                    if (titleText.length === 0) {
+                                        titleText = "Untitled";
+                                    }
                                 } else {
                                     titleText = "Untitled";
                                 }
