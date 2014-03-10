@@ -1388,13 +1388,31 @@ define(
                                     var linkend = xref.getAttribute("linkend");
                                     if (topicAndContainerIDs.indexOf(linkend) !== -1) {
                                         var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
-                                        xrefReplacements.push({original: xref, replacement: xrefReplacement});
+                                        var replacement = {original: xref, replacement: [xrefReplacement]};
+                                        xrefReplacements.push(replacement);
+
+                                        /*
+                                            Injections currently don't replicate links. During the import we replace a link
+                                            (and any text inside it) with an injection, which in turn becomes an xref. To ensure
+                                            that no information is lost the original link is added as a comment.
+                                         */
+                                        if (linkElement === 'link') {
+                                            replacement.replacement.push(xmlDoc.createComment(qnautils.xmlToString(xref)));
+                                        }
                                     }
                                 }
                             }
 
                             jquery.each(xrefReplacements, function (index, value) {
-                                value.original.parentNode.replaceChild(value.replacement, value.original);
+                                for (var replacementIndex = 0; replacementIndex < value.replacement.length; ++replacementIndex) {
+                                    if (replacementIndex === value.replacement.length - 1) {
+                                        value.original.parentNode.replaceChild(value.replacement[replacementIndex], value.original);
+                                    } else {
+                                        value.original.parentNode.insertBefore(value.replacement[replacementIndex],value.original);
+                                    }
+                                }
+
+
                             });
                         });
 
