@@ -74,6 +74,11 @@ define(['exports'], function (exports) {
         return this;
     };
 
+    exports.QNAStep.prototype.setTitlePrefixPercentage = function (titlePrefix) {
+        this.titlePrefix = titlePrefix.toFixed(2) + "% ";
+        return this;
+    };
+
     exports.QNAStep.prototype.setTitle = function (title) {
         this.title = title;
         return this;

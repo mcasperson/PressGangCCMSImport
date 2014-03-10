@@ -253,6 +253,8 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
+                var thisStep = this;
+
                 window.onbeforeunload=function(){
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
@@ -570,6 +572,7 @@ define(
                                     xmlText = xmlText.replace(/filerefresolved=/g, "fileref=");
 
                                     config.UploadProgress[1] = progressIncrement;
+                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
 
                                     config.ResolvedXIIncludes = true;
                                     resultCallback();
@@ -587,6 +590,7 @@ define(
                     xmlText = fixedXMLResult.xml;
 
                     config.UploadProgress[1] = 2 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.FoundEntities = true;
                     resultCallback();
 
@@ -611,6 +615,7 @@ define(
                         var processTextFile = function (index) {
                             if (index >= entries.length) {
                                 config.UploadProgress[1] = 3 * progressIncrement;
+                                thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                                 config.FoundEntityDefinitions = true;
                                 resultCallback();
 
@@ -656,6 +661,7 @@ define(
                     xmlText = removeXmlPreamble(xmlText);
 
                     config.UploadProgress[1] = 4 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.RemovedXMLPreamble = true;
                     resultCallback();
 
@@ -695,6 +701,7 @@ define(
                     }
 
                     config.UploadProgress[1] = 5 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.ParsedAsXML = true;
                     resultCallback();
 
@@ -704,6 +711,13 @@ define(
                 var removeIdAttribute = function (xml) {
                     if (xml.hasAttribute("id")) {
                         xml.removeAttribute("id");
+                    }
+                    return xml;
+                };
+
+                var removeRedundantXmlnsAttribute = function (xml) {
+                    if (xml.hasAttribute("xmlns") && xml.attribute["xmlns"] === "http://docbook.org/ns/docbook") {
+                        xml.removeAttribute("xmlns");
                     }
                     return xml;
                 };
@@ -809,6 +823,7 @@ define(
                         }
 
                         config.UploadProgress[1] = 6 * progressIncrement;
+                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.FoundBookInfo = true;
                         resultCallback();
 
@@ -818,6 +833,7 @@ define(
                         errorCallback("Invalid content", "The <bookinfo>, <articleinfo> or <info> element could not be found", true);
                     } else {
                         config.UploadProgress[1] = 6 * progressIncrement;
+                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.FoundBookInfo = true;
                         resultCallback();
 
@@ -913,6 +929,7 @@ define(
                     }
 
                     config.UploadProgress[1] = 7 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.FoundRevisionHistory = true;
                     resultCallback();
                     extractAuthorGroup(xmlDoc, contentSpec, topics, topicGraph);
@@ -948,8 +965,8 @@ define(
                         topics.push(topic);
                     }
 
-
                     config.UploadProgress[1] = 8 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.FoundAuthorGroup = true;
                     resultCallback();
 
@@ -991,6 +1008,7 @@ define(
                     }
 
                     config.UploadProgress[1] = 9 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.FoundAbstract = true;
                     resultCallback();
 
@@ -1044,6 +1062,7 @@ define(
                                                     ++count;
 
                                                     config.UploadProgress[1] = (9 * progressIncrement) + (count / numImages * progressIncrement);
+                                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                                                     resultCallback();
 
                                                     processImages(images.iterateNext(), count);
@@ -1074,6 +1093,7 @@ define(
                             });
 
                             config.UploadProgress[1] = 10 * progressIncrement;
+                            thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             config.FoundImages = true;
                             resultCallback();
 
@@ -1118,6 +1138,8 @@ define(
 
                                 // find the title
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
+                                // remove any redundant namespace attributes
+                                removeRedundantXmlnsAttribute(title);
                                 var titleText = "";
                                 if (title) {
                                     titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
@@ -1363,6 +1385,7 @@ define(
                     processXml(xmlDoc.documentElement, 0);
 
                     config.UploadProgress[1] = 11 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.ResolvedBookStructure = true;
                     resultCallback();
 
@@ -1408,11 +1431,9 @@ define(
                                     if (replacementIndex === value.replacement.length - 1) {
                                         value.original.parentNode.replaceChild(value.replacement[replacementIndex], value.original);
                                     } else {
-                                        value.original.parentNode.insertBefore(value.replacement[replacementIndex],value.original);
+                                        value.original.parentNode.insertBefore(value.replacement[replacementIndex], value.original);
                                     }
                                 }
-
-
                             });
                         });
 
@@ -1507,6 +1528,7 @@ define(
                             callback();
                         } else {
                             config.UploadProgress[1] = (11 * progressIncrement) + (index / topics.length * progressIncrement);
+                            thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
                             var topic = topics[index];
@@ -1690,6 +1712,7 @@ define(
                         });
 
                         config.UploadProgress[1] = 12 * progressIncrement;
+                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.MatchedExistingTopics = true;
                         resultCallback();
 
@@ -1814,6 +1837,7 @@ define(
                     config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                     config.UploadProgress[1] = 13 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.ResolvedXRefGraphs = true;
                     resultCallback();
 
@@ -1826,6 +1850,7 @@ define(
                             callback();
                         } else {
                             config.UploadProgress[1] = (13 * progressIncrement) + (index / topics.length * progressIncrement);
+                            thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
                             var topic = topics[index];
@@ -1867,6 +1892,7 @@ define(
                     createTopics(0, function() {
 
                         config.UploadProgress[1] = 14 * progressIncrement;
+                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.UploadedTopics = true;
                         resultCallback();
 
@@ -1880,40 +1906,54 @@ define(
                             callback();
                         } else {
                             config.UploadProgress[1] = (14 * progressIncrement) + (index / topics.length * progressIncrement);
+                            thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
                             var topic = topics[index];
                             if (topic.createdTopic) {
-                                var xrefs = qnautils.xPath(".//docbook:xref", topic.xml);
-                                var xref;
-                                var xrefReplacements = [];
-                                while ((xref = xrefs.iterateNext()) !== null) {
-                                    if (xref.hasAttribute("linkend")) {
-                                        var linkend = xref.getAttribute("linkend");
-                                        // is this an xref to a topic
-                                        var destinationTopic = topicGraph.getNodeFromXMLId(linkend);
-                                        if (destinationTopic !== undefined) {
+                                jquery.each(['xref', 'link'], function(index, linkElement) {
+                                    var xrefs = qnautils.xPath(".//docbook:" + linkElement, topic.xml);
+                                    var xref;
+                                    var xrefReplacements = [];
+                                    while ((xref = xrefs.iterateNext()) !== null) {
+                                        if (xref.hasAttribute("linkend")) {
+                                            var linkend = xref.getAttribute("linkend");
+                                            // is this an xref to a topic
+                                            var destinationTopic = topicGraph.getNodeFromXMLId(linkend);
+                                            if (destinationTopic !== undefined) {
 
-                                            if (destinationTopic instanceof specelement.TopicGraphNode &&
-                                                (destinationTopic.topicId === undefined || destinationTopic.topicId === -1)) {
-                                                throw "All topics should be resolved by this point";
-                                            }
+                                                if (destinationTopic instanceof specelement.TopicGraphNode &&
+                                                    (destinationTopic.topicId === undefined || destinationTopic.topicId === -1)) {
+                                                    throw "All topics should be resolved by this point";
+                                                }
 
-                                            if (destinationTopic instanceof specelement.TopicGraphNode) {
-                                                // we are pointing to a saved topic, so replace the xref with an injection
-                                                var topicInjection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
-                                                xrefReplacements.push({original: xref, replacement: topicInjection});
-                                            } else {
-                                                // we are pointing to a container, so replace the xref with a target injection
-                                                var containerInjection = xmlDoc.createComment("Inject: T" + destinationTopic.targetNum);
-                                                xrefReplacements.push({original: xref, replacement: containerInjection});
+                                                if (destinationTopic instanceof specelement.TopicGraphNode) {
+                                                    // we are pointing to a saved topic, so replace the xref with an injection
+                                                    var topicInjection = xmlDoc.createComment("Inject: " + destinationTopic.topicId);
+                                                    var replacement = {original: xref, replacement: [topicInjection]};
+                                                    xrefReplacements.push(replacement);
+
+                                                    if (linkElement === 'link') {
+                                                        replacement.replacement.push(xmlDoc.createComment(qnautils.xmlToString(xref)));
+                                                    }
+                                                } else {
+                                                    // we are pointing to a container, so replace the xref with a target injection
+                                                    var containerInjection = xmlDoc.createComment("Inject: T" + destinationTopic.targetNum);
+                                                    xrefReplacements.push({original: xref, replacement: [containerInjection]});
+                                                }
                                             }
                                         }
                                     }
-                                }
+                                });
 
                                 jquery.each(xrefReplacements, function (index, value) {
-                                    value.original.parentNode.replaceChild(value.replacement, value.original);
+                                    for (var replacementIndex = 0; replacementIndex < value.replacement.length; ++replacementIndex) {
+                                        if (replacementIndex === value.replacement.length - 1) {
+                                            value.original.parentNode.replaceChild(value.replacement[replacementIndex], value.original);
+                                        } else {
+                                            value.original.parentNode.insertBefore(value.replacement[replacementIndex], value.original);
+                                        }
+                                    }
                                 });
 
                                 qnastart.updateTopic(
@@ -1935,6 +1975,7 @@ define(
                     resolve(0, function() {
 
                         config.UploadProgress[1] = 15 * progressIncrement;
+                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.FixXRefs = true;
                         resultCallback();
 
@@ -1948,6 +1989,7 @@ define(
                     });
 
                     config.UploadProgress[1] = 16 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.UpdatedContentSpec = true;
                     resultCallback();
 
@@ -1962,6 +2004,7 @@ define(
 
                     function contentSpecSaveSuccess(id) {
                         config.UploadProgress[1] = 100;
+                        thisStep.setTitlePrefix(null);
                         config.UploadedContentSpecification = true;
                         config.ContentSpecID = id;
                         resultCallback(true);

@@ -189,15 +189,17 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
 
     exports.TopicGraphNode.prototype.findXRefs = function() {
         // find any xrefs in the xml
-        var xrefs = qnautils.getOwnerDoc(this.xml).evaluate(".//xref", this.xml, null, XPathResult.ANY_TYPE, null);
-        var xref;
-        while ((xref = xrefs.iterateNext()) !== null) {
-            if (xref.hasAttribute("linkend")) {
-                var linkend = xref.getAttribute("linkend");
-                this.xrefs.push(linkend);
+        jquery.each(['xref', 'link'], function(index, linkElement) {
+            var xrefs = qnautils.xPath("//docbook:" + linkElement, this.xml);
+            var xref;
+            while ((xref = xrefs.iterateNext()) !== null) {
+                if (xref.hasAttribute("linkend")) {
+                    var linkend = xref.getAttribute("linkend");
+                    this.xrefs.push(linkend);
+                }
             }
-        }
-    }
+        });
+    };
 
     exports.TopicGraphNode.prototype.setTitle = function (title) {
         this.title = title;
