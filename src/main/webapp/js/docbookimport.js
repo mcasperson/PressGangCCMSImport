@@ -496,23 +496,25 @@ define(
                                     config.ZipFile,
                                     referencedXMLFilename,
                                     function (referencedXmlText) {
-                                        var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
-                                        var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
-                                        var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
+                                        resolveFileRefs(referencedXmlText, referencedXMLFilename, function(referencedXmlText) {
+                                            var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
+                                            var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
+                                            var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
 
-                                        var subset = qnautils.xPath(match[7], cleanedReferencedXmlDom);
+                                            var subset = qnautils.xPath(match[7], cleanedReferencedXmlDom);
 
-                                        var replacement = "";
-                                        var matchedNode;
-                                        while ((matchedNode = subset.iterateNext()) !== null) {
-                                            if (replacement.length !== 0) {
-                                                replacement += "\n";
+                                            var replacement = "";
+                                            var matchedNode;
+                                            while ((matchedNode = subset.iterateNext()) !== null) {
+                                                if (replacement.length !== 0) {
+                                                    replacement += "\n";
+                                                }
+                                                replacement += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
                                             }
-                                            replacement += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
-                                        }
 
-                                        xmlText = xmlText.replace(match[0], replacement.replace(/\$/g, "$$$$"));
-                                        resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
+                                            xmlText = xmlText.replace(match[0], replacement.replace(/\$/g, "$$$$"));
+                                            resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
+                                        });
                                     },
                                     function (error) {
                                         xmlText = xmlText.replace(match[0], "");
@@ -531,62 +533,63 @@ define(
                         config.ZipFile,
                         config.MainXMLFile,
                         function (xmlText) {
+                            resolveFileRefs(xmlText, config.MainXMLFile, function(xmlText) {
+                                var count = 0;
+                                resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
 
-                            var count = 0;
-                            resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
+                                function resolveXIIncludeLoop(xmlText, visitedFiles) {
+                                    if (xiIncludeRe.test(xmlText)) {
 
-                            function resolveXIIncludeLoop(xmlText, visitedFiles) {
-                                if (xiIncludeRe.test(xmlText)) {
+                                        var base = getXmlBaseAttribute(xmlText);
 
-                                    var base = getXmlBaseAttribute(xmlText);
-
-                                    resolveXIInclude(
-                                        xmlText,
-                                        base,
-                                        config.MainXMLFile,
-                                        visitedFiles,
-                                        function (xmlText, visitedFiles) {
-                                            resolveXIIncludePointerLoop(xmlText, visitedFiles);
-                                        }
-                                    );
-                                } else {
-                                    resolveXIIncludePointerLoop(xmlText, visitedFiles);
-                                }
-                            }
-
-                            function resolveXIIncludePointerLoop(xmlText, visitedFiles) {
-                                if (xiIncludeWithPointerRe.test(xmlText)) {
-
-                                    var base = getXmlBaseAttribute(xmlText);
-
-                                    resolveXIIncludePointer(
-                                        xmlText,
-                                        base,
-                                        config.MainXMLFile,
-                                        visitedFiles,
-                                        function (xmlText) {
-                                            ++count;
-                                            // a poor man's circular dependency detection, but I can't
-                                            // see any book nesting XIncludes with xpointers 100 deep.
-                                            if (count > 100) {
-                                                errorCallback("Error detected", "Circular dependency detected in XML", true);
-                                            } else {
-                                                resolveXIIncludeLoop(xmlText, visitedFiles);
+                                        resolveXIInclude(
+                                            xmlText,
+                                            base,
+                                            config.MainXMLFile,
+                                            visitedFiles,
+                                            function (xmlText, visitedFiles) {
+                                                resolveXIIncludePointerLoop(xmlText, visitedFiles);
                                             }
-                                        }
-                                    );
-                                } else {
-                                    xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
-
-                                    config.UploadProgress[1] = progressIncrement;
-                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-
-                                    config.ResolvedXIIncludes = true;
-                                    resultCallback();
-
-                                    replaceEntities(xmlText);
+                                        );
+                                    } else {
+                                        resolveXIIncludePointerLoop(xmlText, visitedFiles);
+                                    }
                                 }
-                            }
+
+                                function resolveXIIncludePointerLoop(xmlText, visitedFiles) {
+                                    if (xiIncludeWithPointerRe.test(xmlText)) {
+
+                                        var base = getXmlBaseAttribute(xmlText);
+
+                                        resolveXIIncludePointer(
+                                            xmlText,
+                                            base,
+                                            config.MainXMLFile,
+                                            visitedFiles,
+                                            function (xmlText) {
+                                                ++count;
+                                                // a poor man's circular dependency detection, but I can't
+                                                // see any book nesting XIncludes with xpointers 100 deep.
+                                                if (count > 100) {
+                                                    errorCallback("Error detected", "Circular dependency detected in XML", true);
+                                                } else {
+                                                    resolveXIIncludeLoop(xmlText, visitedFiles);
+                                                }
+                                            }
+                                        );
+                                    } else {
+                                        xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
+
+                                        config.UploadProgress[1] = progressIncrement;
+                                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+
+                                        config.ResolvedXIIncludes = true;
+                                        resultCallback();
+
+                                        replaceEntities(xmlText);
+                                    }
+                                }
+                            });
                         },
                         true
                     );
@@ -1085,6 +1088,7 @@ define(
                                                 errorCallback
                                             );
                                         } else {
+                                            console.log("Could not find " + nodeValue);
                                             processImages(images.iterateNext(), ++count);
                                         }
                                     },

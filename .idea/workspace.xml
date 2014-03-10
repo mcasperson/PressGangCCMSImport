@@ -133,7 +133,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="578" column="98" selection-start="29996" selection-end="29996" vertical-scroll-proportion="0.1904762" vertical-offset="8550" max-vertical-offset="31650">
+            <state line="591" column="31" selection-start="30964" selection-end="30964" vertical-scroll-proportion="1.6904762" vertical-offset="7800" max-vertical-offset="31710">
               <folding />
             </state>
           </provider>
@@ -151,7 +151,7 @@
       <file leaf-file-name="qnazipmodel.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="44" selection-start="1190" selection-end="1209" vertical-scroll-proportion="0.0" vertical-offset="472" max-vertical-offset="2445">
+            <state line="39" column="44" selection-start="1190" selection-end="1209" vertical-scroll-proportion="0.0" vertical-offset="562" max-vertical-offset="2445">
               <folding />
             </state>
           </provider>
@@ -717,7 +717,7 @@
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
       <workItem from="1394395325600" duration="31674000" />
-      <workItem from="1394482663545" duration="2960000" />
+      <workItem from="1394482663545" duration="4057000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2383,11 +2383,15 @@
       <created>1394484948157</created>
       <updated>1394484948157</updated>
     </task>
-    <option name="localTasksCounter" value="417" />
+    <task id="LOCAL-00417" summary="Working on DocBook 5 importing&#10;">
+      <created>1394485891971</created>
+      <updated>1394485891971</updated>
+    </task>
+    <option name="localTasksCounter" value="418" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="570425000" />
+    <option name="totallyTimeSpent" value="571522000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2769,14 +2773,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="44" selection-start="1190" selection-end="1209" vertical-scroll-proportion="0.0" vertical-offset="472" max-vertical-offset="2445">
+        <state line="39" column="44" selection-start="1190" selection-end="1209" vertical-scroll-proportion="0.0" vertical-offset="562" max-vertical-offset="2445">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="578" column="98" selection-start="29996" selection-end="29996" vertical-scroll-proportion="0.1904762" vertical-offset="8550" max-vertical-offset="31650">
+        <state line="591" column="31" selection-start="30964" selection-end="30964" vertical-scroll-proportion="1.6904762" vertical-offset="7800" max-vertical-offset="31710">
           <folding />
         </state>
       </provider>
