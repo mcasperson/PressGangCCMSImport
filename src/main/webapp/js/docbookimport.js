@@ -412,7 +412,7 @@ define(
                                     var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
 
                                     if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                        errorCallback("Circular reference detected: " + visitedFiles.toString() + "," + referencedXMLFilename, true);
+                                        errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedXMLFilename, true);
                                         return;
                                     } else {
                                         qnastart.zipModel.hasFileName(
@@ -716,7 +716,9 @@ define(
                 };
 
                 var removeRedundantXmlnsAttribute = function (xml) {
-                    if (xml.hasAttribute("xmlns") && xml.attribute["xmlns"] === "http://docbook.org/ns/docbook") {
+                    if (xml.hasAttribute !== undefined &&
+                        xml.hasAttribute("xmlns") &&
+                        xml.attribute["xmlns"] === "http://docbook.org/ns/docbook") {
                         xml.removeAttribute("xmlns");
                     }
 
