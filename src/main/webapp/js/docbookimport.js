@@ -301,12 +301,9 @@ define(
                  */
                 function resolveXiIncludes () {
                     // Note the self closing tag is optional. clearFallbacks will remove those.
-                    var xiIncludeRe = /<\s*xi:include\b.*?(\bhref\s*=\s*("|')(.*?\.xml)("|'))[^>]*>/;
-                    var xiIncludeReHrefGroup = 2;
-                    // Note the self closing tag is optional. clearFallbacks will remove those.
-                    var xiIncludeWithPointerRe = /<\s*xi:include\s+xmlns:xi\s*=\s*("|')http:\/\/www\.w3\.org\/2001\/XInclude("|')\s+href\s*=\s*("|')(.*?\.xml)("|')\s*xpointer\s*=\s*("|')\s*xpointer\s*\((.*?)\)\s*("|')[^>]*>/;
-                    var xiIncludeWithPointerReHrefGroup = 4;
-                    var xiIncludeWithPointerReXPointerGroup = 7;
+                    var generalXiInclude = /<\s*xi:include\s+(.*?)\/?>/;
+                    var attributeValueRe = /('|")(.*?)('|")/;
+                    var attributeValueReAttrGroup = 2;
                     var commonContent = /^Common_Content/;
 
                     // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
@@ -378,8 +375,8 @@ define(
                             visitedFiles.push(filename);
                         }
 
-                        var match = xiIncludeRe.exec(xmlText);
-                        var xmlPathIndex = 3;
+                        var match = generalXiInclude.exec(xmlText);
+                        var xiIncludeAttributesGroup = 1;
 
                         if (match !== null) {
 
@@ -397,26 +394,46 @@ define(
                                 return;
                             }
 
-                            if (commonContent.test(match[xmlPathIndex])) {
-                                xmlText = xmlText.replace(match[0], "");
-                                resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                            } else {
-                                /*
-                                    We need to work out where the files to be included will come from. This is a
-                                    combination of the href, the xml:base attribute, and the location of the
-                                    xml file that is doing the importing.
-                                 */
-                                var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
-                                var thisFile = new URI(filename);
-                                var referencedXMLFilenameRelative = base !== null ?
-                                    new URI(base + fixedMatch) :
-                                    new URI(fixedMatch);
-                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+                            /*
+                                break down the attributes
+                             */
+                            var attributes = match[xiIncludeAttributesGroup].split(/\s*/);
+                            var href;
+                            var xpointer;
+                            jquery.each(attributes, function(index, value) {
+                                var attributeDetails = value.split("=");
+                                if (attributeDetails.length === 2) {
+                                    if (attributeDetails[0].trim() === "href") {
+                                        href = attributeValueRe.exec(attributeDetails[1])[attributeValueReAttrGroup];
+                                    } else if (attributeDetails[0].trim() === "xpointer") {
+                                        xpointer = attributeValueRe.exec(attributeDetails[1])[attributeValueReAttrGroup];
+                                    }
+                                }
 
-                                if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                    errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedXMLFilename, true);
-                                    return;
+                            });
+
+                            if (href !== undefined) {
+                                if (commonContent.test(href)) {
+                                    xmlText = xmlText.replace(match[0], "");
+                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                 } else {
+                                    /*
+                                        We need to work out where the files to be included will come from. This is a
+                                        combination of the href, the xml:base attribute, and the location of the
+                                        xml file that is doing the importing.
+                                     */
+                                    var fixedMatch = href.replace(/^\.\//, "");
+                                    var thisFile = new URI(filename);
+                                    var referencedXMLFilenameRelative = base !== null ?
+                                        new URI(base + fixedMatch) :
+                                        new URI(fixedMatch);
+                                    var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+
+                                    if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
+                                        errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedXMLFilename, true);
+                                        return;
+                                    }
+
                                     qnastart.zipModel.hasFileName(
                                         config.ZipFile,
                                         referencedXMLFilename,
@@ -433,6 +450,23 @@ define(
                                                                 referencedXMLFilename,
                                                                 visitedFiles.slice(0),
                                                                 function (fixedReferencedXmlText) {
+                                                                    if (xpointer !== undefined) {
+                                                                        var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
+                                                                        var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
+                                                                        var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
+
+                                                                        var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
+
+                                                                        var replacement = "";
+                                                                        var matchedNode;
+                                                                        while ((matchedNode = subset.iterateNext()) !== null) {
+                                                                            if (replacement.length !== 0) {
+                                                                                replacement += "\n";
+                                                                            }
+                                                                            fixedReferencedXmlText += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
+                                                                        }
+                                                                    }
+
                                                                     /*
                                                                         The dollar sign has special meaning in the replace method.
                                                                      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
@@ -458,7 +492,12 @@ define(
                                         true
                                     );
                                 }
-
+                            } else {
+                                /*
+                                    Found an xi:include without a href? delete it an move on.
+                                 */
+                                xmlText = xmlText.replace(match[0], "");
+                                resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                             }
                         } else {
                             callback(xmlText, visitedFiles);
@@ -466,81 +505,13 @@ define(
 
                     }
 
-                    function resolveXIIncludePointer (xmlText, base, filename, visitedFiles, callback) {
-                        xmlText = clearFallbacks(xmlText);
-
-                        var match = xiIncludeWithPointerRe.exec(xmlText);
-
-                        if (match !== null) {
-
-                            var previousString = xmlText.substr(0, match.index);
-                            var lastStartComment = previousString.lastIndexOf("<!--");
-                            var lastEndComment = previousString.lastIndexOf("-->");
-
-                            if (lastStartComment !== -1 &&
-                                (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                                xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                                resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
-                                return;
-                            }
-
-                            if (commonContent.test(match[xiIncludeWithPointerReHrefGroup])) {
-                                xmlText = xmlText.replace(match[0], "");
-                                resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
-                            } else {
-                                var thisFile = new URI(filename);
-                                var referencedXMLFilenameRelative = base !== null ?
-                                    new URI(base + match[xiIncludeWithPointerReHrefGroup]) :
-                                    new URI(match[xiIncludeWithPointerReHrefGroup]);
-                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
-
-                                qnastart.zipModel.getTextFromFileName(
-                                    config.ZipFile,
-                                    referencedXMLFilename,
-                                    function (referencedXmlText) {
-                                        resolveFileRefs(referencedXmlText, referencedXMLFilename, function(referencedXmlText) {
-                                            var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
-                                            var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
-                                            var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
-
-                                            var subset = qnautils.xPath(match[xiIncludeWithPointerReXPointerGroup], cleanedReferencedXmlDom);
-
-                                            var replacement = "";
-                                            var matchedNode;
-                                            while ((matchedNode = subset.iterateNext()) !== null) {
-                                                if (replacement.length !== 0) {
-                                                    replacement += "\n";
-                                                }
-                                                replacement += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
-                                            }
-
-                                            xmlText = xmlText.replace(match[0], replacement.replace(/\$/g, "$$$$"));
-                                            resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
-                                        });
-                                    },
-                                    function (error) {
-                                        xmlText = xmlText.replace(match[0], "");
-                                        resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
-                                        //errorCallback(error);
-                                    },
-                                    true
-                                );
-                            }
-                        } else {
-                            callback(xmlText);
-                        }
-                    }
-
                     qnastart.zipModel.getTextFromFileName(
                         config.ZipFile,
                         config.MainXMLFile,
                         function (xmlText) {
                             resolveFileRefs(xmlText, config.MainXMLFile, function(xmlText) {
-                                var count = 0;
-                                resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
-
                                 function resolveXIIncludeLoop(xmlText, visitedFiles) {
-                                    if (xiIncludeRe.test(xmlText)) {
+                                    if (generalXiInclude.test(xmlText)) {
 
                                         var base = getXmlBaseAttribute(xmlText);
 
@@ -550,33 +521,7 @@ define(
                                             config.MainXMLFile,
                                             visitedFiles,
                                             function (xmlText, visitedFiles) {
-                                                resolveXIIncludePointerLoop(xmlText, visitedFiles);
-                                            }
-                                        );
-                                    } else {
-                                        resolveXIIncludePointerLoop(xmlText, visitedFiles);
-                                    }
-                                }
-
-                                function resolveXIIncludePointerLoop(xmlText, visitedFiles) {
-                                    if (xiIncludeWithPointerRe.test(xmlText)) {
-
-                                        var base = getXmlBaseAttribute(xmlText);
-
-                                        resolveXIIncludePointer(
-                                            xmlText,
-                                            base,
-                                            config.MainXMLFile,
-                                            visitedFiles,
-                                            function (xmlText) {
-                                                ++count;
-                                                // a poor man's circular dependency detection, but I can't
-                                                // see any book nesting XIncludes with xpointers 100 deep.
-                                                if (count > 100) {
-                                                    errorCallback("Error detected", "Circular dependency detected in XML", true);
-                                                } else {
-                                                    resolveXIIncludeLoop(xmlText, visitedFiles);
-                                                }
+                                                resolveXIIncludeLoop(xmlText, visitedFiles);
                                             }
                                         );
                                     } else {
@@ -591,6 +536,9 @@ define(
                                         replaceEntities(xmlText);
                                     }
                                 }
+
+                                var count = 0;
+                                resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
                             });
                         },
                         true
