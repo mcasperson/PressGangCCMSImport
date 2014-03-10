@@ -808,11 +808,19 @@ define(
                             contentSpec.push("]");
                         }
 
+                        config.UploadProgress[1] = 6 * progressIncrement;
+                        config.FoundBookInfo = true;
+                        resultCallback();
+
                         findIndex(xmlDoc, contentSpec);
                     } else if (config.ImportOption === "Publican") {
                         // we expect a publican book to have this. Generic docbook imports might not have it
                         errorCallback("Invalid content", "The <bookinfo>, <articleinfo> or <info> element could not be found", true);
                     } else {
+                        config.UploadProgress[1] = 6 * progressIncrement;
+                        config.FoundBookInfo = true;
+                        resultCallback();
+
                         findIndex(xmlDoc, contentSpec);
                     }
 
