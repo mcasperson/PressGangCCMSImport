@@ -29,6 +29,22 @@ define(
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
         /*
+         See if the xiincludes have some other base dir
+         */
+        function getXmlBaseAttribute(xmlText) {
+            var baseMatch = /xml:base=('|")(.*?)('|")/.exec(xmlText);
+
+            if (baseMatch !== null) {
+                var base = baseMatch[2];
+                if (base !== "." && base !== "./") {
+                    return base;
+                }
+            }
+
+            return null;
+        }
+
+        /*
             Some containers are remaped when placed in a content spec
          */
         function remapContainer(container) {
@@ -300,6 +316,7 @@ define(
 
                     function resolveFileRefs(xmlText, filename, callback) {
                         var thisFile = new URI(filename);
+                        var base = getXmlBaseAttribute(xmlText);
                         var filerefRe=/fileref\s*=\s*('|")(.*?)('|")/g;
 
                         var replacements = [];
@@ -308,7 +325,9 @@ define(
                         while ((match = filerefRe.exec(xmlText)) !== null) {
                             if (!(commonContent.test(match[2]))) {
                                 var imageFilename = match[2].replace(/^\.\//, "");
-                                var fileref = new URI(imageFilename);
+                                var fileref = base === null ?
+                                    new URI(imageFilename) :
+                                    new URI(base + imageFilename);
                                 var absoluteFileRef = fileref.absoluteTo(thisFile).toString();
                                 replacements.push({original: fileref.toString(), replacement: absoluteFileRef});
                             }
@@ -345,22 +364,6 @@ define(
                         };
 
                         processImageFileRefs(0);
-                    }
-
-                    /*
-                        See if the xiincludes have some other base dir
-                     */
-                    function getXmlBaseAttribute(xmlText) {
-                        var baseMatch = /xml:base=('|")(.*?)('|")/.exec(xmlText);
-
-                        if (baseMatch !== null) {
-                            var base = baseMatch[2];
-                            if (base !== "." && base !== "./") {
-                                return base;
-                            }
-                        }
-
-                        return null;
                     }
 
                     function resolveXIInclude (xmlText, base, filename, visitedFiles, callback) {
