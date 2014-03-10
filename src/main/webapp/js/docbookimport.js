@@ -1924,10 +1924,10 @@ define(
 
                             var topic = topics[index];
                             if (topic.createdTopic) {
+                                var xrefReplacements = [];
                                 jquery.each(['xref', 'link'], function(index, linkElement) {
                                     var xrefs = qnautils.xPath(".//docbook:" + linkElement, topic.xml);
                                     var xref;
-                                    var xrefReplacements = [];
                                     while ((xref = xrefs.iterateNext()) !== null) {
                                         if (xref.hasAttribute("linkend")) {
                                             var linkend = xref.getAttribute("linkend");
