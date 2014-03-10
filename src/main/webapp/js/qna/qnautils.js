@@ -30,7 +30,7 @@ define (['jquery', 'exports'], function (jquery, exports) {
         try {
             return jquery.parseXML(xml);
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
 
         return null;
