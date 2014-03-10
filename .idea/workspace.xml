@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/specelement.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -107,10 +106,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="specelement.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="198" column="28" selection-start="6954" selection-end="6954" vertical-scroll-proportion="0.54856116" vertical-offset="2665" max-vertical-offset="8865">
+            <state line="204" column="24" selection-start="7050" selection-end="7052" vertical-scroll-proportion="-6.851852" vertical-offset="2875" max-vertical-offset="8865">
               <folding />
             </state>
           </provider>
@@ -138,15 +137,17 @@
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state line="9" column="81" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
-              <folding />
+              <folding>
+                <marker date="1394403362825" expanded="true" signature="420:520" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1553" column="125" selection-start="80318" selection-end="80318" vertical-scroll-proportion="-6.703704" vertical-offset="23114" max-vertical-offset="31395">
+            <state line="1406" column="60" selection-start="72072" selection-end="72072" vertical-scroll-proportion="0.4714549" vertical-offset="20834" max-vertical-offset="31395">
               <folding />
             </state>
           </provider>
@@ -223,8 +224,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -866,7 +867,7 @@
       <workItem from="1393386062190" duration="22617000" />
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
-      <workItem from="1394395325600" duration="24296000" />
+      <workItem from="1394395325600" duration="24448000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2492,11 +2493,15 @@
       <created>1394425566618</created>
       <updated>1394425566618</updated>
     </task>
-    <option name="localTasksCounter" value="407" />
+    <task id="LOCAL-00407" summary="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340&#10;">
+      <created>1394426129294</created>
+      <updated>1394426129294</updated>
+    </task>
+    <option name="localTasksCounter" value="408" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="560087000" />
+    <option name="totallyTimeSpent" value="560239000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1914" height="1080" extended-state="4" />
@@ -2815,7 +2820,9 @@
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="81" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
-          <folding />
+          <folding>
+            <marker date="1394403362825" expanded="true" signature="420:520" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2879,16 +2886,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1553" column="125" selection-start="80318" selection-end="80318" vertical-scroll-proportion="-6.703704" vertical-offset="23114" max-vertical-offset="31395">
+        <state line="204" column="24" selection-start="7050" selection-end="7052" vertical-scroll-proportion="-6.851852" vertical-offset="2875" max-vertical-offset="8865">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="28" selection-start="6954" selection-end="6954" vertical-scroll-proportion="0.54856116" vertical-offset="2665" max-vertical-offset="8865">
+        <state line="1406" column="60" selection-start="72072" selection-end="72072" vertical-scroll-proportion="0.4714549" vertical-offset="20834" max-vertical-offset="31395">
           <folding />
         </state>
       </provider>

@@ -1404,7 +1404,7 @@ define(
                         var commentsCollection = [];
                         var comment;
                         while ((comment = comments.iterateNext()) !== null) {
-                            if (!/Inject\S?:\s*\d+/.test(comment.nodeValue.trim())) {
+                            if (!/^Inject[A-Za-z]*\s*:\s*\d+/.test(comment.nodeValue.trim())) {
                                 commentsCollection.push(comment);
                             }
                         }
