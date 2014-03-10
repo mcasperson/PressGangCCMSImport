@@ -396,7 +396,7 @@ define(
                             }
 
                             /*
-                                break down the attributes
+                                break down the attributes looking for the href and xpointer attributes
                              */
                             var attributes = match[xiIncludeAttributesGroup].split(/\s*/);
                             var href;
@@ -470,7 +470,7 @@ define(
 
                                                                     /*
                                                                         The dollar sign has special meaning in the replace method.
-                                                                     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+                                                                        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
                                                                      */
                                                                     xmlText = xmlText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
                                                                     resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
