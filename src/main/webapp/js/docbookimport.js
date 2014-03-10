@@ -1563,7 +1563,7 @@ define(
                                      topics then match we have a potential candidate to reuse.
                                      */
                                     var topicXMLCopy = topic.xml.cloneNode(true);
-                                    normalizeXrefs(normalizeInjections(normalizeComments(topicXMLCopy), topicOrContainerIDs));
+                                    normalizeXrefs(normalizeInjections(normalizeComments(topicXMLCopy)), topicOrContainerIDs);
                                     reorderAttributes(topicXMLCopy);
 
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
