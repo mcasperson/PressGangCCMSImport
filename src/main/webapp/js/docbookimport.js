@@ -369,63 +369,64 @@ define(
                     function resolveXIInclude (xmlText, base, filename, visitedFiles, callback) {
 
                         xmlText = clearFallbacks(xmlText);
-                        resolveFileRefs(xmlText, filename, function(xmlText) {
+
+                        /*
+                         Make sure we are not entering an infinite loop
+                         */
+                        if (visitedFiles.indexOf(filename) === -1) {
+                            visitedFiles.push(filename);
+                        }
+
+                        var match = xiIncludeRe.exec(xmlText);
+                        var xmlPathIndex = 3;
+
+                        if (match !== null) {
+
+                            var previousString = xmlText.substr(0, match.index);
+                            var lastStartComment = previousString.lastIndexOf("<!--");
+                            var lastEndComment = previousString.lastIndexOf("-->");
+
                             /*
-                             Make sure we are not entering an infinite loop
+                             The xi:include was in a comment, so ignore it
                              */
-                            if (visitedFiles.indexOf(filename) === -1) {
-                                visitedFiles.push(filename);
+                            if (lastStartComment !== -1 &&
+                                (lastEndComment === -1 || lastEndComment < lastStartComment)) {
+                                xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
+                                resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                return;
                             }
 
-                            var match = xiIncludeRe.exec(xmlText);
-                            var xmlPathIndex = 3;
-
-                            if (match !== null) {
-
-                                var previousString = xmlText.substr(0, match.index);
-                                var lastStartComment = previousString.lastIndexOf("<!--");
-                                var lastEndComment = previousString.lastIndexOf("-->");
-
+                            if (commonContent.test(match[xmlPathIndex])) {
+                                xmlText = xmlText.replace(match[0], "");
+                                resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                            } else {
                                 /*
-                                 The xi:include was in a comment, so ignore it
+                                    We need to work out where the files to be included will come from. This is a
+                                    combination of the href, the xml:base attribute, and the location of the
+                                    xml file that is doing the importing.
                                  */
-                                if (lastStartComment !== -1 &&
-                                    (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                                    xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
+                                var thisFile = new URI(filename);
+                                var referencedXMLFilename = "";
+                                var referencedXMLFilenameRelative = base !== null ?
+                                    new URI(base + fixedMatch) :
+                                    new URI(fixedMatch);
+                                var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+
+                                if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
+                                    errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedXMLFilename, true);
                                     return;
-                                }
-
-                                if (commonContent.test(match[xmlPathIndex])) {
-                                    xmlText = xmlText.replace(match[0], "");
-                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                 } else {
-                                    /*
-                                        We need to work out where the files to be included will come from. This is a
-                                        combination of the href, the xml:base attribute, and the location of the
-                                        xml file that is doing the importing.
-                                     */
-                                    var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
-                                    var thisFile = new URI(filename);
-                                    var referencedXMLFilename = "";
-                                    var referencedXMLFilenameRelative = base !== null ?
-                                        new URI(base + fixedMatch) :
-                                        new URI(fixedMatch);
-                                    var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
-
-                                    if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                        errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedXMLFilename, true);
-                                        return;
-                                    } else {
-                                        qnastart.zipModel.hasFileName(
-                                            config.ZipFile,
-                                            referencedXMLFilename,
-                                            function(exists) {
-                                                if (exists) {
-                                                    qnastart.zipModel.getTextFromFileName(
-                                                        config.ZipFile,
-                                                        referencedXMLFilename,
-                                                        function (referencedXmlText) {
+                                    qnastart.zipModel.hasFileName(
+                                        config.ZipFile,
+                                        referencedXMLFilename,
+                                        function(exists) {
+                                            if (exists) {
+                                                qnastart.zipModel.getTextFromFileName(
+                                                    config.ZipFile,
+                                                    referencedXMLFilename,
+                                                    function (referencedXmlText) {
+                                                        resolveFileRefs(referencedXmlText, referencedXMLFilename, function(referencedXmlText) {
                                                             resolveXIInclude(
                                                                 referencedXmlText,
                                                                 getXmlBaseAttribute(referencedXmlText),
@@ -440,26 +441,27 @@ define(
                                                                     resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                                                 }
                                                             );
-                                                        },
-                                                        function (error) {
-                                                            errorCallback("Error reading file", "There was an error readiong the file " + referencedXMLFilename, true);
-                                                        }
-                                                    );
-                                                } else {
-                                                    //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
-                                                    xmlText = xmlText.replace(match[0], "");
-                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                                                }
-                                            },
-                                            errorCallback
-                                        );
-                                    }
-
+                                                        });
+                                                    },
+                                                    function (error) {
+                                                        errorCallback("Error reading file", "There was an error readiong the file " + referencedXMLFilename, true);
+                                                    }
+                                                );
+                                            } else {
+                                                //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
+                                                xmlText = xmlText.replace(match[0], "");
+                                                resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                            }
+                                        },
+                                        errorCallback
+                                    );
                                 }
-                            } else {
-                                callback(xmlText, visitedFiles);
+
                             }
-                        });
+                        } else {
+                            callback(xmlText, visitedFiles);
+                        }
+
                     }
 
                     function resolveXIIncludePointer (xmlText, base, filename, visitedFiles, callback) {
