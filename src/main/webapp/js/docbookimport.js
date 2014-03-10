@@ -318,13 +318,14 @@ define(
                         var thisFile = new URI(filename);
                         var base = getXmlBaseAttribute(xmlText);
                         var filerefRe=/fileref\s*=\s*('|")(.*?)('|")/g;
+                        var filerefReHrefGroup = 2;
 
                         var replacements = [];
 
                         var match;
                         while ((match = filerefRe.exec(xmlText)) !== null) {
-                            if (!(commonContent.test(match[xiIncludeReHrefGroup]))) {
-                                var imageFilename = match[xiIncludeReHrefGroup].replace(/^\.\//, "");
+                            if (!(commonContent.test(match[filerefReHrefGroup]))) {
+                                var imageFilename = match[filerefReHrefGroup].replace(/^\.\//, "");
                                 var fileref = base === null ?
                                     new URI(imageFilename) :
                                     new URI(base + imageFilename);
