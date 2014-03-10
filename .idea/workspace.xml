@@ -82,7 +82,7 @@
       <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="12" selection-start="794" selection-end="794" vertical-scroll-proportion="-6.851852" vertical-offset="235" max-vertical-offset="2670">
+            <state line="5" column="6" selection-start="91" selection-end="203" vertical-scroll-proportion="-2.7777777" vertical-offset="0" max-vertical-offset="2670">
               <folding />
             </state>
           </provider>
@@ -169,7 +169,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="414" column="85" selection-start="20402" selection-end="20402" vertical-scroll-proportion="0.33333334" vertical-offset="6029" max-vertical-offset="31515">
+            <state line="434" column="199" selection-start="22167" selection-end="22167" vertical-scroll-proportion="0.38858196" vertical-offset="6299" max-vertical-offset="31575">
               <folding />
             </state>
           </provider>
@@ -880,7 +880,7 @@
       <workItem from="1393386062190" duration="22617000" />
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
-      <workItem from="1394395325600" duration="26664000" />
+      <workItem from="1394395325600" duration="29266000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2522,11 +2522,15 @@
       <created>1394431787545</created>
       <updated>1394431787545</updated>
     </task>
-    <option name="localTasksCounter" value="411" />
+    <task id="LOCAL-00411" summary="Working on DocBook 5 importing&#10;">
+      <created>1394432058889</created>
+      <updated>1394432058889</updated>
+    </task>
+    <option name="localTasksCounter" value="412" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="562455000" />
+    <option name="totallyTimeSpent" value="565057000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1914" height="1080" extended-state="4" />
@@ -2602,7 +2606,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Fixing up ODT import" />
     <MESSAGE value="Working on DocBook 5 import" />
     <MESSAGE value="Working on DocBook 5 import&#10;" />
     <MESSAGE value="Working on ODT import" />
@@ -2627,7 +2630,8 @@
     <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340" />
     <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340&#10;" />
     <MESSAGE value="Working on DocBook 5 importing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on DocBook 5 importing" />
+    <MESSAGE value="Working on DocBook 5 importing&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on DocBook 5 importing&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2835,13 +2839,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="12" selection-start="794" selection-end="794" vertical-scroll-proportion="-6.851852" vertical-offset="235" max-vertical-offset="2670">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="81" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
@@ -2927,9 +2924,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="6" selection-start="91" selection-end="203" vertical-scroll-proportion="-2.7777777" vertical-offset="0" max-vertical-offset="2670">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="414" column="85" selection-start="20402" selection-end="20402" vertical-scroll-proportion="0.33333334" vertical-offset="6029" max-vertical-offset="31515">
+        <state line="434" column="199" selection-start="22167" selection-end="22167" vertical-scroll-proportion="0.38858196" vertical-offset="6299" max-vertical-offset="31575">
           <folding />
         </state>
       </provider>

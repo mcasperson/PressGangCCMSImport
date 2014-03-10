@@ -390,13 +390,13 @@ define(
                                 if (lastStartComment !== -1 &&
                                     (lastEndComment === -1 || lastEndComment < lastStartComment)) {
                                     xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                     return;
                                 }
 
                                 if (commonContent.test(match[xmlPathIndex])) {
                                     xmlText = xmlText.replace(match[0], "");
-                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                 } else {
                                     /*
                                         We need to work out where the files to be included will come from. This is a
@@ -428,10 +428,14 @@ define(
                                                                 referencedXmlText,
                                                                 getXmlBaseAttribute(referencedXmlText),
                                                                 referencedXMLFilename,
-                                                                visitedFiles,
+                                                                visitedFiles.slice(0),
                                                                 function (fixedReferencedXmlText) {
-                                                                    xmlText = xmlText.replace(match[0], fixedReferencedXmlText);
-                                                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                                                    /*
+                                                                        The dollar sign has special meaning in the replace method.
+                                                                     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+                                                                     */
+                                                                    xmlText = xmlText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
+                                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                                                 }
                                                             );
                                                         },
@@ -442,7 +446,7 @@ define(
                                                 } else {
                                                     //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
                                                     xmlText = xmlText.replace(match[0], "");
-                                                    resolveXIInclude(xmlText, base, filename, visitedFiles, callback);
+                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                                 }
                                             },
                                             errorCallback
@@ -504,7 +508,7 @@ define(
                                             replacement += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
                                         }
 
-                                        xmlText = xmlText.replace(match[0], replacement);
+                                        xmlText = xmlText.replace(match[0], replacement.replace(/\$/g, "$$$$"));
                                         resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                     },
                                     function (error) {
@@ -683,7 +687,7 @@ define(
                     }
 
                     jquery.each(replacements, function (index, value) {
-                        xmlText = xmlText.replace(value.original, value.replacement);
+                        xmlText = xmlText.replace(value.original, value.replacement.replace(/\$/g, "$$$$"));
                     });
 
                     parseAsXML(xmlText, entities);
