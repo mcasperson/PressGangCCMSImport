@@ -203,7 +203,8 @@ define(
                         }
                     });
                 },
-                errorCallback
+                errorCallback,
+                true
             );
         };
 

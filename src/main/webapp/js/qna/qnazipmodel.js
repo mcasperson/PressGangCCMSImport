@@ -37,11 +37,16 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
         });
     };
 
-    exports.QNAZipModel.prototype.getTextFromFileName = function (file, filename, onend, onerror) {
+    exports.QNAZipModel.prototype.getTextFromFileName = function (file, filename, onend, onerror, ignorecase) {
         var me = this;
         this.getCachedEntries(file, function (entries) {
             var foundFile = false;
+            var caseMismatchEntry;
             jquery.each(entries, function (index, value) {
+                if (value.filename.toLowerCase() === filename.toLowerCase()) {
+                    caseMismatchEntry = value;
+                }
+
                 if (value.filename === filename) {
                     me.getTextFromFile(value, onend);
                     foundFile = true;
@@ -50,16 +55,25 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
             });
 
             if (!foundFile) {
-                onerror("Could not find " + filename);
+                if (ignorecase === true && caseMismatchEntry !== undefined) {
+                    me.getTextFromFile(caseMismatchEntry, onend);
+                } else {
+                    onerror("Could not find " + filename);
+                }
             }
         }, onerror);
     };
 
-    exports.QNAZipModel.prototype.getByteArrayFromFileName = function (file, filename, onend, onerror) {
+    exports.QNAZipModel.prototype.getByteArrayFromFileName = function (file, filename, onend, onerror, ignorecase) {
         var me = this;
         this.getCachedEntries(file, function (entries) {
             var foundFile = false;
+            var caseMismatchEntry;
             jquery.each(entries, function (index, value) {
+                if (value.filename.toLowerCase() === filename.toLowerCase()) {
+                    caseMismatchEntry = value;
+                }
+
                 if (value.filename === filename) {
                     me.getByteArrayFromFile(value, onend);
                     foundFile = true;
@@ -68,7 +82,11 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
             });
 
             if (!foundFile) {
-                onerror("Could not find " + filename);
+                if (ignorecase === true && caseMismatchEntry !== undefined) {
+                    me.getByteArrayFromFile(caseMismatchEntry, onend);
+                } else {
+                    onerror("Could not find " + filename);
+                }
             }
         }, onerror);
     };
@@ -100,12 +118,17 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
         }
     };
 
-    exports.QNAZipModel.prototype.hasFileName = function (file, filename, resultCallback, errorCallback) {
+    exports.QNAZipModel.prototype.hasFileName = function (file, filename, resultCallback, errorCallback, ignorecase) {
         this.getCachedEntries(
             file,
             function (entries) {
                 var found = false;
+                var foundCaseMismatch = false;
                 jquery.each(entries, function (index, value) {
+                    if (value.filename.toLowerCase() === filename.toLowerCase()) {
+                        foundCaseMismatch = true;
+                    }
+
                     if (value.filename === filename) {
                         found = true;
                         resultCallback(found);
@@ -114,7 +137,14 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
                 });
 
                 if (!found) {
-                    resultCallback(found);
+                    /*
+                        Do a second pass
+                     */
+                    if (ignorecase === true) {
+                        resultCallback(foundCaseMismatch);
+                    } else {
+                        resultCallback(false);
+                    }
                 }
             },
             errorCallback

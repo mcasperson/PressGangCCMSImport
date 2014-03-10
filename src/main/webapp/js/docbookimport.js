@@ -358,7 +358,8 @@ define(
 
                                         processImageFileRefs(++index);
                                     },
-                                    errorCallback
+                                    errorCallback,
+                                    true
                                 );
                             }
                         };
@@ -407,7 +408,6 @@ define(
                                  */
                                 var fixedMatch = match[xmlPathIndex].replace(/^\.\//, "");
                                 var thisFile = new URI(filename);
-                                var referencedXMLFilename = "";
                                 var referencedXMLFilenameRelative = base !== null ?
                                     new URI(base + fixedMatch) :
                                     new URI(fixedMatch);
@@ -445,7 +445,8 @@ define(
                                                     },
                                                     function (error) {
                                                         errorCallback("Error reading file", "There was an error readiong the file " + referencedXMLFilename, true);
-                                                    }
+                                                    },
+                                                    true
                                                 );
                                             } else {
                                                 //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
@@ -453,7 +454,8 @@ define(
                                                 resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                             }
                                         },
-                                        errorCallback
+                                        errorCallback,
+                                        true
                                     );
                                 }
 
@@ -519,7 +521,8 @@ define(
                                         xmlText = xmlText.replace(match[0], "");
                                         resolveXIIncludePointer(xmlText, base, filename, visitedFiles, callback);
                                         //errorCallback(error);
-                                    }
+                                    },
+                                    true
                                 );
                             }
                         } else {
@@ -588,7 +591,8 @@ define(
                                     replaceEntities(xmlText);
                                 }
                             }
-                        }
+                        },
+                        true
                     );
                 }
 
@@ -1088,7 +1092,8 @@ define(
                                             processImages(images.iterateNext(), ++count);
                                         }
                                     },
-                                    errorCallback
+                                    errorCallback,
+                                    true
                                 );
                             }  else {
                                 processImages(images.iterateNext(), ++count);
