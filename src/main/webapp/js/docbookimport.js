@@ -329,7 +329,7 @@ define(
                                     new URI(imageFilename) :
                                     new URI(base + imageFilename);
                                 var absoluteFileRef = fileref.absoluteTo(thisFile).toString();
-                                replacements.push({original: fileref.toString(), replacement: absoluteFileRef});
+                                replacements.push({original: imageFilename, replacement: absoluteFileRef});
                             }
                         }
 
