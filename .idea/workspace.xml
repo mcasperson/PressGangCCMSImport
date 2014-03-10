@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -147,9 +148,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="3" column="45" selection-start="89" selection-end="89" vertical-scroll-proportion="-1.875" vertical-offset="0" max-vertical-offset="3885">
               <folding>
-                <marker date="1394426905457" expanded="true" signature="3800:3862" placeholder="..." />
-                <marker date="1394426905457" expanded="true" signature="3903:3958" placeholder="..." />
-                <marker date="1394426905457" expanded="true" signature="4001:4104" placeholder="..." />
+                <marker date="1394442596606" expanded="true" signature="3800:3862" placeholder="..." />
+                <marker date="1394442596606" expanded="true" signature="3903:3958" placeholder="..." />
+                <marker date="1394442596606" expanded="true" signature="4001:4104" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -169,7 +170,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1565" column="125" selection-start="81208" selection-end="81208" vertical-scroll-proportion="0.33333334" vertical-offset="23294" max-vertical-offset="31575">
+            <state line="308" column="62" selection-start="14395" selection-end="14395" vertical-scroll-proportion="0.84894836" vertical-offset="4176" max-vertical-offset="31560">
               <folding />
             </state>
           </provider>
@@ -880,7 +881,7 @@
       <workItem from="1393386062190" duration="22617000" />
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
-      <workItem from="1394395325600" duration="30106000" />
+      <workItem from="1394395325600" duration="30942000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2530,11 +2531,15 @@
       <created>1394440479787</created>
       <updated>1394440479787</updated>
     </task>
-    <option name="localTasksCounter" value="413" />
+    <task id="LOCAL-00413" summary="Working on DocBook 5 importing&#10;">
+      <created>1394441321113</created>
+      <updated>1394441321113</updated>
+    </task>
+    <option name="localTasksCounter" value="414" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="565897000" />
+    <option name="totallyTimeSpent" value="566733000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1914" height="1080" extended-state="4" />
@@ -2921,9 +2926,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="45" selection-start="89" selection-end="89" vertical-scroll-proportion="-1.875" vertical-offset="0" max-vertical-offset="3885">
           <folding>
-            <marker date="1394426905457" expanded="true" signature="3800:3862" placeholder="..." />
-            <marker date="1394426905457" expanded="true" signature="3903:3958" placeholder="..." />
-            <marker date="1394426905457" expanded="true" signature="4001:4104" placeholder="..." />
+            <marker date="1394442596606" expanded="true" signature="3800:3862" placeholder="..." />
+            <marker date="1394442596606" expanded="true" signature="3903:3958" placeholder="..." />
+            <marker date="1394442596606" expanded="true" signature="4001:4104" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2937,7 +2942,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1565" column="125" selection-start="81208" selection-end="81208" vertical-scroll-proportion="0.33333334" vertical-offset="23294" max-vertical-offset="31575">
+        <state line="308" column="62" selection-start="14395" selection-end="14395" vertical-scroll-proportion="0.84894836" vertical-offset="4176" max-vertical-offset="31560">
           <folding />
         </state>
       </provider>
