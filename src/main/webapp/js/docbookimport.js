@@ -398,7 +398,7 @@ define(
                             /*
                                 break down the attributes looking for the href and xpointer attributes
                              */
-                            var attributes = match[xiIncludeAttributesGroup].split(/\s*/);
+                            var attributes = match[xiIncludeAttributesGroup].split(/\s+/);
                             var href;
                             var xpointer;
                             jquery.each(attributes, function(index, value) {
