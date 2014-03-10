@@ -188,14 +188,15 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     };
 
     exports.TopicGraphNode.prototype.findXRefs = function() {
+        var thisStep = this;
         // find any xrefs in the xml
         jquery.each(['xref', 'link'], function(index, linkElement) {
-            var xrefs = qnautils.xPath("//docbook:" + linkElement, this.xml);
+            var xrefs = qnautils.xPath("//docbook:" + linkElement, thisStep.xml);
             var xref;
             while ((xref = xrefs.iterateNext()) !== null) {
                 if (xref.hasAttribute("linkend")) {
                     var linkend = xref.getAttribute("linkend");
-                    this.xrefs.push(linkend);
+                    thisStep.xrefs.push(linkend);
                 }
             }
         });

@@ -1396,6 +1396,25 @@ define(
                  Resolve the topics either to existing topics in the database, or to new topics
                  */
                 function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph) {
+                    /*
+                        Remove any non-injection comments
+                     */
+                    function normalizeComments(xml) {
+                        var comments = qnautils.xPath("//docbook:comment()", xml);
+                        var commentsCollection = [];
+                        var comment;
+                        while ((comment = comments.iterateNext()) !== null) {
+                            if (!/Inject\S?:\s*\d+/.test(comment.nodeValue.trim())) {
+                                commentsCollection.push(comment);
+                            }
+                        }
+
+                        jquery.each(commentsCollection, function (index, value) {
+                            value.parentNode.removeChild(value);
+                        });
+
+                        return xml;
+                    }
 
                     /*
                      Take every xref that points to a topic (and not just a place in a topic), and replace it
@@ -1413,15 +1432,6 @@ define(
                                         var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
                                         var replacement = {original: xref, replacement: [xrefReplacement]};
                                         xrefReplacements.push(replacement);
-
-                                        /*
-                                            Injections currently don't replicate links. During the import we replace a link
-                                            (and any text inside it) with an injection, which in turn becomes an xref. To ensure
-                                            that no information is lost the original link is added as a comment.
-                                         */
-                                        if (linkElement === 'link') {
-                                            replacement.replacement.push(xmlDoc.createComment(qnautils.xmlToString(xref)));
-                                        }
                                     }
                                 }
                             }
@@ -1436,7 +1446,6 @@ define(
                                 }
                             });
                         });
-
 
                         return xml;
                     }
@@ -1542,7 +1551,7 @@ define(
                                      topics then match we have a potential candidate to reuse.
                                      */
                                     var topicXMLCopy = topic.xml.cloneNode(true);
-                                    normalizeXrefs(normalizeInjections(topicXMLCopy), topicOrContainerIDs);
+                                    normalizeXrefs(normalizeInjections(normalizeComments(topicXMLCopy), topicOrContainerIDs));
                                     reorderAttributes(topicXMLCopy);
 
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
@@ -1582,6 +1591,10 @@ define(
                                             Check for invalid XML stored in the database
                                          */
                                         if (matchingTopicXMLCopy !== null) {
+                                            /*
+                                             Remove the comments
+                                             */
+                                            normalizeComments(matchingTopicXMLCopy);
                                             /*
                                              Normalize injections. We do this against a XML DOM because it is more
                                              robust than doing regexes on strings.
