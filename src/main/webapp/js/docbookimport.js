@@ -719,6 +719,11 @@ define(
                     if (xml.hasAttribute("xmlns") && xml.attribute["xmlns"] === "http://docbook.org/ns/docbook") {
                         xml.removeAttribute("xmlns");
                     }
+
+                    for (var childIndex = 0; childIndex < xml.childNodes.length; ++childIndex) {
+                        removeRedundantXmlnsAttribute(xml.childNodes[childIndex]);
+                    }
+
                     return xml;
                 };
 
@@ -1138,10 +1143,11 @@ define(
 
                                 // find the title
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
-                                // remove any redundant namespace attributes
-                                removeRedundantXmlnsAttribute(title);
                                 var titleText = "";
                                 if (title) {
+                                    // remove any redundant namespace attributes
+                                    removeRedundantXmlnsAttribute(title);
+
                                     titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
                                     /*

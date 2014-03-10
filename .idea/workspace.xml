@@ -120,7 +120,16 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="148" column="59" selection-start="7474" selection-end="7474" vertical-scroll-proportion="-2.2592592" vertical-offset="2159" max-vertical-offset="12075">
-              <folding />
+              <folding>
+                <marker date="1394406663219" expanded="true" signature="260:44537" placeholder="{...}" />
+                <marker date="1394406663219" expanded="true" signature="5622:42551" placeholder="{...}" />
+                <marker date="1394406663219" expanded="true" signature="6438:36017" placeholder="{...}" />
+                <marker date="1394406663219" expanded="true" signature="6978:35995" placeholder="{...}" />
+                <marker date="1394406663219" expanded="true" signature="20708:21807" placeholder="{...}" />
+                <marker date="1394406663219" expanded="true" signature="20958:21459" placeholder="{...}" />
+                <marker date="1394406663219" expanded="true" signature="21273:21425" placeholder="{...}" />
+                <marker date="1394406663219" expanded="true" signature="21512:21591" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -134,14 +143,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="84" selection-start="128" selection-end="128" vertical-scroll-proportion="0.082417585" vertical-offset="0" max-vertical-offset="3885">
+            <state line="3" column="45" selection-start="89" selection-end="89" vertical-scroll-proportion="-1.875" vertical-offset="0" max-vertical-offset="3885">
               <folding>
-                <marker date="1394426818873" expanded="true" signature="3770:3832" placeholder="..." />
-                <marker date="1394426818873" expanded="true" signature="3873:3928" placeholder="..." />
-                <marker date="1394426818873" expanded="true" signature="3971:4074" placeholder="..." />
+                <marker date="1394426905457" expanded="true" signature="3800:3862" placeholder="..." />
+                <marker date="1394426905457" expanded="true" signature="3903:3958" placeholder="..." />
+                <marker date="1394426905457" expanded="true" signature="4001:4104" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -158,10 +167,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1929" column="45" selection-start="101587" selection-end="101587" vertical-scroll-proportion="-2.8148148" vertical-offset="28859" max-vertical-offset="31395">
+            <state line="1148" column="73" selection-start="57414" selection-end="57414" vertical-scroll-proportion="0.41620627" vertical-offset="16994" max-vertical-offset="31485">
               <folding />
             </state>
           </provider>
@@ -229,8 +238,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -872,7 +881,7 @@
       <workItem from="1393386062190" duration="22617000" />
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
-      <workItem from="1394395325600" duration="25005000" />
+      <workItem from="1394395325600" duration="26384000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2506,11 +2515,15 @@
       <created>1394426281394</created>
       <updated>1394426281394</updated>
     </task>
-    <option name="localTasksCounter" value="409" />
+    <task id="LOCAL-00409" summary="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340&#10;">
+      <created>1394426839337</created>
+      <updated>1394426839338</updated>
+    </task>
+    <option name="localTasksCounter" value="410" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="560796000" />
+    <option name="totallyTimeSpent" value="562175000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1914" height="1080" extended-state="4" />
@@ -2838,7 +2851,16 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="148" column="59" selection-start="7474" selection-end="7474" vertical-scroll-proportion="-2.2592592" vertical-offset="2159" max-vertical-offset="12075">
-          <folding />
+          <folding>
+            <marker date="1394406663219" expanded="true" signature="260:44537" placeholder="{...}" />
+            <marker date="1394406663219" expanded="true" signature="5622:42551" placeholder="{...}" />
+            <marker date="1394406663219" expanded="true" signature="6438:36017" placeholder="{...}" />
+            <marker date="1394406663219" expanded="true" signature="6978:35995" placeholder="{...}" />
+            <marker date="1394406663219" expanded="true" signature="20708:21807" placeholder="{...}" />
+            <marker date="1394406663219" expanded="true" signature="20958:21459" placeholder="{...}" />
+            <marker date="1394406663219" expanded="true" signature="21273:21425" placeholder="{...}" />
+            <marker date="1394406663219" expanded="true" signature="21512:21591" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2870,13 +2892,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="37" selection-start="1958" selection-end="1958" vertical-scroll-proportion="0.0" vertical-offset="509" max-vertical-offset="2055">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="76" column="54" selection-start="1829" selection-end="1853" vertical-scroll-proportion="-9.62963" vertical-offset="880" max-vertical-offset="6990">
@@ -2891,21 +2906,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1929" column="45" selection-start="101587" selection-end="101587" vertical-scroll-proportion="-2.8148148" vertical-offset="28859" max-vertical-offset="31395">
+        <state line="71" column="34" selection-start="2829" selection-end="2838" vertical-scroll-proportion="-0.1528777" vertical-offset="1150" max-vertical-offset="2055">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="84" selection-start="128" selection-end="128" vertical-scroll-proportion="0.082417585" vertical-offset="0" max-vertical-offset="3885">
+        <state line="3" column="45" selection-start="89" selection-end="89" vertical-scroll-proportion="-1.875" vertical-offset="0" max-vertical-offset="3885">
           <folding>
-            <marker date="1394426818873" expanded="true" signature="3770:3832" placeholder="..." />
-            <marker date="1394426818873" expanded="true" signature="3873:3928" placeholder="..." />
-            <marker date="1394426818873" expanded="true" signature="3971:4074" placeholder="..." />
+            <marker date="1394426905457" expanded="true" signature="3800:3862" placeholder="..." />
+            <marker date="1394426905457" expanded="true" signature="3903:3958" placeholder="..." />
+            <marker date="1394426905457" expanded="true" signature="4001:4104" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1148" column="73" selection-start="57414" selection-end="57414" vertical-scroll-proportion="0.41620627" vertical-offset="16994" max-vertical-offset="31485">
+          <folding />
         </state>
       </provider>
     </entry>
