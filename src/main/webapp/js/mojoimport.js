@@ -590,7 +590,7 @@ define(
                                     */
                                     if (currentLevel > previousLevel && newOutlineLevel <= previousLevel) {
                                         resultObject.contentSpec[resultObject.contentSpec.length - 1] =
-                                            resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^[A-Za-z]+:/, "");
+                                            resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^\s*[A-Za-z]+: /, "");
                                     }
 
                                     /*
