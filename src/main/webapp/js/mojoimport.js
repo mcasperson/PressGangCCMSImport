@@ -540,23 +540,32 @@ define(
                                 var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
 
                                 /*
-                                    If the last header represented a topic or a new level under the parent,
-                                    make sure we have not skipped any levels.
+                                    A content spec can not skip levels in the toc. So when we skip heading levels
+                                    (say a heading 3 under a heading 1) we need to pad the spec out.
+                                 */
+                                if (currentLevel > previousLevel + 1) {
+                                    for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
+                                        if (missedSteps === 1) {
+                                            resultObject.contentSpec.push("Chapter: Missing Chapter");
+                                        } else {
+                                            var myPrefix = generalexternalimport.generateSpacing(missedSteps);
+                                            resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
+                                        }
+                                    }
+
+                                    /*
+                                        Thanks to the loop above, levels never jump more than 1 place up.
+                                     */
+                                    previousLevel = currentLevel - 1;
+                                }
+
+                                /*
+                                 Some convenient statements about what is going on.
                                  */
                                 var thisTopicHasContent =  content.length !== 0;
                                 var thisTopicIsChildOfLastLevel = currentLevel > previousLevel;
                                 var nextTopicIsChildOfLastLevel = newOutlineLevel > previousLevel;
                                 var nextTopicIsChildOfThisTopic = newOutlineLevel > currentLevel;
-
-
-                                for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
-                                    if (missedSteps === 1) {
-                                        resultObject.contentSpec.push("Chapter: Missing Chapter");
-                                    } else {
-                                        var myPrefix = generalexternalimport.generateSpacing(missedSteps);
-                                        resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
-                                    }
-                                }
 
                                 if (!thisTopicHasContent && nextTopicIsChildOfThisTopic) {
                                     /*
@@ -595,27 +604,27 @@ define(
                                     if (thisTopicIsChildOfLastLevel && !nextTopicIsChildOfLastLevel) {
                                         resultObject.contentSpec[resultObject.contentSpec.length - 1] =
                                             resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
-                                    }
 
-                                    /*
-                                     We want to unwind any containers without front matter topics that were
-                                     added to the toc to accommodate this now discarded topic.
+                                        /*
+                                         We want to unwind any containers without front matter topics that were
+                                         added to the toc to accommodate this now discarded topic.
 
-                                     So any line added to the spec that doesn't have an associated topic and
-                                     that is not an ancestor of the next topic will be poped off the stack.
-                                     */
-                                    if (currentLevel > 1) {
-                                        while (true) {
-                                            var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
-                                            if (specElementTopic === undefined) {
-                                                var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
-                                                if (specElementLevel[1].length === newOutlineLevel - 2) {
-                                                    break;
+                                         So any line added to the spec that doesn't have an associated topic and
+                                         that is not an ancestor of the next topic will be poped off the stack.
+                                         */
+                                        if (currentLevel > 1) {
+                                            while (true) {
+                                                var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
+                                                if (specElementTopic === undefined) {
+                                                    var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
+                                                    if (specElementLevel[1].length === newOutlineLevel - 2) {
+                                                        break;
+                                                    } else {
+                                                        resultObject.contentSpec.pop();
+                                                    }
                                                 } else {
-                                                    resultObject.contentSpec.pop();
+                                                    break;
                                                 }
-                                            } else {
-                                                break;
                                             }
                                         }
                                     }
