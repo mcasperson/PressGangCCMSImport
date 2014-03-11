@@ -302,8 +302,6 @@ define(
                 function resolveXiIncludes () {
                     // Note the self closing tag is optional. clearFallbacks will remove those.
                     var generalXiInclude = /<\s*xi:include\s+(.*?)\/?>/;
-                    var attributeValueRe = /('|")(.*?)('|")/;
-                    var attributeValueReAttrGroup = 2;
                     var commonContent = /^Common_Content/;
 
                     // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
@@ -398,20 +396,21 @@ define(
                             /*
                                 break down the attributes looking for the href and xpointer attributes
                              */
-                            var attributes = match[xiIncludeAttributesGroup].split(/\s+/);
+                            var xiIncludesAttrs = match[xiIncludeAttributesGroup];
+                            var attrRe = /\b(.*?)\s*=\s*('|")(.*?)('|")/g;
                             var href;
                             var xpointer;
-                            jquery.each(attributes, function(index, value) {
-                                var attributeDetails = value.split("=");
-                                if (attributeDetails.length === 2) {
-                                    if (attributeDetails[0].trim() === "href") {
-                                        href = attributeValueRe.exec(attributeDetails[1])[attributeValueReAttrGroup];
-                                    } else if (attributeDetails[0].trim() === "xpointer") {
-                                        xpointer = attributeValueRe.exec(attributeDetails[1])[attributeValueReAttrGroup];
-                                    }
-                                }
+                            var attrmatch;
+                            while ((attrmatch = attrRe.exec(xiIncludesAttrs)) !== null) {
+                                var attributeName = attrmatch[1];
+                                var attributeValue = attrmatch[3];
 
-                            });
+                                if (attributeName.trim() === "href") {
+                                    href = attributeValue;
+                                } else if (attributeName.trim() === "xpointer") {
+                                    xpointer = attributeValue;
+                                }
+                            }
 
                             if (href !== undefined) {
                                 if (commonContent.test(href)) {

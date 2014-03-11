@@ -133,7 +133,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="400" column="87" selection-start="18502" selection-end="18502" vertical-scroll-proportion="0.5" vertical-offset="5685" max-vertical-offset="31005">
+            <state line="410" column="62" selection-start="19077" selection-end="19077" vertical-scroll-proportion="0.5952381" vertical-offset="5775" max-vertical-offset="30990">
               <folding />
             </state>
           </provider>
@@ -719,7 +719,7 @@
       <workItem from="1393534414769" duration="10618000" />
       <workItem from="1393713697782" duration="693000" />
       <workItem from="1394395325600" duration="31674000" />
-      <workItem from="1394482663545" duration="8565000" />
+      <workItem from="1394482663545" duration="9055000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2421,11 +2421,15 @@
       <created>1394495689728</created>
       <updated>1394495689728</updated>
     </task>
-    <option name="localTasksCounter" value="426" />
+    <task id="LOCAL-00426" summary="Working on DocBook 5 importing&#10;">
+      <created>1394495823897</created>
+      <updated>1394495823897</updated>
+    </task>
+    <option name="localTasksCounter" value="427" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="576030000" />
+    <option name="totallyTimeSpent" value="576520000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2816,7 +2820,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="400" column="87" selection-start="18502" selection-end="18502" vertical-scroll-proportion="0.5" vertical-offset="5685" max-vertical-offset="31005">
+        <state line="410" column="62" selection-start="19077" selection-end="19077" vertical-scroll-proportion="0.5952381" vertical-offset="5775" max-vertical-offset="30990">
           <folding />
         </state>
       </provider>
