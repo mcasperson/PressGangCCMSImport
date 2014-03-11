@@ -543,18 +543,22 @@ define(
                                     If the last header represented a topic or a new level under the parent,
                                     make sure we have not skipped any levels.
                                  */
-                                if (content.length !== 0 || currentLevel > previousLevel) {
-                                    for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
-                                        if (missedSteps === 1) {
-                                            resultObject.contentSpec.push("Chapter: Missing Chapter");
-                                        } else {
-                                            var myPrefix = generalexternalimport.generateSpacing(missedSteps);
-                                            resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
-                                        }
+                                var thisTopicHasContent =  content.length !== 0;
+                                var thisTopicIsChildOfLastLevel = currentLevel > previousLevel;
+                                var nextTopicIsChildOfLastLevel = newOutlineLevel > previousLevel;
+                                var nextTopicIsChildOfThisTopic = newOutlineLevel > currentLevel;
+
+
+                                for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
+                                    if (missedSteps === 1) {
+                                        resultObject.contentSpec.push("Chapter: Missing Chapter");
+                                    } else {
+                                        var myPrefix = generalexternalimport.generateSpacing(missedSteps);
+                                        resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
                                     }
                                 }
 
-                                if (content.length === 0 && newOutlineLevel > currentLevel) {
+                                if (!thisTopicHasContent && nextTopicIsChildOfThisTopic) {
                                     /*
                                      Last heading had no content before this heading. We only add a container if
                                      the last heading added a level of depth to the tree, Otherwise it is just
@@ -566,7 +570,7 @@ define(
                                     } else {
                                         resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                     }
-                                } else if (content.length !== 0) {
+                                } else if (thisTopicHasContent) {
                                     if (currentLevel === 1) {
                                         resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
@@ -588,9 +592,32 @@ define(
                                         above it, and the new topic being created is not, then the
                                         previous topic will need to be changed from a container to a topic.
                                     */
-                                    if (currentLevel > previousLevel && newOutlineLevel <= previousLevel) {
+                                    if (thisTopicIsChildOfLastLevel && !nextTopicIsChildOfLastLevel) {
                                         resultObject.contentSpec[resultObject.contentSpec.length - 1] =
-                                            resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^\s*[A-Za-z]+: /, "");
+                                            resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
+                                    }
+
+                                    /*
+                                     We want to unwind any containers without front matter topics that were
+                                     added to the toc to accommodate this now discarded topic.
+
+                                     So any line added to the spec that doesn't have an associated topic and
+                                     that is not an ancestor of the next topic will be poped off the stack.
+                                     */
+                                    if (currentLevel > 1) {
+                                        while (true) {
+                                            var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
+                                            if (specElementTopic === undefined) {
+                                                var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
+                                                if (specElementLevel[1].length === newOutlineLevel - 2) {
+                                                    break;
+                                                } else {
+                                                    resultObject.contentSpec.pop();
+                                                }
+                                            } else {
+                                                break;
+                                            }
+                                        }
                                     }
 
                                     /*

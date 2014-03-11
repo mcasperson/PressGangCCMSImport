@@ -46,6 +46,18 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         return retValue;
     };
 
+    exports.TopicGraph.prototype.getNodeFromSpecLine = function (specLine) {
+        var retValue;
+        jquery.each(this.nodes, function(index, node) {
+            if (node.specLine === specLine) {
+                retValue = node;
+                return false;
+            }
+        });
+
+        return retValue;
+    };
+
     exports.TopicGraph.prototype.hasXMLId = function (xmlId) {
         var retValue = false;
         jquery.each(this.nodes, function(index, node) {
