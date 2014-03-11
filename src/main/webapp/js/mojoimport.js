@@ -527,10 +527,10 @@ define(
                                 content.push("</" + listType + ">");
                             };
 
-                            var processHeader = function (content, contentNode, title, parentLevel, outlineLevel, index, successCallback) {
+                            var processHeader = function (content, contentNode, title, previousLevel, currentLevel, index, successCallback) {
                                 ++topicsAdded;
 
-                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                                var prefix = generalexternalimport.generateSpacing(currentLevel);
 
                                 /*
                                     This value represents the depth of the topic to be created using the title
@@ -543,8 +543,8 @@ define(
                                     If the last header represented a topic or a new level under the parent,
                                     make sure we have not skipped any levels.
                                  */
-                                if (content.length !== 0 || outlineLevel > parentLevel) {
-                                    for (var missedSteps = parentLevel + 1; missedSteps < outlineLevel; ++missedSteps) {
+                                if (content.length !== 0 || currentLevel > previousLevel) {
+                                    for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
                                         if (missedSteps === 1) {
                                             resultObject.contentSpec.push("Chapter: Missing Chapter");
                                         } else {
@@ -554,23 +554,27 @@ define(
                                     }
                                 }
 
-                                if (content.length === 0 && newOutlineLevel > outlineLevel) {
+                                if (content.length === 0 && newOutlineLevel > currentLevel) {
                                     /*
                                      Last heading had no content before this heading. We only add a container if
                                      the last heading added a level of depth to the tree, Otherwise it is just
                                      an empty container.
                                     */
 
-                                    if (outlineLevel === 1) {
+                                    if (currentLevel === 1) {
                                         resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
                                         resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                     }
                                 } else if (content.length !== 0) {
-                                    if (outlineLevel === 1) {
+                                    if (currentLevel === 1) {
                                         resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
-                                        if (newOutlineLevel > outlineLevel) {
+                                        /*
+                                            Does the topic noe being built exist under this one? If so, this topic is
+                                             a container. If not, it is just a topic.
+                                         */
+                                        if (newOutlineLevel > currentLevel) {
                                             resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                         } else {
                                             resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
@@ -578,6 +582,21 @@ define(
                                     }
 
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                } else {
+                                    /*
+                                        If the discarded topic was supposed to a child of the container
+                                        above it, and the new topic being created is not, then the
+                                        previous topic will need to be changed from a container to a topic.
+                                    */
+                                    if (currentLevel > previousLevel && newOutlineLevel <= previousLevel) {
+                                        resultObject.contentSpec[resultObject.contentSpec.length - 1] =
+                                            resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^[A-Za-z]+:/, "");
+                                    }
+
+                                    /*
+                                     Since this topic is being discarded, the parent outline level continues through
+                                     */
+                                    currentLevel = previousLevel;
                                 }
 
                                 var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
@@ -592,7 +611,7 @@ define(
                                 newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
 
                                 setTimeout(function() {
-                                    processTopic(newTitle, outlineLevel, newOutlineLevel, index + 1, [], successCallback);
+                                    processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, [], successCallback);
                                 }, 0);
                             };
 
