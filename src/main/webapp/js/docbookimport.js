@@ -30,6 +30,7 @@ define(
 
         var DOCBOOK_50 = "DOCBOOK_50";
         var DOCBOOK_45 = "DOCBOOK_45";
+        var DEAFULT_REV_HISTORY_TITLE = "Revision History";
 
         /*
          See if the xiincludes have some other base dir
@@ -850,9 +851,14 @@ define(
                         var revHistoryTitleContents;
                         var revHistoryTitle = qnautils.xPath("./docbook:title", parentAppendix).iterateNext();
                         if (revHistoryTitle !== null) {
-                            revHistoryTitleContents = /<title>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle))[1];
+                            var match = /<title>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle));
+                            if (match !== null) {
+                                revHistoryTitleContents = match[1];
+                            } else {
+                                revHistoryTitleContents = DEAFULT_REV_HISTORY_TITLE;
+                            }
                         } else {
-                            revHistoryTitleContents = "Revision History";
+                            revHistoryTitleContents = DEAFULT_REV_HISTORY_TITLE;
                         }
 
                         var replacementNodeDetails = [];
