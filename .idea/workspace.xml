@@ -106,7 +106,7 @@
       <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="201" column="37" selection-start="6810" selection-end="6810" vertical-scroll-proportion="-10.740741" vertical-offset="2725" max-vertical-offset="9045">
+            <state line="260" column="12" selection-start="8622" selection-end="8622" vertical-scroll-proportion="-6.962963" vertical-offset="3712" max-vertical-offset="9045">
               <folding />
             </state>
           </provider>
@@ -124,7 +124,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="680" column="73" selection-start="34533" selection-end="34533" vertical-scroll-proportion="0.54990923" vertical-offset="9897" max-vertical-offset="32025">
+            <state line="1726" column="80" selection-start="90429" selection-end="90429" vertical-scroll-proportion="0.522686" vertical-offset="25602" max-vertical-offset="32190">
               <folding />
             </state>
           </provider>
@@ -867,7 +867,7 @@
       <workItem from="1394482663545" duration="9763000" />
       <workItem from="1394508393462" duration="9372000" />
       <workItem from="1394591046475" duration="660000" />
-      <workItem from="1394741567488" duration="8939000" />
+      <workItem from="1394741567488" duration="9737000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2629,11 +2629,15 @@
       <created>1394751661160</created>
       <updated>1394751661160</updated>
     </task>
-    <option name="localTasksCounter" value="441" />
+    <task id="LOCAL-00441" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072693&#10;">
+      <created>1394752246617</created>
+      <updated>1394752246618</updated>
+    </task>
+    <option name="localTasksCounter" value="442" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="596199000" />
+    <option name="totallyTimeSpent" value="596997000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3003,13 +3007,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="37" selection-start="6810" selection-end="6810" vertical-scroll-proportion="-10.740741" vertical-offset="2725" max-vertical-offset="9045">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="53" selection-start="1190" selection-end="1209" vertical-scroll-proportion="-21.666666" vertical-offset="0" max-vertical-offset="2445">
@@ -3024,9 +3021,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="260" column="12" selection-start="8622" selection-end="8622" vertical-scroll-proportion="-6.962963" vertical-offset="3712" max-vertical-offset="9045">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="680" column="73" selection-start="34533" selection-end="34533" vertical-scroll-proportion="0.54990923" vertical-offset="9897" max-vertical-offset="32025">
+        <state line="1726" column="80" selection-start="90429" selection-end="90429" vertical-scroll-proportion="0.522686" vertical-offset="25602" max-vertical-offset="32190">
           <folding />
         </state>
       </provider>

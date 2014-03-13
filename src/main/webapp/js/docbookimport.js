@@ -1714,7 +1714,18 @@ define(
                                 place to set a break point.
                              */
                             jquery.each(topics, function(index, value) {
-                                console.log(value.title + ": " + (value.pgIds === undefined ? "none" : value.pgIds));
+                                if (value.pgIds === undefined) {
+                                    console.log(value.title + ": none");
+                                } else {
+                                    var matchingIds = "";
+                                    jquery.each(value.pgIds, function(key, value) {
+                                        if (matchingIds.length !== 0) {
+                                            matchingIds += ", ";
+                                        }
+                                        matchingIds += key;
+                                    });
+                                    console.log(value.title + ": " + matchingIds);
+                                }
                             });
 
                             populateOutgoingLinks();
