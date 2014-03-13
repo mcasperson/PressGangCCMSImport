@@ -756,6 +756,10 @@ define(
                             contentSpec.push("Type = Article");
                         }
 
+                        if (config.ImportCondition !== undefined) {
+                            contentSpec.push("[condition = " + config.ImportCondition + "]");
+                        }
+
                         // some entities are metadata elements in the spec
                         var removedEntities = [];
                         var copyrightYear = null;
@@ -851,7 +855,7 @@ define(
                         var revHistoryTitleContents;
                         var revHistoryTitle = qnautils.xPath("./docbook:title", parentAppendix).iterateNext();
                         if (revHistoryTitle !== null) {
-                            var match = /<title>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle));
+                            var match = /<title\s*.*?>(.*?)<\/title>/.exec(qnautils.xmlToString(revHistoryTitle));
                             if (match !== null) {
                                 revHistoryTitleContents = match[1];
                             } else {

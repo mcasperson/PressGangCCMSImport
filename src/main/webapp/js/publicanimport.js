@@ -49,6 +49,11 @@ define(
                                     config.ImportBrand = brand;
                                 }
 
+                                var condition = qnautils.getValueFromConfigFile("condition");
+                                if (condition !== undefined) {
+                                    config.ImportCondition = condition;
+                                }
+
                                 return false;
                             }
                         });
