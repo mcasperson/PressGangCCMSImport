@@ -1691,7 +1691,7 @@ define(
                                 place to set a break point.
                              */
                             jquery.each(topics, function(index, value) {
-                                console.log(value.title + ": " + value.pgIds);
+                                console.log(value.title + ": " + (value.pgIds === undefined ? "none" : value.pgIds));
                             });
 
                             populateOutgoingLinks();

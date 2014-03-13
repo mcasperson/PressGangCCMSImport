@@ -37,23 +37,7 @@ define(
                         var foundPublicanCfg = false;
                         jquery.each(entries, function (index, value) {
                             if (value.filename === "publican.cfg") {
-                                foundPublicanCfg = true;
-
-                                var dtdVersion = qnautils.getValueFromConfigFile("dtdver");
-                                if (dtdVersion !== undefined) {
-                                    config.ImportOption = dtdVersion === "5.0" ? "DocBook5" : "DocBook45";
-                                }
-
-                                var brand = qnautils.getValueFromConfigFile("brand");
-                                if (brand !== undefined) {
-                                    config.ImportBrand = brand;
-                                }
-
-                                var condition = qnautils.getValueFromConfigFile("condition");
-                                if (condition !== undefined) {
-                                    config.ImportCondition = condition;
-                                }
-
+                                foundPublicanCfg = value;
                                 return false;
                             }
                         });
@@ -61,7 +45,25 @@ define(
                         if (!foundPublicanCfg) {
                             errorCallback("Error", "The ZIP file did not contain a publican.cfg file in the root folder of the ZIP archive.");
                         } else {
-                            resultCallback(null);
+
+                            qnastart.zipModel.getTextFromFileName(config.ZipFile, "publican.cfg", function(publicanCfg) {
+                                var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
+                                if (dtdVersion !== undefined) {
+                                    config.ImportOption = /('|")5\.0('|")/.test(dtdVersion) ? "DocBook5" : "DocBook45";
+                                }
+
+                                var brand = qnautils.getValueFromConfigFile(publicanCfg, "brand");
+                                if (brand !== undefined) {
+                                    config.ImportBrand = brand;
+                                }
+
+                                var condition = qnautils.getValueFromConfigFile(publicanCfg, "condition");
+                                if (condition !== undefined) {
+                                    config.ImportCondition = condition;
+                                }
+
+                                resultCallback(null);
+                            });
                         }
                     }, function (message) {
                         errorCallback("Error", "Could not process the ZIP file!");
