@@ -670,7 +670,27 @@ define(
                     config.ParsedAsXML = true;
                     resultCallback();
 
+                    removeBoilerplate(xmlDoc, entities);
+                }
+
+                /*
+                    Remove any content that is added automatically by the csprocessor. This means you
+                    can re-import content exported as a book by csprocessor.
+                 */
+                function removeBoilerplate(xmlDoc, entities) {
+                    var createBugParas = qnautils.xPath("//docbook:para[role='RoleCreateBugPara']", xmlDoc);
+                    var removeElements = [];
+                    var para;
+                    while ((para = createBugParas.iterateNext()) !== null) {
+                        removeElements.push(para);
+                    }
+
+                    jquery.each(removeElements, function (index, value) {
+                        value.parentNode.removeChild(value);
+                    });
+
                     findBookInfo(xmlDoc, entities);
+
                 }
 
                 var removeIdAttribute = function (xml) {
@@ -1508,11 +1528,14 @@ define(
 
                             jquery.each(attributeKeys, function (index, attrName) {
                                 /*
-                                 Don't add namespace attributes. These are added by the
-                                 xml serialization abd will cause two otherwise matching
-                                 xml docuemnts to appear to be different.
+                                 Don't add some common attributes. These are either added
+                                 by csprocessor when it build a book, by the xml
+                                 serialization process, or are not considered important
+                                 when comparing XML files for equality.
                                  */
-                                if (attrName.indexOf("xmlns") !== 0) {
+                                if (attrName.indexOf("xmlns") !== 0 &&
+                                    attrName.indexOf("version") !== 0 &&
+                                    attrName.indexOf("remap") !== 0 ) {
                                     xml.setAttribute(attrName, attributes[attrName]);
                                 }
                             });
