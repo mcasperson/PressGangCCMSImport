@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -125,7 +124,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1537" column="69" selection-start="78683" selection-end="78683" vertical-scroll-proportion="0.6279492" vertical-offset="22709" max-vertical-offset="32025">
+            <state line="680" column="73" selection-start="34533" selection-end="34533" vertical-scroll-proportion="0.54990923" vertical-offset="9897" max-vertical-offset="32025">
               <folding />
             </state>
           </provider>
@@ -868,7 +867,7 @@
       <workItem from="1394482663545" duration="9763000" />
       <workItem from="1394508393462" duration="9372000" />
       <workItem from="1394591046475" duration="660000" />
-      <workItem from="1394741567488" duration="8354000" />
+      <workItem from="1394741567488" duration="8939000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2626,11 +2625,15 @@
       <created>1394748802812</created>
       <updated>1394748802812</updated>
     </task>
-    <option name="localTasksCounter" value="440" />
+    <task id="LOCAL-00440" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072693&#10;">
+      <created>1394751661160</created>
+      <updated>1394751661160</updated>
+    </task>
+    <option name="localTasksCounter" value="441" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="595614000" />
+    <option name="totallyTimeSpent" value="596199000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3023,7 +3026,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1537" column="69" selection-start="78683" selection-end="78683" vertical-scroll-proportion="0.6279492" vertical-offset="22709" max-vertical-offset="32025">
+        <state line="680" column="73" selection-start="34533" selection-end="34533" vertical-scroll-proportion="0.54990923" vertical-offset="9897" max-vertical-offset="32025">
           <folding />
         </state>
       </provider>

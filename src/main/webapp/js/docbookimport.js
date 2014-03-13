@@ -678,7 +678,7 @@ define(
                     can re-import content exported as a book by csprocessor.
                  */
                 function removeBoilerplate(xmlDoc, entities) {
-                    var createBugParas = qnautils.xPath("//docbook:para[role='RoleCreateBugPara']", xmlDoc);
+                    var createBugParas = qnautils.xPath("//docbook:para[@role='RoleCreateBugPara']", xmlDoc);
                     var removeElements = [];
                     var para;
                     while ((para = createBugParas.iterateNext()) !== null) {
