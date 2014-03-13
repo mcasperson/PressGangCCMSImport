@@ -1714,10 +1714,6 @@ define(
 
                                         ++count;
                                     }
-
-                                    if (count !== outgoingXrefs.length) {
-                                        throw "There is a mismatch between the xrefs and the injects.";
-                                    }
                                 });
                             }
                         });

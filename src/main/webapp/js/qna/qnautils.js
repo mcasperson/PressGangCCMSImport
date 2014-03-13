@@ -168,5 +168,18 @@ define (['jquery', 'exports'], function (jquery, exports) {
         });
         return xmlString;
     };
+
+    exports.getValueFromConfigFile = function(configFile, key) {
+        var retValue;
+        var lines = configFile.split("\n");
+        jquery.each(lines, function(index, value) {
+            var keyValue = value.split(":");
+            if (keyValue.length == 2 && keyValue[0].trim() === key) {
+                retValue = keyValue[1].trim();
+                return false;
+            }
+        });
+        return retValue;
+    };
 });
 

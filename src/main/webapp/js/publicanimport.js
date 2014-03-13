@@ -32,6 +32,12 @@ define(
                         jquery.each(entries, function (index, value) {
                             if (value.filename === "publican.cfg") {
                                 foundPublicanCfg = true;
+
+                                var dtdVersion = qnautils.getValueFromConfigFile("dtdver");
+                                if (dtdVersion !== undefined) {
+                                    config.ImportOption = dtdVersion === "5.0" ? "DocBook5" : "DocBook45";
+                                }
+
                                 return false;
                             }
                         });
