@@ -742,6 +742,13 @@ define(
 
                         contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
 
+                        /*
+                            If no brand was specified, let csprocessor use the default
+                         */
+                        if (config.ImportBrand !== undefined) {
+                            contentSpec.push("Brand = " + config.ImportBrand);
+                        }
+
                         if (xmlDoc.documentElement.nodeName === "book") {
                             contentSpec.push("Type = Book");
                         } else if (xmlDoc.documentElement.nodeName === "article") {
@@ -1669,6 +1676,14 @@ define(
 
                     if (config.CreateOrResuseTopics === "REUSE") {
                         getPossibleMatches(0, function() {
+                            /*
+                                get a report of potentially reused topics. This is really just a convenient
+                                place to set a break point.
+                             */
+                            jquery.each(topics, function(index, value) {
+                                console.log(value.title + ": " + value.pgIds);
+                            });
+
                             populateOutgoingLinks();
                         });
                     } else {

@@ -26,6 +26,12 @@ define(
                 } else if (config.ZipFile.name.lastIndexOf(".zip") !== config.ZipFile.name.length - 4) {
                     errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
                 } else {
+
+                    /*
+                        The file
+                     */
+                    qnastart.zipModel.clearCache();
+
                     qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
 
                         var foundPublicanCfg = false;
@@ -36,6 +42,11 @@ define(
                                 var dtdVersion = qnautils.getValueFromConfigFile("dtdver");
                                 if (dtdVersion !== undefined) {
                                     config.ImportOption = dtdVersion === "5.0" ? "DocBook5" : "DocBook45";
+                                }
+
+                                var brand = qnautils.getValueFromConfigFile("brand");
+                                if (brand !== undefined) {
+                                    config.ImportBrand = brand;
                                 }
 
                                 return false;

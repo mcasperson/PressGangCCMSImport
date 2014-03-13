@@ -102,14 +102,14 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
     };
 
     exports.QNAZipModel.prototype.getCachedEntries = function (file, onend, onerror) {
-        if (this.cache[file]) {
-            onend(this.cache[file]);
+        if (this.cache[file.filename]) {
+            onend(this.cache[file.filename]);
         } else {
             this.getEntries(
                 file,
                 (function (cache) {
                     return function (entries) {
-                        cache[file] = entries;
+                        cache[file.filename] = entries;
                         onend(entries);
                     };
                 }(this.cache)),
