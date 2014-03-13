@@ -1473,6 +1473,31 @@ define(
                      we order any attributes in any node.
                      */
                     function reorderAttributes(xml) {
+
+                        if (xml.attributes !== undefined) {
+                            var attributes = {};
+                            jquery.each(xml.attributes, function(index, attr) {
+                                attributes[attr.name] = attr.value;
+                            });
+
+                            while (xml.attributes.length !== 0) {
+                                xml.removeAttribute(xml.attributes[0].name);
+                            }
+
+                            var attributeKeys = qnautils.keys(attributes);
+
+                            jquery.each(attributeKeys, function (index, attrName) {
+                                /*
+                                 Don't add namespace attributes. These are added by the
+                                 xml serialization abd will cause two otherwise matching
+                                 xml docuemnts to appear to be different.
+                                 */
+                                if (attrName.indexOf("xmlns") !== 0) {
+                                    xml.setAttribute(attrName, attributes[attrName]);
+                                }
+                            });
+                        }
+
                         var allElements = qnautils.xPath(".//docbook:*", xml);
                         var elements = [];
                         var elementIter;
@@ -1481,20 +1506,7 @@ define(
                         }
 
                         jquery.each(elements, function (index, element) {
-                            var attributes = {};
-                            jquery.each(element.attributes, function(index, attr) {
-                                attributes[attr.name] = attr.value;
-                            });
-
-                            while (element.attributes.length !== 0) {
-                                element.removeAttribute(element.attributes[0].name);
-                            }
-
-                            var attributeKeys = qnautils.keys(attributes);
-
-                            jquery.each(attributeKeys, function (index, attrName) {
-                                element.setAttribute(attrName, attributes[attrName]);
-                            });
+                            reorderAttributes(element);
                         });
                     }
 
@@ -1516,6 +1528,8 @@ define(
                                 qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                 config,
                                 function (data) {
+                                    var format = config.ImportOption === "DocBook5" ? "DOCBOOK_50" : "DOCBOOK_45";
+
                                     /*
                                      We start by comparing the topic we are trying to import to the close match in the
                                      database. To do this we normalize whitespace, injections and xrefs. If the two
@@ -1550,6 +1564,14 @@ define(
                                         return -1;
                                     });
                                     jquery.each(data.items, function(index, matchingTopic) {
+                                        /*
+                                            The matching topic has to have the same format as the one
+                                            we are trying to import.
+                                         */
+                                        if (matchingTopic.item.xmlFormat !== format) {
+                                            return true;
+                                        }
+
                                         /*
                                          Strip out the entities which can cause issues with the XML Parsing
                                          */
