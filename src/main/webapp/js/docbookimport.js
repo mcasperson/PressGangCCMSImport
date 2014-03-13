@@ -28,6 +28,9 @@ define(
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
+        var DOCBOOK_50 = "DOCBOOK_50";
+        var DOCBOOK_45 = "DOCBOOK_45";
+
         /*
          See if the xiincludes have some other base dir
          */
@@ -1528,7 +1531,7 @@ define(
                                 qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                 config,
                                 function (data) {
-                                    var format = config.ImportOption === "DocBook5" ? "DOCBOOK_50" : "DOCBOOK_45";
+                                    var format = config.ImportOption === "DocBook5" ? DOCBOOK_50 : DOCBOOK_45;
 
                                     /*
                                      We start by comparing the topic we are trying to import to the close match in the
