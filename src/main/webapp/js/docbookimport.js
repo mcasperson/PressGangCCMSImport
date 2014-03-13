@@ -683,7 +683,7 @@ define(
                 var removeRedundantXmlnsAttribute = function (xml) {
                     if (xml.hasAttribute !== undefined &&
                         xml.hasAttribute("xmlns") &&
-                        xml.attribute["xmlns"] === "http://docbook.org/ns/docbook") {
+                        xml.attributes["xmlns"] === "http://docbook.org/ns/docbook") {
                         xml.removeAttribute("xmlns");
                     }
 
