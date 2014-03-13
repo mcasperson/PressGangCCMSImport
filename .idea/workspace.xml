@@ -106,7 +106,7 @@
       <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="260" column="12" selection-start="8622" selection-end="8622" vertical-scroll-proportion="-6.962963" vertical-offset="3712" max-vertical-offset="9045">
+            <state line="257" column="37" selection-start="8450" selection-end="8450" vertical-scroll-proportion="-6.962963" vertical-offset="3667" max-vertical-offset="9045">
               <folding />
             </state>
           </provider>
@@ -124,7 +124,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1726" column="80" selection-start="90429" selection-end="90429" vertical-scroll-proportion="0.522686" vertical-offset="25602" max-vertical-offset="32190">
+            <state line="1703" column="113" selection-start="89263" selection-end="89263" vertical-scroll-proportion="0.79491836" vertical-offset="25107" max-vertical-offset="32250">
               <folding />
             </state>
           </provider>
@@ -867,7 +867,7 @@
       <workItem from="1394482663545" duration="9763000" />
       <workItem from="1394508393462" duration="9372000" />
       <workItem from="1394591046475" duration="660000" />
-      <workItem from="1394741567488" duration="9737000" />
+      <workItem from="1394741567488" duration="9866000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2633,11 +2633,15 @@
       <created>1394752246617</created>
       <updated>1394752246618</updated>
     </task>
-    <option name="localTasksCounter" value="442" />
+    <task id="LOCAL-00442" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072693&#10;">
+      <created>1394753645005</created>
+      <updated>1394753645005</updated>
+    </task>
+    <option name="localTasksCounter" value="443" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="596997000" />
+    <option name="totallyTimeSpent" value="597126000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3023,14 +3027,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="12" selection-start="8622" selection-end="8622" vertical-scroll-proportion="-6.962963" vertical-offset="3712" max-vertical-offset="9045">
+        <state line="257" column="37" selection-start="8450" selection-end="8450" vertical-scroll-proportion="-6.962963" vertical-offset="3667" max-vertical-offset="9045">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1726" column="80" selection-start="90429" selection-end="90429" vertical-scroll-proportion="0.522686" vertical-offset="25602" max-vertical-offset="32190">
+        <state line="1703" column="113" selection-start="89263" selection-end="89263" vertical-scroll-proportion="0.79491836" vertical-offset="25107" max-vertical-offset="32250">
           <folding />
         </state>
       </provider>

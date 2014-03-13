@@ -1700,6 +1700,10 @@ define(
                                         }
                                     });
 
+                                    if (topic.pgIds === undefined) {
+                                        console.log("Topic " + topic.title + " has no matches in the database.");
+                                    }
+
                                     getPossibleMatches(index + 1, callback);
                                 },
                                 errorCallback
