@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -122,23 +121,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1381" column="87" selection-start="68731" selection-end="68731" vertical-scroll-proportion="0.45553538" vertical-offset="20464" max-vertical-offset="34320">
+            <state line="1381" column="87" selection-start="68731" selection-end="68731" vertical-scroll-proportion="-9.296296" vertical-offset="20464" max-vertical-offset="34320">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="248" column="67" selection-start="17089" selection-end="17101" vertical-scroll-proportion="-16.208334" vertical-offset="3331" max-vertical-offset="3885">
+            <state line="248" column="67" selection-start="17089" selection-end="17101" vertical-scroll-proportion="0.7021661" vertical-offset="3331" max-vertical-offset="3885">
               <folding>
-                <marker date="1394767032996" expanded="true" signature="3796:3858" placeholder="..." />
-                <marker date="1394767032996" expanded="true" signature="3899:3954" placeholder="..." />
-                <marker date="1394767032996" expanded="true" signature="3997:4100" placeholder="..." />
+                <marker date="1394767434076" expanded="true" signature="3796:3858" placeholder="..." />
+                <marker date="1394767434076" expanded="true" signature="3899:3954" placeholder="..." />
+                <marker date="1394767434076" expanded="true" signature="3997:4100" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -223,9 +222,9 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/uri/URI.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
       </list>
     </option>
   </component>
@@ -902,7 +901,7 @@
       <workItem from="1394482663545" duration="9763000" />
       <workItem from="1394508393462" duration="9372000" />
       <workItem from="1394591046475" duration="660000" />
-      <workItem from="1394741567488" duration="20145000" />
+      <workItem from="1394741567488" duration="20238000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2700,11 +2699,15 @@
       <created>1394766600280</created>
       <updated>1394766600280</updated>
     </task>
-    <option name="localTasksCounter" value="450" />
+    <task id="LOCAL-00450" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072680">
+      <created>1394767387000</created>
+      <updated>1394767387000</updated>
+    </task>
+    <option name="localTasksCounter" value="451" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="607405000" />
+    <option name="totallyTimeSpent" value="607498000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -2780,7 +2783,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Working on docbook 5 import" />
     <MESSAGE value="Working on docbook 5 import&#10;" />
     <MESSAGE value="Removed assumption that containers have titles" />
     <MESSAGE value="Removed assumption that containers have titles&#10;" />
@@ -2805,7 +2807,8 @@
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072678" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071063" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072676" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072676" />
+    <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072680" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072680" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3079,21 +3082,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="67" selection-start="17089" selection-end="17101" vertical-scroll-proportion="-16.208334" vertical-offset="3331" max-vertical-offset="3885">
-          <folding>
-            <marker date="1394767032996" expanded="true" signature="3796:3858" placeholder="..." />
-            <marker date="1394767032996" expanded="true" signature="3899:3954" placeholder="..." />
-            <marker date="1394767032996" expanded="true" signature="3997:4100" placeholder="..." />
-          </folding>
+        <state line="1381" column="87" selection-start="68731" selection-end="68731" vertical-scroll-proportion="-9.296296" vertical-offset="20464" max-vertical-offset="34320">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1381" column="87" selection-start="68731" selection-end="68731" vertical-scroll-proportion="0.45553538" vertical-offset="20464" max-vertical-offset="34320">
-          <folding />
+        <state line="248" column="67" selection-start="17089" selection-end="17101" vertical-scroll-proportion="0.7021661" vertical-offset="3331" max-vertical-offset="3885">
+          <folding>
+            <marker date="1394767434076" expanded="true" signature="3796:3858" placeholder="..." />
+            <marker date="1394767434076" expanded="true" signature="3899:3954" placeholder="..." />
+            <marker date="1394767434076" expanded="true" signature="3997:4100" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
