@@ -168,27 +168,46 @@ define(
                                 });
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
-                                    jquery.each(entries, function (index, value) {
-                                        if (/^en-US\/(Book)|(Article)_Info\.xml$/.test(value.filename)) {
-                                            qnastart.zipModel.getTextFromFile(value, function (textFile) {
-                                                var match = /<title>(.*?)<\/title>/.exec(textFile);
-                                                if (match) {
-                                                    var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
+                                qnastart.zipModel.getTextFromFileName(
+                                    config.ZipFile,
+                                    "publican.cfg",
+                                    function(data) {
+                                        var options = data.split("\n");
+                                        var foundMainFile = false;
+                                        jquery.each(options, function (index, value) {
+                                            var keyValue = value.split(":");
+                                            if (keyValue.length === 2 && keyValue[0].trim() === "mainfile") {
+                                                resultCallback("en-US/" + keyValue[1].trim());
+                                                foundMainFile = true;
+                                                return false;
+                                            }
+                                        });
 
-                                                    jquery.each(entries, function (index, value) {
-                                                        if (value.filename === assumedMainXMLFile) {
-                                                            resultCallback(assumedMainXMLFile);
-                                                            return;
-                                                        }
-                                                    });
-                                                }
+                                        if (!foundMainFile) {
+                                            qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                                jquery.each(entries, function (index, value) {
+                                                    if (/^en-US\/(Book)|(Article)_Info\.xml$/.test(value.filename)) {
+                                                        qnastart.zipModel.getTextFromFile(value, function (textFile) {
+                                                            var match = /<title>(.*?)<\/title>/.exec(textFile);
+                                                            if (match) {
+                                                                var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
+
+                                                                jquery.each(entries, function (index, value) {
+                                                                    if (value.filename === assumedMainXMLFile) {
+                                                                        resultCallback(assumedMainXMLFile);
+                                                                        return false;
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+
+                                                        return false;
+                                                    }
+                                                });
                                             });
-
-                                            return false;
                                         }
-                                    });
-                                });
+                                    },
+                                    errorCallback);
 
                                 resultCallback(null);
                             })
