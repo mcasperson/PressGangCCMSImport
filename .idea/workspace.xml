@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -122,10 +123,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="305" column="35" selection-start="13400" selection-end="13410" vertical-scroll-proportion="0.0" vertical-offset="4383" max-vertical-offset="33000">
+            <state line="1093" column="43" selection-start="53843" selection-end="53843" vertical-scroll-proportion="1.0671506" vertical-offset="15807" max-vertical-offset="33990">
               <folding />
             </state>
           </provider>
@@ -134,20 +135,20 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="14" selection-start="1810" selection-end="1810" vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="3885">
+            <state line="248" column="67" selection-start="17089" selection-end="17101" vertical-scroll-proportion="-16.208334" vertical-offset="3331" max-vertical-offset="3885">
               <folding>
-                <marker date="1394764385668" expanded="true" signature="3796:3858" placeholder="..." />
-                <marker date="1394764385668" expanded="true" signature="3899:3954" placeholder="..." />
-                <marker date="1394764385668" expanded="true" signature="3997:4100" placeholder="..." />
+                <marker date="1394764776553" expanded="true" signature="3796:3858" placeholder="..." />
+                <marker date="1394764776553" expanded="true" signature="3899:3954" placeholder="..." />
+                <marker date="1394764776553" expanded="true" signature="3997:4100" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="170" column="49" selection-start="9950" selection-end="9950" vertical-scroll-proportion="0.122340426" vertical-offset="2481" max-vertical-offset="3375">
+            <state line="179" column="66" selection-start="10492" selection-end="10492" vertical-scroll-proportion="-99.44444" vertical-offset="0" max-vertical-offset="3435">
               <folding />
             </state>
           </provider>
@@ -223,9 +224,9 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/uri/URI.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -902,7 +903,7 @@
       <workItem from="1394482663545" duration="9763000" />
       <workItem from="1394508393462" duration="9372000" />
       <workItem from="1394591046475" duration="660000" />
-      <workItem from="1394741567488" duration="17844000" />
+      <workItem from="1394741567488" duration="19359000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2692,11 +2693,15 @@
       <created>1394763381699</created>
       <updated>1394763381699</updated>
     </task>
-    <option name="localTasksCounter" value="448" />
+    <task id="LOCAL-00448" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071063">
+      <created>1394764764355</created>
+      <updated>1394764764355</updated>
+    </task>
+    <option name="localTasksCounter" value="449" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="605104000" />
+    <option name="totallyTimeSpent" value="606619000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -2772,7 +2777,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Working on mojo import" />
     <MESSAGE value="Working on mojo import&#10;" />
     <MESSAGE value="Working on docbook 5 import" />
     <MESSAGE value="Working on docbook 5 import&#10;" />
@@ -2797,7 +2801,8 @@
     <MESSAGE value="https://bugzilla.redhat.com/show_bug.cgi?id=1072687" />
     <MESSAGE value="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072687" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072678" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1072678" />
+    <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071063" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071063" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3064,27 +3069,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="305" column="35" selection-start="13400" selection-end="13410" vertical-scroll-proportion="0.0" vertical-offset="4383" max-vertical-offset="33000">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="14" selection-start="1810" selection-end="1810" vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="3885">
+        <state line="248" column="67" selection-start="17089" selection-end="17101" vertical-scroll-proportion="-16.208334" vertical-offset="3331" max-vertical-offset="3885">
           <folding>
-            <marker date="1394764385668" expanded="true" signature="3796:3858" placeholder="..." />
-            <marker date="1394764385668" expanded="true" signature="3899:3954" placeholder="..." />
-            <marker date="1394764385668" expanded="true" signature="3997:4100" placeholder="..." />
+            <marker date="1394764776553" expanded="true" signature="3796:3858" placeholder="..." />
+            <marker date="1394764776553" expanded="true" signature="3899:3954" placeholder="..." />
+            <marker date="1394764776553" expanded="true" signature="3997:4100" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="170" column="49" selection-start="9950" selection-end="9950" vertical-scroll-proportion="0.122340426" vertical-offset="2481" max-vertical-offset="3375">
+        <state line="179" column="66" selection-start="10492" selection-end="10492" vertical-scroll-proportion="-99.44444" vertical-offset="0" max-vertical-offset="3435">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1093" column="43" selection-start="53843" selection-end="53843" vertical-scroll-proportion="1.0671506" vertical-offset="15807" max-vertical-offset="33990">
           <folding />
         </state>
       </provider>

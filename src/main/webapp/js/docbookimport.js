@@ -19,6 +19,7 @@ define(
         var REVISION_HISTORY_TAG_ID;
         var AUTHOR_GROUP_TAG_ID ;
         var ABSTRACT_TAG_ID;
+        var LEGAL_NOTICE_TAG_ID;
         // docbook elements whose contents have to match exactly
         var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
         // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
@@ -31,6 +32,7 @@ define(
         var DOCBOOK_50 = "DOCBOOK_50";
         var DOCBOOK_45 = "DOCBOOK_45";
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
+        var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
         /*
          See if the xiincludes have some other base dir
@@ -221,6 +223,10 @@ define(
                             .setName("FoundAuthorGroup"),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
+                            .setIntro("Finding legal notice")
+                            .setName("FoundLegalNotice"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding abstract")
                             .setName("FoundAbstract"),
                         new qna.QNAVariable()
@@ -298,7 +304,7 @@ define(
                  There are 17 steps, so this is how far to move the progress bar with each
                  step.
                  */
-                var progressIncrement = 100 / 17;
+                var progressIncrement = 100 / 18;
 
                 /*
                     Load the tag ids for various tags used during the import
@@ -319,7 +325,15 @@ define(
                                         config,
                                         function(id) {
                                             ABSTRACT_TAG_ID = id;
-                                            resolveXiIncludes();
+                                            qnastart.loadEntityID(
+                                                "legalNoticeTagId",
+                                                config,
+                                                function(id) {
+                                                    LEGAL_NOTICE_TAG_ID = id;
+                                                    resolveXiIncludes();
+                                                },
+                                                errorCallback
+                                            );
                                         },
                                         errorCallback
                                     );
@@ -1028,6 +1042,58 @@ define(
                     config.FoundAuthorGroup = true;
                     resultCallback();
 
+                    extractLegalNotice(xmlDoc, contentSpec, topics, topicGraph);
+                }
+
+                function extractLegalNotice (xmlDoc, contentSpec, topics, topicGraph) {
+                    if (topics === undefined) {
+                        topics = [];
+                    }
+
+                    // the graph that holds the topics
+                    if (topicGraph === undefined) {
+                        topicGraph = new specelement.TopicGraph();
+                    }
+
+                    var legalNotice = qnautils.xPath("//docbook:legalnotice", xmlDoc).iterateNext();
+
+                    if (legalNotice) {
+
+                        var legalNoticeTitleContents;
+                        var legalNoticeTitle = qnautils.xPath("./docbook:title", legalNotice).iterateNext();
+                        if (legalNoticeTitle !== null) {
+                            var match = /<title\s*.*?>(.*?)<\/title>/.exec(qnautils.xmlToString(legalNoticeTitle));
+                            if (match !== null) {
+                                legalNoticeTitleContents = match[1];
+                            } else {
+                                legalNoticeTitleContents = DEAFULT_LEGAL_NOTICE_TITLE;
+                            }
+                        } else {
+                            legalNoticeTitleContents = DEAFULT_LEGAL_NOTICE_TITLE;
+                        }
+
+                        contentSpec.push("Legal Notice = ");
+
+                        var id = legalNotice.getAttribute("id");
+
+                        var topic = new specelement.TopicGraphNode(topicGraph)
+                            .setXml(removeIdAttribute(legalNotice))
+                            .setSpecLine(contentSpec.length - 1)
+                            .setTitle(legalNoticeTitleContents)
+                            .addTag(LEGAL_NOTICE_TAG_ID);
+
+                        if (id) {
+                            topic.addXmlId(id);
+                        }
+
+                        topics.push(topic);
+                    }
+
+                    config.UploadProgress[1] = 9 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+                    config.FoundLegalNotice = true;
+                    resultCallback();
+
                     extractAbstract(xmlDoc, contentSpec, topics, topicGraph);
                 }
 
@@ -1065,7 +1131,7 @@ define(
                         topics.push(topic);
                     }
 
-                    config.UploadProgress[1] = 9 * progressIncrement;
+                    config.UploadProgress[1] = 10 * progressIncrement;
                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.FoundAbstract = true;
                     resultCallback();
@@ -1119,7 +1185,7 @@ define(
 
                                                     ++count;
 
-                                                    config.UploadProgress[1] = (9 * progressIncrement) + (count / numImages * progressIncrement);
+                                                    config.UploadProgress[1] = (10 * progressIncrement) + (count / numImages * progressIncrement);
                                                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                                                     resultCallback();
 
@@ -1152,7 +1218,7 @@ define(
                                 value.node.nodeValue = value.newImageRef;
                             });
 
-                            config.UploadProgress[1] = 10 * progressIncrement;
+                            config.UploadProgress[1] = 11 * progressIncrement;
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             config.FoundImages = true;
                             resultCallback();
@@ -1445,7 +1511,7 @@ define(
 
                     processXml(xmlDoc.documentElement, 0);
 
-                    config.UploadProgress[1] = 11 * progressIncrement;
+                    config.UploadProgress[1] = 12 * progressIncrement;
                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.ResolvedBookStructure = true;
                     resultCallback();
@@ -1612,7 +1678,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (11 * progressIncrement) + (index / topics.length * progressIncrement);
+                            config.UploadProgress[1] = (13 * progressIncrement) + (index / topics.length * progressIncrement);
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
@@ -1831,7 +1897,7 @@ define(
                             }
                         });
 
-                        config.UploadProgress[1] = 12 * progressIncrement;
+                        config.UploadProgress[1] = 14 * progressIncrement;
                         thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.MatchedExistingTopics = true;
                         resultCallback();
@@ -1956,7 +2022,7 @@ define(
 
                     config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                    config.UploadProgress[1] = 13 * progressIncrement;
+                    config.UploadProgress[1] = 15 * progressIncrement;
                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.ResolvedXRefGraphs = true;
                     resultCallback();
@@ -1969,7 +2035,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (13 * progressIncrement) + (index / topics.length * progressIncrement);
+                            config.UploadProgress[1] = (16 * progressIncrement) + (index / topics.length * progressIncrement);
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
@@ -2011,7 +2077,7 @@ define(
 
                     createTopics(0, function() {
 
-                        config.UploadProgress[1] = 14 * progressIncrement;
+                        config.UploadProgress[1] = 16 * progressIncrement;
                         thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.UploadedTopics = true;
                         resultCallback();
@@ -2025,7 +2091,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (14 * progressIncrement) + (index / topics.length * progressIncrement);
+                            config.UploadProgress[1] = (17 * progressIncrement) + (index / topics.length * progressIncrement);
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
@@ -2094,7 +2160,7 @@ define(
 
                     resolve(0, function() {
 
-                        config.UploadProgress[1] = 15 * progressIncrement;
+                        config.UploadProgress[1] = 17 * progressIncrement;
                         thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.FixXRefs = true;
                         resultCallback();
@@ -2108,7 +2174,7 @@ define(
                         contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                     });
 
-                    config.UploadProgress[1] = 16 * progressIncrement;
+                    config.UploadProgress[1] = 18 * progressIncrement;
                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.UpdatedContentSpec = true;
                     resultCallback();

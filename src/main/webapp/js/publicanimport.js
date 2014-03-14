@@ -168,6 +168,10 @@ define(
                                 });
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
+                                /*
+                                    Look for an option called mainfile which will override the default
+                                    main XML file.
+                                 */
                                 qnastart.zipModel.getTextFromFileName(
                                     config.ZipFile,
                                     "publican.cfg",
