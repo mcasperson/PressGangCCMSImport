@@ -1357,7 +1357,29 @@ define(
                                         isHistoryTopicAppendix = clone2.textContent.trim().length === 0;
                                     }
 
-                                    if (!isHistoryTopicAppendix) {
+                                    var isEmptyPrefaceTopic = false;
+                                    if (clone.nodeName === "preface") {
+                                        var clone2 = clone.cloneNode(true);
+                                        var removeNodes = [];
+
+                                        var titles = qnautils.xPath("./docbook:title", clone2);
+
+                                        var titleNode;
+                                        while ((titleNode = titles.iterateNext()) !== null) {
+                                            removeNodes.push(titleNode);
+                                        }
+
+                                        jquery.each(removeNodes, function (index, value){
+                                            value.parentNode.removeChild(value);
+                                        });
+
+                                        /*
+                                         Once we take out the title, is there any content left?
+                                         */
+                                        isEmptyPrefaceTopic = clone2.textContent.trim().length === 0;
+                                    }
+
+                                    if (!isHistoryTopicAppendix && !isEmptyPrefaceTopic) {
 
                                         if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
                                             contentSpec.push(contentSpecLine + titleText);
