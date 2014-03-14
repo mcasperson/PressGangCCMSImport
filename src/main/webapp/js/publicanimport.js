@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'uri/URI', 'specelement', 'fontrule', 'docbookimport', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, exports) {
         'use strict';
         /*
          STEP 1 - Get the ZIP file
@@ -62,7 +62,37 @@ define(
                                     config.ImportCondition = condition;
                                 }
 
-                                resultCallback(null);
+                                /*
+                                    Find cfg files and add them to the content spec
+                                 */
+                                var contentSpec = [];
+                                qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                    function processEntry(index, callback) {
+                                        if (index >= entries.length) {
+                                            callback();
+                                        } else {
+                                            var entry = entries[index];
+                                            var uri = new URI(entry.filename);
+                                            if (/\.cfg$/.test(uri.filename())) {
+                                                qnastart.zipModel.getTextFromFileName(config.ZipFile, entry.filename, function(configFile) {
+                                                    contentSpec.push(uri.filename() + " = [");
+                                                    jquery.each(configFile.split("\n"), function(index, value){
+                                                        contentSpec.push(value);
+                                                    });
+                                                    contentSpec.push("]");
+                                                });
+
+                                                processEntry(++index, callback);
+                                            } else {
+                                                processEntry(++index, callback);
+                                            }
+                                        }
+                                    }
+
+                                    processEntry(0, function() {
+                                        resultCallback(JSON.stringify({contentSpec: contentSpec}));
+                                    });
+                                });
                             });
                         }
                     }, function (message) {
@@ -137,7 +167,5 @@ define(
             .setNextStep(function (resultCallback) {
                 resultCallback(docbookimport.askForRevisionMessage);
             });
-
-
     }
 );

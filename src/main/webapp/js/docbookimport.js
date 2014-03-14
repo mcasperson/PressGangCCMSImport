@@ -718,8 +718,11 @@ define(
                  Find the book info details
                  */
                 function findBookInfo (xmlDoc, entities) {
+
+                    var resultObject = JSON.parse(result) || {contentSpec: []};
+
                     // the content spec
-                    var contentSpec = [];
+                    var contentSpec = resultObject.contentSpec;
 
                     var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext();
                     if (bookinfo === null) {
@@ -842,7 +845,6 @@ define(
 
                         findIndex(xmlDoc, contentSpec);
                     }
-
                 }
 
                 function findIndex (xmlDoc, contentSpec) {
@@ -852,6 +854,8 @@ define(
                     }
                     extractRevisionHistory(xmlDoc, contentSpec);
                 }
+
+
 
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
                     if (topics === undefined) {
