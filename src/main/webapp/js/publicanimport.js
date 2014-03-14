@@ -66,6 +66,7 @@ define(
                                     Find cfg files and add them to the content spec
                                  */
                                 var contentSpec = [];
+                                var configCount = 1;
                                 qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
                                     function processEntry(index, callback) {
                                         if (index >= entries.length) {
@@ -75,14 +76,43 @@ define(
                                             var uri = new URI(entry.filename);
                                             if (/\.cfg$/.test(uri.filename())) {
                                                 qnastart.zipModel.getTextFromFileName(config.ZipFile, entry.filename, function(configFile) {
-                                                    contentSpec.push(uri.filename() + " = [");
+
+                                                    var fixedFileName = uri.filename();
+
+                                                    /*
+                                                        Multiple publican config files need to have special names in order
+                                                        to be added to the content spec. See https://bugzilla.redhat.com/show_bug.cgi?id=1011904.
+                                                        The format is: <PREFIX>-publican.cfg
+                                                     */
+                                                    if (!/^publican.cfg$/.test(fixedFileName) &&
+                                                        !/^\S+-publican.cfg$/.test(fixedFileName)) {
+                                                        /*
+                                                            If this config file does not conform, then rename it.
+                                                         */
+                                                        var prefix = fixedFileName.substring(0, fixedFileName.length - 4).replace(/publican/g, "");
+
+                                                        /*
+                                                            If our renaming does not produce a valid prefix, fall back to a default name
+                                                         */
+                                                        if (!/^[A-Za-z]+[A-Za-z0-9]*$/.test(prefix)) {
+                                                            prefix = "config" + configCount;
+                                                            ++configCount;
+                                                        }
+
+                                                        fixedFileName = prefix + "-publican.cfg";
+                                                    }
+
+                                                    contentSpec.push(fixedFileName + " = [");
+                                                    contentSpec.push("# Contents from " + uri.filename());
                                                     jquery.each(configFile.split("\n"), function(index, value){
-                                                        contentSpec.push(value);
+                                                        if (value.trim().length !== 0) {
+                                                            contentSpec.push(value);
+                                                        }
                                                     });
                                                     contentSpec.push("]");
-                                                });
 
-                                                processEntry(++index, callback);
+                                                    processEntry(++index, callback);
+                                                });
                                             } else {
                                                 processEntry(++index, callback);
                                             }

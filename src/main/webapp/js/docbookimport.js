@@ -722,7 +722,7 @@ define(
                     var resultObject = JSON.parse(result) || {contentSpec: []};
 
                     // the content spec
-                    var contentSpec = resultObject.contentSpec;
+                    var contentSpec = [];
 
                     var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext();
                     if (bookinfo === null) {
@@ -778,6 +778,12 @@ define(
                         } else if (xmlDoc.documentElement.nodeName === "article") {
                             contentSpec.push("Type = Article");
                         }
+
+                        /*
+                            Add the contents of the supplied content spec. This will usually be just
+                            the publican.cfg file.
+                         */
+                        contentSpec = contentSpec.concat(resultObject.contentSpec);
 
                         if (config.ImportCondition !== undefined) {
                             contentSpec.push("[condition = " + config.ImportCondition + "]");
