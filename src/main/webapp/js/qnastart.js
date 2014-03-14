@@ -8,6 +8,33 @@ define(
         // a zip model to be shared
         exports.zipModel = new qnazipmodel.QNAZipModel();
 
+        exports.loadEntityID = function (type, config, successCallback, errorCallback, retryCount) {
+
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
+
+            jquery.ajax({
+                type: 'GET',
+                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/settings/get/json',
+                dataType: "json",
+                success: function (data) {
+                    if (data.entities[type] !== undefined) {
+                        successCallback(data.entities[type]);
+                    } else {
+                        errorCallback("Invalid Option", "The type " + type + " is not defined in the server settings", true);
+                    }
+                },
+                error: function () {
+                    if (retryCount < RETRY_COUNT) {
+                        exports.loadTagID(type, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while getting the server settings. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
+                    }
+                }
+            });
+        };
+
         exports.escapeSpecTitle = function (title) {
             return title.replace(/\[/g, "\\[")
                 .replace(/\]/g, "\\]");

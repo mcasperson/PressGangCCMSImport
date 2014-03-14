@@ -16,9 +16,9 @@ define(
          can perform any kind of async operation (querying a server, reading a file etc) that they need to.
          */
 
-        var REVISION_HISTORY_TAG_ID = 598;
-        var AUTHOR_GROUP_TAG_ID = 664;
-        var ABSTRACT_TAG_ID = 692;
+        var REVISION_HISTORY_TAG_ID;
+        var AUTHOR_GROUP_TAG_ID ;
+        var ABSTRACT_TAG_ID;
         // docbook elements whose contents have to match exactly
         var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
         // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
@@ -299,6 +299,37 @@ define(
                  step.
                  */
                 var progressIncrement = 100 / 17;
+
+                /*
+                    Load the tag ids for various tags used during the import
+                 */
+                function loadTagIDs() {
+                    qnastart.loadEntityID(
+                        "revisionHistoryTagId",
+                        config,
+                        function(id) {
+                            REVISION_HISTORY_TAG_ID = id;
+                            qnastart.loadEntityID(
+                                "authorGroupTagId",
+                                config,
+                                function(id) {
+                                    AUTHOR_GROUP_TAG_ID = id;
+                                    qnastart.loadEntityID(
+                                        "abstractTagId",
+                                        config,
+                                        function(id) {
+                                            ABSTRACT_TAG_ID = id;
+                                            resolveXiIncludes();
+                                        },
+                                        errorCallback
+                                    );
+                                },
+                                errorCallback
+                            );
+                        },
+                        errorCallback
+                    );
+                }
 
                 /*
                  Resolve xi:includes
@@ -774,9 +805,18 @@ define(
                         }
 
                         if (xmlDoc.documentElement.nodeName === "book") {
-                            contentSpec.push("Type = Book");
+                            if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
+                                contentSpec.push("Type = Book-Draft");
+                            } else {
+                                contentSpec.push("Type = Book");
+                            }
+
                         } else if (xmlDoc.documentElement.nodeName === "article") {
-                            contentSpec.push("Type = Article");
+                            if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
+                                contentSpec.push("Type = Article-Draft");
+                            } else {
+                                contentSpec.push("Type = Article");
+                            }
                         }
 
                         /*
@@ -2109,7 +2149,7 @@ define(
                 }
 
                 // start the process
-                resolveXiIncludes();
+                loadTagIDs();
             })
             .setNextStep(function (resultCallback) {
                 window.onbeforeunload = undefined;
