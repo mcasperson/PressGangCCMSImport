@@ -188,6 +188,7 @@ define(
 
                     var postBody = {
                         description: file,
+                        fileName: file,
                         languageFiles_OTM: {
                             items: [
                                 {
@@ -207,7 +208,8 @@ define(
                         },
                         configuredParameters: [
                             "description",
-                            "languageFiles"
+                            "languageFiles_OTM",
+                            "fileName"
                         ]
                     };
 

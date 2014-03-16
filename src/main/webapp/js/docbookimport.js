@@ -274,6 +274,10 @@ define(
                             .setIntro("Images Created / Images Reused")
                             .setName("NewImagesCreated"),
                         new qna.QNAVariable()
+                            .setType(qna.InputEnum.PLAIN_TEXT)
+                            .setIntro("Files Created / Files Reused")
+                            .setName("NewFilesCreated"),
+                        new qna.QNAVariable()
                             .setType(qna.InputEnum.PROGRESS)
                             .setIntro("Progress")
                             .setName("UploadProgress")
@@ -303,6 +307,8 @@ define(
                 config.MatchedTopicCount = 0;
                 config.UploadedImageCount = 0;
                 config.MatchedImageCount = 0;
+                config.UploadedFileCount = 0;
+                config.MatchedFileCount = 0;
 
                 /*
                  There are 17 steps, so this is how far to move the progress bar with each
@@ -1168,7 +1174,7 @@ define(
                                     uploadImages (xmlDoc, contentSpec, topics, topicGraph);
                                 } else {
                                     var entry = entries[index];
-                                    if (/^files\/.+/.test(entry.filename)) {
+                                    if (/^en-US\/files\/.+/.test(entry.filename)) {
                                         qnastart.createFile(
                                             config.CreateOrResuseFiles === "REUSE",
                                             config.ZipFile,
@@ -1180,7 +1186,7 @@ define(
 
                                                 config.UploadedFileCount += 1;
 
-                                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingFile) {
                                                     config.MatchedFileCount += 1;
                                                 }
 
@@ -2340,7 +2346,11 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Images Created / Images Reused")
-                            .setName("NewImagesCreated")
+                            .setName("NewImagesCreated"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.PLAIN_TEXT)
+                            .setIntro("Files Created / Files Reused")
+                            .setName("NewFilesCreated")
                     ])
             ])
             .setShowNext(false)
