@@ -26,6 +26,8 @@ define(
         var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
         // these docbook elements represent topics
         var TOPIC_CONTAINER_TYPES = ["section", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
+        // these containers are ignored
+        var IGNORED_CONTAINERS = ["partintro"];
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
@@ -702,6 +704,14 @@ define(
                         }
                     }
 
+                    /*
+                        Ignored containers are merged into their parents
+                    */
+                    jquery.each(IGNORED_CONTAINERS, function(index, value) {
+                        xmlText = xmlText.replace(new RegExp("<\s*" + qnautils.escapeRegExp(value) + ".*?/?\s*>", "g"), "");
+                        xmlText = xmlText.replace(new RegExp("<\s*/\s*" + qnautils.escapeRegExp(value) + "\s*>", "g"), "");;
+                    });
+
                     jquery.each(replacements, function (index, value) {
                         xmlText = xmlText.replace(value.original, value.replacement.replace(/\$/g, "$$$$"));
                     });
@@ -1163,7 +1173,7 @@ define(
                                 if (index >= entries.length) {
 
                                     if (fileIds.length !== 0) {
-                                        contentSpec.push("Files = " + fileIds.toString());
+                                        contentSpec.push("Files = [" + fileIds.toString() + "]");
                                     }
 
                                     config.UploadProgress[1] = 11 * progressIncrement;
