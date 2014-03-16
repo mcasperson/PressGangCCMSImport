@@ -1318,7 +1318,7 @@ define(
 
                 function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
                     // so we can work back to the original source
-                    contentSpec.push("# Imported from " + qna.getInputSourceName(config.InputSource));
+                    contentSpec.push("# Imported from " + qnautils.getInputSourceName(config.InputSource));
 
                     var containerTargetNum = 0;
 

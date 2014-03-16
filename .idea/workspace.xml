@@ -2,71 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.flash.swf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/images/bug.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/images/spinner.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/IPv6.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/SecondLevelDomains.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentQuery.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentURI.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URITemplate.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular-sanitize.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnaangular/controller.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/deflate.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/fontrule.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/inflate.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/javadoc-bundle-options/javadoc-options-javadoc-resources.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/jquery/jquery-2.1.0.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/mime-types.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport-0.0.30.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/moment/moment-with-langs.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/pgimport.user.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/punycode.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/css/qna.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qna.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnazipmodel.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/wgxpath/wgxpath.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-ext.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-fs.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -162,7 +97,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2349" column="54" selection-start="122894" selection-end="122894" vertical-scroll-proportion="0.0" vertical-offset="35043" max-vertical-offset="35625">
+            <state line="2349" column="54" selection-start="122894" selection-end="122894" vertical-scroll-proportion="-36.11111" vertical-offset="34260" max-vertical-offset="35625">
               <folding />
             </state>
           </provider>
@@ -180,7 +115,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="320" column="48" selection-start="14347" selection-end="14347" vertical-scroll-proportion="0.3321234" vertical-offset="4617" max-vertical-offset="35670">
+            <state line="1320" column="66" selection-start="65404" selection-end="65404" vertical-scroll-proportion="0.3321234" vertical-offset="19617" max-vertical-offset="35670">
               <folding />
             </state>
           </provider>
@@ -934,7 +869,7 @@
       <workItem from="1394591046475" duration="660000" />
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
-      <workItem from="1394998195561" duration="12343000" />
+      <workItem from="1394998195561" duration="12971000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2776,11 +2711,15 @@
       <created>1395012652958</created>
       <updated>1395012652958</updated>
     </task>
-    <option name="localTasksCounter" value="461" />
+    <task id="LOCAL-00461" summary="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061&#10;">
+      <created>1395012748065</created>
+      <updated>1395012748065</updated>
+    </task>
+    <option name="localTasksCounter" value="462" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="621519000" />
+    <option name="totallyTimeSpent" value="622147000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3172,14 +3111,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2349" column="54" selection-start="122894" selection-end="122894" vertical-scroll-proportion="0.0" vertical-offset="35043" max-vertical-offset="35625">
+        <state line="2349" column="54" selection-start="122894" selection-end="122894" vertical-scroll-proportion="-36.11111" vertical-offset="34260" max-vertical-offset="35625">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="320" column="48" selection-start="14347" selection-end="14347" vertical-scroll-proportion="0.3321234" vertical-offset="4617" max-vertical-offset="35670">
+        <state line="1320" column="66" selection-start="65404" selection-end="65404" vertical-scroll-proportion="0.3321234" vertical-offset="19617" max-vertical-offset="35670">
           <folding />
         </state>
       </provider>
