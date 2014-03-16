@@ -173,7 +173,7 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.TEXTBOX)
                             .setIntro("Revision Log Message")
-                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + qnautils.getInputSourceName(config.InputSource));})
+                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.InputSource.name);})
                             .setName("RevisionMessage")
                     ])
             ])
@@ -289,8 +289,6 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
-                var inputModel = config.InputType === "Zip" ? qnastart.zipModel : qnastart.dirModel;
-
                 var thisStep = this;
 
                 window.onbeforeunload=function(){
@@ -318,7 +316,7 @@ define(
                  There are 17 steps, so this is how far to move the progress bar with each
                  step.
                  */
-                var progressIncrement = 100 / 20;
+                var progressIncrement = 100 / 19;
 
                 /*
                     Load the tag ids for various tags used during the import
@@ -403,7 +401,7 @@ define(
                             } else {
                                 var value = replacements[index];
 
-                                inputModel.hasFileName(
+                                qnastart.zipModel.hasFileName(
                                     config.InputSource,
                                     value.replacement,
                                     function(exists) {
@@ -497,12 +495,12 @@ define(
                                         return;
                                     }
 
-                                    inputModel.hasFileName(
+                                    qnastart.zipModel.hasFileName(
                                         config.InputSource,
                                         referencedXMLFilename,
                                         function(exists) {
                                             if (exists) {
-                                                inputModel.getTextFromFileName(
+                                                qnastart.zipModel.getTextFromFileName(
                                                     config.InputSource,
                                                     referencedXMLFilename,
                                                     function (referencedXmlText) {
@@ -568,7 +566,7 @@ define(
 
                     }
 
-                    inputModel.getTextFromFileName(
+                    qnastart.zipModel.getTextFromFileName(
                         config.InputSource,
                         config.MainXMLFile,
                         function (xmlText) {
@@ -634,7 +632,7 @@ define(
                         relativePath = config.MainXMLFile.substring(0, lastIndexOf);
                     }
 
-                    inputModel.getCachedEntries(config.InputSource, function (entries) {
+                    qnastart.zipModel.getCachedEntries(config.InputSource, function (entries) {
 
                         var processTextFile = function (index) {
                             if (index >= entries.length) {
@@ -646,9 +644,8 @@ define(
                                 removeXmlPreambleFromBook(xmlText, entities);
                             } else {
                                 var value = entries[index];
-                                var filename = qnautils.getFileName(value);
-                                if (filename.indexOf(relativePath) === 0 && qnautils.isNormalFile(filename)) {
-                                    inputModel.getTextFromFile(value, function (fileText) {
+                                if (value.filename.indexOf(relativePath) === 0) {
+                                    qnastart.zipModel.getTextFromFile(value, function (fileText) {
                                         var entityDefDoubleQuoteRE = /<!ENTITY\s+[^\s]+\s+".*?"\s*>/g;
                                         var entityDefSingleQuoteRE = /<!ENTITY\s+[^\s]+\s+'.*?'\s*>/g;
                                         var match;
@@ -1169,7 +1166,7 @@ define(
                 function uploadFiles (xmlDoc, contentSpec, topics, topicGraph) {
                     var fileIds = [];
 
-                    inputModel.getCachedEntries(
+                    qnastart.zipModel.getCachedEntries(
                         config.InputSource,
                         function(entries) {
                             var processEntry = function(index) {
@@ -1187,11 +1184,11 @@ define(
                                     uploadImages (xmlDoc, contentSpec, topics, topicGraph);
                                 } else {
                                     var entry = entries[index];
-                                    if (/^en-US\/files\/.+/.test(qnautils.getFileName(entry))) {
+                                    if (/^en-US\/files\/.+/.test(entry.filename)) {
                                         qnastart.createFile(
                                             config.CreateOrResuseFiles === "REUSE",
                                             config.InputSource,
-                                            qnautils.getFileName(entry),
+                                            entry.filename,
                                             config,
                                             function (data) {
                                                 var fileId = config.CreateOrResuseFiles === "REUSE" ? data.file.id : data.id;
@@ -1245,7 +1242,7 @@ define(
 
                             if (!uploadedImages[nodeValue]) {
 
-                                inputModel.hasFileName(
+                                qnastart.zipModel.hasFileName(
                                     config.InputSource,
                                     nodeValue,
                                     function (result) {
@@ -1318,7 +1315,7 @@ define(
 
                 function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
                     // so we can work back to the original source
-                    contentSpec.push("# Imported from " + qna.getInputSourceName(config.InputSource));
+                    contentSpec.push("# Imported from " + config.InputSource.name);
 
                     var containerTargetNum = 0;
 
