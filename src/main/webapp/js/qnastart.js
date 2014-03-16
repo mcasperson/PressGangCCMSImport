@@ -170,6 +170,71 @@ define(
             });
         };
 
+        exports.createFile = function(trytomatch, zipfile, file, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
+
+            exports.zipModel.getByteArrayFromFileName(
+                zipfile,
+                file,
+                function (arrayBuffer) {
+
+                    var byteArray = [];
+                    var view = new Uint8Array(arrayBuffer);
+                    for (var i = 0; i < view.length; ++i) {
+                        byteArray.push(view[i]);
+                    }
+
+                    var postBody = {
+                        description: file,
+                        languageFiles_OTM: {
+                            items: [
+                                {
+                                    item: {
+                                        fileData: byteArray,
+                                        locale: "en-US",
+                                        filename: file,
+                                        configuredParameters: [
+                                            "locale",
+                                            "fileData",
+                                            "filename"
+                                        ]
+                                    },
+                                    state: 1
+                                }
+                            ]
+                        },
+                        configuredParameters: [
+                            "description",
+                            "languageFiles"
+                        ]
+                    };
+
+                    jquery.ajax({
+                        type: 'POST',
+                        url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/file/' + (trytomatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                        data: JSON.stringify(postBody),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (data) {
+                            successCallback(data);
+                        },
+                        error: function () {
+                            if (retryCount < RETRY_COUNT) {
+                                exports.createFile(trytomatch, zipfile, file, config, successCallback, errorCallback, ++retryCount);
+                            } else {
+                                errorCallback("Connection Error", "An error occurred while uploading an file. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
+                            }
+
+                        }
+                    });
+                },
+                errorCallback,
+                true
+            );
+        };
+
         exports.createImage = function(trytomatch, zipfile, image, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
@@ -452,8 +517,8 @@ define(
         var askToReuseTopics = new qna.QNAStep()
             .setTitle("Do you want to reuse existing topics and images?")
             .setIntro("This wizard can attempt to reuse any existing topics whose contents and xref relationships match those defined in the imported content. " +
-                "You also have the choice to reuse any images that exactly match those that are being imported. " +
-                "It is highly recommended that you reuse existing topics and images.")
+                "You also have the choice to reuse any images and files that exactly match those that are being imported. " +
+                "It is highly recommended that you reuse existing topics, images and files.")
             .setInputs([
                 new qna.QNAVariables()
                     .setVariables([
@@ -467,6 +532,12 @@ define(
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Reuse existing images", "Create new images"])
                             .setName("CreateOrResuseImages")
+                            .setOptions(["REUSE", "CREATE"])
+                            .setValue("REUSE"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Reuse existing files", "Create new files"])
+                            .setName("CreateOrResuseFiles")
                             .setOptions(["REUSE", "CREATE"])
                             .setValue("REUSE")
                     ])

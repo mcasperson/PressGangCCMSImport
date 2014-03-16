@@ -231,6 +231,10 @@ define(
                             .setName("FoundAbstract"),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
+                            .setIntro("Finding and uploading files*")
+                            .setName("FoundFiles"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding and uploading images*")
                             .setName("FoundImages"),
                         new qna.QNAVariable()
@@ -304,7 +308,7 @@ define(
                  There are 17 steps, so this is how far to move the progress bar with each
                  step.
                  */
-                var progressIncrement = 100 / 18;
+                var progressIncrement = 100 / 19;
 
                 /*
                     Load the tag ids for various tags used during the import
@@ -1136,7 +1140,70 @@ define(
                     config.FoundAbstract = true;
                     resultCallback();
 
-                    uploadImages(xmlDoc, contentSpec, topics, topicGraph);
+                    uploadFiles(xmlDoc, contentSpec, topics, topicGraph);
+                }
+
+                /*
+                    Publican books can contain a files directory. Every file in this directory
+                    needs to be uploaded
+                 */
+                function uploadFiles (xmlDoc, contentSpec, topics, topicGraph) {
+                    var fileIds = [];
+
+                    qnastart.zipModel.getCachedEntries(
+                        config.ZipFile,
+                        function(entries) {
+                            var processEntry = function(index) {
+                                if (index >= entries.length) {
+
+                                    if (fileIds.length !== 0) {
+                                        contentSpec.push("Files = " + fileIds.toString());
+                                    }
+
+                                    config.UploadProgress[1] = 11 * progressIncrement;
+                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+                                    config.FoundFiles = true;
+                                    resultCallback();
+
+                                    uploadImages (xmlDoc, contentSpec, topics, topicGraph);
+                                } else {
+                                    var entry = entries[index];
+                                    if (/^files\/.+/.test(entry.filename)) {
+                                        qnastart.createFile(
+                                            config.CreateOrResuseFiles === "REUSE",
+                                            config.ZipFile,
+                                            entry.filename,
+                                            config,
+                                            function (data) {
+                                                var fileId = config.CreateOrResuseFiles === "REUSE" ? data.file.id : data.id;
+                                                fileIds.push(fileId);
+
+                                                config.UploadedFileCount += 1;
+
+                                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                                                    config.MatchedFileCount += 1;
+                                                }
+
+                                                config.NewFilesCreated = (config.UploadedFileCount - config.MatchedFileCount) + " / " + config.MatchedFileCount;
+                                                resultCallback();
+
+                                                config.UploadProgress[1] = (10 * progressIncrement) + (index / entries.length * progressIncrement);
+                                                thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+                                                resultCallback();
+
+                                                processEntry(++index);
+                                            },
+                                            errorCallback
+                                        );
+                                    } else {
+                                        processEntry(++index);
+                                    }
+                                }
+                            };
+
+                            processEntry(0);
+                        },
+                    errorCallback);
                 }
 
                 function uploadImages (xmlDoc, contentSpec, topics, topicGraph) {
@@ -1185,7 +1252,7 @@ define(
 
                                                     ++count;
 
-                                                    config.UploadProgress[1] = (10 * progressIncrement) + (count / numImages * progressIncrement);
+                                                    config.UploadProgress[1] = (11 * progressIncrement) + (count / numImages * progressIncrement);
                                                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                                                     resultCallback();
 
@@ -1218,7 +1285,7 @@ define(
                                 value.node.nodeValue = value.newImageRef;
                             });
 
-                            config.UploadProgress[1] = 11 * progressIncrement;
+                            config.UploadProgress[1] = 12 * progressIncrement;
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             config.FoundImages = true;
                             resultCallback();
@@ -1533,7 +1600,7 @@ define(
 
                     processXml(xmlDoc.documentElement, 0);
 
-                    config.UploadProgress[1] = 12 * progressIncrement;
+                    config.UploadProgress[1] = 13 * progressIncrement;
                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.ResolvedBookStructure = true;
                     resultCallback();
@@ -1700,7 +1767,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (13 * progressIncrement) + (index / topics.length * progressIncrement);
+                            config.UploadProgress[1] = (14 * progressIncrement) + (index / topics.length * progressIncrement);
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
@@ -1919,7 +1986,7 @@ define(
                             }
                         });
 
-                        config.UploadProgress[1] = 14 * progressIncrement;
+                        config.UploadProgress[1] = 15 * progressIncrement;
                         thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.MatchedExistingTopics = true;
                         resultCallback();
@@ -2044,7 +2111,7 @@ define(
 
                     config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                    config.UploadProgress[1] = 15 * progressIncrement;
+                    config.UploadProgress[1] = 16 * progressIncrement;
                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.ResolvedXRefGraphs = true;
                     resultCallback();
@@ -2057,7 +2124,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (16 * progressIncrement) + (index / topics.length * progressIncrement);
+                            config.UploadProgress[1] = (17 * progressIncrement) + (index / topics.length * progressIncrement);
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
@@ -2099,7 +2166,7 @@ define(
 
                     createTopics(0, function() {
 
-                        config.UploadProgress[1] = 16 * progressIncrement;
+                        config.UploadProgress[1] = 17 * progressIncrement;
                         thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.UploadedTopics = true;
                         resultCallback();
@@ -2182,7 +2249,7 @@ define(
 
                     resolve(0, function() {
 
-                        config.UploadProgress[1] = 17 * progressIncrement;
+                        config.UploadProgress[1] = 18 * progressIncrement;
                         thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                         config.FixXRefs = true;
                         resultCallback();
@@ -2196,7 +2263,7 @@ define(
                         contentSpec[topic.specLine] += " [" + topic.topicId + "]";
                     });
 
-                    config.UploadProgress[1] = 18 * progressIncrement;
+                    config.UploadProgress[1] = 19 * progressIncrement;
                     thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                     config.UpdatedContentSpec = true;
                     resultCallback();
