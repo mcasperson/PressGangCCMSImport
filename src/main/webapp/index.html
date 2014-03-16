@@ -193,7 +193,7 @@
                                 <div ng-if="variable.processedType == inputTypes.DIRECTORY">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                     <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <input name="{{variable.processedName}}" type="file" ng-file-select="onDirectorySelect(variable.processedName, $files)" webkitdirectory="" directory="" ng-disabled="disabled || variable.processedDisabled"/>
+                                        <input type="file" ng-file-select="onDirectorySelect(variable.processedName, $files)" webkitdirectory="" directory="" ng-disabled="disabled || variable.processedDisabled"/>
                                     </div>
                                 </div>
                                 <!-- combobox form element -->

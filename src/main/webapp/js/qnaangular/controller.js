@@ -96,6 +96,14 @@ require(
                 }
             };
 
+            $scope.onDirectorySelect = function (name, files) {
+                if (files.length !== 0) {
+                    $scope.qna.config[name] = files;
+                } else {
+                    $scope.qna.config[name] = null;
+                }
+            };
+
             $scope.next = function () {
                 $scope.qna.next(function (qna) {
                     initializeQna(qna);

@@ -3,6 +3,9 @@ define(
     function (jquery, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, exports) {
         'use strict';
 
+        // This will be the object that we query for files. It could be a zip or directory
+        var inputModel;
+
         exports.askForZipOrDir = new qna.QNAStep()
             .setTitle("Select the source of the content to import")
             .setIntro("You can import from a ZIP file or from a local directory.")
@@ -15,18 +18,15 @@ define(
                             .setIntro(["Zip File", "Directory"])
                             .setOptions(["Zip", "Dir"])
                             .setValue("Dir")
-                            .setName("InputSource")
+                            .setName("InputType")
                     ])
             ])
-            .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(null);
-            })
-            .setNextStep(function (resultCallback) {
-                resultCallback(askForPublicanZipFile);
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(config.InputType === "Zip" ? askForPublicanZipFile : askForPublicanDir);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
-                    config.InputSource = "Zip";
+                    config.InputType = "Zip";
                     resultCallback(true);
                 } else {
                     resultCallback();
@@ -47,23 +47,22 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("Publican ZIP File")
-                                .setName("ZipFile")
+                                .setName("InputSource")
                         ])
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.ZipFile) {
+                if (!config.InputSource) {
                     errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
-                } else if (config.ZipFile.name.lastIndexOf(".zip") !== config.ZipFile.name.length - 4) {
+                } else if (config.InputSource.name.lastIndexOf(".zip") !== config.InputSource.name.length - 4) {
                     errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
                 } else {
-
                     /*
                         The file
                      */
-                    qnastart.zipModel.clearCache();
+                    inputModel.clearCache();
 
-                    qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                    inputModel.getCachedEntries(config.InputSource, function (entries) {
 
                         var foundPublicanCfg = false;
                         jquery.each(entries, function (index, value) {
@@ -77,7 +76,7 @@ define(
                             errorCallback("Error", "The ZIP file did not contain a publican.cfg file in the root folder of the ZIP archive.");
                         } else {
 
-                            qnastart.zipModel.getTextFromFileName(config.ZipFile, "publican.cfg", function(publicanCfg) {
+                            inputModel.getTextFromFileName(config.InputSource, "publican.cfg", function(publicanCfg) {
                                 var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
                                 if (dtdVersion !== undefined) {
                                     config.ImportOption = /('|")5\.0('|")/.test(dtdVersion) ? "DocBook5" : "DocBook45";
@@ -98,7 +97,7 @@ define(
                                  */
                                 var contentSpec = [];
                                 var configCount = 1;
-                                qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     function processEntry(index, callback) {
                                         if (index >= entries.length) {
                                             callback();
@@ -106,7 +105,7 @@ define(
                                             var entry = entries[index];
                                             var uri = new URI(entry.filename);
                                             if (/\.cfg$/.test(uri.filename())) {
-                                                qnastart.zipModel.getTextFromFileName(config.ZipFile, entry.filename, function(configFile) {
+                                                inputModel.getTextFromFileName(config.InputSource, entry.filename, function(configFile) {
 
                                                     var fixedFileName = uri.filename();
 
@@ -165,7 +164,139 @@ define(
                 resultCallback(askForMainXML);
             })
             .setEnterStep(function(resultCallback){
-                qnastart.zipModel.clearCache();
+                inputModel = qnastart.zipModel;
+                inputModel.clearCache();
+                resultCallback(false);
+            });
+
+        var askForPublicanDir = new qna.QNAStep()
+            .setTitle("Select the directory to import")
+            .setIntro("Select the directory that contains the valid Publican book that you wish to import into PressGang CCMS. " +
+                "The directory must contain the publican.cfg file.")
+            .setInputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.DIRECTORY)
+                                .setIntro("Publican Directory")
+                                .setName("InputSource")
+                        ])
+                ]
+            )
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                if (!config.InputSource) {
+                    errorCallback("Please select a directory", "You need to select a directory before continuing.");
+                } else {
+                    /*
+                     The file
+                     */
+                    inputModel.clearCache();
+
+                    inputModel.getCachedEntries(config.InputSource, function (entries) {
+
+                        var foundPublicanCfg = false;
+                        jquery.each(entries, function (index, value) {
+                            if (value.filename === "publican.cfg") {
+                                foundPublicanCfg = value;
+                                return false;
+                            }
+                        });
+
+                        if (!foundPublicanCfg) {
+                            errorCallback("Error", "The ZIP file did not contain a publican.cfg file in the root folder of the ZIP archive.");
+                        } else {
+
+                            inputModel.getTextFromFileName(config.InputSource, "publican.cfg", function(publicanCfg) {
+                                var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
+                                if (dtdVersion !== undefined) {
+                                    config.ImportOption = /('|")5\.0('|")/.test(dtdVersion) ? "DocBook5" : "DocBook45";
+                                }
+
+                                var brand = qnautils.getValueFromConfigFile(publicanCfg, "brand");
+                                if (brand !== undefined) {
+                                    config.ImportBrand = brand;
+                                }
+
+                                var condition = qnautils.getValueFromConfigFile(publicanCfg, "condition");
+                                if (condition !== undefined) {
+                                    config.ImportCondition = condition;
+                                }
+
+                                /*
+                                 Find cfg files and add them to the content spec
+                                 */
+                                var contentSpec = [];
+                                var configCount = 1;
+                                inputModel.getCachedEntries(config.InputSource, function (entries) {
+                                    function processEntry(index, callback) {
+                                        if (index >= entries.length) {
+                                            callback();
+                                        } else {
+                                            var entry = entries[index];
+                                            var uri = new URI(entry.filename);
+                                            if (/\.cfg$/.test(uri.filename())) {
+                                                inputModel.getTextFromFileName(config.InputSource, entry.filename, function(configFile) {
+
+                                                    var fixedFileName = uri.filename();
+
+                                                    /*
+                                                     Multiple publican config files need to have special names in order
+                                                     to be added to the content spec. See https://bugzilla.redhat.com/show_bug.cgi?id=1011904.
+                                                     The format is: <PREFIX>-publican.cfg
+                                                     */
+                                                    if (!/^publican.cfg$/.test(fixedFileName) &&
+                                                        !/^\S+-publican.cfg$/.test(fixedFileName)) {
+                                                        /*
+                                                         If this config file does not conform, then rename it.
+                                                         */
+                                                        var prefix = fixedFileName.substring(0, fixedFileName.length - 4).replace(/publican/g, "");
+
+                                                        /*
+                                                         If our renaming does not produce a valid prefix, fall back to a default name
+                                                         */
+                                                        if (!/^[A-Za-z]+[A-Za-z0-9]*$/.test(prefix)) {
+                                                            prefix = "config" + configCount;
+                                                            ++configCount;
+                                                        }
+
+                                                        fixedFileName = prefix + "-publican.cfg";
+                                                    }
+
+                                                    contentSpec.push(fixedFileName + " = [");
+                                                    contentSpec.push("# Contents from " + uri.filename());
+                                                    jquery.each(configFile.split("\n"), function(index, value){
+                                                        if (value.trim().length !== 0) {
+                                                            contentSpec.push(value);
+                                                        }
+                                                    });
+                                                    contentSpec.push("]");
+
+                                                    processEntry(++index, callback);
+                                                });
+                                            } else {
+                                                processEntry(++index, callback);
+                                            }
+                                        }
+                                    }
+
+                                    processEntry(0, function() {
+                                        resultCallback(JSON.stringify({contentSpec: contentSpec}));
+                                    });
+                                });
+                            });
+                        }
+                    }, function (message) {
+                        errorCallback("Error", "Could not process the ZIP file!");
+                    });
+                }
+            })
+            .setNextStep(function (resultCallback) {
+                resultCallback(askForMainXML);
+            })
+            .setEnterStep(function(resultCallback){
+                inputModel = qnastart.dirModel;
+                inputModel.clearCache();
                 resultCallback(false);
             });
 
@@ -184,7 +315,7 @@ define(
                             .setType(qna.InputEnum.LISTBOX)
                             .setName("MainXMLFile")
                             .setOptions(function (resultCallback, errorCallback, result, config) {
-                                qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
 
                                     jquery.each(entries, function (index, value) {
@@ -203,8 +334,8 @@ define(
                                     Look for an option called mainfile which will override the default
                                     main XML file.
                                  */
-                                qnastart.zipModel.getTextFromFileName(
-                                    config.ZipFile,
+                                inputModel.getTextFromFileName(
+                                    config.InputSource,
                                     "publican.cfg",
                                     function(data) {
                                         var options = data.split("\n");
@@ -219,10 +350,10 @@ define(
                                         });
 
                                         if (!foundMainFile) {
-                                            qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                            inputModel.getCachedEntries(config.InputSource, function (entries) {
                                                 jquery.each(entries, function (index, value) {
                                                     if (/^en-US\/(Book)|(Article)_Info\.xml$/.test(value.filename)) {
-                                                        qnastart.zipModel.getTextFromFile(value, function (textFile) {
+                                                        inputModel.getTextFromFile(value, function (textFile) {
                                                             var match = /<title>(.*?)<\/title>/.exec(textFile);
                                                             if (match) {
                                                                 var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";

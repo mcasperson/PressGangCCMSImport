@@ -1,12 +1,13 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
         
         // a zip model to be shared
         exports.zipModel = new qnazipmodel.QNAZipModel();
+        exports.dirModel = new qnadirmodel.QNADirModel();
 
         exports.loadEntityID = function (type, config, successCallback, errorCallback, retryCount) {
 

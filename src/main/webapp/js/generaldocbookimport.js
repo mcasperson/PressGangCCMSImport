@@ -15,14 +15,14 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("Docbook ZIP File")
-                                .setName("ZipFile")
+                                .setName("InputSource")
                         ])
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.ZipFile) {
+                if (!config.InputSource) {
                     errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
-                } else if (config.ZipFile.name.lastIndexOf(".zip") !== config.ZipFile.name.length - 4) {
+                } else if (config.InputSource.name.lastIndexOf(".zip") !== config.InputSource.name.length - 4) {
                     errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
                 } else {
                     resultCallback(null);
@@ -45,7 +45,7 @@ define(
                             .setType(qna.InputEnum.LISTBOX)
                             .setName("MainXMLFile")
                             .setOptions(function (resultCallback, errorCallback, result, config) {
-                                qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                qnastart.zipModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
 
                                     jquery.each(entries, function (index, value) {
@@ -58,7 +58,7 @@ define(
                                 });
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                qnastart.zipModel.getCachedEntries(config.ZipFile, function (entries) {
+                                qnastart.zipModel.getCachedEntries(config.InputSource, function (entries) {
                                     // don't spend all day trying to find the main file
                                     if (entries.length < 25) {
                                         var mainFile = null;
