@@ -66,7 +66,7 @@ define(
 
                         var foundPublicanCfg = false;
                         jquery.each(entries, function (index, value) {
-                            if (value.filename === "publican.cfg") {
+                            if (qnautils.getFileName(value) === "publican.cfg") {
                                 foundPublicanCfg = value;
                                 return false;
                             }
@@ -103,9 +103,9 @@ define(
                                             callback();
                                         } else {
                                             var entry = entries[index];
-                                            var uri = new URI(entry.filename);
+                                            var uri = new URI(qnautils.getFileName(entry));
                                             if (/\.cfg$/.test(uri.filename())) {
-                                                inputModel.getTextFromFileName(config.InputSource, entry.filename, function(configFile) {
+                                                inputModel.getTextFromFileName(config.InputSource, qnautils.getFileName(entry), function(configFile) {
 
                                                     var fixedFileName = uri.filename();
 
@@ -197,7 +197,7 @@ define(
 
                         var foundPublicanCfg = false;
                         jquery.each(entries, function (index, value) {
-                            if (value.filename === "publican.cfg") {
+                            if (qnautils.getFileName(value) === "publican.cfg") {
                                 foundPublicanCfg = value;
                                 return false;
                             }
@@ -234,9 +234,9 @@ define(
                                             callback();
                                         } else {
                                             var entry = entries[index];
-                                            var uri = new URI(entry.filename);
+                                            var uri = new URI(qnautils.getFileName(entry));
                                             if (/\.cfg$/.test(uri.filename())) {
-                                                inputModel.getTextFromFileName(config.InputSource, entry.filename, function(configFile) {
+                                                inputModel.getTextFromFileName(config.InputSource, qnautils.getFileName(entry), function(configFile) {
 
                                                     var fixedFileName = uri.filename();
 
@@ -319,9 +319,9 @@ define(
                                     var retValue = [];
 
                                     jquery.each(entries, function (index, value) {
-                                        if (/^.*?\.xml$/.test(value.filename)) {
-                                            if (!/^tmp\//.test(value.filename)) {
-                                                retValue.push(value.filename);
+                                        if (/^.*?\.xml$/.test(qnautils.getFileName(value))) {
+                                            if (!/^tmp\//.test(qnautils.getFileName(value))) {
+                                                retValue.push(qnautils.getFileName(value));
                                             }
                                         }
                                     });
@@ -352,14 +352,14 @@ define(
                                         if (!foundMainFile) {
                                             inputModel.getCachedEntries(config.InputSource, function (entries) {
                                                 jquery.each(entries, function (index, value) {
-                                                    if (/^en-US\/(Book)|(Article)_Info\.xml$/.test(value.filename)) {
+                                                    if (/^en-US\/(Book)|(Article)_Info\.xml$/.test(qnautils.getFileName(value))) {
                                                         inputModel.getTextFromFile(value, function (textFile) {
                                                             var match = /<title>(.*?)<\/title>/.exec(textFile);
                                                             if (match) {
                                                                 var assumedMainXMLFile = "en-US/" + match[1].replace(/ /g, "_") + ".xml";
 
                                                                 jquery.each(entries, function (index, value) {
-                                                                    if (value.filename === assumedMainXMLFile) {
+                                                                    if (qnautils.getFileName(value) === assumedMainXMLFile) {
                                                                         resultCallback(assumedMainXMLFile);
                                                                         return false;
                                                                     }

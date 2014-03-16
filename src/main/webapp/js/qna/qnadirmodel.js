@@ -1,4 +1,4 @@
-define (['jquery', 'exports'], function (jquery, exports) {
+define (['jquery', 'qna/qnautils', 'exports'], function (jquery, qnautils, exports) {
     'use strict';
 
     exports.QNADirModel = function () {
@@ -31,11 +31,11 @@ define (['jquery', 'exports'], function (jquery, exports) {
             var foundFile = false;
             var caseMismatchEntry;
             jquery.each(entries, function (index, value) {
-                if (value.webkitRelativePath.toLowerCase() === filename.toLowerCase()) {
+                if (qnautils.getFileName(value).toLowerCase() === filename.toLowerCase()) {
                     caseMismatchEntry = value;
                 }
 
-                if (value.webkitRelativePath === filename) {
+                if (qnautils.getFileName(value) === filename) {
                     me.getTextFromFile(value, onend);
                     foundFile = true;
                     return false;
@@ -58,11 +58,11 @@ define (['jquery', 'exports'], function (jquery, exports) {
             var foundFile = false;
             var caseMismatchEntry;
             jquery.each(entries, function (index, value) {
-                if (value.webkitRelativePath.toLowerCase() === filename.toLowerCase()) {
+                if (qnautils.getFileName(value).toLowerCase() === filename.toLowerCase()) {
                     caseMismatchEntry = value;
                 }
 
-                if (value.webkitRelativePath === filename) {
+                if (qnautils.getFileName(value) === filename) {
                     me.getByteArrayFromFile(value, onend);
                     foundFile = true;
                     return false;
@@ -80,7 +80,7 @@ define (['jquery', 'exports'], function (jquery, exports) {
     };
 
     exports.QNADirModel.prototype.getEntries = function (file, onend, onerror) {
-        onend(file.files);
+        onend(file);
     };
 
     exports.QNADirModel.prototype.getCachedEntries = function (file, onend, onerror) {
@@ -107,11 +107,11 @@ define (['jquery', 'exports'], function (jquery, exports) {
                 var found = false;
                 var foundCaseMismatch = false;
                 jquery.each(entries, function (index, value) {
-                    if (value.webkitRelativePath.toLowerCase() === filename.toLowerCase()) {
+                    if (qnautils.getFileName(value).toLowerCase() === filename.toLowerCase()) {
                         foundCaseMismatch = true;
                     }
 
-                    if (value.webkitRelativePath === filename) {
+                    if (qnautils.getFileName(value) === filename) {
                         found = true;
                         resultCallback(found);
                         return false;
