@@ -36,9 +36,6 @@ define(
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
-        // This will be the object that we query for files. It could be a zip or directory
-        var inputModel;
-
         /*
          See if the xiincludes have some other base dir
          */
@@ -176,7 +173,7 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.TEXTBOX)
                             .setIntro("Revision Log Message")
-                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.InputSource.name);})
+                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + qnautils.getInputSourceName(config.InputSource));})
                             .setName("RevisionMessage")
                     ])
             ])
@@ -292,6 +289,8 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
+                var inputModel = config.InputType === "Zip" ? qnastart.zipModel : qnastart.dirModel;
+
                 var thisStep = this;
 
                 window.onbeforeunload=function(){
@@ -404,7 +403,7 @@ define(
                             } else {
                                 var value = replacements[index];
 
-                                qnastart.zipModel.hasFileName(
+                                inputModel.hasFileName(
                                     config.InputSource,
                                     value.replacement,
                                     function(exists) {
@@ -498,12 +497,12 @@ define(
                                         return;
                                     }
 
-                                    qnastart.zipModel.hasFileName(
+                                    inputModel.hasFileName(
                                         config.InputSource,
                                         referencedXMLFilename,
                                         function(exists) {
                                             if (exists) {
-                                                qnastart.zipModel.getTextFromFileName(
+                                                inputModel.getTextFromFileName(
                                                     config.InputSource,
                                                     referencedXMLFilename,
                                                     function (referencedXmlText) {
@@ -569,7 +568,7 @@ define(
 
                     }
 
-                    qnastart.zipModel.getTextFromFileName(
+                    inputModel.getTextFromFileName(
                         config.InputSource,
                         config.MainXMLFile,
                         function (xmlText) {
@@ -635,7 +634,7 @@ define(
                         relativePath = config.MainXMLFile.substring(0, lastIndexOf);
                     }
 
-                    qnastart.zipModel.getCachedEntries(config.InputSource, function (entries) {
+                    inputModel.getCachedEntries(config.InputSource, function (entries) {
 
                         var processTextFile = function (index) {
                             if (index >= entries.length) {
@@ -647,8 +646,9 @@ define(
                                 removeXmlPreambleFromBook(xmlText, entities);
                             } else {
                                 var value = entries[index];
-                                if (value.filename.indexOf(relativePath) === 0) {
-                                    qnastart.zipModel.getTextFromFile(value, function (fileText) {
+                                var filename = qnautils.getFileName(value);
+                                if (filename.indexOf(relativePath) === 0 && qnautils.isNormalFile(filename)) {
+                                    inputModel.getTextFromFile(value, function (fileText) {
                                         var entityDefDoubleQuoteRE = /<!ENTITY\s+[^\s]+\s+".*?"\s*>/g;
                                         var entityDefSingleQuoteRE = /<!ENTITY\s+[^\s]+\s+'.*?'\s*>/g;
                                         var match;
@@ -1169,7 +1169,7 @@ define(
                 function uploadFiles (xmlDoc, contentSpec, topics, topicGraph) {
                     var fileIds = [];
 
-                    qnastart.zipModel.getCachedEntries(
+                    inputModel.getCachedEntries(
                         config.InputSource,
                         function(entries) {
                             var processEntry = function(index) {
@@ -1187,11 +1187,11 @@ define(
                                     uploadImages (xmlDoc, contentSpec, topics, topicGraph);
                                 } else {
                                     var entry = entries[index];
-                                    if (/^en-US\/files\/.+/.test(entry.filename)) {
+                                    if (/^en-US\/files\/.+/.test(qnautils.getFileName(entry))) {
                                         qnastart.createFile(
                                             config.CreateOrResuseFiles === "REUSE",
                                             config.InputSource,
-                                            entry.filename,
+                                            qnautils.getFileName(entry),
                                             config,
                                             function (data) {
                                                 var fileId = config.CreateOrResuseFiles === "REUSE" ? data.file.id : data.id;
@@ -1245,7 +1245,7 @@ define(
 
                             if (!uploadedImages[nodeValue]) {
 
-                                qnastart.zipModel.hasFileName(
+                                inputModel.hasFileName(
                                     config.InputSource,
                                     nodeValue,
                                     function (result) {
@@ -1318,7 +1318,7 @@ define(
 
                 function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
                     // so we can work back to the original source
-                    contentSpec.push("# Imported from " + config.InputSource.name);
+                    contentSpec.push("# Imported from " + qna.getInputSourceName(config.InputSource));
 
                     var containerTargetNum = 0;
 

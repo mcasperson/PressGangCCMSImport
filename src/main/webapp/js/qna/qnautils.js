@@ -1,6 +1,11 @@
 define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     'use strict';
 
+    exports.isNormalFile = function(filename) {
+        var pathComponents = filename.split("/");
+        return pathComponents[pathComponents.length - 1] !== ".";
+    };
+
     exports.getFileName = function(entry) {
         if (entry.filename !== undefined) {
             return entry.filename;
@@ -23,6 +28,26 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
             }
             return retValue;
 
+        }
+
+        return null;
+    };
+
+    exports.getInputSourceName = function(entry) {
+        if (entry.name !== undefined) {
+            return entry.name;
+        }
+
+        if (entry instanceof Array && entry.length !== 0 && entry[0].webkitRelativePath !== undefined) {
+            var filename = entry[0].webkitRelativePath;
+
+            /*
+             ZIP files do not include the name of the root folder, so for consistency
+             we remove the root folder from any directory file path names too.
+             */
+            var pathComponents = filename.split("/");
+            var retValue = pathComponents[0];
+            return retValue;
         }
 
         return null;
