@@ -3,7 +3,7 @@ define(
     function (jquery, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, exports) {
         'use strict';
         /*
-         STEP 1 - Get the ZIP file
+         Get the ZIP file
          */
         exports.askForPublicanZipFile = new qna.QNAStep()
             .setTitle("Select the ZIP file to import")
@@ -16,7 +16,14 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("Publican ZIP File")
-                                .setName("ZipFile")
+                                .setName("ZipFile"),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.DIRECTORY)
+                                .setIntro("Publican Book Directory")
+                                .setName("Directory")
+                                .setDisabled(function(successCallback) {
+                                    successCallback(!qnautils.isInputDirSupported());
+                                })
                         ])
                 ]
             )

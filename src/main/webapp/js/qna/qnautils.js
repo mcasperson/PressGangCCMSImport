@@ -1,6 +1,19 @@
 define (['jquery', 'exports'], function (jquery, exports) {
     'use strict';
 
+    exports.isInputDirSupported = function() {
+        var tmpInput = document.createElement('input');
+        if (tmpInput.webkitdirectory !== undefined ||
+            tmpInput.mozdirectory !== undefined ||
+            tmpInput.odirectory !== undefined ||
+            tmpInput.msdirectory !== undefined ||
+            tmpInput.directory !== undefined) {
+            return true;
+        }
+
+        return false;
+    };
+
     exports.escapeRegExp = function(str) {
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     };
