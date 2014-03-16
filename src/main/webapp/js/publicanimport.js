@@ -2,10 +2,33 @@ define(
     ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'uri/URI', 'specelement', 'fontrule', 'docbookimport', 'exports'],
     function (jquery, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, exports) {
         'use strict';
+
+        exports.askForZipOrDir = new qna.QNAStep()
+            .setTitle("Select the source of the content to import")
+            .setIntro("You can import from a ZIP file or from a local directory.")
+            .setInputs([
+                new qna.QNAVariables()
+
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Zip File", "Directory"])
+                            .setOptions(["Zip", "Dir"])
+                            .setValue("Dir")
+                            .setName("InputSource")
+                    ])
+            ])
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(null);
+            })
+            .setNextStep(function (resultCallback) {
+                resultCallback(askForPublicanZipFile);
+            });
+
         /*
          Get the ZIP file
          */
-        exports.askForPublicanZipFile = new qna.QNAStep()
+        var askForPublicanZipFile = new qna.QNAStep()
             .setTitle("Select the ZIP file to import")
             .setIntro("Select the ZIP file that contains the valid Publican book that you wish to import into PressGang CCMS. " +
                 "The ZIP file must contain the publican.cfg file in the root directory.")

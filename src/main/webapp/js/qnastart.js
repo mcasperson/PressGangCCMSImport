@@ -577,7 +577,7 @@ define(
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 if (config.ImportOption === "Publican") {
-                    resultCallback(publicanimport.askForPublicanZipFile);
+                    resultCallback(publicanimport.askForZipOrDir);
                 } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
                     resultCallback(generaldocbookimport.askForDocBookFile);
                 } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
