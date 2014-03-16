@@ -23,6 +23,14 @@ define(
             })
             .setNextStep(function (resultCallback) {
                 resultCallback(askForPublicanZipFile);
+            })
+            .setEnterStep(function(resultCallback, errorCallback, result, config) {
+                if (!qnautils.isInputDirSupported()) {
+                    config.InputSource = "Zip";
+                    resultCallback(true);
+                } else {
+                    resultCallback();
+                }
             });
 
         /*
@@ -39,14 +47,7 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("Publican ZIP File")
-                                .setName("ZipFile"),
-                            new qna.QNAVariable()
-                                .setType(qna.InputEnum.DIRECTORY)
-                                .setIntro("Publican Book Directory")
-                                .setName("Directory")
-                                .setDisabled(function(successCallback) {
-                                    successCallback(!qnautils.isInputDirSupported());
-                                })
+                                .setName("ZipFile")
                         ])
                 ]
             )

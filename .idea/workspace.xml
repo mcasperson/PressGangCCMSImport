@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -133,10 +131,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="192" column="37" selection-start="12000" selection-end="12000" vertical-scroll-proportion="0.18118466" vertical-offset="2724" max-vertical-offset="3990">
+            <state line="192" column="37" selection-start="12000" selection-end="12000" vertical-scroll-proportion="-6.5" vertical-offset="2724" max-vertical-offset="3990">
               <folding>
                 <marker date="1395006824856" expanded="true" signature="3796:3858" placeholder="..." />
                 <marker date="1395006824856" expanded="true" signature="3899:3954" placeholder="..." />
@@ -149,16 +147,16 @@
       <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="53" selection-start="1390" selection-end="1390" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="3540">
+            <state line="49" column="51" selection-start="2281" selection-end="2281" vertical-scroll-proportion="-18.88889" vertical-offset="225" max-vertical-offset="3900">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qna.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
+      <file leaf-file-name="controller.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="195" column="63" selection-start="5664" selection-end="5707" vertical-scroll-proportion="0.0" vertical-offset="2371" max-vertical-offset="7200">
+            <state line="49" column="63" selection-start="1920" selection-end="1920" vertical-scroll-proportion="0.47327393" vertical-offset="310" max-vertical-offset="2055">
               <folding />
             </state>
           </provider>
@@ -217,17 +215,17 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/uri/URI.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
       </list>
     </option>
   </component>
@@ -350,6 +348,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PressGangCCMSImport" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qnaangular" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -846,7 +874,7 @@
       <workItem from="1394591046475" duration="660000" />
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
-      <workItem from="1394998195561" duration="6439000" />
+      <workItem from="1394998195561" duration="7469000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2664,11 +2692,19 @@
       <created>1395005220350</created>
       <updated>1395005220350</updated>
     </task>
-    <option name="localTasksCounter" value="455" />
+    <task id="LOCAL-00455" summary="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061">
+      <created>1395006845226</created>
+      <updated>1395006845226</updated>
+    </task>
+    <task id="LOCAL-00456" summary="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061&#10;">
+      <created>1395007517776</created>
+      <updated>1395007517776</updated>
+    </task>
+    <option name="localTasksCounter" value="457" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="615615000" />
+    <option name="totallyTimeSpent" value="616645000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -2744,8 +2780,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Fixed bug when selecting a new zip file" />
-    <MESSAGE value="Fixed bug when selecting a new zip file&#10;" />
     <MESSAGE value="Getting ready for alpha release" />
     <MESSAGE value="Converted project to Maven WAR" />
     <MESSAGE value="Converted project to Maven WAR&#10;" />
@@ -2769,7 +2803,9 @@
     <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1072686" />
     <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1072686&#10;" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1074325" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1074325" />
+    <MESSAGE value="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061" />
+    <MESSAGE value="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2980,11 +3016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="42" selection-start="3058" selection-end="3065" vertical-scroll-proportion="0.33295062" vertical-offset="865" max-vertical-offset="2055" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="257" column="37" selection-start="8450" selection-end="8450" vertical-scroll-proportion="0.0" vertical-offset="3667" max-vertical-offset="9045">
@@ -3020,13 +3051,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="707" column="72" selection-start="36053" selection-end="36053" vertical-scroll-proportion="-8.925926" vertical-offset="10364" max-vertical-offset="35625">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="31" selection-start="91" selection-end="110" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3060">
@@ -3034,35 +3058,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="192" column="37" selection-start="12000" selection-end="12000" vertical-scroll-proportion="-6.5" vertical-offset="2724" max-vertical-offset="3990">
+          <folding>
+            <marker date="1395006824856" expanded="true" signature="3796:3858" placeholder="..." />
+            <marker date="1395006824856" expanded="true" signature="3899:3954" placeholder="..." />
+            <marker date="1395006824856" expanded="true" signature="3997:4100" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="37" selection-start="8878" selection-end="8878" vertical-scroll-proportion="0.0" vertical-offset="2330" max-vertical-offset="8910">
+        <state line="558" column="12" selection-start="26146" selection-end="27147" vertical-scroll-proportion="0.0" vertical-offset="8025" max-vertical-offset="8910">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="195" column="63" selection-start="5664" selection-end="5707" vertical-scroll-proportion="0.0" vertical-offset="2371" max-vertical-offset="7200">
+        <state line="2300" column="24" selection-start="120638" selection-end="120659" vertical-scroll-proportion="0.37062937" vertical-offset="34182" max-vertical-offset="35625">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="53" selection-start="1390" selection-end="1390" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="3540">
+        <state line="49" column="51" selection-start="2281" selection-end="2281" vertical-scroll-proportion="-18.88889" vertical-offset="225" max-vertical-offset="3900">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="192" column="37" selection-start="12000" selection-end="12000" vertical-scroll-proportion="0.18118466" vertical-offset="2724" max-vertical-offset="3990">
-          <folding>
-            <marker date="1395006824856" expanded="true" signature="3796:3858" placeholder="..." />
-            <marker date="1395006824856" expanded="true" signature="3899:3954" placeholder="..." />
-            <marker date="1395006824856" expanded="true" signature="3997:4100" placeholder="..." />
-          </folding>
+        <state line="117" column="38" selection-start="2907" selection-end="2912" vertical-scroll-proportion="0.32293987" vertical-offset="1465" max-vertical-offset="7200">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="63" selection-start="1920" selection-end="1920" vertical-scroll-proportion="0.47327393" vertical-offset="310" max-vertical-offset="2055">
+          <folding />
         </state>
       </provider>
     </entry>
