@@ -96,9 +96,9 @@ define(
                                                 if (value.trim().length !== 0) {
                                                     var keyValue = value.split(":");
                                                     if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
-                                                        contentSpec.push("#" + value);
-                                                    } else {
                                                         contentSpec.push(value);
+                                                    } else {
+                                                        contentSpec.push("#" + value);
                                                     }
                                                 }
                                             });
