@@ -478,7 +478,12 @@ define(
                                 if (attributeName.trim() === "href") {
                                     href = attributeValue;
                                 } else if (attributeName.trim() === "xpointer") {
-                                    xpointer = attributeValue;
+                                    var xpointerMatch = /xpointer\((.*?)\)/.exec(attributeValue);
+                                    if (xpointerMatch !== null) {
+                                        xpointer = xpointerMatch[1];
+                                    } else {
+                                        xpointer = attributeValue;
+                                    }
                                 }
                             }
 
