@@ -780,18 +780,8 @@ define(
                     return xml;
                 };
 
-                var removeRedundantXmlnsAttribute = function (xml) {
-                    if (xml.hasAttribute !== undefined &&
-                        xml.hasAttribute("xmlns") &&
-                        xml.attributes["xmlns"] === "http://docbook.org/ns/docbook") {
-                        xml.removeAttribute("xmlns");
-                    }
-
-                    for (var childIndex = 0; childIndex < xml.childNodes.length; ++childIndex) {
-                        removeRedundantXmlnsAttribute(xml.childNodes[childIndex]);
-                    }
-
-                    return xml;
+                var removeRedundantXmlnsAttribute = function (xmlString) {
+                    xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
                 };
 
                 /*
@@ -1395,10 +1385,10 @@ define(
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
                                 var titleText = "";
                                 if (title) {
-                                    // remove any redundant namespace attributes
-                                    removeRedundantXmlnsAttribute(title);
-
                                     titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
+
+                                    // remove any redundant namespace attributes
+                                    removeRedundantXmlnsAttribute(titleText);
 
                                     /*
                                         Title is mandatory
