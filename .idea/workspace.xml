@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -70,11 +70,8 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="41" selection-start="1109" selection-end="1109" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="17160">
-              <folding>
-                <marker date="1395026404321" expanded="true" signature="36914:37083" placeholder="..." />
-                <marker date="1395026404321" expanded="true" signature="36993:37083" placeholder="..." />
-              </folding>
+            <state line="27" column="41" selection-start="1191" selection-end="1191" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="17160">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -82,7 +79,7 @@
       <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="13" selection-start="1050" selection-end="1050" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3840">
+            <state line="92" column="13" selection-start="2903" selection-end="2903" vertical-scroll-proportion="0.0" vertical-offset="1380" max-vertical-offset="3840">
               <folding />
             </state>
           </provider>
@@ -91,11 +88,8 @@
       <file leaf-file-name="generaldocbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="16" selection-start="1113" selection-end="1138" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2730">
-              <folding>
-                <marker date="1395026404313" expanded="true" signature="7850:7931" placeholder="{...}" />
-                <marker date="1395026404313" expanded="true" signature="7969:8050" placeholder="{...}" />
-              </folding>
+            <state line="26" column="16" selection-start="1199" selection-end="1199" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="2730">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -103,19 +97,16 @@
       <file leaf-file-name="generalexternalimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="17" selection-start="5686" selection-end="5686" vertical-scroll-proportion="-11.666667" vertical-offset="1530" max-vertical-offset="2220">
-              <folding>
-                <marker date="1395025602345" expanded="true" signature="2547:4810" placeholder="[...]" />
-                <marker date="1395025602345" expanded="true" signature="2630:4791" placeholder="[...]" />
-              </folding>
+            <state line="132" column="17" selection-start="6028" selection-end="6028" vertical-scroll-proportion="0.0" vertical-offset="1980" max-vertical-offset="2265">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="69" selection-start="6918" selection-end="6923" vertical-scroll-proportion="-69.44444" vertical-offset="0" max-vertical-offset="4590">
+            <state line="100" column="73" selection-start="5937" selection-end="5937" vertical-scroll-proportion="0.3941236" vertical-offset="1111" max-vertical-offset="4620">
               <folding />
             </state>
           </provider>
@@ -124,7 +115,7 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="798" column="32" selection-start="45884" selection-end="45902" vertical-scroll-proportion="0.0" vertical-offset="11748" max-vertical-offset="12960">
+            <state line="802" column="32" selection-start="46057" selection-end="46075" vertical-scroll-proportion="0.0" vertical-offset="12030" max-vertical-offset="12960">
               <folding />
             </state>
           </provider>
@@ -133,7 +124,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="255" column="67" selection-start="17976" selection-end="17988" vertical-scroll-proportion="-17.208334" vertical-offset="3412" max-vertical-offset="3990">
+            <state line="260" column="7" selection-start="18232" selection-end="18232" vertical-scroll-proportion="0.0" vertical-offset="3900" max-vertical-offset="3990">
               <folding />
             </state>
           </provider>
@@ -142,16 +133,16 @@
       <file leaf-file-name="mojoimport-0.0.30.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport-0.0.30.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="34" selection-start="3138" selection-end="3152" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1335">
+            <state line="64" column="34" selection-start="3138" selection-end="3152" vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="1335">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="485" column="37" selection-start="22765" selection-end="22765" vertical-scroll-proportion="0.6860254" vertical-offset="6897" max-vertical-offset="36105">
+            <state line="1667" column="57" selection-start="84986" selection-end="84986" vertical-scroll-proportion="-16.0" vertical-offset="24605" max-vertical-offset="36210">
               <folding />
             </state>
           </provider>
@@ -160,7 +151,7 @@
       <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="57" selection-start="526" selection-end="526" vertical-scroll-proportion="236.66667" vertical-offset="6525" max-vertical-offset="8925">
+            <state line="37" column="57" selection-start="1790" selection-end="1790" vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="8925">
               <folding />
             </state>
           </provider>
@@ -228,16 +219,16 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1919" />
-    <option name="y" value="-10" />
-    <option name="width" value="1922" />
-    <option name="height" value="1092" />
+    <option name="x" value="-2" />
+    <option name="y" value="-3" />
+    <option name="width" value="1924" />
+    <option name="height" value="1207" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -355,36 +346,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qna" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -460,73 +421,6 @@
       <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
-    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PressGangCCMSImport" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PressGangCCMSImport" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="" />
-      <option name="keywords" value="" />
-      <option name="params" value="" />
-      <option name="USE_PARAM" value="false" />
-      <option name="USE_KEYWORD" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PressGangCCMSImport" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -581,26 +475,6 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PressGangCCMSImport" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -679,46 +553,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PressGangCCMSImport" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PressGangCCMSImport" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" output_log_level="null" package_name="" scope="Class">
       <option name="BCName" value="" />
       <option name="launcherParameters">
@@ -765,26 +599,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Attests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PressGangCCMSImport" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -849,6 +663,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23262000" />
+      <workItem from="1395089524666" duration="1436000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2726,14 +2541,18 @@
       <created>1395034606319</created>
       <updated>1395034606319</updated>
     </task>
-    <option name="localTasksCounter" value="470" />
+    <task id="LOCAL-00470" summary="Fixing bugs">
+      <created>1395090890837</created>
+      <updated>1395090890837</updated>
+    </task>
+    <option name="localTasksCounter" value="471" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="632438000" />
+    <option name="totallyTimeSpent" value="633874000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
+    <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2741,7 +2560,6 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32418162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2758,18 +2576,19 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23801917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32418162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2787,8 +2606,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2829,9 +2648,9 @@
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254&#10;" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1077024" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1077024&#10;" />
-    <MESSAGE value="Fixing bugs" />
     <MESSAGE value="Fixing bugs&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing bugs&#10;" />
+    <MESSAGE value="Fixing bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2839,6 +2658,48 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="69" selection-start="6310" selection-end="6310" vertical-scroll-proportion="0.0" vertical-offset="1770" max-vertical-offset="1860">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="798" column="32" selection-start="45884" selection-end="45902" vertical-scroll-proportion="0.0" vertical-offset="11970" max-vertical-offset="12900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="253" column="67" selection-start="17349" selection-end="17349" vertical-scroll-proportion="0.0" vertical-offset="3795" max-vertical-offset="3885">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport-0.0.30.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="34" selection-start="3138" selection-end="3152" vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="1335">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="485" column="37" selection-start="25118" selection-end="25118" vertical-scroll-proportion="0.0" vertical-offset="7275" max-vertical-offset="30990">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="57" selection-start="437" selection-end="437" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="7410">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="270" />
@@ -2998,9 +2859,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/uri/URI.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="8" selection-start="86" selection-end="121" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="29970">
-          <folding />
-        </state>
+        <state line="6" column="8" selection-start="86" selection-end="121" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="29970" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
@@ -3012,31 +2871,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnazipmodel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="4" selection-start="135" selection-end="225" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2445">
-          <folding />
-        </state>
+        <state line="5" column="4" selection-start="135" selection-end="225" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2445" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="100" column="51" selection-start="3801" selection-end="3801" vertical-scroll-proportion="-12.518518" vertical-offset="1162" max-vertical-offset="2175">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnadirmodel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="41" selection-start="1779" selection-end="1781" vertical-scroll-proportion="-6.962963" vertical-offset="532" max-vertical-offset="2175">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/languages.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="2" selection-start="419" selection-end="419" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
-          <folding>
-            <marker date="1395025206006" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3049,72 +2890,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="798" column="32" selection-start="45884" selection-end="45902" vertical-scroll-proportion="0.0" vertical-offset="11748" max-vertical-offset="12960">
+        <state line="802" column="32" selection-start="46057" selection-end="46075" vertical-scroll-proportion="0.0" vertical-offset="12030" max-vertical-offset="12960">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="13" selection-start="1050" selection-end="1050" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3840">
+        <state line="92" column="13" selection-start="2903" selection-end="2903" vertical-scroll-proportion="0.0" vertical-offset="1380" max-vertical-offset="3840">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="57" selection-start="526" selection-end="526" vertical-scroll-proportion="236.66667" vertical-offset="6525" max-vertical-offset="8925">
+        <state line="37" column="57" selection-start="1790" selection-end="1790" vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="8925">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="16" selection-start="1113" selection-end="1138" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2730">
-          <folding>
-            <marker date="1395026404313" expanded="true" signature="7850:7931" placeholder="{...}" />
-            <marker date="1395026404313" expanded="true" signature="7969:8050" placeholder="{...}" />
-          </folding>
+        <state line="26" column="16" selection-start="1199" selection-end="1199" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="2730">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="17" selection-start="5686" selection-end="5686" vertical-scroll-proportion="-11.666667" vertical-offset="1530" max-vertical-offset="2220">
-          <folding>
-            <marker date="1395025602345" expanded="true" signature="2547:4810" placeholder="[...]" />
-            <marker date="1395025602345" expanded="true" signature="2630:4791" placeholder="[...]" />
-          </folding>
+        <state line="132" column="17" selection-start="6028" selection-end="6028" vertical-scroll-proportion="0.0" vertical-offset="1980" max-vertical-offset="2265">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="41" selection-start="1109" selection-end="1109" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="17160">
-          <folding>
-            <marker date="1395026404321" expanded="true" signature="36914:37083" placeholder="..." />
-            <marker date="1395026404321" expanded="true" signature="36993:37083" placeholder="..." />
-          </folding>
+        <state line="27" column="41" selection-start="1191" selection-end="1191" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="17160">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="255" column="67" selection-start="17976" selection-end="17988" vertical-scroll-proportion="-17.208334" vertical-offset="3412" max-vertical-offset="3990">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="69" selection-start="6918" selection-end="6923" vertical-scroll-proportion="-69.44444" vertical-offset="0" max-vertical-offset="4590">
+        <state line="260" column="7" selection-start="18232" selection-end="18232" vertical-scroll-proportion="0.0" vertical-offset="3900" max-vertical-offset="3990">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="485" column="37" selection-start="22765" selection-end="22765" vertical-scroll-proportion="0.6860254" vertical-offset="6897" max-vertical-offset="36105">
+        <state line="1667" column="57" selection-start="84986" selection-end="84986" vertical-scroll-proportion="-16.0" vertical-offset="24605" max-vertical-offset="36210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="100" column="73" selection-start="5937" selection-end="5937" vertical-scroll-proportion="0.3941236" vertical-offset="1111" max-vertical-offset="4620">
           <folding />
         </state>
       </provider>

@@ -5,7 +5,7 @@ define(
 
         var DEFAULT_LANG = "en-US";
 
-        var IGNORE_PUBLICAN_CFG_SETTINGS = ["xml_lang", "brand", "type", "dtdver"];
+        var IGNORE_PUBLICAN_CFG_SETTINGS = ["xml_lang", "brand", "type", "dtdver", "condition"];
 
         // This will be the object that we query for files. It could be a zip or directory
         var inputModel;
@@ -96,6 +96,8 @@ define(
                                                 if (value.trim().length !== 0) {
                                                     var keyValue = value.split(":");
                                                     if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
+                                                        contentSpec.push("#" + value);
+                                                    } else {
                                                         contentSpec.push(value);
                                                     }
                                                 }
