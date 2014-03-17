@@ -95,7 +95,8 @@ define(
                                             jquery.each(configFile.split("\n"), function(index, value){
                                                 if (value.trim().length !== 0) {
                                                     var keyValue = value.split(":");
-                                                    if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
+                                                    if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1 ||
+                                                        value.indexOf("#") === 0) {
                                                         contentSpec.push(value);
                                                     } else {
                                                         contentSpec.push("#" + value);
