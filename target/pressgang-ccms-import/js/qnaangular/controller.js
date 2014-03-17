@@ -46,10 +46,10 @@ require(
                             var config = qna.config;
                             qna.step.enterStep(
                                 function (result) {
+                                    $scope.disabled = false;
                                     if (result === undefined) {
                                         $rootScope.$apply();
                                     } else {
-                                        $scope.disabled = false;
                                         if (result) {
                                             $scope.next();
                                         }
@@ -91,6 +91,14 @@ require(
             $scope.onFileSelect = function (name, files) {
                 if (files.length !== 0) {
                     $scope.qna.config[name] = files[0];
+                } else {
+                    $scope.qna.config[name] = null;
+                }
+            };
+
+            $scope.onDirectorySelect = function (name, files) {
+                if (files.length !== 0) {
+                    $scope.qna.config[name] = files;
                 } else {
                     $scope.qna.config[name] = null;
                 }

@@ -1,12 +1,13 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
         
         // a zip model to be shared
         exports.zipModel = new qnazipmodel.QNAZipModel();
+        exports.dirModel = new qnadirmodel.QNADirModel();
 
         exports.loadEntityID = function (type, config, successCallback, errorCallback, retryCount) {
 
@@ -237,12 +238,12 @@ define(
             );
         };
 
-        exports.createImage = function(trytomatch, zipfile, image, config, successCallback, errorCallback, retryCount) {
+        exports.createImage = function(model, trytomatch, zipfile, image, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
             }
 
-            exports.zipModel.getByteArrayFromFileName(
+            model.getByteArrayFromFileName(
                 zipfile,
                 image,
                 function (arrayBuffer) {
@@ -577,7 +578,7 @@ define(
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 if (config.ImportOption === "Publican") {
-                    resultCallback(publicanimport.askForPublicanZipFile);
+                    resultCallback(publicanimport.askForZipOrDir);
                 } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
                     resultCallback(generaldocbookimport.askForDocBookFile);
                 } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {

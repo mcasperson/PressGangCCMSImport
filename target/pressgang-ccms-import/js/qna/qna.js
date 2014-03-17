@@ -17,11 +17,17 @@ define(['exports'], function (exports) {
         PROGRESS: 7,
         PLAIN_TEXT: 8,
         HTML: 9,
-        PRE_HTML: 10
+        PRE_HTML: 10,
+        DIRECTORY: 11
     });
 
     exports.QNAVariable = function () {
 
+    };
+
+    exports.QNAVariable.prototype.setDisabled = function (disabled) {
+        this.disabled = disabled;
+        return this;
     };
 
     exports.QNAVariable.prototype.setType = function (type) {
@@ -222,25 +228,33 @@ define(['exports'], function (exports) {
                                     function () {
                                         resolveDetail(
                                             variable,
-                                            'value',
-                                            null,
-                                            function (value) {
-                                                if (value !== undefined) {
-                                                    // we do something a little different here. the value is what is shown
-                                                    // in the ui, and that is bound to the config
-                                                    config[variable.processedName] = value;
-                                                }
-
+                                            'disabled',
+                                            'processedDisabled',
+                                            function () {
                                                 resolveDetail(
                                                     variable,
                                                     'intro',
                                                     'processedIntro',
                                                     function () {
-                                                        processNextVariable();
+                                                        resolveDetail(
+                                                            variable,
+                                                            'value',
+                                                            null,
+                                                            function (value) {
+                                                                if (value !== undefined) {
+                                                                    // we do something a little different here. the value is what is shown
+                                                                    // in the ui, and that is bound to the config
+                                                                    config[variable.processedName] = value;
+                                                                }
+
+                                                                processNextVariable();
+                                                            }
+                                                        );
                                                     }
                                                 );
                                             }
                                         );
+
                                     }
                                 );
                             }

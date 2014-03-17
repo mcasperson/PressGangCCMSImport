@@ -186,9 +186,16 @@
                                 <div ng-if="variable.processedType == inputTypes.SINGLE_FILE">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                     <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" ng-disabled="disabled" >
+                                        <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" ng-disabled="disabled || variable.processedDisabled" >
                                     </div>
                                  </div>
+                                <!-- directory selection -->
+                                <div ng-if="variable.processedType == inputTypes.DIRECTORY">
+                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <input type="file" ng-file-select="onDirectorySelect(variable.processedName, $files)" webkitdirectory="" directory="" ng-disabled="disabled || variable.processedDisabled"/>
+                                    </div>
+                                </div>
                                 <!-- combobox form element -->
                                 <div ng-if="variable.processedType == inputTypes.COMBOBOX">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
@@ -196,7 +203,7 @@
                                         <select
                                                 ng-model="qna.config[variable.processedName]"
                                                 ng-options="option for option in variable.processedOptions"
-                                                ng-disabled="!variable.processedOptions || disabled"></select>
+                                                ng-disabled="!variable.processedOptions || disabled || variable.processedDisabled"></select>
                                     </div>
                                 </div>
                                 <!-- listbox form element -->
@@ -207,7 +214,7 @@
                                                 size="20"
                                                 ng-model="qna.config[variable.processedName]"
                                                 ng-options="option for option in variable.processedOptions"
-                                                ng-disabled="!variable.processedOptions || disabled"
+                                                ng-disabled="!variable.processedOptions || disabled || variable.processedDisabled"
                                                 style="width: 100%"></select>
                                     </div>
                                 </div>
@@ -215,21 +222,21 @@
                                 <div class="col-lg-12" ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
                                     <div ng-class="{'col-lg-8': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
-                                        <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}" ng-disabled="disabled">
+                                        <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}" ng-disabled="disabled || variable.processedDisabled">
                                     </div>
                                 </div>
                                 <!-- check box -->
                                 <div class="col-lg-12" ng-if="variable.processedType == inputTypes.CHECKBOX">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                     <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled">
+                                        <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled || variable.processedDisabled">
                                     </div>
                                 </div>
                                 <!-- text box -->
                                 <div class="col-lg-12" ng-if="variable.processedType == inputTypes.TEXTBOX">
                                     <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                     <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
-                                        <input type="text" style="width: 100%" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled">
+                                        <input type="text" style="width: 100%" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled || variable.processedDisabled">
                                     </div>
                                 </div>
 
@@ -246,7 +253,7 @@
                 </div>
             </div>
 
-            <div class="pull-right">Build 1.5-SNAPSHOT 201403170725</div>
+            <div class="pull-right">Build 1.5-SNAPSHOT 201403171005</div>
 
             <div style="clear: both" class="alert alert-danger">This is an alpha release. You can only import to the test server. Please log bugs for any issues you find by clicking the bug icon.</div>
         </div>

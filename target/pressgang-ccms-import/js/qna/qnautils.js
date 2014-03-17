@@ -1,5 +1,70 @@
-define (['jquery', 'exports'], function (jquery, exports) {
+define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     'use strict';
+
+    exports.isNormalFile = function(filename) {
+        var pathComponents = filename.split("/");
+        return pathComponents[pathComponents.length - 1] !== ".";
+    };
+
+    exports.getFileName = function(entry) {
+        if (entry.filename !== undefined) {
+            return entry.filename;
+        }
+
+        if (entry.webkitRelativePath !== undefined) {
+            var filename = entry.webkitRelativePath;
+
+            /*
+                ZIP files do not include the name of the root folder, so for consistency
+                we remove the root folder from any directory file path names too.
+             */
+            var pathComponents = filename.split("/");
+            var retValue = "";
+            for (var pathIndex = 1; pathIndex < pathComponents.length; ++pathIndex) {
+                if (retValue.length !== 0) {
+                    retValue += "/";
+                }
+                retValue += pathComponents[pathIndex];
+            }
+            return retValue;
+
+        }
+
+        return null;
+    };
+
+    exports.getInputSourceName = function(entry) {
+        if (entry.name !== undefined) {
+            return entry.name;
+        }
+
+        if (entry instanceof Array && entry.length !== 0 && entry[0].webkitRelativePath !== undefined) {
+            var filename = entry[0].webkitRelativePath;
+
+            /*
+             ZIP files do not include the name of the root folder, so for consistency
+             we remove the root folder from any directory file path names too.
+             */
+            var pathComponents = filename.split("/");
+            var retValue = pathComponents[0];
+            return retValue;
+        }
+
+        return null;
+    }
+
+    exports.isInputDirSupported = function() {
+        var tmpInput = document.createElement('input');
+        if (tmpInput.webkitdirectory !== undefined ||
+            tmpInput.mozdirectory !== undefined ||
+            tmpInput.odirectory !== undefined ||
+            tmpInput.msdirectory !== undefined ||
+            tmpInput.directory !== undefined) {
+            return true;
+        }
+
+        return false;
+    };
 
     exports.escapeRegExp = function(str) {
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
