@@ -44,7 +44,8 @@ define(
 
                         var lang = qnautils.getValueFromConfigFile(publicanCfg, "xml_lang");
                         if (lang !== undefined) {
-                            config.ImportLang = lang;
+                            var langMatch = /[^'"]+/.exec(lang.trim());
+                            config.ImportLang = langMatch[0];
                         } else {
                             config.ImportLang = DEFAULT_LANG;
                         }
@@ -257,7 +258,7 @@ define(
                                         jquery.each(options, function (index, value) {
                                             var keyValue = value.split(":");
                                             if (keyValue.length === 2 && keyValue[0].trim() === "mainfile") {
-                                                resultCallback(config.ImportLang + "/" + keyValue[1].trim());
+                                                resultCallback(config.ImportLang + "/" + keyValue[1].trim() + ".xml");
                                                 foundMainFile = true;
                                                 return false;
                                             }
