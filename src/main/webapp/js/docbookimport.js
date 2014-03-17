@@ -1386,6 +1386,13 @@ define(
                                     titleText = "Untitled";
                                 }
 
+                                // sync the title back to the xml
+                                var titleXML = "<title>" + titleText + "</title>";
+                                var titleXMLDocument = qnautils.stringToXML(titleXML);
+                                var importedTitle =  qnautils.getOwnerDoc(clone).importNode(titleXMLDocument.documentElement);
+                                clone.replaceChild(importedTitle, title);
+
+
                                 // strip away any child containers
                                 var removeChildren = [];
                                 jquery.each(clone.childNodes, function (index, containerChild) {
@@ -1658,7 +1665,7 @@ define(
                         var commentsCollection = [];
                         var comment;
                         while ((comment = comments.iterateNext()) !== null) {
-                            if (!/^Inject[A-Za-z]*\s*:\s*\d+/.test(comment.nodeValue.trim())) {
+                            if (!/^Inject[A-Za-z]*\s*:\s*T?\d+/.test(comment.nodeValue.trim())) {
                                 commentsCollection.push(comment);
                             }
                         }
