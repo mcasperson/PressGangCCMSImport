@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -137,7 +126,7 @@
       <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="80" selection-start="5415" selection-end="5415" vertical-scroll-proportion="0.39893618" vertical-offset="1185" max-vertical-offset="4575">
+            <state line="7" column="77" selection-start="399" selection-end="399" vertical-scroll-proportion="0.1861702" vertical-offset="0" max-vertical-offset="4575">
               <folding />
             </state>
           </provider>
@@ -861,7 +850,7 @@
       <workItem from="1394591046475" duration="660000" />
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
-      <workItem from="1394998195561" duration="20076000" />
+      <workItem from="1394998195561" duration="20172000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2723,11 +2712,15 @@
       <created>1395026451041</created>
       <updated>1395026451041</updated>
     </task>
-    <option name="localTasksCounter" value="466" />
+    <task id="LOCAL-00466" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1077024">
+      <created>1395027481259</created>
+      <updated>1395027481259</updated>
+    </task>
+    <option name="localTasksCounter" value="467" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="629252000" />
+    <option name="totallyTimeSpent" value="629348000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -2803,7 +2796,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Converted project to Maven WAR&#10;" />
     <MESSAGE value="Updated bug links" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071048" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071048&#10;" />
@@ -2828,7 +2820,8 @@
     <MESSAGE value="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061&#10;" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254&#10;" />
+    <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1077024" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1077024" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3219,7 +3212,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="80" selection-start="5415" selection-end="5415" vertical-scroll-proportion="0.39893618" vertical-offset="1185" max-vertical-offset="4575">
+        <state line="7" column="77" selection-start="399" selection-end="399" vertical-scroll-proportion="0.1861702" vertical-offset="0" max-vertical-offset="4575">
           <folding />
         </state>
       </provider>
