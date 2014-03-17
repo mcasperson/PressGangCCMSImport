@@ -1052,22 +1052,36 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var authorGroup = qnautils.xPath("//docbook:authorgroup", xmlDoc).iterateNext();
-
-                    if (authorGroup) {
-                        contentSpec.push("Author Group = ");
+                    var specAuthorGroup = qnautils.stringToXML("<authorgroup></authorgroup>");
+                    var authorGroups = qnautils.xPath("//docbook:authorgroup", xmlDoc);
+                    var authorGroupIds = [];
+                    var authorGroup;
+                    while ((authorGroup = authorGroups.iterateNext()) !== null) {
 
                         var id = authorGroup.getAttribute("id");
+                        if (id !== null) {
+                            authorGroupIds.push(id);
+                        }
+
+                        jquery.each(authorGroup.childNodes, function (index, value) {
+                            specAuthorGroup.documentElement.appendChild(qnautils.getOwnerDoc(specAuthorGroup).importNode(value, true));
+                        });
+                    }
+
+                    if (specAuthorGroup.documentElement.childNodes.length !== 0) {
+                        contentSpec.push("Author Group = ");
+
+
 
                         var topic = new specelement.TopicGraphNode(topicGraph)
-                            .setXml(removeIdAttribute(authorGroup))
+                            .setXml(removeIdAttribute(specAuthorGroup.documentElement))
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle("Author Group")
                             .addTag(AUTHOR_GROUP_TAG_ID);
 
-                        if (id) {
-                            topic.addXmlId(id);
-                        }
+                        jquery.each(authorGroupIds, function (index, value) {
+                            topic.addXmlId(value);
+                        });
 
                         topics.push(topic);
                     }
