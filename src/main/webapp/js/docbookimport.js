@@ -781,7 +781,7 @@ define(
                 };
 
                 var removeRedundantXmlnsAttribute = function (xmlString) {
-                    xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
+                    return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
                 };
 
                 /*
@@ -1388,7 +1388,7 @@ define(
                                     titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
 
                                     // remove any redundant namespace attributes
-                                    removeRedundantXmlnsAttribute(titleText);
+                                    titleText = removeRedundantXmlnsAttribute(titleText);
 
                                     /*
                                         Title is mandatory
@@ -1406,7 +1406,6 @@ define(
                                 var importedTitle =  qnautils.getOwnerDoc(clone).importNode(titleXMLDocument.documentElement);
                                 clone.replaceChild(importedTitle, title);
 
-
                                 // strip away any child containers
                                 var removeChildren = [];
                                 jquery.each(clone.childNodes, function (index, containerChild) {
@@ -1417,7 +1416,6 @@ define(
                                 jquery.each(removeChildren, function (index, containerChild) {
                                     clone.removeChild(containerChild);
                                 });
-
 
                                 // the id attribute assigned to this container
                                 var id = qnautils.xPath("./@id", clone).iterateNext();
@@ -1850,6 +1848,7 @@ define(
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
+                                    topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
 
                                     /*
                                      topicXMLCompare now has injection placeholders that will match the injection
@@ -2200,7 +2199,7 @@ define(
                                 qnastart.createTopic(
                                     false,
                                     config.ImportOption === "DocBook5" ? 5 : 4.5,
-                                    setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim()),
+                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim())),
                                     topic.title,
                                     topic.tags,
                                     config.ImportLang,
@@ -2301,7 +2300,7 @@ define(
 
                                 qnastart.updateTopic(
                                     topic.topicId,
-                                    setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements)),
+                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements))),
                                     topic.title,
                                     config,
                                     function (data) {
