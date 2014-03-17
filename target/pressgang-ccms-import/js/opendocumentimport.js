@@ -961,6 +961,7 @@ define(
                                             var imagePath = imagesKeys[index];
     
                                             qnastart.createImage(
+                                                inputModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.OdtFile,
                                                 imagePath,

@@ -682,6 +682,7 @@ define(
                         qnastart.createImageFromURL(
                             config.CreateOrResuseImages === "REUSE",
                             imagePath,
+                            config.ImportLang,
                             config,
                             function (data) {
                                 var id = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
@@ -747,7 +748,9 @@ define(
                             qnautils.reencode(qnautils.xmlToString(topic.xml), topic.xmlReplacements).trim(),
                             topic.title,
                             null,
-                            config, function (data) {
+                            config.ImportLang,
+                            config,
+                            function (data) {
 
                                 var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
                                 var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
@@ -793,6 +796,7 @@ define(
 
                             qnastart.createContentSpec(
                                 spec,
+                                config.ImportLang,
                                 config,
                                 function(id) {
                                     config.ContentSpecID = id;

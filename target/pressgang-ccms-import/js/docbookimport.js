@@ -28,6 +28,10 @@ define(
         var TOPIC_CONTAINER_TYPES = ["section", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
         // these containers are ignored
         var IGNORED_CONTAINERS = ["partintro"];
+        // these are entities created by csprocessor
+        var IGNORED_ENTITIES = ["BUILD_DATE", "BUILD_NAME", "TITLE", "BZPRODUCT", "BZCOMPONENT", "BZURL"];
+        // these files are created by csprocessor
+        var IGNORED_ADDITIONAL_FILES = ["en-US/files/pressgang_website.js"];
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
@@ -649,17 +653,17 @@ define(
                                 var filename = qnautils.getFileName(value);
                                 if (filename.indexOf(relativePath) === 0 && qnautils.isNormalFile(filename)) {
                                     inputModel.getTextFromFile(value, function (fileText) {
-                                        var entityDefDoubleQuoteRE = /<!ENTITY\s+[^\s]+\s+".*?"\s*>/g;
-                                        var entityDefSingleQuoteRE = /<!ENTITY\s+[^\s]+\s+'.*?'\s*>/g;
+                                        var entityDefDoubleQuoteRE = /<!ENTITY\s+([^\s]+)\s+".*?"\s*>/g;
+                                        var entityDefSingleQuoteRE = /<!ENTITY\s+([^\s]+)\s+'.*?'\s*>/g;
                                         var match;
                                         while ((match = entityDefDoubleQuoteRE.exec(fileText)) !== null) {
-                                            if (entities.indexOf(match[0]) === -1) {
+                                            if (entities.indexOf(match[0]) === -1 && IGNORED_ENTITIES.indexOf(match[1]) === -1) {
                                                 entities.push(match[0]);
                                             }
                                         }
 
                                         while ((match = entityDefSingleQuoteRE.exec(fileText)) !== null) {
-                                            if (entities.indexOf(match[0]) === -1) {
+                                            if (entities.indexOf(match[0]) === -1 && IGNORED_ENTITIES.indexOf(match[1]) === -1) {
                                                 entities.push(match[0]);
                                             }
                                         }
@@ -1187,8 +1191,12 @@ define(
                                     uploadImages (xmlDoc, contentSpec, topics, topicGraph);
                                 } else {
                                     var entry = entries[index];
-                                    if (/^en-US\/files\/.+/.test(qnautils.getFileName(entry))) {
+                                    var filename = qnautils.getFileName(entry);
+                                    if (/^en-US\/files\/.+/.test(filename) &&
+                                        qnautils.isNormalFile(filename) &&
+                                        IGNORED_ADDITIONAL_FILES.indexOf(filename) === -1) {
                                         qnastart.createFile(
+                                            inputModel,
                                             config.CreateOrResuseFiles === "REUSE",
                                             config.InputSource,
                                             qnautils.getFileName(entry),
@@ -1251,6 +1259,7 @@ define(
                                     function (result) {
                                         if (result) {
                                             qnastart.createImage(
+                                                inputModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.InputSource,
                                                 nodeValue,

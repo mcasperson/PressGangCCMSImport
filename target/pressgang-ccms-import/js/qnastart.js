@@ -171,12 +171,12 @@ define(
             });
         };
 
-        exports.createFile = function(trytomatch, zipfile, file, config, successCallback, errorCallback, retryCount) {
+        exports.createFile = function(model, trytomatch, zipfile, file, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
             }
 
-            exports.zipModel.getByteArrayFromFileName(
+            model.getByteArrayFromFileName(
                 zipfile,
                 file,
                 function (arrayBuffer) {
@@ -225,7 +225,7 @@ define(
                         },
                         error: function () {
                             if (retryCount < RETRY_COUNT) {
-                                exports.createFile(trytomatch, zipfile, file, config, successCallback, errorCallback, ++retryCount);
+                                exports.createFile(inputModel, trytomatch, zipfile, file, config, successCallback, errorCallback, ++retryCount);
                             } else {
                                 errorCallback("Connection Error", "An error occurred while uploading an file. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
@@ -290,7 +290,7 @@ define(
                         },
                         error: function () {
                             if (retryCount < RETRY_COUNT) {
-                                exports.createImage(trytomatch, zipfile, image, config, successCallback, errorCallback, ++retryCount);
+                                exports.createImage(inputModel, trytomatch, zipfile, image, config, successCallback, errorCallback, ++retryCount);
                             } else {
                                 errorCallback("Connection Error", "An error occurred while uploading an image. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
