@@ -154,16 +154,25 @@ define(
         }
 
         function setDocumentNodeToSection (xmlText) {
-            if (xmlText.indexOf("<chapter>") === 0) {
-                xmlText = xmlText.replace(/^<chapter>/, "<section>");
-                xmlText = xmlText.replace(/<\/chapter>$/, "</section>");
-            } else if (xmlText.indexOf("<appendix>") === 0) {
-                xmlText = xmlText.replace(/^<appendix>/, "<section>");
-                xmlText = xmlText.replace(/<\/appendix>$/, "</section>");
-            } else if (xmlText.indexOf("<part>") === 0) {
-                xmlText = xmlText.replace(/^<part>/, "<section>");
-                xmlText = xmlText.replace(/<\/part>$/, "</section>");
-            }
+
+            var replaceElement = function(elementName, xmlText) {
+                if (xmlText.indexOf("<" + elementName) === 0) {
+                    xmlText = xmlText.replace(new RegExp("^" + qnautils.escapeRegExp(elementName)), "<" + elementName);
+                    xmlText = xmlText.replace(new RegExp("</" + qnautils.escapeRegExp(elementName) + ">$"), "</" + elementName + ">");
+                }
+
+                return xmlText;
+            };
+
+            xmlText = replaceElement("chapter", xmlText);
+            xmlText = replaceElement("appendix", xmlText);
+            xmlText = replaceElement("part", xmlText);
+            xmlText = replaceElement("sect1", xmlText);
+            xmlText = replaceElement("sect2", xmlText);
+            xmlText = replaceElement("sect3", xmlText);
+            xmlText = replaceElement("sect4", xmlText);
+            xmlText = replaceElement("sect5", xmlText);
+            xmlText = replaceElement("simplesect", xmlText);
 
             return xmlText;
         }
@@ -1847,8 +1856,8 @@ define(
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
-                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
                                     topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
+                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
 
                                     /*
                                      topicXMLCompare now has injection placeholders that will match the injection
