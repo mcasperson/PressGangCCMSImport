@@ -1410,14 +1410,14 @@ define(
                                 // strip away any child containers
                                 var removeChildren = [];
                                 jquery.each(clone.childNodes, function (index, containerChild) {
-                                    if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1 ||
-                                        containerChild.nodeName === "revhistory") {
+                                    if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1) {
                                         removeChildren.push(containerChild);
                                     }
                                 });
                                 jquery.each(removeChildren, function (index, containerChild) {
                                     clone.removeChild(containerChild);
                                 });
+
 
                                 // the id attribute assigned to this container
                                 var id = qnautils.xPath("./@id", clone).iterateNext();
