@@ -30,6 +30,8 @@ define(
         var IGNORED_CONTAINERS = ["partintro"];
         // these are entities created by csprocessor
         var IGNORED_ENTITIES = ["BUILD_DATE", "BUILD_NAME", "TITLE", "BZPRODUCT", "BZCOMPONENT", "BZURL"];
+        // these files are created by csprocessor
+        var IGNORED_ADDITIONAL_FILES = ["en-US/files/pressgang_website.js"];
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
@@ -1190,7 +1192,9 @@ define(
                                 } else {
                                     var entry = entries[index];
                                     var filename = qnautils.getFileName(entry);
-                                    if (/^en-US\/files\/.+/.test(filename) && qnautils.isNormalFile(filename)) {
+                                    if (/^en-US\/files\/.+/.test(filename) &&
+                                        qnautils.isNormalFile(filename) &&
+                                        IGNORED_ADDITIONAL_FILES.indexOf(filename) === -1) {
                                         qnastart.createFile(
                                             inputModel,
                                             config.CreateOrResuseFiles === "REUSE",
