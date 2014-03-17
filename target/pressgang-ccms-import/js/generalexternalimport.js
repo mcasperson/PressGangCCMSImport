@@ -3,8 +3,8 @@
     presents that step to the user.
  */
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
-    function(jquery, qna, qnautils, specelement, opendocumentimport, mojoimport, exports) {
+    ['jquery', 'qna/qna', 'languages', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
+    function(jquery, qna, languages, qnautils, specelement, opendocumentimport, mojoimport, exports) {
         'use strict';
 
         exports.generateSpacing = function (outlineLevel) {
@@ -99,7 +99,13 @@ define(
                                 .setIntro("Brand")
                                 .setName("ContentSpecBrand")
                                 .setValue("RedHat")
-                                .setOptions(["RedHat", "JBoss", "Fedora", "OpenShift"])
+                                .setOptions(["RedHat", "JBoss", "Fedora", "OpenShift"]),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.COMBOBOX)
+                                .setIntro("Locale")
+                                .setName("ImportLang")
+                                .setValue("en-US")
+                                .setOptions(languages.languages)
                         ])
                 ]
             )

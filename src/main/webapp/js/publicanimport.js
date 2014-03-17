@@ -5,6 +5,8 @@ define(
 
         var DEFAULT_LANG = "en-US";
 
+        var IGNORE_PUBLICAN_CFG_SETTINGS = ["xml_lang", "brand", "type", "dtd_ver"];
+
         // This will be the object that we query for files. It could be a zip or directory
         var inputModel;
 
@@ -91,7 +93,10 @@ define(
                                             contentSpec.push("# Contents from " + uri.filename());
                                             jquery.each(configFile.split("\n"), function(index, value){
                                                 if (value.trim().length !== 0) {
-                                                    contentSpec.push(value);
+                                                    var keyValue = value.split(":");
+                                                    if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
+                                                        contentSpec.push(value);
+                                                    }
                                                 }
                                             });
                                             contentSpec.push("]");

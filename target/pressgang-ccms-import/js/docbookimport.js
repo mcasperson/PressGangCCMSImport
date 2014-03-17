@@ -30,8 +30,6 @@ define(
         var IGNORED_CONTAINERS = ["partintro"];
         // these are entities created by csprocessor
         var IGNORED_ENTITIES = ["BUILD_DATE", "BUILD_NAME", "TITLE", "BZPRODUCT", "BZCOMPONENT", "BZURL"];
-        // these files are created by csprocessor
-        var IGNORED_ADDITIONAL_FILES = ["en-US/files/pressgang_website.js"];
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
@@ -39,6 +37,11 @@ define(
         var DOCBOOK_45 = "DOCBOOK_45";
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
+
+        function getIgnoredFiles(lang) {
+            // these files are created by csprocessor
+            return [lang + "/files/pressgang_website.js"];
+        }
 
         /*
          See if the xiincludes have some other base dir
@@ -1192,14 +1195,15 @@ define(
                                 } else {
                                     var entry = entries[index];
                                     var filename = qnautils.getFileName(entry);
-                                    if (/^en-US\/files\/.+/.test(filename) &&
+                                    if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/files/.+").test(filename) &&
                                         qnautils.isNormalFile(filename) &&
-                                        IGNORED_ADDITIONAL_FILES.indexOf(filename) === -1) {
+                                        getIgnoredFiles(config.ImportLang).indexOf(filename) === -1) {
                                         qnastart.createFile(
                                             inputModel,
                                             config.CreateOrResuseFiles === "REUSE",
                                             config.InputSource,
                                             qnautils.getFileName(entry),
+                                            config.ImportLang,
                                             config,
                                             function (data) {
                                                 var fileId = config.CreateOrResuseFiles === "REUSE" ? data.file.id : data.id;
@@ -1263,6 +1267,7 @@ define(
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.InputSource,
                                                 nodeValue,
+                                                config.ImportLang,
                                                 config,
                                                 function (data) {
                                                     var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
@@ -1849,6 +1854,14 @@ define(
                                         }
 
                                         /*
+                                         The matching topic has to have the same locale as the one
+                                         we are trying to import.
+                                         */
+                                        if (matchingTopic.item.locale !== config.ImportLang) {
+                                            return true;
+                                        }
+
+                                        /*
                                          Strip out the entities which can cause issues with the XML Parsing
                                          */
                                         var replacedTextResult = qnautils.replaceEntitiesInText(matchingTopic.item.xml);
@@ -2164,6 +2177,7 @@ define(
                                     setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim()),
                                     topic.title,
                                     topic.tags,
+                                    config.ImportLang,
                                     config,
                                     function (data) {
                                         topic.setTopicId(data.id);
@@ -2324,6 +2338,7 @@ define(
                     } else {
                         qnastart.createContentSpec(
                             compiledContentSpec,
+                            config.ImportLang,
                             config,
                             contentSpecSaveSuccess,
                             errorCallback

@@ -41,7 +41,7 @@ define(
                 .replace(/\]/g, "\\]");
         };
 
-        exports.createTopic = function(tryToMatch, format, xml, title, tags, config, successCallback, errorCallback, retryCount) {
+        exports.createTopic = function(tryToMatch, format, xml, title, tags, lang, config, successCallback, errorCallback, retryCount) {
 
             if (retryCount === undefined) {
                 retryCount = 0;
@@ -49,7 +49,7 @@ define(
 
             var postBody = {
                 xml: xml,
-                locale: "en-US",
+                locale: lang,
                 configuredParameters: [
                     "xml",
                     "locale"
@@ -98,7 +98,7 @@ define(
                 },
                 error: function () {
                     if (retryCount < RETRY_COUNT) {
-                        exports.createTopic(tryToMatch, format, xml, title, tags, config, successCallback, errorCallback, ++retryCount);
+                        exports.createTopic(tryToMatch, format, xml, title, tags, lang, config, successCallback, errorCallback, ++retryCount);
                     } else {
                         errorCallback("Connection Error", "An error occurred while uploading the topic. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
@@ -138,10 +138,8 @@ define(
             var postBody = {
                 id: id,
                 xml: xml,
-                locale: "en-US",
                 configuredParameters: [
-                    "xml",
-                    "locale"
+                    "xml"
                 ]
             };
 
@@ -171,7 +169,7 @@ define(
             });
         };
 
-        exports.createFile = function(model, trytomatch, zipfile, file, config, successCallback, errorCallback, retryCount) {
+        exports.createFile = function(model, trytomatch, zipfile, file, lang, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
             }
@@ -195,7 +193,7 @@ define(
                                 {
                                     item: {
                                         fileData: byteArray,
-                                        locale: "en-US",
+                                        locale: lang,
                                         filename: file,
                                         configuredParameters: [
                                             "locale",
@@ -225,7 +223,7 @@ define(
                         },
                         error: function () {
                             if (retryCount < RETRY_COUNT) {
-                                exports.createFile(inputModel, trytomatch, zipfile, file, config, successCallback, errorCallback, ++retryCount);
+                                exports.createFile(inputModel, trytomatch, zipfile, file, lang, config, successCallback, errorCallback, ++retryCount);
                             } else {
                                 errorCallback("Connection Error", "An error occurred while uploading an file. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
@@ -238,7 +236,7 @@ define(
             );
         };
 
-        exports.createImage = function(model, trytomatch, zipfile, image, config, successCallback, errorCallback, retryCount) {
+        exports.createImage = function(model, trytomatch, zipfile, image, lang, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
             }
@@ -261,7 +259,7 @@ define(
                                 {
                                     item: {
                                         imageData: byteArray,
-                                        locale: "en-US",
+                                        locale: lang,
                                         filename: image,
                                         configuredParameters: [
                                             "locale",
@@ -290,7 +288,7 @@ define(
                         },
                         error: function () {
                             if (retryCount < RETRY_COUNT) {
-                                exports.createImage(inputModel, trytomatch, zipfile, image, config, successCallback, errorCallback, ++retryCount);
+                                exports.createImage(inputModel, trytomatch, zipfile, image, lang, config, successCallback, errorCallback, ++retryCount);
                             } else {
                                 errorCallback("Connection Error", "An error occurred while uploading an image. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
@@ -303,7 +301,7 @@ define(
             );
         };
 
-        exports.createImageFromURL = function(trytomatch, url, config, successCallback, errorCallback, retryCount) {
+        exports.createImageFromURL = function(trytomatch, url, lang, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
             }
@@ -318,7 +316,7 @@ define(
                                 {
                                     item: {
                                         imageData: byteArray,
-                                        locale: "en-US",
+                                        locale: lang,
                                         filename: url,
                                         configuredParameters: [
                                             "locale",
@@ -347,7 +345,7 @@ define(
                         },
                         error: function () {
                             if (retryCount < RETRY_COUNT) {
-                                exports.createImageFromURL(trytomatch, url, config, successCallback, errorCallback, ++retryCount);
+                                exports.createImageFromURL(trytomatch, url, lang, config, successCallback, errorCallback, ++retryCount);
                             } else {
                                 errorCallback("Connection Error", "An error occurred while uploading an image. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
@@ -359,15 +357,17 @@ define(
             );
         };
 
-        exports.createContentSpec = function(spec, config, successCallback, errorCallback, retryCount) {
+        exports.createContentSpec = function(spec, lang, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
             }
 
             var postBody = {
                 text: spec,
+                locale: lang,
                 configuredParameters: [
-                    "text"
+                    "text",
+                    "locale"
                 ]
             };
 
@@ -382,7 +382,7 @@ define(
                 },
                 error: function () {
                     if (retryCount < RETRY_COUNT) {
-                        exports.createContentSpec(spec, config, successCallback, errorCallback, ++retryCount);
+                        exports.createContentSpec(spec, lang, config, successCallback, errorCallback, ++retryCount);
                     } else {
                         errorCallback("Connection Error", "An error occurred while uploading the content spec. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }

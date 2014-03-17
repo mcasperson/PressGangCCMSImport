@@ -21,6 +21,9 @@ define(
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
+
+                config.InputType = "Zip";
+
                 if (!config.OdtFile) {
                     errorCallback("Please select a file", "You need to select an ODT file before continuing.");
                 } else if (config.OdtFile.name.lastIndexOf(".odt") !== config.OdtFile.name.length - 4) {
@@ -965,6 +968,7 @@ define(
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.OdtFile,
                                                 imagePath,
+                                                config.ImportLang,
                                                 config,
                                                 function (data) {
                                                     var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
@@ -1025,7 +1029,9 @@ define(
                                                 qnautils.reencode(qnautils.xmlToString(topic.xml), topic.xmlReplacements).trim(),
                                                 topic.title,
                                                 null,
-                                                config, function (data) {
+                                                config.ImportLang,
+                                                config,
+                                                function (data) {
 
                                                     var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
                                                     var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
@@ -1066,6 +1072,7 @@ define(
     
                                             qnastart.createContentSpec(
                                                 spec,
+                                                config.ImportLang,
                                                 config,
                                                 function(id) {
                                                     config.ContentSpecID = id;

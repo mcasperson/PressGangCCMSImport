@@ -2,20 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/js/languages.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -81,10 +78,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="41" selection-start="1109" selection-end="1109" vertical-scroll-proportion="0.15570934" vertical-offset="270" max-vertical-offset="17160">
+            <state line="24" column="41" selection-start="1109" selection-end="1109" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="17160">
               <folding>
                 <marker date="1395026404321" expanded="true" signature="36914:37083" placeholder="..." />
                 <marker date="1395026404321" expanded="true" signature="36993:37083" placeholder="..." />
@@ -106,7 +103,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="23" column="16" selection-start="1113" selection-end="1138" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2730">
-              <folding />
+              <folding>
+                <marker date="1395026404313" expanded="true" signature="7850:7931" placeholder="{...}" />
+                <marker date="1395026404313" expanded="true" signature="7969:8050" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -115,7 +115,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="126" column="17" selection-start="5686" selection-end="5686" vertical-scroll-proportion="-11.666667" vertical-offset="1530" max-vertical-offset="2220">
-              <folding />
+              <folding>
+                <marker date="1395025602345" expanded="true" signature="2547:4810" placeholder="[...]" />
+                <marker date="1395025602345" expanded="true" signature="2630:4791" placeholder="[...]" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -131,10 +134,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="70" selection-start="70" selection-end="78" vertical-scroll-proportion="-0.5555556" vertical-offset="0" max-vertical-offset="4500">
+            <state line="94" column="80" selection-start="5415" selection-end="5415" vertical-scroll-proportion="0.39893618" vertical-offset="1185" max-vertical-offset="4575">
               <folding />
             </state>
           </provider>
@@ -161,7 +164,7 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="298" column="20" selection-start="13653" selection-end="13653" vertical-scroll-proportion="-6.7777777" vertical-offset="4287" max-vertical-offset="36030">
+            <state line="298" column="20" selection-start="13653" selection-end="13653" vertical-scroll-proportion="-165.55556" vertical-offset="0" max-vertical-offset="36030">
               <folding />
             </state>
           </provider>
@@ -233,13 +236,13 @@
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/languages.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
       </list>
     </option>
   </component>
@@ -858,7 +861,7 @@
       <workItem from="1394591046475" duration="660000" />
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
-      <workItem from="1394998195561" duration="19358000" />
+      <workItem from="1394998195561" duration="20076000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2716,11 +2719,15 @@
       <created>1395022019005</created>
       <updated>1395022019005</updated>
     </task>
-    <option name="localTasksCounter" value="465" />
+    <task id="LOCAL-00465" summary="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254&#10;">
+      <created>1395026451041</created>
+      <updated>1395026451041</updated>
+    </task>
+    <option name="localTasksCounter" value="466" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="628534000" />
+    <option name="totallyTimeSpent" value="629252000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -2796,7 +2803,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Converted project to Maven WAR" />
     <MESSAGE value="Converted project to Maven WAR&#10;" />
     <MESSAGE value="Updated bug links" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071048" />
@@ -2821,7 +2827,8 @@
     <MESSAGE value="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061" />
     <MESSAGE value="fixed https://bugzilla.redhat.com/show_bug.cgi?id=1071061&#10;" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254" />
+    <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1076254&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3018,20 +3025,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="352" column="86" selection-start="20173" selection-end="20173" vertical-scroll-proportion="0.0" vertical-offset="5083" max-vertical-offset="5865">
           <folding>
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395010714000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395023975000" expanded="true" signature="-1:-1" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -3047,66 +3054,66 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="2361" column="54" selection-start="123845" selection-end="123845" vertical-scroll-proportion="-36.11111" vertical-offset="34440" max-vertical-offset="35805">
           <folding>
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="[...]" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="[...]" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="[...]" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="[...]" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1395021977000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="[...]" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="[...]" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="[...]" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="[...]" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="/*...*/" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1395024288000" expanded="true" signature="-1:-1" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -3122,9 +3129,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="255" column="67" selection-start="17976" selection-end="17988" vertical-scroll-proportion="-17.125" vertical-offset="3414" max-vertical-offset="3990">
           <folding>
-            <marker date="1395022029311" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1395022029311" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1395022029311" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1395027152913" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1395027152913" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1395027152913" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -3132,13 +3139,6 @@
     <entry file="file://$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="361" column="16" selection-start="15848" selection-end="15848" vertical-scroll-proportion="-6.7777777" vertical-offset="5232" max-vertical-offset="8925">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="70" selection-start="70" selection-end="78" vertical-scroll-proportion="-0.5555556" vertical-offset="0" max-vertical-offset="4500">
           <folding />
         </state>
       </provider>
@@ -3173,13 +3173,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="298" column="20" selection-start="13653" selection-end="13653" vertical-scroll-proportion="-6.7777777" vertical-offset="4287" max-vertical-offset="36030">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="57" selection-start="526" selection-end="526" vertical-scroll-proportion="236.66667" vertical-offset="6525" max-vertical-offset="8925">
@@ -3190,24 +3183,44 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="16" selection-start="1113" selection-end="1138" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2730">
-          <folding />
+          <folding>
+            <marker date="1395026404313" expanded="true" signature="7850:7931" placeholder="{...}" />
+            <marker date="1395026404313" expanded="true" signature="7969:8050" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="126" column="17" selection-start="5686" selection-end="5686" vertical-scroll-proportion="-11.666667" vertical-offset="1530" max-vertical-offset="2220">
-          <folding />
+          <folding>
+            <marker date="1395025602345" expanded="true" signature="2547:4810" placeholder="[...]" />
+            <marker date="1395025602345" expanded="true" signature="2630:4791" placeholder="[...]" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="41" selection-start="1109" selection-end="1109" vertical-scroll-proportion="0.15570934" vertical-offset="270" max-vertical-offset="17160">
+        <state line="24" column="41" selection-start="1109" selection-end="1109" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="17160">
           <folding>
             <marker date="1395026404321" expanded="true" signature="36914:37083" placeholder="..." />
             <marker date="1395026404321" expanded="true" signature="36993:37083" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="298" column="20" selection-start="13653" selection-end="13653" vertical-scroll-proportion="-165.55556" vertical-offset="0" max-vertical-offset="36030">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="80" selection-start="5415" selection-end="5415" vertical-scroll-proportion="0.39893618" vertical-offset="1185" max-vertical-offset="4575">
+          <folding />
         </state>
       </provider>
     </entry>

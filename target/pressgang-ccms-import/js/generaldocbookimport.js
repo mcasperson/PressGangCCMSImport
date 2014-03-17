@@ -1,13 +1,13 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
+    ['jquery', 'languages', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
+    function (jquery, languages, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
         'use strict';
         /*
          STEP 1 - Get the ZIP file
          */
         exports.askForDocBookFile = new qna.QNAStep()
             .setTitle("Select the ZIP file to import")
-            .setIntro("Select the ZIP file that contains the valid Publican book that you wish to import into PressGang CCMS.")
+            .setIntro("Select the ZIP file that contains the valid Docbook content that you wish to import into PressGang CCMS.")
             .setInputs(
                 [
                     new qna.QNAVariables()
@@ -20,6 +20,9 @@ define(
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
+
+                config.InputType = "Zip";
+
                 if (!config.InputSource) {
                     errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
                 } else if (config.InputSource.name.lastIndexOf(".zip") !== config.InputSource.name.length - 4) {
@@ -91,9 +94,83 @@ define(
                 resultCallback(false);
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(docbookimport.askForRevisionMessage);
+                resultCallback(getSpecDetails);
             });
 
+        var getSpecDetails = new qna.QNAStep()
+            .setTitle("Enter content specification details")
+            .setIntro("Enter the basic details of the content specification")
+            .setInputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.TEXTBOX)
+                                .setIntro("Product")
+                                .setName("ContentSpecProduct")
+                                .setValue("Product"),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.TEXTBOX)
+                                .setIntro("Version")
+                                .setName("ContentSpecVersion")
+                                .setValue("1"),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.TEXTBOX)
+                                .setIntro("Copyright Holder")
+                                .setName("ContentSpecCopyrightHolder")
+                                .setValue("Red Hat"),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.COMBOBOX)
+                                .setIntro("Brand")
+                                .setName("ContentSpecBrand")
+                                .setValue(function (resultCallback, errorCallback, result, config){
+                                    if (config.ImportOption === "DocBook5") {
+                                        resultCallback("RedHat-db5");
+                                    } else {
+                                        resultCallback("RedHat");
+                                    }
+                                })
+                                .setOptions(function (resultCallback, errorCallback, result, config){
+                                    if (config.ImportOption === "DocBook5") {
+                                        resultCallback(["RedHat-db5"]);
+                                    } else {
+                                        resultCallback(["RedHat", "JBoss", "Fedora", "OpenShift"]);
+                                    }
+                                }),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.COMBOBOX)
+                                .setIntro("Locale")
+                                .setName("ImportLang")
+                                .setValue("en-US")
+                                .setOptions(languages.languages)
+                        ])
+                ]
+            )
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                if (!config.ContentSpecProduct) {
+                    errorCallback("Please enter a product.");
+                } else if (!config.ContentSpecVersion) {
+                    errorCallback("Please enter a version.");
+                } else if (!config.ContentSpecCopyrightHolder) {
+                    errorCallback("Please enter a copyright holder.");
+                } else {
+                    var contentSpec = [];
 
+                    if (config.ContentSpecSubtitle !== undefined &&
+                        config.ContentSpecSubtitle !== null &&
+                        config.ContentSpecSubtitle.trim().length !== 0) {
+                        contentSpec.push("Subtitle = " + config.ContentSpecProduct);
+                    }
+
+                    contentSpec.push("Product = " + config.ContentSpecProduct);
+                    contentSpec.push("Version = " + config.ContentSpecVersion);
+                    contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                    contentSpec.push("Brand = " + config.ContentSpecBrand);
+                    resultCallback(JSON.stringify({contentSpec: contentSpec}));
+                }
+            })
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(docbookimport.askForRevisionMessage);
+            });
     }
 );
