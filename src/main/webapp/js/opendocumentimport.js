@@ -620,7 +620,7 @@ define(
                                                 customContainerContent.push(spacesString);
 
                                             } else if (childNode.nodeName === "office:annotation") {
-                                                jquery.merge(customContainerContent, processRemark(remarks, childNode));
+                                                jquery.merge(customContainerContent, processRemark(childNode));
                                             } else if (childNode.nodeType === Node.TEXT_NODE) {
                                                 if (childNode.textContent.length !== 0) {
                                                     var fontRule = getFontRuleForElement(childNode);
@@ -763,25 +763,29 @@ define(
                                         }
                                     };
     
-                                    var processRemark = function(content, contentNode) {
+                                    var processRemark = function(contentNode) {
+                                        var remark = [];
+
                                         var creator = qnautils.xPath("./dc:creator", contentNode).iterateNext();
                                         var date = qnautils.xPath("./dc:date", contentNode).iterateNext();
                                         var paras = qnautils.xPath("./text:p", contentNode);
-    
-                                        content.push("<remark>");
+
+                                        remark.push("<remark>");
     
                                         var para;
                                         if (creator !== null) {
-                                            content.push("<emphasis>" + generalexternalimport.cleanTextContent(creator.textContent) + " </emphasis>");
+                                            remark.push("<emphasis>" + generalexternalimport.cleanTextContent(creator.textContent) + " </emphasis>");
                                         }
                                         if (date !== null) {
-                                            content.push("<emphasis>" + generalexternalimport.cleanTextContent(date.textContent) + " </emphasis>");
+                                            remark.push("<emphasis>" + generalexternalimport.cleanTextContent(date.textContent) + " </emphasis>");
                                         }
     
                                         while((para = paras.iterateNext()) !== null) {
-                                            content.push(generalexternalimport.cleanTextContent(para.textContent));
+                                            remark.push(generalexternalimport.cleanTextContent(para.textContent));
                                         }
-                                        content.push("</remark>");
+                                        remark.push("</remark>");
+
+                                        return remark;
                                     };
 
                                     var processDraw = function(contentNode) {
