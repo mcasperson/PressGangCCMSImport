@@ -406,8 +406,30 @@ define(
                 };
     
                 var progressIncrement = 100 / 4;
-    
-                var resultObject = JSON.parse(result);
+
+                var resultObject = JSON.parse(result) || {contentSpec: []};
+
+                resultObject.contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                resultObject.contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                resultObject.contentSpec.push("Version = " + (config.ContentSpecVersion === undefined ? "1" : config.ContentSpecVersion));
+                resultObject.contentSpec.push("Format = DocBook 4.5");
+
+                /*
+                 These metadata elements are optional
+                 */
+                if (config.ContentSpecSubtitle !== undefined) {
+                    resultObject.contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
+                }
+                if (config.ContentSpecEdition !== undefined) {
+                    resultObject.contentSpec.push("Edition = " + config.ContentSpecEdition);
+                }
+                if (config.ContentSpecCopyrightHolder !== undefined) {
+                    resultObject.contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                }
+                if (config.ContentSpecBrand !== undefined) {
+                    // this is the value specified in the ui
+                    resultObject.contentSpec.push("Brand = " + config.ContentSpecBrand);
+                }
 
                 resultObject.contentSpec.push("# Imported from " + config.OdtFile.name);
     
@@ -493,7 +515,7 @@ define(
                                             if (content.length !== 0) {
                                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                 resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec - 1);
+                                                generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                             }
     
                                             successCallback();
@@ -909,7 +931,7 @@ define(
                                         // the last heading added a level of depth to the tree, Otherwise it is just
                                         // an empty container.
                                         if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
-                                            if (outlineLevel === 0) {
+                                            if (outlineLevel === 1) {
                                                 resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
                                                 resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
@@ -923,7 +945,11 @@ define(
                                                 resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
                                                 if (newOutlineLevel > outlineLevel) {
-                                                    resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+                                                    if (outlineLevel === 1) {
+                                                        resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                    } else {
+                                                        resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+                                                    }
                                                 } else {
                                                     resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                                 }
@@ -944,7 +970,7 @@ define(
                                         }, 0);
                                     };
     
-                                    processTopic(null, 0, contentNodes, [], function() {
+                                    processTopic(null, 1, contentNodes, [], function() {
                                         config.UploadProgress[1] = progressIncrement;
                                         config.ResolvedBookStructure = true;
                                         resultCallback();

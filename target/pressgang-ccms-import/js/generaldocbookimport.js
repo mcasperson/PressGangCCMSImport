@@ -31,6 +31,11 @@ define(
                     resultCallback(null);
                 }
             })
+            .setEnterStep(function(resultCallback){
+                qnastart.zipModel = qnastart.zipModel;
+                qnastart.zipModel.clearCache();
+                resultCallback(false);
+            })
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
             });
@@ -146,29 +151,6 @@ define(
                         ])
                 ]
             )
-            .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.ContentSpecProduct) {
-                    errorCallback("Please enter a product.");
-                } else if (!config.ContentSpecVersion) {
-                    errorCallback("Please enter a version.");
-                } else if (!config.ContentSpecCopyrightHolder) {
-                    errorCallback("Please enter a copyright holder.");
-                } else {
-                    var contentSpec = [];
-
-                    if (config.ContentSpecSubtitle !== undefined &&
-                        config.ContentSpecSubtitle !== null &&
-                        config.ContentSpecSubtitle.trim().length !== 0) {
-                        contentSpec.push("Subtitle = " + config.ContentSpecProduct);
-                    }
-
-                    contentSpec.push("Product = " + config.ContentSpecProduct);
-                    contentSpec.push("Version = " + config.ContentSpecVersion);
-                    contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
-                    contentSpec.push("Brand = " + config.ContentSpecBrand);
-                    resultCallback(JSON.stringify({contentSpec: contentSpec}));
-                }
-            })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(docbookimport.askForRevisionMessage);
             });
