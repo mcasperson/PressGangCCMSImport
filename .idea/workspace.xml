@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -105,20 +109,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="62" selection-start="1774" selection-end="1774" vertical-scroll-proportion="0.22695035" vertical-offset="271" max-vertical-offset="4665">
+            <state line="33" column="62" selection-start="1774" selection-end="1774" vertical-scroll-proportion="-8.96" vertical-offset="271" max-vertical-offset="4665">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="260" column="7" selection-start="18232" selection-end="18232" vertical-scroll-proportion="0.0" vertical-offset="3900" max-vertical-offset="3990">
-              <folding />
+            <state line="24" column="14" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.36923078" vertical-offset="0" max-vertical-offset="3990">
+              <folding>
+                <marker date="1395111960863" expanded="true" signature="3796:3858" placeholder="..." />
+                <marker date="1395111960863" expanded="true" signature="3899:3954" placeholder="..." />
+                <marker date="1395111960863" expanded="true" signature="3997:4100" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -218,11 +226,11 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
       </list>
     </option>
   </component>
@@ -665,7 +673,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23262000" />
-      <workItem from="1395089524666" duration="13277000" />
+      <workItem from="1395089524666" duration="14337000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2599,11 +2607,15 @@
       <created>1395107739801</created>
       <updated>1395107739801</updated>
     </task>
-    <option name="localTasksCounter" value="484" />
+    <task id="LOCAL-00484" summary="Fixing bugs&#10;">
+      <created>1395110664078</created>
+      <updated>1395110664078</updated>
+    </task>
+    <option name="localTasksCounter" value="485" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="645715000" />
+    <option name="totallyTimeSpent" value="646775000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2729,7 +2741,11 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="253" column="67" selection-start="17349" selection-end="17349" vertical-scroll-proportion="0.0" vertical-offset="3795" max-vertical-offset="3885">
-          <folding />
+          <folding>
+            <marker date="1395111960863" expanded="true" signature="3796:3858" placeholder="..." />
+            <marker date="1395111960863" expanded="true" signature="3899:3954" placeholder="..." />
+            <marker date="1395111960863" expanded="true" signature="3997:4100" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2965,13 +2981,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="7" selection-start="18232" selection-end="18232" vertical-scroll-proportion="0.0" vertical-offset="3900" max-vertical-offset="3990">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="105" column="103" selection-start="3274" selection-end="3276" vertical-scroll-proportion="-13.16" vertical-offset="1246" max-vertical-offset="3855">
@@ -3002,8 +3011,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="62" selection-start="1774" selection-end="1774" vertical-scroll-proportion="0.22695035" vertical-offset="271" max-vertical-offset="4665">
+        <state line="33" column="62" selection-start="1774" selection-end="1774" vertical-scroll-proportion="-8.96" vertical-offset="271" max-vertical-offset="4665">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="14" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.36923078" vertical-offset="0" max-vertical-offset="3990">
+          <folding>
+            <marker date="1395111960863" expanded="true" signature="3796:3858" placeholder="..." />
+            <marker date="1395111960863" expanded="true" signature="3899:3954" placeholder="..." />
+            <marker date="1395111960863" expanded="true" signature="3997:4100" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

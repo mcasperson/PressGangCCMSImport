@@ -43,6 +43,10 @@ define(
             return [lang + "/files/pressgang_website.js"];
         }
 
+        function removeRedundantXmlnsAttribute(xmlString) {
+            return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
+        };
+
         /*
          See if the xiincludes have some other base dir
          */
@@ -789,9 +793,7 @@ define(
                     return xml;
                 };
 
-                var removeRedundantXmlnsAttribute = function (xmlString) {
-                    return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
-                };
+
 
                 /*
                  Find the book info details
@@ -842,103 +844,121 @@ define(
                         if (productnumber) {
                             contentSpec.push("Version = " + qnautils.reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
                         }
-
-                        contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
-
+                    } else {
                         /*
-                            If no brand was specified, let csprocessor use the default
+                            If the book being imported does not have the bookinfo or info element, set the
+                             required fields manually (assuming they were not set in a previous step of
+                             the wizard).
                          */
-                        if (config.ImportBrand !== undefined) {
-                            contentSpec.push("Brand = " + config.ImportBrand);
-                        }
+                        var foundTitle = false;
+                        var foundProduct = false;
 
-                        if (xmlDoc.documentElement.nodeName === "book") {
-                            if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
-                                contentSpec.push("Type = Book-Draft");
-                            } else {
-                                contentSpec.push("Type = Book");
+                        jquery.each(resultObject.contentSpec, function(index, value) {
+                            if (value.indexOf("Title") === 0) {
+                                foundTitle = true;
                             }
 
-                        } else if (xmlDoc.documentElement.nodeName === "article") {
-                            if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
-                                contentSpec.push("Type = Article-Draft");
-                            } else {
-                                contentSpec.push("Type = Article");
-                            }
-                        }
-
-                        /*
-                            Add the contents of the supplied content spec. This will usually be just
-                            the publican.cfg file.
-                         */
-                        contentSpec = contentSpec.concat(resultObject.contentSpec);
-
-                        if (config.ImportCondition !== undefined) {
-                            contentSpec.push("[condition = " + config.ImportCondition + "]");
-                        }
-
-                        // some entities are metadata elements in the spec
-                        var removedEntities = [];
-                        var copyrightYear = null;
-                        var copyrightHolder = null;
-                        jquery.each(entities, function(index, value){
-                            var entityMatch;
-                            if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
-                                removedEntities.push(index);
-                                // save the first one
-                                if (!copyrightHolder) {
-                                    copyrightHolder = "Copyright Holder = " + entityMatch[2];
-                                }
-                            }
-
-                            if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
-                                removedEntities.push(index);
-                                // save the first one
-                                if (!copyrightYear) {
-                                    copyrightYear = "Copyright Year = " + entityMatch[2];
-                                }
+                            if (value.indexOf("Product") === 0) {
+                                foundProduct = true;
                             }
                         });
 
-                        if (!copyrightHolder) {
-                            contentSpec.push("Copyright Holder = Red Hat");
-                        } else {
-                            contentSpec.push(copyrightHolder);
+                        if (!foundTitle) {
+                            contentSpec.push("Title = Unknown");
                         }
 
-                        if (copyrightYear) {
-                            contentSpec.push(copyrightYear);
+                        if (!foundProduct) {
+                            contentSpec.push("Product = Unknown");
                         }
-
-                        // save the remaining entities
-                        if (entities.length !== 0) {
-                            contentSpec.push("Entities = [");
-                            jquery.each(entities, function(index, value){
-                                if (removedEntities.indexOf(index) === -1) {
-                                    contentSpec.push(value);
-                                }
-                            });
-
-                            contentSpec.push("]");
-                        }
-
-                        config.UploadProgress[1] = 6 * progressIncrement;
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        config.FoundBookInfo = true;
-                        resultCallback();
-
-                        findIndex(xmlDoc, contentSpec);
-                    } else if (config.ImportOption === "Publican") {
-                        // we expect a publican book to have this. Generic docbook imports might not have it
-                        errorCallback("Invalid content", "The <bookinfo>, <articleinfo> or <info> element could not be found", true);
-                    } else {
-                        config.UploadProgress[1] = 6 * progressIncrement;
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        config.FoundBookInfo = true;
-                        resultCallback();
-
-                        findIndex(xmlDoc, contentSpec);
                     }
+
+                    contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
+
+                    /*
+                        If no brand was specified, let csprocessor use the default
+                     */
+                    if (config.ImportBrand !== undefined) {
+                        contentSpec.push("Brand = " + config.ImportBrand);
+                    }
+
+                    if (xmlDoc.documentElement.nodeName === "book") {
+                        if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
+                            contentSpec.push("Type = Book-Draft");
+                        } else {
+                            contentSpec.push("Type = Book");
+                        }
+
+                    } else if (xmlDoc.documentElement.nodeName === "article") {
+                        if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
+                            contentSpec.push("Type = Article-Draft");
+                        } else {
+                            contentSpec.push("Type = Article");
+                        }
+                    }
+
+                    /*
+                        Add the contents of the supplied content spec. This will usually be just
+                        the publican.cfg file.
+                     */
+                    contentSpec = contentSpec.concat(resultObject.contentSpec);
+
+                    if (config.ImportCondition !== undefined) {
+                        contentSpec.push("[condition = " + config.ImportCondition + "]");
+                    }
+
+                    /*
+                        Some entities need to be converted to metadata elements
+                     */
+                    var removedEntities = [];
+                    var copyrightYear = null;
+                    var copyrightHolder = null;
+                    jquery.each(entities, function(index, value){
+                        var entityMatch;
+                        if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
+                            removedEntities.push(index);
+                            // save the first one
+                            if (!copyrightHolder) {
+                                copyrightHolder = "Copyright Holder = " + entityMatch[2];
+                            }
+                        }
+
+                        if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
+                            removedEntities.push(index);
+                            // save the first one
+                            if (!copyrightYear) {
+                                copyrightYear = "Copyright Year = " + entityMatch[2];
+                            }
+                        }
+                    });
+
+                    if (!copyrightHolder) {
+                        contentSpec.push("Copyright Holder = Red Hat");
+                    } else {
+                        contentSpec.push(copyrightHolder);
+                    }
+
+                    if (copyrightYear) {
+                        contentSpec.push(copyrightYear);
+                    }
+
+                    // save the remaining entities
+                    if (entities.length !== 0) {
+                        contentSpec.push("Entities = [");
+                        jquery.each(entities, function(index, value){
+                            if (removedEntities.indexOf(index) === -1) {
+                                contentSpec.push(value);
+                            }
+                        });
+
+                        contentSpec.push("]");
+                    }
+
+                    config.UploadProgress[1] = 6 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+                    config.FoundBookInfo = true;
+                    resultCallback();
+
+                    findIndex(xmlDoc, contentSpec);
                 }
 
                 function findIndex (xmlDoc, contentSpec) {
@@ -948,8 +968,6 @@ define(
                     }
                     extractRevisionHistory(xmlDoc, contentSpec);
                 }
-
-
 
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
                     if (topics === undefined) {
@@ -1079,8 +1097,6 @@ define(
 
                     if (specAuthorGroup.documentElement.childNodes.length !== 0) {
                         contentSpec.push("Author Group = ");
-
-
 
                         var topic = new specelement.TopicGraphNode(topicGraph)
                             .setXml(removeIdAttribute(specAuthorGroup.documentElement))
