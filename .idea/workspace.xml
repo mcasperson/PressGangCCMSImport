@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -67,10 +67,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="499" column="142" selection-start="23598" selection-end="23598" vertical-scroll-proportion="0.25564682" vertical-offset="7236" max-vertical-offset="18435">
+            <state line="499" column="142" selection-start="23598" selection-end="23598" vertical-scroll-proportion="-9.96" vertical-offset="7236" max-vertical-offset="18435">
               <folding>
                 <marker date="1395116892902" expanded="true" signature="37938:38107" placeholder="..." />
                 <marker date="1395116892902" expanded="true" signature="38017:38107" placeholder="..." />
@@ -146,10 +146,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="qnastart.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="579" column="20" selection-start="27403" selection-end="27422" vertical-scroll-proportion="0.0" vertical-offset="7926" max-vertical-offset="8925">
+            <state line="435" column="98" selection-start="19300" selection-end="19300" vertical-scroll-proportion="0.44444445" vertical-offset="6081" max-vertical-offset="8925">
               <folding />
             </state>
           </provider>
@@ -219,7 +219,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnadirmodel.js" />
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/languages.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
@@ -228,6 +227,7 @@
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
       </list>
     </option>
   </component>
@@ -670,7 +670,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23262000" />
-      <workItem from="1395089524666" duration="19301000" />
+      <workItem from="1395089524666" duration="19319000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2624,11 +2624,15 @@
       <created>1395115056768</created>
       <updated>1395115056768</updated>
     </task>
-    <option name="localTasksCounter" value="489" />
+    <task id="LOCAL-00489" summary="Fixing bugs&#10;">
+      <created>1395116929587</created>
+      <updated>1395116929587</updated>
+    </task>
+    <option name="localTasksCounter" value="490" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="651739000" />
+    <option name="totallyTimeSpent" value="651757000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2973,13 +2977,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="579" column="20" selection-start="27403" selection-end="27422" vertical-scroll-proportion="0.0" vertical-offset="7926" max-vertical-offset="8925">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/pgimport.user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="41" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
@@ -3035,11 +3032,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="499" column="142" selection-start="23598" selection-end="23598" vertical-scroll-proportion="0.25564682" vertical-offset="7236" max-vertical-offset="18435">
+        <state line="499" column="142" selection-start="23598" selection-end="23598" vertical-scroll-proportion="-9.96" vertical-offset="7236" max-vertical-offset="18435">
           <folding>
             <marker date="1395116892902" expanded="true" signature="37938:38107" placeholder="..." />
             <marker date="1395116892902" expanded="true" signature="38017:38107" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="435" column="98" selection-start="19300" selection-end="19300" vertical-scroll-proportion="0.44444445" vertical-offset="6081" max-vertical-offset="8925">
+          <folding />
         </state>
       </provider>
     </entry>
