@@ -484,12 +484,11 @@ define(
 
                                         if (index >= contentNodes.length) {
                                             if (content.length !== 0) {
-                                                padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
-
                                                 if (outlineLevel === 0) {
                                                     resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                                 } else {
+                                                    padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
                                                     var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                     resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
