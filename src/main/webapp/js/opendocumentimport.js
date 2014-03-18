@@ -992,7 +992,7 @@ define(
 
                                                         jquery.merge(content, convertNodeToDocbook(contentNode));
                                                         content.push("</" + matchingRule.docBookElement + ">");
-                                                    } else {
+                                                    }  else {
                                                         /*
                                                          This is a plain old paragraph.
                                                          */
@@ -1000,6 +1000,13 @@ define(
                                                         jquery.merge(content, convertNodeToDocbook(contentNode));
                                                         content.push("</para>");
                                                     }
+                                                } else {
+                                                    /*
+                                                     This is a plain old paragraph.
+                                                     */
+                                                    content.push("<para>");
+                                                    jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                    content.push("</para>");
                                                 }
                                             } else {
                                                 /*
