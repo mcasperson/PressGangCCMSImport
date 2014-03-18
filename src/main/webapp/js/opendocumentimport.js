@@ -985,10 +985,8 @@ define(
                                             jquery.each(listItemsHeaderContent, function (index, value) {
                                                 content.push(value);
                                             });
-    
-    
-                                            do {
 
+                                            do {
                                                 var listItemContents = [];
                                                 jquery.each(listItem.childNodes, function (index, childNode) {
                                                     if (childNode.nodeName === "text:p") {
