@@ -981,11 +981,9 @@ define(
     
                                         var listItem;
                                         if ((listItem = listItems.iterateNext()) !== null) {
-                                            content.push("<" + listType + listStyle + ">");
-    
-                                            jquery.each(listItemsHeaderContent, function (index, value) {
-                                                content.push(value);
-                                            });
+
+
+                                            var itemizedListContents = [];
 
                                             do {
                                                 var listItemContents = [];
@@ -997,13 +995,21 @@ define(
                                                     }
                                                 });
                                                 if (listItemContents.length !== 0) {
-                                                    content.push("<listitem>");
-                                                    jquery.merge(content, listItemContents);
-                                                    content.push("</listitem>");
+                                                    itemizedListContents.push("<listitem>");
+                                                    jquery.merge(itemizedListContents, listItemContents);
+                                                    itemizedListContents.push("</listitem>");
                                                 }
                                             } while ((listItem = listItems.iterateNext()) !== null);
-    
-                                            content.push("</" + listType + ">");
+
+                                            if (listItemsHeaderContent.length !== 0 || itemizedListContents.length !== 0) {
+                                                content.push("<" + listType + listStyle + ">");
+
+                                                jquery.each(listItemsHeaderContent, function (index, value) {
+                                                    content.push(value);
+                                                });
+
+                                                content.push("</" + listType + ">");
+                                            }
                                         } else {
                                             // we have found a list that contains only a header. this is really just a para
                                             jquery.each(listItemsHeaderContent, function (index, value) {
