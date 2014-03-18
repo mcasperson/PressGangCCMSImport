@@ -486,9 +486,14 @@ define(
                                             if (content.length !== 0) {
                                                 padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
 
-                                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                                resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                if (outlineLevel === 0) {
+                                                    resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                } else {
+                                                    var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                                                    resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                }
                                             }
 
                                             successCallback();
@@ -1019,11 +1024,8 @@ define(
 
                                             if (listItemsHeaderContent.length !== 0 || itemizedListContents.length !== 0) {
                                                 content.push("<" + listType + listStyle + ">");
-
-                                                jquery.each(listItemsHeaderContent, function (index, value) {
-                                                    content.push(value);
-                                                });
-
+                                                jquery.merge(content, listItemsHeaderContent);
+                                                jquery.merge(content, itemizedListContents);
                                                 content.push("</" + listType + ">");
                                             }
                                         } else {
