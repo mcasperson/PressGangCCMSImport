@@ -483,6 +483,8 @@ define(
 
                                         if (index >= contentNodes.length) {
                                             if (content.length !== 0) {
+                                                padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
+
                                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                 resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                                 generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
@@ -985,6 +987,23 @@ define(
                                         }
                                     };
 
+                                    var padContentSpec = function(currentLevel, previousLevel, contentSpec) {
+                                        /*
+                                         A content spec can not skip levels in the toc. So when we skip heading levels
+                                         (say a heading 3 under a heading 1) we need to pad the spec out.
+                                         */
+                                        if (currentLevel > previousLevel + 1) {
+                                            for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
+                                                if (missedSteps === 1) {
+                                                    contentSpec.push("Chapter: Missing Chapter");
+                                                } else {
+                                                    var myPrefix = generalexternalimport.generateSpacing(missedSteps);
+                                                    contentSpec.push(myPrefix + "Section: Missing Section");
+                                                }
+                                            }
+                                        }
+                                    }
+
                                     var processHeader = function (content, contentNode, title, previousLevel, currentLevel, index, successCallback) {
                                         ++topicsAdded;
 
@@ -1001,21 +1020,13 @@ define(
                                          A content spec can not skip levels in the toc. So when we skip heading levels
                                          (say a heading 3 under a heading 1) we need to pad the spec out.
                                          */
-                                        if (currentLevel > previousLevel + 1) {
-                                            for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
-                                                if (missedSteps === 1) {
-                                                    resultObject.contentSpec.push("Chapter: Missing Chapter");
-                                                } else {
-                                                    var myPrefix = generalexternalimport.generateSpacing(missedSteps);
-                                                    resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
-                                                }
-                                            }
+                                        padContentSpec(currentLevel, previousLevel, resultObject.contentSpec);
 
-                                            /*
-                                             Thanks to the loop above, levels never jump more than 1 place up.
-                                             */
-                                            previousLevel = currentLevel - 1;
-                                        }
+                                        /*
+                                         Thanks to the loop above, levels never jump more than 1 place up.
+                                         */
+                                        previousLevel = currentLevel - 1;
+
 
                                         /*
                                          Some convenient statements about what is going on.
@@ -1130,7 +1141,7 @@ define(
                                             var imagePath = imagesKeys[index];
     
                                             qnastart.createImage(
-                                                inputModel,
+                                                qnastart.zipModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.OdtFile,
                                                 imagePath,
