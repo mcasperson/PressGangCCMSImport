@@ -29,7 +29,7 @@ define(
         // these containers are ignored
         var IGNORED_CONTAINERS = ["partintro"];
         // these are entities created by csprocessor
-        var IGNORED_ENTITIES = ["BUILD_DATE", "BUILD_NAME", "TITLE", "BZPRODUCT", "BZCOMPONENT", "BZURL"];
+        var IGNORED_ENTITIES = ["BUILD_DATE", "BUILD_NAME", "TITLE", "BZPRODUCT", "BZCOMPONENT", "BZURL", "euro", "cularr", "curarr", "dArr", "darr2", "dharl", "dharr", "dlarr", "drarr", "hArr", "harr", "harrw", "lAarr", "Larr", "larr2", "larrhk", "larrlp", "larrtl", "lhard", "lharu", "lrarr2", "lrhar2", "lsh", "map", "mumap", "nearr", "nhArr", "nharr", "nlArr", "nlarr", "nrArr", "nrarr", "nwarr", "olarr", "orarr", "rAarr", "Rarr", "rarr2", "rarrhk", "rarrlp", "rarrtl", "rarrw", "rhard", "rharu", "rlarr2", "rlhar2", "rsh", "uArr", "uarr2", "uharl", "uharr", "vArr", "varr", "xhArr", "xharr", "xlArr", "xrArr", "amalg", "Barwed", "barwed", "Cap", "coprod", "Cup", "cuvee", "cuwed", "diam", "divonx", "intcal", "lthree", "ltimes", "minusb", "oast", "ocir", "odash", "odot", "ominus", "oplus", "osol", "otimes", "plusb", "plusdo", "prod", "rthree", "rtimes", "sdot", "sdotb", "setmn", "sqcap", "sqcup", "ssetmn", "sstarf", "sum", "timesb", "top", "uplus", "wreath", "xcirc", "xdtri", "xutri", "dlcorn", "drcorn", "lceil", "lfloor", "lpargt", "rceil", "rfloor", "rpargt", "ulcorn", "urcorn", "gnap", "gnE", "gne", "gnsim", "gvnE", "lnap", "lnE", "lne", "lnsim", "lvnE", "nap", "ncong", "nequiv", "ngE", "nge", "nges", "ngt", "nlE", "nle", "nles", "nlt", "nltri", "nltrie", "nmid", "npar", "npr", "npre", "nrtri", "nrtrie", "nsc", "nsce", "nsim", "nsime", "nsmid", "nspar", "nsub", "nsubE", "nsube", "nsup", "nsupE", "nsupe", "nVDash", "nVdash", "nvDash", "nvdash", "prnap", "prnE", "prnsim", "scnap", "scnE", "scnsim", "subnE", "subne", "supnE", "supne", "vsubnE", "vsubne", "vsupnE", "vsupne", "ang", "angmsd", "beth", "bprime", "comp", "daleth", "ell", "empty", "gimel", "inodot", "jnodot", "nexist", "oS", "planck", "real", "sbsol", "vprime", "weierp", "ape", "asymp", "bcong", "bepsi", "bowtie", "bsim", "bsime", "bump", "bumpe", "cire", "colone", "cuepr", "cuesc", "cupre", "dashv", "ecir", "ecolon", "eDot", "efDot", "egs", "els", "erDot", "esdot", "fork", "frown", "gap", "gE", "gEl", "gel", "ges", "Gg", "gl", "gsdot", "gsim", "Gt", "lap", "ldot", "lE", "lEg", "leg", "les", "lg", "Ll", "lsim", "Lt", "ltrie", "mid", "models", "pr", "prap", "pre", "prsim", "rtrie", "samalg", "sc", "scap", "sccue", "sce", "scsim", "sfrown", "smid", "smile", "spar", "sqsub", "sqsube", "sqsup", "sqsupe", "ssmile", "Sub", "subE", "Sup", "supE", "thkap", "thksim", "trie", "twixt", "Vdash", "vDash", "vdash", "veebar", "vltri", "vprop", "vrtri", "Vvdash", "boxDL", "boxDl", "boxdL", "boxdl", "boxDR", "boxDr", "boxdR", "boxdr", "boxH", "boxh", "boxHD", "boxHd", "boxhD", "boxhd", "boxHU", "boxHu", "boxhU", "boxhu", "boxUL", "boxUl", "boxuL", "boxul", "boxUR", "boxUr", "boxuR", "boxur", "boxV", "boxv", "boxVH", "boxVh", "boxvH", "boxvh", "boxVL", "boxVl", "boxvL", "boxvl", "boxVR", "boxVr", "boxvR", "boxvr", "Acy", "acy", "Bcy", "bcy", "CHcy", "chcy", "Dcy", "dcy", "Ecy", "ecy", "Fcy", "fcy", "Gcy", "gcy", "HARDcy", "hardcy", "Icy", "icy", "IEcy", "iecy", "IOcy", "iocy", "Jcy", "jcy", "Kcy", "kcy", "KHcy", "khcy", "Lcy", "lcy", "Mcy", "mcy", "Ncy", "ncy", "numero", "Ocy", "ocy", "Pcy", "pcy", "Rcy", "rcy", "Scy", "scy", "SHCHcy", "shchcy", "SHcy", "shcy", "SOFTcy", "softcy", "Tcy", "tcy", "TScy", "tscy", "Ucy", "ucy", "Vcy", "vcy", "YAcy", "yacy", "Ycy", "ycy", "YUcy", "yucy", "Zcy", "zcy", "ZHcy", "zhcy", "DJcy", "djcy", "DScy", "dscy", "DZcy", "dzcy", "GJcy", "gjcy", "Iukcy", "iukcy", "Jsercy", "jsercy", "Jukcy", "jukcy", "KJcy", "kjcy", "LJcy", "ljcy", "NJcy", "njcy", "TSHcy", "tshcy", "Ubrcy", "ubrcy", "YIcy", "yicy", "acute", "breve", "caron", "cedil", "circ", "dblac", "die", "dot", "grave", "macr", "ogon", "ring", "tilde", "uml", "Agr", "agr", "Bgr", "bgr", "Dgr", "dgr", "EEgr", "eegr", "Egr", "egr", "Ggr", "ggr", "Igr", "igr", "Kgr", "kgr", "KHgr", "khgr", "Lgr", "lgr", "Mgr", "mgr", "Ngr", "ngr", "Ogr", "ogr", "OHgr", "ohgr", "Pgr", "pgr", "PHgr", "phgr", "PSgr", "psgr", "Rgr", "rgr", "sfgr", "Sgr", "sgr", "Tgr", "tgr", "THgr", "thgr", "Ugr", "ugr", "Xgr", "xgr", "Zgr", "zgr", "Aacgr", "aacgr", "Eacgr", "eacgr", "EEacgr", "eeacgr", "Iacgr", "iacgr", "idiagr", "Idigr", "idigr", "Oacgr", "oacgr", "OHacgr", "ohacgr", "Uacgr", "uacgr", "udiagr", "Udigr", "udigr", "alpha", "beta", "chi", "Delta", "delta", "epsi", "epsis", "epsiv", "eta", "Gamma", "gamma", "gammad", "iota", "kappa", "kappav", "Lambda", "lambda", "mu", "nu", "Omega", "omega", "Phi", "phis", "phiv", "Pi", "pi", "piv", "Psi", "psi", "rho", "rhov", "Sigma", "sigma", "sigmav", "tau", "Theta", "thetas", "thetav", "Upsi", "upsi", "Xi", "xi", "zeta", "b.alpha", "b.beta", "b.chi", "b.Delta", "b.delta", "b.epsi", "b.epsiv", "b.eta", "b.Gamma", "b.gamma", "b.Gammad", "b.gammad", "b.iota", "b.kappa", "b.kappav", "b.Lambda", "b.lambda", "b.mu", "b.nu", "b.Omega", "b.omega", "b.Phi", "b.phi", "b.phiv", "b.Pi", "b.pi", "b.piv", "b.Psi", "b.psi", "b.rho", "b.rhov", "b.Sigma", "b.sigma", "b.sigmav", "b.tau", "b.Theta", "b.thetas", "b.thetav", "b.Upsi", "b.upsi", "b.Xi", "b.xi", "b.zeta", "Aacute", "aacute", "Acirc", "acirc", "AElig", "aelig", "Agrave", "agrave", "Aring", "aring", "Atilde", "atilde", "Auml", "auml", "Ccedil", "ccedil", "Eacute", "eacute", "Ecirc", "ecirc", "Egrave", "egrave", "ETH", "eth", "Euml", "euml", "Iacute", "iacute", "Icirc", "icirc", "Igrave", "igrave", "Iuml", "iuml", "Ntilde", "ntilde", "Oacute", "oacute", "Ocirc", "ocirc", "Ograve", "ograve", "Oslash", "oslash", "Otilde", "otilde", "Ouml", "ouml", "szlig", "THORN", "thorn", "Uacute", "uacute", "Ucirc", "ucirc", "Ugrave", "ugrave", "Uuml", "uuml", "Yacute", "yacute", "yuml", "Abreve", "abreve", "Amacr", "amacr", "Aogon", "aogon", "Cacute", "cacute", "Ccaron", "ccaron", "Ccirc", "ccirc", "Cdot", "cdot", "Dcaron", "dcaron", "Dstrok", "dstrok", "Ecaron", "ecaron", "Edot", "edot", "Emacr", "emacr", "ENG", "eng", "Eogon", "eogon", "gacute", "Gbreve", "gbreve", "Gcedil", "Gcirc", "gcirc", "Gdot", "gdot", "Hcirc", "hcirc", "Hstrok", "hstrok", "Idot", "IJlig", "ijlig", "Imacr", "imacr", "Iogon", "iogon", "Itilde", "itilde", "Jcirc", "jcirc", "Kcedil", "kcedil", "kgreen", "Lacute", "lacute", "Lcaron", "lcaron", "Lcedil", "lcedil", "Lmidot", "lmidot", "Lstrok", "lstrok", "Nacute", "nacute", "napos", "Ncaron", "ncaron", "Ncedil", "ncedil", "Odblac", "odblac", "OElig", "oelig", "Omacr", "omacr", "Racute", "racute", "Rcaron", "rcaron", "Rcedil", "rcedil", "Sacute", "sacute", "Scaron", "scaron", "Scedil", "scedil", "Scirc", "scirc", "Tcaron", "tcaron", "Tcedil", "tcedil", "Tstrok", "tstrok", "Ubreve", "ubreve", "Udblac", "udblac", "Umacr", "umacr", "Uogon", "uogon", "Uring", "uring", "Utilde", "utilde", "Wcirc", "wcirc", "Ycirc", "ycirc", "Yuml", "Zacute", "zacute", "Zcaron", "zcaron", "Zdot", "zdot", "amp", "apos", "ast", "brvbar", "bsol", "cent", "colon", "comma", "commat", "copy", "curren", "darr", "deg", "divide", "dollar", "equals", "excl", "frac12", "frac14", "frac18", "frac34", "frac38", "frac58", "frac78", "gt", "half", "horbar", "hyphen", "iexcl", "iquest", "laquo", "larr", "lcub", "ldquo", "lowbar", "lpar", "lsqb", "lsquo", "lt", "micro", "middot", "nbsp", "not", "num", "ohm", "ordf", "ordm", "para", "percnt", "period", "plus", "plusmn", "pound", "quest", "quot", "raquo", "rarr", "rcub", "rdquo", "reg", "rpar", "rsqb", "rsquo", "sect", "semi", "shy", "sol", "sung", "sup1", "sup2", "sup3", "times", "trade", "uarr", "verbar", "yen", "blank", "blk12", "blk14", "blk34", "block", "bull", "caret", "check", "cir", "clubs", "copysr", "cross", "Dagger", "dagger", "dash", "diams", "dlcrop", "drcrop", "dtri", "dtrif", "emsp", "emsp13", "emsp14", "ensp", "female", "ffilig", "fflig", "ffllig", "filig", "flat", "fllig", "frac13", "frac15", "frac16", "frac23", "frac25", "frac35", "frac45", "frac56", "hairsp", "hearts", "hellip", "hybull", "incare", "ldquor", "lhblk", "loz", "lozf", "lsquor", "ltri", "ltrif", "male", "malt", "marker", "mdash", "mldr", "natur", "ndash", "nldr", "numsp", "phone", "puncsp", "rdquor", "rect", "rsquor", "rtri", "rtrif", "rx", "sext", "sharp", "spades", "squ", "squf", "star", "starf", "target", "telrec", "thinsp", "uhblk", "ulcrop", "urcrop", "utri", "utrif", "vellip", "aleph", "and", "ang90", "angsph", "angst", "ap", "becaus", "bernou", "bottom", "cap", "compfn", "cong", "conint", "cup", "Dot", "DotDot", "equiv", "exist", "fnof", "forall", "ge", "hamilt", "iff", "infin", "int", "isin", "lagran", "lang", "lArr", "le", "lowast", "minus", "mnplus", "nabla", "ne", "ni", "notin", "or", "order", "par", "part", "permil", "perp", "phmmat", "Prime", "prime", "prop", "radic", "rang", "rArr", "sim", "sime", "square", "sub", "sube", "sup", "supe", "tdot", "there4", "tprime", "Verbar", "wedgeq"];
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
@@ -154,16 +154,25 @@ define(
         }
 
         function setDocumentNodeToSection (xmlText) {
-            if (xmlText.indexOf("<chapter>") === 0) {
-                xmlText = xmlText.replace(/^<chapter>/, "<section>");
-                xmlText = xmlText.replace(/<\/chapter>$/, "</section>");
-            } else if (xmlText.indexOf("<appendix>") === 0) {
-                xmlText = xmlText.replace(/^<appendix>/, "<section>");
-                xmlText = xmlText.replace(/<\/appendix>$/, "</section>");
-            } else if (xmlText.indexOf("<part>") === 0) {
-                xmlText = xmlText.replace(/^<part>/, "<section>");
-                xmlText = xmlText.replace(/<\/part>$/, "</section>");
-            }
+
+            var replaceElement = function(elementName, xmlText) {
+                if (xmlText.indexOf("<" + elementName) === 0) {
+                    xmlText = xmlText.replace(new RegExp("^" + qnautils.escapeRegExp(elementName)), "<" + elementName);
+                    xmlText = xmlText.replace(new RegExp("</" + qnautils.escapeRegExp(elementName) + ">$"), "</" + elementName + ">");
+                }
+
+                return xmlText;
+            };
+
+            xmlText = replaceElement("chapter", xmlText);
+            xmlText = replaceElement("appendix", xmlText);
+            xmlText = replaceElement("part", xmlText);
+            xmlText = replaceElement("sect1", xmlText);
+            xmlText = replaceElement("sect2", xmlText);
+            xmlText = replaceElement("sect3", xmlText);
+            xmlText = replaceElement("sect4", xmlText);
+            xmlText = replaceElement("sect5", xmlText);
+            xmlText = replaceElement("simplesect", xmlText);
 
             return xmlText;
         }
@@ -478,7 +487,12 @@ define(
                                 if (attributeName.trim() === "href") {
                                     href = attributeValue;
                                 } else if (attributeName.trim() === "xpointer") {
-                                    xpointer = attributeValue;
+                                    var xpointerMatch = /xpointer\((.*?)\)/.exec(attributeValue);
+                                    if (xpointerMatch !== null) {
+                                        xpointer = xpointerMatch[1];
+                                    } else {
+                                        xpointer = attributeValue;
+                                    }
                                 }
                             }
 
@@ -775,18 +789,8 @@ define(
                     return xml;
                 };
 
-                var removeRedundantXmlnsAttribute = function (xml) {
-                    if (xml.hasAttribute !== undefined &&
-                        xml.hasAttribute("xmlns") &&
-                        xml.attributes["xmlns"] === "http://docbook.org/ns/docbook") {
-                        xml.removeAttribute("xmlns");
-                    }
-
-                    for (var childIndex = 0; childIndex < xml.childNodes.length; ++childIndex) {
-                        removeRedundantXmlnsAttribute(xml.childNodes[childIndex]);
-                    }
-
-                    return xml;
+                var removeRedundantXmlnsAttribute = function (xmlString) {
+                    return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
                 };
 
                 /*
@@ -1010,11 +1014,21 @@ define(
 
                         var id = parentAppendix.getAttribute ? parentAppendix.getAttribute("id") : null;
 
-                        var revHistoryFixedXML = qnautils.stringToXML("<appendix><title>" +
-                            revHistoryTitleContents +
-                            "</title><simpara>" +
-                            qnautils.xmlToString(removeIdAttribute(revHistory)) +
-                            "</simpara></appendix>");
+                        var revHistoryXML = "<appendix><title>" + revHistoryTitleContents + "</title>";
+
+                        if (config.ImportOption === "DocBook45") {
+                            revHistoryXML += "<simpara>";
+                        }
+
+                        revHistoryXML += qnautils.xmlToString(removeIdAttribute(revHistory));
+
+                        if (config.ImportOption === "DocBook45") {
+                            revHistoryXML += "</simpara>";
+                        }
+
+                        revHistoryXML += "</appendix>";
+
+                        var revHistoryFixedXML = qnautils.stringToXML(revHistoryXML);
 
                         var topic = new specelement.TopicGraphNode(topicGraph)
                             .setXml(revHistoryFixedXML)
@@ -1047,22 +1061,36 @@ define(
                         topicGraph = new specelement.TopicGraph();
                     }
 
-                    var authorGroup = qnautils.xPath("//docbook:authorgroup", xmlDoc).iterateNext();
-
-                    if (authorGroup) {
-                        contentSpec.push("Author Group = ");
+                    var specAuthorGroup = qnautils.stringToXML("<authorgroup></authorgroup>");
+                    var authorGroups = qnautils.xPath("//docbook:authorgroup", xmlDoc);
+                    var authorGroupIds = [];
+                    var authorGroup;
+                    while ((authorGroup = authorGroups.iterateNext()) !== null) {
 
                         var id = authorGroup.getAttribute("id");
+                        if (id !== null) {
+                            authorGroupIds.push(id);
+                        }
+
+                        jquery.each(authorGroup.childNodes, function (index, value) {
+                            specAuthorGroup.documentElement.appendChild(qnautils.getOwnerDoc(specAuthorGroup).importNode(value, true));
+                        });
+                    }
+
+                    if (specAuthorGroup.documentElement.childNodes.length !== 0) {
+                        contentSpec.push("Author Group = ");
+
+
 
                         var topic = new specelement.TopicGraphNode(topicGraph)
-                            .setXml(removeIdAttribute(authorGroup))
+                            .setXml(removeIdAttribute(specAuthorGroup.documentElement))
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle("Author Group")
                             .addTag(AUTHOR_GROUP_TAG_ID);
 
-                        if (id) {
-                            topic.addXmlId(id);
-                        }
+                        jquery.each(authorGroupIds, function (index, value) {
+                            topic.addXmlId(value);
+                        });
 
                         topics.push(topic);
                     }
@@ -1366,10 +1394,10 @@ define(
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
                                 var titleText = "";
                                 if (title) {
-                                    // remove any redundant namespace attributes
-                                    removeRedundantXmlnsAttribute(title);
-
                                     titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
+
+                                    // remove any redundant namespace attributes
+                                    titleText = removeRedundantXmlnsAttribute(titleText);
 
                                     /*
                                         Title is mandatory
@@ -1381,11 +1409,16 @@ define(
                                     titleText = "Untitled";
                                 }
 
+                                // sync the title back to the xml
+                                var titleXML = "<title>" + titleText + "</title>";
+                                var titleXMLDocument = qnautils.stringToXML(titleXML);
+                                var importedTitle =  qnautils.getOwnerDoc(clone).importNode(titleXMLDocument.documentElement);
+                                clone.replaceChild(importedTitle, title);
+
                                 // strip away any child containers
                                 var removeChildren = [];
                                 jquery.each(clone.childNodes, function (index, containerChild) {
-                                    if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1 ||
-                                        containerChild.nodeName === "revhistory") {
+                                    if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1) {
                                         removeChildren.push(containerChild);
                                     }
                                 });
@@ -1653,7 +1686,7 @@ define(
                         var commentsCollection = [];
                         var comment;
                         while ((comment = comments.iterateNext()) !== null) {
-                            if (!/^Inject[A-Za-z]*\s*:\s*\d+/.test(comment.nodeValue.trim())) {
+                            if (!/^Inject[A-Za-z]*\s*:\s*T?\d+/.test(comment.nodeValue.trim())) {
                                 commentsCollection.push(comment);
                             }
                         }
@@ -1823,6 +1856,7 @@ define(
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
+                                    topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
                                     topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
 
                                     /*
@@ -2174,7 +2208,7 @@ define(
                                 qnastart.createTopic(
                                     false,
                                     config.ImportOption === "DocBook5" ? 5 : 4.5,
-                                    setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim()),
+                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim())),
                                     topic.title,
                                     topic.tags,
                                     config.ImportLang,
@@ -2275,7 +2309,7 @@ define(
 
                                 qnastart.updateTopic(
                                     topic.topicId,
-                                    setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements)),
+                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements))),
                                     topic.title,
                                     config,
                                     function (data) {
