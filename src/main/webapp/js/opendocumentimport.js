@@ -497,7 +497,7 @@ define(
 
                                         if (index >= contentNodes.length) {
                                             if (content.length !== 0) {
-                                                if (outlineLevel === 0) {
+                                                if (outlineLevel === 1) {
                                                     resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
                                                 } else {
