@@ -988,17 +988,20 @@ define(
     
     
                                             do {
-                                                content.push("<listitem>");
-    
+
+                                                var listItemContents = [];
                                                 jquery.each(listItem.childNodes, function (index, childNode) {
                                                     if (childNode.nodeName === "text:p") {
-                                                        processPara(content, childNode);
+                                                        processPara(listItemContents, childNode);
                                                     } else if (childNode.nodeName === "text:list") {
-                                                        processList(content, childNode, depth + 1, style);
+                                                        processList(listItemContents, childNode, depth + 1, style);
                                                     }
                                                 });
-    
-                                                content.push("</listitem>");
+                                                if (listItemContents.length !== 0) {
+                                                    content.push("<listitem>");
+                                                    jquery.merge(content, listItemContents);
+                                                    content.push("</listitem>");
+                                                }
                                             } while ((listItem = listItems.iterateNext()) !== null);
     
                                             content.push("</" + listType + ">");

@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -75,9 +70,9 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="641" column="97" selection-start="33748" selection-end="33748" vertical-scroll-proportion="0.33264887" vertical-offset="9291" max-vertical-offset="20190">
+            <state line="1001" column="92" selection-start="58495" selection-end="58495" vertical-scroll-proportion="0.47125256" vertical-offset="14556" max-vertical-offset="20235">
               <folding>
-                <marker date="1395128542084" expanded="true" signature="43912:43990" placeholder="..." />
+                <marker date="1395129758640" expanded="true" signature="43912:43990" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -678,7 +673,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23262000" />
-      <workItem from="1395089524666" duration="27337000" />
+      <workItem from="1395089524666" duration="28026000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2656,11 +2651,15 @@
       <created>1395126611574</created>
       <updated>1395126611574</updated>
     </task>
-    <option name="localTasksCounter" value="495" />
+    <task id="LOCAL-00495" summary="Fixing bugs&#10;">
+      <created>1395128647785</created>
+      <updated>1395128647785</updated>
+    </task>
+    <option name="localTasksCounter" value="496" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="659775000" />
+    <option name="totallyTimeSpent" value="660464000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -3075,9 +3074,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="641" column="97" selection-start="33748" selection-end="33748" vertical-scroll-proportion="0.33264887" vertical-offset="9291" max-vertical-offset="20190">
+        <state line="1001" column="92" selection-start="58495" selection-end="58495" vertical-scroll-proportion="0.47125256" vertical-offset="14556" max-vertical-offset="20235">
           <folding>
-            <marker date="1395128542084" expanded="true" signature="43912:43990" placeholder="..." />
+            <marker date="1395129758640" expanded="true" signature="43912:43990" placeholder="..." />
           </folding>
         </state>
       </provider>
