@@ -625,47 +625,59 @@ define(
                                      */
                                     var convertNodeToDocbook = function (node, emphasis) {
                                         var customContainerContent = [];
+                                        var textString = "";
                                         for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                             var childNode = node.childNodes[childIndex];
+
+                                            /*
+                                                Consecutive space elements and text node are combined into a single string
+                                             */
                                             if (childNode.nodeName === "text:s") {
-                                                var spacesString = "";
                                                 var spaces = 1;
                                                 var spacesAttribute = childNode.getAttribute("text:c");
                                                 if (spacesAttribute !== null) {
                                                     spaces = parseInt(spacesAttribute);
                                                 }
                                                 for (var i = 0; i < spaces; ++i) {
-                                                    spacesString += " ";
+                                                    textString += " ";
                                                 }
-
-                                                customContainerContent.push(spacesString);
-
-                                            } else if (childNode.nodeName === "text:p") {
-                                                jquery.merge(customContainerContent, processPara(customContainerContent, childNode));
-                                            } else if (childNode.nodeName === "office:annotation") {
-                                                jquery.merge(customContainerContent, processRemark(childNode));
                                             } else if (childNode.nodeType === Node.TEXT_NODE) {
                                                 if (childNode.textContent.length !== 0) {
                                                     var fontRule = getFontRuleForElement(childNode);
                                                     if (emphasis &&
                                                         childNode.textContent.trim().length !== 0 &&
                                                         (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        customContainerContent.push("<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>");
+                                                        textString += "<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>";
+                                                    } else {
+                                                        textString += generalexternalimport.cleanTextContent(childNode.textContent);
+                                                    }
+                                                }
+                                            } else {
+                                                /*
+                                                    If we built up a test string, add it as a single line
+                                                 */
+                                                if (textString.length !== 0) {
+                                                    customContainerContent.push(textString);
+                                                    textString = "";
+                                                }
+
+                                                if (childNode.nodeName === "text:p") {
+                                                    var paraContent = processPara(customContainerContent, childNode);
+                                                    jquery.merge(customContainerContent, paraContent);
+                                                } else if (childNode.nodeName === "office:annotation") {
+                                                    jquery.merge(customContainerContent, processRemark(childNode));
+                                                } else if (childNode.nodeName === "text:a") {
+                                                    var href = childNode.getAttribute("xlink:href");
+                                                    if (href !== null) {
+                                                        customContainerContent.push('<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
                                                     } else {
                                                         customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
                                                     }
-                                                }
-                                            } else if (childNode.nodeName === "text:a") {
-                                                var href = childNode.getAttribute("xlink:href");
-                                                if (href !== null) {
-                                                    customContainerContent.push('<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
+                                                } else if (childNode.nodeName === "draw:image") {
+                                                    jquery.merge(customContainerContent, processDraw(childNode));
                                                 } else {
-                                                    customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
+                                                    jquery.merge(customContainerContent, convertNodeToDocbook(childNode));
                                                 }
-                                            } else if (childNode.nodeName === "draw:image") {
-                                                jquery.merge(customContainerContent, processDraw(childNode));
-                                            } else {
-                                                jquery.merge(customContainerContent, convertNodeToDocbook(childNode));
                                             }
                                         }
     
@@ -959,7 +971,9 @@ define(
                                                             var endTagRe = new RegExp("</" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">$");
                                                             if (endTagRe.test(existingContent[existingContent.length - 1])) {
                                                                 existingContent[existingContent.length - 1] = existingContent[existingContent.length - 1].replace(endTagRe, "");
-                                                                jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                                if (existingContent[existingContent.length - 1].trim().length === 0) {
+                                                                    existingContent.pop();
+                                                                }
                                                                 wrapThis = false;
                                                             }
                                                         }

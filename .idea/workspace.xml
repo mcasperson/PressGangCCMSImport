@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -71,10 +70,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6829837" vertical-offset="13964" max-vertical-offset="21510">
-              <caret line="970" column="56" selection-start-line="970" selection-start-column="56" selection-end-line="971" selection-end-column="111" />
+            <state vertical-scroll-proportion="0.43822843" vertical-offset="9464" max-vertical-offset="21720">
+              <caret line="656" column="52" selection-start-line="656" selection-start-column="52" selection-end-line="656" selection-end-column="52" />
               <folding>
-                <marker date="1395177211631" expanded="true" signature="47682:47760" placeholder="..." />
+                <marker date="1395178703092" expanded="true" signature="48506:48584" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -696,7 +695,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23963000" />
-      <workItem from="1395172743040" duration="4136000" />
+      <workItem from="1395172743040" duration="5625000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2582,11 +2581,15 @@
       <created>1395175777765</created>
       <updated>1395175777765</updated>
     </task>
-    <option name="localTasksCounter" value="472" />
+    <task id="LOCAL-00472" summary="Fixing bugs&#10;">
+      <created>1395177217526</created>
+      <updated>1395177217526</updated>
+    </task>
+    <option name="localTasksCounter" value="473" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="637275000" />
+    <option name="totallyTimeSpent" value="638764000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3086,10 +3089,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6829837" vertical-offset="13964" max-vertical-offset="21510">
-          <caret line="970" column="56" selection-start-line="970" selection-start-column="56" selection-end-line="971" selection-end-column="111" />
+        <state vertical-scroll-proportion="0.43822843" vertical-offset="9464" max-vertical-offset="21720">
+          <caret line="656" column="52" selection-start-line="656" selection-start-column="52" selection-end-line="656" selection-end-column="52" />
           <folding>
-            <marker date="1395177211631" expanded="true" signature="47682:47760" placeholder="..." />
+            <marker date="1395178703092" expanded="true" signature="48506:48584" placeholder="..." />
           </folding>
         </state>
       </provider>
