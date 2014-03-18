@@ -1052,7 +1052,7 @@ define(
                                                 }
                                             }
                                         }
-                                    }
+                                    };
 
                                     var processHeader = function (contentNode, title, previousLevel, currentLevel, index, successCallback) {
 
