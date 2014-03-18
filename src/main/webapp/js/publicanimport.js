@@ -30,6 +30,8 @@ define(
                         var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
                         if (dtdVersion !== undefined) {
                             config.ImportOption = /('|")5\.0('|")/.test(dtdVersion) ? "DocBook5" : "DocBook45";
+                        } else {
+                            config.ImportOption = "DocBook45";
                         }
 
                         var brand = qnautils.getValueFromConfigFile(publicanCfg, "brand");

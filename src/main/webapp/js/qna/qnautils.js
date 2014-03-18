@@ -4,7 +4,7 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     exports.isNormalFile = function(filename) {
         var pathComponents = filename.split("/");
         return pathComponents[pathComponents.length - 1] !== "." &&
-            pathComponents[pathComponents.length - 1] !== "/";
+            pathComponents[pathComponents.length - 1] !== "";
     };
 
     exports.getFileName = function(entry) {
