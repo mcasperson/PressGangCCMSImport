@@ -2,7 +2,12 @@ define(
     ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'exports'],
     function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, exports) {
         'use strict';
-    
+
+        var fontRuleStyleCache;
+        var fontRuleElementCache;
+        var styleCache;
+        var contentStyleCache;
+
         /*
             STEP 1 - Get the ODT file
          */
@@ -302,6 +307,7 @@ define(
                     }
     
                     resultObject.fontRules.push(fontRule);
+                    resultObject.contentSpec = [];
     
                     config.FontName = null;
                     config.FontSize = null;
@@ -404,6 +410,14 @@ define(
                 window.onbeforeunload=function(){
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
+
+                /*
+                    clear the cache
+                 */
+                fontRuleStyleCache = {};
+                fontRuleElementCache = {};
+                styleCache = {};
+                contentStyleCache = {};
     
                 var progressIncrement = 100 / 4;
 
@@ -483,11 +497,15 @@ define(
 
                                         if (index >= contentNodes.length) {
                                             if (content.length !== 0) {
-                                                padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
-
-                                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                                resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                if (outlineLevel === 1) {
+                                                    resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                } else {
+                                                    padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
+                                                    var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                                                    resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                }
                                             }
 
                                             successCallback();
@@ -501,13 +519,13 @@ define(
                                                 processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                                 return;
                                             } else if (contentNode.nodeName === "text:p") {
-                                                processPara(content, contentNode, images);
+                                                jquery.merge(content, processPara(content, contentNode));
                                             } else if (contentNode.nodeName === "text:list") {
-                                                processList(content, contentNode, images);
+                                                jquery.merge(content, processList(contentNode));
                                             } else if (contentNode.nodeName === "office:annotation") {
-                                                processRemark(content, contentNode);
+                                                jquery.merge(content, processRemark(contentNode));
                                             } else if (contentNode.nodeName === "table:table") {
-                                                processTable(content, contentNode, images);
+                                                jquery.merge(content, processTable(contentNode, images));
                                             }
                                             setTimeout(function() {
                                                 processTopic(title, parentLevel, outlineLevel, ++index, content, successCallback);
@@ -515,7 +533,9 @@ define(
                                         }
                                     };
 
-                                    var processTable = function (content, contentNode) {
+                                    var processTable = function (contentNode) {
+                                        var content = [];
+
                                         var trs = qnautils.xPath(".//table:table-row", contentNode);
                                         var tr;
                                         var maxCols;
@@ -596,15 +616,22 @@ define(
 
                                             content.push("</tgroup></table>");
                                         }
+
+                                        return content;
                                     };
     
                                     /*
                                      Expand the text:s elements and remarks.
                                      */
                                     var convertNodeToDocbook = function (node, emphasis) {
-                                        var customContainerContent = "";
+                                        var customContainerContent = [];
+                                        var textString = "";
                                         for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                             var childNode = node.childNodes[childIndex];
+
+                                            /*
+                                                Consecutive space elements and text node are combined into a single string
+                                             */
                                             if (childNode.nodeName === "text:s") {
                                                 var spaces = 1;
                                                 var spacesAttribute = childNode.getAttribute("text:c");
@@ -612,44 +639,56 @@ define(
                                                     spaces = parseInt(spacesAttribute);
                                                 }
                                                 for (var i = 0; i < spaces; ++i) {
-                                                    customContainerContent += " ";
+                                                    textString += " ";
                                                 }
-    
-                                            } else if (childNode.nodeName === "office:annotation") {
-                                                var remarks = [];
-                                                processRemark(remarks, childNode);
-                                                jquery.each(remarks, function (index, value) {
-                                                    customContainerContent += value;
-                                                });
                                             } else if (childNode.nodeType === Node.TEXT_NODE) {
                                                 if (childNode.textContent.length !== 0) {
                                                     var fontRule = getFontRuleForElement(childNode);
                                                     if (emphasis &&
                                                         childNode.textContent.trim().length !== 0 &&
                                                         (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        customContainerContent += "<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>";
+                                                        textString += "<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>";
                                                     } else {
-                                                        customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
+                                                        textString += generalexternalimport.cleanTextContent(childNode.textContent);
                                                     }
                                                 }
-                                            } else if (childNode.nodeName === "text:a") {
-                                                var href = childNode.getAttribute("xlink:href");
-                                                if (href !== null) {
-                                                    customContainerContent += '<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>';
-                                                } else {
-                                                    customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
-                                                }
-                                            } else if (childNode.nodeName === "draw:image") {
-                                                var images = [];
-                                                processDraw(images, childNode);
-                                                jquery.each(images, function (index, value) {
-                                                    customContainerContent += value;
-                                                });
                                             } else {
-                                                customContainerContent += convertNodeToDocbook(childNode);
+                                                /*
+                                                    If we built up a test string, add it as a single line
+                                                 */
+                                                if (textString.length !== 0) {
+                                                    customContainerContent.push(textString);
+                                                    textString = "";
+                                                }
+
+                                                if (childNode.nodeName === "text:p") {
+                                                    var paraContent = processPara(customContainerContent, childNode);
+                                                    jquery.merge(customContainerContent, paraContent);
+                                                } else if (childNode.nodeName === "office:annotation") {
+                                                    jquery.merge(customContainerContent, processRemark(childNode));
+                                                } else if (childNode.nodeName === "text:a") {
+                                                    var href = childNode.getAttribute("xlink:href");
+                                                    if (href !== null) {
+                                                        customContainerContent.push('<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
+                                                    } else {
+                                                        customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
+                                                    }
+                                                } else if (childNode.nodeName === "draw:image") {
+                                                    jquery.merge(customContainerContent, processDraw(childNode));
+                                                } else {
+                                                    jquery.merge(customContainerContent, convertNodeToDocbook(childNode));
+                                                }
                                             }
                                         }
-    
+
+                                        /*
+                                         If we built up a test string, add it as a single line
+                                         */
+                                        if (textString.length !== 0) {
+                                            customContainerContent.push(textString);
+                                            textString = "";
+                                        }
+
                                         return customContainerContent;
                                     };
     
@@ -688,135 +727,184 @@ define(
                                         See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes.
                                      */
                                     var getFontRuleForStyle = function (styleAttribute, fontRule) {
-                                        var contentXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "']", contentsXML).iterateNext();
-                                        var stylesXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "']", stylesXML).iterateNext();
-    
-                                        var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
-    
-                                        if (style) {
-                                            var fontName = qnautils.xPath(".//@style:font-name", style).iterateNext();
+
+                                        if (fontRuleStyleCache[styleAttribute] !== undefined) {
                                             if (fontRule.font === undefined) {
-                                                if (fontName !== null) {
-                                                    fontRule.font = fontName.nodeValue;
-                                                }
+                                                fontRule.font = fontRuleStyleCache[styleAttribute].font;
                                             }
-    
-                                            var fontSize = qnautils.xPath(".//@fo:font-size", style).iterateNext();
                                             if (fontRule.size === undefined) {
-                                                if (fontSize !== null) {
-                                                    fontRule.size = fontSize.nodeValue;
-                                                }
+                                                fontRule.size = fontRuleStyleCache[styleAttribute].size;
                                             }
-    
-                                            var weight = qnautils.xPath(".//@fo:font-weight", style).iterateNext();
                                             if (fontRule.bold === undefined) {
-                                                if (weight !== null) {
-                                                    fontRule.bold = weight.nodeValue === "bold";
-                                                }
+                                                fontRule.bold = fontRuleStyleCache[styleAttribute].bold;
                                             }
-    
-                                            var fontStyle = qnautils.xPath(".//@fo:font-style", style).iterateNext();
                                             if (fontRule.italics === undefined) {
-                                                if (fontStyle !== null ) {
-                                                    fontRule.italics = fontStyle.nodeValue === "italic";
-                                                }
+                                                fontRule.italics = fontRuleStyleCache[styleAttribute].italics;
                                             }
-    
-                                            var underline = qnautils.xPath(".//@style:text-underline-style", style).iterateNext();
                                             if (fontRule.underline === undefined) {
-                                                if (underline !== null) {
-                                                    fontRule.underline = underline.nodeValue !== "none";
-                                                }
+                                                fontRule.underline = fontRuleStyleCache[styleAttribute].underline;
                                             }
-    
-                                            var parentStyleName = style.getAttribute("style:parent-style-name");
-    
-                                            if (parentStyleName &&
-                                                (!fontRule.font ||
-                                                !fontRule.size ||
-                                                !fontRule.bold ||
-                                                !fontRule.italics ||
-                                                !fontRule.underline)) {
-                                                getFontRuleForStyle(parentStyleName, fontRule);
+                                        } else {
+                                            var contentXmlStyle;
+                                            var stylesXmlStyle;
+
+                                            if (styleCache[styleAttribute] !== undefined) {
+                                                stylesXmlStyle = styleCache[styleAttribute];
+                                            } else {
+                                                stylesXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "'][1]", stylesXML).iterateNext();
+                                                styleCache[styleAttribute] = stylesXmlStyle;
+                                            }
+
+                                            if (contentStyleCache[styleAttribute] !== undefined) {
+                                                contentXmlStyle = contentStyleCache[styleAttribute];
+                                            } else {
+                                                contentXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "'][1]", contentsXML).iterateNext();
+                                                contentStyleCache[styleAttribute] = contentXmlStyle;
+                                            }
+
+                                            var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
+
+                                            if (style) {
+                                                var fontName = qnautils.xPath(".//@style:font-name", style).iterateNext();
+                                                if (fontRule.font === undefined) {
+                                                    if (fontName !== null) {
+                                                        fontRule.font = fontName.nodeValue;
+                                                    }
+                                                }
+
+                                                var fontSize = qnautils.xPath(".//@fo:font-size", style).iterateNext();
+                                                if (fontRule.size === undefined) {
+                                                    if (fontSize !== null) {
+                                                        fontRule.size = fontSize.nodeValue;
+                                                    }
+                                                }
+
+                                                var weight = qnautils.xPath(".//@fo:font-weight", style).iterateNext();
+                                                if (fontRule.bold === undefined) {
+                                                    if (weight !== null) {
+                                                        fontRule.bold = weight.nodeValue === "bold";
+                                                    }
+                                                }
+
+                                                var fontStyle = qnautils.xPath(".//@fo:font-style", style).iterateNext();
+                                                if (fontRule.italics === undefined) {
+                                                    if (fontStyle !== null) {
+                                                        fontRule.italics = fontStyle.nodeValue === "italic";
+                                                    }
+                                                }
+
+                                                var underline = qnautils.xPath(".//@style:text-underline-style", style).iterateNext();
+                                                if (fontRule.underline === undefined) {
+                                                    if (underline !== null) {
+                                                        fontRule.underline = underline.nodeValue !== "none";
+                                                    }
+                                                }
+
+                                                var parentStyleName = style.getAttribute("style:parent-style-name");
+
+                                                if (parentStyleName &&
+                                                    (!fontRule.font || !fontRule.size || !fontRule.bold || !fontRule.italics || !fontRule.underline)) {
+                                                    getFontRuleForStyle(parentStyleName, fontRule);
+                                                }
+
+                                                fontRuleStyleCache[styleAttribute] = fontRule;
                                             }
                                         }
                                     };
     
                                     var getFontRuleForElement = function (element, fontRule) {
+
                                         if (fontRule === undefined) {
                                             fontRule = new fontrule.FontRule();
                                         }
-    
-                                        if (element.parentNode && element.parentNode !== contentsXML.documentElement) {
-                                            var styleAttribute = element.parentNode.getAttribute("text:style-name");
-    
-                                            getFontRuleForStyle(styleAttribute, fontRule);
-    
-                                            if ((fontRule.font &&
-                                                fontRule.size &&
-                                                fontRule.bold &&
-                                                fontRule.italics &&
-                                                fontRule.underline) ||
-                                                !element.parentNode) {
-                                                return fontRule;
-                                            } else {
-                                                return getFontRuleForElement(element.parentNode, fontRule);
-                                            }
-                                        } else {
+
+                                        if (fontRuleElementCache[element] !== undefined) {
+                                            fontRule.font = fontRuleStyleCache[styleAttribute].font;
+                                            fontRule.size = fontRuleStyleCache[styleAttribute].size;
+                                            fontRule.bold = fontRuleStyleCache[styleAttribute].bold;
+                                            fontRule.italics = fontRuleStyleCache[styleAttribute].italics;
+                                            fontRule.underline = fontRuleStyleCache[styleAttribute].underline;
+
                                             return fontRule;
+                                        } else {
+                                            if (element.parentNode && element.parentNode !== contentsXML.documentElement) {
+                                                var styleAttribute = element.parentNode.getAttribute("text:style-name");
+
+                                                getFontRuleForStyle(styleAttribute, fontRule);
+
+                                                if ((fontRule.font &&
+                                                    fontRule.size &&
+                                                    fontRule.bold &&
+                                                    fontRule.italics &&
+                                                    fontRule.underline) || !element.parentNode) {
+                                                    return fontRule;
+                                                } else {
+                                                    return getFontRuleForElement(element.parentNode, fontRule);
+                                                }
+                                            } else {
+                                                return fontRule;
+                                            }
                                         }
                                     };
     
-                                    var processRemark = function(content, contentNode) {
+                                    var processRemark = function(contentNode) {
+                                        var remark = [];
+
                                         var creator = qnautils.xPath("./dc:creator", contentNode).iterateNext();
                                         var date = qnautils.xPath("./dc:date", contentNode).iterateNext();
                                         var paras = qnautils.xPath("./text:p", contentNode);
-    
-                                        content.push("<remark>");
+
+                                        remark.push("<remark>");
     
                                         var para;
                                         if (creator !== null) {
-                                            content.push("<emphasis>" + generalexternalimport.cleanTextContent(creator.textContent) + " </emphasis>");
+                                            remark.push("<emphasis>" + generalexternalimport.cleanTextContent(creator.textContent) + " </emphasis>");
                                         }
                                         if (date !== null) {
-                                            content.push("<emphasis>" + generalexternalimport.cleanTextContent(date.textContent) + " </emphasis>");
+                                            remark.push("<emphasis>" + generalexternalimport.cleanTextContent(date.textContent) + " </emphasis>");
                                         }
     
                                         while((para = paras.iterateNext()) !== null) {
-                                            content.push(generalexternalimport.cleanTextContent(para.textContent));
+                                            remark.push(generalexternalimport.cleanTextContent(para.textContent));
                                         }
-                                        content.push("</remark>");
+                                        remark.push("</remark>");
+
+                                        return remark;
                                     };
 
-                                    var processDraw = function(content, contentNode) {
+                                    var processDraw = function(contentNode) {
+                                        var imageXML = [];
+
                                         if (contentNode.getAttribute("xlink:href") !== null) {
                                             var href = contentNode.getAttribute("xlink:href").trim();
                                             var anchorType = contentNode.parentNode.getAttribute("text:anchor-type");
                                             // make a note of an image that we need to upload
                                             images[href] = null;
 
-                                            var imageXML = "";
+
                                             if (anchorType !== "as-char") {
-                                                imageXML += "<mediaobject>";
+                                                imageXML.push("<mediaobject>");
                                             } else {
-                                                imageXML += "<inlinemediaobject>";
+                                                imageXML.push("<inlinemediaobject>");
                                             }
 
-                                            imageXML += '<imageobject>\
+                                            imageXML.push('<imageobject>\
                                                         <imagedata fileref="' + href + '"/>\
-                                                    </imageobject>';
+                                                    </imageobject>');
 
                                             if (anchorType !== "as-char") {
-                                                imageXML += "</mediaobject>";
+                                                imageXML.push("</mediaobject>");
                                             } else {
-                                                imageXML += "</inlinemediaobject>";
+                                                imageXML.push("</inlinemediaobject>");
                                             }
-
-                                            content.push(imageXML);
                                         }
+
+                                        return imageXML;
                                     };
     
-                                    var processPara = function (content, contentNode) {
+                                    var processPara = function (existingContent, contentNode) {
+                                        var content = [];
+
                                         if (contentNode.textContent.trim().length !== 0 ||
                                             qnautils.xPath(".//draw:image", contentNode).iterateNext() !== null) {
                                             /*
@@ -832,82 +920,103 @@ define(
                                                 underline, italics - the settings you can easily apply from the toolbar) and
                                                 see if these basic settings are common to each span.
                                              */
-                                            var textNodes = qnautils.xPath(".//text()", contentNode);
-                                            var textNode;
-                                            var fontRule;
-                                            var singleRule = false;
-                                            while((textNode = textNodes.iterateNext()) !== null) {
-                                                if (textNode.textContent.trim().length !== 0) {
-                                                    if (fontRule === undefined) {
-                                                        fontRule = getFontRuleForElement(textNode);
-                                                        singleRule = true;
-                                                    } else {
-                                                        var thisFontRule = getFontRuleForElement(textNode);
-    
-                                                        /*
-                                                            Account for the same font having different names
-                                                         */
-                                                        if (matchesFamily(thisFontRule.font, fontRule.font) ||
-                                                            matchesFamily(fontRule.font, thisFontRule.font)) {
-                                                            thisFontRule.font = fontRule.font;
-                                                        }
-    
-                                                        if (!thisFontRule.equals(fontRule)) {
-                                                            singleRule = false;
-                                                            break;
+                                            if (resultObject.fontRules !== undefined) {
+                                                var textNodes = qnautils.xPath(".//text()", contentNode);
+                                                var textNode;
+                                                var fontRule;
+                                                var singleRule = false;
+                                                while((textNode = textNodes.iterateNext()) !== null) {
+                                                    if (textNode.textContent.trim().length !== 0) {
+                                                        if (fontRule === undefined) {
+                                                            fontRule = getFontRuleForElement(textNode);
+                                                            singleRule = true;
+                                                        } else {
+                                                            var thisFontRule = getFontRuleForElement(textNode);
+
+                                                            /*
+                                                                Account for the same font having different names
+                                                             */
+                                                            if (matchesFamily(thisFontRule.font, fontRule.font) ||
+                                                                matchesFamily(fontRule.font, thisFontRule.font)) {
+                                                                thisFontRule.font = fontRule.font;
+                                                            }
+
+                                                            if (!thisFontRule.equals(fontRule)) {
+                                                                singleRule = false;
+                                                                break;
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
-    
-                                            /*
-                                                If there is a single common style applied to the para (regardless of the
-                                                actual number of styles applied in each span) we can then match this
-                                                paragraph to the rules defined in the wizard.
-                                             */
-                                            var matchingRule;
-                                            if (singleRule && resultObject.fontRules !== undefined) {
-                                                jquery.each(resultObject.fontRules, function (index, definedFontRule) {
-    
-                                                    var fixedFontRule = new fontrule.FontRule(definedFontRule);
 
-                                                    /*
-                                                     Account for the same font having different names
-                                                     */
-                                                    if (matchesFamily(fontRule.font, fixedFontRule.font)) {
-                                                        fixedFontRule.font = fontRule.font;
-                                                    }
-    
-                                                    if (fixedFontRule.hasSameSettings(fontRule)) {
-                                                        matchingRule = definedFontRule;
-                                                        return false;
-                                                    }
-                                                });
-    
-                                                if (matchingRule !== undefined) {
-                                                    /*
-                                                        We have defined a container that will hold paragraphs with text all
-                                                        of a matching style.
-                                                     */
-                                                    content.push("<" + matchingRule.docBookElement + ">" + convertNodeToDocbook(contentNode) + "</" + matchingRule.docBookElement + ">");
-    
-                                                    /*
-                                                     For elements like screen we almost always want to merge consecutive
-                                                     paragraphs into a single container.
-                                                     */
-                                                    if (matchingRule.merge && content.length >= 2) {
-                                                        var endTagRe = new RegExp("</" + qnastart.escapeRegExp(matchingRule.docBookElement) + ">$");
-                                                        var startTagRe = new RegExp("^<" + qnastart.escapeRegExp(matchingRule.docBookElement) + ">");
-                                                        if (endTagRe.test(content[content.length - 2])) {
-                                                            content[content.length - 2] = content[content.length - 2].replace(endTagRe, "");
-                                                            content[content.length - 1] = content[content.length - 1].replace(startTagRe, "");
+                                                /*
+                                                    If there is a single common style applied to the para (regardless of the
+                                                    actual number of styles applied in each span) we can then match this
+                                                    paragraph to the rules defined in the wizard.
+                                                 */
+                                                var matchingRule;
+                                                if (singleRule) {
+                                                    jquery.each(resultObject.fontRules, function (index, definedFontRule) {
+
+                                                        var fixedFontRule = new fontrule.FontRule(definedFontRule);
+
+                                                        /*
+                                                         Account for the same font having different names
+                                                         */
+                                                        if (matchesFamily(fontRule.font, fixedFontRule.font)) {
+                                                            fixedFontRule.font = fontRule.font;
                                                         }
+
+                                                        if (fixedFontRule.hasSameSettings(fontRule)) {
+                                                            matchingRule = definedFontRule;
+                                                            return false;
+                                                        }
+                                                    });
+
+                                                    if (matchingRule !== undefined) {
+                                                        /*
+                                                         We have defined a container that will hold paragraphs with text all
+                                                         of a matching style.
+                                                         */
+
+                                                        var wrapThis = true;
+
+                                                        /*
+                                                         For elements like screen we almost always want to merge consecutive
+                                                         paragraphs into a single container.
+                                                         */
+                                                        if (matchingRule.merge && existingContent.length >= 2) {
+                                                            var endTagRe = new RegExp("</" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">$");
+                                                            if (endTagRe.test(existingContent[existingContent.length - 1])) {
+                                                                existingContent[existingContent.length - 1] = existingContent[existingContent.length - 1].replace(endTagRe, "");
+                                                                if (existingContent[existingContent.length - 1].trim().length === 0) {
+                                                                    existingContent.pop();
+                                                                }
+                                                                wrapThis = false;
+                                                            }
+                                                        }
+
+                                                        if (wrapThis) {
+                                                            content.push("<" + matchingRule.docBookElement + ">");
+                                                        }
+
+                                                        jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                        content.push("</" + matchingRule.docBookElement + ">");
+                                                    }  else {
+                                                        /*
+                                                         This is a plain old paragraph.
+                                                         */
+                                                        content.push("<para>");
+                                                        jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                        content.push("</para>");
                                                     }
                                                 } else {
                                                     /*
-                                                        This is a plain old paragraph.
+                                                     This is a plain old paragraph.
                                                      */
-                                                    content.push("<para>" + convertNodeToDocbook(contentNode) + "</para>");
+                                                    content.push("<para>");
+                                                    jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                    content.push("</para>");
                                                 }
                                             } else {
                                                 /*
@@ -918,13 +1027,19 @@ define(
                                                     review any highlighted text and change the <emphasis> to a more
                                                     appropriate tag.
                                                  */
-                                                content.push("<para>" + convertNodeToDocbook(contentNode, true) + "</para>");
+                                                content.push("<para>");
+                                                jquery.merge(content, convertNodeToDocbook(contentNode, true));
+                                                content.push("</para>");
                                             }
                                         }
+
+                                        return content;
                                     };
     
-                                    var processList = function (content, contentNode, depth, style) {
-    
+                                    var processList = function (contentNode, depth, style) {
+
+                                        var content = [];
+
                                         if (style === undefined) {
                                             style = contentNode.getAttribute("text:style-name");
                                         }
@@ -971,40 +1086,46 @@ define(
                                             var paras = qnautils.xPath("./text:p", listHeader);
                                             var para;
                                             while ((para = paras.iterateNext()) !== null) {
-                                                processPara(listItemsHeaderContent, para);
+                                                jquery.merge(listItemsHeaderContent, processPara(listItemsHeaderContent, para));
                                             }
                                         }
     
                                         var listItem;
                                         if ((listItem = listItems.iterateNext()) !== null) {
-                                            content.push("<" + listType + listStyle + ">");
-    
-                                            jquery.each(listItemsHeaderContent, function (index, value) {
-                                                content.push(value);
-                                            });
-    
-    
+
+
+                                            var itemizedListContents = [];
+
                                             do {
-                                                content.push("<listitem>");
-    
+                                                var listItemContents = [];
                                                 jquery.each(listItem.childNodes, function (index, childNode) {
                                                     if (childNode.nodeName === "text:p") {
-                                                        processPara(content, childNode);
+                                                        jquery.merge(listItemContents, processPara(listItemContents, childNode));
                                                     } else if (childNode.nodeName === "text:list") {
-                                                        processList(content, childNode, depth + 1, style);
+                                                        jquery.merge(listItemContents, processList(childNode, depth + 1, style));
                                                     }
                                                 });
-    
-                                                content.push("</listitem>");
+                                                if (listItemContents.length !== 0) {
+                                                    itemizedListContents.push("<listitem>");
+                                                    jquery.merge(itemizedListContents, listItemContents);
+                                                    itemizedListContents.push("</listitem>");
+                                                }
                                             } while ((listItem = listItems.iterateNext()) !== null);
-    
-                                            content.push("</" + listType + ">");
+
+                                            if (listItemsHeaderContent.length !== 0 || itemizedListContents.length !== 0) {
+                                                content.push("<" + listType + listStyle + ">");
+                                                jquery.merge(content, listItemsHeaderContent);
+                                                jquery.merge(content, itemizedListContents);
+                                                content.push("</" + listType + ">");
+                                            }
                                         } else {
                                             // we have found a list that contains only a header. this is really just a para
                                             jquery.each(listItemsHeaderContent, function (index, value) {
                                                 content.push(value);
                                             });
                                         }
+
+                                        return content;
                                     };
 
                                     var padContentSpec = function(currentLevel, previousLevel, contentSpec) {
@@ -1022,9 +1143,10 @@ define(
                                                 }
                                             }
                                         }
-                                    }
+                                    };
 
                                     var processHeader = function (content, contentNode, title, previousLevel, currentLevel, index, successCallback) {
+
                                         ++topicsAdded;
 
                                         var prefix = generalexternalimport.generateSpacing(currentLevel);
@@ -1102,7 +1224,7 @@ define(
                                                  that is not an ancestor of the next topic will be poped off the stack.
                                                  */
                                                 if (currentLevel > 1) {
-                                                    while (true) {
+                                                    while (resultObject.contentSpec.length !== 0) {
                                                         var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
                                                         if (specElementTopic === undefined) {
                                                             var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
@@ -1115,6 +1237,10 @@ define(
                                                             break;
                                                         }
                                                     }
+
+                                                    if (resultObject.contentSpec.length === 0) {
+                                                        throw "The entire content spec was unwound. This should not have happened.";
+                                                    }
                                                 }
                                             }
 
@@ -1124,16 +1250,20 @@ define(
                                             currentLevel = previousLevel;
                                         }
 
-                                        var newTitle = convertNodeToDocbook(contentNode, false);
+                                        var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
+                                        var newTitle = "";
+                                        jquery.each(newTitleArray, function(index, value){
+                                            newTitle += value;
+                                        });
                                         if (newTitle.length === 0) {
                                             newTitle = "Untitled";
                                         }
 
-                                        newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
-
                                         setTimeout(function() {
                                             processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, [], successCallback);
                                         }, 0);
+
+                                        return content;
                                     };
 
                                     processTopic(
@@ -1233,8 +1363,10 @@ define(
                                                     var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
                                                     var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
 
-                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
-                                                        config.MatchedImageCount += 1;
+                                                    ++config.UploadedTopicCount;
+
+                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingTopic) {
+                                                        config.MatchedTopicCount += 1;
                                                     }
 
                                                     config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;

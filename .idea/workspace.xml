@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+    <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="Fixing bugs&#10;">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -70,10 +76,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.525641" vertical-offset="10694" max-vertical-offset="22095">
-              <caret line="743" column="66" selection-start-line="743" selection-start-column="66" selection-end-line="743" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.10606061" vertical-offset="19214" max-vertical-offset="22095">
+              <caret line="1287" column="110" selection-start-line="1287" selection-start-column="110" selection-end-line="1287" selection-end-column="110" />
               <folding>
-                <marker date="1395181115340" expanded="true" signature="49597:49675" placeholder="..." />
+                <marker date="1395182706888" expanded="true" signature="49597:49675" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -695,7 +701,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23963000" />
-      <workItem from="1395172743040" duration="7764000" />
+      <workItem from="1395172743040" duration="8574000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2601,11 +2607,15 @@
       <created>1395179867711</created>
       <updated>1395179867711</updated>
     </task>
-    <option name="localTasksCounter" value="477" />
+    <task id="LOCAL-00477" summary="Fixing bugs&#10;">
+      <created>1395181121258</created>
+      <updated>1395181121258</updated>
+    </task>
+    <option name="localTasksCounter" value="478" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="640903000" />
+    <option name="totallyTimeSpent" value="641713000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3105,10 +3115,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.525641" vertical-offset="10694" max-vertical-offset="22095">
-          <caret line="743" column="66" selection-start-line="743" selection-start-column="66" selection-end-line="743" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.10606061" vertical-offset="19214" max-vertical-offset="22095">
+          <caret line="1287" column="110" selection-start-line="1287" selection-start-column="110" selection-end-line="1287" selection-end-column="110" />
           <folding>
-            <marker date="1395181115340" expanded="true" signature="49597:49675" placeholder="..." />
+            <marker date="1395182706888" expanded="true" signature="49597:49675" placeholder="..." />
           </folding>
         </state>
       </provider>

@@ -1285,7 +1285,7 @@ define(
                                         if (index >= imagesKeys.length) {
                                             callback();
                                         } else {
-                                            config.UploadProgress[1] = progressIncrement + (index / topicGraph.nodes.length * progressIncrement);
+                                            config.UploadProgress[1] = progressIncrement + (index / imagesKeys.length * progressIncrement);
                                             resultCallback();
     
                                             var imagePath = imagesKeys[index];
