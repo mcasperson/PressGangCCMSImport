@@ -71,7 +71,7 @@ define(
             });
 
         var useStyleRules = new qna.QNAStep()
-            .setTitle("Do you want to define additional style rules")
+            .setTitle("Do you want to define additional style rules for paragraphs")
             .setIntro("You have the option of wrapping paragraphs that match certain font styles in DocBook elements other than <para>s. " +
                 "This is useful when the document being imported consistently applies different font to paragraphs that represent screen output or source code.")
             .setInputs([
@@ -150,6 +150,63 @@ define(
             }
     
     
+            return rules;
+        }
+
+        function getHeadingRulesText(rulesCollection) {
+            var rules = "";
+
+            if (rulesCollection) {
+                jquery.each(rulesCollection, function(index, fontRule) {
+
+                    var rule = "";
+
+                    if (fontRule.font) {
+                        if (rule.length !== 0) {
+                            rule += ", ";
+                        }
+                        rule += "Font: " + fontRule.font;
+                    }
+
+                    if (fontRule.size) {
+                        if (rule.length !== 0) {
+                            rule += ", ";
+                        }
+                        rule += "Size: " + fontRule.size;
+                    }
+
+                    if (fontRule.bold) {
+                        if (rule.length !== 0) {
+                            rule += ", ";
+                        }
+                        rule += "Bold: " + fontRule.bold;
+                    }
+
+                    if (fontRule.italics) {
+                        if (rule.length !== 0) {
+                            rule += ", ";
+                        }
+                        rule += "Italics: " + fontRule.italics;
+                    }
+
+                    if (fontRule.underline) {
+                        if (rule.length !== 0) {
+                            rule += ", ";
+                        }
+                        rule += "Italics: " + fontRule.underline;
+                    }
+
+                    if (rules.length !== 0) {
+                        rules += "<br/>";
+                    }
+
+                    rules += rule;
+                });
+            } else {
+                rules = "No rules currently defined.";
+            }
+
+
             return rules;
         }
     
@@ -321,7 +378,175 @@ define(
                 }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.DefineAnotherRule ? setParaRules : askForRevisionMessage);
+                resultCallback(config.DefineAnotherRule ? setParaRules : useHeadingStyleRules);
+            });
+
+        var useHeadingStyleRules = new qna.QNAStep()
+            .setTitle("Do you want to define additional style rules for headings")
+            .setIntro("You have the option of identifying paragraphs as headings. " +
+                "This is useful when the document being imported has custom styles to represent headings. " +
+                "If you have tried to import a document and all the content was in one big topic, you will need to define a custom heading rule.")
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Yes", "No"])
+                            .setOptions(["Yes", "No"])
+                            .setValue("No")
+                            .setName("UseHeadingStyleRules")
+                    ])
+            ])
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(config.UseHeadingStyleRules === "Yes" ? setHeadingRules : askForRevisionMessage);
+            });
+
+        /*
+         Step 4 - ask which server this is being uploaded to
+         */
+        var setHeadingRules = new qna.QNAStep()
+            .setTitle("Define a rule for a heading")
+            .setIntro("You can define the font style that indicates a heading.")
+            .setOutputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Current Rules")
+                            .setName("CurrentHeadingRules")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+
+                                var rules = "";
+
+                                if (result) {
+                                    var resultObject = JSON.parse(result);
+                                    rules = getHeadingRulesText(resultObject.fontHeadingRules);
+                                } else {
+                                    rules = getHeadingRulesText();
+                                }
+
+                                resultCallback(rules);
+                            })
+                    ])
+            ])
+            .setInputs([
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Font Name")
+                            .setName("FontName")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                resultCallback(config.FontName);
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Font Size")
+                            .setName("FontSize"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.CHECKBOX)
+                            .setIntro("Bold")
+                            .setName("Bold"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.CHECKBOX)
+                            .setIntro("Italics")
+                            .setName("Italics"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.CHECKBOX)
+                            .setIntro("Underline")
+                            .setName("Underline"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.CHECKBOX)
+                            .setIntro("Define another rule?")
+                            .setName("DefineAnotherRule")
+                    ])
+            ])
+            .setBackStep(function (resultCallback, errorCallback, result, config) {
+                var resetToDefault = function () {
+                    config.FontName = null;
+                    config.FontSize = null;
+                    config.Bold = null;
+                    config.Italics = null;
+                    config.Underline = null;
+                };
+
+                if (result) {
+                    var resultObject = JSON.parse(result);
+                    if (resultObject.fontHeadingRules !== undefined) {
+                        var lastHeadingRule = resultObject.fontHeadingRules[resultObject.fontHeadingRules.length - 1];
+
+                        config.FontName = lastHeadingRule.font;
+                        config.FontSize = lastHeadingRule.size;
+                        config.Bold = lastHeadingRule.bold;
+                        config.Italics = lastHeadingRule.italics;
+                        config.Underline = lastHeadingRule.underline;
+                    } else {
+                        resetToDefault();
+                    }
+                } else {
+                    resetToDefault();
+                }
+
+                config.DefineAnotherRule = true;
+
+                resultCallback();
+            })
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                var fontRule = new fontrule.FontRule();
+
+                var atLeastOneRule = false;
+                if (config.FontName) {
+                    atLeastOneRule = true;
+                    fontRule.setFont(config.FontName);
+                }
+
+                if (config.FontSize) {
+                    atLeastOneRule = true;
+                    fontRule.setSize(config.FontSize);
+                }
+
+                if (config.Bold) {
+                    atLeastOneRule = true;
+                    fontRule.setBold(config.Bold);
+                }
+
+                if (config.Italics) {
+                    atLeastOneRule = true;
+                    fontRule.setItalics(config.Italics);
+                }
+
+                if (config.Underline) {
+                    atLeastOneRule = true;
+                    fontRule.setUnderline(config.Underline);
+                }
+
+                if (!atLeastOneRule) {
+                    errorCallback("Incomplete form", "Please specify at least one formatting rule.");
+                } else {
+                    var resultObject;
+                    if (result) {
+                        resultObject = JSON.parse(result);
+                        if (resultObject.fontHeadingRules === undefined) {
+                            resultObject.fontHeadingRules = [];
+                        }
+                    } else {
+                        resultObject = {fontHeadingRules: []};
+                    }
+
+                    resultObject.fontHeadingRules.push(fontRule);
+                    resultObject.contentSpec = [];
+
+                    config.FontName = null;
+                    config.FontSize = null;
+                    config.Bold = null;
+                    config.Italics = null;
+                    config.Underline = null;
+
+                    resultCallback(JSON.stringify(resultObject));
+                }
+            })
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(config.DefineAnotherRule ? setHeadingRules : askForRevisionMessage);
             });
 
         /*
@@ -519,7 +744,34 @@ define(
                                                 processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                                 return;
                                             } else if (contentNode.nodeName === "text:p") {
+                                                var fontRule = getFontRuleForPara(contentNode);
+                                                if (fontRule !== null) {
+                                                    var matchingRule;
+                                                    jquery.each(resultObject.fontHeadingRules, function (index, definedFontRule) {
+
+                                                        var fixedFontRule = new fontrule.FontRule(definedFontRule);
+
+                                                        /*
+                                                         Account for the same font having different names
+                                                         */
+                                                        if (matchesFamily(fontRule.font, fixedFontRule.font)) {
+                                                            fixedFontRule.font = fontRule.font;
+                                                        }
+
+                                                        if (fixedFontRule.hasSameSettings(fontRule)) {
+                                                            matchingRule = definedFontRule;
+                                                            return false;
+                                                        }
+                                                    });
+
+                                                    if (matchingRule !== undefined) {
+                                                        processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
+                                                        return;
+                                                    }
+                                                }
+
                                                 jquery.merge(content, processPara(content, contentNode));
+
                                             } else if (contentNode.nodeName === "text:list") {
                                                 jquery.merge(content, processList(contentNode));
                                             } else if (contentNode.nodeName === "office:annotation") {
@@ -901,6 +1153,42 @@ define(
 
                                         return imageXML;
                                     };
+
+                                    var getFontRuleForPara = function(contentNode) {
+                                        var textNodes = qnautils.xPath(".//text()", contentNode);
+                                        var textNode;
+                                        var fontRule;
+                                        var singleRule = false;
+                                        while((textNode = textNodes.iterateNext()) !== null) {
+                                            if (textNode.textContent.trim().length !== 0) {
+                                                if (fontRule === undefined) {
+                                                    fontRule = getFontRuleForElement(textNode);
+                                                    singleRule = true;
+                                                } else {
+                                                    var thisFontRule = getFontRuleForElement(textNode);
+
+                                                    /*
+                                                     Account for the same font having different names
+                                                     */
+                                                    if (matchesFamily(thisFontRule.font, fontRule.font) ||
+                                                        matchesFamily(fontRule.font, thisFontRule.font)) {
+                                                        thisFontRule.font = fontRule.font;
+                                                    }
+
+                                                    if (!thisFontRule.equals(fontRule)) {
+                                                        singleRule = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (singleRule) {
+                                            return fontRule;
+                                        }
+
+                                        return null;
+                                    };
     
                                     var processPara = function (existingContent, contentNode) {
                                         var content = [];
@@ -921,33 +1209,7 @@ define(
                                                 see if these basic settings are common to each span.
                                              */
                                             if (resultObject.fontRules !== undefined) {
-                                                var textNodes = qnautils.xPath(".//text()", contentNode);
-                                                var textNode;
-                                                var fontRule;
-                                                var singleRule = false;
-                                                while((textNode = textNodes.iterateNext()) !== null) {
-                                                    if (textNode.textContent.trim().length !== 0) {
-                                                        if (fontRule === undefined) {
-                                                            fontRule = getFontRuleForElement(textNode);
-                                                            singleRule = true;
-                                                        } else {
-                                                            var thisFontRule = getFontRuleForElement(textNode);
-
-                                                            /*
-                                                                Account for the same font having different names
-                                                             */
-                                                            if (matchesFamily(thisFontRule.font, fontRule.font) ||
-                                                                matchesFamily(fontRule.font, thisFontRule.font)) {
-                                                                thisFontRule.font = fontRule.font;
-                                                            }
-
-                                                            if (!thisFontRule.equals(fontRule)) {
-                                                                singleRule = false;
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                }
+                                                var fontRule = getFontRuleForPara(contentNode);
 
                                                 /*
                                                     If there is a single common style applied to the para (regardless of the
@@ -955,7 +1217,7 @@ define(
                                                     paragraph to the rules defined in the wizard.
                                                  */
                                                 var matchingRule;
-                                                if (singleRule) {
+                                                if (fontRule !== null) {
                                                     jquery.each(resultObject.fontRules, function (index, definedFontRule) {
 
                                                         var fixedFontRule = new fontrule.FontRule(definedFontRule);
@@ -1156,7 +1418,15 @@ define(
                                          of the header we just found, and any sibling content nodes before the next
                                          heading.
                                          */
-                                        var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
+                                        var newOutlineLevel = 1;
+
+                                        /*
+                                            We could be processing a para that has been formatted to look like a header,
+                                            in which case there is no outline level.
+                                         */
+                                        if (contentNode.hasAttribute("text:outline-level")) {
+                                            newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
+                                        }
 
                                         /*
                                          A content spec can not skip levels in the toc. So when we skip heading levels
