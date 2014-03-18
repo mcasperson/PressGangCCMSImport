@@ -1240,8 +1240,10 @@ define(
                                                     var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
                                                     var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
 
-                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
-                                                        config.MatchedImageCount += 1;
+                                                    ++config.UploadedTopicCount;
+
+                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingTopic) {
+                                                        config.MatchedTopicCount += 1;
                                                     }
 
                                                     config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
