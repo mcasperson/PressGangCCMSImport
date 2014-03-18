@@ -602,51 +602,46 @@ define(
                                      Expand the text:s elements and remarks.
                                      */
                                     var convertNodeToDocbook = function (node, emphasis) {
-                                        var customContainerContent = "";
+                                        var customContainerContent = [];
                                         for (var childIndex = 0; childIndex < node.childNodes.length; ++childIndex) {
                                             var childNode = node.childNodes[childIndex];
                                             if (childNode.nodeName === "text:s") {
+                                                var spacesString = "";
                                                 var spaces = 1;
                                                 var spacesAttribute = childNode.getAttribute("text:c");
                                                 if (spacesAttribute !== null) {
                                                     spaces = parseInt(spacesAttribute);
                                                 }
                                                 for (var i = 0; i < spaces; ++i) {
-                                                    customContainerContent += " ";
+                                                    spacesString += " ";
                                                 }
-    
+
+                                                customContainerContent.push(spacesString);
+
                                             } else if (childNode.nodeName === "office:annotation") {
-                                                var remarks = [];
-                                                processRemark(remarks, childNode);
-                                                jquery.each(remarks, function (index, value) {
-                                                    customContainerContent += value;
-                                                });
+                                                jquery.merge(customContainerContent, processRemark(remarks, childNode));
                                             } else if (childNode.nodeType === Node.TEXT_NODE) {
                                                 if (childNode.textContent.length !== 0) {
                                                     var fontRule = getFontRuleForElement(childNode);
                                                     if (emphasis &&
                                                         childNode.textContent.trim().length !== 0 &&
                                                         (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        customContainerContent += "<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>";
+                                                        customContainerContent.push("<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>");
                                                     } else {
-                                                        customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
+                                                        customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
                                                     }
                                                 }
                                             } else if (childNode.nodeName === "text:a") {
                                                 var href = childNode.getAttribute("xlink:href");
                                                 if (href !== null) {
-                                                    customContainerContent += '<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>';
+                                                    customContainerContent.push('<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
                                                 } else {
-                                                    customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
+                                                    customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
                                                 }
                                             } else if (childNode.nodeName === "draw:image") {
-                                                var images = [];
-                                                processDraw(images, childNode);
-                                                jquery.each(images, function (index, value) {
-                                                    customContainerContent += value;
-                                                });
+                                                jquery.merge(customContainerContent, processDraw(childNode));
                                             } else {
-                                                customContainerContent += convertNodeToDocbook(childNode);
+                                                jquery.merge(customContainerContent, convertNodeToDocbook(childNode));
                                             }
                                         }
     
@@ -788,32 +783,34 @@ define(
                                         content.push("</remark>");
                                     };
 
-                                    var processDraw = function(content, contentNode) {
+                                    var processDraw = function(contentNode) {
+                                        var imageXML = [];
+
                                         if (contentNode.getAttribute("xlink:href") !== null) {
                                             var href = contentNode.getAttribute("xlink:href").trim();
                                             var anchorType = contentNode.parentNode.getAttribute("text:anchor-type");
                                             // make a note of an image that we need to upload
                                             images[href] = null;
 
-                                            var imageXML = "";
+
                                             if (anchorType !== "as-char") {
-                                                imageXML += "<mediaobject>";
+                                                imageXML.push("<mediaobject>");
                                             } else {
-                                                imageXML += "<inlinemediaobject>";
+                                                imageXML.push("<inlinemediaobject>");
                                             }
 
-                                            imageXML += '<imageobject>\
+                                            imageXML.push('<imageobject>\
                                                         <imagedata fileref="' + href + '"/>\
-                                                    </imageobject>';
+                                                    </imageobject>');
 
                                             if (anchorType !== "as-char") {
-                                                imageXML += "</mediaobject>";
+                                                imageXML.push("</mediaobject>");
                                             } else {
-                                                imageXML += "</inlinemediaobject>";
+                                                imageXML.push("</inlinemediaobject>");
                                             }
-
-                                            content.push(imageXML);
                                         }
+
+                                        return imageXML;
                                     };
     
                                     var processPara = function (content, contentNode) {
@@ -889,7 +886,9 @@ define(
                                                         We have defined a container that will hold paragraphs with text all
                                                         of a matching style.
                                                      */
-                                                    content.push("<" + matchingRule.docBookElement + ">" + convertNodeToDocbook(contentNode) + "</" + matchingRule.docBookElement + ">");
+                                                    content.push("<" + matchingRule.docBookElement + ">");
+                                                    jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                    content.push("</" + matchingRule.docBookElement + ">");
     
                                                     /*
                                                      For elements like screen we almost always want to merge consecutive
@@ -907,7 +906,9 @@ define(
                                                     /*
                                                         This is a plain old paragraph.
                                                      */
-                                                    content.push("<para>" + convertNodeToDocbook(contentNode) + "</para>");
+                                                    content.push("<para>");
+                                                    jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                    content.push("</para>");
                                                 }
                                             } else {
                                                 /*
@@ -918,7 +919,9 @@ define(
                                                     review any highlighted text and change the <emphasis> to a more
                                                     appropriate tag.
                                                  */
-                                                content.push("<para>" + convertNodeToDocbook(contentNode, true) + "</para>");
+                                                content.push("<para>");
+                                                jquery.merge(content, convertNodeToDocbook(contentNode, true));
+                                                content.push("</para>");
                                             }
                                         }
                                     };
@@ -1124,12 +1127,14 @@ define(
                                             currentLevel = previousLevel;
                                         }
 
-                                        var newTitle = convertNodeToDocbook(contentNode, false);
+                                        var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
+                                        var newTitle = "";
+                                        jquery.each(newTitleArray, function(index, value){
+                                            newTitle += value;
+                                        });
                                         if (newTitle.length === 0) {
                                             newTitle = "Untitled";
                                         }
-
-                                        newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
 
                                         setTimeout(function() {
                                             processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, [], successCallback);

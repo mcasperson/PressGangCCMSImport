@@ -8,7 +8,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -76,9 +75,9 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="820" column="73" selection-start="45178" selection-end="45178" vertical-scroll-proportion="-0.9301848" vertical-offset="13206" max-vertical-offset="20115">
+            <state line="641" column="97" selection-start="33748" selection-end="33748" vertical-scroll-proportion="0.33264887" vertical-offset="9291" max-vertical-offset="20190">
               <folding>
-                <marker date="1395126554017" expanded="true" signature="44268:44346" placeholder="..." />
+                <marker date="1395128542084" expanded="true" signature="43912:43990" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -105,7 +104,7 @@
       <file leaf-file-name="generalexternalimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="68" selection-start="3977" selection-end="4003" vertical-scroll-proportion="0.0" vertical-offset="818" max-vertical-offset="1830">
+            <state line="51" column="16" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.0" vertical-offset="383" max-vertical-offset="1830">
               <folding />
             </state>
           </provider>
@@ -114,7 +113,7 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="403" column="83" selection-start="24173" selection-end="24193" vertical-scroll-proportion="-87.17021" vertical-offset="1948" max-vertical-offset="12960">
+            <state line="637" column="32" selection-start="38378" selection-end="38832" vertical-scroll-proportion="-6.744681" vertical-offset="9238" max-vertical-offset="12960">
               <folding />
             </state>
           </provider>
@@ -123,11 +122,11 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="14" selection-start="1810" selection-end="1810" vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="3990">
+            <state line="24" column="16" selection-start="1814" selection-end="1814" vertical-scroll-proportion="-13.125" vertical-offset="45" max-vertical-offset="3990">
               <folding>
-                <marker date="1395123511198" expanded="true" signature="3796:3858" placeholder="..." />
-                <marker date="1395123511198" expanded="true" signature="3899:3954" placeholder="..." />
-                <marker date="1395123511198" expanded="true" signature="3997:4100" placeholder="..." />
+                <marker date="1395127117125" expanded="true" signature="3800:3862" placeholder="..." />
+                <marker date="1395127117125" expanded="true" signature="3903:3958" placeholder="..." />
+                <marker date="1395127117125" expanded="true" signature="4001:4104" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -679,7 +678,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23262000" />
-      <workItem from="1395089524666" duration="25301000" />
+      <workItem from="1395089524666" duration="27337000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2653,11 +2652,15 @@
       <created>1395123499029</created>
       <updated>1395123499029</updated>
     </task>
-    <option name="localTasksCounter" value="494" />
+    <task id="LOCAL-00494" summary="Fixing bugs&#10;">
+      <created>1395126611574</created>
+      <updated>1395126611574</updated>
+    </task>
+    <option name="localTasksCounter" value="495" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="657739000" />
+    <option name="totallyTimeSpent" value="659775000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -2762,7 +2765,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="10" />
+      <option name="time" value="11" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -2784,9 +2787,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="253" column="67" selection-start="17349" selection-end="17349" vertical-scroll-proportion="0.0" vertical-offset="3795" max-vertical-offset="3885">
           <folding>
-            <marker date="1395123511198" expanded="true" signature="3796:3858" placeholder="..." />
-            <marker date="1395123511198" expanded="true" signature="3899:3954" placeholder="..." />
-            <marker date="1395123511198" expanded="true" signature="3997:4100" placeholder="..." />
+            <marker date="1395127117125" expanded="true" signature="3800:3862" placeholder="..." />
+            <marker date="1395127117125" expanded="true" signature="3903:3958" placeholder="..." />
+            <marker date="1395127117125" expanded="true" signature="4001:4104" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -3020,13 +3023,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="68" selection-start="3977" selection-end="4003" vertical-scroll-proportion="0.0" vertical-offset="818" max-vertical-offset="1830">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="900" column="24" selection-start="53839" selection-end="53839" vertical-scroll-proportion="2.04" vertical-offset="13551" max-vertical-offset="37125">
@@ -3052,29 +3048,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="403" column="83" selection-start="24173" selection-end="24193" vertical-scroll-proportion="-87.17021" vertical-offset="1948" max-vertical-offset="12960">
+        <state line="24" column="16" selection-start="1814" selection-end="1814" vertical-scroll-proportion="-13.125" vertical-offset="45" max-vertical-offset="3990">
+          <folding>
+            <marker date="1395127117125" expanded="true" signature="3800:3862" placeholder="..." />
+            <marker date="1395127117125" expanded="true" signature="3903:3958" placeholder="..." />
+            <marker date="1395127117125" expanded="true" signature="4001:4104" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="16" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.0" vertical-offset="383" max-vertical-offset="1830">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="14" selection-start="1810" selection-end="1810" vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="3990">
-          <folding>
-            <marker date="1395123511198" expanded="true" signature="3796:3858" placeholder="..." />
-            <marker date="1395123511198" expanded="true" signature="3899:3954" placeholder="..." />
-            <marker date="1395123511198" expanded="true" signature="3997:4100" placeholder="..." />
-          </folding>
+        <state line="637" column="32" selection-start="38378" selection-end="38832" vertical-scroll-proportion="-6.744681" vertical-offset="9238" max-vertical-offset="12960">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="820" column="73" selection-start="45178" selection-end="45178" vertical-scroll-proportion="-0.9301848" vertical-offset="13206" max-vertical-offset="20115">
+        <state line="641" column="97" selection-start="33748" selection-end="33748" vertical-scroll-proportion="0.33264887" vertical-offset="9291" max-vertical-offset="20190">
           <folding>
-            <marker date="1395126554017" expanded="true" signature="44268:44346" placeholder="..." />
+            <marker date="1395128542084" expanded="true" signature="43912:43990" placeholder="..." />
           </folding>
         </state>
       </provider>
