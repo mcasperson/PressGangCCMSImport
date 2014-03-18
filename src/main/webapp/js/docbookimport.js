@@ -845,7 +845,8 @@ define(
                     } else {
                         /*
                             If the book being imported does not have the bookinfo or info element, set the
-                             required fields manually.
+                             required fields manually (assuming they were not set in a previous step of
+                             the wizard).
                          */
                         var foundTitle = false;
                         var foundProduct = false;
