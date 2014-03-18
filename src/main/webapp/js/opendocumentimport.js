@@ -680,7 +680,15 @@ define(
                                                 }
                                             }
                                         }
-    
+
+                                        /*
+                                         If we built up a test string, add it as a single line
+                                         */
+                                        if (textString.length !== 0) {
+                                            customContainerContent.push(textString);
+                                            textString = "";
+                                        }
+
                                         return customContainerContent;
                                     };
     
