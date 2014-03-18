@@ -480,7 +480,6 @@ define(
                                     var images = {};
 
                                     var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
-                                        //(title, outlineLevel, contentNodes, content, successCallback)
 
                                         if (index >= contentNodes.length) {
                                             if (content.length !== 0) {
@@ -505,15 +504,97 @@ define(
                                                 processList(content, contentNode, images);
                                             } else if (contentNode.nodeName === "office:annotation") {
                                                 processRemark(content, contentNode);
+                                            } else if (contentNode.nodeName === "table:table") {
+                                                processTable(content, contentNode, images);
                                             }
-
                                             setTimeout(function() {
                                                 processTopic(title, parentLevel, outlineLevel, ++index, content, successCallback);
                                             }, 0);
                                         }
                                     };
 
+                                    var processTable = function (content, contentNode, imageLinks) {
+                                        var trs = qnautils.xPath(".//table:table-row", contentNode);
+                                        var tr;
+                                        var maxCols;
+                                        while ((tr = trs.iterateNext()) !== null) {
+                                            var tds =  qnautils.xPath(".//table:table-cell", tr);
+                                            var td;
+                                            var tdCount = 0;
+                                            while ((td = tds.iterateNext()) !== null) {
+                                                ++tdCount;
+                                            }
+                                            if (maxCols === undefined || tdCount > maxCols) {
+                                                maxCols = tdCount;
+                                            }
+                                        }
 
+                                        if (maxCols !== undefined) {
+                                            content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
+
+                                            for (var col = 1; col <= maxCols; ++col) {
+                                                content.push("<colspec colname='c" + col + "'/>");
+                                            }
+
+                                            var processCellContents = function (cells) {
+
+                                                var currentColumn = 1;
+
+                                                var cell;
+                                                while ((cell = cells.iterateNext()) !== null) {
+                                                    var rowSpan = "";
+                                                    var colSpan = "";
+
+                                                    if (cell.getAttribute("table:number-rows-spanned") !== null) {
+                                                        var numRowsToSpan = parseInt(cell.getAttribute("table:number-rows-spanned"));
+                                                        rowSpan = " morerows='" + (numRowsToSpan - 1) + "'";
+                                                    }
+
+                                                    if (cell.getAttribute("table:number-columns-spanned") !== null) {
+                                                        var numColsToSpan = parseInt(cell.getAttribute("table:number-columns-spanned"));
+                                                        colSpan = " namest='c" + currentColumn + "' nameend='c" + (currentColumn + numColsToSpan - 1) + "'";
+                                                        currentColumn += numColsToSpan - 1;
+                                                    }
+
+                                                    ++currentColumn;
+
+                                                    var cellContents = convertNodeToDocbook(cell, true);
+                                                    // nested tables need to be handled specially
+                                                    if (cellContents.length !== 0 && /^<table/.test(cellContents[0])) {
+                                                        var nestedMaxCols = /cols='(\d+)'>/.exec(cellContents[0])[1];
+                                                        var fixedCellContents = ["<entrytbl cols='" + nestedMaxCols + "'>"];
+                                                        // remove the table element, and the last tgroup element close
+                                                        jquery.merge(fixedCellContents, cellContents.slice(1, cellContents.length - 1));
+                                                        fixedCellContents.push("</entrytbl>");
+
+                                                        jquery.merge(content, fixedCellContents);
+                                                    } else {
+                                                        content.push("<entry" + rowSpan + colSpan + ">");
+                                                        jquery.merge(content, cellContents);
+                                                        content.push("</entry>");
+                                                    }
+                                                }
+                                            };
+
+                                            content.push("<tbody>");
+
+                                            var tbodyTrs = qnautils.xPath(".//table:table-row", contentNode);
+                                            var tbodyTr;
+                                            while ((tbodyTr = tbodyTrs.iterateNext()) !== null) {
+                                                content.push("<row>");
+
+                                                var cells = qnautils.xPath(".//table:table-cell", tbodyTr);
+                                                processCellContents(cells);
+
+                                                content.push("</row>");
+                                            }
+
+                                            content.push("</tbody>");
+
+
+                                            content.push("</tgroup></table>");
+                                        }
+                                    };
     
                                     /*
                                      Expand the text:s elements and remarks.
