@@ -729,11 +729,21 @@ define(
                                     var getFontRuleForStyle = function (styleAttribute, fontRule) {
 
                                         if (fontRuleStyleCache[styleAttribute] !== undefined) {
-                                            fontRule.font = fontRuleStyleCache[styleAttribute].font;
-                                            fontRule.size = fontRuleStyleCache[styleAttribute].size;
-                                            fontRule.bold = fontRuleStyleCache[styleAttribute].bold;
-                                            fontRule.italics = fontRuleStyleCache[styleAttribute].italics;
-                                            fontRule.underline = fontRuleStyleCache[styleAttribute].underline;
+                                            if (fontRule.font === undefined) {
+                                                fontRule.font = fontRuleStyleCache[styleAttribute].font;
+                                            }
+                                            if (fontRule.size === undefined) {
+                                                fontRule.size = fontRuleStyleCache[styleAttribute].size;
+                                            }
+                                            if (fontRule.bold === undefined) {
+                                                fontRule.bold = fontRuleStyleCache[styleAttribute].bold;
+                                            }
+                                            if (fontRule.italics === undefined) {
+                                                fontRule.italics = fontRuleStyleCache[styleAttribute].italics;
+                                            }
+                                            if (fontRule.underline === undefined) {
+                                                fontRule.underline = fontRuleStyleCache[styleAttribute].underline;
+                                            }
                                         } else {
                                             var contentXmlStyle;
                                             var stylesXmlStyle;
