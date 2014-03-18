@@ -499,16 +499,16 @@ define(
 
                                             // headers indicate container or topic boundaries
                                             if (contentNode.nodeName === "text:h") {
-                                                processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
+                                                jquery.merge(content, processHeader(contentNode, title, parentLevel, outlineLevel, index, successCallback));
                                                 return;
                                             } else if (contentNode.nodeName === "text:p") {
-                                                processPara(content, contentNode, images);
+                                                jquery.merge(content, processPara(contentNode));
                                             } else if (contentNode.nodeName === "text:list") {
-                                                processList(content, contentNode, images);
+                                                jquery.merge(content, processList(contentNode));
                                             } else if (contentNode.nodeName === "office:annotation") {
-                                                processRemark(content, contentNode);
+                                                jquery.merge(content, processRemark(contentNode));
                                             } else if (contentNode.nodeName === "table:table") {
-                                                processTable(content, contentNode, images);
+                                                jquery.merge(content, processTable(contentNode, images));
                                             }
                                             setTimeout(function() {
                                                 processTopic(title, parentLevel, outlineLevel, ++index, content, successCallback);
@@ -516,7 +516,9 @@ define(
                                         }
                                     };
 
-                                    var processTable = function (content, contentNode) {
+                                    var processTable = function (contentNode) {
+                                        var content = [];
+
                                         var trs = qnautils.xPath(".//table:table-row", contentNode);
                                         var tr;
                                         var maxCols;
@@ -597,6 +599,8 @@ define(
 
                                             content.push("</tgroup></table>");
                                         }
+
+                                        return content;
                                     };
     
                                     /*
@@ -818,7 +822,9 @@ define(
                                         return imageXML;
                                     };
     
-                                    var processPara = function (content, contentNode) {
+                                    var processPara = function (contentNode) {
+                                        var content = [];
+
                                         if (contentNode.textContent.trim().length !== 0 ||
                                             qnautils.xPath(".//draw:image", contentNode).iterateNext() !== null) {
                                             /*
@@ -929,10 +935,14 @@ define(
                                                 content.push("</para>");
                                             }
                                         }
+
+                                        return content;
                                     };
     
-                                    var processList = function (content, contentNode, depth, style) {
-    
+                                    var processList = function (contentNode, depth, style) {
+
+                                        var content = [];
+
                                         if (style === undefined) {
                                             style = contentNode.getAttribute("text:style-name");
                                         }
@@ -979,7 +989,7 @@ define(
                                             var paras = qnautils.xPath("./text:p", listHeader);
                                             var para;
                                             while ((para = paras.iterateNext()) !== null) {
-                                                processPara(listItemsHeaderContent, para);
+                                                jquery.merge(listItemsHeaderContent, processPara(para));
                                             }
                                         }
     
@@ -993,9 +1003,9 @@ define(
                                                 var listItemContents = [];
                                                 jquery.each(listItem.childNodes, function (index, childNode) {
                                                     if (childNode.nodeName === "text:p") {
-                                                        processPara(listItemContents, childNode);
+                                                        jquery.merge(listItemContents, processPara(childNode));
                                                     } else if (childNode.nodeName === "text:list") {
-                                                        processList(listItemContents, childNode, depth + 1, style);
+                                                        jquery.merge(listItemContents, processList(childNode, depth + 1, style));
                                                     }
                                                 });
                                                 if (listItemContents.length !== 0) {
@@ -1020,6 +1030,8 @@ define(
                                                 content.push(value);
                                             });
                                         }
+
+                                        return content;
                                     };
 
                                     var padContentSpec = function(currentLevel, previousLevel, contentSpec) {
@@ -1039,7 +1051,10 @@ define(
                                         }
                                     }
 
-                                    var processHeader = function (content, contentNode, title, previousLevel, currentLevel, index, successCallback) {
+                                    var processHeader = function (contentNode, title, previousLevel, currentLevel, index, successCallback) {
+
+                                        var content = [];
+
                                         ++topicsAdded;
 
                                         var prefix = generalexternalimport.generateSpacing(currentLevel);
@@ -1151,6 +1166,8 @@ define(
                                         setTimeout(function() {
                                             processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, [], successCallback);
                                         }, 0);
+
+                                        return content;
                                     };
 
                                     processTopic(

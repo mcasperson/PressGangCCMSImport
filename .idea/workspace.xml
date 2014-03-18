@@ -70,9 +70,9 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="765" column="53" selection-start="41574" selection-end="41587" vertical-scroll-proportion="0.33264887" vertical-offset="11151" max-vertical-offset="20400">
+            <state line="510" column="82" selection-start="24484" selection-end="24496" vertical-scroll-proportion="0.33264887" vertical-offset="7326" max-vertical-offset="20655">
               <folding>
-                <marker date="1395131443584" expanded="true" signature="44050:44128" placeholder="..." />
+                <marker date="1395131827744" expanded="true" signature="44211:44289" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -673,7 +673,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23262000" />
-      <workItem from="1395089524666" duration="29694000" />
+      <workItem from="1395089524666" duration="30089000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2675,11 +2675,15 @@
       <created>1395131066175</created>
       <updated>1395131066175</updated>
     </task>
-    <option name="localTasksCounter" value="501" />
+    <task id="LOCAL-00501" summary="Fixing bugs&#10;">
+      <created>1395131447908</created>
+      <updated>1395131447908</updated>
+    </task>
+    <option name="localTasksCounter" value="502" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="662132000" />
+    <option name="totallyTimeSpent" value="662527000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1207" extended-state="6" />
@@ -3094,9 +3098,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="765" column="53" selection-start="41574" selection-end="41587" vertical-scroll-proportion="0.33264887" vertical-offset="11151" max-vertical-offset="20400">
+        <state line="510" column="82" selection-start="24484" selection-end="24496" vertical-scroll-proportion="0.33264887" vertical-offset="7326" max-vertical-offset="20655">
           <folding>
-            <marker date="1395131443584" expanded="true" signature="44050:44128" placeholder="..." />
+            <marker date="1395131827744" expanded="true" signature="44211:44289" placeholder="..." />
           </folding>
         </state>
       </provider>
