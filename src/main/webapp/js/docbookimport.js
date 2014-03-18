@@ -822,27 +822,27 @@ define(
                         var productnumber = qnautils.xPath("./docbook:productnumber", bookinfo).iterateNext();
 
                         if (title) {
-                            contentSpec.push("Title = " + qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements));
+                            config.ContentSpecTitle = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements);
                         }
 
                         if (subtitle) {
-                            contentSpec.push("Subtitle = " + qnautils.reencode(replaceWhiteSpace(subtitle.innerHTML), replacements));
+                            config.ContentSpecSubtitle = qnautils.reencode(replaceWhiteSpace(subtitle.innerHTML), replacements);
                         }
 
                         if (edition) {
-                            contentSpec.push("Edition = " + qnautils.reencode(replaceWhiteSpace(edition.innerHTML), replacements));
+                            config.ContentSpecEdition = qnautils.reencode(replaceWhiteSpace(edition.innerHTML), replacements);
                         }
 
                         if (pubsnumber) {
-                            contentSpec.push("Pubsnumber = " + qnautils.reencode(replaceWhiteSpace(pubsnumber.innerHTML), replacements));
+                            config.ContentSpecPubsnumber = qnautils.reencode(replaceWhiteSpace(pubsnumber.innerHTML), replacements);
                         }
 
                         if (productname) {
-                            contentSpec.push("Product = " + qnautils.reencode(replaceWhiteSpace(productname.innerHTML), replacements));
+                            config.ContentSpecProduct = qnautils.reencode(replaceWhiteSpace(productname.innerHTML), replacements);
                         }
 
                         if (productnumber) {
-                            contentSpec.push("Version = " + qnautils.reencode(replaceWhiteSpace(productnumber.innerHTML), replacements));
+                            config.ContentSpecVersion = qnautils.reencode(replaceWhiteSpace(productnumber.innerHTML), replacements);
                         }
                     } else {
                         /*
@@ -872,13 +872,36 @@ define(
                         }
                     }
 
+                    /*
+                        These metadata elements are either required or will always have a value
+                     */
+                    contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                    contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                    contentSpec.push("Version = " + (config.ContentSpecVersion === undefined ? "1" : config.ContentSpecVersion));
                     contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
+
+                    /*
+                        These metadata elements are optional
+                     */
+                    if (config.ContentSpecSubtitle !== undefined) {
+                        contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
+                    }
+                    if (config.ContentSpecEdition !== undefined) {
+                        contentSpec.push("Edition = " + config.ContentSpecEdition);
+                    }
+                    if (config.ContentSpecPubsnumber !== undefined) {
+                        contentSpec.push("Pubsnumber = " + config.ContentSpecPubsnumber);
+                    }
 
                     /*
                         If no brand was specified, let csprocessor use the default
                      */
                     if (config.ImportBrand !== undefined) {
+                        // this is the value found from the publican.cfg file
                         contentSpec.push("Brand = " + config.ImportBrand);
+                    }  else if (config.ContentSpecBrand !== undefined) {
+                        // this is the value specified in the ui
+                        contentSpec.push("Brand = " + config.ContentSpecBrand);
                     }
 
                     if (xmlDoc.documentElement.nodeName === "book") {
