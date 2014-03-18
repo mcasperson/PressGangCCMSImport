@@ -4,7 +4,6 @@
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -72,10 +71,10 @@
       <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.5221446" vertical-offset="13019" max-vertical-offset="21090">
-              <caret line="955" column="45" selection-start-line="955" selection-start-column="45" selection-end-line="955" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.6829837" vertical-offset="13964" max-vertical-offset="21510">
+              <caret line="970" column="56" selection-start-line="970" selection-start-column="56" selection-end-line="971" selection-end-column="111" />
               <folding>
-                <marker date="1395175738253" expanded="true" signature="46607:46685" placeholder="..." />
+                <marker date="1395177211631" expanded="true" signature="47682:47760" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -138,13 +137,13 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.037037" vertical-offset="9104" max-vertical-offset="13110">
+            <state vertical-scroll-proportion="-15.037037" vertical-offset="9104" max-vertical-offset="13170">
               <caret line="634" column="56" selection-start-line="634" selection-start-column="56" selection-end-line="634" selection-end-column="56" />
               <folding>
-                <marker date="1395173414682" expanded="true" signature="22658:29730" placeholder="{...}" />
-                <marker date="1395173414682" expanded="true" signature="23765:23922" placeholder="{...}" />
-                <marker date="1395173414682" expanded="true" signature="24197:25964" placeholder="{...}" />
-                <marker date="1395173414682" expanded="true" signature="24308:25880" placeholder="{...}" />
+                <marker date="1395175868905" expanded="true" signature="22658:29730" placeholder="{...}" />
+                <marker date="1395175868905" expanded="true" signature="23765:23922" placeholder="{...}" />
+                <marker date="1395175868905" expanded="true" signature="24197:25964" placeholder="{...}" />
+                <marker date="1395175868905" expanded="true" signature="24308:25880" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -697,7 +696,7 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23963000" />
-      <workItem from="1395172743040" duration="2695000" />
+      <workItem from="1395172743040" duration="4136000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2579,11 +2578,15 @@
       <created>1395046699285</created>
       <updated>1395046699285</updated>
     </task>
-    <option name="localTasksCounter" value="471" />
+    <task id="LOCAL-00471" summary="Fixing bugs&#10;">
+      <created>1395175777765</created>
+      <updated>1395175777765</updated>
+    </task>
+    <option name="localTasksCounter" value="472" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="635834000" />
+    <option name="totallyTimeSpent" value="637275000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -2602,6 +2605,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2613,7 +2617,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32418162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2700,10 +2703,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="11883" max-vertical-offset="13110">
           <caret line="807" column="32" selection-start-line="807" selection-start-column="32" selection-end-line="807" selection-end-column="32" />
           <folding>
-            <marker date="1395173414682" expanded="true" signature="22658:29730" placeholder="{...}" />
-            <marker date="1395173414682" expanded="true" signature="23765:23922" placeholder="{...}" />
-            <marker date="1395173414682" expanded="true" signature="24197:25964" placeholder="{...}" />
-            <marker date="1395173414682" expanded="true" signature="24308:25880" placeholder="{...}" />
+            <marker date="1395175868905" expanded="true" signature="22658:29730" placeholder="{...}" />
+            <marker date="1395175868905" expanded="true" signature="23765:23922" placeholder="{...}" />
+            <marker date="1395175868905" expanded="true" signature="24197:25964" placeholder="{...}" />
+            <marker date="1395175868905" expanded="true" signature="24308:25880" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -3060,19 +3063,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.037037" vertical-offset="9104" max-vertical-offset="13110">
-          <caret line="634" column="56" selection-start-line="634" selection-start-column="56" selection-end-line="634" selection-end-column="56" />
-          <folding>
-            <marker date="1395173414682" expanded="true" signature="22658:29730" placeholder="{...}" />
-            <marker date="1395173414682" expanded="true" signature="23765:23922" placeholder="{...}" />
-            <marker date="1395173414682" expanded="true" signature="24197:25964" placeholder="{...}" />
-            <marker date="1395173414682" expanded="true" signature="24308:25880" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1830">
@@ -3081,12 +3071,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.037037" vertical-offset="9104" max-vertical-offset="13170">
+          <caret line="634" column="56" selection-start-line="634" selection-start-column="56" selection-end-line="634" selection-end-column="56" />
+          <folding>
+            <marker date="1395175868905" expanded="true" signature="22658:29730" placeholder="{...}" />
+            <marker date="1395175868905" expanded="true" signature="23765:23922" placeholder="{...}" />
+            <marker date="1395175868905" expanded="true" signature="24197:25964" placeholder="{...}" />
+            <marker date="1395175868905" expanded="true" signature="24308:25880" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5221446" vertical-offset="13019" max-vertical-offset="21090">
-          <caret line="955" column="45" selection-start-line="955" selection-start-column="45" selection-end-line="955" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.6829837" vertical-offset="13964" max-vertical-offset="21510">
+          <caret line="970" column="56" selection-start-line="970" selection-start-column="56" selection-end-line="971" selection-end-column="111" />
           <folding>
-            <marker date="1395175738253" expanded="true" signature="46607:46685" placeholder="..." />
+            <marker date="1395177211631" expanded="true" signature="47682:47760" placeholder="..." />
           </folding>
         </state>
       </provider>

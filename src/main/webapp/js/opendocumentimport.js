@@ -5,6 +5,8 @@ define(
 
         var fontRuleStyleCache;
         var fontRuleElementCache;
+        var styleCache;
+        var contentStyleCache;
 
         /*
             STEP 1 - Get the ODT file
@@ -414,6 +416,8 @@ define(
                  */
                 fontRuleStyleCache = {};
                 fontRuleElementCache = {};
+                styleCache = {};
+                contentStyleCache = {};
     
                 var progressIncrement = 100 / 4;
 
@@ -515,7 +519,7 @@ define(
                                                 processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                                 return;
                                             } else if (contentNode.nodeName === "text:p") {
-                                                jquery.merge(content, processPara(contentNode));
+                                                jquery.merge(content, processPara(content, contentNode));
                                             } else if (contentNode.nodeName === "text:list") {
                                                 jquery.merge(content, processList(contentNode));
                                             } else if (contentNode.nodeName === "office:annotation") {
@@ -637,7 +641,7 @@ define(
                                                 customContainerContent.push(spacesString);
 
                                             } else if (childNode.nodeName === "text:p") {
-                                                jquery.merge(customContainerContent, processPara(childNode));
+                                                jquery.merge(customContainerContent, processPara(customContainerContent, childNode));
                                             } else if (childNode.nodeName === "office:annotation") {
                                                 jquery.merge(customContainerContent, processRemark(childNode));
                                             } else if (childNode.nodeType === Node.TEXT_NODE) {
@@ -711,8 +715,22 @@ define(
                                             fontRule.italics = fontRuleStyleCache[styleAttribute].italics;
                                             fontRule.underline = fontRuleStyleCache[styleAttribute].underline;
                                         } else {
-                                            var contentXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "']", contentsXML).iterateNext();
-                                            var stylesXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "']", stylesXML).iterateNext();
+                                            var contentXmlStyle;
+                                            var stylesXmlStyle;
+
+                                            if (styleCache[styleAttribute] !== undefined) {
+                                                stylesXmlStyle = styleCache[styleAttribute];
+                                            } else {
+                                                stylesXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "'][1]", stylesXML).iterateNext();
+                                                styleCache[styleAttribute] = stylesXmlStyle;
+                                            }
+
+                                            if (contentStyleCache[styleAttribute] !== undefined) {
+                                                contentXmlStyle = contentStyleCache[styleAttribute];
+                                            } else {
+                                                contentXmlStyle = qnautils.xPath("//style:style[@style:name='" + styleAttribute + "'][1]", contentsXML).iterateNext();
+                                                contentStyleCache[styleAttribute] = contentXmlStyle;
+                                            }
 
                                             var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
 
@@ -854,7 +872,7 @@ define(
                                         return imageXML;
                                     };
     
-                                    var processPara = function (contentNode) {
+                                    var processPara = function (existingContent, contentNode) {
                                         var content = [];
 
                                         if (contentNode.textContent.trim().length !== 0 ||
@@ -930,22 +948,28 @@ define(
                                                          We have defined a container that will hold paragraphs with text all
                                                          of a matching style.
                                                          */
-                                                        content.push("<" + matchingRule.docBookElement + ">");
-                                                        jquery.merge(content, convertNodeToDocbook(contentNode));
-                                                        content.push("</" + matchingRule.docBookElement + ">");
+
+                                                        var wrapThis = true;
 
                                                         /*
                                                          For elements like screen we almost always want to merge consecutive
                                                          paragraphs into a single container.
                                                          */
-                                                        if (matchingRule.merge && content.length >= 2) {
+                                                        if (matchingRule.merge && existingContent.length >= 2) {
                                                             var endTagRe = new RegExp("</" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">$");
-                                                            var startTagRe = new RegExp("^<" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">");
-                                                            if (endTagRe.test(content[content.length - 2])) {
-                                                                content[content.length - 2] = content[content.length - 2].replace(endTagRe, "");
-                                                                content[content.length - 1] = content[content.length - 1].replace(startTagRe, "");
+                                                            if (endTagRe.test(existingContent[existingContent.length - 1])) {
+                                                                existingContent[existingContent.length - 1] = existingContent[existingContent.length - 1].replace(endTagRe, "");
+                                                                jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                                wrapThis = false;
                                                             }
                                                         }
+
+                                                        if (wrapThis) {
+                                                            content.push("<" + matchingRule.docBookElement + ">");
+                                                        }
+
+                                                        jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                        content.push("</" + matchingRule.docBookElement + ">");
                                                     } else {
                                                         /*
                                                          This is a plain old paragraph.
@@ -1023,7 +1047,7 @@ define(
                                             var paras = qnautils.xPath("./text:p", listHeader);
                                             var para;
                                             while ((para = paras.iterateNext()) !== null) {
-                                                jquery.merge(listItemsHeaderContent, processPara(para));
+                                                jquery.merge(listItemsHeaderContent, processPara(listItemsHeaderContent, para));
                                             }
                                         }
     
@@ -1037,7 +1061,7 @@ define(
                                                 var listItemContents = [];
                                                 jquery.each(listItem.childNodes, function (index, childNode) {
                                                     if (childNode.nodeName === "text:p") {
-                                                        jquery.merge(listItemContents, processPara(childNode));
+                                                        jquery.merge(listItemContents, processPara(listItemContents, childNode));
                                                     } else if (childNode.nodeName === "text:list") {
                                                         jquery.merge(listItemContents, processList(childNode, depth + 1, style));
                                                     }
@@ -1173,6 +1197,10 @@ define(
                                                         } else {
                                                             break;
                                                         }
+                                                    }
+
+                                                    if (resultObject.contentSpec.length === 0) {
+                                                        throw "The entire content spec was unwound. This should not have happened.";
                                                     }
                                                 }
                                             }

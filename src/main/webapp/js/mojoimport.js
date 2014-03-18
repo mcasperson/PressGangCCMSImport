@@ -636,6 +636,10 @@ define(
                                                     break;
                                                 }
                                             }
+
+                                            if (resultObject.contentSpec.length === 0) {
+                                                throw "The entire content spec was unwound. This should not have happened.";
+                                            }
                                         }
                                     }
 
