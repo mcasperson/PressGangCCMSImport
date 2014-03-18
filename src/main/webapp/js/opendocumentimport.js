@@ -623,6 +623,8 @@ define(
 
                                                 customContainerContent.push(spacesString);
 
+                                            } else if (childNode.nodeName === "text:p") {
+                                                jquery.merge(customContainerContent, processPara(childNode));
                                             } else if (childNode.nodeName === "office:annotation") {
                                                 jquery.merge(customContainerContent, processRemark(childNode));
                                             } else if (childNode.nodeType === Node.TEXT_NODE) {
