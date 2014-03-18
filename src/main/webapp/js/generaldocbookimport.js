@@ -31,6 +31,11 @@ define(
                     resultCallback(null);
                 }
             })
+            .setEnterStep(function(resultCallback){
+                qnastart.zipModel = qnastart.zipModel;
+                qnastart.zipModel.clearCache();
+                resultCallback(false);
+            })
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
             });

@@ -4,7 +4,7 @@
         <title ng-controller="QNAController" ng-bind="qna.step.titlePrefix + 'PressGang CCMS Publican Book Import'">PressGang CCMS Publican Book Import</title>
         <script type="text/javascript">
             // http://stackoverflow.com/a/10556743/157605
-            /*window.onerror = function(msg, url, line) {
+            window.onerror = function(msg, url, line) {
                 window.onbeforeunload = null;
 
                 var bugLink = 'https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool&comment=Message: ' + encodeURIComponent(msg) + '%0D%0A%0D%0AURL: ' + encodeURIComponent(url) + '%0D%0A%0D%0ALine: ' + encodeURIComponent(line);
@@ -22,7 +22,7 @@
 
                 var suppressErrorAlert = true;
                 return suppressErrorAlert;
-            };*/
+            };
         </script>
         <script src="js/require.min.js"></script>
         <script type="application/javascript">
@@ -253,7 +253,7 @@
                 </div>
             </div>
 
-            <div class="pull-right">Build 1.5-SNAPSHOT 201403181301</div>
+            <div class="pull-right">Build 1.5-SNAPSHOT 201403181306</div>
 
             <div style="clear: both" class="alert alert-danger">This is an alpha release. You can only import to the test server. Please log bugs for any issues you find by clicking the bug icon.</div>
         </div>
