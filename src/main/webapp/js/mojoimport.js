@@ -623,7 +623,7 @@ define(
                                          that is not an ancestor of the next topic will be poped off the stack.
                                          */
                                         if (currentLevel > 1) {
-                                            while (true) {
+                                            while (resultObject.contentSpec.length !== 0) {
                                                 var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
                                                 if (specElementTopic === undefined) {
                                                     var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
