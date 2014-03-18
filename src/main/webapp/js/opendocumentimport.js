@@ -515,7 +515,7 @@ define(
                                         }
                                     };
 
-                                    var processTable = function (content, contentNode, imageLinks) {
+                                    var processTable = function (content, contentNode) {
                                         var trs = qnautils.xPath(".//table:table-row", contentNode);
                                         var tr;
                                         var maxCols;
@@ -639,6 +639,12 @@ define(
                                                 } else {
                                                     customContainerContent += generalexternalimport.cleanTextContent(childNode.textContent);
                                                 }
+                                            } else if (childNode.nodeName === "draw:image") {
+                                                var images = [];
+                                                processDraw(images, childNode);
+                                                jquery.each(images, function (index, value) {
+                                                    customContainerContent += value;
+                                                });
                                             } else {
                                                 customContainerContent += convertNodeToDocbook(childNode);
                                             }
@@ -781,24 +787,38 @@ define(
                                         }
                                         content.push("</remark>");
                                     };
-    
-                                    var processPara = function (content, contentNode, imageLinks) {
-                                        var images = qnautils.xPath(".//draw:image", contentNode);
-                                        var image;
-                                        while ((image = images.iterateNext()) !== null) {
-                                            if (image.getAttribute("xlink:href") !== null) {
-                                                var href = image.getAttribute("xlink:href").trim();
-                                                // make a note of an image that we need to upload
-                                                imageLinks[href] = null;
-                                                content.push('<mediaobject>\
-                                                                <imageobject>\
-                                                                    <imagedata fileref="' + href + '"/>\
-                                                                 </imageobject>\
-                                                            </mediaobject>');
+
+                                    var processDraw = function(content, contentNode) {
+                                        if (contentNode.getAttribute("xlink:href") !== null) {
+                                            var href = contentNode.getAttribute("xlink:href").trim();
+                                            var anchorType = contentNode.parentNode.getAttribute("text:anchor-type");
+                                            // make a note of an image that we need to upload
+                                            images[href] = null;
+
+                                            var imageXML = "";
+                                            if (anchorType !== "as-char") {
+                                                imageXML += "<mediaobject>";
+                                            } else {
+                                                imageXML += "<inlinemediaobject>";
                                             }
+
+                                            imageXML += '<imageobject>\
+                                                        <imagedata fileref="' + href + '"/>\
+                                                    </imageobject>';
+
+                                            if (anchorType !== "as-char") {
+                                                imageXML += "</mediaobject>";
+                                            } else {
+                                                imageXML += "</inlinemediaobject>";
+                                            }
+
+                                            content.push(imageXML);
                                         }
+                                    };
     
-                                        if (contentNode.textContent.trim().length !== 0) {
+                                    var processPara = function (content, contentNode) {
+                                        if (contentNode.textContent.trim().length !== 0 ||
+                                            qnautils.xPath(".//draw:image", contentNode).iterateNext() !== null) {
                                             /*
                                                 It is common to have unnamed styles used to distinguish types of content. For
                                                 example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
@@ -903,7 +923,7 @@ define(
                                         }
                                     };
     
-                                    var processList = function (content, contentNode, imageLinks, depth, style) {
+                                    var processList = function (content, contentNode, depth, style) {
     
                                         if (style === undefined) {
                                             style = contentNode.getAttribute("text:style-name");
@@ -951,7 +971,7 @@ define(
                                             var paras = qnautils.xPath("./text:p", listHeader);
                                             var para;
                                             while ((para = paras.iterateNext()) !== null) {
-                                                processPara(listItemsHeaderContent, para, imageLinks);
+                                                processPara(listItemsHeaderContent, para);
                                             }
                                         }
     
@@ -969,9 +989,9 @@ define(
     
                                                 jquery.each(listItem.childNodes, function (index, childNode) {
                                                     if (childNode.nodeName === "text:p") {
-                                                        processPara(content, childNode, imageLinks);
+                                                        processPara(content, childNode);
                                                     } else if (childNode.nodeName === "text:list") {
-                                                        processList(content, childNode, imageLinks, depth + 1, style);
+                                                        processList(content, childNode, depth + 1, style);
                                                     }
                                                 });
     

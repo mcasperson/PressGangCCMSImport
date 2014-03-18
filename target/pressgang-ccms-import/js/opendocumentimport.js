@@ -406,8 +406,30 @@ define(
                 };
     
                 var progressIncrement = 100 / 4;
-    
-                var resultObject = JSON.parse(result);
+
+                var resultObject = JSON.parse(result) || {contentSpec: []};
+
+                resultObject.contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                resultObject.contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                resultObject.contentSpec.push("Version = " + (config.ContentSpecVersion === undefined ? "1" : config.ContentSpecVersion));
+                resultObject.contentSpec.push("Format = DocBook 4.5");
+
+                /*
+                 These metadata elements are optional
+                 */
+                if (config.ContentSpecSubtitle !== undefined) {
+                    resultObject.contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
+                }
+                if (config.ContentSpecEdition !== undefined) {
+                    resultObject.contentSpec.push("Edition = " + config.ContentSpecEdition);
+                }
+                if (config.ContentSpecCopyrightHolder !== undefined) {
+                    resultObject.contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                }
+                if (config.ContentSpecBrand !== undefined) {
+                    // this is the value specified in the ui
+                    resultObject.contentSpec.push("Brand = " + config.ContentSpecBrand);
+                }
 
                 resultObject.contentSpec.push("# Imported from " + config.OdtFile.name);
     
@@ -452,30 +474,31 @@ define(
                                     errorCallback("Invalid ODT file", "Could not find the <office:body> element!", true);
                                 } else {
                                     // these nodes make up the content that we will import
-                                    var contentNodes = qnautils.xPath("*", body);
-                                    var childNodeCount = 0;
-                                    var contentNode;
-                                    while ((contentNode = contentNodes.iterateNext()) !== null) {
-                                        ++childNodeCount;
-                                    }
-    
-                                    contentNodes = qnautils.xPath("*", body);
+                                    var topicsAdded = 0;
+                                    var contentNodes = body.childNodes;
     
                                     var images = {};
-    
-                                    var currentChild = 0;
-                                    var processTopic = function (title, outlineLevel, contentNodes, content, successCallback) {
 
-                                        var contentNode = contentNodes.iterateNext();
-                                        if (contentNode !== null) {
-    
-                                            config.UploadProgress[1] = progressIncrement * (currentChild / body.childNodes.length);
+                                    var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
+
+                                        if (index >= contentNodes.length) {
+                                            if (content.length !== 0) {
+                                                padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
+
+                                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                                                resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                                generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                            }
+
+                                            successCallback();
+                                        } else {
+                                            var contentNode = contentNodes[index];
+                                            config.UploadProgress[1] = progressIncrement * (index / contentNodes.length);
                                             resultCallback();
-                                            ++currentChild;
-    
+
                                             // headers indicate container or topic boundaries
                                             if (contentNode.nodeName === "text:h") {
-                                                processHeader(content, contentNode, title, outlineLevel, contentNodes, successCallback);
+                                                processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                                 return;
                                             } else if (contentNode.nodeName === "text:p") {
                                                 processPara(content, contentNode, images);
@@ -483,24 +506,97 @@ define(
                                                 processList(content, contentNode, images);
                                             } else if (contentNode.nodeName === "office:annotation") {
                                                 processRemark(content, contentNode);
+                                            } else if (contentNode.nodeName === "table:table") {
+                                                processTable(content, contentNode, images);
                                             }
-    
                                             setTimeout(function() {
-                                                processTopic(title, outlineLevel, contentNodes, content, successCallback);
+                                                processTopic(title, parentLevel, outlineLevel, ++index, content, successCallback);
                                             }, 0);
-                                        } else {
-    
-                                            if (content.length !== 0) {
-                                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                                resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec - 1);
-                                            }
-    
-                                            successCallback();
                                         }
                                     };
 
+                                    var processTable = function (content, contentNode, imageLinks) {
+                                        var trs = qnautils.xPath(".//table:table-row", contentNode);
+                                        var tr;
+                                        var maxCols;
+                                        while ((tr = trs.iterateNext()) !== null) {
+                                            var tds =  qnautils.xPath(".//table:table-cell", tr);
+                                            var td;
+                                            var tdCount = 0;
+                                            while ((td = tds.iterateNext()) !== null) {
+                                                ++tdCount;
+                                            }
+                                            if (maxCols === undefined || tdCount > maxCols) {
+                                                maxCols = tdCount;
+                                            }
+                                        }
 
+                                        if (maxCols !== undefined) {
+                                            content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
+
+                                            for (var col = 1; col <= maxCols; ++col) {
+                                                content.push("<colspec colname='c" + col + "'/>");
+                                            }
+
+                                            var processCellContents = function (cells) {
+
+                                                var currentColumn = 1;
+
+                                                var cell;
+                                                while ((cell = cells.iterateNext()) !== null) {
+                                                    var rowSpan = "";
+                                                    var colSpan = "";
+
+                                                    if (cell.getAttribute("table:number-rows-spanned") !== null) {
+                                                        var numRowsToSpan = parseInt(cell.getAttribute("table:number-rows-spanned"));
+                                                        rowSpan = " morerows='" + (numRowsToSpan - 1) + "'";
+                                                    }
+
+                                                    if (cell.getAttribute("table:number-columns-spanned") !== null) {
+                                                        var numColsToSpan = parseInt(cell.getAttribute("table:number-columns-spanned"));
+                                                        colSpan = " namest='c" + currentColumn + "' nameend='c" + (currentColumn + numColsToSpan - 1) + "'";
+                                                        currentColumn += numColsToSpan - 1;
+                                                    }
+
+                                                    ++currentColumn;
+
+                                                    var cellContents = convertNodeToDocbook(cell, true);
+                                                    // nested tables need to be handled specially
+                                                    if (cellContents.length !== 0 && /^<table/.test(cellContents[0])) {
+                                                        var nestedMaxCols = /cols='(\d+)'>/.exec(cellContents[0])[1];
+                                                        var fixedCellContents = ["<entrytbl cols='" + nestedMaxCols + "'>"];
+                                                        // remove the table element, and the last tgroup element close
+                                                        jquery.merge(fixedCellContents, cellContents.slice(1, cellContents.length - 1));
+                                                        fixedCellContents.push("</entrytbl>");
+
+                                                        jquery.merge(content, fixedCellContents);
+                                                    } else {
+                                                        content.push("<entry" + rowSpan + colSpan + ">");
+                                                        jquery.merge(content, cellContents);
+                                                        content.push("</entry>");
+                                                    }
+                                                }
+                                            };
+
+                                            content.push("<tbody>");
+
+                                            var tbodyTrs = qnautils.xPath(".//table:table-row", contentNode);
+                                            var tbodyTr;
+                                            while ((tbodyTr = tbodyTrs.iterateNext()) !== null) {
+                                                content.push("<row>");
+
+                                                var cells = qnautils.xPath(".//table:table-cell", tbodyTr);
+                                                processCellContents(cells);
+
+                                                content.push("</row>");
+                                            }
+
+                                            content.push("</tbody>");
+
+
+                                            content.push("</tgroup></table>");
+                                        }
+                                    };
     
                                     /*
                                      Expand the text:s elements and remarks.
@@ -890,70 +986,151 @@ define(
                                             });
                                         }
                                     };
-    
-                                    var processHeader = function (content, contentNode, title, outlineLevel, contentNodes, successCallback) {
-                                        var prefix = generalexternalimport.generateSpacing(outlineLevel);
-    
-                                        var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
 
-                                        for (var missedSteps = outlineLevel; missedSteps < newOutlineLevel - 1; ++missedSteps) {
-                                            if (missedSteps === 0) {
-                                                resultObject.contentSpec.push("Chapter: Missing Chapter");
-                                            } else {
-                                                var myPrefix = generalexternalimport.generateSpacing(missedSteps);
-                                                resultObject.contentSpec.push(myPrefix + "Section: Missing Section");
+                                    var padContentSpec = function(currentLevel, previousLevel, contentSpec) {
+                                        /*
+                                         A content spec can not skip levels in the toc. So when we skip heading levels
+                                         (say a heading 3 under a heading 1) we need to pad the spec out.
+                                         */
+                                        if (currentLevel > previousLevel + 1) {
+                                            for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
+                                                if (missedSteps === 1) {
+                                                    contentSpec.push("Chapter: Missing Chapter");
+                                                } else {
+                                                    var myPrefix = generalexternalimport.generateSpacing(missedSteps);
+                                                    contentSpec.push(myPrefix + "Section: Missing Section");
+                                                }
                                             }
                                         }
-    
-                                        // Last heading had no content before this heading. We only add a container if
-                                        // the last heading added a level of depth to the tree, Otherwise it is just
-                                        // an empty container.
-                                        if (content.length === 0 && title !== null && newOutlineLevel > outlineLevel) {
-                                            if (outlineLevel === 0) {
+                                    }
+
+                                    var processHeader = function (content, contentNode, title, previousLevel, currentLevel, index, successCallback) {
+                                        ++topicsAdded;
+
+                                        var prefix = generalexternalimport.generateSpacing(currentLevel);
+
+                                        /*
+                                         This value represents the depth of the topic to be created using the title
+                                         of the header we just found, and any sibling content nodes before the next
+                                         heading.
+                                         */
+                                        var newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
+
+                                        /*
+                                         A content spec can not skip levels in the toc. So when we skip heading levels
+                                         (say a heading 3 under a heading 1) we need to pad the spec out.
+                                         */
+                                        padContentSpec(currentLevel, previousLevel, resultObject.contentSpec);
+
+                                        /*
+                                         Thanks to the loop above, levels never jump more than 1 place up.
+                                         */
+                                        previousLevel = currentLevel - 1;
+
+
+                                        /*
+                                         Some convenient statements about what is going on.
+                                         */
+                                        var thisTopicHasContent =  content.length !== 0;
+                                        var thisTopicIsChildOfLastLevel = currentLevel > previousLevel;
+                                        var nextTopicIsChildOfLastLevel = newOutlineLevel > previousLevel;
+                                        var nextTopicIsChildOfThisTopic = newOutlineLevel > currentLevel;
+
+                                        if (!thisTopicHasContent && nextTopicIsChildOfThisTopic) {
+                                            /*
+                                             Last heading had no content before this heading. We only add a container if
+                                             the last heading added a level of depth to the tree, Otherwise it is just
+                                             an empty container.
+                                             */
+
+                                            if (currentLevel === 1) {
                                                 resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
                                                 resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                             }
-                                        } else if (content.length !== 0) {
-                                            /*
-                                                We have found some initial text. Put it under an introduction chapter
-                                             */
-                                            if (title === null) {
-                                                title = "Introduction";
+                                        } else if (thisTopicHasContent) {
+                                            if (currentLevel === 1) {
                                                 resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
-                                                if (newOutlineLevel > outlineLevel) {
+                                                /*
+                                                 Does the topic noe being built exist under this one? If so, this topic is
+                                                 a container. If not, it is just a topic.
+                                                 */
+                                                if (newOutlineLevel > currentLevel) {
                                                     resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                                 } else {
                                                     resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                                 }
                                             }
-    
+
                                             generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                        } else {
+                                            /*
+                                             If the discarded topic was supposed to a child of the container
+                                             above it, and the new topic being created is not, then the
+                                             previous topic will need to be changed from a container to a topic.
+                                             */
+                                            if (thisTopicIsChildOfLastLevel && !nextTopicIsChildOfLastLevel) {
+                                                resultObject.contentSpec[resultObject.contentSpec.length - 1] =
+                                                    resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
+
+                                                /*
+                                                 We want to unwind any containers without front matter topics that were
+                                                 added to the toc to accommodate this now discarded topic.
+
+                                                 So any line added to the spec that doesn't have an associated topic and
+                                                 that is not an ancestor of the next topic will be poped off the stack.
+                                                 */
+                                                if (currentLevel > 1) {
+                                                    while (true) {
+                                                        var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
+                                                        if (specElementTopic === undefined) {
+                                                            var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
+                                                            if (specElementLevel[1].length === newOutlineLevel - 2) {
+                                                                break;
+                                                            } else {
+                                                                resultObject.contentSpec.pop();
+                                                            }
+                                                        } else {
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            /*
+                                             Since this topic is being discarded, the parent outline level continues through
+                                             */
+                                            currentLevel = previousLevel;
                                         }
-    
+
                                         var newTitle = convertNodeToDocbook(contentNode, false);
                                         if (newTitle.length === 0) {
                                             newTitle = "Untitled";
                                         }
-    
+
                                         newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
-    
+
                                         setTimeout(function() {
-                                                processTopic(newTitle, newOutlineLevel, contentNodes, [], successCallback);
+                                            processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, [], successCallback);
                                         }, 0);
                                     };
-    
-                                    processTopic(null, 0, contentNodes, [], function() {
-                                        config.UploadProgress[1] = progressIncrement;
-                                        config.ResolvedBookStructure = true;
-                                        resultCallback();
-    
-                                        uploadImagesLoop();
-                                    });
-    
-    
-    
+
+                                    processTopic(
+                                        "Untitled",
+                                        1,
+                                        1,
+                                        0,
+                                        [],
+                                        function() {
+                                            config.UploadProgress[1] = progressIncrement;
+                                            config.ResolvedBookStructure = true;
+                                            resultCallback();
+
+                                            uploadImagesLoop();
+                                        }
+                                    );
+
                                     var uploadImages = function (index, imagesKeys, callback) {
                                         if (index >= imagesKeys.length) {
                                             callback();
@@ -964,7 +1141,7 @@ define(
                                             var imagePath = imagesKeys[index];
     
                                             qnastart.createImage(
-                                                inputModel,
+                                                qnastart.zipModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.OdtFile,
                                                 imagePath,
