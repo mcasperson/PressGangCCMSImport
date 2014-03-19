@@ -583,7 +583,7 @@ define(
                     .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)
-                            .setIntro("Current Rules")
+                            .setIntro("Current Content Rules")
                             .setName("CurrentRules")
                             .setValue(function (resultCallback, errorCallback, result, config) {
     
@@ -596,6 +596,23 @@ define(
                                     rules = getRulesText();
                                 }
     
+                                resultCallback(rules);
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Current Heading Rules")
+                            .setName("CurrentHeadingRules")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+
+                                var rules = "";
+
+                                if (result) {
+                                    var resultObject = JSON.parse(result);
+                                    rules = getHeadingRulesText(resultObject.fontRules);
+                                } else {
+                                    rules = getHeadingRulesText();
+                                }
+
                                 resultCallback(rules);
                             }),
                         new qna.QNAVariable()
