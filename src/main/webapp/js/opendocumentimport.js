@@ -682,6 +682,14 @@ define(
                         resultObject.contentSpec.push("# " + value);
                     });
                 }
+
+                var headingRulesLines = getHeadingRulesText(resultObject.fontHeadingRules).split("<br/>");
+                if (headingRulesLines.length !== 0) {
+                    resultObject.contentSpec.push("# Heading matching rules used while importing this document");
+                    jquery.each(headingRulesLines, function (index, value) {
+                        resultObject.contentSpec.push("# " + value);
+                    });
+                }
     
                 /*
                  Initialize some config values
