@@ -171,8 +171,8 @@
       <file leaf-file-name="specelement.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334" vertical-offset="2872" max-vertical-offset="9030">
-              <caret line="204" column="69" selection-start-line="204" selection-start-column="69" selection-end-line="204" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.38652483" vertical-offset="2872" max-vertical-offset="9090">
+              <caret line="206" column="87" selection-start-line="206" selection-start-column="87" selection-end-line="206" selection-end-column="87" />
               <folding />
             </state>
           </provider>
@@ -696,7 +696,7 @@
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23963000" />
       <workItem from="1395172743040" duration="14092000" />
-      <workItem from="1395260933532" duration="6661000" />
+      <workItem from="1395260933532" duration="7094000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2638,11 +2638,15 @@
       <created>1395285718641</created>
       <updated>1395285718641</updated>
     </task>
-    <option name="localTasksCounter" value="486" />
+    <task id="LOCAL-00486" summary="Fixing bugs&#10;">
+      <created>1395286290738</created>
+      <updated>1395286290738</updated>
+    </task>
+    <option name="localTasksCounter" value="487" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="653892000" />
+    <option name="totallyTimeSpent" value="654325000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3145,8 +3149,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="2872" max-vertical-offset="9030">
-          <caret line="204" column="69" selection-start-line="204" selection-start-column="69" selection-end-line="204" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.38652483" vertical-offset="2872" max-vertical-offset="9090">
+          <caret line="206" column="87" selection-start-line="206" selection-start-column="87" selection-end-line="206" selection-end-column="87" />
           <folding />
         </state>
       </provider>

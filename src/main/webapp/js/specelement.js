@@ -201,8 +201,12 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
 
     exports.TopicGraphNode.prototype.findXRefs = function() {
         var thisStep = this;
-        // find any xrefs in the xml
-        var xrefs = qnautils.xPath(".//docbook:xref | .//docbook:link", thisStep.xml);
+        /*
+            This is a little more complicated because we need to get the xrefs and links in order.
+            A single or (qnautils.xPath(".//docbook:xref | .//docbook:link", thisStep.xml)) would
+            return the elements, but not in the order they are found in the source xml.
+         */
+        var xrefs = qnautils.xPath(".//*[self::docbook:xref or self::docbook:link]", thisStep.xml)
         var xref;
         while ((xref = xrefs.iterateNext()) !== null) {
             if (xref.hasAttribute("linkend")) {
