@@ -931,9 +931,9 @@ define(
                                                     if (emphasis &&
                                                         childNode.textContent.trim().length !== 0 &&
                                                         (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                                        textString += "<emphasis>" + generalexternalimport.cleanTextContent(childNode.textContent) + "</emphasis>";
+                                                        textString += "<emphasis>" + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + "</emphasis>";
                                                     } else {
-                                                        textString += generalexternalimport.cleanTextContent(childNode.textContent);
+                                                        textString += qnautils.escapeXMLSpecialCharacters(childNode.textContent);
                                                     }
                                                 }
                                             } else {
@@ -953,9 +953,9 @@ define(
                                                 } else if (childNode.nodeName === "text:a") {
                                                     var href = childNode.getAttribute("xlink:href");
                                                     if (href !== null) {
-                                                        customContainerContent.push('<ulink url="' + href + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
+                                                        customContainerContent.push('<ulink url="' + href + '">' + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + '</ulink>');
                                                     } else {
-                                                        customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
+                                                        customContainerContent.push(qnautils.escapeXMLSpecialCharacters(childNode.textContent));
                                                     }
                                                 } else if (childNode.nodeName === "draw:image") {
                                                     jquery.merge(customContainerContent, processDraw(childNode));
@@ -1142,14 +1142,14 @@ define(
     
                                         var para;
                                         if (creator !== null) {
-                                            remark.push("<emphasis>" + generalexternalimport.cleanTextContent(creator.textContent) + " </emphasis>");
+                                            remark.push("<emphasis>" + qnautils.escapeXMLSpecialCharacters(creator.textContent) + " </emphasis>");
                                         }
                                         if (date !== null) {
-                                            remark.push("<emphasis>" + generalexternalimport.cleanTextContent(date.textContent) + " </emphasis>");
+                                            remark.push("<emphasis>" + qnautils.escapeXMLSpecialCharacters(date.textContent) + " </emphasis>");
                                         }
     
                                         while((para = paras.iterateNext()) !== null) {
-                                            remark.push(generalexternalimport.cleanTextContent(para.textContent));
+                                            remark.push(qnautils.escapeXMLSpecialCharacters(para.textContent));
                                         }
                                         remark.push("</remark>");
 

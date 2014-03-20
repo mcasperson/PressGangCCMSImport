@@ -1394,7 +1394,8 @@ define(
                         }
                     };
 
-                    processImages(images.iterateNext(), 0);
+                    //processImages(images.iterateNext(), 0);
+                    resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
                 }
 
                 function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
@@ -1778,6 +1779,17 @@ define(
                     }
 
                     /*
+                        Ensure that all special characters are consistently escaped.
+                     */
+                    function normalizeXMLEntityCharacters(xml) {
+                        var textNodes = qnautils.xPath(".//text()", xml);
+                        var text;
+                        while ((text = textNodes.iterateNext) !== null) {
+                            text.nodeValue = qnautils.escapeXMLSpecialCharacters(text.nodeValue);
+                        }
+                    }
+
+                    /*
                      Take every injection and replace it with a placeholder. This is done on existing topics
                      from PressGang.
                      */
@@ -1895,7 +1907,11 @@ define(
                                      topics then match we have a potential candidate to reuse.
                                      */
                                     var topicXMLCopy = topic.xml.cloneNode(true);
-                                    normalizeXrefs(normalizeInjections(normalizeComments(topicXMLCopy)), topicOrContainerIDs);
+                                    normalizeXMLEntityCharacters(
+                                        normalizeXrefs(
+                                            normalizeInjections(
+                                                normalizeComments(topicXMLCopy)), topicOrContainerIDs)
+                                    );
                                     reorderAttributes(topicXMLCopy);
 
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
@@ -1965,6 +1981,10 @@ define(
                                              Order the attributes in nodes in a consistent way
                                              */
                                             reorderAttributes(matchingTopicXMLCopy);
+                                            /*
+                                                Ensure that special XML characters are escaped consistently
+                                             */
+                                            normalizeXMLEntityCharacters(matchingTopicXMLCopy);
                                             /*
                                              Convert back to a string
                                              */

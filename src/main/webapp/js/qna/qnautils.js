@@ -71,6 +71,16 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     };
 
+    exports.escapeXMLSpecialCharacters = function(text) {
+        return text.replace(/’/g, '&apos;')
+            .replace(/“/g, '&quot;')
+            .replace(/”/g, '&quot;')
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    };
+
     exports.keys = function(obj)
     {
         var keys = [];

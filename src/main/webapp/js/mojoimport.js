@@ -271,10 +271,10 @@ define(
                                                 customContainerContent.push('</imageobject>');
                                                 customContainerContent.push('</mediaobject>');
                                             } else {
-                                                customContainerContent.push('<ulink url="' + generalexternalimport.cleanTextContent(href) + '">' + generalexternalimport.cleanTextContent(childNode.textContent) + '</ulink>');
+                                                customContainerContent.push('<ulink url="' + qnautils.escapeXMLSpecialCharacters(href) + '">' + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + '</ulink>');
                                             }
                                         } else {
-                                            customContainerContent.push(generalexternalimport.cleanTextContent(childNode.textContent));
+                                            customContainerContent.push(qnautils.escapeXMLSpecialCharacters(childNode.textContent));
                                         }
                                     }  else if (/^table$/i.test(childNode.nodeName)) {
                                         processTable(customContainerContent, childNode, images);
