@@ -1780,7 +1780,7 @@ define(
                     /*
                         Ensure that all special characters are consistently escaped.
                      */
-                    function normalizeXMLEntityCharacters(xml) {
+                    function normalizeXMLEntityCharacters(xml, replacements) {
                         var textNodes = qnautils.xPath(".//text()", xml);
                         var text;
                         var textNodesCollection = [];
@@ -1789,8 +1789,41 @@ define(
                         }
 
                         jquery.each(textNodesCollection, function(index, value) {
-                            value.nodeValue = qnautils.escapeXMLSpecialCharacters(value.nodeValue);
+
+                            /*
+                                First return any entities that we consider equivalent.
+                             */
+                            jquery.each(replacements, function(index, replacementValue) {
+                                if (replacementValue.entity === "&quot;" ) {
+                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.replacement), "g"), "#quot#");
+                                }
+
+                                if (replacementValue.entity === "&apos;") {
+                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.replacement), "g"), "#apos#");
+                                }
+                            });
+                            /*
+                                Then replace equivalent characters/entities with a common marker.
+                             */
+                            value.nodeValue = value.nodeValue
+                                /*
+                                 Start by returning all entities to their character state
+                                 */
+                                .replace(/&quot;/g, '"')
+                                .replace(/&apos;/g, '\'')
+                                /*
+                                 Now encode back. Note that we don't want to use any characters that will be
+                                 further encoded when the xml is converted to a string. This is just for
+                                 equality testing.
+                                 */
+                                .replace(/’/g, '#apos#')
+                                .replace(/'/g, '#apos#')
+                                .replace(/“/g, '#quot#')
+                                .replace(/”/g, '#quot#')
+                                .replace(/"/g, "#quot#");
                         });
+
+                        return xml;
                     }
 
                     /*
@@ -1911,17 +1944,17 @@ define(
                                      topics then match we have a potential candidate to reuse.
                                      */
                                     var topicXMLCopy = topic.xml.cloneNode(true);
-                                    normalizeXMLEntityCharacters(
-                                        normalizeXrefs(
-                                            normalizeInjections(
-                                                normalizeComments(topicXMLCopy)), topicOrContainerIDs)
-                                    );
+                                    normalizeXrefs(
+                                        normalizeInjections(
+                                            normalizeComments(topicXMLCopy)), topicOrContainerIDs);
                                     reorderAttributes(topicXMLCopy);
+                                    normalizeXMLEntityCharacters(topicXMLCopy, replacements);
 
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
+                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
                                     topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
 
                                     /*
@@ -1986,9 +2019,10 @@ define(
                                              */
                                             reorderAttributes(matchingTopicXMLCopy);
                                             /*
-                                                Ensure that special XML characters are escaped consistently
+                                                Convert characters like " and entities like &quot; to a common marker
+                                                for comparasion
                                              */
-                                            normalizeXMLEntityCharacters(matchingTopicXMLCopy);
+                                            normalizeXMLEntityCharacters(matchingTopicXMLCopy, replacedTextResult.replacements);
                                             /*
                                              Convert back to a string
                                              */

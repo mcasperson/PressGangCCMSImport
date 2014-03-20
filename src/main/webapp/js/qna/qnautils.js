@@ -89,9 +89,9 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
             .replace(/'/g, '&apos;')
             .replace(/“/g, '&quot;')
             .replace(/”/g, '&quot;')
+            .replace(/"/g, "&quot;")
             .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;");
+            .replace(/>/g, "&gt;");
     };
 
     exports.keys = function(obj)
