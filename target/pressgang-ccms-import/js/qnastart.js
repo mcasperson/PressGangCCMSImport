@@ -580,7 +580,7 @@ define(
                 if (config.ImportOption === "Publican") {
                     resultCallback(publicanimport.askForZipOrDir);
                 } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
-                    resultCallback(generaldocbookimport.askForDocBookFile);
+                    resultCallback(generaldocbookimport.askForZipOrDir);
                 } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
                     resultCallback(generalexternalimport.getSpecDetails);
                 }

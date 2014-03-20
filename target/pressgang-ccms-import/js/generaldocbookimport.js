@@ -2,10 +2,40 @@ define(
     ['jquery', 'languages', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
     function (jquery, languages, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
         'use strict';
+
+        var inputModel;
+
+        exports.askForZipOrDir = new qna.QNAStep()
+            .setTitle("Select the source of the content to import")
+            .setIntro("You can import from a ZIP file or from a local directory.")
+            .setInputs([
+                new qna.QNAVariables()
+
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Zip File", "Directory"])
+                            .setOptions(["Zip", "Dir"])
+                            .setValue("Dir")
+                            .setName("InputType")
+                    ])
+            ])
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(config.InputType === "Zip" ? askForDocBookFile : askForDocbookDir);
+            })
+            .setEnterStep(function(resultCallback, errorCallback, result, config) {
+                if (!qnautils.isInputDirSupported()) {
+                    config.InputType = "Zip";
+                    resultCallback(true);
+                } else {
+                    resultCallback();
+                }
+            });
+
         /*
-         STEP 1 - Get the ZIP file
+         Get the ZIP file
          */
-        exports.askForDocBookFile = new qna.QNAStep()
+        var askForDocBookFile = new qna.QNAStep()
             .setTitle("Select the ZIP file to import")
             .setIntro("Select the ZIP file that contains the valid Docbook content that you wish to import into PressGang CCMS.")
             .setInputs(
@@ -31,13 +61,43 @@ define(
                     resultCallback(null);
                 }
             })
-            .setEnterStep(function(resultCallback){
-                qnastart.zipModel = qnastart.zipModel;
-                qnastart.zipModel.clearCache();
+            .setNextStep(function (resultCallback) {
+                resultCallback(askForMainXML);
+            }).setEnterStep(function(resultCallback){
+                inputModel = qnastart.zipModel;
+                inputModel.clearCache();
                 resultCallback(false);
+            });
+
+        var askForDocbookDir = new qna.QNAStep()
+            .setTitle("Select the directory to import")
+            .setIntro("Select the directory that contains the valid Publican book that you wish to import into PressGang CCMS. " +
+                "The directory must contain the publican.cfg file.")
+            .setInputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.DIRECTORY)
+                                .setIntro("Docbook Directory")
+                                .setName("InputSource")
+                        ])
+                ]
+            )
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                if (!config.InputSource) {
+                    errorCallback("Please select a directory", "You need to select a directory before continuing.");
+                } else {
+                    resultCallback(null);
+                }
             })
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
+            })
+            .setEnterStep(function(resultCallback){
+                inputModel = qnastart.dirModel;
+                inputModel.clearCache();
+                resultCallback(false);
             });
 
         /*
@@ -53,12 +113,13 @@ define(
                             .setType(qna.InputEnum.LISTBOX)
                             .setName("MainXMLFile")
                             .setOptions(function (resultCallback, errorCallback, result, config) {
-                                qnastart.zipModel.getCachedEntries(config.InputSource, function (entries) {
+                                inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
 
                                     jquery.each(entries, function (index, value) {
-                                        if (/^.*?\.xml$/.test(value.filename)) {
-                                            retValue.push(value.filename);
+                                        var filename = qnautils.getFileName(value);
+                                        if (/^.*?\.xml$/.test(filename)) {
+                                            retValue.push(filename);
                                         }
                                     });
 
@@ -66,23 +127,30 @@ define(
                                 });
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                qnastart.zipModel.getCachedEntries(config.InputSource, function (entries) {
+                                inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     // don't spend all day trying to find the main file
-                                    if (entries.length < 25) {
+                                    if (entries.length < 25 || config.InputType === "Dir") {
                                         var mainFile = null;
 
                                         var processEntry = function(index) {
                                             if (index >= entries.length) {
                                                 resultCallback(null);
                                             } else {
-                                                qnastart.zipModel.getTextFromFile(entries[index], function (textFile) {
-                                                    var match = /<(book)|(article)>/.exec(textFile);
-                                                    if (match) {
-                                                        resultCallback(entries[index].filename);
-                                                    } else {
-                                                        processEntry(++index);
-                                                    }
-                                                });
+                                                var entry = entries[index];
+                                                var filename = qnautils.getFileName(entry);
+                                                if (qnautils.isNormalFile(filename)) {
+                                                    inputModel.getTextFromFile(entry, function (textFile) {
+
+                                                        var match = /<(book)|(article)>/.exec(textFile);
+                                                        if (match) {
+                                                            resultCallback(qnautils.getFileName(entries[index]));
+                                                        } else {
+                                                            processEntry(++index);
+                                                        }
+                                                    });
+                                                } else {
+                                                    processEntry(++index);
+                                                }
                                             }
                                         };
 
@@ -95,7 +163,7 @@ define(
                     ])
             ])
             .setEnterStep(function(resultCallback){
-                qnastart.zipModel.clearCache();
+                inputModel.clearCache();
                 resultCallback(false);
             })
             .setNextStep(function (resultCallback) {
