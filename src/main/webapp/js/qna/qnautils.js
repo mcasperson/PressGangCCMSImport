@@ -86,6 +86,7 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
              */
             .replace(/&/g, "&amp;")
             .replace(/’/g, '&apos;')
+            .replace(/'/g, '&apos;')
             .replace(/“/g, '&quot;')
             .replace(/”/g, '&quot;')
             .replace(/</g, "&lt;")
