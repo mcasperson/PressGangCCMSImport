@@ -1452,7 +1452,13 @@ define(
                                 var titleXML = "<title>" + titleText + "</title>";
                                 var titleXMLDocument = qnautils.stringToXML(titleXML);
                                 var importedTitle =  qnautils.getOwnerDoc(clone).importNode(titleXMLDocument.documentElement);
-                                clone.replaceChild(importedTitle, title);
+                                if (title) {
+                                    clone.replaceChild(importedTitle, title);
+                                } else if (clone.childNodes.length === 0) {
+                                    clone.appendChild(importedTitle);
+                                } else {
+                                    clone.insertBefore(importedTitle, clone.childNodes[0]);
+                                }
 
                                 // strip away any child containers
                                 var removeChildren = [];
