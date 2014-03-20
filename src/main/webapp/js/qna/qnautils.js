@@ -84,10 +84,10 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
             /*
                 Now encode back. This ensures that the & character is not encoded twice
              */
+            .replace(/&/g, "&amp;")
             .replace(/’/g, '&apos;')
             .replace(/“/g, '&quot;')
             .replace(/”/g, '&quot;')
-            .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;");

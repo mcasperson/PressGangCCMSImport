@@ -104,8 +104,8 @@
       <file leaf-file-name="qnautils.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5076142" vertical-offset="960" max-vertical-offset="4185">
-              <caret line="84" column="87" selection-start-line="84" selection-start-column="87" selection-end-line="84" selection-end-column="87" />
+            <state vertical-scroll-proportion="0.4314721" vertical-offset="1035" max-vertical-offset="4185">
+              <caret line="86" column="35" selection-start-line="86" selection-start-column="35" selection-end-line="86" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -144,8 +144,8 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-70.111115" vertical-offset="28167" max-vertical-offset="37575">
-              <caret line="2004" column="91" selection-start-line="2004" selection-start-column="48" selection-end-line="2004" selection-end-column="91" />
+            <state vertical-scroll-proportion="-8.444445" vertical-offset="28467" max-vertical-offset="37575">
+              <caret line="1913" column="64" selection-start-line="1913" selection-start-column="36" selection-end-line="1913" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -709,7 +709,7 @@
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23963000" />
       <workItem from="1395172743040" duration="14092000" />
-      <workItem from="1395260933532" duration="11884000" />
+      <workItem from="1395260933532" duration="12583000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2675,11 +2675,15 @@
       <created>1395347764765</created>
       <updated>1395347764766</updated>
     </task>
-    <option name="localTasksCounter" value="492" />
+    <task id="LOCAL-00492" summary="Fixing bugs&#10;">
+      <created>1395349104296</created>
+      <updated>1395349104296</updated>
+    </task>
+    <option name="localTasksCounter" value="493" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="659115000" />
+    <option name="totallyTimeSpent" value="659814000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3112,16 +3116,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="17073" max-vertical-offset="26625">
-          <caret line="1151" column="56" selection-start-line="1151" selection-start-column="56" selection-end-line="1151" selection-end-column="56" />
-          <folding>
-            <marker date="1395346713202" expanded="true" signature="62033:62111" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3948" max-vertical-offset="13170">
@@ -3156,14 +3150,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-70.111115" vertical-offset="28167" max-vertical-offset="37575">
-          <caret line="2004" column="91" selection-start-line="2004" selection-start-column="48" selection-end-line="2004" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-175.0" vertical-offset="4005" max-vertical-offset="8925">
@@ -3172,10 +3158,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17073" max-vertical-offset="26625">
+          <caret line="1151" column="56" selection-start-line="1151" selection-start-column="56" selection-end-line="1151" selection-end-column="56" />
+          <folding>
+            <marker date="1395346713202" expanded="true" signature="62033:62111" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.444445" vertical-offset="28467" max-vertical-offset="37575">
+          <caret line="1913" column="64" selection-start-line="1913" selection-start-column="36" selection-end-line="1913" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5076142" vertical-offset="960" max-vertical-offset="4185">
-          <caret line="84" column="87" selection-start-line="84" selection-start-column="87" selection-end-line="84" selection-end-column="87" />
+        <state vertical-scroll-proportion="0.4314721" vertical-offset="1035" max-vertical-offset="4185">
+          <caret line="86" column="35" selection-start-line="86" selection-start-column="35" selection-end-line="86" selection-end-column="35" />
           <folding />
         </state>
       </provider>
