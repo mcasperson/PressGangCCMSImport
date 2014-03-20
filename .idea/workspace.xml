@@ -3,11 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -72,11 +73,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5780886" vertical-offset="1619" max-vertical-offset="26625">
-              <caret line="141" column="38" selection-start-line="141" selection-start-column="38" selection-end-line="141" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="26625">
+              <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
               <folding>
                 <marker date="1395191022996" expanded="true" signature="62054:62132" placeholder="..." />
               </folding>
@@ -87,36 +88,26 @@
       <file leaf-file-name="fontrule.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/fontrule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="752" max-vertical-offset="1650">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="1650">
               <caret line="99" column="31" selection-start-line="99" selection-start-column="31" selection-end-line="99" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="3855">
-              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="generaldocbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="generaldocbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="2460">
-              <caret line="28" column="16" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.5694604" vertical-offset="1679" max-vertical-offset="3480">
+              <caret line="145" column="111" selection-start-line="145" selection-start-column="111" selection-end-line="145" selection-end-column="111" />
               <folding>
-                <marker date="1395172237642" expanded="true" signature="468:8098" placeholder="{...}" />
-                <marker date="1395172237642" expanded="true" signature="5449:6529" placeholder="[...]" />
-                <marker date="1395172237642" expanded="true" signature="5532:6472" placeholder="[...]" />
-                <marker date="1395172237642" expanded="true" signature="6709:7923" placeholder="{...}" />
-                <marker date="1395172237642" expanded="true" signature="7046:7073" placeholder="{...}" />
-                <marker date="1395172237642" expanded="true" signature="7079:7909" placeholder="{...}" />
-                <marker date="1395172237642" expanded="true" signature="7525:7548" placeholder="{...}" />
+                <marker date="1395281499892" expanded="true" signature="1673:11207" placeholder="{...}" />
+                <marker date="1395281499892" expanded="true" signature="8558:9638" placeholder="[...]" />
+                <marker date="1395281499892" expanded="true" signature="8641:9581" placeholder="[...]" />
+                <marker date="1395281499892" expanded="true" signature="9818:11032" placeholder="{...}" />
+                <marker date="1395281499892" expanded="true" signature="10155:10182" placeholder="{...}" />
+                <marker date="1395281499892" expanded="true" signature="10188:11018" placeholder="{...}" />
+                <marker date="1395281499892" expanded="true" signature="10634:10657" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -125,7 +116,7 @@
       <file leaf-file-name="generalexternalimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1830">
+            <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1875">
               <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
               <folding />
             </state>
@@ -135,8 +126,8 @@
       <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="4665">
-              <caret line="130" column="69" selection-start-line="130" selection-start-column="69" selection-end-line="130" selection-end-column="69" />
+            <state vertical-scroll-proportion="-9.574468" vertical-offset="1440" max-vertical-offset="4665">
+              <caret line="126" column="9" selection-start-line="12" selection-start-column="8" selection-end-line="126" selection-end-column="9" />
               <folding>
                 <marker date="1395172237644" expanded="true" signature="1138:1320" placeholder="{...}" />
                 <marker date="1395172237644" expanded="true" signature="1326:6970" placeholder="{...}" />
@@ -148,10 +139,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="require.min.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/require.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.037037" vertical-offset="9104" max-vertical-offset="13170">
+            <state vertical-scroll-proportion="0.0" vertical-offset="9104" max-vertical-offset="13170">
               <caret line="634" column="56" selection-start-line="634" selection-start-column="56" selection-end-line="634" selection-end-column="56" />
               <folding>
                 <marker date="1395175868905" expanded="true" signature="22658:29730" placeholder="{...}" />
@@ -176,8 +177,8 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="6525" max-vertical-offset="37125">
-              <caret line="495" column="68" selection-start-line="495" selection-start-column="68" selection-end-line="495" selection-end-column="68" />
+            <state vertical-scroll-proportion="-10.592592" vertical-offset="4379" max-vertical-offset="37125">
+              <caret line="311" column="59" selection-start-line="311" selection-start-column="54" selection-end-line="311" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -186,8 +187,8 @@
       <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="8925">
-              <caret line="8" column="57" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+            <state vertical-scroll-proportion="-25.555555" vertical-offset="8040" max-vertical-offset="8925">
+              <caret line="582" column="70" selection-start-line="582" selection-start-column="70" selection-end-line="582" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -248,15 +249,15 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnadirmodel.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/languages.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
       </list>
     </option>
   </component>
@@ -316,8 +317,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -700,7 +701,8 @@
       <workItem from="1394741567488" duration="21754000" />
       <workItem from="1394859508835" duration="162000" />
       <workItem from="1394998195561" duration="23963000" />
-      <workItem from="1395172743040" duration="12792000" />
+      <workItem from="1395172743040" duration="14092000" />
+      <workItem from="1395260933532" duration="2453000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2626,11 +2628,15 @@
       <created>1395190007893</created>
       <updated>1395190007893</updated>
     </task>
-    <option name="localTasksCounter" value="482" />
+    <task id="LOCAL-00482" summary="Fixing bugs&#10;">
+      <created>1395191028419</created>
+      <updated>1395191028419</updated>
+    </task>
+    <option name="localTasksCounter" value="483" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="645931000" />
+    <option name="totallyTimeSpent" value="649684000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -2649,7 +2655,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2661,15 +2666,16 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32418162" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2687,8 +2693,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2767,7 +2773,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="1335">
           <caret line="64" column="34" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2920,13 +2925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/require.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
-          <caret line="36" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
@@ -3034,7 +3032,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="1335">
           <caret line="64" column="34" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3046,56 +3043,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="8925">
-          <caret line="8" column="57" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="2460">
-          <caret line="28" column="16" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
-          <folding>
-            <marker date="1395172237642" expanded="true" signature="468:8098" placeholder="{...}" />
-            <marker date="1395172237642" expanded="true" signature="5449:6529" placeholder="[...]" />
-            <marker date="1395172237642" expanded="true" signature="5532:6472" placeholder="[...]" />
-            <marker date="1395172237642" expanded="true" signature="6709:7923" placeholder="{...}" />
-            <marker date="1395172237642" expanded="true" signature="7046:7073" placeholder="{...}" />
-            <marker date="1395172237642" expanded="true" signature="7079:7909" placeholder="{...}" />
-            <marker date="1395172237642" expanded="true" signature="7525:7548" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3412" max-vertical-offset="3990">
           <caret line="255" column="67" selection-start-line="255" selection-start-column="67" selection-end-line="255" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="4665">
-          <caret line="130" column="69" selection-start-line="130" selection-start-column="69" selection-end-line="130" selection-end-column="69" />
-          <folding>
-            <marker date="1395172237644" expanded="true" signature="1138:1320" placeholder="{...}" />
-            <marker date="1395172237644" expanded="true" signature="1326:6970" placeholder="{...}" />
-            <marker date="1395172237644" expanded="true" signature="1620:6950" placeholder="{...}" />
-            <marker date="1395172237644" expanded="true" signature="1733:1800" placeholder="{...}" />
-            <marker date="1395172237644" expanded="true" signature="6131:6211" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6525" max-vertical-offset="37125">
-          <caret line="495" column="68" selection-start-line="495" selection-start-column="68" selection-end-line="495" selection-end-column="68" />
           <folding />
         </state>
       </provider>
@@ -3110,7 +3061,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.037037" vertical-offset="9104" max-vertical-offset="13170">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9104" max-vertical-offset="13170">
           <caret line="634" column="56" selection-start-line="634" selection-start-column="56" selection-end-line="634" selection-end-column="56" />
           <folding>
             <marker date="1395175868905" expanded="true" signature="22658:29730" placeholder="{...}" />
@@ -3131,10 +3082,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5780886" vertical-offset="1619" max-vertical-offset="26625">
-          <caret line="141" column="38" selection-start-line="141" selection-start-column="38" selection-end-line="141" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="26625">
+          <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
           <folding>
             <marker date="1395191022996" expanded="true" signature="62054:62132" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/require.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.592592" vertical-offset="4379" max-vertical-offset="37125">
+          <caret line="311" column="59" selection-start-line="311" selection-start-column="54" selection-end-line="311" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-25.555555" vertical-offset="8040" max-vertical-offset="8925">
+          <caret line="582" column="70" selection-start-line="582" selection-start-column="70" selection-end-line="582" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.574468" vertical-offset="1440" max-vertical-offset="4665">
+          <caret line="126" column="9" selection-start-line="12" selection-start-column="8" selection-end-line="126" selection-end-column="9" />
+          <folding>
+            <marker date="1395172237644" expanded="true" signature="1138:1320" placeholder="{...}" />
+            <marker date="1395172237644" expanded="true" signature="1326:6970" placeholder="{...}" />
+            <marker date="1395172237644" expanded="true" signature="1620:6950" placeholder="{...}" />
+            <marker date="1395172237644" expanded="true" signature="1733:1800" placeholder="{...}" />
+            <marker date="1395172237644" expanded="true" signature="6131:6211" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5694604" vertical-offset="1679" max-vertical-offset="3480">
+          <caret line="145" column="111" selection-start-line="145" selection-start-column="111" selection-end-line="145" selection-end-column="111" />
+          <folding>
+            <marker date="1395281499892" expanded="true" signature="1673:11207" placeholder="{...}" />
+            <marker date="1395281499892" expanded="true" signature="8558:9638" placeholder="[...]" />
+            <marker date="1395281499892" expanded="true" signature="8641:9581" placeholder="[...]" />
+            <marker date="1395281499892" expanded="true" signature="9818:11032" placeholder="{...}" />
+            <marker date="1395281499892" expanded="true" signature="10155:10182" placeholder="{...}" />
+            <marker date="1395281499892" expanded="true" signature="10188:11018" placeholder="{...}" />
+            <marker date="1395281499892" expanded="true" signature="10634:10657" placeholder="{...}" />
           </folding>
         </state>
       </provider>

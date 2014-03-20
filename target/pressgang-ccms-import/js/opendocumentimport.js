@@ -131,12 +131,19 @@ define(
                         }
                         rule += "Italics: " + fontRule.underline;
                     }
-    
+
                     if (fontRule.docBookElement) {
                         if (rule.length !== 0) {
                             rule += ", ";
                         }
                         rule += "DocBook Element: " + fontRule.docBookElement;
+                    }
+
+                    if (fontRule.merge) {
+                        if (rule.length !== 0) {
+                            rule += ", ";
+                        }
+                        rule += "Merge Consecutive Elements: " + fontRule.merge;
                     }
     
                     if (rules.length !== 0) {
