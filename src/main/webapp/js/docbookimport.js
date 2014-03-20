@@ -1795,11 +1795,11 @@ define(
                              */
                             jquery.each(replacements, function(index, replacementValue) {
                                 if (replacementValue.entity === "&quot;" ) {
-                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.replacement), "g"), "#quot#");
+                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#quot#");
                                 }
 
                                 if (replacementValue.entity === "&apos;") {
-                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.replacement), "g"), "#apos#");
+                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#apos#");
                                 }
                             });
                             /*
