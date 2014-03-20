@@ -72,7 +72,19 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     };
 
     exports.escapeXMLSpecialCharacters = function(text) {
-        return text.replace(/’/g, '&apos;')
+        return text
+            /*
+                Start by returning all entities to their character state
+             */
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&apos;/g, '\'')
+            /*
+                Now encode back. This ensures that the & character is not encoded twice
+             */
+            .replace(/’/g, '&apos;')
             .replace(/“/g, '&quot;')
             .replace(/”/g, '&quot;')
             .replace(/&/g, "&amp;")
