@@ -1394,8 +1394,7 @@ define(
                         }
                     };
 
-                    //processImages(images.iterateNext(), 0);
-                    resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
+                    processImages(images.iterateNext(), 0);
                 }
 
                 function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
@@ -1784,9 +1783,14 @@ define(
                     function normalizeXMLEntityCharacters(xml) {
                         var textNodes = qnautils.xPath(".//text()", xml);
                         var text;
-                        while ((text = textNodes.iterateNext) !== null) {
-                            text.nodeValue = qnautils.escapeXMLSpecialCharacters(text.nodeValue);
+                        var textNodesCollection = [];
+                        while ((text = textNodes.iterateNext()) !== null) {
+                            textNodesCollection.push(text);
                         }
+
+                        jquery.each(textNodesCollection, function(index, value) {
+                            value.nodeValue = qnautils.escapeXMLSpecialCharacters(value.nodeValue);
+                        });
                     }
 
                     /*
