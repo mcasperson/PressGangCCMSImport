@@ -49,16 +49,6 @@ define(
             content.length = 0;
         };
 
-        exports.cleanTextContent = function(text) {
-            return text.replace(/’/g, '&apos;')
-                .replace(/“/g, '&quot;')
-                .replace(/”/g, '&quot;')
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;");
-        };
-
         /*
             Get content spec details
          */

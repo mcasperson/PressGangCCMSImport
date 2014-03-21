@@ -46,10 +46,10 @@ require(
                             var config = qna.config;
                             qna.step.enterStep(
                                 function (result) {
-                                    $scope.disabled = false;
                                     if (result === undefined) {
                                         $rootScope.$apply();
                                     } else {
+                                        $scope.disabled = false;
                                         if (result) {
                                             $scope.next();
                                         }

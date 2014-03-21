@@ -1452,7 +1452,13 @@ define(
                                 var titleXML = "<title>" + titleText + "</title>";
                                 var titleXMLDocument = qnautils.stringToXML(titleXML);
                                 var importedTitle =  qnautils.getOwnerDoc(clone).importNode(titleXMLDocument.documentElement);
-                                clone.replaceChild(importedTitle, title);
+                                if (title) {
+                                    clone.replaceChild(importedTitle, title);
+                                } else if (clone.childNodes.length === 0) {
+                                    clone.appendChild(importedTitle);
+                                } else {
+                                    clone.insertBefore(importedTitle, clone.childNodes[0]);
+                                }
 
                                 // strip away any child containers
                                 var removeChildren = [];
@@ -1772,6 +1778,55 @@ define(
                     }
 
                     /*
+                        Ensure that all special characters are consistently escaped.
+                     */
+                    function normalizeXMLEntityCharacters(xml, replacements) {
+                        var textNodes = qnautils.xPath(".//text()", xml);
+                        var text;
+                        var textNodesCollection = [];
+                        while ((text = textNodes.iterateNext()) !== null) {
+                            textNodesCollection.push(text);
+                        }
+
+                        jquery.each(textNodesCollection, function(index, value) {
+
+                            /*
+                                First return any entities that we consider equivalent.
+                             */
+                            jquery.each(replacements, function(index, replacementValue) {
+                                if (replacementValue.entity === "&quot;" ) {
+                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#quot#");
+                                }
+
+                                if (replacementValue.entity === "&apos;") {
+                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#apos#");
+                                }
+                            });
+                            /*
+                                Then replace equivalent characters/entities with a common marker.
+                             */
+                            value.nodeValue = value.nodeValue
+                                /*
+                                 Start by returning all entities to their character state
+                                 */
+                                .replace(/&quot;/g, '"')
+                                .replace(/&apos;/g, '\'')
+                                /*
+                                 Now encode back. Note that we don't want to use any characters that will be
+                                 further encoded when the xml is converted to a string. This is just for
+                                 equality testing.
+                                 */
+                                .replace(/’/g, '#apos#')
+                                .replace(/'/g, '#apos#')
+                                .replace(/“/g, '#quot#')
+                                .replace(/”/g, '#quot#')
+                                .replace(/"/g, "#quot#");
+                        });
+
+                        return xml;
+                    }
+
+                    /*
                      Take every injection and replace it with a placeholder. This is done on existing topics
                      from PressGang.
                      */
@@ -1889,13 +1944,17 @@ define(
                                      topics then match we have a potential candidate to reuse.
                                      */
                                     var topicXMLCopy = topic.xml.cloneNode(true);
-                                    normalizeXrefs(normalizeInjections(normalizeComments(topicXMLCopy)), topicOrContainerIDs);
+                                    normalizeXrefs(
+                                        normalizeInjections(
+                                            normalizeComments(topicXMLCopy)), topicOrContainerIDs);
                                     reorderAttributes(topicXMLCopy);
+                                    normalizeXMLEntityCharacters(topicXMLCopy, replacements);
 
                                     var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
+                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
                                     topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
 
                                     /*
@@ -1959,6 +2018,11 @@ define(
                                              Order the attributes in nodes in a consistent way
                                              */
                                             reorderAttributes(matchingTopicXMLCopy);
+                                            /*
+                                                Convert characters like " and entities like &quot; to a common marker
+                                                for comparasion
+                                             */
+                                            normalizeXMLEntityCharacters(matchingTopicXMLCopy, replacedTextResult.replacements);
                                             /*
                                              Convert back to a string
                                              */
