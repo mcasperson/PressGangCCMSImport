@@ -804,7 +804,8 @@ define(
                                                     }
                                                 }
 
-                                                jquery.merge(content, processPara(content, contentNode));
+                                                var paraContents = processPara(content, contentNode);
+                                                jquery.merge(content, paraContents);
 
                                             } else if (contentNode.nodeName === "text:list") {
                                                 jquery.merge(content, processList(contentNode));
@@ -1223,6 +1224,19 @@ define(
 
                                         return null;
                                     };
+
+                                    var fixNestedParas = function(paraContents) {
+                                        /*
+                                         Deal with nested paras (e.g. from a frame)
+                                         */
+                                        for (var paraContentIndex = 0; paraContentIndex < paraContents.length; ++paraContentIndex) {
+                                            paraContents[paraContentIndex] = paraContents[paraContentIndex].replace(/<para>/g, "</paramarker><para>");
+                                            paraContents[paraContentIndex] = paraContents[paraContentIndex].replace(/<\/para>/g, "</para><paramarker>");
+                                            paraContents[paraContentIndex] = paraContents[paraContentIndex].replace(/paramarker/g, "para");
+                                        }
+
+                                        return paraContents;
+                                    };
     
                                     var processPara = function (existingContent, contentNode) {
                                         var content = [];
@@ -1296,14 +1310,14 @@ define(
                                                             content.push("<" + matchingRule.docBookElement + ">");
                                                         }
 
-                                                        jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                        jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode)));
                                                         content.push("</" + matchingRule.docBookElement + ">");
                                                     }  else {
                                                         /*
                                                          This is a plain old paragraph.
                                                          */
                                                         content.push("<para>");
-                                                        jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                        jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode)));
                                                         content.push("</para>");
                                                     }
                                                 } else {
@@ -1311,7 +1325,7 @@ define(
                                                      This is a plain old paragraph.
                                                      */
                                                     content.push("<para>");
-                                                    jquery.merge(content, convertNodeToDocbook(contentNode));
+                                                    jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode)));
                                                     content.push("</para>");
                                                 }
                                             } else {
@@ -1324,7 +1338,7 @@ define(
                                                     appropriate tag.
                                                  */
                                                 content.push("<para>");
-                                                jquery.merge(content, convertNodeToDocbook(contentNode, true));
+                                                jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode, true)));
                                                 content.push("</para>");
                                             }
                                         }

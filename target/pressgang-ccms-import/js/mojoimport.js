@@ -114,6 +114,28 @@ define(
 
                 var resultObject = JSON.parse(result) || {contentSpec:[] };
 
+                resultObject.contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                resultObject.contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                resultObject.contentSpec.push("Version = " + (config.ContentSpecVersion === undefined ? "1" : config.ContentSpecVersion));
+                resultObject.contentSpec.push("Format = DocBook 4.5");
+
+                /*
+                 These metadata elements are optional
+                 */
+                if (config.ContentSpecSubtitle !== undefined) {
+                    resultObject.contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
+                }
+                if (config.ContentSpecEdition !== undefined) {
+                    resultObject.contentSpec.push("Edition = " + config.ContentSpecEdition);
+                }
+                if (config.ContentSpecCopyrightHolder !== undefined) {
+                    resultObject.contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                }
+                if (config.ContentSpecBrand !== undefined) {
+                    // this is the value specified in the ui
+                    resultObject.contentSpec.push("Brand = " + config.ContentSpecBrand);
+                }
+
                 resultObject.contentSpec.push("# Imported from " + config.MojoURL);
 
                 /*
