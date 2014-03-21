@@ -112,7 +112,7 @@ define(
 
                 var progressIncrement = 100 / 4;
 
-                var resultObject = JSON.parse(result) || {};
+                var resultObject = JSON.parse(result) || {contentSpec:[] };
 
                 resultObject.contentSpec.push("# Imported from " + config.MojoURL);
 
