@@ -28,7 +28,7 @@ define(
                     config.InputType = "Zip";
                     resultCallback(true);
                 } else {
-                    resultCallback();
+                    resultCallback(false);
                 }
             });
 
