@@ -46,6 +46,11 @@ require(
                             var config = qna.config;
                             qna.step.enterStep(
                                 function (result) {
+                                    /*
+                                        Undefined means just update the UI
+                                        true means move to next step
+                                        false means enable the ui
+                                     */
                                     if (result === undefined) {
                                         $rootScope.$apply();
                                     } else {

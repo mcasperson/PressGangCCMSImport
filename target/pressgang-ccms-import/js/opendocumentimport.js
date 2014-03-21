@@ -776,29 +776,31 @@ define(
                                                 processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
                                                 return;
                                             } else if (contentNode.nodeName === "text:p") {
-                                                var fontRule = getFontRuleForPara(contentNode);
-                                                if (fontRule !== null) {
-                                                    var matchingRule;
-                                                    jquery.each(resultObject.fontHeadingRules, function (index, definedFontRule) {
+                                                if (resultObject.fontHeadingRules !== undefined) {
+                                                    var fontRule = getFontRuleForPara(contentNode);
+                                                    if (fontRule !== null) {
+                                                        var matchingRule;
+                                                        jquery.each(resultObject.fontHeadingRules, function (index, definedFontRule) {
 
-                                                        var fixedFontRule = new fontrule.FontRule(definedFontRule);
+                                                            var fixedFontRule = new fontrule.FontRule(definedFontRule);
 
-                                                        /*
-                                                         Account for the same font having different names
-                                                         */
-                                                        if (matchesFamily(fontRule.font, fixedFontRule.font)) {
-                                                            fixedFontRule.font = fontRule.font;
+                                                            /*
+                                                             Account for the same font having different names
+                                                             */
+                                                            if (matchesFamily(fontRule.font, fixedFontRule.font)) {
+                                                                fixedFontRule.font = fontRule.font;
+                                                            }
+
+                                                            if (fixedFontRule.hasSameSettings(fontRule)) {
+                                                                matchingRule = definedFontRule;
+                                                                return false;
+                                                            }
+                                                        });
+
+                                                        if (matchingRule !== undefined) {
+                                                            processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
+                                                            return;
                                                         }
-
-                                                        if (fixedFontRule.hasSameSettings(fontRule)) {
-                                                            matchingRule = definedFontRule;
-                                                            return false;
-                                                        }
-                                                    });
-
-                                                    if (matchingRule !== undefined) {
-                                                        processHeader(content, contentNode, title, parentLevel, outlineLevel, index, successCallback);
-                                                        return;
                                                     }
                                                 }
 
