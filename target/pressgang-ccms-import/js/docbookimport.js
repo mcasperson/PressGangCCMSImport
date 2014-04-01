@@ -45,7 +45,7 @@ define(
 
         function removeRedundantXmlnsAttribute(xmlString) {
             return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
-        };
+        }
 
         /*
          See if the xiincludes have some other base dir
@@ -2509,7 +2509,7 @@ define(
                             .setIntro("Content Specification ID")
                             .setName("ContentSpecIDLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a>");
+                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
@@ -2534,6 +2534,6 @@ define(
             ])
             .setShowNext(false)
             .setShowPrevious(false)
-            .setShowRestart(true);
+            .setShowRestart("Import another book");
     }
 );

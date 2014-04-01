@@ -146,8 +146,8 @@ define(['exports'], function (exports) {
     };
 
     exports.QNAStep.prototype.getShowRestartName = function () {
-        return typeof this.showRestartProcessed === "string" ?
-            this.showRestartProcessed : "Restart";
+        return typeof this.processedShowRestart === "string" ?
+            this.processedShowRestart : "Restart";
     };
 
     exports.QNAStep.prototype.setShowRestart = function (showRestart) {

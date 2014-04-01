@@ -244,16 +244,20 @@ define(
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
-
+                                    var foundDir = false;
                                     jquery.each(entries, function (index, value) {
-                                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
+                                        if (RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/$").test(qnautils.getFileName(value))) {
+                                            foundDir = true;
+                                        } else if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
                                             if (!/^tmp\//.test(qnautils.getFileName(value))) {
                                                 retValue.push(qnautils.getFileName(value));
                                             }
                                         }
                                     });
 
-                                    if (retValue.length !== 0) {
+                                    if (!foundDir) {
+                                        errorCallback("No " + config.ImportLang + " directory found", "The source ZIP file has no " + config.ImportLang + " directory", true);
+                                    } else if (retValue.length !== 0) {
                                         resultCallback(retValue);
                                     } else {
                                         errorCallback("No XML files found", "The source ZIP file has no XML files under the " + config.ImportLang + " directory", true);
@@ -269,22 +273,8 @@ define(
                                     config.InputSource,
                                     "publican.cfg",
                                     function(data) {
-                                        var options = data.split("\n");
-                                        var foundMainFile = false;
-                                        jquery.each(options, function (index, value) {
-                                            var keyValue = value.split(":");
-                                            if (keyValue.length === 2 && keyValue[0].trim() === "mainfile") {
-                                                var mainFile = config.ImportLang + "/" + keyValue[1].trim();
-                                                if (!/\.xml$/.test(mainFile)) {
-                                                    mainFile += ".xml";
-                                                }
-                                                resultCallback(mainFile);
-                                                foundMainFile = true;
-                                                return false;
-                                            }
-                                        });
 
-                                        if (!foundMainFile) {
+                                        function mainFileFallback() {
                                             inputModel.getCachedEntries(config.InputSource, function (entries) {
                                                 jquery.each(entries, function (index, value) {
                                                     if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/(Book)|(Article)_Info\\.xml$").test(qnautils.getFileName(value))) {
@@ -306,6 +296,39 @@ define(
                                                     }
                                                 });
                                             });
+                                        }
+
+                                        var options = data.split("\n");
+                                        var foundMainFile = false;
+                                        jquery.each(options, function (index, value) {
+                                            var keyValue = value.split(":");
+                                            if (keyValue.length === 2 && keyValue[0].trim() === "mainfile") {
+                                                var mainFile = config.ImportLang + "/" + keyValue[1].trim();
+                                                if (!/\.xml$/.test(mainFile)) {
+                                                    mainFile += ".xml";
+                                                }
+
+                                                var mainFileExists = false;
+                                                inputModel.getCachedEntries(config.InputSource, function (entries) {
+                                                    jquery.each(entries, function (index, value) {
+                                                        if (qnautils.getFileName(value) === mainFile) {
+                                                            resultCallback(mainFile);
+                                                            mainFileExists = true;
+                                                            return false;
+                                                        }
+                                                    });
+
+                                                    if (!mainFileExists) {
+                                                        mainFileFallback();
+                                                    }
+                                                });
+
+                                                return false;
+                                            }
+                                        });
+
+                                        if (!foundMainFile) {
+                                            mainFileFallback();
                                         }
                                     },
                                     errorCallback);
