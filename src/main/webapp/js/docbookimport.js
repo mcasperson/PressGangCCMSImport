@@ -1265,11 +1265,16 @@ define(
                                     if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/files/.+").test(filename) &&
                                         qnautils.isNormalFile(filename) &&
                                         getIgnoredFiles(config.ImportLang).indexOf(filename) === -1) {
+
+                                        var uri = new URI(filename);
+
                                         qnastart.createFile(
                                             inputModel,
                                             config.CreateOrResuseFiles === "REUSE",
                                             config.InputSource,
                                             qnautils.getFileName(entry),
+                                            uri.filename(),
+                                            uri.pathname().replace(config.ImportLang + "/files/", "").replace(uri.filename(), ""),
                                             config.ImportLang,
                                             config,
                                             function (data) {
