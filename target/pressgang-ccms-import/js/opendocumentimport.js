@@ -86,7 +86,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : askForRevisionMessage);
+                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : useHeadingStyleRules);
             });
     
         function getRulesText(rulesCollection) {

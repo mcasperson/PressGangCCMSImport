@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -162,8 +168,8 @@
       <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46632653" vertical-offset="3308" max-vertical-offset="4830">
-              <caret line="251" column="159" selection-start-line="251" selection-start-column="159" selection-end-line="251" selection-end-column="159" />
+            <state vertical-scroll-proportion="0.34387755" vertical-offset="3758" max-vertical-offset="4890">
+              <caret line="273" column="71" selection-start-line="273" selection-start-column="71" selection-end-line="273" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -740,7 +746,7 @@
       <workItem from="1395172743040" duration="14092000" />
       <workItem from="1395260933532" duration="19549000" />
       <workItem from="1395366552559" duration="2452000" />
-      <workItem from="1396321934797" duration="718000" />
+      <workItem from="1396321934797" duration="976000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2766,11 +2772,15 @@
       <created>1396322368786</created>
       <updated>1396322368786</updated>
     </task>
-    <option name="localTasksCounter" value="507" />
+    <task id="LOCAL-00507" summary="Fixing https://bugzilla.redhat.com/show_bug.cgi?id=1071059">
+      <created>1396322656330</created>
+      <updated>1396322656330</updated>
+    </task>
+    <option name="localTasksCounter" value="508" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="669950000" />
+    <option name="totallyTimeSpent" value="670208000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1912" height="1200" extended-state="4" />
@@ -3244,8 +3254,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46632653" vertical-offset="3308" max-vertical-offset="4830">
-          <caret line="251" column="159" selection-start-line="251" selection-start-column="159" selection-end-line="251" selection-end-column="159" />
+        <state vertical-scroll-proportion="0.34387755" vertical-offset="3758" max-vertical-offset="4890">
+          <caret line="273" column="71" selection-start-line="273" selection-start-column="71" selection-end-line="273" selection-end-column="71" />
           <folding />
         </state>
       </provider>

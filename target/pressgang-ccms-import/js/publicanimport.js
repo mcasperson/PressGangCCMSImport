@@ -246,7 +246,11 @@ define(
                                         }
                                     });
 
-                                    resultCallback(retValue);
+                                    if (retValue.length !== 0) {
+                                        resultCallback(retValue);
+                                    } else {
+                                        errorCallback("No XML files found", "The source ZIP file has no XML files under the " + config.ImportLang + " directory", true);
+                                    }
                                 });
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
@@ -299,6 +303,13 @@ define(
                             })
                     ])
             ])
+            .setProcessStep(function(resultCallback, errorCallback, result, config) {
+                if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
+                    errorCallback("Select a XML file", "Please select the main XML file before continuing");
+                } else {
+                    resultCallback();
+                }
+            })
             .setNextStep(function (resultCallback) {
                 resultCallback(docbookimport.askForRevisionMessage);
             });
