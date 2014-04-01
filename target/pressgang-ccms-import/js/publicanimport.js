@@ -183,6 +183,13 @@ define(
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
             })
+            .setBackStep(function(resultCallback) {
+                if (qnautils.isInputDirSupported()) {
+                    resultCallback(exports.askForZipOrDir);
+                } else {
+                    resultCallback(qnastart.specifyTheServer);
+                }
+            })
             .setEnterStep(function(resultCallback){
                 inputModel = qnastart.zipModel;
                 inputModel.clearCache();
@@ -246,7 +253,11 @@ define(
                                         }
                                     });
 
-                                    resultCallback(retValue);
+                                    if (retValue.length !== 0) {
+                                        resultCallback(retValue);
+                                    } else {
+                                        errorCallback("No XML files found", "The source ZIP file has no XML files under the " + config.ImportLang + " directory", true);
+                                    }
                                 });
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {
@@ -263,7 +274,11 @@ define(
                                         jquery.each(options, function (index, value) {
                                             var keyValue = value.split(":");
                                             if (keyValue.length === 2 && keyValue[0].trim() === "mainfile") {
-                                                resultCallback(config.ImportLang + "/" + keyValue[1].trim() + ".xml");
+                                                var mainFile = config.ImportLang + "/" + keyValue[1].trim();
+                                                if (!/\.xml$/.test(mainFile)) {
+                                                    mainFile += ".xml";
+                                                }
+                                                resultCallback(mainFile);
                                                 foundMainFile = true;
                                                 return false;
                                             }
@@ -299,6 +314,13 @@ define(
                             })
                     ])
             ])
+            .setProcessStep(function(resultCallback, errorCallback, result, config) {
+                if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
+                    errorCallback("Select a XML file", "Please select the main XML file before continuing");
+                } else {
+                    resultCallback();
+                }
+            })
             .setNextStep(function (resultCallback) {
                 resultCallback(docbookimport.askForRevisionMessage);
             });

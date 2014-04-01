@@ -45,7 +45,7 @@ define(
 
         function removeRedundantXmlnsAttribute(xmlString) {
             return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
-        };
+        }
 
         /*
          See if the xiincludes have some other base dir
