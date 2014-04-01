@@ -183,6 +183,13 @@ define(
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
             })
+            .setBackStep(function(resultCallback) {
+                if (qnautils.isInputDirSupported()) {
+                    resultCallback(exports.askForZipOrDir);
+                } else {
+                    resultCallback(qnastart.specifyTheServer);
+                }
+            })
             .setEnterStep(function(resultCallback){
                 inputModel = qnastart.zipModel;
                 inputModel.clearCache();

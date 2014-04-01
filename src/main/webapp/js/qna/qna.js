@@ -456,7 +456,7 @@ define(['exports'], function (exports) {
                         if (previousStepsClone.length !== 0 && previousStepsClone[previousStepsClone.length - 1] === previousStep) {
                             callback(new exports.QNA(
                                 previousStepsClone[previousStepsClone.length - 1],
-                                previousStepsClone.splice(0, previousStepsClone - 1),
+                                previousStepsClone.splice(0, previousStepsClone.length - 1),
                                 me.results.splice(0, me.results.length - 1 - popCount),   /* Take off as many results as we took off previous steps */
                                 me.config
                             ));

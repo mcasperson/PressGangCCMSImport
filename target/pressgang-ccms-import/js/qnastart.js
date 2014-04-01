@@ -546,13 +546,13 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(specifyTheServer);
+                resultCallback(exports.specifyTheServer);
             });
 
         /*
          Ask which server this is being uploaded to
          */
-        var specifyTheServer = new qna.QNAStep()
+        exports.specifyTheServer = new qna.QNAStep()
             .setTitle("Select the server to import in to")
             /*.setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
                 "Using the test server is recommended for the first import to check the results before adding the content to the production server.")*/
