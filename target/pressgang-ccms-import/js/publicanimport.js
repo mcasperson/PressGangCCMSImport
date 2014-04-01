@@ -267,7 +267,11 @@ define(
                                         jquery.each(options, function (index, value) {
                                             var keyValue = value.split(":");
                                             if (keyValue.length === 2 && keyValue[0].trim() === "mainfile") {
-                                                resultCallback(config.ImportLang + "/" + keyValue[1].trim() + ".xml");
+                                                var mainFile = config.ImportLang + "/" + keyValue[1].trim();
+                                                if (!/\.xml$/.test(mainFile)) {
+                                                    mainFile += ".xml";
+                                                }
+                                                resultCallback(mainFile);
                                                 foundMainFile = true;
                                                 return false;
                                             }

@@ -439,13 +439,36 @@ define(['exports'], function (exports) {
         if (this.previousSteps.length > 0) {
 
             var gotoPreviousStep = (function (me) {
-                return function () {
-                    callback(new exports.QNA(
-                        me.previousSteps[me.previousSteps.length - 1],
-                        me.previousSteps.splice(0, me.previousSteps.length - 1),
-                        me.results.splice(0, me.results.length - 1),
-                        me.config
-                    ));
+                return function (previousStep) {
+
+                    if (previousStep !== undefined && previousStep !== null) {
+                        /*
+                            Attempt to roll back the previous steps looking
+                            for the step that was suggested.
+                         */
+                        var previousStepsClone = me.previousSteps.slice(0);
+                        var popCount = 0;
+                        while (previousStepsClone.length !== 0 && previousStepsClone[previousStepsClone.length - 1] !== previousStep) {
+                            previousStepsClone.pop();
+                            ++popCount;
+                        }
+
+                        if (previousStepsClone.length !== 0 && previousStepsClone[previousStepsClone.length - 1] === previousStep) {
+                            callback(new exports.QNA(
+                                previousStepsClone[previousStepsClone.length - 1],
+                                previousStepsClone.splice(0, previousStepsClone - 1),
+                                me.results.splice(0, me.results.length - 1 - popCount),   /* Take off as many results as we took off previous steps */
+                                me.config
+                            ));
+                        }
+                    }  else {
+                        callback(new exports.QNA(
+                            me.previousSteps[me.previousSteps.length - 1],
+                            me.previousSteps.splice(0, me.previousSteps.length - 1),
+                            me.results.splice(0, me.results.length - 1),
+                            me.config
+                        ));
+                    }
                 };
             }(this));
 
@@ -454,8 +477,8 @@ define(['exports'], function (exports) {
             if (this.step.backStep) {
                 this.step.backStep(
                     (function () {
-                        return function () {
-                            gotoPreviousStep();
+                        return function (previousStep) {
+                            gotoPreviousStep(previousStep);
                         };
                     }(this.results)),
                     function (title, message) {
