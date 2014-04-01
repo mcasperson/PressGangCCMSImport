@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -70,8 +70,8 @@
       <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="891" max-vertical-offset="4200">
-              <caret line="75" column="12" selection-start-line="75" selection-start-column="12" selection-end-line="93" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="4200">
+              <caret line="99" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="116" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -80,7 +80,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="3990">
+            <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="3990">
               <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
               <folding />
             </state>
@@ -90,20 +90,20 @@
       <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.74074" vertical-offset="1507" max-vertical-offset="13500">
-              <caret line="136" column="17" selection-start-line="136" selection-start-column="17" selection-end-line="136" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="13500">
+              <caret line="158" column="17" selection-start-line="158" selection-start-column="17" selection-end-line="158" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5780886" vertical-offset="824" max-vertical-offset="26865">
-              <caret line="88" column="99" selection-start-line="88" selection-start-column="99" selection-end-line="88" selection-end-column="99" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1395" max-vertical-offset="26865">
+              <caret line="93" column="99" selection-start-line="93" selection-start-column="4" selection-end-line="93" selection-end-column="4" />
               <folding>
-                <marker date="1395369031299" expanded="true" signature="62346:62424" placeholder="..." />
+                <marker date="1396321908635" expanded="true" signature="62346:62424" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -112,8 +112,8 @@
       <file leaf-file-name="controller.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="2265">
-              <caret line="51" column="65" selection-start-line="51" selection-start-column="65" selection-end-line="51" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="2265">
+              <caret line="57" column="65" selection-start-line="57" selection-start-column="58" selection-end-line="57" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -122,8 +122,8 @@
       <file leaf-file-name="generaldocbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.296296" vertical-offset="2587" max-vertical-offset="3480">
-              <caret line="182" column="53" selection-start-line="182" selection-start-column="42" selection-end-line="182" selection-end-column="53" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2473" max-vertical-offset="3480">
+              <caret line="226" column="0" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -132,8 +132,8 @@
       <file leaf-file-name="generalexternalimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1680">
-              <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="1725">
+              <caret line="38" column="10" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -142,8 +142,8 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="26539" max-vertical-offset="38085">
-              <caret line="1801" column="139" selection-start-line="1801" selection-start-column="139" selection-end-line="1801" selection-end-column="139" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="27840" max-vertical-offset="38085">
+              <caret line="1856" column="139" selection-start-line="1856" selection-start-column="0" selection-end-line="1856" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -152,18 +152,18 @@
       <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3591" max-vertical-offset="4200">
-              <caret line="253" column="12" selection-start-line="253" selection-start-column="12" selection-end-line="253" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4110" max-vertical-offset="4200">
+              <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2265" max-vertical-offset="4665">
-              <caret line="151" column="40" selection-start-line="151" selection-start-column="40" selection-end-line="151" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.46632653" vertical-offset="3308" max-vertical-offset="4830">
+              <caret line="251" column="159" selection-start-line="251" selection-start-column="159" selection-end-line="251" selection-end-column="159" />
               <folding />
             </state>
           </provider>
@@ -227,20 +227,18 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1919" />
-    <option name="y" value="-10" />
-    <option name="width" value="1922" />
-    <option name="height" value="1092" />
+    <option name="width" value="1912" />
+    <option name="height" value="1200" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -504,6 +502,9 @@
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -739,6 +740,7 @@
       <workItem from="1395172743040" duration="14092000" />
       <workItem from="1395260933532" duration="19549000" />
       <workItem from="1395366552559" duration="2452000" />
+      <workItem from="1396321934797" duration="718000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2760,14 +2762,18 @@
       <created>1395368836122</created>
       <updated>1395368836123</updated>
     </task>
-    <option name="localTasksCounter" value="506" />
+    <task id="LOCAL-00506" summary="Fixing https://bugzilla.redhat.com/show_bug.cgi?id=1071059">
+      <created>1396322368786</created>
+      <updated>1396322368786</updated>
+    </task>
+    <option name="localTasksCounter" value="507" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="669232000" />
+    <option name="totallyTimeSpent" value="669950000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
+    <frame x="0" y="0" width="1912" height="1200" extended-state="4" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2789,7 +2795,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23801917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23794213" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2800,10 +2806,10 @@
     <layout-to-restore>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2821,8 +2827,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2843,7 +2849,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340" />
     <MESSAGE value="Working on https://bugzilla.redhat.com/show_bug.cgi?id=1073221 and https://bugzilla.redhat.com/show_bug.cgi?id=1074340&#10;" />
     <MESSAGE value="Working on DocBook 5 importing" />
     <MESSAGE value="Working on DocBook 5 importing&#10;" />
@@ -2868,7 +2873,8 @@
     <MESSAGE value="Fixing bugs" />
     <MESSAGE value="Fixing bugs&#10;" />
     <MESSAGE value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1079105" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed https://bugzilla.redhat.com/show_bug.cgi?id=1079105" />
+    <MESSAGE value="Fixing https://bugzilla.redhat.com/show_bug.cgi?id=1071059" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing https://bugzilla.redhat.com/show_bug.cgi?id=1071059" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3131,7 +3137,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3165,71 +3170,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="891" max-vertical-offset="4200">
-          <caret line="75" column="12" selection-start-line="75" selection-start-column="12" selection-end-line="93" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="4200">
+          <caret line="99" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="116" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3591" max-vertical-offset="4200">
-          <caret line="253" column="12" selection-start-line="253" selection-start-column="12" selection-end-line="253" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4110" max-vertical-offset="4200">
+          <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="26539" max-vertical-offset="38085">
-          <caret line="1801" column="139" selection-start-line="1801" selection-start-column="139" selection-end-line="1801" selection-end-column="139" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="4665">
-          <caret line="151" column="40" selection-start-line="151" selection-start-column="40" selection-end-line="151" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="27840" max-vertical-offset="38085">
+          <caret line="1856" column="139" selection-start-line="1856" selection-start-column="0" selection-end-line="1856" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="2265">
-          <caret line="51" column="65" selection-start-line="51" selection-start-column="65" selection-end-line="51" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.296296" vertical-offset="2587" max-vertical-offset="3480">
-          <caret line="182" column="53" selection-start-line="182" selection-start-column="42" selection-end-line="182" selection-end-column="53" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="2265">
+          <caret line="57" column="65" selection-start-line="57" selection-start-column="58" selection-end-line="57" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1680">
-          <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.74074" vertical-offset="1507" max-vertical-offset="13500">
-          <caret line="136" column="17" selection-start-line="136" selection-start-column="17" selection-end-line="136" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="1725">
+          <caret line="38" column="10" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="3990">
+        <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="3990">
           <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
           <folding />
         </state>
@@ -3237,11 +3218,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5780886" vertical-offset="824" max-vertical-offset="26865">
-          <caret line="88" column="99" selection-start-line="88" selection-start-column="99" selection-end-line="88" selection-end-column="99" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1395" max-vertical-offset="26865">
+          <caret line="93" column="99" selection-start-line="93" selection-start-column="4" selection-end-line="93" selection-end-column="4" />
           <folding>
-            <marker date="1395369031299" expanded="true" signature="62346:62424" placeholder="..." />
+            <marker date="1396321908635" expanded="true" signature="62346:62424" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2370" max-vertical-offset="13500">
+          <caret line="158" column="17" selection-start-line="158" selection-start-column="17" selection-end-line="158" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3390" max-vertical-offset="3480">
+          <caret line="226" column="0" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46632653" vertical-offset="3308" max-vertical-offset="4830">
+          <caret line="251" column="159" selection-start-line="251" selection-start-column="159" selection-end-line="251" selection-end-column="159" />
+          <folding />
         </state>
       </provider>
     </entry>

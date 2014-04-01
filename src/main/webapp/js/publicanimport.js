@@ -249,7 +249,7 @@ define(
                                     if (retValue.length !== 0) {
                                         resultCallback(retValue);
                                     } else {
-                                        errorCallback("No XML files found", "The source ZIP file has no XML files under " + config.ImportLang, true);
+                                        errorCallback("No XML files found", "The source ZIP file has no XML files under the " + config.ImportLang + " directory", true);
                                     }
                                 });
                             })
