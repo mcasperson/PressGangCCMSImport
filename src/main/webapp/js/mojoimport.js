@@ -941,7 +941,7 @@ define(
             ])
             .setShowNext(false)
             .setShowPrevious(false)
-            .setShowRestart(true);
+            .setShowRestart("Import another book");
 
     }
 );

@@ -813,7 +813,9 @@ define(
                         }
 
                         if (productnumber) {
-                            config.ContentSpecVersion = qnautils.reencode(replaceWhiteSpace(productnumber.innerHTML), replacements);
+                            if (productnumber.innerHTML.trim().length !== 0) {
+                                config.ContentSpecVersion = qnautils.reencode(replaceWhiteSpace(productnumber.innerHTML), replacements);
+                            }
                         }
                     } else {
                         /*
@@ -848,8 +850,10 @@ define(
                      */
                     contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
                     contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                    contentSpec.push("Version = " + (config.ContentSpecVersion === undefined ? "1" : config.ContentSpecVersion));
                     contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
+                    if (config.ContentSpecVersion !== undefined) {
+                        contentSpec.push("Version = " + config.ContentSpecVersion);
+                    }
 
                     /*
                         These metadata elements are optional
