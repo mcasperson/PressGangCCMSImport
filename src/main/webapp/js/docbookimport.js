@@ -453,6 +453,8 @@ define(
                                         errorCallback,
                                         true
                                     );
+                                } else {
+                                    findImageFileNames(callback);
                                 }
                             } else {
                                 callback();

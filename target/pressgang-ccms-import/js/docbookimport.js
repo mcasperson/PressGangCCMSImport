@@ -415,47 +415,58 @@ define(
 
                         var replacements = [];
 
-                        var match;
-                        while ((match = filerefRe.exec(xmlText)) !== null) {
-                            if (!(commonContent.test(match[filerefReHrefGroup]))) {
-                                var imageFilename = match[filerefReHrefGroup].replace(/^\.\//, "");
-                                var fileref = base === null ?
-                                    new URI(imageFilename) :
-                                    new URI(base + imageFilename);
-                                var absoluteFileRef = fileref.absoluteTo(thisFile).toString();
-                                replacements.push({original: imageFilename, replacement: absoluteFileRef});
-                            }
-                        }
+                        var findImageFileNames = function (callback) {
+                            var match;
+                            if ((match = filerefRe.exec(xmlText)) !== null) {
+                                if (!(commonContent.test(match[filerefReHrefGroup]))) {
+                                    var imageFilename = match[filerefReHrefGroup].replace(/^\.\//, "");
+                                    var thisFile = new URI(imageFilename);
+                                    var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + imageFilename);
+                                    var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
 
-                        var retValue = xmlText;
+                                    var referencedXMLFilenameRelativeWithoutBase = new URI(imageFilename);
+                                    var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
 
-                        var processImageFileRefs = function(index) {
-                            if (index >= replacements.length) {
-                                callback(retValue);
+                                    inputModel.hasFileName(
+                                        config.InputSource,
+                                        referencedXMLFilenameWithoutBase,
+                                        function(exists) {
+                                            if (exists) {
+                                                replacements.push({original: imageFilename, replacement: referencedXMLFilenameWithoutBase});
+                                                findImageFileNames(callback);
+                                            } else {
+                                                inputModel.hasFileName(
+                                                    config.InputSource,
+                                                    referencedXMLFilenameWithBase,
+                                                    function(exists) {
+                                                        if (exists) {
+                                                            replacements.push({original: imageFilename, replacement: referencedXMLFilenameWithBase});
+                                                        }
+
+                                                        findImageFileNames(callback);
+                                                    },
+                                                    errorCallback,
+                                                    true
+                                                );
+                                            }
+                                        },
+                                        errorCallback,
+                                        true
+                                    );
+                                } else {
+                                    findImageFileNames(callback);
+                                }
                             } else {
-                                var value = replacements[index];
-
-                                inputModel.hasFileName(
-                                    config.InputSource,
-                                    value.replacement,
-                                    function(exists) {
-                                        if (exists) {
-                                            /*
-                                             We replace the relative file ref with an absolute path. This is done on the xml each
-                                             time a new XML file is included.
-                                             */
-                                            retValue = retValue.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "fileref='" + value.replacement + "'");
-                                        }
-
-                                        processImageFileRefs(++index);
-                                    },
-                                    errorCallback,
-                                    true
-                                );
+                                callback();
                             }
                         };
 
-                        processImageFileRefs(0);
+                        findImageFileNames(function() {
+                            jquery.each(replacements, function(index, value) {
+                                xmlText = xmlText.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "fileref='" + value.replacement + "'");
+                            });
+                            callback(xmlText);
+                        });
                     }
 
                     function resolveXIInclude (xmlText, base, filename, visitedFiles, callback) {
@@ -521,6 +532,9 @@ define(
                                         We need to work out where the files to be included will come from. This is a
                                         combination of the href, the xml:base attribute, and the location of the
                                         xml file that is doing the importing.
+
+                                        TODO: this processing does not really follow the xml standards, but has been good
+                                        enough to import all content I have come across.
                                      */
                                     var fixedMatch = href.replace(/^\.\//, "");
                                     var thisFile = new URI(filename);
