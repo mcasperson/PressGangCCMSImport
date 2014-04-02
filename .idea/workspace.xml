@@ -137,8 +137,8 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.777779" vertical-offset="14892" max-vertical-offset="39090">
-              <caret line="1032" column="48" selection-start-line="1032" selection-start-column="48" selection-end-line="1032" selection-end-column="48" />
+            <state vertical-scroll-proportion="27.666666" vertical-offset="31542" max-vertical-offset="39705">
+              <caret line="2053" column="58" selection-start-line="2053" selection-start-column="58" selection-end-line="2053" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -236,8 +236,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -753,7 +753,7 @@
       <workItem from="1395614189597" duration="647000" />
       <workItem from="1396214491235" duration="1815000" />
       <workItem from="1396388033089" duration="3514000" />
-      <workItem from="1396392680310" duration="21490000" />
+      <workItem from="1396392680310" duration="22276000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2823,11 +2823,15 @@
       <created>1396419311025</created>
       <updated>1396419311025</updated>
     </task>
-    <option name="localTasksCounter" value="518" />
+    <task id="LOCAL-00518" summary="fixing bugs">
+      <created>1396427808714</created>
+      <updated>1396427808714</updated>
+    </task>
+    <option name="localTasksCounter" value="519" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="697128000" />
+    <option name="totallyTimeSpent" value="697914000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3259,8 +3263,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.777779" vertical-offset="14892" max-vertical-offset="39090">
-          <caret line="1032" column="48" selection-start-line="1032" selection-start-column="48" selection-end-line="1032" selection-end-column="48" />
+        <state vertical-scroll-proportion="27.666666" vertical-offset="31542" max-vertical-offset="39705">
+          <caret line="2053" column="58" selection-start-line="2053" selection-start-column="58" selection-end-line="2053" selection-end-column="58" />
           <folding />
         </state>
       </provider>

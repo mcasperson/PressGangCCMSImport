@@ -161,28 +161,60 @@ define(
             return text;
         }
 
-        function setDocumentNodeToSection (xmlText) {
-
-            var replaceElement = function(elementName, xmlText) {
-                if (xmlText.indexOf("<" + elementName) === 0) {
-                    xmlText = xmlText.replace(new RegExp("^" + qnautils.escapeRegExp(elementName)), "<" + elementName);
-                    xmlText = xmlText.replace(new RegExp("</" + qnautils.escapeRegExp(elementName) + ">$"), "</" + elementName + ">");
-                }
-
-                return xmlText;
-            };
-
-            xmlText = replaceElement("chapter", xmlText);
-            xmlText = replaceElement("appendix", xmlText);
-            xmlText = replaceElement("part", xmlText);
-            xmlText = replaceElement("sect1", xmlText);
-            xmlText = replaceElement("sect2", xmlText);
-            xmlText = replaceElement("sect3", xmlText);
-            xmlText = replaceElement("sect4", xmlText);
-            xmlText = replaceElement("sect5", xmlText);
-            xmlText = replaceElement("simplesect", xmlText);
+        function replaceElement (elementName, newElementName, xmlText) {
+            if (xmlText.indexOf("<" + elementName) === 0) {
+                xmlText = xmlText.replace(new RegExp("^<" + qnautils.escapeRegExp(elementName)), "<" + newElementName);
+                xmlText = xmlText.replace(new RegExp("</" + qnautils.escapeRegExp(elementName) + ">$"), "</" + newElementName + ">");
+            }
 
             return xmlText;
+        }
+
+        function setDocumentNodeToInfo (xmlText) {
+            var newElementName = "info";
+            xmlText = replaceElement("articleinfo", newElementName, xmlText);
+            xmlText = replaceElement("bibliographyinfo", newElementName, xmlText);
+            xmlText = replaceElement("blockinfo", newElementName, xmlText);
+            xmlText = replaceElement("bookinfo", newElementName, xmlText);
+            xmlText = replaceElement("chapterinfo", newElementName, xmlText);
+            xmlText = replaceElement("glossaryinfo", newElementName, xmlText);
+            xmlText = replaceElement("indexinfo", newElementName, xmlText);
+            xmlText = replaceElement("objectinfo", newElementName, xmlText);
+            xmlText = replaceElement("prefaceinfo", newElementName, xmlText);
+            xmlText = replaceElement("refsynopsisdivinfo", newElementName, xmlText);
+            xmlText = replaceElement("screeninfo", newElementName, xmlText);
+            xmlText = replaceElement("sect1info", newElementName, xmlText);
+            xmlText = replaceElement("sect2info", newElementName, xmlText);
+            xmlText = replaceElement("sect3info", newElementName, xmlText);
+            xmlText = replaceElement("sect4info", newElementName, xmlText);
+            xmlText = replaceElement("sect5info", newElementName, xmlText);
+            xmlText = replaceElement("sectioninfo", newElementName, xmlText);
+            xmlText = replaceElement("setinfo", newElementName, xmlText);
+
+            return xmlText;
+        }
+
+        function setDocumentNodeToSection (xmlText) {
+            var newElementName = "section";
+            xmlText = replaceElement("chapter", newElementName, xmlText);
+            xmlText = replaceElement("appendix", newElementName, xmlText);
+            xmlText = replaceElement("part", newElementName, xmlText);
+            xmlText = replaceElement("sect1", newElementName, xmlText);
+            xmlText = replaceElement("sect2", newElementName, xmlText);
+            xmlText = replaceElement("sect3", newElementName, xmlText);
+            xmlText = replaceElement("sect4", newElementName, xmlText);
+            xmlText = replaceElement("sect5", newElementName, xmlText);
+            xmlText = replaceElement("simplesect", newElementName, xmlText);
+
+            return xmlText;
+        }
+
+        function fixDocuemntNode(topic, xmlText) {
+            if (topic.infoTopic) {
+                return setDocumentNodeToInfo(xmlText);
+            }
+
+            return setDocumentNodeToSection(xmlText);
         }
 
         /*
@@ -2016,8 +2048,7 @@ define(
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
-                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
-                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
+                                    topicXMLCompare = fixDocuemntNode(topic, topicXMLCompare);
 
                                     /*
                                      topicXMLCompare now has injection placeholders that will match the injection
@@ -2373,7 +2404,12 @@ define(
                                 qnastart.createTopic(
                                     false,
                                     config.ImportOption === "DocBook5" ? 5 : 4.5,
-                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim())),
+                                    removeRedundantXmlnsAttribute(
+                                        fixDocuemntNode(
+                                            topic,
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim()
+                                        )
+                                    ),
                                     topic.title,
                                     topic.tags,
                                     config.ImportLang,
@@ -2474,7 +2510,12 @@ define(
 
                                 qnastart.updateTopic(
                                     topic.topicId,
-                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements))),
+                                    removeRedundantXmlnsAttribute(
+                                        fixDocuemntNode(
+                                            topic,
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements)
+                                        )
+                                    ),
                                     topic.title,
                                     config,
                                     function (data) {
