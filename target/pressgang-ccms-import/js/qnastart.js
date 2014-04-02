@@ -8,8 +8,25 @@ define(
         // a zip model to be shared
         exports.zipModel = new qnazipmodel.QNAZipModel();
         exports.dirModel = new qnadirmodel.QNADirModel();
+        var configEntites = null;
 
-        exports.loadEntityID = function (type, config, successCallback, errorCallback, retryCount) {
+        exports.loadEntityID = function (type) {
+            if (configEntites !== null) {
+                return  configEntites.entities[type]  ;
+            }
+
+            return null;
+        };
+
+        exports.loadLocales = function () {
+            if (configEntites !== null) {
+                return configEntites.locales;
+            }
+
+            return null;
+        };
+
+        exports.loadEntityConfig = function (config, successCallback, errorCallback, retryCount) {
 
             if (retryCount === undefined) {
                 retryCount = 0;
@@ -20,15 +37,12 @@ define(
                 url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/settings/get/json',
                 dataType: "json",
                 success: function (data) {
-                    if (data.entities[type] !== undefined) {
-                        successCallback(data.entities[type]);
-                    } else {
-                        errorCallback("Invalid Option", "The type " + type + " is not defined in the server settings", true);
-                    }
+                    configEntites = data;
+                    successCallback();
                 },
                 error: function () {
                     if (retryCount < RETRY_COUNT) {
-                        exports.loadTagID(type, successCallback, errorCallback, ++retryCount);
+                        exports.loadEntityConfig(config, successCallback, errorCallback, ++retryCount);
                     } else {
                         errorCallback("Connection Error", "An error occurred while getting the server settings. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
@@ -579,13 +593,19 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                if (config.ImportOption === "Publican") {
-                    resultCallback(publicanimport.askForZipOrDir);
-                } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
-                    resultCallback(generaldocbookimport.askForZipOrDir);
-                } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
-                    resultCallback(generalexternalimport.getSpecDetails);
-                }
+                exports.loadEntityConfig(
+                    config,
+                    function() {
+                        if (config.ImportOption === "Publican") {
+                            resultCallback(publicanimport.askForZipOrDir);
+                        } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
+                            resultCallback(generaldocbookimport.askForZipOrDir);
+                        } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
+                            resultCallback(generalexternalimport.getSpecDetails);
+                        }
+                    },
+                    errorCallback
+                );
             });
 
     }

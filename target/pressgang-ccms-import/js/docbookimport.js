@@ -344,39 +344,10 @@ define(
                     Load the tag ids for various tags used during the import
                  */
                 function loadTagIDs() {
-                    qnastart.loadEntityID(
-                        "revisionHistoryTagId",
-                        config,
-                        function(id) {
-                            REVISION_HISTORY_TAG_ID = id;
-                            qnastart.loadEntityID(
-                                "authorGroupTagId",
-                                config,
-                                function(id) {
-                                    AUTHOR_GROUP_TAG_ID = id;
-                                    qnastart.loadEntityID(
-                                        "abstractTagId",
-                                        config,
-                                        function(id) {
-                                            ABSTRACT_TAG_ID = id;
-                                            qnastart.loadEntityID(
-                                                "legalNoticeTagId",
-                                                config,
-                                                function(id) {
-                                                    LEGAL_NOTICE_TAG_ID = id;
-                                                    resolveXiIncludes();
-                                                },
-                                                errorCallback
-                                            );
-                                        },
-                                        errorCallback
-                                    );
-                                },
-                                errorCallback
-                            );
-                        },
-                        errorCallback
-                    );
+                    REVISION_HISTORY_TAG_ID = qnastart.loadEntityID("revisionHistoryTagId");
+                    AUTHOR_GROUP_TAG_ID = qnastart.loadEntityID("authorGroupTagId");
+                    ABSTRACT_TAG_ID = qnastart.loadEntityID("abstractTagId");
+                    LEGAL_NOTICE_TAG_ID = qnastart.loadEntityID("legalNoticeTagId");
                 }
 
                 /*
@@ -2490,6 +2461,7 @@ define(
 
                 // start the process
                 loadTagIDs();
+                resolveXiIncludes ();
             })
             .setNextStep(function (resultCallback) {
                 window.onbeforeunload = undefined;
@@ -2529,7 +2501,11 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Files Created / Files Reused")
-                            .setName("NewFilesCreated")
+                            .setName("NewFilesCreated"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Notes")
+                            .setName("Notes")
                     ])
             ])
             .setShowNext(false)

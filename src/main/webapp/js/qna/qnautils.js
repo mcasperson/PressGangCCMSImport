@@ -265,6 +265,10 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
             var keyValue = value.split(":");
             if (keyValue.length == 2 && keyValue[0].trim() === key) {
                 retValue = keyValue[1].trim();
+                var match = /^('|")(.*?)('|")$/.exec(retValue);
+                if (match !== null) {
+                    retValue = match[2];
+                }
                 return false;
             }
         });

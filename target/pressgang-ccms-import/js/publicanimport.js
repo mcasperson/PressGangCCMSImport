@@ -29,7 +29,7 @@ define(
                     inputModel.getTextFromFileName(config.InputSource, "publican.cfg", function(publicanCfg) {
                         var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
                         if (dtdVersion !== undefined) {
-                            config.ImportOption = /('|")5\.0('|")/.test(dtdVersion) ? "DocBook5" : "DocBook45";
+                            config.ImportOption = /5\.0/.test(dtdVersion) ? "DocBook5" : "DocBook45";
                         } else {
                             config.ImportOption = "DocBook45";
                         }
@@ -94,6 +94,7 @@ define(
 
                                             contentSpec.push(fixedFileName + " = [");
                                             contentSpec.push("# Contents from " + uri.filename());
+                                            var commentedConfigValue = "";
                                             jquery.each(configFile.split("\n"), function(index, value){
                                                 if (value.trim().length !== 0) {
                                                     var keyValue = value.split(":");
@@ -102,10 +103,27 @@ define(
                                                         contentSpec.push(value);
                                                     } else {
                                                         contentSpec.push("#" + value);
+                                                        if (commentedConfigValue.length !== 0) {
+                                                            commentedConfigValue += ", ";
+                                                        }
+                                                        commentedConfigValue += keyValue[0].trim();
                                                     }
                                                 }
                                             });
                                             contentSpec.push("]");
+
+                                            if (config.Notes === undefined) {
+                                                config.Notes = "";
+                                            }
+
+                                            if (config.Notes.length !== 0) {
+                                                config.Notes += "<br/>";
+                                            }
+
+                                            config.Notes += "<p>The following settings in the imported publican configuration files have been commented " +
+                                                "out in the generated content specification <b>" + fixedFileName + "</b>  field " +
+                                                "because they are defined in the content specification directly: " +
+                                                commentedConfigValue + "</p>";
 
                                             processEntry(++index, callback);
                                         });

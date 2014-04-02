@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'languages', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
-    function (jquery, languages, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
         'use strict';
 
         var inputModel;
@@ -215,7 +215,9 @@ define(
                                 .setIntro("Locale")
                                 .setName("ImportLang")
                                 .setValue("en-US")
-                                .setOptions(languages.languages)
+                                .setOptions(function (resultCallback) {
+                                    resultCallback(qnastart.loadLocales());
+                                })
                         ])
                 ]
             )

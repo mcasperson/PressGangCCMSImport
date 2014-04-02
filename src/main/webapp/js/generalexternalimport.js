@@ -3,8 +3,8 @@
     presents that step to the user.
  */
 define(
-    ['jquery', 'qna/qna', 'languages', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
-    function(jquery, qna, languages, qnautils, specelement, opendocumentimport, mojoimport, exports) {
+    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
+    function(jquery, qna, qnastart, qnautils, specelement, opendocumentimport, mojoimport, exports) {
         'use strict';
 
         exports.generateSpacing = function (outlineLevel) {
@@ -95,7 +95,9 @@ define(
                                 .setIntro("Locale")
                                 .setName("ImportLang")
                                 .setValue("en-US")
-                                .setOptions(languages.languages)
+                                .setOptions(function (resultCallback) {
+                                    resultCallback(qnastart.loadLocales());
+                                })
                         ])
                 ]
             )
