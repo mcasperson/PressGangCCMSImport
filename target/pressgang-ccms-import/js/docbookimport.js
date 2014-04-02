@@ -2501,11 +2501,7 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Files Created / Files Reused")
-                            .setName("NewFilesCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.HTML)
-                            .setIntro("Notes")
-                            .setName("Notes")
+                            .setName("NewFilesCreated")
                     ])
             ])
             .setShowNext(false)

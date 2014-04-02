@@ -95,35 +95,32 @@ define(
                                             contentSpec.push(fixedFileName + " = [");
                                             contentSpec.push("# Contents from " + uri.filename());
                                             var commentedConfigValue = "";
-                                            jquery.each(configFile.split("\n"), function(index, value){
-                                                if (value.trim().length !== 0) {
-                                                    var keyValue = value.split(":");
-                                                    if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1 ||
-                                                        value.indexOf("#") === 0) {
-                                                        contentSpec.push(value);
-                                                    } else {
-                                                        contentSpec.push("#" + value);
-                                                        if (commentedConfigValue.length !== 0) {
-                                                            commentedConfigValue += ", ";
+
+                                            if (fixedFileName === "publican.cfg") {
+                                                /*
+                                                    Remove any value that we have placed in the spec itself
+                                                 */
+                                                jquery.each(configFile.split("\n"), function (index, value) {
+                                                    if (value.trim().length !== 0) {
+                                                        var keyValue = value.split(":");
+                                                        if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
+                                                            if (value.trim().length !== 0) {
+                                                                contentSpec.push(value);
+                                                            }
                                                         }
-                                                        commentedConfigValue += keyValue[0].trim();
                                                     }
-                                                }
-                                            });
+                                                });
+                                            } else {
+                                                /*
+                                                    Secondary config file have all settings
+                                                 */
+                                                jquery.each(configFile.split("\n"), function(index, value) {
+                                                    if (value.trim().length !== 0) {
+                                                        contentSpec.push(value);
+                                                    }
+                                                });
+                                            }
                                             contentSpec.push("]");
-
-                                            if (config.Notes === undefined) {
-                                                config.Notes = "";
-                                            }
-
-                                            if (config.Notes.length !== 0) {
-                                                config.Notes += "<br/>";
-                                            }
-
-                                            config.Notes += "<p>The following settings in the imported publican configuration files have been commented " +
-                                                "out in the generated content specification <b>" + fixedFileName + "</b>  field " +
-                                                "because they are defined in the content specification directly: " +
-                                                commentedConfigValue + "</p>";
 
                                             processEntry(++index, callback);
                                         });
