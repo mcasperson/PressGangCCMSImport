@@ -20,12 +20,16 @@ define(
         var AUTHOR_GROUP_TAG_ID ;
         var ABSTRACT_TAG_ID;
         var LEGAL_NOTICE_TAG_ID;
+        var INFO_TAG_ID;
+        var DEFAULT_TITLE = "Untitled";
         // docbook elements whose contents have to match exactly
         var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
         // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
         var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
         // these docbook elements represent topics
         var TOPIC_CONTAINER_TYPES = ["section", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
+        // these elements are changed into info topics
+        var INFO_TOPIC_ELEMENTS = ["info"];
         // these containers are ignored
         var IGNORED_CONTAINERS = ["partintro"];
         // these are entities created by csprocessor
@@ -157,28 +161,60 @@ define(
             return text;
         }
 
-        function setDocumentNodeToSection (xmlText) {
-
-            var replaceElement = function(elementName, xmlText) {
-                if (xmlText.indexOf("<" + elementName) === 0) {
-                    xmlText = xmlText.replace(new RegExp("^" + qnautils.escapeRegExp(elementName)), "<" + elementName);
-                    xmlText = xmlText.replace(new RegExp("</" + qnautils.escapeRegExp(elementName) + ">$"), "</" + elementName + ">");
-                }
-
-                return xmlText;
-            };
-
-            xmlText = replaceElement("chapter", xmlText);
-            xmlText = replaceElement("appendix", xmlText);
-            xmlText = replaceElement("part", xmlText);
-            xmlText = replaceElement("sect1", xmlText);
-            xmlText = replaceElement("sect2", xmlText);
-            xmlText = replaceElement("sect3", xmlText);
-            xmlText = replaceElement("sect4", xmlText);
-            xmlText = replaceElement("sect5", xmlText);
-            xmlText = replaceElement("simplesect", xmlText);
+        function replaceElement (elementName, newElementName, xmlText) {
+            if (xmlText.indexOf("<" + elementName) === 0) {
+                xmlText = xmlText.replace(new RegExp("^<" + qnautils.escapeRegExp(elementName)), "<" + newElementName);
+                xmlText = xmlText.replace(new RegExp("</" + qnautils.escapeRegExp(elementName) + ">$"), "</" + newElementName + ">");
+            }
 
             return xmlText;
+        }
+
+        function setDocumentNodeToInfo (xmlText) {
+            var newElementName = "info";
+            xmlText = replaceElement("articleinfo", newElementName, xmlText);
+            xmlText = replaceElement("bibliographyinfo", newElementName, xmlText);
+            xmlText = replaceElement("blockinfo", newElementName, xmlText);
+            xmlText = replaceElement("bookinfo", newElementName, xmlText);
+            xmlText = replaceElement("chapterinfo", newElementName, xmlText);
+            xmlText = replaceElement("glossaryinfo", newElementName, xmlText);
+            xmlText = replaceElement("indexinfo", newElementName, xmlText);
+            xmlText = replaceElement("objectinfo", newElementName, xmlText);
+            xmlText = replaceElement("prefaceinfo", newElementName, xmlText);
+            xmlText = replaceElement("refsynopsisdivinfo", newElementName, xmlText);
+            xmlText = replaceElement("screeninfo", newElementName, xmlText);
+            xmlText = replaceElement("sect1info", newElementName, xmlText);
+            xmlText = replaceElement("sect2info", newElementName, xmlText);
+            xmlText = replaceElement("sect3info", newElementName, xmlText);
+            xmlText = replaceElement("sect4info", newElementName, xmlText);
+            xmlText = replaceElement("sect5info", newElementName, xmlText);
+            xmlText = replaceElement("sectioninfo", newElementName, xmlText);
+            xmlText = replaceElement("setinfo", newElementName, xmlText);
+
+            return xmlText;
+        }
+
+        function setDocumentNodeToSection (xmlText) {
+            var newElementName = "section";
+            xmlText = replaceElement("chapter", newElementName, xmlText);
+            xmlText = replaceElement("appendix", newElementName, xmlText);
+            xmlText = replaceElement("part", newElementName, xmlText);
+            xmlText = replaceElement("sect1", newElementName, xmlText);
+            xmlText = replaceElement("sect2", newElementName, xmlText);
+            xmlText = replaceElement("sect3", newElementName, xmlText);
+            xmlText = replaceElement("sect4", newElementName, xmlText);
+            xmlText = replaceElement("sect5", newElementName, xmlText);
+            xmlText = replaceElement("simplesect", newElementName, xmlText);
+
+            return xmlText;
+        }
+
+        function fixDocuemntNode(topic, xmlText) {
+            if (topic.infoTopic) {
+                return setDocumentNodeToInfo(xmlText);
+            }
+
+            return setDocumentNodeToSection(xmlText);
         }
 
         /*
@@ -348,6 +384,7 @@ define(
                     AUTHOR_GROUP_TAG_ID = qnastart.loadEntityID("authorGroupTagId");
                     ABSTRACT_TAG_ID = qnastart.loadEntityID("abstractTagId");
                     LEGAL_NOTICE_TAG_ID = qnastart.loadEntityID("legalNoticeTagId");
+                    INFO_TAG_ID = qnastart.loadEntityID("infoTagId");
                 }
 
                 /*
@@ -967,6 +1004,70 @@ define(
                     extractRevisionHistory(xmlDoc, contentSpec);
                 }
 
+                function extractInfoTopic(xmlDoc, contentSpecIndex, parent, topics, topicGraph) {
+                    var removeElements = [];
+                    var title = null;
+                    jquery.each(INFO_TOPIC_ELEMENTS, function (index, value) {
+                        var iterator = qnautils.xPath("./docbook:" + value, parent);
+
+                        /*
+                            We import the first one
+                         */
+                        var infoElement = iterator.iterateNext();
+                        if (infoElement !== null) {
+                            var topic = new specelement.TopicGraphNode(topicGraph)
+                                .setXml(removeIdAttribute(infoElement))
+                                .setSpecLine(contentSpecIndex)
+                                .setTitle("Info")
+                                .addTag(INFO_TAG_ID)
+                                .setInfoTopic(true);
+
+                            var id = infoElement.getAttribute("id");
+                            if (id) {
+                                topic.addXmlId(id);
+                            }
+                            topics.push(topic);
+                            removeElements.push(infoElement);
+
+                            /*
+                             Grab the first title element of the first info element that we can
+                             */
+                            var titleElement = qnautils.xPath("./docbook:title", infoElement).iterateNext();
+                            if (titleElement !== null) {
+                                if (title === null) {
+                                    title = titleElement.innerHTML;
+                                }
+
+                                /*
+                                 All topics and contains must have a title. This means that the
+                                 info elements must not (this is a DocBook restriction).
+
+                                 If this is valid docbook, and the info element has a title, it means
+                                 the container it is in does not have a title. Here we take the title
+                                 of the info element, assign it to the container (that is what the
+                                 return value of this function is for), and remove the title from
+                                 the info element.
+                                 */
+                                 removeElements.push(titleElement);
+                            }
+                        }
+
+                        /*
+                            There shouldn't be any more, but we remove any if there are
+                         */
+                        var otherInfoElements = null;
+                        while ((otherInfoElements = iterator.iterateNext()) !== null) {
+                            removeElements.push(otherInfoElements);
+                        }
+                    });
+
+                    jquery.each(removeElements, function(index, removeElement) {
+                        removeElement.parentNode.removeChild(removeElement);
+                    });
+
+                    return title;
+                }
+
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
                     if (topics === undefined) {
                         topics = [];
@@ -1402,6 +1503,14 @@ define(
                         }
                     }
 
+                    function getTitle(directTitle, infoTitle) {
+                        var title = directTitle || infoTitle || DEFAULT_TITLE;
+
+                        // When refering to the title text from now on (like adding to the spec or defining the
+                        // title of a topic in the graph) we want the version that has the entities
+                        return qnautils.reencode(title, replacements);
+                    }
+
                     var processXml = function (parentXML, depth) {
                         // loop over the containers under the root element
                         jquery.each(parentXML.childNodes, function (index, value) {
@@ -1411,8 +1520,8 @@ define(
 
                                 // find the title
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
-                                var titleText = "";
-                                if (title) {
+                                var titleText = null;
+                                if (title !== null) {
                                     titleText = replaceWhiteSpace(title.innerHTML);
 
                                     // remove any redundant namespace attributes
@@ -1422,10 +1531,8 @@ define(
                                         Title is mandatory
                                      */
                                     if (titleText.length === 0) {
-                                        titleText = "Untitled";
+                                        titleText = DEFAULT_TITLE;
                                     }
-                                } else {
-                                    titleText = "Untitled";
                                 }
 
                                 // sync the title back to the xml
@@ -1439,10 +1546,6 @@ define(
                                 } else {
                                     clone.insertBefore(importedTitle, clone.childNodes[0]);
                                 }
-
-                                // When refering to the title text from now on (like adding to the spec or defining the
-                                // title of a topic in the graph) we want the version that has the entities
-                                titleText = qnautils.reencode(titleText, replacements);
 
                                 // strip away any child containers
                                 var removeChildren = [];
@@ -1543,15 +1646,19 @@ define(
 
                                     if (!isHistoryTopicAppendix && !isEmptyPrefaceTopic) {
 
+                                        var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
+
                                         if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
                                             contentSpec.push(contentSpecLine + titleText);
+
                                         } else {
                                             var containerName = remapContainer(value.nodeName);
                                             contentSpec.push(
                                                 contentSpecLine +
                                                     containerName.substring(0, 1).toUpperCase() +
                                                     containerName.substring(1, containerName.length) +
-                                                    ": " + titleText);
+                                                    ": " +
+                                                    getTitle(titleText, infoTitle));
                                         }
 
                                         var standaloneContainerTopic = new specelement.TopicGraphNode(topicGraph)
@@ -1580,12 +1687,15 @@ define(
                                         topics.push(standaloneContainerTopic);
                                     }
                                 } else {
+                                    var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
+
                                     var containerName = remapContainer(value.nodeName);
                                     contentSpec.push(
                                         contentSpecLine +
                                             containerName.substring(0, 1).toUpperCase() +
                                             containerName.substring(1, containerName.length) +
-                                            ": " + titleText);
+                                            ": " +
+                                            getTitle(titleText, infoTitle));
 
                                     if (id) {
                                         ++containerTargetNum;
@@ -1644,7 +1754,7 @@ define(
                                         var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
                                             .setSpecLine(contentSpec.length - 1)
-                                            .setTitle(titleText);
+                                            .setTitle((titleText || infoTitle || DEFAULT_TITLE));
 
                                         if (id) {
                                             if (topicGraph.hasXMLId(id.nodeValue)) {
@@ -1938,8 +2048,7 @@ define(
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
-                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
-                                    topicXMLCompare = setDocumentNodeToSection(topicXMLCompare);
+                                    topicXMLCompare = fixDocuemntNode(topic, topicXMLCompare);
 
                                     /*
                                      topicXMLCompare now has injection placeholders that will match the injection
@@ -2295,7 +2404,12 @@ define(
                                 qnastart.createTopic(
                                     false,
                                     config.ImportOption === "DocBook5" ? 5 : 4.5,
-                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim())),
+                                    removeRedundantXmlnsAttribute(
+                                        fixDocuemntNode(
+                                            topic,
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim()
+                                        )
+                                    ),
                                     topic.title,
                                     topic.tags,
                                     config.ImportLang,
@@ -2396,7 +2510,12 @@ define(
 
                                 qnastart.updateTopic(
                                     topic.topicId,
-                                    removeRedundantXmlnsAttribute(setDocumentNodeToSection(qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements))),
+                                    removeRedundantXmlnsAttribute(
+                                        fixDocuemntNode(
+                                            topic,
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements)
+                                        )
+                                    ),
                                     topic.title,
                                     config,
                                     function (data) {
@@ -2423,7 +2542,11 @@ define(
 
                 function updateContentSpecWithTopicIDs (xmlDoc, contentSpec, topics, topicGraph) {
                     jquery.each(topics, function (index, topic) {
-                        contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                        if (topic.infoTopic === undefined || topic.infoTopic === false) {
+                            contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                        } else {
+                            contentSpec[topic.specLine] += " [Info: " + topic.topicId + "]";
+                        }
                     });
 
                     config.UploadProgress[1] = 19 * progressIncrement;

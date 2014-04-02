@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -137,8 +143,8 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35934663" vertical-offset="15357" max-vertical-offset="39705">
-              <caret line="1037" column="66" selection-start-line="1037" selection-start-column="66" selection-end-line="1037" selection-end-column="66" />
+            <state vertical-scroll-proportion="-1.491833" vertical-offset="13377" max-vertical-offset="40065">
+              <caret line="837" column="73" selection-start-line="837" selection-start-column="73" selection-end-line="837" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -753,7 +759,7 @@
       <workItem from="1395614189597" duration="647000" />
       <workItem from="1396214491235" duration="1815000" />
       <workItem from="1396388033089" duration="3514000" />
-      <workItem from="1396392680310" duration="22606000" />
+      <workItem from="1396392680310" duration="23430000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2831,11 +2837,15 @@
       <created>1396428595565</created>
       <updated>1396428595565</updated>
     </task>
-    <option name="localTasksCounter" value="520" />
+    <task id="LOCAL-00520" summary="fixing bugs">
+      <created>1396428925654</created>
+      <updated>1396428925654</updated>
+    </task>
+    <option name="localTasksCounter" value="521" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="698244000" />
+    <option name="totallyTimeSpent" value="699068000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3275,8 +3285,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35934663" vertical-offset="15357" max-vertical-offset="39705">
-          <caret line="1037" column="66" selection-start-line="1037" selection-start-column="66" selection-end-line="1037" selection-end-column="66" />
+        <state vertical-scroll-proportion="-1.491833" vertical-offset="13377" max-vertical-offset="40065">
+          <caret line="837" column="73" selection-start-line="837" selection-start-column="73" selection-end-line="837" selection-end-column="73" />
           <folding />
         </state>
       </provider>

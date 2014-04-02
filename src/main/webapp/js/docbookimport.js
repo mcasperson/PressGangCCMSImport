@@ -813,6 +813,30 @@ define(
                     // the content spec
                     var contentSpec = [];
 
+                    /*
+                        Try looking at the root book or article element
+                     */
+                    var root = qnautils.xPath("//docbook:book", xmlDoc).iterateNext();
+                    if (root === null) {
+                        root = qnautils.xPath("//docbook:article", xmlDoc).iterateNext();
+                    }
+
+                    if (root) {
+                        var rootTitle = qnautils.xPath("./docbook:title", root).iterateNext();
+                        var rootSubtitle = qnautils.xPath("./docbook:subtitle", root).iterateNext();
+
+                        if (rootTitle) {
+                            config.ContentSpecTitle = qnautils.reencode(replaceWhiteSpace(rootTitle.innerHTML), replacements);
+                        }
+
+                        if (rootSubtitle) {
+                            config.ContentSpecSubtitle = qnautils.reencode(replaceWhiteSpace(rootSubtitle.innerHTML), replacements);
+                        }
+                    }
+
+                    /*
+                        Look in the info elements for additional metadata
+                     */
                     var bookinfo = qnautils.xPath("//docbook:bookinfo", xmlDoc).iterateNext();
                     if (bookinfo === null) {
                         bookinfo = qnautils.xPath("//docbook:articleinfo", xmlDoc).iterateNext();
