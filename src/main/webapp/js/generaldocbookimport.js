@@ -172,7 +172,7 @@ define(
 
         var getSpecDetails = new qna.QNAStep()
             .setTitle("Enter content specification details")
-            .setIntro("Enter the basic details of the content specification")
+            .setIntro("Enter the basic details of the content specification. If these values can be found in the content being imported, the values entered here will be overwritten.")
             .setInputs(
                 [
                     new qna.QNAVariables()
