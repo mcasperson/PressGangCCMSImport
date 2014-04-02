@@ -20,12 +20,15 @@ define(
         var AUTHOR_GROUP_TAG_ID ;
         var ABSTRACT_TAG_ID;
         var LEGAL_NOTICE_TAG_ID;
+        var INFO_TAG_ID;
         // docbook elements whose contents have to match exactly
         var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
         // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
         var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
         // these docbook elements represent topics
         var TOPIC_CONTAINER_TYPES = ["section", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
+        // these elements are changed into info topics
+        var INFO_TOPIC_ELEMENTS = ["info"];
         // these containers are ignored
         var IGNORED_CONTAINERS = ["partintro"];
         // these are entities created by csprocessor
@@ -348,6 +351,7 @@ define(
                     AUTHOR_GROUP_TAG_ID = qnastart.loadEntityID("authorGroupTagId");
                     ABSTRACT_TAG_ID = qnastart.loadEntityID("abstractTagId");
                     LEGAL_NOTICE_TAG_ID = qnastart.loadEntityID("legalNoticeTagId");
+                    INFO_TAG_ID = qnastart.loadEntityID("infoTagId");
                 }
 
                 /*
@@ -967,6 +971,26 @@ define(
                     extractRevisionHistory(xmlDoc, contentSpec);
                 }
 
+                function extractInfoTopic(xmlDoc, contentSpec, parent, topics, topicGraph) {
+                    jquery.each(INFO_TOPIC_ELEMENTS, function (index, value) {
+                        var infoElement = qnautils.xPath("./docbook:" + value, parent).iterateNext();
+                        if (infoElement !== null) {
+                            var topic = new specelement.TopicGraphNode(topicGraph)
+                                .setXml(removeIdAttribute(infoElement))
+                                .setSpecLine(contentSpec.length - 1)
+                                .setTitle("Info")
+                                .addTag(INFO_TAG_ID)
+                                .setInfoTopic(true);
+
+                            var id = infoElement.getAttribute("id");
+                            if (id) {
+                                topic.addXmlId(id);
+                            }
+                            topics.push(topic);
+                        }
+                    });
+                }
+
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
                     if (topics === undefined) {
                         topics = [];
@@ -1545,6 +1569,7 @@ define(
 
                                         if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
                                             contentSpec.push(contentSpecLine + titleText);
+
                                         } else {
                                             var containerName = remapContainer(value.nodeName);
                                             contentSpec.push(
@@ -1553,6 +1578,8 @@ define(
                                                     containerName.substring(1, containerName.length) +
                                                     ": " + titleText);
                                         }
+
+                                        extractInfoTopic(xmlDoc, contentSpec, clone, topics, topicGraph);
 
                                         var standaloneContainerTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
@@ -1586,6 +1613,8 @@ define(
                                             containerName.substring(0, 1).toUpperCase() +
                                             containerName.substring(1, containerName.length) +
                                             ": " + titleText);
+
+                                    extractInfoTopic(xmlDoc, contentSpec, clone, topics, topicGraph);
 
                                     if (id) {
                                         ++containerTargetNum;
@@ -1640,6 +1669,21 @@ define(
                                                 clone.removeChild(partintro);
                                             }
                                         }
+
+                                        /*
+                                            Any info elements will already have been removed
+                                         */
+                                        var infoElements = [];
+                                        jquery.each(INFO_TOPIC_ELEMENTS, function(index, infoElementName) {
+                                            var iterator = qnautils.xPath("./docbook:" + infoElementName, clone);
+                                            var infoElement;
+                                            while ((infoElement = iterator.iterateNext()) !== null) {
+                                                infoElements.push(infoElement);
+                                            }
+                                        });
+                                        jquery.each(infoElements, function(index, infoElement) {
+                                            clone.removeChild(infoElement);
+                                        });
 
                                         var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
@@ -2423,7 +2467,11 @@ define(
 
                 function updateContentSpecWithTopicIDs (xmlDoc, contentSpec, topics, topicGraph) {
                     jquery.each(topics, function (index, topic) {
-                        contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                        if (topic.infoTopic === undefined || topic.infoTopic === false) {
+                            contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                        } else {
+                            contentSpec[topic.specLine] += " [Info: " + topic.topicId + "]";
+                        }
                     });
 
                     config.UploadProgress[1] = 19 * progressIncrement;

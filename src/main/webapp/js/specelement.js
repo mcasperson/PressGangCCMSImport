@@ -173,6 +173,15 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     };
 
     /**
+     * @param info True if this topic is an info topic that should be assigned to a container
+     * @returns {exports}
+     */
+    exports.TopicGraphNode.prototype.setInfoTopic = function (info) {
+        this.infoTopic = info;
+        return this;
+    };
+
+    /**
      * Use this to define the XML associated with a topic when the XML has already been
      * stripped of any entities. This is the case when importing existing docbook books.
      * @param xml

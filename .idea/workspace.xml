@@ -3,12 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/specelement.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -110,10 +110,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="mojoimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3321234" vertical-offset="717" max-vertical-offset="14280">
+            <state vertical-scroll-proportion="-6.7777777" vertical-offset="717" max-vertical-offset="14280">
               <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
               <folding />
             </state>
@@ -140,21 +140,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.777779" vertical-offset="37287" max-vertical-offset="37860">
-              <caret line="2516" column="48" selection-start-line="2516" selection-start-column="29" selection-end-line="2516" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.7676951" vertical-offset="14397" max-vertical-offset="38580">
+              <caret line="988" column="47" selection-start-line="988" selection-start-column="47" selection-end-line="988" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="generalexternalimport.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js">
+      <file leaf-file-name="specelement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.814815" vertical-offset="1094" max-vertical-offset="1710">
-              <caret line="99" column="34" selection-start-line="99" selection-start-column="34" selection-end-line="99" selection-end-column="34" />
+            <state vertical-scroll-proportion="-14.185185" vertical-offset="2302" max-vertical-offset="9225">
+              <caret line="179" column="22" selection-start-line="179" selection-start-column="13" selection-end-line="179" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -230,7 +230,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnadirmodel.js" />
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/languages.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
@@ -240,10 +239,11 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
       </list>
     </option>
   </component>
@@ -759,7 +759,7 @@
       <workItem from="1395614189597" duration="647000" />
       <workItem from="1396214491235" duration="1815000" />
       <workItem from="1396388033089" duration="3514000" />
-      <workItem from="1396392680310" duration="15988000" />
+      <workItem from="1396392680310" duration="19046000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2817,11 +2817,15 @@
       <created>1396415412647</created>
       <updated>1396415412647</updated>
     </task>
-    <option name="localTasksCounter" value="515" />
+    <task id="LOCAL-00515" summary="fixing bugs">
+      <created>1396415900089</created>
+      <updated>1396415900089</updated>
+    </task>
+    <option name="localTasksCounter" value="516" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="691626000" />
+    <option name="totallyTimeSpent" value="694684000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3169,13 +3173,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.074074" vertical-offset="2872" max-vertical-offset="9090">
-          <caret line="206" column="87" selection-start-line="206" selection-start-column="87" selection-end-line="206" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.111111" vertical-offset="492" max-vertical-offset="2265">
@@ -3240,14 +3237,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.777779" vertical-offset="37287" max-vertical-offset="37860">
-          <caret line="2516" column="48" selection-start-line="2516" selection-start-column="29" selection-end-line="2516" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.7407408" vertical-offset="26314" max-vertical-offset="26865">
@@ -3260,8 +3249,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3321234" vertical-offset="717" max-vertical-offset="14280">
+        <state vertical-scroll-proportion="-6.7777777" vertical-offset="717" max-vertical-offset="14280">
           <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.185185" vertical-offset="2302" max-vertical-offset="9225">
+          <caret line="179" column="22" selection-start-line="179" selection-start-column="13" selection-end-line="179" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7676951" vertical-offset="14397" max-vertical-offset="38580">
+          <caret line="988" column="47" selection-start-line="988" selection-start-column="47" selection-end-line="988" selection-end-column="47" />
           <folding />
         </state>
       </provider>
