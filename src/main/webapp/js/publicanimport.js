@@ -12,6 +12,35 @@ define(
 
         function processInputSource(inputModel, resultCallback, errorCallback, result, config) {
             inputModel.clearCache();
+
+            var lookForXMLDirAndFiles = function(contentSpec) {
+                inputModel.getCachedEntries(config.InputSource, function (entries) {
+                    var foundDir = false;
+                    var foundFiles = false;
+                    jquery.each(entries, function (index, value) {
+                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/\.?$").test(qnautils.getFileName(value))) {
+                            foundDir = true;
+                        } else if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
+                            if (!/^tmp\//.test(qnautils.getFileName(value))) {
+                                foundFiles = true;
+                            }
+                        }
+
+                        if (foundDir && foundFiles) {
+                            return false;
+                        }
+                    });
+
+                    if (!foundDir) {
+                        errorCallback("No " + config.ImportLang + " directory found", "The source location file has no " + config.ImportLang + " directory");
+                    } else if (!foundFiles) {
+                        errorCallback("No XML files found", "The source location file has no XML files under the " + config.ImportLang + " directory");
+                    } else {
+                        resultCallback(JSON.stringify({contentSpec: contentSpec}));
+                    }
+                });
+            };
+
             inputModel.getCachedEntries(config.InputSource, function (entries) {
 
                 var foundPublicanCfg = false;
@@ -94,7 +123,6 @@ define(
 
                                             contentSpec.push(fixedFileName + " = [");
                                             contentSpec.push("# Contents from " + uri.filename());
-                                            var commentedConfigValue = "";
 
                                             if (fixedFileName === "publican.cfg") {
                                                 /*
@@ -131,11 +159,13 @@ define(
                             }
 
                             processEntry(0, function() {
-                                resultCallback(JSON.stringify({contentSpec: contentSpec}));
+                                lookForXMLDirAndFiles(contentSpec);
                             });
                         });
                     });
                 }
+
+
             }, function (message) {
                 errorCallback("Error", "Could not process the ZIP file!");
             });
@@ -259,24 +289,16 @@ define(
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
-                                    var foundDir = false;
+
                                     jquery.each(entries, function (index, value) {
-                                        if (RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/\.?$").test(qnautils.getFileName(value))) {
-                                            foundDir = true;
-                                        } else if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
+                                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
                                             if (!/^tmp\//.test(qnautils.getFileName(value))) {
                                                 retValue.push(qnautils.getFileName(value));
                                             }
                                         }
                                     });
 
-                                    if (!foundDir) {
-                                        errorCallback("No " + config.ImportLang + " directory found", "The source ZIP file has no " + config.ImportLang + " directory", true);
-                                    } else if (retValue.length !== 0) {
-                                        resultCallback(retValue);
-                                    } else {
-                                        errorCallback("No XML files found", "The source ZIP file has no XML files under the " + config.ImportLang + " directory", true);
-                                    }
+                                    resultCallback(retValue);
                                 });
                             })
                             .setValue(function (resultCallback, errorCallback, result, config) {

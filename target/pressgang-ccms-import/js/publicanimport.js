@@ -261,7 +261,7 @@ define(
                                     var retValue = [];
                                     var foundDir = false;
                                     jquery.each(entries, function (index, value) {
-                                        if (RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/$").test(qnautils.getFileName(value))) {
+                                        if (RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/\.?$").test(qnautils.getFileName(value))) {
                                             foundDir = true;
                                         } else if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
                                             if (!/^tmp\//.test(qnautils.getFileName(value))) {

@@ -1409,7 +1409,7 @@ define(
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
                                 var titleText = "";
                                 if (title) {
-                                    titleText = qnautils.reencode(replaceWhiteSpace(title.innerHTML), replacements).trim();
+                                    titleText = replaceWhiteSpace(title.innerHTML);
 
                                     // remove any redundant namespace attributes
                                     titleText = removeRedundantXmlnsAttribute(titleText);
@@ -1435,6 +1435,10 @@ define(
                                 } else {
                                     clone.insertBefore(importedTitle, clone.childNodes[0]);
                                 }
+
+                                // When refering to the title text from now on (like adding to the spec or defining the
+                                // title of a topic in the graph) we want the version that has the entities
+                                titleText = qnautils.reencode(titleText, replacements);
 
                                 // strip away any child containers
                                 var removeChildren = [];
