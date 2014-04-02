@@ -166,13 +166,20 @@ define(
                 inputModel.clearCache();
                 resultCallback(false);
             })
+            .setProcessStep(function(resultCallback, errorCallback, result, config) {
+                if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
+                    errorCallback("Select a XML file", "Please select the main XML file before continuing");
+                } else {
+                    resultCallback();
+                }
+            })
             .setNextStep(function (resultCallback) {
                 resultCallback(getSpecDetails);
             });
 
         var getSpecDetails = new qna.QNAStep()
             .setTitle("Enter content specification details")
-            .setIntro("Enter the basic details of the content specification. If these values can be found in the content being imported, the values entered here will be overwritten.")
+            .setIntro("Enter the basic details of the content specification. If these values are found in the content being imported, the values entered here will be overwritten.")
             .setInputs(
                 [
                     new qna.QNAVariables()

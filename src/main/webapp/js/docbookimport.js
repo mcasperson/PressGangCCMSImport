@@ -60,6 +60,10 @@ define(
             if (baseMatch !== null) {
                 var base = baseMatch[2];
                 if (base !== "." && base !== "./") {
+                    if (!/\/$/.test(base)) {
+                        base += "/";
+                    }
+
                     return base;
                 }
             }
@@ -520,68 +524,86 @@ define(
                                      */
                                     var fixedMatch = href.replace(/^\.\//, "");
                                     var thisFile = new URI(filename);
-                                    var referencedXMLFilenameRelative = base !== null ?
-                                        new URI(base + fixedMatch) :
-                                        new URI(fixedMatch);
-                                    var referencedXMLFilename = referencedXMLFilenameRelative.absoluteTo(thisFile).toString();
+                                    var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + fixedMatch);
+                                    var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
 
-                                    if (visitedFiles.indexOf(referencedXMLFilename) !== -1) {
-                                        errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedXMLFilename, true);
-                                        return;
-                                    }
+                                    var referencedXMLFilenameRelativeWithoutBase = new URI(fixedMatch);
+                                    var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
+
+                                    var processFile = function(referencedFileName) {
+
+                                        if (visitedFiles.indexOf(referencedFileName) !== -1) {
+                                            errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedFileName, true);
+                                            return;
+                                        }
+
+                                        inputModel.getTextFromFileName(
+                                            config.InputSource,
+                                            referencedFileName,
+                                            function (referencedXmlText) {
+                                                resolveFileRefs(referencedXmlText, referencedFileName, function(referencedXmlText) {
+                                                    resolveXIInclude(
+                                                        referencedXmlText,
+                                                        getXmlBaseAttribute(referencedXmlText),
+                                                        referencedFileName,
+                                                        visitedFiles.slice(0),
+                                                        function (fixedReferencedXmlText) {
+                                                            if (xpointer !== undefined) {
+                                                                var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
+                                                                var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
+                                                                var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
+
+                                                                var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
+
+                                                                var replacement = "";
+                                                                var matchedNode;
+                                                                while ((matchedNode = subset.iterateNext()) !== null) {
+                                                                    if (replacement.length !== 0) {
+                                                                        replacement += "\n";
+                                                                    }
+                                                                    fixedReferencedXmlText += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
+                                                                }
+                                                            }
+
+                                                            /*
+                                                             The dollar sign has special meaning in the replace method.
+                                                             https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+                                                             */
+                                                            xmlText = xmlText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
+                                                            resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                                        }
+                                                    );
+                                                });
+                                            },
+                                            function (error) {
+                                                errorCallback("Error reading file", "There was an error reading the file " + referencedFileName, true);
+                                            },
+                                            true
+                                        );
+                                    };
 
                                     inputModel.hasFileName(
                                         config.InputSource,
-                                        referencedXMLFilename,
+                                        referencedXMLFilenameWithoutBase,
                                         function(exists) {
                                             if (exists) {
-                                                inputModel.getTextFromFileName(
+                                                processFile(referencedXMLFilenameWithoutBase);
+                                            } else {
+                                                inputModel.hasFileName(
                                                     config.InputSource,
-                                                    referencedXMLFilename,
-                                                    function (referencedXmlText) {
-                                                        resolveFileRefs(referencedXmlText, referencedXMLFilename, function(referencedXmlText) {
-                                                            resolveXIInclude(
-                                                                referencedXmlText,
-                                                                getXmlBaseAttribute(referencedXmlText),
-                                                                referencedXMLFilename,
-                                                                visitedFiles.slice(0),
-                                                                function (fixedReferencedXmlText) {
-                                                                    if (xpointer !== undefined) {
-                                                                        var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
-                                                                        var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
-                                                                        var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
-
-                                                                        var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
-
-                                                                        var replacement = "";
-                                                                        var matchedNode;
-                                                                        while ((matchedNode = subset.iterateNext()) !== null) {
-                                                                            if (replacement.length !== 0) {
-                                                                                replacement += "\n";
-                                                                            }
-                                                                            fixedReferencedXmlText += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
-                                                                        }
-                                                                    }
-
-                                                                    /*
-                                                                        The dollar sign has special meaning in the replace method.
-                                                                        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
-                                                                     */
-                                                                    xmlText = xmlText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
-                                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                                                                }
-                                                            );
-                                                        });
+                                                    referencedXMLFilenameWithBase,
+                                                    function(exists) {
+                                                        if (exists) {
+                                                            processFile(referencedXMLFilenameWithBase);
+                                                        } else {
+                                                            //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
+                                                            xmlText = xmlText.replace(match[0], "");
+                                                            resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                                        }
                                                     },
-                                                    function (error) {
-                                                        errorCallback("Error reading file", "There was an error readiong the file " + referencedXMLFilename, true);
-                                                    },
+                                                    errorCallback,
                                                     true
                                                 );
-                                            } else {
-                                                //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
-                                                xmlText = xmlText.replace(match[0], "");
-                                                resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                             }
                                         },
                                         errorCallback,

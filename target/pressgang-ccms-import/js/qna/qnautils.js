@@ -274,5 +274,9 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
         });
         return retValue;
     };
+
+    exports.fileHasExtension = function (extension, filename) {
+        return new RegExp("^.*?\\." + exports.escapeRegExp(extension) + "$").test(filename);
+    };
 });
 

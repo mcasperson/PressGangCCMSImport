@@ -118,7 +118,7 @@ define(
 
                                     jquery.each(entries, function (index, value) {
                                         var filename = qnautils.getFileName(value);
-                                        if (/^.*?\.xml$/.test(filename)) {
+                                        if (qnautils.fileHasExtension("xml", filename)) {
                                             retValue.push(filename);
                                         }
                                     });
@@ -138,7 +138,7 @@ define(
                                             } else {
                                                 var entry = entries[index];
                                                 var filename = qnautils.getFileName(entry);
-                                                if (qnautils.isNormalFile(filename)) {
+                                                if (qnautils.isNormalFile(filename) && qnautils.fileHasExtension("xml", filename)) {
                                                     inputModel.getTextFromFile(entry, function (textFile) {
 
                                                         var match = /<(book)|(article)>/.exec(textFile);
@@ -166,13 +166,20 @@ define(
                 inputModel.clearCache();
                 resultCallback(false);
             })
+            .setProcessStep(function(resultCallback, errorCallback, result, config) {
+                if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
+                    errorCallback("Select a XML file", "Please select the main XML file before continuing");
+                } else {
+                    resultCallback();
+                }
+            })
             .setNextStep(function (resultCallback) {
                 resultCallback(getSpecDetails);
             });
 
         var getSpecDetails = new qna.QNAStep()
             .setTitle("Enter content specification details")
-            .setIntro("Enter the basic details of the content specification")
+            .setIntro("Enter the basic details of the content specification. If these values are found in the content being imported, the values entered here will be overwritten.")
             .setInputs(
                 [
                     new qna.QNAVariables()
