@@ -58,12 +58,12 @@ define(
             .setShowNext("Start Import");
 
         /*
-         STEP 5 - process the ODT file
+         STEP 5 - process the Mojo page file
          */
         var processHTML = new qna.QNAStep()
             .setShowNext(false)
             .setShowPrevious(false)
-            .setTitle("Processing the ODT file")
+            .setTitle("Processing the Mojo page")
             .setIntro("The list below allows you to monitor the progress of the import process. Steps with an asterisk (*) can take some time to complete, so please be patient.")
             .setOutputs([
                 new qna.QNAVariables()

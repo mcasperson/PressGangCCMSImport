@@ -2,73 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/qna.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/images/bug.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/images/spinner.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular-sanitize.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.flash.swf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/fontrule.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/jquery/jquery-2.1.0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport-0.0.30.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/moment/moment-with-langs.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/pgimport.user.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qna.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnadirmodel.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnazipmodel.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnaangular/controller.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/IPv6.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/SecondLevelDomains.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentQuery.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentURI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URITemplate.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/punycode.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/wgxpath/wgxpath.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/deflate.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/inflate.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/mime-types.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-ext.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-fs.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -80,6 +20,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -153,11 +98,23 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.7407408" vertical-offset="26314" max-vertical-offset="26865">
+              <caret line="1761" column="274" selection-start-line="1761" selection-start-column="274" selection-end-line="1761" selection-end-column="274" />
+              <folding>
+                <marker date="1396415403594" expanded="true" signature="62346:62424" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="mojoimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58115184" vertical-offset="2712" max-vertical-offset="14280">
-              <caret line="203" column="79" selection-start-line="203" selection-start-column="79" selection-end-line="203" selection-end-column="79" />
+            <state vertical-scroll-proportion="0.3321234" vertical-offset="717" max-vertical-offset="14280">
+              <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -186,8 +143,8 @@
       <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.888889" vertical-offset="37092" max-vertical-offset="37800">
-              <caret line="2487" column="246" selection-start-line="2487" selection-start-column="246" selection-end-line="2487" selection-end-column="274" />
+            <state vertical-scroll-proportion="-16.777779" vertical-offset="37287" max-vertical-offset="37860">
+              <caret line="2516" column="48" selection-start-line="2516" selection-start-column="29" selection-end-line="2516" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -216,8 +173,8 @@
       <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="29.962963" vertical-offset="5309" max-vertical-offset="5895">
-              <caret line="300" column="36" selection-start-line="300" selection-start-column="36" selection-end-line="300" selection-end-column="36" />
+            <state vertical-scroll-proportion="-7.2222223" vertical-offset="2430" max-vertical-offset="5895">
+              <caret line="175" column="33" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -277,7 +234,6 @@
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" />
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
@@ -286,6 +242,7 @@
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/mojoimport.js" />
       </list>
     </option>
@@ -802,7 +759,7 @@
       <workItem from="1395614189597" duration="647000" />
       <workItem from="1396214491235" duration="1815000" />
       <workItem from="1396388033089" duration="3514000" />
-      <workItem from="1396392680310" duration="14060000" />
+      <workItem from="1396392680310" duration="15988000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2852,11 +2809,19 @@
       <created>1396410021754</created>
       <updated>1396410021754</updated>
     </task>
-    <option name="localTasksCounter" value="513" />
+    <task id="LOCAL-00513" summary="fixing bugs">
+      <created>1396413697415</created>
+      <updated>1396413697416</updated>
+    </task>
+    <task id="LOCAL-00514" summary="fixing bugs">
+      <created>1396415412647</created>
+      <updated>1396415412647</updated>
+    </task>
+    <option name="localTasksCounter" value="515" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="689698000" />
+    <option name="totallyTimeSpent" value="691626000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3211,16 +3176,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="824" max-vertical-offset="26865">
-          <caret line="88" column="99" selection-start-line="88" selection-start-column="99" selection-end-line="88" selection-end-column="99" />
-          <folding>
-            <marker date="1395369031299" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.111111" vertical-offset="492" max-vertical-offset="2265">
@@ -3279,24 +3234,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="29.962963" vertical-offset="5309" max-vertical-offset="5895">
-          <caret line="300" column="36" selection-start-line="300" selection-start-column="36" selection-end-line="300" selection-end-column="36" />
+        <state vertical-scroll-proportion="-7.2222223" vertical-offset="2430" max-vertical-offset="5895">
+          <caret line="175" column="33" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.888889" vertical-offset="37092" max-vertical-offset="37800">
-          <caret line="2487" column="246" selection-start-line="2487" selection-start-column="246" selection-end-line="2487" selection-end-column="274" />
+        <state vertical-scroll-proportion="-16.777779" vertical-offset="37287" max-vertical-offset="37860">
+          <caret line="2516" column="48" selection-start-line="2516" selection-start-column="29" selection-end-line="2516" selection-end-column="48" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.7407408" vertical-offset="26314" max-vertical-offset="26865">
+          <caret line="1761" column="274" selection-start-line="1761" selection-start-column="274" selection-end-line="1761" selection-end-column="274" />
+          <folding>
+            <marker date="1396415403594" expanded="true" signature="62346:62424" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/mojoimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58115184" vertical-offset="2712" max-vertical-offset="14280">
-          <caret line="203" column="79" selection-start-line="203" selection-start-column="79" selection-end-line="203" selection-end-column="79" />
+        <state vertical-scroll-proportion="0.3321234" vertical-offset="717" max-vertical-offset="14280">
+          <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
           <folding />
         </state>
       </provider>
