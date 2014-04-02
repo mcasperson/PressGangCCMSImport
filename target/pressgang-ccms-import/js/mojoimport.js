@@ -167,6 +167,9 @@ define(
 
                             var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
                                 if (index >= childNodeCount) {
+                                    /*
+                                        We have reached the end of the, so append anything we have collected
+                                     */
                                     if (content.length !== 0) {
                                         if (topicsAdded > 0) {
                                             if (outlineLevel > 1) {
@@ -188,6 +191,25 @@ define(
                                             resultObject.contentSpec.push("  " + qnastart.escapeSpecTitle(title));
                                         }
                                         generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                    } else {
+                                        /*
+                                            We have collected nothing. This is an empty topic, and we need to unwind any
+                                            toc levels that were added for this topic
+                                         */
+
+                                        while (resultObject.contentSpec.length !== 0) {
+                                            var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
+                                            if (specElementTopic === undefined) {
+                                                var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
+                                                resultObject.contentSpec.pop();
+                                            } else {
+                                                break;
+                                            }
+                                        }
+
+                                        if (resultObject.contentSpec.length === 0) {
+                                            throw "The entire content spec was unwound. This should not have happened.";
+                                        }
                                     }
 
                                     successCallback();
@@ -397,7 +419,10 @@ define(
                                 });
 
                                 if (maxCols !== undefined) {
-                                    content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
+                                    content.push("<table frame='all'>");
+                                    content.push("<title>");
+                                    content.push("</title>");
+                                    content.push("<tgroup cols='" + maxCols + "'>");
 
                                     for (var col = 1; col <= maxCols; ++col) {
                                         content.push("<colspec colname='c" + col + "'/>");
@@ -483,7 +508,10 @@ define(
                                             if (ths.length !== 0) {
                                                 content.push("</tbody>");
                                                 content.push("</tgroup></table>");
-                                                content.push("<table frame='all'><title></title><tgroup cols='" + maxCols + "'>");
+                                                content.push("<table frame='all'>");
+                                                content.push("<title>");
+                                                content.push("</title>");
+                                                content.push("<tgroup cols='" + maxCols + "'>");
                                                 content.push("<thead>");
 
                                                 content.push("<row>");
@@ -495,9 +523,7 @@ define(
                                                 });
 
                                                 content.push("</row>");
-
                                                 content.push("</thead>");
-
                                                 content.push("<tbody>");
                                             } else {
                                                 content.push("<row>");
@@ -512,7 +538,8 @@ define(
                                         content.push("</tbody>");
                                     }
 
-                                    content.push("</tgroup></table>");
+                                    content.push("</tgroup>");
+                                    content.push("</table>");
                                 }
                             };
 
@@ -533,21 +560,43 @@ define(
                                 }
 
                                 var listItems = jquery(">li", contentNode);
-                                content.push("<" + listType + style + ">");
-                                jquery.each(listItems, function(key, listItem) {
-                                    content.push("<listitem><para>");
 
+
+                                var listContent = [];
+                                jquery.each(listItems, function(key, listItem) {
                                     var listitemText = convertNodeToDocbook(listItem, true, imageLinks);
 
-                                    jquery.each(listitemText, function(index, value) {
-                                        listitemText[index] = value.replace(/\n/g, "</para><para>");
-                                    });
+                                    if (listitemText.length !== 0) {
 
-                                    jquery.merge(content, listitemText);
+                                        jquery.each(listitemText, function (index, value) {
+                                            listitemText[index] = value.replace(/\n/g, "</para><para>");
+                                        });
 
-                                    content.push("</para></listitem>");
+                                        /*
+                                         Most of the time li elements in mojo contain just plain text. But that
+                                         text can be contained in a para.
+                                         */
+                                        var listitemHasNextedPara = listitemText[0] === "<para>";
+
+                                        listContent.push("<listitem>");
+                                        if (!listitemHasNextedPara) {
+                                            listContent.push("<para>");
+                                        }
+
+                                        jquery.merge(listContent, listitemText);
+
+                                        if (!listitemHasNextedPara) {
+                                            listContent.push("</para>");
+                                        }
+                                        listContent.push("</listitem>");
+                                    }
                                 });
-                                content.push("</" + listType + ">");
+
+                                if (listContent.length !== 0) {
+                                    content.push("<" + listType + style + ">");
+                                    jquery.merge(content, listContent);
+                                    content.push("</" + listType + ">");
+                                }
                             };
 
                             var padContentSpec = function(currentLevel, previousLevel, contentSpec) {
@@ -649,10 +698,13 @@ define(
                                                 var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
                                                 if (specElementTopic === undefined) {
                                                     var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
-                                                    if (specElementLevel[1].length === newOutlineLevel - 2) {
+                                                    resultObject.contentSpec.pop();
+                                                    /*
+                                                        Level is the number of spaces divided by 2, because there are
+                                                        2 spaces used for an indent
+                                                     */
+                                                    if (specElementLevel[1].length / 2 === newOutlineLevel - 1) {
                                                         break;
-                                                    } else {
-                                                        resultObject.contentSpec.pop();
                                                     }
                                                 } else {
                                                     break;
@@ -868,7 +920,7 @@ define(
                             .setIntro("Content Specification ID")
                             .setName("ContentSpecIDLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a>");
+                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
