@@ -1035,7 +1035,7 @@ define(
                             var titleElement = qnautils.xPath("./docbook:title", infoElement).iterateNext();
                             if (titleElement !== null) {
                                 if (title === null) {
-                                    title = titleElement.nodeValue;
+                                    title = titleElement.innerHTML;
                                 }
 
                                 /*
