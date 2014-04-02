@@ -21,6 +21,7 @@ define(
         var ABSTRACT_TAG_ID;
         var LEGAL_NOTICE_TAG_ID;
         var INFO_TAG_ID;
+        var DEFAULT_TITLE = "Untitled";
         // docbook elements whose contents have to match exactly
         var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
         // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
@@ -971,8 +972,9 @@ define(
                     extractRevisionHistory(xmlDoc, contentSpec);
                 }
 
-                function extractInfoTopic(xmlDoc, contentSpec, parent, topics, topicGraph) {
+                function extractInfoTopic(xmlDoc, contentSpecIndex, parent, topics, topicGraph) {
                     var removeElements = [];
+                    var title = null;
                     jquery.each(INFO_TOPIC_ELEMENTS, function (index, value) {
                         var iterator = qnautils.xPath("./docbook:" + value, parent);
 
@@ -983,7 +985,7 @@ define(
                         if (infoElement !== null) {
                             var topic = new specelement.TopicGraphNode(topicGraph)
                                 .setXml(removeIdAttribute(infoElement))
-                                .setSpecLine(contentSpec.length - 1)
+                                .setSpecLine(contentSpecIndex)
                                 .setTitle("Info")
                                 .addTag(INFO_TAG_ID)
                                 .setInfoTopic(true);
@@ -994,19 +996,44 @@ define(
                             }
                             topics.push(topic);
                             removeElements.push(infoElement);
+
+                            /*
+                             Grab the first title element of the first info element that we can
+                             */
+                            var titleElement = qnautils.xPath("./docbook:title", infoElement).iterateNext();
+                            if (titleElement !== null) {
+                                if (title === null) {
+                                    title = titleElement.nodeValue;
+                                }
+
+                                /*
+                                 All topics and contains must have a title. This means that the
+                                 info elements must not (this is a DocBook restriction).
+
+                                 If this is valid docbook, and the info element has a title, it means
+                                 the container it is in does not have a title. Here we take the title
+                                 of the info element, assign it to the container (that is what the
+                                 return value of this function is for), and remove the title from
+                                 the info element.
+                                 */
+                                 removeElements.push(titleElement);
+                            }
                         }
 
                         /*
-                         There shouldn't be any more, but we remove any if there are
+                            There shouldn't be any more, but we remove any if there are
                          */
-                        while ((infoElement = iterator.iterateNext()) !== null) {
-                            removeElements.push(infoElement);
+                        var otherInfoElements = null;
+                        while ((otherInfoElements = iterator.iterateNext()) !== null) {
+                            removeElements.push(otherInfoElements);
                         }
                     });
 
                     jquery.each(removeElements, function(index, removeElement) {
-                        parent.removeChild(removeElement);
+                        removeElement.parentNode.removeChild(removeElement);
                     });
+
+                    return title;
                 }
 
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
@@ -1444,6 +1471,14 @@ define(
                         }
                     }
 
+                    function getTitle(directTitle, infoTitle) {
+                        var title = directTitle || infoTitle || DEFAULT_TITLE;
+
+                        // When refering to the title text from now on (like adding to the spec or defining the
+                        // title of a topic in the graph) we want the version that has the entities
+                        return qnautils.reencode(title, replacements);
+                    }
+
                     var processXml = function (parentXML, depth) {
                         // loop over the containers under the root element
                         jquery.each(parentXML.childNodes, function (index, value) {
@@ -1453,8 +1488,8 @@ define(
 
                                 // find the title
                                 var title = qnautils.xPath("./docbook:title", clone).iterateNext();
-                                var titleText = "";
-                                if (title) {
+                                var titleText = null;
+                                if (title !== null) {
                                     titleText = replaceWhiteSpace(title.innerHTML);
 
                                     // remove any redundant namespace attributes
@@ -1464,10 +1499,8 @@ define(
                                         Title is mandatory
                                      */
                                     if (titleText.length === 0) {
-                                        titleText = "Untitled";
+                                        titleText = DEFAULT_TITLE;
                                     }
-                                } else {
-                                    titleText = "Untitled";
                                 }
 
                                 // sync the title back to the xml
@@ -1481,10 +1514,6 @@ define(
                                 } else {
                                     clone.insertBefore(importedTitle, clone.childNodes[0]);
                                 }
-
-                                // When refering to the title text from now on (like adding to the spec or defining the
-                                // title of a topic in the graph) we want the version that has the entities
-                                titleText = qnautils.reencode(titleText, replacements);
 
                                 // strip away any child containers
                                 var removeChildren = [];
@@ -1585,6 +1614,8 @@ define(
 
                                     if (!isHistoryTopicAppendix && !isEmptyPrefaceTopic) {
 
+                                        var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
+
                                         if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
                                             contentSpec.push(contentSpecLine + titleText);
 
@@ -1594,10 +1625,9 @@ define(
                                                 contentSpecLine +
                                                     containerName.substring(0, 1).toUpperCase() +
                                                     containerName.substring(1, containerName.length) +
-                                                    ": " + titleText);
+                                                    ": " +
+                                                    getTitle(titleText, infoTitle));
                                         }
-
-                                        extractInfoTopic(xmlDoc, contentSpec, clone, topics, topicGraph);
 
                                         var standaloneContainerTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
@@ -1625,14 +1655,15 @@ define(
                                         topics.push(standaloneContainerTopic);
                                     }
                                 } else {
+                                    var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
+
                                     var containerName = remapContainer(value.nodeName);
                                     contentSpec.push(
                                         contentSpecLine +
                                             containerName.substring(0, 1).toUpperCase() +
                                             containerName.substring(1, containerName.length) +
-                                            ": " + titleText);
-
-                                    extractInfoTopic(xmlDoc, contentSpec, clone, topics, topicGraph);
+                                            ": " +
+                                            getTitle(titleText, infoTitle));
 
                                     if (id) {
                                         ++containerTargetNum;
@@ -1691,7 +1722,7 @@ define(
                                         var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
                                             .setSpecLine(contentSpec.length - 1)
-                                            .setTitle(titleText);
+                                            .setTitle((titleText || infoTitle || DEFAULT_TITLE));
 
                                         if (id) {
                                             if (topicGraph.hasXMLId(id.nodeValue)) {
