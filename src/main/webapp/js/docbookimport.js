@@ -972,8 +972,14 @@ define(
                 }
 
                 function extractInfoTopic(xmlDoc, contentSpec, parent, topics, topicGraph) {
+                    var removeElements = [];
                     jquery.each(INFO_TOPIC_ELEMENTS, function (index, value) {
-                        var infoElement = qnautils.xPath("./docbook:" + value, parent).iterateNext();
+                        var iterator = qnautils.xPath("./docbook:" + value, parent);
+
+                        /*
+                            We import the first one
+                         */
+                        var infoElement = iterator.iterateNext();
                         if (infoElement !== null) {
                             var topic = new specelement.TopicGraphNode(topicGraph)
                                 .setXml(removeIdAttribute(infoElement))
@@ -987,7 +993,19 @@ define(
                                 topic.addXmlId(id);
                             }
                             topics.push(topic);
+                            removeElements.push(infoElement);
                         }
+
+                        /*
+                         There shouldn't be any more, but we remove any if there are
+                         */
+                        while ((infoElement = iterator.iterateNext()) !== null) {
+                            removeElements.push(infoElement);
+                        }
+                    });
+
+                    jquery.each(removeElements, function(index, removeElement) {
+                        parent.removeChild(removeElement);
                     });
                 }
 
@@ -1669,21 +1687,6 @@ define(
                                                 clone.removeChild(partintro);
                                             }
                                         }
-
-                                        /*
-                                            Any info elements will already have been removed
-                                         */
-                                        var infoElements = [];
-                                        jquery.each(INFO_TOPIC_ELEMENTS, function(index, infoElementName) {
-                                            var iterator = qnautils.xPath("./docbook:" + infoElementName, clone);
-                                            var infoElement;
-                                            while ((infoElement = iterator.iterateNext()) !== null) {
-                                                infoElements.push(infoElement);
-                                            }
-                                        });
-                                        jquery.each(infoElements, function(index, infoElement) {
-                                            clone.removeChild(infoElement);
-                                        });
 
                                         var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
