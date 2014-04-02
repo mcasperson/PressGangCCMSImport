@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -130,20 +125,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="generaldocbookimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="generaldocbookimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-120.55556" vertical-offset="0" max-vertical-offset="3510">
-              <caret line="217" column="32" selection-start-line="217" selection-start-column="32" selection-end-line="219" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.68085104" vertical-offset="1716" max-vertical-offset="3510">
+              <caret line="140" column="129" selection-start-line="140" selection-start-column="129" selection-end-line="140" selection-end-column="129" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docbookimport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="docbookimport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.491833" vertical-offset="13377" max-vertical-offset="40065">
+            <state vertical-scroll-proportion="30.444445" vertical-offset="13377" max-vertical-offset="40065">
               <caret line="837" column="73" selection-start-line="837" selection-start-column="73" selection-end-line="837" selection-end-column="73" />
               <folding />
             </state>
@@ -163,7 +158,7 @@
       <file leaf-file-name="qnautils.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3576" max-vertical-offset="4260">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3669" max-vertical-offset="4320">
               <caret line="252" column="12" selection-start-line="252" selection-start-column="12" selection-end-line="252" selection-end-column="12" />
               <folding />
             </state>
@@ -234,8 +229,6 @@
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
@@ -244,6 +237,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
       </list>
     </option>
   </component>
@@ -759,7 +754,7 @@
       <workItem from="1395614189597" duration="647000" />
       <workItem from="1396214491235" duration="1815000" />
       <workItem from="1396388033089" duration="3514000" />
-      <workItem from="1396392680310" duration="23430000" />
+      <workItem from="1396392680310" duration="23794000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2841,11 +2836,15 @@
       <created>1396428925654</created>
       <updated>1396428925654</updated>
     </task>
-    <option name="localTasksCounter" value="521" />
+    <task id="LOCAL-00521" summary="fixing bugs">
+      <created>1396468456306</created>
+      <updated>1396468456306</updated>
+    </task>
+    <option name="localTasksCounter" value="522" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="699068000" />
+    <option name="totallyTimeSpent" value="699432000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3217,26 +3216,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-120.55556" vertical-offset="0" max-vertical-offset="3510">
-          <caret line="217" column="32" selection-start-line="217" selection-start-column="32" selection-end-line="219" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.2222223" vertical-offset="75" max-vertical-offset="7545">
           <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3576" max-vertical-offset="4260">
-          <caret line="252" column="12" selection-start-line="252" selection-start-column="12" selection-end-line="252" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -3285,8 +3268,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.491833" vertical-offset="13377" max-vertical-offset="40065">
+        <state vertical-scroll-proportion="30.444445" vertical-offset="13377" max-vertical-offset="40065">
           <caret line="837" column="73" selection-start-line="837" selection-start-column="73" selection-end-line="837" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3669" max-vertical-offset="4320">
+          <caret line="252" column="12" selection-start-line="252" selection-start-column="12" selection-end-line="252" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68085104" vertical-offset="1716" max-vertical-offset="3510">
+          <caret line="140" column="129" selection-start-line="140" selection-start-column="129" selection-end-line="140" selection-end-column="129" />
           <folding />
         </state>
       </provider>

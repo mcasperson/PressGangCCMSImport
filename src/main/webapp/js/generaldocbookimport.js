@@ -118,7 +118,7 @@ define(
 
                                     jquery.each(entries, function (index, value) {
                                         var filename = qnautils.getFileName(value);
-                                        if (/^.*?\.xml$/.test(filename)) {
+                                        if (qnautils.fileHasExtension("xml", filename)) {
                                             retValue.push(filename);
                                         }
                                     });
@@ -138,7 +138,7 @@ define(
                                             } else {
                                                 var entry = entries[index];
                                                 var filename = qnautils.getFileName(entry);
-                                                if (qnautils.isNormalFile(filename)) {
+                                                if (qnautils.isNormalFile(filename) && qnautils.fileHasExtension("xml", filename)) {
                                                     inputModel.getTextFromFile(entry, function (textFile) {
 
                                                         var match = /<(book)|(article)>/.exec(textFile);
