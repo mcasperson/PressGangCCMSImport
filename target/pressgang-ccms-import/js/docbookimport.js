@@ -948,7 +948,7 @@ define(
                     contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
                     contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
                     contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
-                    if (config.ContentSpecVersion !== undefined) {
+                    if (config.ContentSpecVersion) {
                         contentSpec.push("Version = " + config.ContentSpecVersion);
                     }
 

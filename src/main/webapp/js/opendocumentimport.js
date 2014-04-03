@@ -674,7 +674,9 @@ define(
 
                 resultObject.contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
                 resultObject.contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                resultObject.contentSpec.push("Version = " + (config.ContentSpecVersion === undefined ? "1" : config.ContentSpecVersion));
+                if (config.ContentSpecVersion) {
+                    resultObject.contentSpec.push("Version = " + config.ContentSpecVersion);
+                }
                 resultObject.contentSpec.push("Format = DocBook 4.5");
 
                 /*
