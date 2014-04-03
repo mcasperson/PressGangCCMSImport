@@ -2,72 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/qna.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/images/bug.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/images/spinner.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular-sanitize.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.flash.swf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/fontrule.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/jquery/jquery-2.1.0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport-0.0.30.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/moment/moment-with-langs.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/pgimport.user.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qna.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnadirmodel.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnazipmodel.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnaangular/controller.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/IPv6.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/SecondLevelDomains.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentQuery.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentURI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URITemplate.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/punycode.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/wgxpath/wgxpath.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/deflate.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/inflate.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/mime-types.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-ext.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-fs.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import.war" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PressGangCCMSImport.iws" />
@@ -137,10 +76,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.69945353" vertical-offset="3816" max-vertical-offset="4365">
+            <state vertical-scroll-proportion="-7.529412" vertical-offset="3816" max-vertical-offset="4365">
               <caret line="280" column="204" selection-start-line="280" selection-start-column="204" selection-end-line="280" selection-end-column="204" />
               <folding>
                 <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -168,21 +107,19 @@
       <file leaf-file-name="qna.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="18.666666" vertical-offset="9849" max-vertical-offset="10410">
-              <caret line="623" column="105" selection-start-line="623" selection-start-column="105" selection-end-line="623" selection-end-column="105" />
+            <state vertical-scroll-proportion="-7.2222223" vertical-offset="9810" max-vertical-offset="10410">
+              <caret line="667" column="34" selection-start-line="667" selection-start-column="26" selection-end-line="667" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opendocumentimport.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/opendocumentimport.js">
+      <file leaf-file-name="qnastart.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.444445" vertical-offset="10773" max-vertical-offset="26895">
-              <caret line="737" column="65" selection-start-line="737" selection-start-column="57" selection-end-line="737" selection-end-column="65" />
-              <folding>
-                <marker date="1396487800518" expanded="true" signature="62367:62445" placeholder="..." />
-              </folding>
+            <state vertical-scroll-proportion="1.2592592" vertical-offset="8584" max-vertical-offset="9270">
+              <caret line="570" column="32" selection-start-line="570" selection-start-column="16" selection-end-line="570" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -237,11 +174,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publicanimport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="publicanimport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.074074" vertical-offset="308" max-vertical-offset="5895">
-              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.7935154" vertical-offset="3600" max-vertical-offset="6015">
+              <caret line="271" column="80" selection-start-line="271" selection-start-column="80" selection-end-line="271" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -300,7 +237,6 @@
         <option value="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generalexternalimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnastart.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/specelement.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qnautils.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/generaldocbookimport.js" />
@@ -311,6 +247,7 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/qna/qna.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/publicanimport.js" />
       </list>
     </option>
   </component>
@@ -458,37 +395,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="patternfly" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PressGangCCMSImport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="patternfly" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -851,7 +758,7 @@
       <workItem from="1396388033089" duration="3514000" />
       <workItem from="1396392680310" duration="29478000" />
       <workItem from="1396478595422" duration="2582000" />
-      <workItem from="1396492896133" duration="7681000" />
+      <workItem from="1396492896133" duration="9034000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2985,11 +2892,15 @@
       <created>1396561584512</created>
       <updated>1396561584512</updated>
     </task>
-    <option name="localTasksCounter" value="534" />
+    <task id="LOCAL-00534" summary="Added patternfly skin">
+      <created>1396561790228</created>
+      <updated>1396561790228</updated>
+    </task>
+    <option name="localTasksCounter" value="535" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="715379000" />
+    <option name="totallyTimeSpent" value="716732000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3369,14 +3280,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8580" max-vertical-offset="9255">
-          <caret line="595" column="41" selection-start-line="595" selection-start-column="41" selection-end-line="595" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/specelement.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2302" max-vertical-offset="9225">
@@ -3398,7 +3301,7 @@
         <state vertical-scroll-proportion="-10.444445" vertical-offset="10773" max-vertical-offset="26895">
           <caret line="737" column="65" selection-start-line="737" selection-start-column="57" selection-end-line="737" selection-end-column="65" />
           <folding>
-            <marker date="1396487800518" expanded="true" signature="62367:62445" placeholder="..." />
+            <marker date="1396487800518" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -3419,26 +3322,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.074074" vertical-offset="308" max-vertical-offset="5895">
-          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/docbookimport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1257.2593" vertical-offset="39181" max-vertical-offset="40680">
           <caret line="349" column="25" selection-start-line="349" selection-start-column="13" selection-end-line="349" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="18.666666" vertical-offset="9849" max-vertical-offset="10410">
-          <caret line="623" column="105" selection-start-line="623" selection-start-column="105" selection-end-line="623" selection-end-column="105" />
           <folding />
         </state>
       </provider>
@@ -3469,7 +3356,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.69945353" vertical-offset="3816" max-vertical-offset="4365">
+        <state vertical-scroll-proportion="-7.529412" vertical-offset="3816" max-vertical-offset="4365">
           <caret line="280" column="204" selection-start-line="280" selection-start-column="204" selection-end-line="280" selection-end-column="204" />
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -3480,6 +3367,30 @@
             <element signature="n#style#0;n#button#1;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#2;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qnastart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2592592" vertical-offset="8584" max-vertical-offset="9270">
+          <caret line="570" column="32" selection-start-line="570" selection-start-column="16" selection-end-line="570" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/qna/qna.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.2222223" vertical-offset="9810" max-vertical-offset="10410">
+          <caret line="667" column="34" selection-start-line="667" selection-start-column="26" selection-end-line="667" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/publicanimport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7935154" vertical-offset="3600" max-vertical-offset="6015">
+          <caret line="271" column="80" selection-start-line="271" selection-start-column="80" selection-end-line="271" selection-end-column="80" />
+          <folding />
         </state>
       </provider>
     </entry>

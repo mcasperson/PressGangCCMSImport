@@ -228,16 +228,19 @@ define(
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
             })
-            .setBackStep(function(resultCallback) {
+            .setBackStep(function(resultCallback, errorCallback, result, config) {
+                config.InputSource = undefined;
+
                 if (qnautils.isInputDirSupported()) {
                     resultCallback(exports.askForZipOrDir);
                 } else {
                     resultCallback(qnastart.specifyTheServer);
                 }
             })
-            .setEnterStep(function(resultCallback){
+            .setEnterStep(function(resultCallback, errorCallback, result, config){
                 inputModel = qnastart.zipModel;
                 inputModel.clearCache();
+                config.InputSource = undefined;
                 resultCallback(false);
             });
 
@@ -266,10 +269,15 @@ define(
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
             })
-            .setEnterStep(function(resultCallback){
+            .setEnterStep(function(resultCallback, errorCallback, result, config){
                 inputModel = qnastart.dirModel;
                 inputModel.clearCache();
+                config.InputSource = undefined;
                 resultCallback(false);
+            })
+            .setBackStep(function(resultCallback, errorCallback, result, config) {
+                config.InputSource = undefined;
+                resultCallback(exports.askForZipOrDir);
             });
 
         /*
