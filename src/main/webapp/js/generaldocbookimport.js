@@ -37,14 +37,14 @@ define(
          */
         var askForDocBookFile = new qna.QNAStep()
             .setTitle("Select the ZIP file to import")
-            .setIntro("Select the ZIP file that contains the valid Docbook content that you wish to import into PressGang CCMS.")
+            .setIntro("Select the ZIP file that contains the valid DocBook content that you wish to import into PressGang CCMS.")
             .setInputs(
                 [
                     new qna.QNAVariables()
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.SINGLE_FILE)
-                                .setIntro("Docbook ZIP File")
+                                .setIntro("DocBook ZIP File")
                                 .setName("InputSource")
                         ])
                 ]
@@ -79,7 +79,7 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.DIRECTORY)
-                                .setIntro("Docbook Directory")
+                                .setIntro("DocBook Directory")
                                 .setName("InputSource")
                         ])
                 ]
