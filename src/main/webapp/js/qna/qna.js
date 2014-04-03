@@ -25,56 +25,118 @@ define(['exports'], function (exports) {
 
     };
 
+    /**
+     * @param disabled true if the input field should be disabled. This has no effect on output fields, as they are
+     * always disabled. Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariable.prototype.setDisabled = function (disabled) {
         this.disabled = disabled;
         return this;
     };
 
+    /**
+     *
+     * @param type The InputEnum that defined what kind of UI element this variable will be displayed as.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariable.prototype.setType = function (type) {
         this.type = type;
         return this;
     };
 
+    /**
+     *
+     * @param intro A string that will be displayed next to the UI element.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariable.prototype.setIntro = function (intro) {
         this.intro = intro;
         return this;
     };
 
+    /**
+     *
+     * @param name A string that defines what variable on the config object (i.e. object[name]) the
+     * UI element will read and write to.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariable.prototype.setName = function (name) {
         this.name = name;
         return this;
     };
 
+    /**
+     *
+     * @param options A string[] that defines the values the UI element can take. It is only used for
+     * UI elements like radio button and checkboxes.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariable.prototype.setOptions = function (options) {
         this.options = options;
         return this;
     };
 
+    /**
+     *
+     * @param value Sets the initial value of the variable.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariable.prototype.setValue = function (value) {
         this.value = value;
         return this;
     };
 
+    /**
+     * A collection of QNAVariable objects, with some additional info.
+     * @constructor
+     */
     exports.QNAVariables = function () {
 
     };
 
+    /**
+     *
+     * @param intro A string that will be displayed above a collection of UI inputs.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariables.prototype.setIntro = function (intro) {
         this.intro = intro;
         return this;
     };
 
+    /**
+     *
+     * @param variables A QNAVariable[] that defines the collection of variables this object is parent to.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAVariables.prototype.setVariables = function (variables) {
         this.variables = variables;
         return this;
     };
 
+    /**
+     * An individual step in the wizard
+     * @constructor
+     */
     exports.QNAStep = function () {
         this.showNext = true;
         this.showPrevious = true;
         this.showRestart = false;
     };
 
+    /**
+     * @param titlePrefix A string that will be displayed as part of the page title.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setTitlePrefix = function(titlePrefix) {
         this.titlePrefix = titlePrefix;
         return this;
@@ -85,71 +147,173 @@ define(['exports'], function (exports) {
         return this;
     };
 
+    /**
+     *
+     * @param title A string that will be displayed as the title for the wizard step.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setTitle = function (title) {
         this.title = title;
         return this;
     };
 
+    /**
+     *
+     * @param intro A string that will be displayed as introductory text for this wizard step.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setIntro = function (intro) {
         this.intro = intro;
         return this;
     };
 
+    /**
+     *
+     * @param inputs A QNAVariables[] collection that will de displayed as input UI elements.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setInputs = function (inputs) {
         this.inputs = inputs;
         return this;
     };
 
+    /**
+     *
+     * @param outputs A QNAVariables[] collection that will be displayed as output UI elements. All
+     * UI elements as part of this collection are disabled.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setOutputs = function (outputs) {
         this.outputs = outputs;
         return this;
     };
 
+    /**
+     *
+     * @param processStep A function of signature function (resultCallback, errorCallback, result, config)
+     * called when the user moves off this step to the next one.
+     * The resultCallback should be called with the result that was calculated in this step. The result should
+     * be an independent object, as they are pushed and poped from a stack as the user moves forward and
+     * backwards through the wizard to undo changes.
+     * i.e. resultCallback(JSON.stringify(myResult)).
+     * If you pass an object to the resultCallback, and modify that object in subsequent steps, push and popping
+     * that object from the stack won't actually undo any changes.
+     * i.e. resultCallback(myResult)
+     *      myResult is pushed to stack
+     *      myResult.field = newValue
+     *      user moves back in wizard, myResult is poped
+     *      myResult.field still === newValue
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setProcessStep = function (processStep) {
         this.processStep = processStep;
         return this;
     };
 
+    /**
+     *
+     * @param nextStep the QNAStep that will be displayed when the user progresses off this step.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setNextStep = function (nextStep) {
         this.nextStep = nextStep;
         return this;
     };
 
+    /**
+     *
+     * @param enterStep A function of signature function (resultCallback, errorCallback, result, config) called when
+     * the user first enters this step.
+     * Calling resultCallback() results in the UI being updated to reflect the current values in the config object. This
+     * is useful when performing long running operations and providing feedback to the user.
+     * Calling resultCallback(true) results in the user being moved to the next wizard step. This is useful when this
+     * step was only used to provide updates on a long running operation.
+     * Calling resultCallback(false) means the UI elements are enabled and the user can interact with the step as usual.
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setEnterStep = function (enterStep) {
         this.enterStep = enterStep;
         return this;
     };
 
+    /**
+     *
+     * @param backStep Sets the QNAStep that will be displayed when the user moves back through the wizard. This is
+     * useful if moving back should place the user at some step beyond the last one.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setBackStep = function (backStep) {
         this.backStep = backStep;
         return this;
     };
 
+    /**
+     *
+     * @param showPrevious true if the button to move back in the wizard should be shown, and false otherwise. Useful
+     * when the user has reached the end of the wizard and it does not make sence to go back to a previous step.
+     * Can also be a string that sets the name of the previous button.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setShowPrevious = function (showPrevious) {
         this.showPrevious = showPrevious;
         return this;
     };
 
+    /**
+     *
+     * @param showNext true if the button to move forward in the wizard should be shown, and false otherwise. Useful
+     * when displaying a readonly step that the user will be moved from automatically after some long running process
+     * has finished.
+     * Can also be a string that sets the name of the next button.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setShowNext = function (showNext) {
         this.showNext = showNext;
         return this;
     };
 
+    /**
+     * Used by the UI to get the name of the next button
+     * @returns {*}
+     */
     exports.QNAStep.prototype.getShowNextName = function () {
         return typeof this.processedShowNext === "string" ?
             this.processedShowNext : "Next";
     };
 
+    /**
+     * Used by the UI to get the name of the previous button
+     * @returns {*}
+     */
     exports.QNAStep.prototype.getShowPreviousName = function () {
         return typeof this.processedShowPrevious === "string" ?
             this.processedShowPrevious : "Previous";
     };
 
+    /**
+     * Used by the UI to get the name of the restart button
+     * @returns {*}
+     */
     exports.QNAStep.prototype.getShowRestartName = function () {
         return typeof this.processedShowRestart === "string" ?
             this.processedShowRestart : "Restart";
     };
 
+    /**
+     *
+     * @param showRestart true if the restart button is to be shown, and false otherwise. Can also be a string
+     * that sets the name of the restart button.
+     * Can also be a function of signature function (resultCallback, errorCallback, result, config).
+     * @returns {exports}
+     */
     exports.QNAStep.prototype.setShowRestart = function (showRestart) {
         this.showRestart = showRestart;
         return this;
@@ -169,6 +333,13 @@ define(['exports'], function (exports) {
         this.config = config || {};
     };
 
+    /**
+     * Calls any functions assigned to properties in QNAVariables and QNAVariable objects. If the app appears to
+     * hang after calling this, it is probably because a function assigned to a property doesn't call the
+     * resultcallback function passed to it.
+     * @param successCallback
+     * @param errorCallback
+     */
     exports.QNA.prototype.initialize = function (successCallback, errorCallback) {
         var result = this.results[this.results.length - 1];
         var step = this.step;
@@ -363,6 +534,10 @@ define(['exports'], function (exports) {
         );
     };
 
+    /**
+     *
+     * @returns {boolean} true if the current step has a next step to move to, and false otherwise
+     */
     exports.QNA.prototype.hasNext = function () {
         if (this.step) {
             if (this.step.nextStep) {
@@ -373,10 +548,20 @@ define(['exports'], function (exports) {
         return false;
     };
 
+    /**
+     *
+     * @returns {boolean} true if the current step has a previous step to move back to, and false otherwise
+     */
     exports.QNA.prototype.hasPrevious = function () {
         return this.previousSteps.length > 0;
     };
 
+    /**
+     * Moves to the next step. QNAStep objects can prevent this by assigning a function to their nextStep property,
+     * and calling the errorCallback instead of the resultCallback.
+     * @param callback
+     * @param errorCallback
+     */
     exports.QNA.prototype.next = function (callback, errorCallback) {
         if (this.step && this.step.nextStep) {
 
@@ -435,6 +620,12 @@ define(['exports'], function (exports) {
         }
     };
 
+    /**
+     * Moves to the next step. QNAStep objects can prevent this by assigning a function to their backStep property,
+     * and calling the errorCallback instead of the resultCallback.
+     * @param callback
+     * @param errorCallback
+     */
     exports.QNA.prototype.previous = function (callback, errorCallback) {
         if (this.previousSteps.length > 0) {
 
