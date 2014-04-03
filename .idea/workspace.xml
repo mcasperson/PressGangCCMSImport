@@ -2,7 +2,71 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fc640e1-0d01-44dd-bb3f-e38b82fa3b59" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/bootstrap/css/qna.css" afterPath="$PROJECT_DIR$/src/main/webapp/qna/qna.css" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import.war" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/css/qna.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/images/bug.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/images/spinner.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular-sanitize.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angular/angular.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.flash.swf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/FileAPI.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-html5-shim.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload-shim.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/angularfileupload/angular-file-upload.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/bootstrap/ui-bootstrap-tpls-0.10.0.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/docbookimport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/fontrule.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generaldocbookimport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/generalexternalimport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/jquery/jquery-2.1.0.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport-0.0.30.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/mojoimport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/moment/moment-with-langs.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/opendocumentimport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/pgimport.user.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/publicanimport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qna.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnadirmodel.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnautils.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qna/qnazipmodel.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnaangular/controller.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/qnastart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/require.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/specelement.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/IPv6.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/SecondLevelDomains.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentQuery.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.fragmentURI.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URI.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/URITemplate.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/jquery.URI.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/uri/punycode.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/wgxpath/wgxpath.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/deflate.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/inflate.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/mime-types.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-ext.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip-fs.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/pressgang-ccms-import/js/zip/zip.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -73,11 +137,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-57.52941" vertical-offset="1251" max-vertical-offset="4365">
-              <caret line="279" column="67" selection-start-line="279" selection-start-column="67" selection-end-line="279" selection-end-column="67" />
+            <state vertical-scroll-proportion="0.69945353" vertical-offset="3816" max-vertical-offset="4365">
+              <caret line="280" column="204" selection-start-line="280" selection-start-column="204" selection-end-line="280" selection-end-column="204" />
               <folding>
                 <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#select#0;n#div#1;n#div#3;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -91,10 +155,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qna.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="qna.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/qna/qna.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24469821" vertical-offset="0" max-vertical-offset="613">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
               <caret line="10" column="1" selection-start-line="4" selection-start-column="20" selection-end-line="10" selection-end-column="1" />
               <folding />
             </state>
@@ -245,8 +309,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/docbookimport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qna/qna.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/qnaangular/controller.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/qna/qna.css" />
+        <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
       </list>
     </option>
   </component>
@@ -787,7 +851,7 @@
       <workItem from="1396388033089" duration="3514000" />
       <workItem from="1396392680310" duration="29478000" />
       <workItem from="1396478595422" duration="2582000" />
-      <workItem from="1396492896133" duration="7475000" />
+      <workItem from="1396492896133" duration="7681000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Import">
       <created>1390960505841</created>
@@ -2917,11 +2981,15 @@
       <created>1396558810361</created>
       <updated>1396558810361</updated>
     </task>
-    <option name="localTasksCounter" value="533" />
+    <task id="LOCAL-00533" summary="Added patternfly skin">
+      <created>1396561584512</created>
+      <updated>1396561584512</updated>
+    </task>
+    <option name="localTasksCounter" value="534" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="715173000" />
+    <option name="totallyTimeSpent" value="715379000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="-10" width="1922" height="1092" extended-state="6" />
@@ -3391,10 +3459,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/qna/qna.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+          <caret line="10" column="1" selection-start-line="4" selection-start-column="20" selection-end-line="10" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-57.52941" vertical-offset="1251" max-vertical-offset="4365">
-          <caret line="279" column="67" selection-start-line="279" selection-start-column="67" selection-end-line="279" selection-end-column="67" />
+        <state vertical-scroll-proportion="0.69945353" vertical-offset="3816" max-vertical-offset="4365">
+          <caret line="280" column="204" selection-start-line="280" selection-start-column="204" selection-end-line="280" selection-end-column="204" />
           <folding>
             <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#select#0;n#div#1;n#div#3;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -3404,14 +3480,6 @@
             <element signature="n#style#0;n#button#1;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#2;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/qna/qna.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24469821" vertical-offset="0" max-vertical-offset="613">
-          <caret line="10" column="1" selection-start-line="4" selection-start-column="20" selection-end-line="10" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>

@@ -15,6 +15,13 @@ require(
             };
         }
 
+        /**
+         * The glue between the UI and the QNA object that controls the wizard
+         * @param $scope
+         * @param $modal
+         * @param $rootScope
+         * @constructor
+         */
         function QNAController ($scope, $modal, $rootScope) {
             /*
              A callback that displays the ok dialog box
@@ -34,6 +41,10 @@ require(
                 });
             };
 
+            /**
+             * Initializes the QNA object, and then initializes the current step in the QNA object.
+             * @param qna
+             */
             var initializeQna = function (qna) {
                 $scope.disabled = true;
                 qna.initialize(
@@ -87,6 +98,11 @@ require(
                 );
             };
 
+            /**
+             * Used in the UI to iterate over a range of numbers
+             * @param num
+             * @returns {Array}
+             */
             $scope.getNumber = function (num) {
                 return new Array(num);
             };
@@ -94,6 +110,11 @@ require(
             $scope.inputTypes = qna.InputEnum;
             initializeQna(new qna.QNA(qnastart.qnastart, null, null, null));
 
+            /**
+             * Used to update a property on the config object when a file is selected
+             * @param name
+             * @param files
+             */
             $scope.onFileSelect = function (name, files) {
                 if (files.length !== 0) {
                     $scope.qna.config[name] = files[0];
@@ -102,6 +123,11 @@ require(
                 }
             };
 
+            /**
+             * Used to update a property on the config object when a directory is selected
+             * @param name
+             * @param files
+             */
             $scope.onDirectorySelect = function (name, files) {
                 if (files.length !== 0) {
                     $scope.qna.config[name] = files;
@@ -110,6 +136,9 @@ require(
                 }
             };
 
+            /**
+             * Called when the wizard is moved to the next step
+             */
             $scope.next = function () {
                 $scope.qna.next(function (qna) {
                     initializeQna(qna);
@@ -118,6 +147,9 @@ require(
                 });
             };
 
+            /**
+             * Called when teh wizard is moved to the previous step
+             */
             $scope.previous = function () {
                 $scope.qna.previous(function (qna) {
                     initializeQna(qna);
@@ -126,6 +158,9 @@ require(
                 });
             };
 
+            /**
+             * Called when the wizard is restarted
+             */
             $scope.restart = function () {
                 initializeQna(new qna.QNA(qnastart.qnastart, null, null, null));
             };

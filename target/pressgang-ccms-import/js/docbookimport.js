@@ -353,7 +353,7 @@ define(
 
                 var thisStep = this;
 
-                window.onbeforeunload=function(){
+                window.onbeforeunload=function() {
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
 
