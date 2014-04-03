@@ -567,6 +567,10 @@ define(
                                                                 var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
                                                                 var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
 
+                                                                if (cleanedReferencedXmlDom === null) {
+                                                                    errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
+                                                                }
+
                                                                 var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
 
                                                                 var replacement = "";
@@ -798,8 +802,7 @@ define(
                     var xmlDoc = qnautils.stringToXML(xmlText);
 
                     if (xmlDoc === null) {
-                        console.log(xmlText);
-                        throw "xmlText was not valid XML";
+                        errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
                     }
 
                     config.UploadProgress[1] = 5 * progressIncrement;
