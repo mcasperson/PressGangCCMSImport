@@ -353,7 +353,7 @@ define(
 
                 var thisStep = this;
 
-                window.onbeforeunload=function(){
+                window.onbeforeunload=function() {
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
 
@@ -569,6 +569,7 @@ define(
 
                                                                 if (cleanedReferencedXmlDom === null) {
                                                                     errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
+                                                                    return;
                                                                 }
 
                                                                 var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
@@ -803,6 +804,7 @@ define(
 
                     if (xmlDoc === null) {
                         errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
+                        return;
                     }
 
                     config.UploadProgress[1] = 5 * progressIncrement;
