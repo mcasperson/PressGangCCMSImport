@@ -597,7 +597,11 @@ define(
                     config,
                     function() {
                         if (config.ImportOption === "Publican") {
-                            resultCallback(publicanimport.askForZipOrDir);
+                            if (qnautils.isInputDirSupported()) {
+                                resultCallback(publicanimport.askForZipOrDir);
+                            } else {
+                                resultCallback(publicanimport.askForPublicanZipFile);
+                            }
                         } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
                             resultCallback(generaldocbookimport.askForZipOrDir);
                         } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {

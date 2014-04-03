@@ -187,7 +187,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.InputType === "Zip" ? askForPublicanZipFile : askForPublicanDir);
+                resultCallback(config.InputType === "Zip" ? exports.askForPublicanZipFile : askForPublicanDir);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
@@ -201,7 +201,7 @@ define(
         /*
          Get the ZIP file
          */
-        var askForPublicanZipFile = new qna.QNAStep()
+        exports.askForPublicanZipFile = new qna.QNAStep()
             .setTitle("Select the ZIP file to import")
             .setIntro("Select the ZIP file that contains the valid Publican book that you wish to import into PressGang CCMS. " +
                 "The ZIP file must contain the publican.cfg file in the root directory.")
@@ -227,15 +227,6 @@ define(
             })
             .setNextStep(function (resultCallback) {
                 resultCallback(askForMainXML);
-            })
-            .setBackStep(function(resultCallback, errorCallback, result, config) {
-                config.InputSource = undefined;
-
-                if (qnautils.isInputDirSupported()) {
-                    resultCallback(exports.askForZipOrDir);
-                } else {
-                    resultCallback(qnastart.specifyTheServer);
-                }
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config){
                 inputModel = qnastart.zipModel;
