@@ -71,7 +71,7 @@
             });
         </script>
         <link href="patternfly/css/patternfly.min.css" rel="stylesheet">
-        <link href="bootstrap/css/qna.css" rel="stylesheet">
+        <link href="qna/qna.css" rel="stylesheet">
         <style>
             [ng-cloak] {
                 display: none;
@@ -79,26 +79,40 @@
         </style>
     </head>
     <body ng-cloak>
-        <div ng-controller="QNAController">
-            <!-- defines a ok dialog box -->
-            <script type="text/ng-template" id="okDialog.html">
-                <div class="modal-header">
-                    <h3>{{title}}</h3>
-                </div>
-                <div class="modal-body">
-                    {{content}}
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" ng-click="ok()">OK</button>
-                </div>
-            </script>
 
-            <!-- The panel that contains the current wizard step -->
-            <div class="panel panel-default" style="min-height: 400px; position: relative">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{qna.step.processedTitle}}<img src="images/spinner.gif" ng-show="disabled" class="pull-right"/></h3>
-                </div>
-                <div class="panel-body" style="margin-bottom: 40px">
+        <nav class="navbar navbar-default navbar-pf" role="navigation">
+            <div class="container">
+                <div class="navbar-brand">PressGang CCMS Import Tool</div>
+                <div class="navbar-right">Build 1.5-SNAPSHOT 201404031301</div>
+            </div>
+        </nav>
+
+        <div class="container-fluid" ng-controller="QNAController">
+            <div class="row">
+                <div class="container step-container-main" >
+                    <!-- defines a ok dialog box -->
+                    <script type="text/ng-template" id="okDialog.html">
+                        <div class="modal-header">
+                            <h3>{{title}}</h3>
+                        </div>
+                        <div class="modal-body">
+                            {{content}}
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" ng-click="ok()">OK</button>
+                        </div>
+                    </script>
+
+                    <div class="page-header page-header-bleed-right">
+                        <div class="actions pull-right">
+                            <img src="images/spinner.gif" ng-show="disabled"/>
+                        </div>
+                        <h1>{{qna.step.processedTitle}}</h1>
+
+                    </div>
+
+                    <!-- The panel that contains the current wizard step -->
+
                     <div ng-if="qna.step.processedIntro != null">{{qna.step.processedIntro}}</div>
 
                     <!-- Build the outputs -->
@@ -107,8 +121,8 @@
                         <div class="row" ng-repeat="variable in output.processedVariables">
                             <!-- combobox form element -->
                             <div ng-if="variable.processedType == inputTypes.COMBOBOX">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     <select
                                             ng-model="qna.config[variable.processedName]"
                                             ng-options="option for option in variable.processedOptions"
@@ -117,8 +131,8 @@
                             </div>
                             <!-- listbox form element -->
                             <div ng-if="variable.processedType == inputTypes.LISTBOX">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     <select
                                             size="20"
                                             ng-model="qna.config[variable.processedName]"
@@ -129,52 +143,52 @@
                             </div>
                             <!-- radio buttons -->
                             <div class="col-lg-12" ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
-                                <div ng-class="{'col-lg-8': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
+                                <div ng-class="{'col-lg-6': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
                                     <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}" ng-disabled="true">
                                 </div>
                             </div>
                             <!-- check box -->
                             <div class="col-lg-12" ng-if="variable.processedType == inputTypes.CHECKBOX">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="true">
                                 </div>
                             </div>
                             <!-- text box -->
                             <div class="col-lg-12" ng-if="variable.processedType == inputTypes.TEXTBOX">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     <input type="text" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="true">
                                 </div>
                             </div>
 
                             <!-- Progress bar -->
                             <div class="col-lg-12" ng-if="variable.processedType == inputTypes.PROGRESS">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
                                 <progressbar animate="false" max="qna.config[variable.processedName][0]" value="qna.config[variable.processedName][1]" type="success"><b>{{qna.config[variable.processedName][1]/qna.config[variable.processedName][0]*100 | number:2}}%</b></progressbar>
                             </div>
 
                             <!-- Plain text -->
                             <div class="col-lg-12" ng-if="variable.processedType == inputTypes.PLAIN_TEXT">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     {{qna.config[variable.processedName]}}
                                 </div>
                             </div>
 
                             <!-- HTML -->
                             <div class="col-lg-12" ng-if="variable.processedType == inputTypes.HTML">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                <div ng-bind-html="qna.config[variable.processedName]" ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-bind-html="qna.config[variable.processedName]" ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
 
                                 </div>
                             </div>
 
                             <!-- Preformatted HTML -->
                             <div class="col-lg-12" ng-if="variable.processedType == inputTypes.PRE_HTML">
-                                <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                     <pre>{{qna.config[variable.processedName]}}</pre>
                                 </div>
                             </div>
@@ -188,22 +202,22 @@
 
                                 <!-- single file form element -->
                                 <div ng-if="variable.processedType == inputTypes.SINGLE_FILE">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <input type="file" accept="application/zip" ng-file-select="onFileSelect(variable.processedName, $files)" ng-disabled="disabled || variable.processedDisabled" >
                                     </div>
                                  </div>
                                 <!-- directory selection -->
                                 <div ng-if="variable.processedType == inputTypes.DIRECTORY">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <input type="file" ng-file-select="onDirectorySelect(variable.processedName, $files)" webkitdirectory="" directory="" ng-disabled="disabled || variable.processedDisabled"/>
                                     </div>
                                 </div>
                                 <!-- combobox form element -->
                                 <div ng-if="variable.processedType == inputTypes.COMBOBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <select
                                                 ng-model="qna.config[variable.processedName]"
                                                 ng-options="option for option in variable.processedOptions"
@@ -212,8 +226,8 @@
                                 </div>
                                 <!-- listbox form element -->
                                 <div ng-if="variable.processedType == inputTypes.LISTBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <select
                                                 size="20"
                                                 ng-model="qna.config[variable.processedName]"
@@ -224,22 +238,22 @@
                                 </div>
                                 <!-- radio buttons -->
                                 <div class="col-lg-12" ng-repeat="i in getNumber(variable.processedOptions.length) track by $index" ng-if="variable.processedType == inputTypes.RADIO_BUTTONS">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro[$index]}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro[$index], 'col-lg-12': !variable.processedIntro[$index]}">
                                         <input type="radio" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" value="{{variable.processedOptions[$index]}}" ng-disabled="disabled || variable.processedDisabled">
                                     </div>
                                 </div>
                                 <!-- check box -->
                                 <div class="col-lg-12" ng-if="variable.processedType == inputTypes.CHECKBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <input type="checkbox" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled || variable.processedDisabled">
                                     </div>
                                 </div>
                                 <!-- text box -->
                                 <div class="col-lg-12" ng-if="variable.processedType == inputTypes.TEXTBOX">
-                                    <div class="col-lg-4" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
-                                    <div ng-class="{'col-lg-8': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
                                         <input type="text" style="width: 100%" name="{{variable.processedName}}" ng-model="qna.config[variable.processedName]" ng-disabled="disabled || variable.processedDisabled">
                                     </div>
                                 </div>
@@ -247,19 +261,26 @@
                             </div>
                     </div>
 
-                    <div style="position: absolute; left: 10px; bottom: 10px; right: 10px">
-                        <a title="Report a bug" href="https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool"><img style="width:32px; height: 32px" src="images/bug.png"/></a>
-                        <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">{{qna.step.getShowNextName()}}</button>
-                        <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious() && qna.step.processedShowPrevious" ng-disabled="disabled">{{qna.step.getShowPreviousName()}}</button>
-                        <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="restart()" ng-if="qna.step.processedShowRestart" ng-disabled="disabled">{{qna.step.getShowRestartName()}}</button>
-                    </div>
 
                 </div>
             </div>
 
-            <div class="pull-right">Build 1.5-SNAPSHOT 201404031301</div>
+            <div class="row">
+                <div class="container step-container">
+                <a title="Report a bug" href="https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool">
+                    <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">Report Bug</button>
+                </a>
+                <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">{{qna.step.getShowNextName()}}</button>
+                <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="previous()" ng-if="qna.hasPrevious() && qna.step.processedShowPrevious" ng-disabled="disabled">{{qna.step.getShowPreviousName()}}</button>
+                <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="restart()" ng-if="qna.step.processedShowRestart" ng-disabled="disabled">{{qna.step.getShowRestartName()}}</button>
+                </div>
+            </div>
 
-            <div style="clear: both" class="alert alert-danger">This is an alpha release. You can only import to the test server. Please log bugs for any issues you find by clicking the bug icon.</div>
+            <div class="row">
+                <div class="container step-container system-warning">
+                    <div class="clearfix alert alert-danger">This is an alpha release. You can only import to the test server. Please log bugs for any issues you find by clicking the bug icon.</div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

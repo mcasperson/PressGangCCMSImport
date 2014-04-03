@@ -1,0 +1,11 @@
+.container {
+    width: 900px;
+}
+
+.step-container-main {
+    min-height: 400px;
+}
+
+.system-warning {
+    margin-top: 40px;
+}
