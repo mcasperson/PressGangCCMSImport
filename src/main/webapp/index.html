@@ -38,7 +38,8 @@
                     'angular-file-upload': 'angularfileupload/angular-file-upload',
                     'angular-bootstrap': 'bootstrap/ui-bootstrap-tpls-0.10.0.min',
                     'wgxpath': 'wgxpath/wgxpath',
-                    'URIjs': 'js/uri'
+                    'URIjs': 'js/uri',
+                    'patternfly' : 'patternfly/js/patternfly'
                 },
                 shim: {
                     'wgxpath': {
@@ -58,6 +59,9 @@
                     },
                     'angular-bootstrap': {
                         deps: ["angular"]
+                    },
+                    'patternfly': {
+                        deps: ["jquery"]
                     }
                 }
             });
@@ -66,8 +70,8 @@
                 wgxpath.install();
             });
         </script>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/qna.css" rel="stylesheet">
+        <link href="patternfly/css/patternfly.min.css" rel="stylesheet">
+        <link href="bootstrap/css/qna.css" rel="stylesheet">
         <style>
             [ng-cloak] {
                 display: none;
