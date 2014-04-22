@@ -209,6 +209,7 @@ define(
             xmlText = replaceElement("sect4", newElementName, xmlText);
             xmlText = replaceElement("sect5", newElementName, xmlText);
             xmlText = replaceElement("simplesect", newElementName, xmlText);
+            xmlText = replaceElement("preface", newElementName, xmlText);
 
             return xmlText;
         }
@@ -349,7 +350,7 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
-                var inputModel = config.InputType === "Zip" ? qnastart.zipModel : qnastart.dirModel;
+                var inputModel = config.InputType === "Dir" ? qnastart.dirModel : qnastart.zipModel;
 
                 var thisStep = this;
 
