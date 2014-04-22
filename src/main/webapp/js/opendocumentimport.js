@@ -1559,7 +1559,6 @@ define(
                                          Some convenient statements about what is going on.
                                          */
                                         var thisTopicHasContent =  content.length !== 0;
-                                        var thisTopicIsChildOfLastLevel = currentLevel > previousLevel;
                                         var nextTopicIsChildOfLastLevel = newOutlineLevel > previousLevel;
                                         var nextTopicIsChildOfThisTopic = newOutlineLevel > currentLevel;
 
@@ -1597,7 +1596,7 @@ define(
                                              above it, and the new topic being created is not, then the
                                              previous topic will need to be changed from a container to a topic.
                                              */
-                                            if (thisTopicIsChildOfLastLevel && !nextTopicIsChildOfLastLevel) {
+                                            if (!nextTopicIsChildOfLastLevel) {
                                                 resultObject.contentSpec[resultObject.contentSpec.length - 1] =
                                                     resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
 

@@ -29,7 +29,26 @@ define(
         // these docbook elements represent topics
         var TOPIC_CONTAINER_TYPES = ["section", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
         // these elements are changed into info topics
-        var INFO_TOPIC_ELEMENTS = ["info"];
+        var INFO_TOPIC_ELEMENTS = [
+            "info",
+            "articleinfo",
+            "bibliographyinfo",
+            "blockinfo",
+            "bookinfo",
+            "chapterinfo",
+            "glossaryinfo",
+            "indexinfo",
+            "objectinfo",
+            "prefaceinfo",
+            "refsynopsisdivinfo",
+            "screeninfo",
+            "sect1info",
+            "sect2info",
+            "sect3info",
+            "sect4info",
+            "sect5info",
+            "sectioninfo",
+            "setinfo"];
         // these containers are ignored
         var IGNORED_CONTAINERS = ["partintro"];
         // these are entities created by csprocessor
@@ -176,40 +195,17 @@ define(
 
         function setDocumentNodeToInfo (xmlText) {
             var newElementName = "info";
-            xmlText = replaceElement("articleinfo", newElementName, xmlText);
-            xmlText = replaceElement("bibliographyinfo", newElementName, xmlText);
-            xmlText = replaceElement("blockinfo", newElementName, xmlText);
-            xmlText = replaceElement("bookinfo", newElementName, xmlText);
-            xmlText = replaceElement("chapterinfo", newElementName, xmlText);
-            xmlText = replaceElement("glossaryinfo", newElementName, xmlText);
-            xmlText = replaceElement("indexinfo", newElementName, xmlText);
-            xmlText = replaceElement("objectinfo", newElementName, xmlText);
-            xmlText = replaceElement("prefaceinfo", newElementName, xmlText);
-            xmlText = replaceElement("refsynopsisdivinfo", newElementName, xmlText);
-            xmlText = replaceElement("screeninfo", newElementName, xmlText);
-            xmlText = replaceElement("sect1info", newElementName, xmlText);
-            xmlText = replaceElement("sect2info", newElementName, xmlText);
-            xmlText = replaceElement("sect3info", newElementName, xmlText);
-            xmlText = replaceElement("sect4info", newElementName, xmlText);
-            xmlText = replaceElement("sect5info", newElementName, xmlText);
-            xmlText = replaceElement("sectioninfo", newElementName, xmlText);
-            xmlText = replaceElement("setinfo", newElementName, xmlText);
-
+            for (var index = 0; index < INFO_TOPIC_ELEMENTS.length; ++index) {
+                xmlText = replaceElement(INFO_TOPIC_ELEMENTS[index], newElementName, xmlText);
+            }
             return xmlText;
         }
 
         function setDocumentNodeToSection (xmlText) {
             var newElementName = "section";
-            xmlText = replaceElement("chapter", newElementName, xmlText);
-            xmlText = replaceElement("appendix", newElementName, xmlText);
-            xmlText = replaceElement("part", newElementName, xmlText);
-            xmlText = replaceElement("sect1", newElementName, xmlText);
-            xmlText = replaceElement("sect2", newElementName, xmlText);
-            xmlText = replaceElement("sect3", newElementName, xmlText);
-            xmlText = replaceElement("sect4", newElementName, xmlText);
-            xmlText = replaceElement("sect5", newElementName, xmlText);
-            xmlText = replaceElement("simplesect", newElementName, xmlText);
-            xmlText = replaceElement("preface", newElementName, xmlText);
+            for (var index = 0; index < CONTAINER_TYPES.length; ++index) {
+                xmlText = replaceElement(CONTAINER_TYPES[index], newElementName, xmlText);
+            }
 
             return xmlText;
         }
