@@ -1255,14 +1255,39 @@ define(
 
                                         return paraContents;
                                     };
+
+                                    /*
+                                        Find the first rule in allFontRules that matches fontRule
+                                     */
+                                    var getMatchingFontRule = function(allFontRules, fontRule) {
+                                        var matchingRule;
+                                        if (allFontRules !== null && fontRule !== null) {
+                                            jquery.each(allFontRules, function (index, definedFontRule) {
+
+                                                var fixedFontRule = new fontrule.FontRule(definedFontRule);
+
+                                                /*
+                                                 Account for the same font having different names
+                                                 */
+                                                if (matchesFamily(fontRule.font, fixedFontRule.font)) {
+                                                    fixedFontRule.font = fontRule.font;
+                                                }
+
+                                                if (fixedFontRule.hasSameSettings(fontRule)) {
+                                                    matchingRule = definedFontRule;
+                                                    return false;
+                                                }
+                                            });
+                                        }
+
+                                        return matchingRule;
+                                    }
     
                                     var processPara = function (existingContent, contentNode) {
                                         var content = [];
 
                                         if (contentNode.textContent.trim().length !== 0 ||
                                             qnautils.xPath(".//draw:image", contentNode).iterateNext() !== null) {
-
-
 
                                             /*
                                                 It is common to have unnamed styles used to distinguish types of content. For
@@ -1287,24 +1312,9 @@ define(
                                                      actual number of styles applied in each span) we can then match this
                                                      paragraph to the rules defined in the wizard.
                                                      */
-                                                    var matchingRule;
                                                     if (fontRule !== null) {
-                                                        jquery.each(resultObject.fontRules, function (index, definedFontRule) {
 
-                                                            var fixedFontRule = new fontrule.FontRule(definedFontRule);
-
-                                                            /*
-                                                             Account for the same font having different names
-                                                             */
-                                                            if (matchesFamily(fontRule.font, fixedFontRule.font)) {
-                                                                fixedFontRule.font = fontRule.font;
-                                                            }
-
-                                                            if (fixedFontRule.hasSameSettings(fontRule)) {
-                                                                matchingRule = definedFontRule;
-                                                                return false;
-                                                            }
-                                                        });
+                                                        var matchingRule = getMatchingFontRule(resultObject.fontRules, fontRule);
 
                                                         if (matchingRule !== undefined) {
                                                             /*
