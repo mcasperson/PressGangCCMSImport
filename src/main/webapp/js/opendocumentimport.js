@@ -22,7 +22,7 @@ define(
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("OpenDocument ODT File")
                                 .setName("OdtFile")
-                                .setOptions("application/vnd.oasis.opendocument.text")
+                                .setOptions("application/vnd.oasis.opendocument.text,.odt")
                         ])
                 ]
             )
