@@ -952,7 +952,7 @@ define(
                             .setIntro("Imported From")
                             .setName("ImportedFrom")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.MojoURL + "'>" + config.MojoURL + "</a>");
+                                resultCallback("<a href='" + config.MojoURL + "'>" + config.MojoURL + "</a>");
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)

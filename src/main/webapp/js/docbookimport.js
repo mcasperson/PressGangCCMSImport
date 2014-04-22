@@ -28,25 +28,14 @@ define(
         var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
         // these docbook elements represent topics
         var TOPIC_CONTAINER_TYPES = ["section", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
-        // these elements are changed into info topics
+        // these elements are changed into info topics. Only info elements that belong to containers are listed here.
         var INFO_TOPIC_ELEMENTS = [
-            "info",
             "articleinfo",
-            "bibliographyinfo",
-            "blockinfo",
             "bookinfo",
+            "info",
             "chapterinfo",
-            "glossaryinfo",
-            "indexinfo",
-            "objectinfo",
-            "prefaceinfo",
-            "refsynopsisdivinfo",
-            "screeninfo",
-            "sect1info",
-            "sect2info",
-            "sect3info",
-            "sect4info",
-            "sect5info",
+            "appendixinfo",
+            "partinfo",
             "sectioninfo",
             "setinfo"];
         // These containers are remapped to sections
@@ -2046,6 +2035,10 @@ define(
                     extractRevisionHistory(xmlDoc, contentSpec);
                 }
 
+                /*
+                    Get the first info element under the container, add it as a topic, and return
+                    the title.
+                 */
                 function extractInfoTopic(xmlDoc, contentSpecIndex, parent, topics, topicGraph) {
                     var removeElements = [];
                     var title = null;
@@ -2688,12 +2681,19 @@ define(
 
                                     if (!isHistoryTopicAppendix && !isEmptyPrefaceTopic) {
 
-                                        var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
-
                                         if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
+                                            /*
+                                                This is a plain topic. We don't extract info elements from plain
+                                                topics.
+                                             */
                                             contentSpec.push(contentSpecLine + titleText);
 
                                         } else {
+                                            /*
+                                                This is a container element. We do extract info elements from containers.
+                                             */
+                                            var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
+
                                             var containerName = remapContainer(value.nodeName);
                                             contentSpec.push(
                                                 contentSpecLine +
