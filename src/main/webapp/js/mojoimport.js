@@ -725,9 +725,34 @@ define(
 
                                 var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
                                 var newTitle = "";
-                                jquery.each(newTitleArray, function(index, value){
-                                   newTitle += value;
+                                var initialText = [];
+                                var foundChildElement = false;
+                                jquery.each(newTitleArray, function(index, value) {
+
+                                    /*
+                                        Mojo can have elements like images in headers. These are moved out into
+                                        a para under the heading. To do this we assign any text that is not in an
+                                        element to the title, and anything after that inside a para element.
+                                    */
+                                    if (!foundChildElement && /<.*?\/?>/.test(value)) {
+                                        foundChildElement = true;
+                                    }
+
+                                    if (!foundChildElement) {
+                                        newTitle += value;
+                                    } else {
+
+                                        if (initialText.length === 0) {
+                                            initialText.push("<para>");
+                                        }
+                                        initialText.push(value);
+                                    }
                                 });
+
+                                if (initialText.length !== 0) {
+                                    initialText.push("</para>");
+                                }
+
                                 if (newTitle.length === 0) {
                                     newTitle = "Untitled";
                                 }
@@ -735,7 +760,7 @@ define(
                                 newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
 
                                 setTimeout(function() {
-                                    processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, [], successCallback);
+                                    processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, initialText, successCallback);
                                 }, 0);
                             };
 
@@ -923,11 +948,11 @@ define(
                                 resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
                             }),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
+                            .setType(qna.InputEnum.HTML)
                             .setIntro("Imported From")
                             .setName("ImportedFrom")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback(config.MojoURL);
+                                resultCallback("<a href='http://" + config.MojoURL + "'>" + config.MojoURL + "</a>");
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
