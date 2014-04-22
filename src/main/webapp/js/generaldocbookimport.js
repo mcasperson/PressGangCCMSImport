@@ -46,6 +46,7 @@ define(
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("DocBook ZIP File")
                                 .setName("InputSource")
+                                .setOptions("application/zip")
                         ])
                 ]
             )

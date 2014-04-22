@@ -213,6 +213,7 @@ define(
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("Publican ZIP File")
                                 .setName("InputSource")
+                                .setOptions("application/zip")
                         ])
                 ]
             )
