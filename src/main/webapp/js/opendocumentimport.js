@@ -1232,11 +1232,26 @@ define(
                                         /*
                                          Deal with nested paras (e.g. from a frame)
                                          */
+
+                                        var inserts = [];
+
+                                        /*
+                                            Find the nested paras and close and reopen the para contents around them to
+                                            break up the nesting
+                                         */
                                         for (var paraContentIndex = 0; paraContentIndex < paraContents.length; ++paraContentIndex) {
-                                            paraContents[paraContentIndex] = paraContents[paraContentIndex].replace(/<para>/g, "</paramarker><para>");
-                                            paraContents[paraContentIndex] = paraContents[paraContentIndex].replace(/<\/para>/g, "</para><paramarker>");
-                                            paraContents[paraContentIndex] = paraContents[paraContentIndex].replace(/paramarker/g, "para");
+                                            if (paraContents[paraContentIndex] === "<para>") {
+                                                inserts.push({index: paraContentIndex, value: "</para>"});
+                                            }
+                                            if (paraContents[paraContentIndex] === "</para>") {
+                                                inserts.push({index: paraContentIndex+1, value: "<para>"});
+                                            }
                                         }
+
+                                        jquery.each(inserts, function(index, element) {
+                                            paraContents.splice(element.index, 0, element.value);
+                                        });
+
 
                                         return paraContents;
                                     };
@@ -1246,6 +1261,9 @@ define(
 
                                         if (contentNode.textContent.trim().length !== 0 ||
                                             qnautils.xPath(".//draw:image", contentNode).iterateNext() !== null) {
+
+
+
                                             /*
                                                 It is common to have unnamed styles used to distinguish types of content. For
                                                 example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
@@ -1260,93 +1278,117 @@ define(
                                                 see if these basic settings are common to each span.
                                              */
                                             if (resultObject.fontRules !== undefined) {
-                                                var fontRule = getFontRuleForPara(contentNode);
+                                                var paraContents = fixNestedParas(convertNodeToDocbook(contentNode));
+                                                if (paraContents.length !== 0) {
+                                                    var fontRule = getFontRuleForPara(contentNode);
 
-                                                /*
-                                                    If there is a single common style applied to the para (regardless of the
-                                                    actual number of styles applied in each span) we can then match this
-                                                    paragraph to the rules defined in the wizard.
-                                                 */
-                                                var matchingRule;
-                                                if (fontRule !== null) {
-                                                    jquery.each(resultObject.fontRules, function (index, definedFontRule) {
+                                                    /*
+                                                     If there is a single common style applied to the para (regardless of the
+                                                     actual number of styles applied in each span) we can then match this
+                                                     paragraph to the rules defined in the wizard.
+                                                     */
+                                                    var matchingRule;
+                                                    if (fontRule !== null) {
+                                                        jquery.each(resultObject.fontRules, function (index, definedFontRule) {
 
-                                                        var fixedFontRule = new fontrule.FontRule(definedFontRule);
+                                                            var fixedFontRule = new fontrule.FontRule(definedFontRule);
 
-                                                        /*
-                                                         Account for the same font having different names
-                                                         */
-                                                        if (matchesFamily(fontRule.font, fixedFontRule.font)) {
-                                                            fixedFontRule.font = fontRule.font;
-                                                        }
-
-                                                        if (fixedFontRule.hasSameSettings(fontRule)) {
-                                                            matchingRule = definedFontRule;
-                                                            return false;
-                                                        }
-                                                    });
-
-                                                    if (matchingRule !== undefined) {
-                                                        /*
-                                                         We have defined a container that will hold paragraphs with text all
-                                                         of a matching style.
-                                                         */
-
-                                                        var wrapThis = true;
-
-                                                        /*
-                                                         For elements like screen we almost always want to merge consecutive
-                                                         paragraphs into a single container.
-                                                         */
-                                                        if (matchingRule.merge && existingContent.length >= 2) {
-                                                            var endTagRe = new RegExp("</" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">$");
-                                                            if (endTagRe.test(existingContent[existingContent.length - 1])) {
-                                                                existingContent[existingContent.length - 1] = existingContent[existingContent.length - 1].replace(endTagRe, "");
-                                                                if (existingContent[existingContent.length - 1].trim().length === 0) {
-                                                                    existingContent.pop();
-                                                                }
-                                                                wrapThis = false;
+                                                            /*
+                                                             Account for the same font having different names
+                                                             */
+                                                            if (matchesFamily(fontRule.font, fixedFontRule.font)) {
+                                                                fixedFontRule.font = fontRule.font;
                                                             }
-                                                        }
 
-                                                        if (wrapThis) {
-                                                            content.push("<" + matchingRule.docBookElement + ">");
-                                                        }
+                                                            if (fixedFontRule.hasSameSettings(fontRule)) {
+                                                                matchingRule = definedFontRule;
+                                                                return false;
+                                                            }
+                                                        });
 
-                                                        jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode)));
-                                                        content.push("</" + matchingRule.docBookElement + ">");
-                                                    }  else {
+                                                        if (matchingRule !== undefined) {
+                                                            /*
+                                                             We have defined a container that will hold paragraphs with text all
+                                                             of a matching style.
+                                                             */
+
+                                                            var wrapThis = true;
+
+                                                            /*
+                                                             For elements like screen we almost always want to merge consecutive
+                                                             paragraphs into a single container.
+                                                             */
+                                                            if (matchingRule.merge && existingContent.length >= 2) {
+                                                                var endTagRe = new RegExp("</" + qnautils.escapeRegExp(matchingRule.docBookElement) + ">$");
+                                                                if (endTagRe.test(existingContent[existingContent.length - 1])) {
+                                                                    existingContent[existingContent.length - 1] = existingContent[existingContent.length - 1].replace(endTagRe, "");
+                                                                    if (existingContent[existingContent.length - 1].trim().length === 0) {
+                                                                        existingContent.pop();
+                                                                    }
+                                                                    wrapThis = false;
+                                                                }
+                                                            }
+
+                                                            if (wrapThis) {
+                                                                content.push("<" + matchingRule.docBookElement + ">");
+                                                            }
+
+                                                            jquery.merge(content, paraContents);
+                                                            content.push("</" + matchingRule.docBookElement + ">");
+                                                        } else {
+                                                            /*
+                                                             This is a plain old paragraph.
+                                                             */
+                                                            content.push("<para>");
+                                                            jquery.merge(content, paraContents);
+                                                            content.push("</para>");
+                                                        }
+                                                    } else {
                                                         /*
                                                          This is a plain old paragraph.
                                                          */
                                                         content.push("<para>");
-                                                        jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode)));
+                                                        jquery.merge(content, paraContents);
                                                         content.push("</para>");
                                                     }
-                                                } else {
-                                                    /*
-                                                     This is a plain old paragraph.
-                                                     */
-                                                    content.push("<para>");
-                                                    jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode)));
-                                                    content.push("</para>");
                                                 }
                                             } else {
-                                                /*
-                                                    This is a paragraph made up of multiple styles of spans. There is no
-                                                    reliable way to map the different styles to docbook elements. The
-                                                    next best thing is to use the <emphasis> element to highlight
-                                                    any span that is bold, underlined or italicised. The author can then
-                                                    review any highlighted text and change the <emphasis> to a more
-                                                    appropriate tag.
-                                                 */
-                                                content.push("<para>");
-                                                jquery.merge(content, fixNestedParas(convertNodeToDocbook(contentNode, true)));
-                                                content.push("</para>");
+                                                var paraContents = fixNestedParas(convertNodeToDocbook(contentNode, true));
+                                                if (paraContents.length !== 0) {
+                                                    /*
+                                                     This is a paragraph made up of multiple styles of spans. There is no
+                                                     reliable way to map the different styles to docbook elements. The
+                                                     next best thing is to use the <emphasis> element to highlight
+                                                     any span that is bold, underlined or italicised. The author can then
+                                                     review any highlighted text and change the <emphasis> to a more
+                                                     appropriate tag.
+                                                     */
+                                                    content.push("<para>");
+                                                    jquery.merge(content, paraContents);
+                                                    content.push("</para>");
+                                                }
                                             }
                                         }
 
-                                        return content;
+                                        /*
+                                         Get rid of empty paras
+                                         */
+                                        var retValue = [];
+                                        jquery.each(content, function(index, element) {
+                                            if (element === "<para>") {
+                                                if (index < content.length - 1 && content[index+1] !== "</para>") {
+                                                    retValue.push(element);
+                                                }
+                                            } else if (element === "</para>") {
+                                                if (index > 0 && content[index-1] !== "<para>") {
+                                                    retValue.push(element);
+                                                }
+                                            } else {
+                                                retValue.push(element);
+                                            }
+                                        });
+
+                                        return retValue;
                                     };
     
                                     var processList = function (contentNode, depth, style) {
