@@ -49,6 +49,15 @@ define(
             "sect5info",
             "sectioninfo",
             "setinfo"];
+        // These containers are remapped to sections
+        var SECTION_CONTAINERS = [
+            "simplesect",
+            "sect1",
+            "sect2",
+            "sect3",
+            "sect4",
+            "sect5"
+        ];
         // these containers are ignored
         var IGNORED_CONTAINERS = ["partintro"];
         // these are entities created by csprocessor
@@ -94,28 +103,10 @@ define(
             Some containers are remaped when placed in a content spec
          */
         function remapContainer(container) {
-            if (container === "simplesect") {
-                return "section";
-            }
-
-            if (container === "sect1") {
-                return "section";
-            }
-
-            if (container === "sect2") {
-                return "section";
-            }
-
-            if (container === "sect3") {
-                return "section";
-            }
-
-            if (container === "sect4") {
-                return "section";
-            }
-
-            if (container === "sect5") {
-                return "section";
+            for (var index = 0; index < SECTION_CONTAINERS.length; ++index) {
+                if (container === SECTION_CONTAINERS[index]) {
+                    return "section";
+                }
             }
 
             return container;
