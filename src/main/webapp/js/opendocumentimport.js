@@ -1388,8 +1388,30 @@ define(
                                             }
                                         });
 
-                                        return retValue;
+                                        return stripEmptyElements(content, "para");
                                     };
+
+                                    var stripEmptyElements = function(content, elementName) {
+                                        /*
+                                         Get rid of empty paras
+                                         */
+                                        var retValue = [];
+                                        jquery.each(content, function(index, element) {
+                                            if (element === "<" + elementName + ">") {
+                                                if (index < content.length - 1 && content[index+1] !== "</" + elementName + ">") {
+                                                    retValue.push(element);
+                                                }
+                                            } else if (element === "</" + elementName + ">") {
+                                                if (index > 0 && content[index-1] !== "<" + elementName + ">") {
+                                                    retValue.push(element);
+                                                }
+                                            } else {
+                                                retValue.push(element);
+                                            }
+                                        });
+
+                                        return retValue;
+                                    }
     
                                     var processList = function (contentNode, depth, style) {
 
