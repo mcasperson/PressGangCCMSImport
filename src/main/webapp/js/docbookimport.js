@@ -1042,6 +1042,7 @@ define(
 			"wedgeq"];
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
+        var COMMON_CONTENT_PATH_PREFIX = /^Common_Content/;
 
         var DOCBOOK_50 = "DOCBOOK_50";
         var DOCBOOK_45 = "DOCBOOK_45";
@@ -1374,7 +1375,7 @@ define(
                 function resolveXiIncludes () {
                     // Note the self closing tag is optional. clearFallbacks will remove those.
                     var generalXiInclude = /<\s*xi:include\s+(.*?)\/?>/;
-                    var commonContent = /^Common_Content/;
+
 
                     // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
                     // non-existant content and relies on the fallback, but we don't support that.
@@ -1395,7 +1396,7 @@ define(
                         var findImageFileNames = function (callback) {
                             var match;
                             if ((match = filerefRe.exec(xmlText)) !== null) {
-                                if (!(commonContent.test(match[filerefReHrefGroup]))) {
+                                if (!(COMMON_CONTENT_PATH_PREFIX.test(match[filerefReHrefGroup]))) {
                                     var imageFilename = match[filerefReHrefGroup].replace(/^\.\//, "");
                                     var thisFile = new URI(imageFilename);
                                     var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + imageFilename);
@@ -1501,7 +1502,7 @@ define(
                             }
 
                             if (href !== undefined) {
-                                if (commonContent.test(href)) {
+                                if (COMMON_CONTENT_PATH_PREFIX.test(href)) {
                                     xmlText = xmlText.replace(match[0], "");
                                     resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                                 } else {
@@ -2449,18 +2450,22 @@ define(
 
                             var nodeValue = image.nodeValue;
 
+                            var filename = !COMMON_CONTENT_PATH_PREFIX.test(nodeValue) ?
+                                config.ImportLang + "/" + nodeValue :
+                                nodeValue;
+
                             if (!uploadedImages[nodeValue]) {
 
                                 inputModel.hasFileName(
                                     config.InputSource,
-                                    nodeValue,
+                                    filename,
                                     function (result) {
                                         if (result) {
                                             qnastart.createImage(
                                                 inputModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.InputSource,
-                                                nodeValue,
+                                                filename,
                                                 config.ImportLang,
                                                 config,
                                                 function (data) {

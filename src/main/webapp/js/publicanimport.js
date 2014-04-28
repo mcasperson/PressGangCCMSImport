@@ -5,7 +5,7 @@ define(
 
         var DEFAULT_LANG = "en-US";
 
-        var IGNORE_PUBLICAN_CFG_SETTINGS = ["xml_lang", "brand", "type", "dtdver", "condition", "docname", "product"];
+        var IGNORE_PUBLICAN_CFG_SETTINGS = ["xml_lang", "brand", "type", "dtdver", "condition", "docname", "product", "mainfile"];
 
         // This will be the object that we query for files. It could be a zip or directory
         var inputModel;
