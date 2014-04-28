@@ -1052,6 +1052,14 @@ define(
             return config.ImportOption === "DocBook5" ? DOCBOOK_50 : DOCBOOK_45;
         }
 
+        function getDocbookVersion(config) {
+            return config.ImportOption === "DocBook5" ? 5 : 4.5;
+        }
+
+        function getSpecDocbookVersion(config) {
+            return config.ImportOption === "DocBook5" ? "5.0" : "4.5";
+        }
+
         function getIgnoredFiles(lang) {
             // these files are created by csprocessor
             return [lang + "/files/pressgang_website.js"];
@@ -1178,7 +1186,7 @@ define(
             }
         }
 
-        function fixDocuemntNode(topic, xmlText, format) {
+        function fixDocumentNode(topic, xmlText, format) {
             if (topic.infoTopic) {
                 if (format === DOCBOOK_50 ) {
                     return setDocumentNodeToName(xmlText, "info");
@@ -1921,7 +1929,7 @@ define(
                      */
                     contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
                     contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                    contentSpec.push("Format = DocBook " + (config.ImportOption === "DocBook5" ? "5.0" : "4.5"));
+                    contentSpec.push("Format = DocBook " + getSpecDocbookVersion(config));
                     if (config.ContentSpecVersion) {
                         contentSpec.push("Version = " + config.ContentSpecVersion);
                     }
@@ -3093,7 +3101,7 @@ define(
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
-                                    topicXMLCompare = fixDocuemntNode(topic, topicXMLCompare, format);
+                                    topicXMLCompare = fixDocumentNode(topic, topicXMLCompare, format);
 
                                     /*
                                      topicXMLCompare now has injection placeholders that will match the injection
@@ -3450,9 +3458,9 @@ define(
                             if (topic.topicId === -1) {
                                 qnastart.createTopic(
                                     false,
-                                    config.ImportOption === "DocBook5" ? 5 : 4.5,
+                                    getDocbookVersion(config),
                                     removeRedundantXmlnsAttribute(
-                                        fixDocuemntNode(
+                                        fixDocumentNode(
                                             topic,
                                             qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim(),
                                             format
@@ -3562,7 +3570,7 @@ define(
                                 qnastart.updateTopic(
                                     topic.topicId,
                                     removeRedundantXmlnsAttribute(
-                                        fixDocuemntNode(
+                                        fixDocumentNode(
                                             topic,
                                             qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements),
                                             format
