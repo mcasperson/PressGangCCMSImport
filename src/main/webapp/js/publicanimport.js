@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'uri/URI', 'specelement', 'fontrule', 'docbookimport', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'uri/URI', 'specelement', 'fontrule', 'docbookimport', 'docbookconstants', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, docbookconstants, exports) {
         'use strict';
 
         var DEFAULT_LANG = "en-US";
@@ -58,9 +58,9 @@ define(
                     inputModel.getTextFromFileName(config.InputSource, "publican.cfg", function(publicanCfg) {
                         var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
                         if (dtdVersion !== undefined) {
-                            config.ImportOption = /5\.0/.test(dtdVersion) ? "DocBook5" : "DocBook45";
+                            config.ImportOption = /5\.0/.test(dtdVersion) ? docbookconstants.DOCBOOK_50_IMPORT_OPTION : docbookconstants.DOCBOOK_45_IMPORT_OPTION;
                         } else {
-                            config.ImportOption = "DocBook45";
+                            config.ImportOption = docbookconstants.DOCBOOK_45_IMPORT_OPTION;
                         }
 
                         var brand = qnautils.getValueFromConfigFile(publicanCfg, "brand");

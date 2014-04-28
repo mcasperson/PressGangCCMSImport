@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, exports) {
         'use strict';
 
         /*
@@ -1049,15 +1049,15 @@ define(
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
         function getDocumentFormat(config) {
-            return config.ImportOption === "DocBook5" ? DOCBOOK_50 : DOCBOOK_45;
+            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? DOCBOOK_50 : DOCBOOK_45;
         }
 
         function getDocbookVersion(config) {
-            return config.ImportOption === "DocBook5" ? 5 : 4.5;
+            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? 5 : 4.5;
         }
 
         function getSpecDocbookVersion(config) {
-            return config.ImportOption === "DocBook5" ? "5.0" : "4.5";
+            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
         }
 
         function getIgnoredFiles(lang) {
@@ -3083,7 +3083,7 @@ define(
                                 qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                 config,
                                 function (data) {
-                                    var format = getDocumentFormat(config.ImportOption);
+                                    var format = getDocumentFormat(config);
 
                                     /*
                                      We start by comparing the topic we are trying to import to the close match in the
@@ -3452,7 +3452,7 @@ define(
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
-                            var format = getDocumentFormat(config.ImportOption);
+                            var format = getDocumentFormat(config);
 
                             var topic = topics[index];
                             if (topic.topicId === -1) {
@@ -3510,7 +3510,7 @@ define(
 
                 function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph) {
 
-                    var format = getDocumentFormat(config.ImportOption);
+                    var format = getDocumentFormat(config);
 
                     function resolve(index, callback) {
                         if (index >= topics.length) {
