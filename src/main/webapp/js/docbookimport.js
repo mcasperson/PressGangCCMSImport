@@ -1048,6 +1048,10 @@ define(
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
+        function getDocumentFormat(config) {
+            return config.ImportOption === "DocBook5" ? DOCBOOK_50 : DOCBOOK_45;
+        }
+
         function getIgnoredFiles(lang) {
             // these files are created by csprocessor
             return [lang + "/files/pressgang_website.js"];
@@ -1162,29 +1166,28 @@ define(
             return xmlText;
         }
 
-        function setDocumentNodeToInfo (xmlText) {
-            var newElementName = "info";
-            for (var index = 0; index < INFO_TOPIC_ELEMENTS.length; ++index) {
-                xmlText = replaceElement(INFO_TOPIC_ELEMENTS[index], newElementName, xmlText);
+        /*
+            Replace the top level element with another
+         */
+        function setDocumentNodeToName (xmlText, newElementName) {
+            var match = /\s*<\s*[^\s]+(.*?)>([\s\S]*)<\s*\/[^\s]+\s*>/.exec(xmlText);
+            if (match !== null) {
+                return "<" + newElementName + match[1] + ">" + match[2] + "</" + newElementName + ">";
+            } else {
+                return xmlText;
             }
-            return xmlText;
         }
 
-        function setDocumentNodeToSection (xmlText) {
-            var newElementName = "section";
-            for (var index = 0; index < CONTAINER_TYPES.length; ++index) {
-                xmlText = replaceElement(CONTAINER_TYPES[index], newElementName, xmlText);
-            }
-
-            return xmlText;
-        }
-
-        function fixDocuemntNode(topic, xmlText) {
+        function fixDocuemntNode(topic, xmlText, format) {
             if (topic.infoTopic) {
-                return setDocumentNodeToInfo(xmlText);
+                if (format === DOCBOOK_50 ) {
+                    return setDocumentNodeToName(xmlText, "info");
+                } else if (format === DOCBOOK_45) {
+                    return setDocumentNodeToName(xmlText, "sectioninfo");
+                }
             }
 
-            return setDocumentNodeToSection(xmlText);
+            return setDocumentNodeToName(xmlText, "section");
         }
 
         /*
@@ -3072,7 +3075,7 @@ define(
                                 qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                 config,
                                 function (data) {
-                                    var format = config.ImportOption === "DocBook5" ? DOCBOOK_50 : DOCBOOK_45;
+                                    var format = getDocumentFormat(config.ImportOption);
 
                                     /*
                                      We start by comparing the topic we are trying to import to the close match in the
@@ -3090,7 +3093,7 @@ define(
                                     topicXMLCompare = removeWhiteSpace(topicXMLCompare);
                                     topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
                                     topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
-                                    topicXMLCompare = fixDocuemntNode(topic, topicXMLCompare);
+                                    topicXMLCompare = fixDocuemntNode(topic, topicXMLCompare, format);
 
                                     /*
                                      topicXMLCompare now has injection placeholders that will match the injection
@@ -3441,6 +3444,8 @@ define(
                             thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
                             resultCallback();
 
+                            var format = getDocumentFormat(config.ImportOption);
+
                             var topic = topics[index];
                             if (topic.topicId === -1) {
                                 qnastart.createTopic(
@@ -3449,7 +3454,8 @@ define(
                                     removeRedundantXmlnsAttribute(
                                         fixDocuemntNode(
                                             topic,
-                                            qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim()
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim(),
+                                            format
                                         )
                                     ),
                                     topic.title,
@@ -3495,6 +3501,9 @@ define(
                 }
 
                 function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph) {
+
+                    var format = getDocumentFormat(config.ImportOption);
+
                     function resolve(index, callback) {
                         if (index >= topics.length) {
                             callback();
@@ -3555,7 +3564,8 @@ define(
                                     removeRedundantXmlnsAttribute(
                                         fixDocuemntNode(
                                             topic,
-                                            qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements)
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements),
+                                            format
                                         )
                                     ),
                                     topic.title,
