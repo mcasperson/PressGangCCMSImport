@@ -140,7 +140,7 @@ define(
                                                 jquery.each(configFile.split("\n"), function (index, value) {
                                                     if (value.trim().length !== 0) {
                                                         var keyValue = value.split(":");
-                                                        if (IGNORE_MAIN_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1 ||
+                                                        if (IGNORE_MAIN_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1 &&
                                                             IGNORE_ALL_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
                                                             if (value.trim().length !== 0) {
                                                                 contentSpec.push(value);
