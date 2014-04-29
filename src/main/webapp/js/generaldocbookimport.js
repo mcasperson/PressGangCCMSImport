@@ -170,14 +170,24 @@ define(
                 if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
                     errorCallback("Select a XML file", "Please select the main XML file before continuing");
                 } else {
-                    resultCallback();
+                    /*
+                        Process the xml and extract the entities
+                     */
+                    processxml.processXMLAndExtractEntities(
+                        function (result) {
+                            resultCallback(result);
+                        },
+                        errorCallback,
+                        result,
+                        config
+                    );
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(processxml.processZipFile);
+                 resultCallback(getSpecDetails);
             });
 
-        exports.getSpecDetails = new qna.QNAStep()
+        var getSpecDetails = new qna.QNAStep()
             .setTitle("Enter content specification details")
             .setIntro("Enter the basic details of the content specification. If these values are found in the content being imported, the values entered here will be overwritten.")
             .setInputs(

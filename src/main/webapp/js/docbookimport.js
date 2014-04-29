@@ -48,10 +48,7 @@ define(
             "sect5"
         ];
 
-
-
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
-
 
         var DOCBOOK_50 = "DOCBOOK_50";
         var DOCBOOK_45 = "DOCBOOK_45";
@@ -70,8 +67,6 @@ define(
             return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? 5 : 4.5;
         }
 
-
-
         function getIgnoredFiles(lang) {
             // these files are created by csprocessor
             return [lang + "/files/pressgang_website.js"];
@@ -80,8 +75,6 @@ define(
         function removeRedundantXmlnsAttribute(xmlString) {
             return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
         }
-
-
 
         /*
             Some containers are remaped when placed in a content spec
@@ -95,8 +88,6 @@ define(
 
             return container;
         }
-
-
 
         function loadSetting(file, setting) {
             var retValue;
@@ -112,8 +103,6 @@ define(
             });
             return retValue;
         }
-
-
 
         function replaceSpecialChars(text) {
             return text.replace(/"/g, "\\\"")
@@ -2028,7 +2017,6 @@ define(
                 // start the process
                 loadTagIDs();
                 buildContentSpec(xmlDoc, entities);
-
             })
             .setNextStep(function (resultCallback) {
                 window.onbeforeunload = undefined;
