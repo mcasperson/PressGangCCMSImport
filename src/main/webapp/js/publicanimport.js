@@ -5,7 +5,16 @@ define(
 
         var DEFAULT_LANG = "en-US";
 
-        var IGNORE_PUBLICAN_CFG_SETTINGS = ["xml_lang", "brand", "type", "dtdver", "condition", "docname", "product", "mainfile"];
+        /**
+         * These values are not included in the publicanCfg setting as they are included as part of the main content spec
+         * @type {string[]}
+         */
+        var IGNORE_MAIN_PUBLICAN_CFG_SETTINGS = ["xml_lang", "brand", "type", "dtdver", "condition", "docname", "product"];
+        /**
+         * These values are not included in any publicanCfg settings
+         * @type {string[]}
+         */
+        var IGNORE_ALL_PUBLICAN_CFG_SETTINGS = ["mainfile"];
 
         // This will be the object that we query for files. It could be a zip or directory
         var inputModel;
@@ -131,7 +140,8 @@ define(
                                                 jquery.each(configFile.split("\n"), function (index, value) {
                                                     if (value.trim().length !== 0) {
                                                         var keyValue = value.split(":");
-                                                        if (IGNORE_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
+                                                        if (IGNORE_MAIN_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1 &&
+                                                            IGNORE_ALL_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
                                                             if (value.trim().length !== 0) {
                                                                 contentSpec.push(value);
                                                             }
@@ -144,7 +154,10 @@ define(
                                                  */
                                                 jquery.each(configFile.split("\n"), function(index, value) {
                                                     if (value.trim().length !== 0) {
-                                                        contentSpec.push(value);
+                                                        var keyValue = value.split(":");
+                                                        if (IGNORE_ALL_PUBLICAN_CFG_SETTINGS.indexOf(keyValue[0].trim()) === -1) {
+                                                            contentSpec.push(value);
+                                                        }
                                                     }
                                                 });
                                             }
