@@ -1,6 +1,6 @@
 Opal does not play well with Angular.js. See https://github.com/opal/opal/issues/259 and  https://github.com/opal/opal/issues/400 for details.
 
-This can be fixed by doing a global find and replace on the $ character in opal.js and asciidoctor.js. Some manaul clean up then needs to be
+This can be fixed by doing a global find and replace on the $ character with opal$ in opal.js and asciidoctor.js. Some manual clean up then needs to be
 done to pick up cases where the $ sign was used as part of a regex.
 
 In opal.js you have lines like:

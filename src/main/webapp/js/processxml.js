@@ -1361,47 +1361,59 @@ define(
             function findEntities(xmlText) {
                 var entities = [];
 
-                var relativePath = "";
-                var lastIndexOf;
-                if ((lastIndexOf = config.MainXMLFile.lastIndexOf("/")) !== -1) {
-                    relativePath = config.MainXMLFile.substring(0, lastIndexOf);
+                function done() {
+                    removeXmlPreambleFromBook(xmlText, entities);
                 }
 
-                inputModel.getCachedEntries(config.InputSource, function (entries) {
-
-                    var processTextFile = function (index) {
-                        if (index >= entries.length) {
-                            removeXmlPreambleFromBook(xmlText, entities);
-                        } else {
-                            var value = entries[index];
-                            var filename = qnautils.getFileName(value);
-                            if (filename.indexOf(relativePath) === 0 && qnautils.isNormalFile(filename)) {
-                                inputModel.getTextFromFile(value, function (fileText) {
-                                    var entityDefDoubleQuoteRE = /<!ENTITY\s+([^\s]+)\s+".*?"\s*>/g;
-                                    var entityDefSingleQuoteRE = /<!ENTITY\s+([^\s]+)\s+'.*?'\s*>/g;
-                                    var match;
-                                    while ((match = entityDefDoubleQuoteRE.exec(fileText)) !== null) {
-                                        if (entities.indexOf(match[0]) === -1 && IGNORED_ENTITIES.indexOf(match[1]) === -1) {
-                                            entities.push(match[0]);
-                                        }
-                                    }
-
-                                    while ((match = entityDefSingleQuoteRE.exec(fileText)) !== null) {
-                                        if (entities.indexOf(match[0]) === -1 && IGNORED_ENTITIES.indexOf(match[1]) === -1) {
-                                            entities.push(match[0]);
-                                        }
-                                    }
-
-                                    processTextFile(index + 1);
-                                });
-                            } else {
-                                processTextFile(index + 1);
-                            }
+                function extractExtities(fileText) {
+                    var entityDefDoubleQuoteRE = /<!ENTITY\s+([^\s]+)\s+".*?"\s*>/g;
+                    var entityDefSingleQuoteRE = /<!ENTITY\s+([^\s]+)\s+'.*?'\s*>/g;
+                    var match;
+                    while ((match = entityDefDoubleQuoteRE.exec(fileText)) !== null) {
+                        if (entities.indexOf(match[0]) === -1 && IGNORED_ENTITIES.indexOf(match[1]) === -1) {
+                            entities.push(match[0]);
                         }
-                    };
+                    }
 
-                    processTextFile(0);
-                });
+                    while ((match = entityDefSingleQuoteRE.exec(fileText)) !== null) {
+                        if (entities.indexOf(match[0]) === -1 && IGNORED_ENTITIES.indexOf(match[1]) === -1) {
+                            entities.push(match[0]);
+                        }
+                    }
+                }
+
+                if (inputModel !== null) {
+                    var relativePath = "";
+                    var lastIndexOf;
+                    if ((lastIndexOf = config.MainXMLFile.lastIndexOf("/")) !== -1) {
+                        relativePath = config.MainXMLFile.substring(0, lastIndexOf);
+                    }
+
+                    inputModel.getCachedEntries(config.InputSource, function (entries) {
+
+                        var processTextFile = function (index) {
+                            if (index >= entries.length) {
+                                done();
+                            } else {
+                                var value = entries[index];
+                                var filename = qnautils.getFileName(value);
+                                if (filename.indexOf(relativePath) === 0 && qnautils.isNormalFile(filename)) {
+                                    inputModel.getTextFromFile(value, function (fileText) {
+                                        extractExtities(fileText);
+                                        processTextFile(index + 1);
+                                    });
+                                } else {
+                                    processTextFile(index + 1);
+                                }
+                            }
+                        };
+
+                        processTextFile(0);
+                    });
+                } else {
+                    extractExtities(xmlText);
+                    done();
+                }
             }
 
             /*

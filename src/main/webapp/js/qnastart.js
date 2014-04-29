@@ -13,7 +13,15 @@ define(
 
 
         exports.getInputModel = function(config) {
-            return config.InputType === "Dir" ? exports.dirModel : exports.zipModel;
+            if (config.InputType === "Dir") {
+                return exports.dirModel;
+            }
+
+            if (config.InputType === "Zip") {
+                return exports.zipModel;
+            }
+
+            return null;
         }
 
         exports.loadEntityID = function (type) {
