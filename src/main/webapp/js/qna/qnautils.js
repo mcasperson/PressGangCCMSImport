@@ -278,5 +278,11 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     exports.fileHasExtension = function (extension, filename) {
         return new RegExp("^.*?\\." + exports.escapeRegExp(extension) + "$").test(filename);
     };
+
+    exports.replaceWhiteSpace = function (text) {
+        text = text.replace(/\n/g, " ");
+        text = text.replace(/\s+/g, " ");
+        return text;
+    }
 });
 

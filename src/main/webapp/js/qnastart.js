@@ -10,6 +10,10 @@ define(
         exports.dirModel = new qnadirmodel.QNADirModel();
         var configEntites = null;
 
+        exports.getInputModel = function(config) {
+            return config.InputType === "Dir" ? exports.dirModel : exports.zipModel;
+        }
+
         exports.loadEntityID = function (type) {
             if (configEntites !== null) {
                 return  configEntites.entities[type]  ;

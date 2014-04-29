@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'processxml', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, processxml, exports) {
         'use strict';
 
         var inputModel;
@@ -72,8 +72,7 @@ define(
 
         var askForDocbookDir = new qna.QNAStep()
             .setTitle("Select the directory to import")
-            .setIntro("Select the directory that contains the valid Publican book that you wish to import into PressGang CCMS. " +
-                "The directory must contain the publican.cfg file.")
+            .setIntro("Select the directory that contains the valid Publican book that you wish to import into PressGang CCMS.")
             .setInputs(
                 [
                     new qna.QNAVariables()
@@ -175,10 +174,10 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(getSpecDetails);
+                resultCallback(processxml.processZipFile);
             });
 
-        var getSpecDetails = new qna.QNAStep()
+        exports.getSpecDetails = new qna.QNAStep()
             .setTitle("Enter content specification details")
             .setIntro("Enter the basic details of the content specification. If these values are found in the content being imported, the values entered here will be overwritten.")
             .setInputs(
@@ -204,14 +203,14 @@ define(
                                 .setType(qna.InputEnum.COMBOBOX)
                                 .setIntro("Brand")
                                 .setName("ContentSpecBrand")
-                                .setValue(function (resultCallback, errorCallback, result, config){
+                                .setValue(function (resultCallback, errorCallback, result, config) {
                                     if (config.ImportOption === "DocBook5") {
                                         resultCallback("RedHat-db5");
                                     } else {
                                         resultCallback("RedHat");
                                     }
                                 })
-                                .setOptions(function (resultCallback, errorCallback, result, config){
+                                .setOptions(function (resultCallback, errorCallback, result, config) {
                                     if (config.ImportOption === "DocBook5") {
                                         resultCallback(["RedHat-db5"]);
                                     } else {
