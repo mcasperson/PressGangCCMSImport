@@ -22,8 +22,17 @@ define(
                 } else {
                     var reader = new FileReader();
                     reader.onload = (function(e) {
+
+                        function fixAsciidoctorConversion(docbook) {
+                            return docbook
+                                // Fix the ' entity
+                                .replace(/&#8217;/g, "&apos;")
+                                // Remove <?asciidoc-br?> elements
+                                .replace(/<\?asciidoc-br\?>/g, "");
+                        }
+
                         var asciidocOpts = Opal.hash2(['attributes'], {'backend': 'docbook45', 'doctype': 'book'});
-                        var docbook = "<book>" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</book>"
+                        var docbook = fixAsciidoctorConversion("<book>" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</book>");
 
                         processxml.processXMLAndExtractEntities(
                             function (result) {
