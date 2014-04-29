@@ -175,7 +175,7 @@ define(
                      */
                     processxml.processXMLAndExtractEntities(
                         function (result) {
-                            resultCallback(result);
+                            resultCallback(JSON.stringify(result));
                         },
                         errorCallback,
                         result,

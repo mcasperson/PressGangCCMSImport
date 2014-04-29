@@ -1554,7 +1554,7 @@ define(
                     config.Index = "On";
                 }
 
-                resultCallback(true, JSON.stringify({xml: qnautils.xmlToString(xmlDoc), entities: entities}));
+                resultCallback({xml: qnautils.xmlToString(xmlDoc), entities: entities});
             }
         }
     }
