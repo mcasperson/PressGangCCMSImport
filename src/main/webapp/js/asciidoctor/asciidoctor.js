@@ -10290,67 +10290,67 @@ if (i == null) i = nil;
       opal$opal.cdecl(opal$scope, 'CC_EOL', "opal$");
     };
 
-    opal$opal.cdecl(opal$scope, 'AuthorInfoLineRx', /^(\w[\w\-'.]*)(?: +(\w[\w\-'.]*))?(?: +(\w[\w\-'.]*))?(?: +<([^>]+)>)?opal$/);
+    opal$opal.cdecl(opal$scope, 'AuthorInfoLineRx', /^(\w[\w\-'.]*)(?: +(\w[\w\-'.]*))?(?: +(\w[\w\-'.]*))?(?: +<([^>]+)>)?$/);
 
-    opal$opal.cdecl(opal$scope, 'RevisionInfoLineRx', /^(?:\D*(.*?),)?(?:\s*(?!:)(.*?))(?:\s*(?!^):\s*(.*))?opal$/);
+    opal$opal.cdecl(opal$scope, 'RevisionInfoLineRx', /^(?:\D*(.*?),)?(?:\s*(?!:)(.*?))(?:\s*(?!^):\s*(.*))?$/);
 
-    opal$opal.cdecl(opal$scope, 'ManpageTitleVolnumRx', /^(.*)\((.*)\)opal$/);
+    opal$opal.cdecl(opal$scope, 'ManpageTitleVolnumRx', /^(.*)\((.*)\)$/);
 
-    opal$opal.cdecl(opal$scope, 'ManpageNamePurposeRx', (new RegExp("^(.*?)" + opal$scope.CC_BLANK + "+-" + opal$scope.CC_BLANK + "+(.*)opal$")));
+    opal$opal.cdecl(opal$scope, 'ManpageNamePurposeRx', (new RegExp("^(.*?)" + opal$scope.CC_BLANK + "+-" + opal$scope.CC_BLANK + "+(.*)$")));
 
-    opal$opal.cdecl(opal$scope, 'ConditionalDirectiveRx', /^\\?(ifdef|ifndef|ifeval|endif)::(\S*?(?:([,\+])\S+?)?)\[(.+)?\]opal$/);
+    opal$opal.cdecl(opal$scope, 'ConditionalDirectiveRx', /^\\?(ifdef|ifndef|ifeval|endif)::(\S*?(?:([,\+])\S+?)?)\[(.+)?\]$/);
 
-    opal$opal.cdecl(opal$scope, 'EvalExpressionRx', (new RegExp("^(\\S.*?)" + opal$scope.CC_BLANK + "*(==|!=|<=|>=|<|>)" + opal$scope.CC_BLANK + "*(\\S.*)opal$")));
+    opal$opal.cdecl(opal$scope, 'EvalExpressionRx', (new RegExp("^(\\S.*?)" + opal$scope.CC_BLANK + "*(==|!=|<=|>=|<|>)" + opal$scope.CC_BLANK + "*(\\S.*)$")));
 
-    opal$opal.cdecl(opal$scope, 'IncludeDirectiveRx', /^\\?include::([^\[]+)\[(.*?)\]opal$/);
+    opal$opal.cdecl(opal$scope, 'IncludeDirectiveRx', /^\\?include::([^\[]+)\[(.*?)\]$/);
 
-    opal$opal.cdecl(opal$scope, 'AttributeEntryRx', (new RegExp("^:(!?\\w.*?):(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")));
+    opal$opal.cdecl(opal$scope, 'AttributeEntryRx', (new RegExp("^:(!?\\w.*?):(?:" + opal$scope.CC_BLANK + "+(.*))?$")));
 
     opal$opal.cdecl(opal$scope, 'InvalidAttributeNameCharsRx', /[^\w\-]/);
 
-    opal$opal.cdecl(opal$scope, 'AttributeEntryPassMacroRx', /^pass:([a-z,]*)\[(.*)\]opal$/);
+    opal$opal.cdecl(opal$scope, 'AttributeEntryPassMacroRx', /^pass:([a-z,]*)\[(.*)\]$/);
 
     opal$opal.cdecl(opal$scope, 'AttributeReferenceRx', /(\\)?\{((set|counter2?):.+?|\w+(?:[\-]\w+)*)(\\)?\}/);
 
-    opal$opal.cdecl(opal$scope, 'BlockAnchorRx', (new RegExp("^\\[\\[(?:|([" + opal$scope.CC_ALPHA + ":_][\\w:.-]*)(?:," + opal$scope.CC_BLANK + "*(\\S.*))?)\\]\\]opal$")));
+    opal$opal.cdecl(opal$scope, 'BlockAnchorRx', (new RegExp("^\\[\\[(?:|([" + opal$scope.CC_ALPHA + ":_][\\w:.-]*)(?:," + opal$scope.CC_BLANK + "*(\\S.*))?)\\]\\]$")));
 
-    opal$opal.cdecl(opal$scope, 'BlockAttributeListRx', (new RegExp("^\\[(|" + opal$scope.CC_BLANK + "*[\\w\\{,.#\"'%].*)\\]opal$")));
+    opal$opal.cdecl(opal$scope, 'BlockAttributeListRx', (new RegExp("^\\[(|" + opal$scope.CC_BLANK + "*[\\w\\{,.#\"'%].*)\\]$")));
 
-    opal$opal.cdecl(opal$scope, 'BlockAttributeLineRx', (new RegExp("^\\[(|" + opal$scope.CC_BLANK + "*[\\w\\{,.#\"'%].*|\\[(?:|[" + opal$scope.CC_ALPHA + ":_][\\w:.-]*(?:," + opal$scope.CC_BLANK + "*\\S.*)?)\\])\\]opal$")));
+    opal$opal.cdecl(opal$scope, 'BlockAttributeLineRx', (new RegExp("^\\[(|" + opal$scope.CC_BLANK + "*[\\w\\{,.#\"'%].*|\\[(?:|[" + opal$scope.CC_ALPHA + ":_][\\w:.-]*(?:," + opal$scope.CC_BLANK + "*\\S.*)?)\\])\\]$")));
 
-    opal$opal.cdecl(opal$scope, 'BlockTitleRx', /^\.([^\s.].*)opal$/);
+    opal$opal.cdecl(opal$scope, 'BlockTitleRx', /^\.([^\s.].*)$/);
 
     opal$opal.cdecl(opal$scope, 'AdmonitionParagraphRx', (new RegExp("^(" + opal$scope.ADMONITION_STYLES.opal$to_a()['opal$*']("|") + "):" + opal$scope.CC_BLANK)));
 
-    opal$opal.cdecl(opal$scope, 'LiteralParagraphRx', (new RegExp("^(" + opal$scope.CC_BLANK + "+.*)opal$")));
+    opal$opal.cdecl(opal$scope, 'LiteralParagraphRx', (new RegExp("^(" + opal$scope.CC_BLANK + "+.*)$")));
 
-    opal$opal.cdecl(opal$scope, 'CommentBlockRx', /^\/{4,}opal$/);
+    opal$opal.cdecl(opal$scope, 'CommentBlockRx', /^\/{4,}$/);
 
-    opal$opal.cdecl(opal$scope, 'CommentLineRx', /^\/\/(?:[^\/]|opal$)/);
+    opal$opal.cdecl(opal$scope, 'CommentLineRx', /^\/\/(?:[^\/]|$)/);
 
-    opal$opal.cdecl(opal$scope, 'AtxSectionRx', (new RegExp("^((?:=|#){1,6})" + opal$scope.CC_BLANK + "+(\\S.*?)(?:" + opal$scope.CC_BLANK + "+\\1)?opal$")));
+    opal$opal.cdecl(opal$scope, 'AtxSectionRx', (new RegExp("^((?:=|#){1,6})" + opal$scope.CC_BLANK + "+(\\S.*?)(?:" + opal$scope.CC_BLANK + "+\\1)?$")));
 
-    opal$opal.cdecl(opal$scope, 'SetextSectionTitleRx', /^((?=.*\w+.*)[^.].*?)opal$/);
+    opal$opal.cdecl(opal$scope, 'SetextSectionTitleRx', /^((?=.*\w+.*)[^.].*?)$/);
 
-    opal$opal.cdecl(opal$scope, 'SetextSectionLineRx', /^(?:=|-|~|\^|\+)+opal$/);
+    opal$opal.cdecl(opal$scope, 'SetextSectionLineRx', /^(?:=|-|~|\^|\+)+$/);
 
-    opal$opal.cdecl(opal$scope, 'InlineSectionAnchorRx', (new RegExp("^(.*?)" + opal$scope.CC_BLANK + "+(\\\\)?\\[\\[([" + opal$scope.CC_ALPHA + ":_][\\w:.-]*)(?:," + opal$scope.CC_BLANK + "*(\\S.*?))?\\]\\]opal$")));
+    opal$opal.cdecl(opal$scope, 'InlineSectionAnchorRx', (new RegExp("^(.*?)" + opal$scope.CC_BLANK + "+(\\\\)?\\[\\[([" + opal$scope.CC_ALPHA + ":_][\\w:.-]*)(?:," + opal$scope.CC_BLANK + "*(\\S.*?))?\\]\\]$")));
 
     opal$opal.cdecl(opal$scope, 'InvalidSectionIdCharsRx', /&(?:[a-zA-Z]{2,}|#\d{2,5}|#x[a-fA-F0-9]{2,4});|\W+?/);
 
     opal$opal.cdecl(opal$scope, 'FloatingTitleStyleRx', /^(?:float|discrete)\b/);
 
-    opal$opal.cdecl(opal$scope, 'AnyListRx', (new RegExp("^(?:<?\\d+>" + opal$scope.CC_BLANK + "+" + opal$scope.CC_GRAPH + "|" + opal$scope.CC_BLANK + "*(?:-|(?:\\*|\\.){1,5}|\\d+\\.|[a-zA-Z]\\.|[IVXivx]+\\))" + opal$scope.CC_BLANK + "+" + opal$scope.CC_GRAPH + "|" + opal$scope.CC_BLANK + "*.*?(?::{2,4}|;;)(?:" + opal$scope.CC_BLANK + "+" + opal$scope.CC_GRAPH + "|opal$))")));
+    opal$opal.cdecl(opal$scope, 'AnyListRx', (new RegExp("^(?:<?\\d+>" + opal$scope.CC_BLANK + "+" + opal$scope.CC_GRAPH + "|" + opal$scope.CC_BLANK + "*(?:-|(?:\\*|\\.){1,5}|\\d+\\.|[a-zA-Z]\\.|[IVXivx]+\\))" + opal$scope.CC_BLANK + "+" + opal$scope.CC_GRAPH + "|" + opal$scope.CC_BLANK + "*.*?(?::{2,4}|;;)(?:" + opal$scope.CC_BLANK + "+" + opal$scope.CC_GRAPH + "|$))")));
 
-    opal$opal.cdecl(opal$scope, 'UnorderedListRx', (new RegExp("^" + opal$scope.CC_BLANK + "*(-|\\*{1,5})" + opal$scope.CC_BLANK + "+(.*)opal$")));
+    opal$opal.cdecl(opal$scope, 'UnorderedListRx', (new RegExp("^" + opal$scope.CC_BLANK + "*(-|\\*{1,5})" + opal$scope.CC_BLANK + "+(.*)$")));
 
-    opal$opal.cdecl(opal$scope, 'OrderedListRx', (new RegExp("^" + opal$scope.CC_BLANK + "*(\\.{1,5}|\\d+\\.|[a-zA-Z]\\.|[IVXivx]+\\))" + opal$scope.CC_BLANK + "+(.*)opal$")));
+    opal$opal.cdecl(opal$scope, 'OrderedListRx', (new RegExp("^" + opal$scope.CC_BLANK + "*(\\.{1,5}|\\d+\\.|[a-zA-Z]\\.|[IVXivx]+\\))" + opal$scope.CC_BLANK + "+(.*)$")));
 
     opal$opal.cdecl(opal$scope, 'OrderedListMarkerRxMap', opal$hash2(["arabic", "loweralpha", "lowerroman", "upperalpha", "upperroman"], {"arabic": /\d+[.>]/, "loweralpha": /[a-z]\./, "lowerroman": /[ivx]+\)/, "upperalpha": /[A-Z]\./, "upperroman": /[IVX]+\)/}));
 
-    opal$opal.cdecl(opal$scope, 'DefinitionListRx', (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*(.*?)(:{2,4}|;;)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")));
+    opal$opal.cdecl(opal$scope, 'DefinitionListRx', (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*(.*?)(:{2,4}|;;)(?:" + opal$scope.CC_BLANK + "+(.*))?$")));
 
-    opal$opal.cdecl(opal$scope, 'DefinitionListSiblingRx', opal$hash2(["::", ":::", "::::", ";;"], {"::": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*((?:.*[^:])?)(::)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")), ":::": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*((?:.*[^:])?)(:::)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")), "::::": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*((?:.*[^:])?)(::::)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")), ";;": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*(.*)(;;)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$"))}));
+    opal$opal.cdecl(opal$scope, 'DefinitionListSiblingRx', opal$hash2(["::", ":::", "::::", ";;"], {"::": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*((?:.*[^:])?)(::)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")), ":::": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*((?:.*[^:])?)(:::)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")), "::::": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*((?:.*[^:])?)(::::)(?:" + opal$scope.CC_BLANK + "+(.*))?opal$")), ";;": (new RegExp("^(?!\\/\\/)" + opal$scope.CC_BLANK + "*(.*)(;;)(?:" + opal$scope.CC_BLANK + "+(.*))?$"))}));
 
     opal$opal.cdecl(opal$scope, 'CalloutListRx', (new RegExp("^<?(\\d+)>" + opal$scope.CC_BLANK + "+(.*)")));
 
@@ -10362,17 +10362,17 @@ if (i == null) i = nil;
 
     opal$opal.cdecl(opal$scope, 'ListRxMap', opal$hash2(["ulist", "olist", "dlist", "colist"], {"ulist": opal$scope.UnorderedListRx, "olist": opal$scope.OrderedListRx, "dlist": opal$scope.DefinitionListRx, "colist": opal$scope.CalloutListRx}));
 
-    opal$opal.cdecl(opal$scope, 'ColumnSpecRx', /^(?:(\d+)\*)?([<^>](?:\.[<^>]?)?|(?:[<^>]?\.)?[<^>])?(\d+%?)?([a-z])?opal$/);
+    opal$opal.cdecl(opal$scope, 'ColumnSpecRx', /^(?:(\d+)\*)?([<^>](?:\.[<^>]?)?|(?:[<^>]?\.)?[<^>])?(\d+%?)?([a-z])?$/);
 
     opal$opal.cdecl(opal$scope, 'CellSpecStartRx', (new RegExp("^" + opal$scope.CC_BLANK + "*(?:(\\d+(?:\\.\\d*)?|(?:\\d*\\.)?\\d+)([*+]))?([<^>](?:\\.[<^>]?)?|(?:[<^>]?\\.)?[<^>])?([a-z])?\\|")));
 
-    opal$opal.cdecl(opal$scope, 'CellSpecEndRx', (new RegExp("" + opal$scope.CC_BLANK + "+(?:(\\d+(?:\\.\\d*)?|(?:\\d*\\.)?\\d+)([*+]))?([<^>](?:\\.[<^>]?)?|(?:[<^>]?\\.)?[<^>])?([a-z])?opal$")));
+    opal$opal.cdecl(opal$scope, 'CellSpecEndRx', (new RegExp("" + opal$scope.CC_BLANK + "+(?:(\\d+(?:\\.\\d*)?|(?:\\d*\\.)?\\d+)([*+]))?([<^>](?:\\.[<^>]?)?|(?:[<^>]?\\.)?[<^>])?([a-z])?$")));
 
-    opal$opal.cdecl(opal$scope, 'GenericBlockMacroRx', /^(\w[\w\-]*)::(\S*?)\[((?:\\\]|[^\]])*?)\]opal$/);
+    opal$opal.cdecl(opal$scope, 'GenericBlockMacroRx', /^(\w[\w\-]*)::(\S*?)\[((?:\\\]|[^\]])*?)\]$/);
 
-    opal$opal.cdecl(opal$scope, 'MediaBlockMacroRx', /^(image|video|audio)::(\S+?)\[((?:\\\]|[^\]])*?)\]opal$/);
+    opal$opal.cdecl(opal$scope, 'MediaBlockMacroRx', /^(image|video|audio)::(\S+?)\[((?:\\\]|[^\]])*?)\]$/);
 
-    opal$opal.cdecl(opal$scope, 'TocBlockMacroRx', /^toc::\[(.*?)\]opal$/);
+    opal$opal.cdecl(opal$scope, 'TocBlockMacroRx', /^toc::\[(.*?)\]$/);
 
     opal$opal.cdecl(opal$scope, 'InlineAnchorRx', (new RegExp("\\\\?(?:\\[\\[([" + opal$scope.CC_ALPHA + ":_][\\w:.-]*)(?:," + opal$scope.CC_BLANK + "*(\\S.*?))?\\]\\]|anchor:(\\S+)\\[(.*?[^\\\\])?\\])")));
 
@@ -10407,26 +10407,26 @@ if (i == null) i = nil;
     opal$opal.cdecl(opal$scope, 'XrefInlineMacroRx', /\\?(?:&lt;&lt;([\w":].*?)&gt;&gt;|xref:([\w":].*?)\[(.*?)\])/i);
 
     opal$opal.cdecl(opal$scope, 'LineBreakRx', (function() {if ((opal$a = ((opal$c = opal$opal.Object._scope.RUBY_ENGINE_OPAL) == null ? opal$opal.cm('RUBY_ENGINE_OPAL') : opal$c)) !== false && opal$a !== nil) {
-      return /^(.*?)[ \t]\+opal$/m;
+      return /^(.*?)[ \t]\+$/m;
       } else {
-      return /^(.*)[[:blank:]]\+opal$/
+      return /^(.*)[[:blank:]]\+$/
     }; return nil; })());
 
-    opal$opal.cdecl(opal$scope, 'LayoutBreakLineRx', /^('|<){3,}opal$/);
+    opal$opal.cdecl(opal$scope, 'LayoutBreakLineRx', /^('|<){3,}$/);
 
-    opal$opal.cdecl(opal$scope, 'LayoutBreakLinePlusRx', /^(?:'|<){3,}opal$|^ {0,3}([-\*_])( *)\1\2\1opal$/);
+    opal$opal.cdecl(opal$scope, 'LayoutBreakLinePlusRx', /^(?:'|<){3,}$|^ {0,3}([-\*_])( *)\1\2\1$/);
 
     opal$opal.cdecl(opal$scope, 'BlankLineRx', (new RegExp("^" + opal$scope.CC_BLANK + "*\\n")));
 
     opal$opal.cdecl(opal$scope, 'DataDelimiterRx', /,|;/);
 
-    opal$opal.cdecl(opal$scope, 'DigitsRx', /^\d+opal$/);
+    opal$opal.cdecl(opal$scope, 'DigitsRx', /^\d+$/);
 
-    opal$opal.cdecl(opal$scope, 'DoubleQuotedRx', /^("|)(.*)\1opal$/);
+    opal$opal.cdecl(opal$scope, 'DoubleQuotedRx', /^("|)(.*)\1$/);
 
-    opal$opal.cdecl(opal$scope, 'DoubleQuotedMultiRx', /^("|)(.*)\1opal$/i);
+    opal$opal.cdecl(opal$scope, 'DoubleQuotedMultiRx', /^("|)(.*)\1$/i);
 
-    opal$opal.cdecl(opal$scope, 'TrailingDigitsRx', /\d+opal$/);
+    opal$opal.cdecl(opal$scope, 'TrailingDigitsRx', /\d+$/);
 
     opal$opal.cdecl(opal$scope, 'EscapedSpaceRx', (new RegExp("\\\\(" + opal$scope.CC_BLANK + ")")));
 
@@ -10434,7 +10434,7 @@ if (i == null) i = nil;
 
     opal$opal.cdecl(opal$scope, 'UriSniffRx', (new RegExp("^[" + opal$scope.CC_ALPHA + "][" + opal$scope.CC_ALNUM + ".+-]*:/{0,2}")));
 
-    opal$opal.cdecl(opal$scope, 'UriTerminator', /[);:]opal$/);
+    opal$opal.cdecl(opal$scope, 'UriTerminator', /[);:]$/);
 
     opal$opal.cdecl(opal$scope, 'XmlSanitizeRx', /<[^>]+>/);
 

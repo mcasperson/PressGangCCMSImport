@@ -22,7 +22,7 @@ define(
                 } else {
                     var reader = new FileReader();
                     reader.onload = (function(e) {
-                        var asciidocOpts = Opal.hash2(['attributes'], {'backend': 'docbook45', 'doctype': 'book'});
+                        var asciidocOpts = Opal.hash2(['attributes'], {'backend': 'docbook5', 'doctype': 'book'});
                         var docbook = "<book>" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</book>"
 
                         processxml.processXMLAndExtractEntities(
