@@ -58,6 +58,10 @@ define(
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
+        function getSpecDocbookVersion(config) {
+            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
+        }
+
         function getDocumentFormat(config) {
             return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? DOCBOOK_50 : DOCBOOK_45;
         }
@@ -254,7 +258,9 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
-                var xmlDoc = qnautils.stringToXML(result);
+                var resultParsed = JSON.parse(result);
+                var xmlDoc = qnautils.stringToXML(resultParsed.xml);
+                var entities = resultParsed.entities;
 
                 var inputModel = config.InputType === "Dir" ? qnastart.dirModel : qnastart.zipModel;
 
@@ -373,7 +379,7 @@ define(
                     return title;
                 }
 
-                function buildContentSpec(xmlDoc) {
+                function buildContentSpec(xmlDoc, entities) {
                     var contentSpec = [];
 
                     /*
@@ -2021,7 +2027,7 @@ define(
 
                 // start the process
                 loadTagIDs();
-                buildContentSpec(xmlDoc);
+                buildContentSpec(xmlDoc, entities);
 
             })
             .setNextStep(function (resultCallback) {

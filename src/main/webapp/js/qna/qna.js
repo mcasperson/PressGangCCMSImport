@@ -562,7 +562,7 @@ define(['exports'], function (exports) {
      * @param callback
      * @param errorCallback
      */
-    exports.QNA.prototype.next = function (callback, errorCallback) {
+    exports.QNA.prototype.next = function (callback, errorCallback, enterResult) {
         if (this.step && this.step.nextStep) {
 
             var gotoNextStep = (function (me) {
@@ -594,6 +594,11 @@ define(['exports'], function (exports) {
             // process the current step and generate a result
             var newResults;
             if (this.step.processStep) {
+                /*
+                    If there is a function assigned to processStep, pass it the result of the
+                    enterStep function, and add the result of processStep to the results stack.
+                 */
+
                 this.step.processStep(
                     (function (results) {
                         return function (result) {
@@ -610,10 +615,23 @@ define(['exports'], function (exports) {
                         return;
                     },
                     this.results[this.results.length - 1],
-                    this.config
+                    this.config,
+                    enterResult
                 );
             } else {
-                gotoNextStep(this.results.concat([this.results[this.results.length - 1]]));
+                /*
+                    If there is no function assigned to processStep, append the result of the enterStep function,
+                    or reuse the last result if enterStep did not return anything.
+
+                    This allows us to accommodate steps that only use the enterStep function to do some processing
+                    and return the result.
+                 */
+
+                if (enterResult !== undefined) {
+                    gotoNextStep(this.results.concat([enterResult]));
+                } else {
+                    gotoNextStep(this.results.concat([this.results[this.results.length - 1]]));
+                }
             }
         } else {
             errorCallback("An error occurred.", "There is no current step or no function to call to get the next step.");

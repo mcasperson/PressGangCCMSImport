@@ -56,17 +56,17 @@ require(
                             var result = qna.results[qna.results.length - 1];
                             var config = qna.config;
                             qna.step.enterStep(
-                                function (result) {
+                                function (move, result) {
                                     /*
                                         Undefined means just update the UI
                                         true means move to next step
                                         false means enable the ui
                                      */
-                                    if (result === undefined) {
+                                    if (move === undefined) {
                                         $rootScope.$apply();
                                     } else {
-                                        if (result) {
-                                            $scope.next();
+                                        if (move) {
+                                            $scope.next(result);
                                         } else {
                                             $scope.disabled = false;
                                         }
@@ -139,12 +139,12 @@ require(
             /**
              * Called when the wizard is moved to the next step
              */
-            $scope.next = function () {
+            $scope.next = function (result) {
                 $scope.qna.next(function (qna) {
                     initializeQna(qna);
                 }, function (title, message) {
                     alert(title, message);
-                });
+                }, result);
             };
 
             /**

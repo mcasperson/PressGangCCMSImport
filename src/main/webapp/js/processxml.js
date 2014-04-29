@@ -995,9 +995,7 @@ define(
             "Verbar",
             "wedgeq"];
 
-        function getSpecDocbookVersion(config) {
-            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
-        }
+
 
         /*
          See if the xiincludes have some other base dir
@@ -1634,16 +1632,16 @@ define(
                     config.FoundBookInfo = true;
                     resultCallback();
 
-                    findIndex(xmlDoc);
+                    findIndex(xmlDoc, entities);
                 }
 
-                function findIndex (xmlDoc) {
+                function findIndex (xmlDoc, entities) {
                     var index = qnautils.xPath("//docbook:index", xmlDoc).iterateNext();
                     if (index) {
                         config.Index = "On";
                     }
 
-                    resultCallback(qnautils.xmlToString(xmlDoc));
+                    resultCallback(true, JSON.stringify({xml: qnautils.xmlToString(xmlDoc), entities: entities}));
                 }
             })
             .setShowNext(false)
