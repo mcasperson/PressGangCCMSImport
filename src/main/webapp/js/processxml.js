@@ -1563,11 +1563,6 @@ define(
                  */
                 function findBookInfo (xmlDoc, entities) {
 
-                    var resultObject = JSON.parse(result) || {contentSpec: []};
-
-                    // the content spec
-                    var contentSpec = [];
-
                     /*
                      Try looking at the root book or article element
                      */
@@ -1633,151 +1628,19 @@ define(
                                 config.ContentSpecVersion = qnautils.reencode(qnautils.replaceWhiteSpace(productnumber.innerHTML), config.replacements);
                             }
                         }
-                    } else {
-                        /*
-                         If the book being imported does not have the bookinfo or info element, set the
-                         required fields manually (assuming they were not set in a previous step of
-                         the wizard).
-                         */
-                        var foundTitle = false;
-                        var foundProduct = false;
-
-                        jquery.each(resultObject.contentSpec, function(index, value) {
-                            if (value.indexOf("Title") === 0) {
-                                foundTitle = true;
-                            }
-
-                            if (value.indexOf("Product") === 0) {
-                                foundProduct = true;
-                            }
-                        });
-
-                        if (!foundTitle) {
-                            contentSpec.push("Title = Unknown");
-                        }
-
-                        if (!foundProduct) {
-                            contentSpec.push("Product = Unknown");
-                        }
-                    }
-
-                    /*
-                     These metadata elements are either required or will always have a value
-                     */
-                    contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
-                    contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                    contentSpec.push("Format = DocBook " + getSpecDocbookVersion(config));
-                    if (config.ContentSpecVersion) {
-                        contentSpec.push("Version = " + config.ContentSpecVersion);
-                    }
-
-                    /*
-                     These metadata elements are optional
-                     */
-                    if (config.ContentSpecSubtitle !== undefined) {
-                        contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
-                    }
-                    if (config.ContentSpecEdition !== undefined) {
-                        contentSpec.push("Edition = " + config.ContentSpecEdition);
-                    }
-                    if (config.ContentSpecPubsnumber !== undefined) {
-                        contentSpec.push("Pubsnumber = " + config.ContentSpecPubsnumber);
-                    }
-
-                    /*
-                     If no brand was specified, let csprocessor use the default
-                     */
-                    if (config.ImportBrand !== undefined) {
-                        // this is the value found from the publican.cfg file
-                        contentSpec.push("Brand = " + config.ImportBrand);
-                    }  else if (config.ContentSpecBrand !== undefined) {
-                        // this is the value specified in the ui
-                        contentSpec.push("Brand = " + config.ContentSpecBrand);
-                    }
-
-                    if (xmlDoc.documentElement.nodeName === "book") {
-                        if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
-                            contentSpec.push("Type = Book-Draft");
-                        } else {
-                            contentSpec.push("Type = Book");
-                        }
-
-                    } else if (xmlDoc.documentElement.nodeName === "article") {
-                        if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
-                            contentSpec.push("Type = Article-Draft");
-                        } else {
-                            contentSpec.push("Type = Article");
-                        }
-                    }
-
-                    /*
-                     Add the contents of the supplied content spec. This will usually be just
-                     the publican.cfg file.
-                     */
-                    contentSpec = contentSpec.concat(resultObject.contentSpec);
-
-                    if (config.ImportCondition !== undefined) {
-                        contentSpec.push("[condition = " + config.ImportCondition + "]");
-                    }
-
-                    /*
-                     Some entities need to be converted to metadata elements
-                     */
-                    var removedEntities = [];
-                    var copyrightYear = null;
-                    var copyrightHolder = null;
-                    jquery.each(entities, function(index, value){
-                        var entityMatch;
-                        if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
-                            removedEntities.push(index);
-                            // save the first one
-                            if (!copyrightHolder) {
-                                copyrightHolder = "Copyright Holder = " + entityMatch[2];
-                            }
-                        }
-
-                        if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
-                            removedEntities.push(index);
-                            // save the first one
-                            if (!copyrightYear) {
-                                copyrightYear = "Copyright Year = " + entityMatch[2];
-                            }
-                        }
-                    });
-
-                    if (!copyrightHolder) {
-                        contentSpec.push("Copyright Holder = Red Hat");
-                    } else {
-                        contentSpec.push(copyrightHolder);
-                    }
-
-                    if (copyrightYear) {
-                        contentSpec.push(copyrightYear);
-                    }
-
-                    // save the remaining entities
-                    if (entities.length !== 0) {
-                        contentSpec.push("Entities = [");
-                        jquery.each(entities, function(index, value){
-                            if (removedEntities.indexOf(index) === -1) {
-                                contentSpec.push(value);
-                            }
-                        });
-
-                        contentSpec.push("]");
                     }
 
                     setProgress(6 * progressIncrement);
                     config.FoundBookInfo = true;
                     resultCallback();
 
-                    findIndex(xmlDoc, contentSpec);
+                    findIndex(xmlDoc);
                 }
 
-                function findIndex (xmlDoc, contentSpec) {
+                function findIndex (xmlDoc) {
                     var index = qnautils.xPath("//docbook:index", xmlDoc).iterateNext();
                     if (index) {
-                        contentSpec.push("Index = On");
+                        config.Index = "On";
                     }
 
                     resultCallback(true);

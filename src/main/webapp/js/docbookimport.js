@@ -296,20 +296,12 @@ define(
                     INFO_TAG_ID = qnastart.loadEntityID("infoTagId");
                 }
 
-
-
-
-
                 var removeIdAttribute = function (xml) {
                     if (xml.hasAttribute("id")) {
                         xml.removeAttribute("id");
                     }
                     return xml;
                 };
-
-
-
-
 
                 /*
                     Get the first info element under the container, add it as a topic, and return
@@ -377,6 +369,112 @@ define(
                     });
 
                     return title;
+                }
+
+                function buildContentSpec() {
+                    var contentSpec = [];
+
+                    /*
+                     These metadata elements are either required or will always have a value
+                     */
+                    contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                    contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                    contentSpec.push("Format = DocBook " + getSpecDocbookVersion(config));
+                    if (config.ContentSpecVersion) {
+                        contentSpec.push("Version = " + config.ContentSpecVersion);
+                    }
+
+                    /*
+                     These metadata elements are optional
+                     */
+                    if (config.ContentSpecSubtitle !== undefined) {
+                        contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
+                    }
+                    if (config.ContentSpecEdition !== undefined) {
+                        contentSpec.push("Edition = " + config.ContentSpecEdition);
+                    }
+                    if (config.ContentSpecPubsnumber !== undefined) {
+                        contentSpec.push("Pubsnumber = " + config.ContentSpecPubsnumber);
+                    }
+
+                    /*
+                     If no brand was specified, let csprocessor use the default
+                     */
+                    if (config.ImportBrand !== undefined) {
+                        // this is the value found from the publican.cfg file
+                        contentSpec.push("Brand = " + config.ImportBrand);
+                    }  else if (config.ContentSpecBrand !== undefined) {
+                        // this is the value specified in the ui
+                        contentSpec.push("Brand = " + config.ContentSpecBrand);
+                    }
+
+                    if (xmlDoc.documentElement.nodeName === "book") {
+                        if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
+                            contentSpec.push("Type = Book-Draft");
+                        } else {
+                            contentSpec.push("Type = Book");
+                        }
+
+                    } else if (xmlDoc.documentElement.nodeName === "article") {
+                        if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
+                            contentSpec.push("Type = Article-Draft");
+                        } else {
+                            contentSpec.push("Type = Article");
+                        }
+                    }
+
+                    if (config.ImportCondition !== undefined) {
+                        contentSpec.push("[condition = " + config.ImportCondition + "]");
+                    }
+
+                    /*
+                     Some entities need to be converted to metadata elements
+                     */
+                    var removedEntities = [];
+                    var copyrightYear = null;
+                    var copyrightHolder = null;
+                    jquery.each(entities, function(index, value){
+                        var entityMatch;
+                        if ((entityMatch = /<!ENTITY\s+HOLDER\s+('|")(.*?)('|")>/.exec(value)) !== null) {
+                            removedEntities.push(index);
+                            // save the first one
+                            if (!copyrightHolder) {
+                                copyrightHolder = "Copyright Holder = " + entityMatch[2];
+                            }
+                        }
+
+                        if ((entityMatch = /<!ENTITY\s+YEAR\s+('|")(.*?)('|")>/.exec(value)) !== null) {
+                            removedEntities.push(index);
+                            // save the first one
+                            if (!copyrightYear) {
+                                copyrightYear = "Copyright Year = " + entityMatch[2];
+                            }
+                        }
+                    });
+
+                    if (!copyrightHolder) {
+                        contentSpec.push("Copyright Holder = Red Hat");
+                    } else {
+                        contentSpec.push(copyrightHolder);
+                    }
+
+                    if (copyrightYear) {
+                        contentSpec.push(copyrightYear);
+                    }
+
+                    // save the remaining entities
+                    if (entities.length !== 0) {
+                        contentSpec.push("Entities = [");
+                        jquery.each(entities, function(index, value){
+                            if (removedEntities.indexOf(index) === -1) {
+                                contentSpec.push(value);
+                            }
+                        });
+
+                        contentSpec.push("]");
+                    }
+
+                    extractRevisionHistory(config.xmlDoc, contentSpec);
                 }
 
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
@@ -1921,6 +2019,7 @@ define(
 
                 // start the process
                 loadTagIDs();
+                buildContentSpec();
 
             })
             .setNextStep(function (resultCallback) {
