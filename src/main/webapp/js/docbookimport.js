@@ -254,6 +254,8 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
+                var xmlDoc = qnautils.stringToXML(result);
+
                 var inputModel = config.InputType === "Dir" ? qnastart.dirModel : qnastart.zipModel;
 
                 var thisStep = this;
@@ -371,7 +373,7 @@ define(
                     return title;
                 }
 
-                function buildContentSpec() {
+                function buildContentSpec(xmlDoc) {
                     var contentSpec = [];
 
                     /*
@@ -474,7 +476,7 @@ define(
                         contentSpec.push("]");
                     }
 
-                    extractRevisionHistory(config.xmlDoc, contentSpec);
+                    extractRevisionHistory(xmlDoc, contentSpec);
                 }
 
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
@@ -2019,7 +2021,7 @@ define(
 
                 // start the process
                 loadTagIDs();
-                buildContentSpec();
+                buildContentSpec(xmlDoc);
 
             })
             .setNextStep(function (resultCallback) {

@@ -1643,7 +1643,7 @@ define(
                         config.Index = "On";
                     }
 
-                    resultCallback(true);
+                    resultCallback(qnautils.xmlToString(xmlDoc));
                 }
             })
             .setShowNext(false)
