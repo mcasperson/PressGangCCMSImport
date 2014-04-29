@@ -24,8 +24,8 @@
                 return suppressErrorAlert;
             };       */
         </script>
-        <script src="js/asciidoctor/opal.js"></script>
-        <script src="js/asciidoctor/asciidoctor.js"></script>
+        <!--<script src="js/asciidoctor/opal.js"></script>
+        <script src="js/asciidoctor/asciidoctor.js"></script>-->
         <script src="js/require.min.js"></script>
         <script type="application/javascript">
             'use strict';
@@ -67,12 +67,13 @@
                     'patternfly': {
                         deps: ["jquery"]
                     },
-                    /*'opal': {
+                    'opal': {
                         exports: "Opal"
                     },
                     'asciidoctor': {
-                        deps: ["opal"]
-                    }*/
+                        deps: ["opal"],
+                        exports: "Opal"
+                    }
                 }
             });
 
