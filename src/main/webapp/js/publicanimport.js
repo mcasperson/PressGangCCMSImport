@@ -391,7 +391,17 @@ define(
                 if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
                     errorCallback("Select a XML file", "Please select the main XML file before continuing");
                 } else {
-                    resultCallback();
+                    /*
+                        Process the xml and extract the entities
+                     */
+                    processxml.processXMLAndExtractEntities(
+                        function (result) {
+                            resultCallback(JSON.stringify(result));
+                        },
+                        errorCallback,
+                        result,
+                        config
+                    );
                 }
             })
             .setNextStep(function (resultCallback) {

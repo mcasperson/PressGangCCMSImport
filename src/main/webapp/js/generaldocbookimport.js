@@ -197,13 +197,11 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Product")
-                                .setName("ContentSpecProduct")
-                                .setValue("Product"),
+                                .setName("ContentSpecProduct"),
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Version")
-                                .setName("ContentSpecVersion")
-                                .setValue("1"),
+                                .setName("ContentSpecVersion"),
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Copyright Holder")

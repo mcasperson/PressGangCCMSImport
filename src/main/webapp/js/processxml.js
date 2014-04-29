@@ -1544,6 +1544,17 @@ define(
                             config.ContentSpecVersion = qnautils.reencode(qnautils.replaceWhiteSpace(productnumber.innerHTML), config.replacements);
                         }
                     }
+
+                    /*
+                        Set some defaults if no values could be found
+                     */
+                    if (config.ContentSpecProduct === undefined) {
+                        config.ContentSpecProduct = "Product";
+                    }
+
+                    if (config.ContentSpecVersion === undefined) {
+                        config.ContentSpecVersion = "1";
+                    }
                 }
                 findIndex(xmlDoc, entities);
             }
