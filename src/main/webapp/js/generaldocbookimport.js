@@ -173,14 +173,20 @@ define(
                     /*
                         Process the xml and extract the entities
                      */
-                    processxml.processXMLAndExtractEntities(
-                        function (result) {
-                            resultCallback(JSON.stringify(result));
+                    processxml.resolveXiIncludes(
+                        function(xmlText) {
+                            processxml.processXMLAndExtractEntities(
+                                function (result) {
+                                    resultCallback(JSON.stringify(result));
+                                },
+                                errorCallback,
+                                xmlText,
+                                config
+                            );
                         },
                         errorCallback,
-                        result,
                         config
-                    );
+                    )
                 }
             })
             .setNextStep(function (resultCallback) {

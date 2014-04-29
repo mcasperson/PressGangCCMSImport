@@ -1051,296 +1051,300 @@ define(
             return xmlText;
         }
 
-        exports.processXMLAndExtractEntities = function(resultCallback, errorCallback, result, config) {
+        /*
+         Resolve xi:includes
+         */
+        exports.resolveXiIncludes = function(resultCallback, errorCallback, config) {
+            var inputModel = qnastart.getInputModel(config);
+
+            // Note the self closing tag is optional. clearFallbacks will remove those.
+            var generalXiInclude = /<\s*xi:include\s+(.*?)\/?>/;
+
+            // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
+            // non-existant content and relies on the fallback, but we don't support that.
+            function clearFallbacks(xmlText) {
+                var xiFallbackRe = /<\s*xi:fallback.*?>[\s\S]*?<\s*\/\s*xi:fallback\s*>/g;
+                var closeXiIncludeRe = /<\s*\/xi:include\s*>/g;
+                return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
+            }
+
+            function resolveFileRefs(xmlText, filename, callback) {
+                var thisFile = new URI(filename);
+                var base = getXmlBaseAttribute(xmlText);
+                var filerefRe = /fileref\s*=\s*('|")(.*?)('|")/g;
+                var filerefReHrefGroup = 2;
+
+                var replacements = [];
+
+                var findImageFileNames = function (callback) {
+                    var match;
+                    if ((match = filerefRe.exec(xmlText)) !== null) {
+                        if (!(docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(match[filerefReHrefGroup]))) {
+                            var imageFilename = match[filerefReHrefGroup].replace(/^\.\//, "");
+                            var thisFile = new URI(imageFilename);
+                            var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + imageFilename);
+                            var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
+
+                            var referencedXMLFilenameRelativeWithoutBase = new URI(imageFilename);
+                            var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
+
+                            inputModel.hasFileName(
+                                config.InputSource,
+                                referencedXMLFilenameWithoutBase,
+                                function (exists) {
+                                    if (exists) {
+                                        replacements.push({original: imageFilename, replacement: referencedXMLFilenameWithoutBase});
+                                        findImageFileNames(callback);
+                                    } else {
+                                        inputModel.hasFileName(
+                                            config.InputSource,
+                                            referencedXMLFilenameWithBase,
+                                            function (exists) {
+                                                if (exists) {
+                                                    replacements.push({original: imageFilename, replacement: referencedXMLFilenameWithBase});
+                                                }
+
+                                                findImageFileNames(callback);
+                                            },
+                                            errorCallback,
+                                            true
+                                        );
+                                    }
+                                },
+                                errorCallback,
+                                true
+                            );
+                        } else {
+                            findImageFileNames(callback);
+                        }
+                    } else {
+                        callback();
+                    }
+                };
+
+                findImageFileNames(function () {
+                    jquery.each(replacements, function (index, value) {
+                        xmlText = xmlText.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "fileref='" + value.replacement + "'");
+                    });
+                    callback(xmlText);
+                });
+            }
+
+            function resolveXIInclude(xmlText, base, filename, visitedFiles, callback) {
+
+                xmlText = clearFallbacks(xmlText);
+
+                /*
+                 Make sure we are not entering an infinite loop
+                 */
+                if (visitedFiles.indexOf(filename) === -1) {
+                    visitedFiles.push(filename);
+                }
+
+                var match = generalXiInclude.exec(xmlText);
+                var xiIncludeAttributesGroup = 1;
+
+                if (match !== null) {
+
+                    var previousString = xmlText.substr(0, match.index);
+                    var lastStartComment = previousString.lastIndexOf("<!--");
+                    var lastEndComment = previousString.lastIndexOf("-->");
+
+                    /*
+                     The xi:include was in a comment, so ignore it
+                     */
+                    if (lastStartComment !== -1 &&
+                        (lastEndComment === -1 || lastEndComment < lastStartComment)) {
+                        xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
+                        resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                        return;
+                    }
+
+                    /*
+                     break down the attributes looking for the href and xpointer attributes
+                     */
+                    var xiIncludesAttrs = match[xiIncludeAttributesGroup];
+                    var attrRe = /\b(.*?)\s*=\s*('|")(.*?)('|")/g;
+                    var href;
+                    var xpointer;
+                    var attrmatch;
+                    while ((attrmatch = attrRe.exec(xiIncludesAttrs)) !== null) {
+                        var attributeName = attrmatch[1];
+                        var attributeValue = attrmatch[3];
+
+                        if (attributeName.trim() === "href") {
+                            href = attributeValue;
+                        } else if (attributeName.trim() === "xpointer") {
+                            var xpointerMatch = /xpointer\((.*?)\)/.exec(attributeValue);
+                            if (xpointerMatch !== null) {
+                                xpointer = xpointerMatch[1];
+                            } else {
+                                xpointer = attributeValue;
+                            }
+                        }
+                    }
+
+                    if (href !== undefined) {
+                        if (docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
+                            xmlText = xmlText.replace(match[0], "");
+                            resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                        } else {
+                            /*
+                             We need to work out where the files to be included will come from. This is a
+                             combination of the href, the xml:base attribute, and the location of the
+                             xml file that is doing the importing.
+
+                             TODO: this processing does not really follow the xml standards, but has been good
+                             enough to import all content I have come across.
+                             */
+                            var fixedMatch = href.replace(/^\.\//, "");
+                            var thisFile = new URI(filename);
+                            var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + fixedMatch);
+                            var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
+
+                            var referencedXMLFilenameRelativeWithoutBase = new URI(fixedMatch);
+                            var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
+
+                            var processFile = function (referencedFileName) {
+
+                                if (visitedFiles.indexOf(referencedFileName) !== -1) {
+                                    errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedFileName, true);
+                                    return;
+                                }
+
+                                inputModel.getTextFromFileName(
+                                    config.InputSource,
+                                    referencedFileName,
+                                    function (referencedXmlText) {
+                                        resolveFileRefs(referencedXmlText, referencedFileName, function (referencedXmlText) {
+                                            resolveXIInclude(
+                                                referencedXmlText,
+                                                getXmlBaseAttribute(referencedXmlText),
+                                                referencedFileName,
+                                                visitedFiles.slice(0),
+                                                function (fixedReferencedXmlText) {
+                                                    if (xpointer !== undefined) {
+                                                        var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
+                                                        var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
+                                                        var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
+
+                                                        if (cleanedReferencedXmlDom === null) {
+                                                            errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
+                                                            return;
+                                                        }
+
+                                                        var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
+
+                                                        var replacement = "";
+                                                        var matchedNode;
+                                                        while ((matchedNode = subset.iterateNext()) !== null) {
+                                                            if (replacement.length !== 0) {
+                                                                replacement += "\n";
+                                                            }
+                                                            fixedReferencedXmlText += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
+                                                        }
+                                                    }
+
+                                                    /*
+                                                     The dollar sign has special meaning in the replace method.
+                                                     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+                                                     */
+                                                    xmlText = xmlText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
+                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                                }
+                                            );
+                                        });
+                                    },
+                                    function (error) {
+                                        errorCallback("Error reading file", "There was an error reading the file " + referencedFileName, true);
+                                    },
+                                    true
+                                );
+                            };
+
+                            inputModel.hasFileName(
+                                config.InputSource,
+                                referencedXMLFilenameWithoutBase,
+                                function (exists) {
+                                    if (exists) {
+                                        processFile(referencedXMLFilenameWithoutBase);
+                                    } else {
+                                        inputModel.hasFileName(
+                                            config.InputSource,
+                                            referencedXMLFilenameWithBase,
+                                            function (exists) {
+                                                if (exists) {
+                                                    processFile(referencedXMLFilenameWithBase);
+                                                } else {
+                                                    //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
+                                                    xmlText = xmlText.replace(match[0], "");
+                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                                }
+                                            },
+                                            errorCallback,
+                                            true
+                                        );
+                                    }
+                                },
+                                errorCallback,
+                                true
+                            );
+                        }
+                    } else {
+                        /*
+                         Found an xi:include without a href? delete it an move on.
+                         */
+                        xmlText = xmlText.replace(match[0], "");
+                        resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                    }
+                } else {
+                    callback(xmlText, visitedFiles);
+                }
+
+            }
+
+            inputModel.getTextFromFileName(
+                config.InputSource,
+                config.MainXMLFile,
+                function (xmlText) {
+                    resolveFileRefs(xmlText, config.MainXMLFile, function (xmlText) {
+                        function resolveXIIncludeLoop(xmlText, visitedFiles) {
+                            if (generalXiInclude.test(xmlText)) {
+
+                                var base = getXmlBaseAttribute(xmlText);
+
+                                resolveXIInclude(
+                                    xmlText,
+                                    base,
+                                    config.MainXMLFile,
+                                    visitedFiles,
+                                    function (xmlText, visitedFiles) {
+                                        resolveXIIncludeLoop(xmlText, visitedFiles);
+                                    }
+                                );
+                            } else {
+                                xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
+                                resultCallback(xmlText);
+                            }
+                        }
+
+                        var count = 0;
+                        resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
+                    });
+                },
+                true
+            );
+        }
+
+        exports.processXMLAndExtractEntities = function(resultCallback, errorCallback, xmlText, config) {
             var inputModel = qnastart.getInputModel(config);
 
             /*
              Start the processing
              */
-            resolveXiIncludes();
+            replaceEntities(xmlText);
 
-            /*
-             Resolve xi:includes
-             */
-            function resolveXiIncludes() {
-                // Note the self closing tag is optional. clearFallbacks will remove those.
-                var generalXiInclude = /<\s*xi:include\s+(.*?)\/?>/;
 
-                // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
-                // non-existant content and relies on the fallback, but we don't support that.
-                function clearFallbacks(xmlText) {
-                    var xiFallbackRe = /<\s*xi:fallback.*?>[\s\S]*?<\s*\/\s*xi:fallback\s*>/g;
-                    var closeXiIncludeRe = /<\s*\/xi:include\s*>/g;
-                    return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
-                }
-
-                function resolveFileRefs(xmlText, filename, callback) {
-                    var thisFile = new URI(filename);
-                    var base = getXmlBaseAttribute(xmlText);
-                    var filerefRe = /fileref\s*=\s*('|")(.*?)('|")/g;
-                    var filerefReHrefGroup = 2;
-
-                    var replacements = [];
-
-                    var findImageFileNames = function (callback) {
-                        var match;
-                        if ((match = filerefRe.exec(xmlText)) !== null) {
-                            if (!(docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(match[filerefReHrefGroup]))) {
-                                var imageFilename = match[filerefReHrefGroup].replace(/^\.\//, "");
-                                var thisFile = new URI(imageFilename);
-                                var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + imageFilename);
-                                var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
-
-                                var referencedXMLFilenameRelativeWithoutBase = new URI(imageFilename);
-                                var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
-
-                                inputModel.hasFileName(
-                                    config.InputSource,
-                                    referencedXMLFilenameWithoutBase,
-                                    function (exists) {
-                                        if (exists) {
-                                            replacements.push({original: imageFilename, replacement: referencedXMLFilenameWithoutBase});
-                                            findImageFileNames(callback);
-                                        } else {
-                                            inputModel.hasFileName(
-                                                config.InputSource,
-                                                referencedXMLFilenameWithBase,
-                                                function (exists) {
-                                                    if (exists) {
-                                                        replacements.push({original: imageFilename, replacement: referencedXMLFilenameWithBase});
-                                                    }
-
-                                                    findImageFileNames(callback);
-                                                },
-                                                errorCallback,
-                                                true
-                                            );
-                                        }
-                                    },
-                                    errorCallback,
-                                    true
-                                );
-                            } else {
-                                findImageFileNames(callback);
-                            }
-                        } else {
-                            callback();
-                        }
-                    };
-
-                    findImageFileNames(function () {
-                        jquery.each(replacements, function (index, value) {
-                            xmlText = xmlText.replace(new RegExp("fileref\\s*=\\s*('|\")" + value.original + "('|\")"), "fileref='" + value.replacement + "'");
-                        });
-                        callback(xmlText);
-                    });
-                }
-
-                function resolveXIInclude(xmlText, base, filename, visitedFiles, callback) {
-
-                    xmlText = clearFallbacks(xmlText);
-
-                    /*
-                     Make sure we are not entering an infinite loop
-                     */
-                    if (visitedFiles.indexOf(filename) === -1) {
-                        visitedFiles.push(filename);
-                    }
-
-                    var match = generalXiInclude.exec(xmlText);
-                    var xiIncludeAttributesGroup = 1;
-
-                    if (match !== null) {
-
-                        var previousString = xmlText.substr(0, match.index);
-                        var lastStartComment = previousString.lastIndexOf("<!--");
-                        var lastEndComment = previousString.lastIndexOf("-->");
-
-                        /*
-                         The xi:include was in a comment, so ignore it
-                         */
-                        if (lastStartComment !== -1 &&
-                            (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                            xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                            resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                            return;
-                        }
-
-                        /*
-                         break down the attributes looking for the href and xpointer attributes
-                         */
-                        var xiIncludesAttrs = match[xiIncludeAttributesGroup];
-                        var attrRe = /\b(.*?)\s*=\s*('|")(.*?)('|")/g;
-                        var href;
-                        var xpointer;
-                        var attrmatch;
-                        while ((attrmatch = attrRe.exec(xiIncludesAttrs)) !== null) {
-                            var attributeName = attrmatch[1];
-                            var attributeValue = attrmatch[3];
-
-                            if (attributeName.trim() === "href") {
-                                href = attributeValue;
-                            } else if (attributeName.trim() === "xpointer") {
-                                var xpointerMatch = /xpointer\((.*?)\)/.exec(attributeValue);
-                                if (xpointerMatch !== null) {
-                                    xpointer = xpointerMatch[1];
-                                } else {
-                                    xpointer = attributeValue;
-                                }
-                            }
-                        }
-
-                        if (href !== undefined) {
-                            if (docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
-                                xmlText = xmlText.replace(match[0], "");
-                                resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                            } else {
-                                /*
-                                 We need to work out where the files to be included will come from. This is a
-                                 combination of the href, the xml:base attribute, and the location of the
-                                 xml file that is doing the importing.
-
-                                 TODO: this processing does not really follow the xml standards, but has been good
-                                 enough to import all content I have come across.
-                                 */
-                                var fixedMatch = href.replace(/^\.\//, "");
-                                var thisFile = new URI(filename);
-                                var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + fixedMatch);
-                                var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
-
-                                var referencedXMLFilenameRelativeWithoutBase = new URI(fixedMatch);
-                                var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
-
-                                var processFile = function (referencedFileName) {
-
-                                    if (visitedFiles.indexOf(referencedFileName) !== -1) {
-                                        errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedFileName, true);
-                                        return;
-                                    }
-
-                                    inputModel.getTextFromFileName(
-                                        config.InputSource,
-                                        referencedFileName,
-                                        function (referencedXmlText) {
-                                            resolveFileRefs(referencedXmlText, referencedFileName, function (referencedXmlText) {
-                                                resolveXIInclude(
-                                                    referencedXmlText,
-                                                    getXmlBaseAttribute(referencedXmlText),
-                                                    referencedFileName,
-                                                    visitedFiles.slice(0),
-                                                    function (fixedReferencedXmlText) {
-                                                        if (xpointer !== undefined) {
-                                                            var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
-                                                            var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
-                                                            var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
-
-                                                            if (cleanedReferencedXmlDom === null) {
-                                                                errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
-                                                                return;
-                                                            }
-
-                                                            var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
-
-                                                            var replacement = "";
-                                                            var matchedNode;
-                                                            while ((matchedNode = subset.iterateNext()) !== null) {
-                                                                if (replacement.length !== 0) {
-                                                                    replacement += "\n";
-                                                                }
-                                                                fixedReferencedXmlText += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
-                                                            }
-                                                        }
-
-                                                        /*
-                                                         The dollar sign has special meaning in the replace method.
-                                                         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
-                                                         */
-                                                        xmlText = xmlText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
-                                                        resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                                                    }
-                                                );
-                                            });
-                                        },
-                                        function (error) {
-                                            errorCallback("Error reading file", "There was an error reading the file " + referencedFileName, true);
-                                        },
-                                        true
-                                    );
-                                };
-
-                                inputModel.hasFileName(
-                                    config.InputSource,
-                                    referencedXMLFilenameWithoutBase,
-                                    function (exists) {
-                                        if (exists) {
-                                            processFile(referencedXMLFilenameWithoutBase);
-                                        } else {
-                                            inputModel.hasFileName(
-                                                config.InputSource,
-                                                referencedXMLFilenameWithBase,
-                                                function (exists) {
-                                                    if (exists) {
-                                                        processFile(referencedXMLFilenameWithBase);
-                                                    } else {
-                                                        //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
-                                                        xmlText = xmlText.replace(match[0], "");
-                                                        resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                                                    }
-                                                },
-                                                errorCallback,
-                                                true
-                                            );
-                                        }
-                                    },
-                                    errorCallback,
-                                    true
-                                );
-                            }
-                        } else {
-                            /*
-                             Found an xi:include without a href? delete it an move on.
-                             */
-                            xmlText = xmlText.replace(match[0], "");
-                            resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                        }
-                    } else {
-                        callback(xmlText, visitedFiles);
-                    }
-
-                }
-
-                inputModel.getTextFromFileName(
-                    config.InputSource,
-                    config.MainXMLFile,
-                    function (xmlText) {
-                        resolveFileRefs(xmlText, config.MainXMLFile, function (xmlText) {
-                            function resolveXIIncludeLoop(xmlText, visitedFiles) {
-                                if (generalXiInclude.test(xmlText)) {
-
-                                    var base = getXmlBaseAttribute(xmlText);
-
-                                    resolveXIInclude(
-                                        xmlText,
-                                        base,
-                                        config.MainXMLFile,
-                                        visitedFiles,
-                                        function (xmlText, visitedFiles) {
-                                            resolveXIIncludeLoop(xmlText, visitedFiles);
-                                        }
-                                    );
-                                } else {
-                                    xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
-                                    replaceEntities(xmlText);
-                                }
-                            }
-
-                            var count = 0;
-                            resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
-                        });
-                    },
-                    true
-                );
-            }
 
             function replaceEntities(xmlText) {
                 var fixedXMLResult = qnautils.replaceEntitiesInText(xmlText);
