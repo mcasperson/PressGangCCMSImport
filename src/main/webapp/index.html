@@ -24,6 +24,8 @@
                 return suppressErrorAlert;
             };       */
         </script>
+        <script src="js/asciidoctor/opal.js"></script>
+        <script src="js/asciidoctor/asciidoctor.js"></script>
         <script src="js/require.min.js"></script>
         <script type="application/javascript">
             'use strict';
@@ -39,7 +41,9 @@
                     'angular-bootstrap': 'bootstrap/ui-bootstrap-tpls-0.10.0.min',
                     'wgxpath': 'wgxpath/wgxpath',
                     'URIjs': 'js/uri',
-                    'patternfly' : 'patternfly/js/patternfly'
+                    'patternfly' : 'patternfly/js/patternfly' ,
+                    'opal' : 'asciidoctor/opal',
+                    'asciidoctor' : 'asciidoctor/asciidoctor'
                 },
                 shim: {
                     'wgxpath': {
@@ -62,7 +66,13 @@
                     },
                     'patternfly': {
                         deps: ["jquery"]
-                    }
+                    },
+                    /*'opal': {
+                        exports: "Opal"
+                    },
+                    'asciidoctor': {
+                        deps: ["opal"]
+                    }*/
                 }
             });
 

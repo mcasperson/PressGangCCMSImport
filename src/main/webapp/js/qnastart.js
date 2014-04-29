@@ -1,6 +1,6 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'docbookconstants', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, docbookconstants, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'docbookconstants', 'asciidocimport', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, docbookconstants, asciidocimport, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
@@ -455,8 +455,8 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
-                                .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo"])
-                                .setOptions(["Publican", docbookconstants.DOCBOOK_45_IMPORT_OPTION, docbookconstants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo"])
+                                .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc"])
+                                .setOptions(["Publican", docbookconstants.DOCBOOK_45_IMPORT_OPTION, docbookconstants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo", "Asciidoc"])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])
@@ -612,6 +612,8 @@ define(
                             resultCallback(generaldocbookimport.askForZipOrDir);
                         } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
                             resultCallback(generalexternalimport.getSpecDetails);
+                        } else if (config.ImportOption === "Asciidoc") {
+                            resultCallback(asciidocimport.askForAsciidocFile);
                         }
                     },
                     errorCallback
