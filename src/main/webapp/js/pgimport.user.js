@@ -6,6 +6,8 @@
 // @include     http://localhost:8000/*
 // @include     http://topicindex-dev.ecs.eng.bne.redhat.com:8080/pressgang-ccms-import/*
 // @include     http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms-import/*
+// @include     http://topika.ecs.eng.bne.redhat.com:8080/pressgang-ccms-import/*
+// @include     http://skynet.usersys.redhat.com:8080/pressgang-ccms-import/*
 // @require     http://code.jquery.com/jquery-2.0.3.min.js
 // @require     http://topicindex-dev.ecs.eng.bne.redhat.com:8080/pressgang-ccms-import/js/mojoimport-0.0.30.js
 // @version     0.0.1
