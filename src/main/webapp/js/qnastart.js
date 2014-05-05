@@ -589,22 +589,22 @@ define(
             .setIntro("During the alpha you can only import content into the test server. Future releases will allow content to be imported into the production server as well.")
             .setInputs([
                 new qna.QNAVariables()
-                    .setVariables([
+                    /*.setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Production Server", "Test Server"])
                             .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
                             .setValue("skynet-dev.usersys.redhat.com")
                             .setName("PressGangHost")
-                    ])
-                    /*.setVariables([
+                    ])*/
+                    .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Test Server"])
                             .setOptions(["skynet-dev.usersys.redhat.com"])
                             .setValue("skynet-dev.usersys.redhat.com")
                             .setName("PressGangHost")
-                    ])*/
+                    ])
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
                 if (config.PressGangHost === undefined) {
