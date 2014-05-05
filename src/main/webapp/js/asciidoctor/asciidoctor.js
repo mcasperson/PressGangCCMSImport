@@ -8830,7 +8830,7 @@ if (name == null) name = nil;
           pcwidth_intval = 100};
         self.attributes['opal$[]=']("tablepcwidth", pcwidth_intval);
         if ((opal$a = self.document.opal$attributes()['opal$has_key?']("pagewidth")) !== false && opal$a !== nil) {
-          return (opal$a = "tableabswidth", opal$b = self.attributes, (((opal$c = opal$b['opal$[]'](opal$a)) !== false && opal$c !== nil) ? opal$c : opal$b['opal$[]='](opal$a, ((self.attributes['opal$[]']("tablepcwidth").opal$to_f()['opal$/'](100))['opal$*'](self.document.opal$attributes()['opal$[]']("pagewidth"))).opal$round())))
+          return (opal$a = "tableabswidth", opal$b = self.attributes, (((opal$c = opal$b['opal$[]'](opal$a)) !== false && opal$c !== nil) ? opal$c : opal$b['opal$[]='](opal$a, Math.round(((self.attributes['opal$[]']("tablepcwidth").opal$to_f()['opal$/'](100))['opal$*'](self.document.opal$attributes()['opal$[]']("pagewidth")))))))
           } else {
           return nil
         };
@@ -8907,7 +8907,7 @@ if (name == null) name = nil;
         };
         self.attributes['opal$[]=']("colpcwidth", width);
         if ((opal$a = self.opal$parent().opal$attributes()['opal$has_key?']("tableabswidth")) !== false && opal$a !== nil) {
-          self.attributes['opal$[]=']("colabswidth", ((width.opal$to_f()['opal$/'](100))['opal$*'](self.opal$parent().opal$attributes()['opal$[]']("tableabswidth"))).opal$round())};
+          self.attributes['opal$[]=']("colabswidth", Math.round(((width.opal$to_f()['opal$/'](100))['opal$*'](self.opal$parent().opal$attributes()['opal$[]']("tableabswidth")))))};
         return nil;
       }, nil);
     })(opal$scope.Table, opal$scope.AbstractNode);

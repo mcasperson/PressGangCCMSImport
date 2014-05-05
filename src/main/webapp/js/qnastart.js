@@ -463,7 +463,7 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
-                                .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc"])
+                                .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc (Experimental, and can crash the browser)"])
                                 .setOptions(["Publican", docbookconstants.DOCBOOK_45_IMPORT_OPTION, docbookconstants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo", "Asciidoc"])
                                 .setValue("Publican")
                                 .setName("ImportOption")

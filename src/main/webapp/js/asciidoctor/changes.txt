@@ -10,3 +10,5 @@ In asciidoctor.js you have lines line:
 opal$opal.cdecl(opal$scope, 'PassInlineMacroRx', /\\?(?:(\+{3}|opal\${2})(.*?)\1|pass:([a-z,]*)\[(.*?[^\\])\])/i);
 
 and regexes at the bottom of the file starting with AuthorInfoLineRx
+
+Also need to change calls to opal$round() to just Math.round()
