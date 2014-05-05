@@ -594,7 +594,7 @@ define(
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Production Server", "Test Server"])
                             .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
-                            .setValue("localhost")
+                            .setValue("skynet-dev.usersys.redhat.com")
                             .setName("PressGangHost")
                     ])
                     /*.setVariables([
@@ -606,6 +606,13 @@ define(
                             .setName("PressGangHost")
                     ])*/
             ])
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                if (config.PressGangHost === undefined) {
+                    errorCallback("Please select a server", "You need to select a server to import in to before continuing.")
+                } else {
+                    resultCallback();
+                }
+            })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 exports.loadEntityConfig(
                     config,
