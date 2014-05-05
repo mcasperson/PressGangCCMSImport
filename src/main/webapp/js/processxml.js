@@ -1167,6 +1167,7 @@ define(
                     var attrRe = /\b(.*?)\s*=\s*('|")(.*?)('|")/g;
                     var href;
                     var xpointer;
+                    var xiIncludeMatch;
                     var attrmatch;
                     while ((attrmatch = attrRe.exec(xiIncludesAttrs)) !== null) {
                         var attributeName = attrmatch[1];
@@ -1181,6 +1182,11 @@ define(
                             } else {
                                 xpointer = attributeValue;
                             }
+                        } else if (attributeName.trim() === "match") {
+                            /*
+                                This will determine if we replace special characters in the imported content
+                             */
+                            xiIncludeMatch = attributeValue;
                         }
                     }
 
@@ -1243,6 +1249,14 @@ define(
                                                             }
                                                             fixedReferencedXmlText += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
                                                         }
+                                                    }
+
+                                                    /*
+                                                        When including content with the xiinclude attribute match="text", we need to replace
+                                                        any special characters.
+                                                     */
+                                                    if (xiIncludeMatch === "text") {
+                                                        fixedReferencedXmlText = qnautils.escapeXMLSpecialCharacters(fixedReferencedXmlText);
                                                     }
 
                                                     /*
