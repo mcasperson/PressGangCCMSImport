@@ -253,7 +253,7 @@ define(
                         },
                         error: function () {
                             if (retryCount < RETRY_COUNT) {
-                                exports.createFile(inputModel, trytomatch, zipfile, file, lang, config, successCallback, errorCallback, ++retryCount);
+                                exports.createFile(model, trytomatch, zipfile, file, lang, config, successCallback, errorCallback, ++retryCount);
                             } else {
                                 errorCallback("Connection Error", "An error occurred while uploading an file. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
@@ -318,7 +318,7 @@ define(
                         },
                         error: function () {
                             if (retryCount < RETRY_COUNT) {
-                                exports.createImage(inputModel, trytomatch, zipfile, image, lang, config, successCallback, errorCallback, ++retryCount);
+                                exports.createImage(model, trytomatch, zipfile, image, lang, config, successCallback, errorCallback, ++retryCount);
                             } else {
                                 errorCallback("Connection Error", "An error occurred while uploading an image. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                             }
