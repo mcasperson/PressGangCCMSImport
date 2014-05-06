@@ -537,24 +537,8 @@ define(
 
                         var id = parentAppendix.getAttribute ? parentAppendix.getAttribute("id") : null;
 
-                        var revHistoryXML = "<appendix><title>" + revHistoryTitleContents + "</title>";
-
-                        if (config.ImportOption === "DocBook45") {
-                            revHistoryXML += "<simpara>";
-                        }
-
-                        revHistoryXML += qnautils.xmlToString(removeIdAttribute(revHistory));
-
-                        if (config.ImportOption === "DocBook45") {
-                            revHistoryXML += "</simpara>";
-                        }
-
-                        revHistoryXML += "</appendix>";
-
-                        var revHistoryFixedXML = qnautils.stringToXML(revHistoryXML);
-
                         var topic = new specelement.TopicGraphNode(topicGraph)
-                            .setXml(revHistoryFixedXML)
+                            .setXml(parentAppendix)
                             .setSpecLine(contentSpec.length - 1)
                             .setTitle(revHistoryTitleContents)
                             .addTag(REVISION_HISTORY_TAG_ID);
@@ -565,6 +549,11 @@ define(
 
                         topics.push(topic);
 
+                        /*
+                            The appendex holding the revision history is extracted wholesale, and
+                            won't be processed again by the rest of this process.
+                         */
+                        parentAppendix.parentNode.removeChild(parentAppendix);
                     }
 
                     config.UploadProgress[1] = 7 * progressIncrement;

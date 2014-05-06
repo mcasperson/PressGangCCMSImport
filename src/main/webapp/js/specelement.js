@@ -182,6 +182,15 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     };
 
     /**
+     * @param info True if this topic is an abstract topic that should be assigned to a metadata element
+     * @returns {exports}
+     */
+    exports.TopicGraphNode.prototype.setAbstractTopic = function (info) {
+        this.abstractTopic = info;
+        return this;
+    };
+
+    /**
      * Use this to define the XML associated with a topic when the XML has already been
      * stripped of any entities. This is the case when importing existing docbook books.
      * @param xml
