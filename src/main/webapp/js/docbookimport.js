@@ -803,22 +803,18 @@ define(
 
                             var nodeValue = image.nodeValue;
 
-                            var filename = !docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(nodeValue) ?
-                                config.ImportLang + "/" + nodeValue :
-                                nodeValue;
-
                             if (!uploadedImages[nodeValue]) {
 
                                 inputModel.hasFileName(
                                     config.InputSource,
-                                    filename,
+                                    nodeValue,
                                     function (result) {
                                         if (result) {
                                             qnastart.createImage(
                                                 inputModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.InputSource,
-                                                filename,
+                                                nodeValue,
                                                 config.ImportLang,
                                                 config,
                                                 function (data) {
@@ -846,7 +842,7 @@ define(
                                                 errorCallback
                                             );
                                         } else {
-                                            console.log("Could not find " + filename);
+                                            console.log("Could not find " + nodeValue);
                                             processImages(images.iterateNext(), ++count);
                                         }
                                     },
