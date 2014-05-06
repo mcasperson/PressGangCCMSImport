@@ -76,6 +76,15 @@ define(
             return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
         }
 
+        /**
+         * Titles in a content spec need to have certain characters, like square brackets, escaped
+         * @param title
+         */
+        function encodeTitle(title) {
+            return title.replace(/\[/g, "\\[")
+                .replace(/\]/g, "\\]");
+        }
+
         /*
             Some containers are remaped when placed in a content spec
          */
@@ -117,7 +126,7 @@ define(
             Replace the top level element with another
          */
         function setDocumentNodeToName (xmlText, newElementName) {
-            var match = /\s*<\s*[^\s]+(.*?)>([\s\S]*)<\s*\/[^\s]+\s*>/.exec(xmlText);
+            var match = /\s*<\s*[^\s>]+(.*?)>([\s\S]*)<\s*\/[^\s]+\s*>/.exec(xmlText);
             if (match !== null) {
                 return "<" + newElementName + match[1] + ">" + match[2] + "</" + newElementName + ">";
             } else {
@@ -905,14 +914,7 @@ define(
                         }
                     }
 
-                    /**
-                     * Titles in a content spec need to have certain characters, like square brackets, escaped
-                     * @param title
-                     */
-                    function encodeTitle(title) {
-                        return title.replace(/\[/g, "\\[")
-                            .replace(/\]/g, "\\]");
-                    }
+
 
                     function getTitle(directTitle, infoTitle) {
                         var title = directTitle || infoTitle || DEFAULT_TITLE;
