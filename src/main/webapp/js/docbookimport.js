@@ -816,7 +816,7 @@ define(
                             var nodeValue = image.nodeValue;
 
                             var filename = !docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(nodeValue) ?
-                                config.ImportLang + "/" + nodeValue :
+                                config.ImportLang + "/" + nodeValue.replace(/^\.\//, "") :
                                 nodeValue;
 
                             if (!uploadedImages[nodeValue]) {
@@ -858,7 +858,7 @@ define(
                                                 errorCallback
                                             );
                                         } else {
-                                            console.log("Could not find " + nodeValue);
+                                            console.log("Could not find " + filename);
                                             processImages(images.iterateNext(), ++count);
                                         }
                                     },
