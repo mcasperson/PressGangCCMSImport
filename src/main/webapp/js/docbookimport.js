@@ -417,6 +417,10 @@ define(
                         }
                     }
 
+                    if (config.Index !== undefined) {
+                        contentSpec.push("Index = " + config.Index);
+                    }
+
                     if (config.ImportCondition !== undefined) {
                         contentSpec.push("[condition = " + config.ImportCondition + "]");
                     }
