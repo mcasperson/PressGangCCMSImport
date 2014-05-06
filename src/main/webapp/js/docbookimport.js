@@ -1085,12 +1085,15 @@ define(
                                                     containerName.substring(1, containerName.length) +
                                                     ": " +
                                                     getTitle(titleText, infoTitle));
+
+                                            contentSpec.push(contentSpecLine + "  Initial Text: ");
+                                            contentSpec.push(contentSpecLine + "    " + getTitle(titleText));
                                         }
 
                                         var standaloneContainerTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
                                             .setSpecLine(contentSpec.length - 1)
-                                            .setTitle(titleText);
+                                            .setTitle(getTitle(titleText));
 
                                         if (id) {
 
@@ -1183,7 +1186,7 @@ define(
                                         var initialTextTopic = new specelement.TopicGraphNode(topicGraph)
                                             .setXml(removeIdAttribute(clone))
                                             .setSpecLine(contentSpec.length - 1)
-                                            .setTitle((titleText || infoTitle || DEFAULT_TITLE));
+                                            .setTitle(getTitle(titleText, infoTitle));
 
                                         if (id) {
                                             if (topicGraph.hasXMLId(id.nodeValue)) {
