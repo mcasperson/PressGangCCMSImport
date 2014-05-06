@@ -1081,7 +1081,6 @@ define(
                     if ((match = filerefRe.exec(xmlText)) !== null) {
                         if (!(docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(match[filerefReHrefGroup]))) {
                             var imageFilename = match[filerefReHrefGroup].replace(/^\.\//, "");
-                            var thisFile = new URI(imageFilename);
                             var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + imageFilename);
                             var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
 
