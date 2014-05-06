@@ -1595,7 +1595,7 @@ define(
                     config.Index = "On";
                 }
 
-                resultCallback({xml: qnautils.xmlToString(xmlDoc), entities: entities});
+                resultCallback({xml: qnautils.xmlToString(xmlDoc), entities: entities, replacements: config.replacements});
             }
         }
     }

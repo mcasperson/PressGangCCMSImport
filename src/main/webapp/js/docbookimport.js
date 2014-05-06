@@ -250,6 +250,7 @@ define(
                 var resultParsed = JSON.parse(result);
                 var xmlDoc = qnautils.stringToXML(resultParsed.xml);
                 var entities = resultParsed.entities;
+                var replacements = resultParsed.replacements;
 
                 var inputModel = qnastart.getInputModel(config);
 
@@ -258,13 +259,6 @@ define(
                 window.onbeforeunload=function() {
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
-
-                /**
-                 * A collection of entity definitions
-                 * @type {Array}
-                 */
-
-                var replacements = [];
 
                 /*
                  Initialize some config values
@@ -816,7 +810,7 @@ define(
                             var nodeValue = image.nodeValue;
 
                             var filename = !docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(nodeValue) ?
-                                config.ImportLang + "/" + nodeValue.replace(/^\.\//, "") :
+                                config.ImportLang + "/" + nodeValue :
                                 nodeValue;
 
                             if (!uploadedImages[nodeValue]) {
