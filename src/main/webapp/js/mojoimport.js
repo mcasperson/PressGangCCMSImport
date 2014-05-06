@@ -178,7 +178,6 @@ define(
                                                 /*
                                                     This is a child of an existing container. Add it as a regular topic.
                                                  */
-                                                padContentSpec(outlineLevel, parentLevel, resultObject.contentSpec);
                                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                 resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                             } else {
