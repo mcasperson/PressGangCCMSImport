@@ -140,11 +140,16 @@ require(
              * Called when the wizard is moved to the next step
              */
             $scope.next = function (result) {
-                $scope.qna.next(function (qna) {
-                    initializeQna(qna);
-                }, function (title, message) {
-                    alert(title, message);
-                }, result);
+                $scope.disabled = true;
+                window.setTimeout(function() {
+                    $scope.qna.next(function (qna) {
+                        initializeQna(qna);
+                        $scope.disabled = false;
+                    }, function (title, message) {
+                        alert(title, message);
+                        $scope.disabled = false;
+                    }, result);
+                }, 0);
             };
 
             /**
