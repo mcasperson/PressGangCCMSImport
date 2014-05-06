@@ -929,12 +929,22 @@ define(
                         }
                     }
 
+                    /**
+                     * Titles in a content spec need to have certain characters, like square brackets, escaped
+                     * @param title
+                     */
+                    function encodeTitle(title) {
+                        return title.replace(/\[/g, "\\[")
+                            .replace(/\]/g, "\\]");
+                    }
+
                     function getTitle(directTitle, infoTitle) {
                         var title = directTitle || infoTitle || DEFAULT_TITLE;
 
                         // When refering to the title text from now on (like adding to the spec or defining the
                         // title of a topic in the graph) we want the version that has the entities
-                        return qnautils.reencode(title, replacements);
+                        var withWithEntities = qnautils.reencode(title, replacements);
+                        return encodeTitle(withWithEntities).trim();
                     }
 
                     var processXml = function (parentXML, depth) {
@@ -1077,7 +1087,7 @@ define(
                                                 This is a plain topic. We don't extract info elements from plain
                                                 topics.
                                              */
-                                            contentSpec.push(contentSpecLine + titleText);
+                                            contentSpec.push(contentSpecLine + getTitle(titleText));
 
                                         } else {
                                             /*
