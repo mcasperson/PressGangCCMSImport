@@ -452,7 +452,7 @@ define(
                         contentSpec.push("Entities = [");
                         jquery.each(entities, function(index, value){
                             if (removedEntities.indexOf(index) === -1) {
-                                contentSpec.push(value);
+                                contentSpec.push(encodeTitle(value));
                             }
                         });
 
