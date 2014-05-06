@@ -477,7 +477,8 @@ define(
                     if (revHistory) {
 
                         var parentAppendix = revHistory;
-                        while (parentAppendix.parentNode && (parentAppendix = parentAppendix.parentNode).nodeName !== "appendix") {
+                        while (parentAppendix.parentNode &&
+                            CONTAINER_TYPES.indexOf((parentAppendix = parentAppendix.parentNode).nodeName) === -1) {
 
                         }
 
@@ -541,7 +542,9 @@ define(
                             The appendex holding the revision history is extracted wholesale, and
                             won't be processed again by the rest of this process.
                          */
-                        parentAppendix.parentNode.removeChild(parentAppendix);
+                        if (parentAppendix.parentNode !== null) {
+                            parentAppendix.parentNode.removeChild(parentAppendix);
+                        }
                     }
 
                     config.UploadProgress[1] = 7 * progressIncrement;
