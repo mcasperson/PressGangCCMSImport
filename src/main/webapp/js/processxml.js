@@ -1595,6 +1595,20 @@ define(
                     config.Index = "On";
                 }
 
+                replaceAsciiEntities(xmlDoc, entities)
+            }
+
+            /*
+                Replace any ascii entity codes (like &92;) with their characters (like /)
+             */
+            function replaceAsciiEntities(xmlDoc, entities) {
+                jQuery.each(config.replacements, function(index, value){
+                    var match;
+                    if ((match = /&#(\d+);/.exec(value.entity)) !== null) {
+                        value.entity = String.fromCharCode(match[1]);
+                    }
+                })
+
                 resultCallback({xml: qnautils.xmlToString(xmlDoc), entities: entities, replacements: config.replacements});
             }
         }

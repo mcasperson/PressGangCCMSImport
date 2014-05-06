@@ -104,12 +104,6 @@ define(
             return retValue;
         }
 
-        function replaceSpecialChars(text) {
-            return text.replace(/"/g, "\\\"")
-                .replace(/\t/g, "\\t")
-                .replace(/\n/g, "\\n");
-        }
-
         function replaceElement (elementName, newElementName, xmlText) {
             if (xmlText.indexOf("<" + elementName) === 0) {
                 xmlText = xmlText.replace(new RegExp("^<" + qnautils.escapeRegExp(elementName)), "<" + newElementName);
