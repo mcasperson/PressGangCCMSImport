@@ -1179,6 +1179,9 @@ define(
                                      */
                                     if (hasIntroText) {
 
+                                        contentSpec.push(contentSpecLine + "  Initial Text: ");
+                                        contentSpec.push(contentSpecLine + "    " + getTitle(titleText));
+
                                         /*
                                             We want any content under partintro to be just content in the
                                             initial text topic.

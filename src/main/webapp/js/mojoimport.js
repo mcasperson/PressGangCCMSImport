@@ -601,23 +601,16 @@ define(
                                 }
                             };
 
-                            var padContentSpec = function(currentLevel, previousLevel, contentSpec) {
-                                /*
-                                 A content spec can not skip levels in the toc. So when we skip heading levels
-                                 (say a heading 3 under a heading 1) we need to pad the spec out.
-                                 */
-                                if (currentLevel > previousLevel + 1) {
-                                    for (var missedSteps = previousLevel + 1; missedSteps < currentLevel; ++missedSteps) {
-                                        if (missedSteps === 1) {
-                                            contentSpec.push("Chapter: Missing Chapter");
-                                        } else {
-                                            var myPrefix = generalexternalimport.generateSpacing(missedSteps);
-                                            contentSpec.push(myPrefix + "Section: Missing Section");
-                                        }
-                                    }
-                                }
-                            };
-
+                            /**
+                             *
+                             * @param content The content that makes up the topic found before this header
+                             * @param contentNode The node that holds the header
+                             * @param title The title of the last topic
+                             * @param previousLevel A stack with the last element being the level of the last highest parent
+                             * @param currentLevel The tree level of the last topic
+                             * @param index Which child node we are processing
+                             * @param successCallback Just passed through
+                             */
                             var processHeader = function (content, contentNode, title, previousLevel, currentLevel, index, successCallback) {
                                 ++topicsAdded;
 
@@ -631,15 +624,11 @@ define(
                                 var newOutlineLevel = parseInt(/h(\d)/i.exec(contentNode.nodeName)[1]);
 
                                 /*
-                                    A content spec can not skip levels in the toc. So when we skip heading levels
-                                    (say a heading 3 under a heading 1) we need to pad the spec out.
+                                    We never jump more than one level
                                  */
-                                padContentSpec(currentLevel, previousLevel, resultObject.contentSpec);
-
-                                /*
-                                    Thanks to the loop above, levels never jump more than 1 place up.
-                                 */
-                                previousLevel = currentLevel - 1;
+                                if (newOutlineLevel + 1 > currentLevel) {
+                                    newOutlineLevel = currentLevel + 1;
+                                }
 
                                 /*
                                  Some convenient statements about what is going on.
@@ -665,7 +654,7 @@ define(
                                         resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
                                         /*
-                                            Does the topic noe being built exist under this one? If so, this topic is
+                                            Does the topic now being built exist under this one? If so, this topic is
                                              a container. If not, it is just a topic.
                                          */
                                         if (newOutlineLevel > currentLevel) {
