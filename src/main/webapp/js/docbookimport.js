@@ -374,20 +374,20 @@ define(
                     contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
                     contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
                     contentSpec.push("Format = DocBook " + getSpecDocbookVersion(config));
-                    if (config.ContentSpecVersion) {
+                    if (config.ContentSpecVersion && config.ContentSpecVersion.trim().length !== 0) {
                         contentSpec.push("Version = " + config.ContentSpecVersion);
                     }
 
                     /*
                      These metadata elements are optional
                      */
-                    if (config.ContentSpecSubtitle !== undefined) {
+                    if (config.ContentSpecSubtitle !== undefined && config.ContentSpecSubtitle.trim().length !== 0) {
                         contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
                     }
-                    if (config.ContentSpecEdition !== undefined) {
+                    if (config.ContentSpecEdition !== undefined && config.ContentSpecEdition.trim().length !== 0) {
                         contentSpec.push("Edition = " + config.ContentSpecEdition);
                     }
-                    if (config.ContentSpecPubsnumber !== undefined) {
+                    if (config.ContentSpecPubsnumber !== undefined && config.ContentSpecPubsnumber.trim().length !== 0) {
                         contentSpec.push("Pubsnumber = " + config.ContentSpecPubsnumber);
                     }
 
@@ -591,6 +591,9 @@ define(
                         jquery.each(authorGroup.childNodes, function (index, value) {
                             specAuthorGroup.documentElement.appendChild(qnautils.getOwnerDoc(specAuthorGroup).importNode(value, true));
                         });
+
+                        // only process the first author group. TODO: do we need to pick up more than one?
+                        break;
                     }
 
                     if (specAuthorGroup.documentElement.childNodes.length !== 0) {
