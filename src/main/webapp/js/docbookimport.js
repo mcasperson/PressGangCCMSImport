@@ -421,6 +421,10 @@ define(
                         contentSpec.push("Index = " + config.Index);
                     }
 
+                    if (resultParsed.contentSpec !== undefined && resultParsed.contentSpec.length !== 0) {
+                        contentSpec = jquery.merge(contentSpec, resultParsed.contentSpec);
+                    }
+
                     if (config.ImportCondition !== undefined) {
                         contentSpec.push("[condition = " + config.ImportCondition + "]");
                     }

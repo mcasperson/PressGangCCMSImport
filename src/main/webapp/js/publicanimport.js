@@ -395,8 +395,9 @@ define(
                     processxml.resolveXiIncludes(
                         function(xmlText) {
                             processxml.processXMLAndExtractEntities(
-                                function (result) {
-                                    resultCallback(JSON.stringify(result));
+                                function (processedXml) {
+                                    processedXml.contentSpec = JSON.parse(result).contentSpec;
+                                    resultCallback(JSON.stringify(processedXml));
                                 },
                                 errorCallback,
                                 xmlText,
