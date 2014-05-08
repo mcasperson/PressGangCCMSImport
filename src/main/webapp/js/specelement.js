@@ -437,6 +437,14 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
 
     }
 
+    /**
+     * We always resolve any forward references first. By resolving these references first, we can ensure that any
+     * backwards resolution will obey the fixed requirements of outgoing xrefs.
+     * @param pgId              The ID that this node will assume and use to resolve other references
+     * @param existingNetwork   A collection of the existing resolved nodes
+     * @param resolutionStack   A stack that is used for debugging
+     * @returns {*}
+     */
     exports.TopicGraphNode.prototype.isValidForwards = function(pgId, existingNetwork, resolutionStack) {
         return this.preProcessValidFunction(
             pgId,
@@ -500,101 +508,101 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         );
     }
 
+    /**
+     * Unlike forward xref resolution, in which the xrefs either resolve or they don't, incoming references
+     * can potentially resolve to multiple graphs.
+     * @param pgId
+     * @param existingNetwork
+     * @param resolutionStack
+     * @returns {*}
+     */
     exports.TopicGraphNode.prototype.isValidBackwards = function (pgId, existingNetwork, resolutionStack) {
-        return this.preProcessValidFunction(
-            pgId,
-            existingNetwork,
-            resolutionStack,
-            function (pgId, existingNetwork, resolutionStack) {
 
-                // the nodes that make up our addition to the network
-                var retValue = existingNetwork.slice(0);
 
-                var topicGraph = this.topicGraph;
+        // the nodes that make up our addition to the network
+        var retValue = existingNetwork.slice(0);
 
+        /*
+         fixedIncomingLinks should be read as a dictionary:
+         key:            one of the possible ids that this node can take
+         object:         array of incoming node definitions
+         [
+         object.ids:     all the potential ids the incoming node can have
+         object.node:    the incoming node itself
+         ]
+
+         Testing incoming links is a little more work, because a node can link to this node
+         from multiple existing topic ids.
+
+         So we need to loop over each node with an incoming link, and then loop over every
+         topic id it can assume trying to find one that works best.
+         */
+        if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
+            var incomingRetValue = true;
+            /*
+             get all the incoming node details for this topic at the particular id it
+             is being tested against
+             */
+            jquery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
                 /*
-                 fixedIncomingLinks should be read as a dictionary:
-                 key:            one of the possible ids that this node can take
-                 object:         array of incoming node definitions
-                 [
-                 object.ids:     all the potential ids the incoming node can have
-                 object.node:    the incoming node itself
-                 ]
-
-                 Testing incoming links is a little more work, because a node can link to this node
-                 from multiple existing topic ids.
-
-                 So we need to loop over each node with an incoming link, and then loop over every
-                 topic id it can assume trying to find one that works best.
+                 It is possible that our backwards links have already been resolved, so
+                 don't try to resolve them again.
                  */
-                if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
-                    var incomingRetValue = true;
+                var alreadyResolved = false;
+                jquery.each(retValue, function (index, validNode) {
+                    if (nodeDetails.node === validNode.node) {
+                        alreadyResolved = true;
+                        return false;
+                    }
+                });
+
+                if (!alreadyResolved) {
                     /*
-                     get all the incoming node details for this topic at the particular id it
-                     is being tested against
+                     Test every possible id that the incoming node could be looking for one
+                     that works the best.
                      */
-                    jquery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
-                        /*
-                         It is possible that our backwards links have already been resolved, so
-                         don't try to resolve them again.
-                         */
-                        var alreadyResolved = false;
-                        jquery.each(retValue, function (index, validNode) {
-                            if (nodeDetails.node === validNode.node) {
-                                alreadyResolved = true;
-                                return false;
+                    var validIncomingNodesOptions = [];
+                    jquery.each(nodeDetails.ids, function (index, incomingPGId) {
+                        var validIncomingNodes = nodeDetails.node.isValidForwards(incomingPGId, retValue, resolutionStack);
+                        if (validIncomingNodes !== null) {
+                            validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, validIncomingNodes, resolutionStack);
+                            if (validIncomingNodes !== null) {
+                                /*
+                                 We have found in incoming node topic id that works. Make a note
+                                 of it so we can test each possible xref graph to see which
+                                 one included the most topics.
+                                 */
+                                validIncomingNodesOptions.push(validIncomingNodes);
                             }
-                        });
-
-                        if (!alreadyResolved) {
-                            /*
-                             Test every possible id that the incoming node could be looking for one
-                             that works the best.
-                             */
-                            var validIncomingNodesOptions = [];
-                            jquery.each(nodeDetails.ids, function (index, incomingPGId) {
-                                var validIncomingNodes = nodeDetails.node.isValidForward(incomingPGId, retValue, resolutionStack);
-                                if (validIncomingNodes !== null) {
-                                    validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, validIncomingNodes, resolutionStack);
-                                    if (validIncomingNodes !== null) {
-                                        /*
-                                         We have found in incoming node topic id that works. Make a note
-                                         of it so we can test each possible xref graph to see which
-                                         one included the most topics.
-                                         */
-                                        validIncomingNodesOptions.push(validIncomingNodes);
-                                    }
-                                }
-                            });
-
-                            /*
-                             We found no valid xref graph configurations, so exit the loop.
-                             */
-                            if (validIncomingNodesOptions.length === 0) {
-                                incomingRetValue = false;
-                                return false;
-                            }
-
-                            var mostSuccess = null;
-                            jquery.each(validIncomingNodesOptions, function (index, validIncomingNodesOption) {
-                                if (mostSuccess === null || validIncomingNodesOption.length > mostSuccess.length) {
-                                    mostSuccess = validIncomingNodesOption;
-                                }
-                            });
-
-                            retValue = mostSuccess;
                         }
                     });
 
-                    if (!incomingRetValue) {
-                        // because we couldn't find a valid xref graph using the incoming links.
-                        return null;
+                    /*
+                     We found no valid xref graph configurations, so exit the loop.
+                     */
+                    if (validIncomingNodesOptions.length === 0) {
+                        incomingRetValue = false;
+                        return false;
                     }
-                }
 
-                return retValue;
-            }.bind(this)
-        );
+                    var mostSuccess = null;
+                    jquery.each(validIncomingNodesOptions, function (index, validIncomingNodesOption) {
+                        if (mostSuccess === null || validIncomingNodesOption.length > mostSuccess.length) {
+                            mostSuccess = validIncomingNodesOption;
+                        }
+                    });
+
+                    retValue = mostSuccess;
+                }
+            });
+
+            if (!incomingRetValue) {
+                // because we couldn't find a valid xref graph using the incoming links.
+                return null;
+            }
+        }
+
+        return retValue;
     }
 
     /**
