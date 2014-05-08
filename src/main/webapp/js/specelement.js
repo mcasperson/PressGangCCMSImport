@@ -407,14 +407,18 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     };
 
     /**
-     * This function serves as a common initialization for the isValidForwards and isValidBackwards functions.
-     * @param pgId              The id that this node is to assume
-     * @param existingNetwork   The details of any existing resolved nodes
-     * @param resolutionStack   A stack that is used to trace back invalid node assignemnts
-     * @param func              The actual logic that is to be performed in resolving this node
-     * @returns {*}             The resolved network, or nul if it could not be resolved.
+     * We always resolve any forward references first. By resolving these references first, we can ensure that any
+     * backwards resolution will obey the fixed requirements of outgoing xrefs.
+     * @param pgId              The ID that this node will assume and use to resolve other references
+     * @param existingNetwork   A collection of the existing resolved nodes
+     * @param resolutionStack   A stack that is used for debugging
+     * @returns {*}
      */
-    exports.TopicGraphNode.prototype.preProcessValidFunction = function(pgId, existingNetwork, resolutionStack, func) {
+    exports.TopicGraphNode.prototype.isValidForwards = function(pgId, existingNetwork, resolutionStack) {
+
+        if (pgId === undefined) {
+            throw "pgId should never be undefined";
+        }
 
         var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
         thisResolutionStack.push(pgId);
@@ -433,91 +437,81 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                 return existingNetwork;
         }
 
-        return func(pgId, existingNetwork, resolutionStack);
+        if (this.fixedOutgoingLinks !== undefined && this.pgIds === undefined) {
+            throw "Nodes that have no possible pressgang ids define can not have any outgoing requirements";
+        }
 
-    }
+        // the nodes that make up our addition to the network
+        var retValue = existingNetwork.slice(0);
 
-    /**
-     * We always resolve any forward references first. By resolving these references first, we can ensure that any
-     * backwards resolution will obey the fixed requirements of outgoing xrefs.
-     * @param pgId              The ID that this node will assume and use to resolve other references
-     * @param existingNetwork   A collection of the existing resolved nodes
-     * @param resolutionStack   A stack that is used for debugging
-     * @returns {*}
-     */
-    exports.TopicGraphNode.prototype.isValidForwards = function(pgId, existingNetwork, resolutionStack) {
-        return this.preProcessValidFunction(
-            pgId,
-            existingNetwork,
-            resolutionStack,
-            function (pgId, existingNetwork, resolutionStack) {
-                if (this.fixedOutgoingLinks !== undefined && this.pgIds === undefined) {
-                    throw "Nodes that have no possible pressgang ids define can not have any outgoing requirements";
+        var topicGraph = this.topicGraph;
+
+        /*
+         Add ourselves to the network as we see it
+         */
+        retValue.push({node: this, assumedId: pgId});
+
+        /*
+         Check to see if all outgoing links are also valid. This is pretty easy
+         because each outgoing link can match only one node assuming one topic id.
+         */
+        if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
+            jquery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
+                var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
+
+                if (node === undefined) {
+                    throw "All outgoing links should resolve to a topic or container.";
                 }
 
-                // the nodes that make up our addition to the network
-                var retValue = existingNetwork.slice(0);
-
-                var topicGraph = this.topicGraph;
-
-
-                /*
-                 Add ourselves to the network as we see it
-                 */
-                retValue.push({node: this, assumedId: pgId});
-
-                /*
-                 Check to see if all outgoing links are also valid. This is pretty easy
-                 because each outgoing link can match only one node assuming one topic id.
-                 */
-                if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
-                    var outgoingRetValue = null;
-                    jquery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
-                        var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-
-                        if (node === undefined) {
-                            throw "All outgoing links should resolve to a topic or container.";
-                        }
-
-                        if (node instanceof exports.TopicGraphNode) {
-                            // if the outgoing link is another topic, we need to see if that
-                            // topic can be resolved it it assumes an id of outgoingPGId
-                            retValue = node.isValidForwards(outgoingPGId, retValue, resolutionStack);
-                            if (retValue !== null) {
-                                retValue = node.isValidBackwards(outgoingPGId, retValue, resolutionStack);
-                            }
-                        } else {
-                            // if the outgoing link is a container, it needs to have the same target number
-                            if ("T" + node.targetNum !== outgoingPGId) {
-                                retValue = null;
-                            }
-                        }
-
-                        if (retValue === null) {
-                            return false;
-                        }
-                    });
-
-                    if (retValue === null) {
-                        return null;
+                if (node instanceof exports.TopicGraphNode) {
+                    // if the outgoing link is another topic, we need to see if that
+                    // topic can be resolved it it assumes an id of outgoingPGId
+                    retValue = node.isValidForwards(outgoingPGId, retValue, thisResolutionStack);
+                    if (retValue !== null) {
+                        retValue = node.isValidBackwards(outgoingPGId, retValue, thisResolutionStack);
+                    }
+                } else {
+                    // if the outgoing link is a container, it needs to have the same target number
+                    if ("T" + node.targetNum !== outgoingPGId) {
+                        retValue = null;
                     }
                 }
 
-                return retValue;
-            }.bind(this)
-        );
+                if (retValue === null) {
+                    return false;
+                }
+            });
+
+            if (retValue === null) {
+                return null;
+            }
+        }
+
+        return retValue;
+
     }
 
     /**
      * Unlike forward xref resolution, in which the xrefs either resolve or they don't, incoming references
-     * can potentially resolve to multiple graphs.
+     * can potentially resolve to multiple graphs. This is done after the forward references are resolved,
+     * so we only select backward references that fit.
      * @param pgId
      * @param existingNetwork
      * @param resolutionStack
      * @returns {*}
      */
     exports.TopicGraphNode.prototype.isValidBackwards = function (pgId, existingNetwork, resolutionStack) {
+        if (pgId === undefined) {
+            throw "pgId should never be undefined";
+        }
 
+        if (existingNetwork === undefined) {
+            throw "existingNetwork should never be undefined";
+        }
+
+        if (resolutionStack === undefined) {
+            throw "resolutionStack should never be undefined";
+        }
 
         // the nodes that make up our addition to the network
         var retValue = existingNetwork.slice(0);
@@ -614,9 +608,6 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
      * @returns
      */
     exports.TopicGraphNode.prototype.isValidOrProcessed = function (pgId, existingNetwork, resolutionStack) {
-        if (pgId === undefined) {
-            throw "pgId should never be undefined";
-        }
 
         if (this.topicId !== undefined && this.topicId === pgId) {
             throw "We should not enter a resolved network again";
