@@ -454,6 +454,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
 
         if (!valid) {
             // because the supplied topic id was not in the list of ids for this topic
+            console.log(pgId + " was not in the list of existing topics. Options were " + this.pgIds.toString());
             return null;
         }
 
@@ -464,7 +465,8 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             existingNetwork = [];
         }
 
-        // the nodes that make up our addition to the network
+        // clone the existing network to get a collection of the nodes that make up the network with
+        // this node in it
         var retValue = existingNetwork.slice(0);
 
         /*
@@ -484,7 +486,12 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             // if this topic has already been processed with the requested pgid, return the
             // network with no changes. If this topic is being requested with a new pgid,
             // return null because that is not valid.
-            return alreadyProcessed ? retValue : null;
+            if (alreadyProcessed) {
+                return retValue;
+            }
+
+            console.log("This node was already processed with a different id");
+            return null;
         }
 
         if (this.fixedOutgoingLinks !== undefined && this.pgIds === undefined) {
@@ -511,24 +518,28 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                     throw "All outgoing links should resolve to a topic or container.";
                 }
 
+                var thisNetwork;
+
                 if (node instanceof exports.TopicGraphNode) {
                     // if the outgoing link is another topic, we need to see if that
                     // topic can be resolved it it assumes an id of outgoingPGId
-                    retValue = node.isValid(outgoingPGId, retValue);
+                    outgoingRetValue = node.isValid(outgoingPGId, retValue);
                 } else {
                     // if the outgoing link is a container, it needs to have the same target number
                     if ("T" + node.targetNum !== outgoingPGId) {
-                        retValue = null;
+                        outgoingRetValue = null;
                     }
                 }
 
-                if (retValue === null) {
+                if (outgoingRetValue !== null) {
                     return false;
                 }
             });
 
-            if (retValue === null) {
+            if (outgoingRetValue === null) {
                 return null;
+            } else {
+                retValue = outgoingRetValue;
             }
         }
 
