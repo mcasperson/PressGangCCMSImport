@@ -1748,9 +1748,12 @@ define(
                          */
                         var validNodesOptions = [];
                         jquery.each(unresolvedNode.pgIds, function (pgId, details) {
-                            var network = unresolvedNode.isValid(pgId);
+                            var network = unresolvedNode.isValidForwards(pgId);
                             if (network !== null) {
-                                validNodesOptions.push(network);
+                                network = unresolvedNode.isValidBackwards(pgId);
+                                if (network !== null) {
+                                    validNodesOptions.push(network);
+                                }
                             }
                         });
 
