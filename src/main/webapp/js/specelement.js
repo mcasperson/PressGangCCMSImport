@@ -404,6 +404,13 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
         thisResolutionStack.push(pgId);
 
+        /*
+         By default there is no existing network
+         */
+        if (existingNetwork === undefined) {
+            existingNetwork = [];
+        }
+
         if (!this.isValid(pgId, existingNetwork, thisResolutionStack)) {
             return null;
         }
@@ -417,12 +424,6 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
 
         var topicGraph = this.topicGraph;
 
-        /*
-         By default there is no existing network
-         */
-        if (existingNetwork === undefined) {
-            existingNetwork = [];
-        }
 
         /*
          Add ourselves to the network as we see it
@@ -473,6 +474,13 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
         thisResolutionStack.push(pgId);
 
+        /*
+         By default there is no existing network
+         */
+        if (existingNetwork === undefined) {
+            existingNetwork = [];
+        }
+
         if (!this.isValid(pgId, existingNetwork, thisResolutionStack)) {
             return null;
         }
@@ -481,13 +489,6 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         var retValue = existingNetwork.slice(0);
 
         var topicGraph = this.topicGraph;
-
-        /*
-         By default there is no existing network
-         */
-        if (existingNetwork === undefined) {
-            existingNetwork = [];
-        }
 
         /*
          fixedIncomingLinks should be read as a dictionary:
