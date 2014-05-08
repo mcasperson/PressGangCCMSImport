@@ -414,7 +414,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
      * @param func              The actual logic that is to be performed in resolving this node
      * @returns {*}             The resolved network, or nul if it could not be resolved.
      */
-    function preProcessValidFunction(pgId, existingNetwork, resolutionStack, func) {
+    exports.TopicGraphNode.prototype.preProcessValidFunction = function(pgId, existingNetwork, resolutionStack, func) {
 
         var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
         thisResolutionStack.push(pgId);
@@ -426,7 +426,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             existingNetwork = [];
         }
 
-        switch (this.isValid(pgId, existingNetwork, thisResolutionStack)) {
+        switch (this.isValidOrProcessed(pgId, existingNetwork, thisResolutionStack)) {
             case ValidOrProcessed.INVALID:
                 return null;
             case ValidOrProcessed.PROCESSED:
@@ -438,7 +438,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     }
 
     exports.TopicGraphNode.prototype.isValidForwards = function(pgId, existingNetwork, resolutionStack) {
-        return preProcessValidFunction(
+        return this.preProcessValidFunction(
             pgId,
             existingNetwork,
             resolutionStack,
@@ -501,7 +501,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     }
 
     exports.TopicGraphNode.prototype.isValidBackwards = function (pgId, existingNetwork, resolutionStack) {
-        return preProcessValidFunction(
+        return this.preProcessValidFunction(
             pgId,
             existingNetwork,
             resolutionStack,
