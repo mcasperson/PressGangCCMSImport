@@ -555,7 +555,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                             jquery.each(nodeDetails.ids, function (index, incomingPGId) {
                                 var validIncomingNodes = nodeDetails.node.isValidForward(incomingPGId, retValue, resolutionStack);
                                 if (validIncomingNodes !== null) {
-                                    validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, retValue, resolutionStack);
+                                    validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, validIncomingNodes, resolutionStack);
                                     if (validIncomingNodes !== null) {
                                         /*
                                          We have found in incoming node topic id that works. Make a note

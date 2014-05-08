@@ -1750,7 +1750,7 @@ define(
                         jquery.each(unresolvedNode.pgIds, function (pgId, details) {
                             var network = unresolvedNode.isValidForwards(pgId);
                             if (network !== null) {
-                                network = unresolvedNode.isValidBackwards(pgId);
+                                network = unresolvedNode.isValidBackwards(pgId, network);
                                 if (network !== null) {
                                     validNodesOptions.push(network);
                                 }
