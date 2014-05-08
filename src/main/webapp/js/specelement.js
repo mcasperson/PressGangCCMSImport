@@ -401,7 +401,10 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     };
 
     exports.TopicGraphNode.prototype.isValidForwards = function (pgId, existingNetwork, resolutionStack) {
-        if (!this.isValid(pgId, existingNetwork)) {
+        var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
+        thisResolutionStack.push(pgId);
+
+        if (!this.isValid(pgId, existingNetwork, thisResolutionStack)) {
             return null;
         }
 
@@ -420,9 +423,6 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         if (existingNetwork === undefined) {
             existingNetwork = [];
         }
-
-        var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
-        thisResolutionStack.push(pgId);
 
         /*
          Add ourselves to the network as we see it
@@ -470,7 +470,10 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
     }
 
     exports.TopicGraphNode.prototype.isValidBackwards = function (pgId, existingNetwork, resolutionStack) {
-        if (!this.isValid(pgId, existingNetwork)) {
+        var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
+        thisResolutionStack.push(pgId);
+
+        if (!this.isValid(pgId, existingNetwork, thisResolutionStack)) {
             return null;
         }
 
@@ -485,9 +488,6 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         if (existingNetwork === undefined) {
             existingNetwork = [];
         }
-
-        var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
-        thisResolutionStack.push(pgId);
 
         /*
          fixedIncomingLinks should be read as a dictionary:
@@ -578,7 +578,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
      * @param existingNetwork An array that holds the nodes that were resolved to get to this point
      * @returns {Array}
      */
-    exports.TopicGraphNode.prototype.isValid = function (pgId, existingNetwork) {
+    exports.TopicGraphNode.prototype.isValid = function (pgId, existingNetwork, resolutionStack) {
         if (pgId === undefined) {
             throw "pgId should never be undefined";
         }
@@ -633,13 +633,13 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             valid request for this node is the same pgId.
          */
         var alreadyProcessed;
-        jquery.each(retValue, (function(me) {
+        jquery.each(existingNetwork, (function(me) {
             return function(index, existingNode) {
                 if (me === existingNode.node) {
                     alreadyProcessed = existingNode.assumedId === pgId;
                     if (!alreadyProcessed) {
                         console.log("This node was already processed with a different id. Trying to use " + pgId + " when the node has assumed " + existingNode.assumedId);
-                        console.log(thisForwardResolutionDebug.toString());
+                        console.log(resolutionStack.toString());
                     }
                 }
             };
