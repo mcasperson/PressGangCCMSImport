@@ -1,6 +1,12 @@
 define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports) {
     'use strict';
 
+    var ValidOrProcessed = {
+        INVALID: 0,
+        VALID: 1,
+        PROCESSED: 2
+    }
+
     exports.TopicGraph = function () {
         this.nodes = [];
         this.conatiners = [];
@@ -400,7 +406,16 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         }
     };
 
-    exports.TopicGraphNode.prototype.isValidForwards = function (pgId, existingNetwork, resolutionStack) {
+    /**
+     * This function serves as a common initialization for the isValidForwards and isValidBackwards functions.
+     * @param pgId              The id that this node is to assume
+     * @param existingNetwork   The details of any existing resolved nodes
+     * @param resolutionStack   A stack that is used to trace back invalid node assignemnts
+     * @param func              The actual logic that is to be performed in resolving this node
+     * @returns {*}             The resolved network, or nul if it could not be resolved.
+     */
+    function preProcessValidFunction(pgId, existingNetwork, resolutionStack, func) {
+
         var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
         thisResolutionStack.push(pgId);
 
@@ -411,164 +426,173 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             existingNetwork = [];
         }
 
-        if (!this.isValid(pgId, existingNetwork, thisResolutionStack)) {
-            return null;
-        }
-
-        if (this.fixedOutgoingLinks !== undefined && this.pgIds === undefined) {
-            throw "Nodes that have no possible pressgang ids define can not have any outgoing requirements";
-        }
-
-        // the nodes that make up our addition to the network
-        var retValue = existingNetwork.slice(0);
-
-        var topicGraph = this.topicGraph;
-
-
-        /*
-         Add ourselves to the network as we see it
-         */
-        retValue.push({node: this, assumedId: pgId});
-
-        /*
-         Check to see if all outgoing links are also valid. This is pretty easy
-         because each outgoing link can match only one node assuming one topic id.
-         */
-        if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
-            var outgoingRetValue = null;
-            jquery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
-                var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
-
-                if (node === undefined) {
-                    throw "All outgoing links should resolve to a topic or container.";
-                }
-
-                if (node instanceof exports.TopicGraphNode) {
-                    // if the outgoing link is another topic, we need to see if that
-                    // topic can be resolved it it assumes an id of outgoingPGId
-                    retValue = node.isValidForwards(outgoingPGId, retValue, thisResolutionStack);
-                    if (retValue !== null) {
-                        retValue = node.isValidBackwards(outgoingPGId, retValue, thisResolutionStack);
-                    }
-                } else {
-                    // if the outgoing link is a container, it needs to have the same target number
-                    if ("T" + node.targetNum !== outgoingPGId) {
-                        retValue = null;
-                    }
-                }
-
-                if (retValue === null) {
-                    return false;
-                }
-            });
-
-            if (retValue === null) {
+        switch (this.isValid(pgId, existingNetwork, thisResolutionStack)) {
+            case ValidOrProcessed.INVALID:
                 return null;
-            }
+            case ValidOrProcessed.PROCESSED:
+                return existingNetwork;
         }
 
-        return retValue;
+        return func(pgId, existingNetwork, resolutionStack);
+
+    }
+
+    exports.TopicGraphNode.prototype.isValidForwards = function(pgId, existingNetwork, resolutionStack) {
+        return preProcessValidFunction(
+            pgId,
+            existingNetwork,
+            resolutionStack,
+            function (pgId, existingNetwork, resolutionStack) {
+                if (this.fixedOutgoingLinks !== undefined && this.pgIds === undefined) {
+                    throw "Nodes that have no possible pressgang ids define can not have any outgoing requirements";
+                }
+
+                // the nodes that make up our addition to the network
+                var retValue = existingNetwork.slice(0);
+
+                var topicGraph = this.topicGraph;
+
+
+                /*
+                 Add ourselves to the network as we see it
+                 */
+                retValue.push({node: this, assumedId: pgId});
+
+                /*
+                 Check to see if all outgoing links are also valid. This is pretty easy
+                 because each outgoing link can match only one node assuming one topic id.
+                 */
+                if (this.fixedOutgoingLinks && this.fixedOutgoingLinks[pgId]) {
+                    var outgoingRetValue = null;
+                    jquery.each(this.fixedOutgoingLinks[pgId], function (outgoingXmlId, outgoingPGId) {
+                        var node = topicGraph.getNodeFromXMLId(outgoingXmlId);
+
+                        if (node === undefined) {
+                            throw "All outgoing links should resolve to a topic or container.";
+                        }
+
+                        if (node instanceof exports.TopicGraphNode) {
+                            // if the outgoing link is another topic, we need to see if that
+                            // topic can be resolved it it assumes an id of outgoingPGId
+                            retValue = node.isValidForwards(outgoingPGId, retValue, thisResolutionStack);
+                            if (retValue !== null) {
+                                retValue = node.isValidBackwards(outgoingPGId, retValue, thisResolutionStack);
+                            }
+                        } else {
+                            // if the outgoing link is a container, it needs to have the same target number
+                            if ("T" + node.targetNum !== outgoingPGId) {
+                                retValue = null;
+                            }
+                        }
+
+                        if (retValue === null) {
+                            return false;
+                        }
+                    });
+
+                    if (retValue === null) {
+                        return null;
+                    }
+                }
+
+                return retValue;
+            }
+        );
     }
 
     exports.TopicGraphNode.prototype.isValidBackwards = function (pgId, existingNetwork, resolutionStack) {
-        var thisResolutionStack = resolutionStack === undefined ? [] : resolutionStack.slice(0);
-        thisResolutionStack.push(pgId);
+        return preProcessValidFunction(
+            pgId,
+            existingNetwork,
+            resolutionStack,
+            function (pgId, existingNetwork, resolutionStack) {
 
-        /*
-         By default there is no existing network
-         */
-        if (existingNetwork === undefined) {
-            existingNetwork = [];
-        }
+                // the nodes that make up our addition to the network
+                var retValue = existingNetwork.slice(0);
 
-        if (!this.isValid(pgId, existingNetwork, thisResolutionStack)) {
-            return null;
-        }
+                var topicGraph = this.topicGraph;
 
-        // the nodes that make up our addition to the network
-        var retValue = existingNetwork.slice(0);
-
-        var topicGraph = this.topicGraph;
-
-        /*
-         fixedIncomingLinks should be read as a dictionary:
-         key:            one of the possible ids that this node can take
-         object:         array of incoming node definitions
-         [
-         object.ids:     all the potential ids the incoming node can have
-         object.node:    the incoming node itself
-         ]
-
-         Testing incoming links is a little more work, because a node can link to this node
-         from multiple existing topic ids.
-
-         So we need to loop over each node with an incoming link, and then loop over every
-         topic id it can assume trying to find one that works best.
-         */
-        if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
-            var incomingRetValue = true;
-            /*
-             get all the incoming node details for this topic at the particular id it
-             is being tested against
-             */
-            jquery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
                 /*
-                 It is possible that our backwards links have already been resolved, so
-                 don't try to resolve them again.
+                 fixedIncomingLinks should be read as a dictionary:
+                 key:            one of the possible ids that this node can take
+                 object:         array of incoming node definitions
+                 [
+                 object.ids:     all the potential ids the incoming node can have
+                 object.node:    the incoming node itself
+                 ]
+
+                 Testing incoming links is a little more work, because a node can link to this node
+                 from multiple existing topic ids.
+
+                 So we need to loop over each node with an incoming link, and then loop over every
+                 topic id it can assume trying to find one that works best.
                  */
-                var alreadyResolved = false;
-                jquery.each(retValue, function(index, validNode) {
-                    if (nodeDetails.node === validNode.node) {
-                        alreadyResolved = true;
-                        return false;
-                    }
-                });
-
-                if (!alreadyResolved) {
+                if (this.fixedIncomingLinks && this.fixedIncomingLinks[pgId]) {
+                    var incomingRetValue = true;
                     /*
-                     Test every possible id that the incoming node could be looking for one
-                     that works the best.
+                     get all the incoming node details for this topic at the particular id it
+                     is being tested against
                      */
-                    var validIncomingNodesOptions = [];
-                    jquery.each(nodeDetails.ids, function (index, incomingPGId) {
-                        var validIncomingNodes = nodeDetails.node.isValidForward(incomingPGId, retValue, thisResolutionStack);
-                        if (validIncomingNodes !== null) {
-                            validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, retValue, thisResolutionStack);
-                            if (validIncomingNodes !== null) {
-                                /*
-                                 We have found in incoming node topic id that works. Make a note
-                                 of it so we can test each possible xref graph to see which
-                                 one included the most topics.
-                                 */
-                                validIncomingNodesOptions.push(validIncomingNodes);
+                    jquery.each(this.fixedIncomingLinks[pgId], function (index, nodeDetails) {
+                        /*
+                         It is possible that our backwards links have already been resolved, so
+                         don't try to resolve them again.
+                         */
+                        var alreadyResolved = false;
+                        jquery.each(retValue, function (index, validNode) {
+                            if (nodeDetails.node === validNode.node) {
+                                alreadyResolved = true;
+                                return false;
                             }
+                        });
+
+                        if (!alreadyResolved) {
+                            /*
+                             Test every possible id that the incoming node could be looking for one
+                             that works the best.
+                             */
+                            var validIncomingNodesOptions = [];
+                            jquery.each(nodeDetails.ids, function (index, incomingPGId) {
+                                var validIncomingNodes = nodeDetails.node.isValidForward(incomingPGId, retValue, thisResolutionStack);
+                                if (validIncomingNodes !== null) {
+                                    validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, retValue, thisResolutionStack);
+                                    if (validIncomingNodes !== null) {
+                                        /*
+                                         We have found in incoming node topic id that works. Make a note
+                                         of it so we can test each possible xref graph to see which
+                                         one included the most topics.
+                                         */
+                                        validIncomingNodesOptions.push(validIncomingNodes);
+                                    }
+                                }
+                            });
+
+                            /*
+                             We found no valid xref graph configurations, so exit the loop.
+                             */
+                            if (validIncomingNodesOptions.length === 0) {
+                                incomingRetValue = false;
+                                return false;
+                            }
+
+                            var mostSuccess = null;
+                            jquery.each(validIncomingNodesOptions, function (index, validIncomingNodesOption) {
+                                if (mostSuccess === null || validIncomingNodesOption.length > mostSuccess.length) {
+                                    mostSuccess = validIncomingNodesOption;
+                                }
+                            });
+
+                            retValue = mostSuccess;
                         }
                     });
 
-                    /*
-                     We found no valid xref graph configurations, so exit the loop.
-                     */
-                    if (validIncomingNodesOptions.length === 0) {
-                        incomingRetValue = false;
-                        return false;
+                    if (!incomingRetValue) {
+                        // because we couldn't find a valid xref graph using the incoming links.
+                        return null;
                     }
-
-                    var mostSuccess = null;
-                    jquery.each(validIncomingNodesOptions, function(index, validIncomingNodesOption){
-                        if (mostSuccess === null || validIncomingNodesOption.length > mostSuccess.length) {
-                            mostSuccess = validIncomingNodesOption;
-                        }
-                    });
-
-                    retValue = mostSuccess;
                 }
-            });
-
-            if (!incomingRetValue) {
-                // because we couldn't find a valid xref graph using the incoming links.
-                return null;
             }
-        }
+        );
     }
 
     /**
@@ -577,9 +601,9 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
      * to assumedId which be used as the id of the topic. If not, this will return null.
      * @param pgId The id that we want to assign to this topic
      * @param existingNetwork An array that holds the nodes that were resolved to get to this point
-     * @returns boolean
+     * @returns
      */
-    exports.TopicGraphNode.prototype.isValid = function (pgId, existingNetwork, resolutionStack) {
+    exports.TopicGraphNode.prototype.isValidOrProcessed = function (pgId, existingNetwork, resolutionStack) {
         if (pgId === undefined) {
             throw "pgId should never be undefined";
         }
@@ -592,7 +616,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             We have already resolved this topic to a different id, so we can't match it again.
          */
         if (this.topicId !== undefined && this.topicId !== pgId) {
-            return false;
+            return ValidOrProcessed.INVALID;
         }
 
         // pgIds being undefined means that this node will be saved as a new topic
@@ -611,7 +635,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             console.log("An attempt was made to resolve " + ids + " but it had no matches to existing topics.");
 
             // because we expected this topic to have an existing id and it didn't
-            return false;
+            return ValidOrProcessed.INVALID;
         }
 
         // test that the supplied PG ID one of the possible values we have
@@ -626,7 +650,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         if (!valid) {
             // because the supplied topic id was not in the list of ids for this topic
             console.log(pgId + " was not in the list of existing topics. Options were " + this.pgIds.toString());
-            return false;
+            return ValidOrProcessed.INVALID;
         }
 
         /*
@@ -651,13 +675,13 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
             // network with no changes. If this topic is being requested with a new pgid,
             // return null because that is not valid.
             if (alreadyProcessed === true) {
-                return retValue;
+                return ValidOrProcessed.PROCESSED;
             }
 
-            return false;
+            return ValidOrProcessed.INVALID;
         }
 
-        return true;
+        return ValidOrProcessed.VALID;
     };
 
 });
