@@ -1723,54 +1723,89 @@ define(
                  */
                 function resolveXrefs (xmlDoc, contentSpec, topics, topicGraph) {
                     /*
-                     Return a node without a topic ID (which means it hasn't been resolved) and
+                     Return alls nodes without a topic ID (which means it hasn't been resolved) and
                      outgoing or incoming links (which means it is part of a xref graph).
                      */
                     function getUnresolvedNodeWithOutboundXrefs() {
-                        var retValue = null;
+                        var retValue = [];
                         jquery.each(topics, function (index, topic) {
                             if (topic.topicId === undefined &&
                                 topic.pgIds !== undefined &&
                                 topic.fixedOutgoingLinks !== undefined) {
-                                retValue = topic;
-                                return false;
+                                retValue.push(topic);
                             }
                         });
                         return retValue;
                     }
 
-                    var unresolvedNode;
-                    while ((unresolvedNode = getUnresolvedNodeWithOutboundXrefs()) !== null) {
-                        /*
-                         Loop through each possible topic id that this topic could be
-                         and see if all other nodes in the xref graph are also valid with
-                         this configuration.
-                         */
-                        var validNodesOptions = [];
-                        jquery.each(unresolvedNode.pgIds, function (pgId, details) {
-                            var network = unresolvedNode.isValidForwards(pgId);
-                            if (network !== null) {
-                                network = unresolvedNode.isValidBackwards(pgId, network);
+                    /*
+                        Loop through the list of unresolved nodes, find the largest graph that can be resolved
+                        from each of them, assign the topic ids to the nodes in that graph, and repeat until
+                        we have no more topics with resolvable graphs.
+
+                        TODO: this really should assign the topic ids to the largest isolated graphs instead of
+                        recalculating them each time.
+
+                     */
+                    var unresolvedNodes = null;
+                    while ((unresolvedNodes = getUnresolvedNodeWithOutboundXrefs()).length !== 0) {
+                        var biggestGraph = null;
+                        jquery.each(unresolvedNodes, function (index, unresolvedNode) {
+                            /*
+                             Loop through each possible topic id that this topic could be
+                             and see if all other nodes in the xref graph are also valid with
+                             this configuration.
+                             */
+                            var validNodesOptions = [];
+                            jquery.each(unresolvedNode.pgIds, function (pgId, details) {
+                                var network = unresolvedNode.isValidForwards(pgId);
                                 if (network !== null) {
                                     validNodesOptions.push(network);
                                 }
-                            }
-                        });
-
-                        if (validNodesOptions.length !== 0) {
-
-                            var mostSuccess = undefined;
-                            jquery.each(validNodesOptions, function(index, validNodesOption){
-                                if (mostSuccess === undefined || validNodesOption.length > mostSuccess.length) {
-                                    mostSuccess = validNodesOption;
-                                }
                             });
 
+                            if (validNodesOptions.length !== 0) {
+
+                                var mostSuccess = undefined;
+                                jquery.each(validNodesOptions, function (index, validNodesOption) {
+                                    if (mostSuccess === undefined || validNodesOption.length > mostSuccess.length) {
+                                        mostSuccess = validNodesOption;
+                                    }
+                                });
+
+                                if (biggestGraph == null || mostSuccess.length > biggestGraph.length) {
+                                    biggestGraph = mostSuccess;
+                                }
+                            } else {
+                                /*
+                                 We could not find a valid xref graph with the possible existing matches,
+                                 so set all the topic ids to -1 to indicate that these topics have to be created
+                                 new.
+                                 */
+
+                                if (unresolvedNode.topicId !== undefined) {
+                                    throw "We should not be able to set the topic id twice";
+                                }
+
+                                unresolvedNode.setTopicId(-1);
+                                config.UploadedTopicCount += 1;
+
+                            }
+
+                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
+
+                            resultCallback();
+                        });
+
+                        /*
+                            It is possible that none of the graphs could be resolved, in which case biggestGraph is null
+                         */
+                        if (biggestGraph !== null) {
                             /*
                              Every topic in this xref graph is valid with an existing topic id,
                              so set the topicId to indicate that these nodes have been resolved.
                              */
-                            jquery.each(mostSuccess, function (index, topic) {
+                            jquery.each(biggestGraph, function (index, topic) {
                                 if (topic.node.topicId !== undefined) {
                                     throw "We should not be able to set the topic id twice";
                                 }
@@ -1780,28 +1815,7 @@ define(
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
                             });
-                        } else {
-                            /*
-                             We could not find a valid xref graph with the possible existing matches,
-                             so set all the topic ids to -1 to indicate that these topics have to be created
-                             new.
-                             */
-                            var unresolvedNetwork = [];
-                            unresolvedNode.getUnresolvedGraph(unresolvedNetwork);
-
-                            jquery.each(unresolvedNetwork, function (index, topic) {
-                                if (topic.topicId !== undefined) {
-                                    throw "We should not be able to set the topic id twice";
-                                }
-
-                                topic.setTopicId(-1);
-                                config.UploadedTopicCount += 1;
-                            });
                         }
-
-                        config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
-
-                        resultCallback();
                     }
 
                     /*
