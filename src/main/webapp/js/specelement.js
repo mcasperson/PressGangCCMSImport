@@ -576,7 +576,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
      * to assumedId which be used as the id of the topic. If not, this will return null.
      * @param pgId The id that we want to assign to this topic
      * @param existingNetwork An array that holds the nodes that were resolved to get to this point
-     * @returns {Array}
+     * @returns boolean
      */
     exports.TopicGraphNode.prototype.isValid = function (pgId, existingNetwork, resolutionStack) {
         if (pgId === undefined) {
@@ -655,6 +655,8 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
 
             return false;
         }
+
+        return true;
     };
 
 });
