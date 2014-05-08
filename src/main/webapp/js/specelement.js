@@ -496,7 +496,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                 }
 
                 return retValue;
-            }
+            }.bind(this)
         );
     }
 
@@ -591,7 +591,7 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                         return null;
                     }
                 }
-            }
+            }.bind(this)
         );
     }
 
