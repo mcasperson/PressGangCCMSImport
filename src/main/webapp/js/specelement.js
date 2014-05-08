@@ -474,9 +474,9 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                         if (node instanceof exports.TopicGraphNode) {
                             // if the outgoing link is another topic, we need to see if that
                             // topic can be resolved it it assumes an id of outgoingPGId
-                            retValue = node.isValidForwards(outgoingPGId, retValue, thisResolutionStack);
+                            retValue = node.isValidForwards(outgoingPGId, retValue, resolutionStack);
                             if (retValue !== null) {
-                                retValue = node.isValidBackwards(outgoingPGId, retValue, thisResolutionStack);
+                                retValue = node.isValidBackwards(outgoingPGId, retValue, resolutionStack);
                             }
                         } else {
                             // if the outgoing link is a container, it needs to have the same target number
@@ -553,9 +553,9 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                              */
                             var validIncomingNodesOptions = [];
                             jquery.each(nodeDetails.ids, function (index, incomingPGId) {
-                                var validIncomingNodes = nodeDetails.node.isValidForward(incomingPGId, retValue, thisResolutionStack);
+                                var validIncomingNodes = nodeDetails.node.isValidForward(incomingPGId, retValue, resolutionStack);
                                 if (validIncomingNodes !== null) {
-                                    validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, retValue, thisResolutionStack);
+                                    validIncomingNodes = nodeDetails.node.isValidBackwards(incomingPGId, retValue, resolutionStack);
                                     if (validIncomingNodes !== null) {
                                         /*
                                          We have found in incoming node topic id that works. Make a note
@@ -591,6 +591,8 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
                         return null;
                     }
                 }
+
+                return retValue;
             }.bind(this)
         );
     }
