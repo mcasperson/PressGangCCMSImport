@@ -469,7 +469,8 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
 
         if (!valid) {
             // because the supplied topic id was not in the list of ids for this topic
-            console.log(pgId + " was not in the list of existing topics. Options were " + this.pgIds.join());
+            var pgIdsString = this.pgIds.join();
+            console.log(pgId + " was not in the list of existing topics. Options were " + pgIdsString);
             return ValidOrProcessed.INVALID;
         }
 
