@@ -616,7 +616,7 @@ define(
 
                                 if (result) {
                                     var resultObject = JSON.parse(result);
-                                    rules = getHeadingRulesText(resultObject.fontRules);
+                                    rules = getHeadingRulesText(resultObject.fontHeadingRules);
                                 } else {
                                     rules = getHeadingRulesText();
                                 }
