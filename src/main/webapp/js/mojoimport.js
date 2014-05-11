@@ -745,7 +745,11 @@ define(
                                     newTitle = "Untitled";
                                 }
 
-                                newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "");
+                                /*
+                                    It is important to trim the title, because it will be trimmed when saved to the
+                                    server, and extra spaces will cause topics to not be reused.
+                                */
+                                newTitle = newTitle.replace(/^(\d+)(\.\d+)*\.?\s*/, "").trim();
 
                                 setTimeout(function() {
                                     processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, initialText, successCallback);
