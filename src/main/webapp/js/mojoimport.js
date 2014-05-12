@@ -625,7 +625,7 @@ define(
                                 /*
                                     We never jump more than one level
                                  */
-                                if (newOutlineLevel + 1 > currentLevel) {
+                                if (newOutlineLevel > currentLevel + 1) {
                                     newOutlineLevel = currentLevel + 1;
                                 }
 
