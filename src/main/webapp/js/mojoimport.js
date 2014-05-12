@@ -112,33 +112,46 @@ define(
 
                 var progressIncrement = 100 / 4;
 
-                var resultObject = JSON.parse(result) || {contentSpec:[] };
-
-                resultObject.contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
-                resultObject.contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                if (config.ContentSpecVersion) {
-                    resultObject.contentSpec.push("Version = " + config.ContentSpecVersion);
-                }
-                resultObject.contentSpec.push("Format = DocBook 4.5");
+                var resultObject = JSON.parse(result) || {};
 
                 /*
-                 These metadata elements are optional
+                 The lines that make up the metadata in the spec
                  */
-                if (config.ContentSpecSubtitle !== undefined) {
-                    resultObject.contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
-                }
-                if (config.ContentSpecEdition !== undefined) {
-                    resultObject.contentSpec.push("Edition = " + config.ContentSpecEdition);
-                }
-                if (config.ContentSpecCopyrightHolder !== undefined) {
-                    resultObject.contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
-                }
-                if (config.ContentSpecBrand !== undefined) {
-                    // this is the value specified in the ui
-                    resultObject.contentSpec.push("Brand = " + config.ContentSpecBrand);
+                var contentSpecMetadata = [];
+                /*
+                 The lines taht make up the content of the spec
+                 */
+                var contentSpec = [];
+
+                function populateSpecMetaData(config, container) {
+                    container.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                    container.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                    if (config.ContentSpecVersion) {
+                        container.push("Version = " + config.ContentSpecVersion);
+                    }
+                    container.push("Format = DocBook 4.5");
+
+                    /*
+                     These metadata elements are optional
+                     */
+                    if (config.ContentSpecSubtitle !== undefined) {
+                        container.push("Subtitle = " + config.ContentSpecSubtitle);
+                    }
+                    if (config.ContentSpecEdition !== undefined) {
+                        container.push("Edition = " + config.ContentSpecEdition);
+                    }
+                    if (config.ContentSpecCopyrightHolder !== undefined) {
+                        container.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                    }
+                    if (config.ContentSpecBrand !== undefined) {
+                        // this is the value specified in the ui
+                        container.push("Brand = " + config.ContentSpecBrand);
+                    }
+
+                    container.push("# Imported from " + config.MojoURL);
                 }
 
-                resultObject.contentSpec.push("# Imported from " + config.MojoURL);
+                populateSpecMetaData(config, contentSpecMetadata);
 
                 /*
                  Initialize some config values
@@ -179,37 +192,32 @@ define(
                                                     This is a child of an existing container. Add it as a regular topic.
                                                  */
                                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                                resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                                contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                             } else {
                                                 /*
                                                     This is a chapter with a initial text topic
                                                  */
-                                                resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             }
                                         } else {
-                                            resultObject.contentSpec.push("Type = Article");
-                                            resultObject.contentSpec.push("Initial Text:");
-                                            resultObject.contentSpec.push("  " + qnastart.escapeSpecTitle(title));
+                                            contentSpecMetadata.push("Type = Article");
+                                            contentSpec.push("Initial Text:");
+                                            contentSpec.push("  " + qnastart.escapeSpecTitle(title));
                                         }
-                                        generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                        generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                     } else {
                                         /*
                                             We have collected nothing. This is an empty topic, and we need to unwind any
                                             toc levels that were added for this topic
                                          */
-
-                                        while (resultObject.contentSpec.length !== 0) {
-                                            var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
+                                        while (contentSpec.length !== 0) {
+                                            var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
                                             if (specElementTopic === undefined) {
-                                                var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
-                                                resultObject.contentSpec.pop();
+                                                var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
+                                                contentSpec.pop();
                                             } else {
                                                 break;
                                             }
-                                        }
-
-                                        if (resultObject.contentSpec.length === 0) {
-                                            throw "The entire content spec was unwound. This should not have happened.";
                                         }
                                     }
 
@@ -386,7 +394,7 @@ define(
                             };
 
                             var processPara = function (content, contentNode, imageLinks) {
-                                var contentNodeText = convertNodeToDocbook(contentNode, true, imageLinks);
+                                var contentNodeText = convertNodeToDocbook(contentNode, config.WrapFormattedText, imageLinks);
 
                                 var hasContent = false;
                                 jquery.each(contentNodeText, function(index, value) {
@@ -450,7 +458,7 @@ define(
 
                                             ++currentColumn;
 
-                                            var cellContents = convertNodeToDocbook(cell, true, imageLinks);
+                                            var cellContents = convertNodeToDocbook(cell, config.WrapFormattedText, imageLinks);
                                             // nested tables need to be handled specially
                                             if (cellContents.length !== 0 && /^<table/.test(cellContents[0])) {
                                                 var nestedMaxCols = /cols='(\d+)'>/.exec(cellContents[0])[1];
@@ -519,7 +527,7 @@ define(
 
                                                 jquery.each(ths, function(index, td) {
                                                     content.push("<entry>");
-                                                    jquery.merge(content, convertNodeToDocbook(td, true, imageLinks));
+                                                    jquery.merge(content, convertNodeToDocbook(td, config.WrapFormattedText, imageLinks));
                                                     content.push("</entry>");
                                                 });
 
@@ -565,7 +573,7 @@ define(
 
                                 var listContent = [];
                                 jquery.each(listItems, function(key, listItem) {
-                                    var listitemText = convertNodeToDocbook(listItem, true, imageLinks);
+                                    var listitemText = convertNodeToDocbook(listItem, config.WrapFormattedText, imageLinks);
 
                                     if (listitemText.length !== 0) {
 
@@ -644,26 +652,26 @@ define(
                                     */
 
                                     if (currentLevel === 1) {
-                                        resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                        contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
-                                        resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+                                        contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                     }
                                 } else if (thisTopicHasContent) {
                                     if (currentLevel === 1) {
-                                        resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                        contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     } else {
                                         /*
                                             Does the topic now being built exist under this one? If so, this topic is
                                              a container. If not, it is just a topic.
                                          */
                                         if (newOutlineLevel > currentLevel) {
-                                            resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+                                            contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                         } else {
-                                            resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                            contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                         }
                                     }
 
-                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                 } else {
                                     /*
                                         If the discarded topic was supposed to a child of the container
@@ -671,8 +679,8 @@ define(
                                         previous topic will need to be changed from a container to a topic.
                                     */
                                     if (!nextTopicIsChildOfLastLevel) {
-                                        resultObject.contentSpec[resultObject.contentSpec.length - 1] =
-                                            resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
+                                        contentSpec[contentSpec.length - 1] =
+                                            contentSpec[contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
 
                                         /*
                                          We want to unwind any containers without front matter topics that were
@@ -682,11 +690,11 @@ define(
                                          that is not an ancestor of the next topic will be poped off the stack.
                                          */
                                         if (currentLevel > 1) {
-                                            while (resultObject.contentSpec.length !== 0) {
-                                                var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
+                                            while (contentSpec.length !== 0) {
+                                                var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
                                                 if (specElementTopic === undefined) {
-                                                    var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
-                                                    resultObject.contentSpec.pop();
+                                                    var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
+                                                    contentSpec.pop();
                                                     /*
                                                         Level is the number of spaces divided by 2, because there are
                                                         2 spaces used for an indent
@@ -699,7 +707,7 @@ define(
                                                 }
                                             }
 
-                                            if (resultObject.contentSpec.length === 0) {
+                                            if (contentSpec.length === 0) {
                                                 throw "The entire content spec was unwound. This should not have happened.";
                                             }
                                         }
@@ -889,12 +897,12 @@ define(
                             resultCallback();
 
                             jquery.each(topicGraph.nodes, function (index, topic) {
-                                resultObject.contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                                contentSpec[topic.specLine] += " [" + topic.topicId + "]";
 
                             });
 
                             var spec = "";
-                            jquery.each(resultObject.contentSpec, function(index, value) {
+                            jquery.each(contentSpec, function(index, value) {
                                 console.log(value);
                                 spec += value + "\n";
                             });

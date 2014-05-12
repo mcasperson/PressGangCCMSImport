@@ -739,52 +739,57 @@ define(
                 /*
                     The lines taht make up the content of the spec
                  */
-                var contentSpec = []
+                var contentSpec = [];
 
-                contentSpecMetadata.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
-                contentSpecMetadata.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                if (config.ContentSpecVersion) {
-                    contentSpecMetadata.push("Version = " + config.ContentSpecVersion);
-                }
-                contentSpecMetadata.push("Format = DocBook 4.5");
+                function populateSpecMetaData(config, container) {
 
-                /*
-                 These metadata elements are optional
-                 */
-                if (config.ContentSpecSubtitle !== undefined) {
-                    contentSpecMetadata.push("Subtitle = " + config.ContentSpecSubtitle);
-                }
-                if (config.ContentSpecEdition !== undefined) {
-                    contentSpecMetadata.push("Edition = " + config.ContentSpecEdition);
-                }
-                if (config.ContentSpecCopyrightHolder !== undefined) {
-                    contentSpecMetadata.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
-                }
-                if (config.ContentSpecBrand !== undefined) {
-                    // this is the value specified in the ui
-                    contentSpecMetadata.push("Brand = " + config.ContentSpecBrand);
+                    container.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                    container.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                    if (config.ContentSpecVersion) {
+                        container.push("Version = " + config.ContentSpecVersion);
+                    }
+                    container.push("Format = DocBook 4.5");
+
+                    /*
+                     These metadata elements are optional
+                     */
+                    if (config.ContentSpecSubtitle !== undefined) {
+                        container.push("Subtitle = " + config.ContentSpecSubtitle);
+                    }
+                    if (config.ContentSpecEdition !== undefined) {
+                        container.push("Edition = " + config.ContentSpecEdition);
+                    }
+                    if (config.ContentSpecCopyrightHolder !== undefined) {
+                        container.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                    }
+                    if (config.ContentSpecBrand !== undefined) {
+                        // this is the value specified in the ui
+                        container.push("Brand = " + config.ContentSpecBrand);
+                    }
+
+                    container.push("# Imported from " + config.OdtFile.name);
+
+                    /*
+                     Add any rules that were defined when parsing this book
+                     */
+                    var rulesLines = getRulesText(resultObject.fontRules).split("<br/>");
+                    if (rulesLines.length !== 0) {
+                        contentSpecMetadata.push("# Content matching rules used while importing this document");
+                        jquery.each(rulesLines, function (index, value) {
+                            container.push("# " + value);
+                        });
+                    }
+
+                    var headingRulesLines = getHeadingRulesText(resultObject.fontHeadingRules).split("<br/>");
+                    if (headingRulesLines.length !== 0) {
+                        contentSpecMetadata.push("# Heading matching rules used while importing this document");
+                        jquery.each(headingRulesLines, function (index, value) {
+                            container.push("# " + value);
+                        });
+                    }
                 }
 
-                contentSpecMetadata.push("# Imported from " + config.OdtFile.name);
-    
-                /*
-                    Add any rules that were defined when parsing this book
-                 */
-                var rulesLines = getRulesText(resultObject.fontRules).split("<br/>");
-                if (rulesLines.length !== 0) {
-                    contentSpecMetadata.push("# Content matching rules used while importing this document");
-                    jquery.each(rulesLines, function (index, value) {
-                        contentSpecMetadata.push("# " + value);
-                    });
-                }
-
-                var headingRulesLines = getHeadingRulesText(resultObject.fontHeadingRules).split("<br/>");
-                if (headingRulesLines.length !== 0) {
-                    contentSpecMetadata.push("# Heading matching rules used while importing this document");
-                    jquery.each(headingRulesLines, function (index, value) {
-                        contentSpecMetadata.push("# " + value);
-                    });
-                }
+                populateSpecMetaData(config, contentSpecMetadata);
     
                 /*
                  Initialize some config values
@@ -968,6 +973,14 @@ define(
                         return content;
                     };
 
+                    var addContentToArray = function(content, array, inline) {
+                        if (!inline || array.length === 0) {
+                            array.push(content);
+                        } else {
+                            array[array.length - 1] = array[array.length -1] + content;
+                        }
+                    };
+
                     /*
                      Expand the text:s elements and remarks.
                      */
@@ -1016,15 +1029,19 @@ define(
                                     jquery.merge(customContainerContent, processRemark(childNode));
                                 } else if (childNode.nodeName === "text:a") {
                                     var href = childNode.getAttribute("xlink:href");
+                                    var text = "";
                                     if (href !== null) {
-                                        customContainerContent.push('<ulink url="' + href + '">' + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + '</ulink>');
+                                        text = '<ulink url="' + href + '">' + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + '</ulink>';
                                     } else {
-                                        customContainerContent.push(qnautils.escapeXMLSpecialCharacters(childNode.textContent));
+                                        text = qnautils.escapeXMLSpecialCharacters(childNode.textContent);
                                     }
+                                    addContentToArray(text, customContainerContent, true);
                                 } else if (childNode.nodeName === "draw:image") {
                                     jquery.merge(customContainerContent, processDraw(childNode));
+                                } else if (childNode.nodeName === "text:span") {
+                                    addContentToArray(childNode.textContent, customContainerContent, true);
                                 } else {
-                                    jquery.merge(customContainerContent, convertNodeToDocbook(childNode));
+                                    jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis));
                                 }
                             }
                         }
@@ -1433,16 +1450,20 @@ define(
                                     }
                                 }
                             } else {
-                                var paraContents = fixNestedParas(convertNodeToDocbook(contentNode, true));
+                                /*
+                                 This is a paragraph made up of multiple styles of spans. There is no
+                                 reliable way to map the different styles to docbook elements. The
+                                 next best thing is to use the <emphasis> element to highlight
+                                 any span that is bold, underlined or italicised. The author can then
+                                 review any highlighted text and change the <emphasis> to a more
+                                 appropriate tag.
+
+                                 Setting the emphasis parameter to true will wrap any formatted text
+                                 in an <emphasis> element.
+                                 */
+                                var paraContents = fixNestedParas(convertNodeToDocbook(contentNode, config.WrapFormattedText));
                                 if (paraContents.length !== 0) {
-                                    /*
-                                     This is a paragraph made up of multiple styles of spans. There is no
-                                     reliable way to map the different styles to docbook elements. The
-                                     next best thing is to use the <emphasis> element to highlight
-                                     any span that is bold, underlined or italicised. The author can then
-                                     review any highlighted text and change the <emphasis> to a more
-                                     appropriate tag.
-                                     */
+
                                     content.push("<para>");
                                     jquery.merge(content, paraContents);
                                     content.push("</para>");
@@ -1665,19 +1686,17 @@ define(
                                  So any line added to the spec that doesn't have an associated topic and
                                  that is not an ancestor of the next topic will be poped off the stack.
                                  */
-                                if (currentLevel > 1) {
-                                    while (contentSpec.length !== 0) {
-                                        var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
-                                        if (specElementTopic === undefined) {
-                                            var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
-                                            if (specElementLevel[1].length === newOutlineLevel - 2) {
-                                                break;
-                                            } else {
-                                                contentSpec.pop();
-                                            }
-                                        } else {
+                                while (contentSpec.length !== 0) {
+                                    var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
+                                    if (specElementTopic === undefined) {
+                                        var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
+                                        if (specElementLevel[1].length === newOutlineLevel - 2) {
                                             break;
+                                        } else {
+                                            contentSpec.pop();
                                         }
+                                    } else {
+                                        break;
                                     }
                                 }
                             }

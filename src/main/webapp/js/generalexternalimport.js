@@ -102,6 +102,27 @@ define(
                 ]
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(getSpecDetails);
+            });
+
+        var getSpecDetails = new qna.QNAStep()
+            .setTitle("Wrap formatted text in <emphasis> elements?")
+            .setIntro("DocBook does not directly define how content should be presented. \
+                However, the source material may contain formatted content like bold, underlined or italicized text. \
+                This text can be optionally wrapped in the DocBook <emphasis> element as a way of indicating that it has some significance.")
+            .setInputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.CHECKBOX)
+                                .setIntro("Wrap formatted text in <emphasis>")
+                                .setName("WrapFormattedText")
+                                .setValue(false)
+                        ])
+                ]
+            )
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
                 if (config.ImportOption === "OpenDocument") {
                     resultCallback(opendocumentimport.askForOpenDocumentFile);
                 } else if (config.ImportOption === "Mojo") {
