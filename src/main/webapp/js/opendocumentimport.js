@@ -372,7 +372,7 @@ define(
                     }
     
                     resultObject.fontRules.push(fontRule);
-                    resultObject.contentSpec = [];
+
     
                     config.FontName = null;
                     config.FontSize = null;
@@ -509,6 +509,10 @@ define(
                 }
 
                 if (config.FontSize) {
+                    if (!/\d+(pt|mm)/.test(config.FontSize.trim())) {
+                        errorCallback("Incomplete form", "Font sizes need to be in pt or mm e.g. 12pt or 14mm.");
+                        return;
+                    }
                     atLeastOneRule = true;
                     fontRule.setSize(config.FontSize);
                 }
@@ -542,7 +546,6 @@ define(
                     }
 
                     resultObject.fontHeadingRules.push(fontRule);
-                    resultObject.contentSpec = [];
 
                     config.FontName = null;
                     config.FontSize = null;
@@ -671,50 +674,59 @@ define(
     
                 var progressIncrement = 100 / 4;
 
-                var resultObject = JSON.parse(result) || {contentSpec: []};
+                var resultObject = JSON.parse(result) || {};
 
-                resultObject.contentSpec.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
-                resultObject.contentSpec.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
+                /*
+                    The lines that make up the metadata in the spec
+                 */
+                var contentSpecMetadata = [];
+                /*
+                    The lines taht make up the content of the spec
+                 */
+                var contentSpec = []
+
+                contentSpecMetadata.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
+                contentSpecMetadata.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
                 if (config.ContentSpecVersion) {
-                    resultObject.contentSpec.push("Version = " + config.ContentSpecVersion);
+                    contentSpecMetadata.push("Version = " + config.ContentSpecVersion);
                 }
-                resultObject.contentSpec.push("Format = DocBook 4.5");
+                contentSpecMetadata.push("Format = DocBook 4.5");
 
                 /*
                  These metadata elements are optional
                  */
                 if (config.ContentSpecSubtitle !== undefined) {
-                    resultObject.contentSpec.push("Subtitle = " + config.ContentSpecSubtitle);
+                    contentSpecMetadata.push("Subtitle = " + config.ContentSpecSubtitle);
                 }
                 if (config.ContentSpecEdition !== undefined) {
-                    resultObject.contentSpec.push("Edition = " + config.ContentSpecEdition);
+                    contentSpecMetadata.push("Edition = " + config.ContentSpecEdition);
                 }
                 if (config.ContentSpecCopyrightHolder !== undefined) {
-                    resultObject.contentSpec.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
+                    contentSpecMetadata.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
                 }
                 if (config.ContentSpecBrand !== undefined) {
                     // this is the value specified in the ui
-                    resultObject.contentSpec.push("Brand = " + config.ContentSpecBrand);
+                    contentSpecMetadata.push("Brand = " + config.ContentSpecBrand);
                 }
 
-                resultObject.contentSpec.push("# Imported from " + config.OdtFile.name);
+                contentSpecMetadata.push("# Imported from " + config.OdtFile.name);
     
                 /*
                     Add any rules that were defined when parsing this book
                  */
                 var rulesLines = getRulesText(resultObject.fontRules).split("<br/>");
                 if (rulesLines.length !== 0) {
-                    resultObject.contentSpec.push("# Content matching rules used while importing this document");
+                    contentSpecMetadata.push("# Content matching rules used while importing this document");
                     jquery.each(rulesLines, function (index, value) {
-                        resultObject.contentSpec.push("# " + value);
+                        contentSpecMetadata.push("# " + value);
                     });
                 }
 
                 var headingRulesLines = getHeadingRulesText(resultObject.fontHeadingRules).split("<br/>");
                 if (headingRulesLines.length !== 0) {
-                    resultObject.contentSpec.push("# Heading matching rules used while importing this document");
+                    contentSpecMetadata.push("# Heading matching rules used while importing this document");
                     jquery.each(headingRulesLines, function (index, value) {
-                        resultObject.contentSpec.push("# " + value);
+                        contentSpecMetadata.push("# " + value);
                     });
                 }
     
@@ -758,12 +770,12 @@ define(
                                         if (index >= contentNodes.length) {
                                             if (content.length !== 0) {
                                                 if (outlineLevel === 1) {
-                                                    resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
-                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                    contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                                 } else {
                                                     var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                                    resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                                    contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                                 }
                                             }
 
@@ -1054,37 +1066,49 @@ define(
                                             var style = contentXmlStyle !== null ? contentXmlStyle : stylesXmlStyle;
 
                                             if (style) {
+
+                                                var thisFontRule = new fontrule.FontRule();
+
                                                 var fontName = qnautils.xPath(".//@style:font-name", style).iterateNext();
-                                                if (fontRule.font === undefined) {
-                                                    if (fontName !== null) {
+
+                                                if (fontName !== null) {
+                                                    thisFontRule.font = fontName.nodeValue;
+                                                    if (fontRule.font === undefined) {
                                                         fontRule.font = fontName.nodeValue;
                                                     }
                                                 }
 
                                                 var fontSize = qnautils.xPath(".//@fo:font-size", style).iterateNext();
-                                                if (fontRule.size === undefined) {
-                                                    if (fontSize !== null) {
+                                                if (fontSize !== null) {
+                                                    thisFontRule.size = fontSize.nodeValue;
+                                                    if (fontRule.size === undefined) {
                                                         fontRule.size = fontSize.nodeValue;
                                                     }
                                                 }
 
+
                                                 var weight = qnautils.xPath(".//@fo:font-weight", style).iterateNext();
-                                                if (fontRule.bold === undefined) {
-                                                    if (weight !== null) {
+                                                if (weight !== null) {
+                                                    thisFontRule.bold = weight.nodeValue === "bold";
+                                                    if (fontRule.bold === undefined) {
                                                         fontRule.bold = weight.nodeValue === "bold";
                                                     }
                                                 }
 
+
                                                 var fontStyle = qnautils.xPath(".//@fo:font-style", style).iterateNext();
-                                                if (fontRule.italics === undefined) {
-                                                    if (fontStyle !== null) {
+                                                if (fontStyle !== null) {
+                                                    thisFontRule.italics = fontStyle.nodeValue === "italic";
+                                                    if (fontRule.italics === undefined) {
                                                         fontRule.italics = fontStyle.nodeValue === "italic";
                                                     }
+
                                                 }
 
                                                 var underline = qnautils.xPath(".//@style:text-underline-style", style).iterateNext();
-                                                if (fontRule.underline === undefined) {
-                                                    if (underline !== null) {
+                                                if (underline !== null) {
+                                                    thisFontRule.underline = underline.nodeValue !== "none";
+                                                    if (fontRule.underline === undefined) {
                                                         fontRule.underline = underline.nodeValue !== "none";
                                                     }
                                                 }
@@ -1096,7 +1120,7 @@ define(
                                                     getFontRuleForStyle(parentStyleName, fontRule);
                                                 }
 
-                                                fontRuleStyleCache[styleAttribute] = fontRule;
+                                                fontRuleStyleCache[styleAttribute] = thisFontRule;
                                             }
                                         }
                                     };
@@ -1538,7 +1562,7 @@ define(
                                         /*
                                          We never jump more than one level
                                          */
-                                        if (newOutlineLevel + 1 > currentLevel) {
+                                        if (newOutlineLevel > currentLevel + 1) {
                                             newOutlineLevel = currentLevel + 1;
                                         }
 
@@ -1557,35 +1581,35 @@ define(
                                              */
 
                                             if (currentLevel === 1) {
-                                                resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
-                                                resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+                                                contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                             }
                                         } else if (thisTopicHasContent) {
                                             if (currentLevel === 1) {
-                                                resultObject.contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                             } else {
                                                 /*
                                                  Does the topic noe being built exist under this one? If so, this topic is
                                                  a container. If not, it is just a topic.
                                                  */
                                                 if (newOutlineLevel > currentLevel) {
-                                                    resultObject.contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+                                                    contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                                 } else {
-                                                    resultObject.contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                                    contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                                 }
                                             }
 
-                                            generalexternalimport.addTopicToSpec(topicGraph, content, title, resultObject.contentSpec.length - 1);
+                                            generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                         } else {
                                             /*
                                              If the discarded topic was supposed to a child of the container
                                              above it, and the new topic being created is not, then the
                                              previous topic will need to be changed from a container to a topic.
                                              */
-                                            if (!nextTopicIsChildOfLastLevel) {
-                                                resultObject.contentSpec[resultObject.contentSpec.length - 1] =
-                                                    resultObject.contentSpec[resultObject.contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
+                                            if (!nextTopicIsChildOfLastLevel && contentSpec.length !== 0) {
+                                                contentSpec[contentSpec.length - 1] =
+                                                    contentSpec[contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
 
                                                 /*
                                                  We want to unwind any containers without front matter topics that were
@@ -1595,22 +1619,18 @@ define(
                                                  that is not an ancestor of the next topic will be poped off the stack.
                                                  */
                                                 if (currentLevel > 1) {
-                                                    while (resultObject.contentSpec.length !== 0) {
-                                                        var specElementTopic = topicGraph.getNodeFromSpecLine(resultObject.contentSpec.length - 1);
+                                                    while (contentSpec.length !== 0) {
+                                                        var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
                                                         if (specElementTopic === undefined) {
-                                                            var specElementLevel = /^(\s*)/.exec(resultObject.contentSpec[resultObject.contentSpec.length - 1]);
+                                                            var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
                                                             if (specElementLevel[1].length === newOutlineLevel - 2) {
                                                                 break;
                                                             } else {
-                                                                resultObject.contentSpec.pop();
+                                                                contentSpec.pop();
                                                             }
                                                         } else {
                                                             break;
                                                         }
-                                                    }
-
-                                                    if (resultObject.contentSpec.length === 0) {
-                                                        throw "The entire content spec was unwound. This should not have happened.";
                                                     }
                                                 }
                                             }
@@ -1760,12 +1780,17 @@ define(
                                             resultCallback();
     
                                             jquery.each(topicGraph.nodes, function (index, topic) {
-                                                resultObject.contentSpec[topic.specLine] += " [" + topic.topicId + "]";
+                                                contentSpec[topic.specLine] += " [" + topic.topicId + "]";
     
                                             });
     
                                             var spec = "";
-                                            jquery.each(resultObject.contentSpec, function(index, value) {
+                                            jquery.each(contentSpecMetadata, function(index, value) {
+                                                console.log(value);
+                                                spec += value + "\n";
+                                            });
+
+                                            jquery.each(contentSpec, function(index, value) {
                                                 console.log(value);
                                                 spec += value + "\n";
                                             });
