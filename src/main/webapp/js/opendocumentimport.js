@@ -974,10 +974,27 @@ define(
                     };
 
                     var addContentToArray = function(content, array, inline) {
-                        if (!inline || array.length === 0) {
-                            array.push(content);
+                        if (content instanceof Array) {
+                            if (!inline) {
+                                jquery.merge(array, conent);
+                            } else {
+                                var combined = "";
+                                jquery.each(content, function(index, value){
+                                    combined += value;
+                                });
+
+                                if (array.length === 0) {
+                                    array.push(combined);
+                                } else {
+                                    array[array.length - 1] = array[array.length - 1] + combined;
+                                }
+                            }
                         } else {
-                            array[array.length - 1] = array[array.length -1] + content;
+                            if (!inline || array.length === 0) {
+                                array.push(content);
+                            } else {
+                                array[array.length - 1] = array[array.length - 1] + content;
+                            }
                         }
                     };
 
@@ -1039,7 +1056,7 @@ define(
                                 } else if (childNode.nodeName === "draw:image") {
                                     jquery.merge(customContainerContent, processDraw(childNode));
                                 } else if (childNode.nodeName === "text:span") {
-                                    addContentToArray(childNode.textContent, customContainerContent, true);
+                                    addContentToArray(convertNodeToDocbook(childNode, emphasis), customContainerContent, true);
                                 } else {
                                     jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis));
                                 }
