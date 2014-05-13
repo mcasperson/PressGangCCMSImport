@@ -767,6 +767,10 @@ define(
                         container.push("Brand = " + config.ContentSpecBrand);
                     }
 
+                    if (config.TopLevelContainer === "Section") {
+                        container.push("Type = Article");
+                    }
+
                     container.push("# Imported from " + config.OdtFile.name);
 
                     /*
@@ -820,7 +824,7 @@ define(
                     var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
 
                         if (index >= contentNodes.length) {
-                            if (content.length !== 0) {
+                            /*if (content.length !== 0) {
                                 if (outlineLevel === 1) {
                                     contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
@@ -829,7 +833,31 @@ define(
                                     contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                 }
+                            } */
+
+                            if (topicsAdded > 0 || config.TopLevelContainer === "Chapter") {
+                                if (outlineLevel > 1) {
+                                    /*
+                                     This is a child of an existing container. Add it as a regular topic.
+                                     */
+                                    var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                                    contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                                } else if (config.TopLevelContainer === "Chapter") {
+                                    /*
+                                     This is a chapter with a initial text topic
+                                     */
+                                    contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
+                                } else {
+                                    /*
+                                     This is a child of the article, so add it directly
+                                     */
+                                    contentSpec.push(qnastart.escapeSpecTitle(title));
+                                }
+                            } else {
+                                contentSpec.push("Initial Text:");
+                                contentSpec.push("  " + qnastart.escapeSpecTitle(title));
                             }
+                            generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
 
                             successCallback();
                         } else {
@@ -1666,16 +1694,20 @@ define(
                              */
 
                             if (currentLevel === 1) {
-                                contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
                             } else {
                                 contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                             }
                         } else if (thisTopicHasContent) {
                             if (currentLevel === 1) {
-                                contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                if (nextTopicIsChildOfThisTopic) {
+                                    contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
+                                } else {
+                                    contentSpec.push(qnastart.escapeSpecTitle(title));
+                                }
                             } else {
                                 /*
-                                 Does the topic noe being built exist under this one? If so, this topic is
+                                 Does the topic now being built exist under this one? If so, this topic is
                                  a container. If not, it is just a topic.
                                  */
                                 if (newOutlineLevel > currentLevel) {
@@ -1686,7 +1718,7 @@ define(
                             }
 
                             generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
-                        } else {
+                        }  else {
                             /*
                              If the discarded topic was supposed to a child of the container
                              above it, and the new topic being created is not, then the

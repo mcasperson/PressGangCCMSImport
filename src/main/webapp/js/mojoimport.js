@@ -148,11 +148,11 @@ define(
                         container.push("Brand = " + config.ContentSpecBrand);
                     }
 
-                    container.push("# Imported from " + config.MojoURL);
-
                     if (config.TopLevelContainer === "Section") {
                         container.push("Type = Article");
                     }
+
+                    container.push("# Imported from " + config.MojoURL);
                 }
 
                 populateSpecMetaData(config, contentSpecMetadata);
@@ -666,7 +666,7 @@ define(
                                     }
                                 } else if (thisTopicHasContent) {
                                     if (currentLevel === 1) {
-                                        if (config.TopLevelContainer === "Chapter") {
+                                        if (nextTopicIsChildOfThisTopic) {
                                             contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
                                         } else {
                                             contentSpec.push(qnastart.escapeSpecTitle(title));
