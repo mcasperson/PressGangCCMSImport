@@ -123,6 +123,26 @@ define(
                 ]
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(getTopicLevelContainer);
+            });
+
+        var getTopicLevelContainer = new qna.QNAStep()
+            .setTitle("Do you want a book or article?")
+            .setIntro("The content specification can either be a book or an article.")
+            .setInputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.RADIO_BUTTONS)
+                                .setIntro(["Book", "Article"])
+                                .setOptions(["Chapter", "Section"])
+                                .setValue("Chapter")
+                                .setName("TopLevelContainer")
+                        ])
+                ]
+            )
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
                 if (config.ImportOption === "OpenDocument") {
                     resultCallback(opendocumentimport.askForOpenDocumentFile);
                 } else if (config.ImportOption === "Mojo") {

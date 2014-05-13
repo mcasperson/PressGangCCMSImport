@@ -149,6 +149,10 @@ define(
                     }
 
                     container.push("# Imported from " + config.MojoURL);
+
+                    if (config.TopLevelContainer === "Section") {
+                        container.push("Type = Article");
+                    }
                 }
 
                 populateSpecMetaData(config, contentSpecMetadata);
@@ -186,21 +190,25 @@ define(
                                         We have reached the end of the, so append anything we have collected
                                      */
                                     if (content.length !== 0) {
-                                        if (topicsAdded > 0) {
+                                        if (topicsAdded > 0 || config.TopLevelContainer === "Chapter") {
                                             if (outlineLevel > 1) {
                                                 /*
                                                     This is a child of an existing container. Add it as a regular topic.
                                                  */
                                                 var prefix = generalexternalimport.generateSpacing(outlineLevel);
                                                 contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                            } else {
+                                            } else if (config.TopLevelContainer === "Chapter") {
                                                 /*
                                                     This is a chapter with a initial text topic
                                                  */
-                                                contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                                contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
+                                            } else {
+                                                /*
+                                                    This is a child of the article, so add it directly
+                                                 */
+                                                contentSpec.push(qnastart.escapeSpecTitle(title));
                                             }
                                         } else {
-                                            contentSpecMetadata.push("Type = Article");
                                             contentSpec.push("Initial Text:");
                                             contentSpec.push("  " + qnastart.escapeSpecTitle(title));
                                         }
@@ -652,13 +660,17 @@ define(
                                     */
 
                                     if (currentLevel === 1) {
-                                        contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                        contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
                                     } else {
                                         contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
                                     }
                                 } else if (thisTopicHasContent) {
                                     if (currentLevel === 1) {
-                                        contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                                        if (config.TopLevelContainer === "Chapter") {
+                                            contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
+                                        } else {
+                                            contentSpec.push(qnastart.escapeSpecTitle(title));
+                                        }
                                     } else {
                                         /*
                                             Does the topic now being built exist under this one? If so, this topic is
@@ -902,6 +914,11 @@ define(
                             });
 
                             var spec = "";
+                            jquery.each(contentSpecMetadata, function(index, value) {
+                                console.log(value);
+                                spec += value + "\n";
+                            });
+
                             jquery.each(contentSpec, function(index, value) {
                                 console.log(value);
                                 spec += value + "\n";
