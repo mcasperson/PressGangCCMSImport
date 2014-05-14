@@ -1654,11 +1654,7 @@ define(
 
                 jquery.each(replacements, function(index, value) {
                     var lang = value.getAttribute("language");
-                    if (lang === "bash") {
-                        value.setAttribute("language", "Bash");
-                    } else if (lang === "xml") {
-                        value.setAttribute("language", "XML");
-                    } else if (lang === "ini") {
+                    if (lang === "ini") {
                         value.setAttribute("language", "INI Files");
                     } else if (lang === "json") {
                         value.setAttribute("language", "JavaScript");

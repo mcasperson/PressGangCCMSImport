@@ -602,7 +602,7 @@ define(
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Test Server", "LocalHost"])
                             .setOptions(["skynet-dev.usersys.redhat.com", "localhost"])
-                            .setValue("localhost"/*"skynet-dev.usersys.redhat.com"*/)
+                            .setValue("skynet-dev.usersys.redhat.com"/*"skynet-dev.usersys.redhat.com"*/)
                             .setName("PressGangHost")
                     ])
             ])
