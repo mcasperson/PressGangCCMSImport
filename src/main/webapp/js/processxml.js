@@ -1467,6 +1467,24 @@ define(
                     xmlText = xmlText.replace(value.original, value.replacement.replace(/\$/g, "$$$$"));
                 });
 
+                fixUserinputInScreen(xmlText, entities);
+            }
+
+            /**
+             * In the xml
+             * <screen><userinput>Some text on line 1 \
+             * Some more text on line 2</userinput></screen>
+             * publican won't honor the line break in the userinput. So here we split these elements so they don't
+             * run over more than one line
+             */
+            function fixUserinputInScreen(xmlText, entities) {
+                var match = null;
+                while ((match = /(<\s*screen.*?>[\s\S]*?)(<\s*userinput.*?>)([^<]*?)\n([^<]*?)(<\s*\/\s*userinput\s*>)/.exec(xmlText)) !== null) {
+                    var newUserInput = match[3] + "</userinput><userinput>" + match[4];
+
+                    xmlText = xmlText.replace(match[0], match[1] + match[2] + newUserInput + match[5]);
+                }
+
                 parseAsXML(xmlText, entities);
             }
 
@@ -1607,6 +1625,27 @@ define(
                         value.entity = String.fromCharCode(match[1]);
                     }
                 })
+
+                fixProgramListingEntries(xmlDoc, entities);
+            }
+
+            function fixProgramListingEntries(xmlDoc, entities) {
+                var programListings = qnautils.xPath("//docbook:programlisting", xmlDoc);
+                var programListing = null;
+                while ((programListing = programListings.iterateNext()) !== null) {
+                    if (programListing.hasAttribute("lang")) {
+                        var lang = programListing.getAttribute("lang");
+                        if (lang === "bash") {
+                            programListing.setAttribute("lang", "Bash");
+                        } else if (lang === "xml") {
+                            programListing.setAttribute("lang", "XML");
+                        } else if (lang === "ini") {
+                            programListing.setAttribute("lang", "INI Files");
+                        } else if (lang === "json") {
+                            programListing.setAttribute("lang", "JavaScript");
+                        }
+                    }
+                }
 
                 resultCallback({xml: qnautils.xmlToString(xmlDoc), entities: entities, replacements: config.replacements});
             }
