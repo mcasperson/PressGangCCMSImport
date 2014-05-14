@@ -1467,7 +1467,7 @@ define(
                     xmlText = xmlText.replace(value.original, value.replacement.replace(/\$/g, "$$$$"));
                 });
 
-                fixUserinputInScreen(xmlText, entities);
+                fixChildrenOfScreen(xmlText, entities);
             }
 
             /**
@@ -1477,13 +1477,15 @@ define(
              * publican won't honor the line break in the userinput. So here we split these elements so they don't
              * run over more than one line
              */
-            function fixUserinputInScreen(xmlText, entities) {
-                var match = null;
-                while ((match = /(<\s*screen.*?>[\s\S]*?)(<\s*userinput.*?>)([^<]*?)\n([^<]*?)(<\s*\/\s*userinput\s*>)/.exec(xmlText)) !== null) {
-                    var newUserInput = match[3] + "</userinput><userinput>" + match[4];
+            function fixChildrenOfScreen(xmlText, entities) {
+                jquery.each(["userinput", "computeroutput"], function(index, value) {
+                    var match = null;
+                    while ((match = new RegExp("(<\s*screen.*?>[\s\S]*?)(<\s*" + value + ".*?>)([^<]*?)\n([^<]*?)(<\s*\/\s*" + value + "\s*>)").exec(xmlText)) !== null) {
+                        var newUserInput = match[3] + "</" + value + "><" + value + ">" + match[4];
 
-                    xmlText = xmlText.replace(match[0], match[1] + match[2] + newUserInput + match[5]);
-                }
+                        xmlText = xmlText.replace(match[0], match[1] + match[2] + newUserInput + match[5]);
+                    }
+                });
 
                 parseAsXML(xmlText, entities);
             }
