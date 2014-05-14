@@ -1633,16 +1633,16 @@ define(
                 var programListings = qnautils.xPath("//docbook:programlisting", xmlDoc);
                 var programListing = null;
                 while ((programListing = programListings.iterateNext()) !== null) {
-                    if (programListing.hasAttribute("lang")) {
-                        var lang = programListing.getAttribute("lang");
+                    if (programListing.hasAttribute("language")) {
+                        var lang = programListing.getAttribute("language");
                         if (lang === "bash") {
-                            programListing.setAttribute("lang", "Bash");
+                            programListing.setAttribute("language", "Bash");
                         } else if (lang === "xml") {
-                            programListing.setAttribute("lang", "XML");
+                            programListing.setAttribute("language", "XML");
                         } else if (lang === "ini") {
-                            programListing.setAttribute("lang", "INI Files");
+                            programListing.setAttribute("language", "INI Files");
                         } else if (lang === "json") {
-                            programListing.setAttribute("lang", "JavaScript");
+                            programListing.setAttribute("language", "JavaScript");
                         }
                     }
                 }
