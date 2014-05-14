@@ -1630,22 +1630,27 @@ define(
             }
 
             function fixProgramListingEntries(xmlDoc, entities) {
+                var replacements = [];
                 var programListings = qnautils.xPath("//docbook:programlisting", xmlDoc);
                 var programListing = null;
                 while ((programListing = programListings.iterateNext()) !== null) {
                     if (programListing.hasAttribute("language")) {
-                        var lang = programListing.getAttribute("language");
-                        if (lang === "bash") {
-                            programListing.setAttribute("language", "Bash");
-                        } else if (lang === "xml") {
-                            programListing.setAttribute("language", "XML");
-                        } else if (lang === "ini") {
-                            programListing.setAttribute("language", "INI Files");
-                        } else if (lang === "json") {
-                            programListing.setAttribute("language", "JavaScript");
-                        }
+                        replacements.push(programListing);
                     }
                 }
+
+                jquery.each(replacements, function(index, value) {
+                    var lang = value.getAttribute("language");
+                    if (lang === "bash") {
+                        value.setAttribute("language", "Bash");
+                    } else if (lang === "xml") {
+                        value.setAttribute("language", "XML");
+                    } else if (lang === "ini") {
+                        value.setAttribute("language", "INI Files");
+                    } else if (lang === "json") {
+                        value.setAttribute("language", "JavaScript");
+                    }
+                })
 
                 resultCallback({xml: qnautils.xmlToString(xmlDoc), entities: entities, replacements: config.replacements});
             }
