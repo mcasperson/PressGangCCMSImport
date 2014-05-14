@@ -3,6 +3,8 @@ define(
     function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, generaldocbookimport, generalexternalimport, exports) {
         'use strict';
 
+        var ELEMENTS_THAT_NEED_CDATA = ["userinput", "computeroutput"];
+
         // these are entities created by csprocessor
         var IGNORED_ENTITIES = [
             "BUILD_BZPRODUCT",
@@ -1467,26 +1469,6 @@ define(
                     xmlText = xmlText.replace(value.original, value.replacement.replace(/\$/g, "$$$$"));
                 });
 
-                fixChildrenOfScreen(xmlText, entities);
-            }
-
-            /**
-             * In the xml
-             * <screen><userinput>Some text on line 1 \
-             * Some more text on line 2</userinput></screen>
-             * publican won't honor the line break in the userinput. So here we split these elements so they don't
-             * run over more than one line
-             */
-            function fixChildrenOfScreen(xmlText, entities) {
-                var childrenToFix = ["userinput", "computeroutput"];
-                for (var i = 0; i < childrenToFix.length; ++i) {
-                    var value = childrenToFix[i];
-                    var match = null;
-                    while ((match = new RegExp("(<\s*" + value + "[^>]*?>)([^<]+?)\n").exec(xmlText)) !== null) {
-                        xmlText = xmlText.replace(match[0], match[1] + match[2] + "</" + value + ">\n<" + value + ">");
-                    }
-                };
-                //console.log(xmlText);
                 parseAsXML(xmlText, entities);
             }
 
@@ -1500,6 +1482,35 @@ define(
                     errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
                     return;
                 }
+                fixElementsThatNeedCData(xmlDoc, entities);
+            }
+
+            /**
+             * Publican won't respect line breaks in elements like userinput or computeroutput
+             * when they are in a <screen> unless their text is wrapped in a CDATA element.
+             */
+            function fixElementsThatNeedCData(xmlDoc, entities) {
+                var replacements = [];
+                jquery(ELEMENTS_THAT_NEED_CDATA, function(index, value) {
+                    var cdataElements = qnautils.xPath("//docbook:" + value, xmlDoc);
+                    var cdataElement = null;
+                    while ((cdataElement = cdataElements.iterateNext()) !== null) {
+                        var textNodes = qnautils.xPath(".//docbook:text()", cdataElement);
+                        var textNode = null;
+                        while ((textNode = textNodes.iterateNext()) !== null) {
+                            if (textNode.parentNode.nodeType !== NodeType.CDATA_SECTION_NODE) {
+                                replacements.push(textNode);
+                            }
+                        }
+                    }
+                });
+
+                jquery(replacements, function(index, value) {
+                    var cdata = xmlDoc.createCDATASection();
+                    value.parentNode.insertBefore(cdata, value);
+                    cdata.appendChild(value);
+                });
+
                 removeBoilerplate(xmlDoc, entities);
             }
 
