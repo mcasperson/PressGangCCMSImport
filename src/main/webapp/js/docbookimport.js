@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'reportsettings', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, reportsettings, exports) {
         'use strict';
 
         /*
@@ -272,6 +272,7 @@ define(
                 config.MatchedImageCount = 0;
                 config.UploadedFileCount = 0;
                 config.MatchedFileCount = 0;
+                config.OutgoingUrls = "";
 
                 /*
                  There are 17 steps, so this is how far to move the progress bar with each
@@ -1933,8 +1934,34 @@ define(
                         config.UploadedTopics = true;
                         resultCallback();
 
-                        resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph);
+                        identifyOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
                     });
+                }
+
+                function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph) {
+
+                    jquery.each(topics, function (index, value) {
+                        var urls = qnautils.xPath(".//@url|.//@href", value.xml);
+                        var url = null;
+                        while ((url = urls.iterateNext()) !== null) {
+                            var matches = true;
+                            jquery.each(reportsettings.ALLOWED_URLS, function(index, value) {
+                                if (!value.test(url.nodeValue)) {
+                                    matches = false;
+                                    return false;
+                                }
+                            });
+
+                            if (!matches) {
+                                if (config.OutgoingUrls.length !== 0) {
+                                    config.OutgoingUrls += ",";
+                                }
+                                config.OutgoingUrls += value.topicId;
+                            }
+                        }
+                    });
+
+                    resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph);
                 }
 
                 function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph) {
@@ -2052,6 +2079,9 @@ define(
                         compiledContentSpec += value + "\n";
                     });
 
+                    compiledContentSpec += "# The following topics have links to external content\n";
+                    compiledContentSpec += config.OutgoingUrls;
+
                     function contentSpecSaveSuccess(id) {
                         config.UploadProgress[1] = 100;
                         thisStep.setTitlePrefix(null);
@@ -2121,7 +2151,14 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Files Created / Files Reused")
-                            .setName("NewFilesCreated")
+                            .setName("NewFilesCreated"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Topics with outgoing links")
+                            .setName("OutgoingUrlsCompiled")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls);
+                            })
                     ])
             ])
             .setShowNext(false)
