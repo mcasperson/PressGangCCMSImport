@@ -1482,7 +1482,7 @@ define(
                 for (var i = 0; i < childrenToFix.length; ++i) {
                     var value = childrenToFix[i];
                     var match = null;
-                    while ((match = new RegExp("(<\s*" + value + ".*?>)([^<]+?)\n").exec(xmlText)) !== null) {
+                    while ((match = new RegExp("(<\s*" + value + "[^>]*?>)([^<]+?)\n").exec(xmlText)) !== null) {
                         xmlText = xmlText.replace(match[0], match[1] + match[2] + "</" + value + ">\n<" + value + ">");
                     }
                 };
