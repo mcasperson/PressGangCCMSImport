@@ -1491,7 +1491,7 @@ define(
              */
             function fixElementsThatNeedCData(xmlDoc, entities) {
                 var replacements = [];
-                jquery(ELEMENTS_THAT_NEED_CDATA, function(index, value) {
+                jquery.each(ELEMENTS_THAT_NEED_CDATA, function(index, value) {
                     var cdataElements = qnautils.xPath("//docbook:" + value, xmlDoc);
                     var cdataElement = null;
                     while ((cdataElement = cdataElements.iterateNext()) !== null) {
@@ -1505,7 +1505,7 @@ define(
                     }
                 });
 
-                jquery(replacements, function(index, value) {
+                jquery.each(replacements, function(index, value) {
                     var cdata = xmlDoc.createCDATASection();
                     value.parentNode.insertBefore(cdata, value);
                     cdata.appendChild(value);
