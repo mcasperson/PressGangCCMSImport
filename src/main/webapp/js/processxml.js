@@ -1498,7 +1498,7 @@ define(
                         var textNodes = qnautils.xPath(".//docbook:text()", cdataElement);
                         var textNode = null;
                         while ((textNode = textNodes.iterateNext()) !== null) {
-                            if (textNode.parentNode.nodeType !== NodeType.CDATA_SECTION_NODE) {
+                            if (textNode.parentNode.nodeType !== Node.CDATA_SECTION_NODE) {
                                 replacements.push(textNode);
                             }
                         }
@@ -1506,9 +1506,9 @@ define(
                 });
 
                 jquery.each(replacements, function(index, value) {
-                    var cdata = xmlDoc.createCDATASection();
+                    var cdata = xmlDoc.createCDATASection(value.textContent);
                     value.parentNode.insertBefore(cdata, value);
-                    cdata.appendChild(value);
+                    value.parentNode.removeChild(value);
                 });
 
                 removeBoilerplate(xmlDoc, entities);
