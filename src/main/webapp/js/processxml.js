@@ -1478,15 +1478,15 @@ define(
              * run over more than one line
              */
             function fixChildrenOfScreen(xmlText, entities) {
-                jquery.each(["userinput", "computeroutput"], function(index, value) {
+                var childrenToFix = ["userinput", "computeroutput"];
+                for (var i = 0; i < childrenToFix.length; ++i) {
+                    var value = childrenToFix[i];
                     var match = null;
-                    while ((match = new RegExp("(<\s*screen.*?>[\s\S]*?)(<\s*" + value + ".*?>)([^<]*?)\n([^<]*?)(<\s*\/\s*" + value + "\s*>)").exec(xmlText)) !== null) {
-                        var newUserInput = match[3] + "</" + value + "><" + value + ">" + match[4];
-
-                        xmlText = xmlText.replace(match[0], match[1] + match[2] + newUserInput + match[5]);
+                    while ((match = new RegExp("(<\s*" + value + ".*?>)([^<]+?)\n").exec(xmlText)) !== null) {
+                        xmlText = xmlText.replace(match[0], match[1] + match[2] + "</" + value + ">\n<" + value + ">");
                     }
-                });
-
+                };
+                //console.log(xmlText);
                 parseAsXML(xmlText, entities);
             }
 

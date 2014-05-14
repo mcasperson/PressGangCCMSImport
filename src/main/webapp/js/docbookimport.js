@@ -496,7 +496,6 @@ define(
                         var parentAppendix = revHistory;
                         while (parentAppendix.parentNode &&
                             CONTAINER_TYPES.indexOf((parentAppendix = parentAppendix.parentNode).nodeName) === -1) {
-
                         }
 
                         var revHistoryTitleContents;
@@ -541,27 +540,55 @@ define(
 
                         contentSpec.push("Revision History = ");
 
-                        var id = parentAppendix.getAttribute ? parentAppendix.getAttribute("id") : null;
+                        /*
+                            Check to see if the appendix that holds the revision history also has
+                            other containers that we would want to extract.
+                         */
+                        var revisionAppendixHasOtherChildren = false;
+                        jquery.each(CONTAINER_TYPES, function(index, value) {
+                            if (qnautils.xPath(".//docbook:" + value, parentAppendix).iterateNext() !== null) {
+                                revisionAppendixHasOtherChildren = true;
+                                return false;
+                            }
+                        })
 
-                        var topic = new specelement.TopicGraphNode(topicGraph)
-                            .setXml(parentAppendix)
-                            .setSpecLine(contentSpec.length - 1)
-                            .setTitle(revHistoryTitleContents)
-                            .addTag(REVISION_HISTORY_TAG_ID);
+                        var topic = null;
+                        if (revisionAppendixHasOtherChildren) {
 
-                        if (id) {
-                            topic.addXmlId(id);
+                            var appendix = xmlDoc.createElement("appendix");
+                            var title = xmlDoc.createElement("title");
+                            title.textContent = revHistoryTitleContents;
+                            appendix.appendChild(title);
+                            appendix.appendChild(revHistory);
+
+                            var topic = new specelement.TopicGraphNode(topicGraph)
+                                .setXml(appendix)
+                                .setSpecLine(contentSpec.length - 1)
+                                .setTitle(revHistoryTitleContents)
+                                .addTag(REVISION_HISTORY_TAG_ID);
+                        } else {
+                            var id = parentAppendix.getAttribute ? parentAppendix.getAttribute("id") : null;
+
+                            var topic = new specelement.TopicGraphNode(topicGraph)
+                                .setXml(parentAppendix)
+                                .setSpecLine(contentSpec.length - 1)
+                                .setTitle(revHistoryTitleContents)
+                                .addTag(REVISION_HISTORY_TAG_ID);
+
+                            if (id) {
+                                topic.addXmlId(id);
+                            }
+
+                            /*
+                             The appendex holding the revision history is extracted wholesale, and
+                             won't be processed again by the rest of this process.
+                             */
+                            if (parentAppendix.parentNode !== null) {
+                                parentAppendix.parentNode.removeChild(parentAppendix);
+                            }
                         }
 
                         topics.push(topic);
-
-                        /*
-                            The appendex holding the revision history is extracted wholesale, and
-                            won't be processed again by the rest of this process.
-                         */
-                        if (parentAppendix.parentNode !== null) {
-                            parentAppendix.parentNode.removeChild(parentAppendix);
-                        }
                     }
 
                     config.UploadProgress[1] = 7 * progressIncrement;
