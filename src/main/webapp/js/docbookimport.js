@@ -2082,7 +2082,7 @@ define(
                         });
 
                         compiledContentSpec += "# The following topics have links to external content\n";
-                        compiledContentSpec += config.OutgoingUrls;
+                        compiledContentSpec += "# " + config.OutgoingUrls;
 
                         return compiledContentSpec;
                     }
@@ -2164,7 +2164,7 @@ define(
                             .setIntro("Topics with outgoing links")
                             .setName("OutgoingUrlsCompiled")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls);
+                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
                             })
                     ])
             ])
