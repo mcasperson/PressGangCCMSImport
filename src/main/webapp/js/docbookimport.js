@@ -1948,8 +1948,8 @@ define(
                             var link = "";
                             if (url.hasAttribute("url")) {
                                 link = url.getAttribute("url");
-                            } else if (url.hasAttribute("link")) {
-                                link = url.getAttribute("link");
+                            } else if (url.hasAttribute("href")) {
+                                link = url.getAttribute("href");
                             }
 
                             var matches = true;
