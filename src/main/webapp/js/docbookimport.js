@@ -2081,7 +2081,7 @@ define(
                             compiledContentSpec += value + "\n";
                         });
                         if (config.OutgoingUrls.length !== 0) {
-                            compiledContentSpec += "# The following topics have links to external content\n";
+                            compiledContentSpec += "# The following topics have links that were not found in the white list\n";
                             compiledContentSpec += "# " + config.OutgoingUrls;
                         }
 
@@ -2166,7 +2166,7 @@ define(
                             .setName("OutgoingUrlsCompiled")
                             .setValue(function (resultCallback, errorCallback, result, config) {
                                 if (config.OutgoingUrls.length === 0) {
-                                    resultCallback("No topics have outgoing links");
+                                    resultCallback("No topics have outgoing links that were not in the white list");
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
                                 }
