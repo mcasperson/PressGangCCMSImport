@@ -2074,13 +2074,20 @@ define(
                 }
 
                 function uploadContentSpec (contentSpec) {
-                    var compiledContentSpec = "";
-                    jquery.each(contentSpec, function(index, value) {
-                        compiledContentSpec += value + "\n";
-                    });
 
-                    compiledContentSpec += "# The following topics have links to external content\n";
-                    compiledContentSpec += config.OutgoingUrls;
+                    var buildSpecString = function(contentSpec) {
+                        var compiledContentSpec = "";
+                        jquery.each(contentSpec, function(index, value) {
+                            compiledContentSpec += value + "\n";
+                        });
+
+                        compiledContentSpec += "# The following topics have links to external content\n";
+                        compiledContentSpec += config.OutgoingUrls;
+
+                        return compiledContentSpec;
+                    }
+
+                    var compiledContentSpec = buildSpecString(contentSpec);
 
                     function contentSpecSaveSuccess(id) {
                         config.UploadProgress[1] = 100;
