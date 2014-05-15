@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE chapter [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<chapter xml:id="chap-Chapter_Title-1" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<title>Chapter Title</title>
+	<info>
+		<abstract>
+			<para>
+				Abstract
+			</para>
+		</abstract>
+	</info> 
+	<para>
+		Chapter with sect1
+	</para>
+	<para role="RoleCreateBugPara">
+		<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+IDs%3A%0A39570-606819+%5BLatest%5D&amp;comment=Title%3A+Chapter+Title%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A">Report a bug</link>
+	</para>
+	<section remap="TID_43211" version="5.0" xml:id="Section_with_image2" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>Section with image</title>
+		<info>
+			<abstract>
+				<para>
+					Abstract
+				</para>
+			</abstract>
+		</info>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/5622.jpg"/>
+			</imageobject>
+		</mediaobject>
+		<para role="RoleCreateBugPara">
+			<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+ID%3A+43211-612622+%5BLatest%5D&amp;comment=Title%3A+Section+with+image%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A&amp;cf_build_id=43211-612622+23+Apr+2014+06%3A21+en-US+%5BLatest%5D">Report a bug</link>
+		</para>
+	</section>
+</chapter>

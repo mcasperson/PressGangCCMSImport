@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE preface [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<preface xml:id="pref-Preface" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<title>Preface</title>
+	<section remap="TID_39563" version="5.0" xml:id="Custom_Feedback" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>Custom Feedback</title>
+		<para>
+			This is a custom feedback file.
+		</para>
+		<para role="RoleCreateBugPara">
+			<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+ID%3A+39563-606812+%5BLatest%5D&amp;comment=Title%3A+Custom+Feedback%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A&amp;cf_build_id=39563-606812+18+Mar+2014+08%3A18+en-US+%5BLatest%5D">Report a bug</link>
+		</para>
+	</section>
+</preface>

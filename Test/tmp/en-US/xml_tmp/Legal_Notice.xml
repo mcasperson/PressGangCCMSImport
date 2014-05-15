@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE legalnotice [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<legalnotice remap="TID_39639" xml:id="Legal_Notice" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<para>
+		This is a custom legal notice.
+	</para>
+</legalnotice>

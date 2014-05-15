@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE chapter [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<chapter xml:id="chap-Title" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<title>Title</title> 
+	<para>
+		Part Chapter
+	</para>
+	<para role="RoleCreateBugPara">
+		<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+IDs%3A%0A42148-611238+%5BLatest%5D&amp;comment=Title%3A+Title%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A">Report a bug</link>
+	</para>
+	<section xml:id="sect-Untitled-3">
+		<title>Untitled</title> 
+		<para>
+			Section with nested section
+		</para>
+		<para role="RoleCreateBugPara">
+			<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+IDs%3A%0A39572-606821+%5BLatest%5D&amp;comment=Title%3A+Untitled%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A">Report a bug</link>
+		</para>
+		<section remap="TID_39580" version="5.0" xml:id="Untitled5" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+			<title>Untitled</title>
+			<para>
+				Nested section
+			</para>
+			<para role="RoleCreateBugPara">
+				<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+ID%3A+39580-606829+%5BLatest%5D&amp;comment=Title%3A+Untitled%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A&amp;cf_build_id=39580-606829+18+Mar+2014+08%3A18+en-US+%5BLatest%5D">Report a bug</link>
+			</para>
+		</section>
+	</section>
+</chapter>

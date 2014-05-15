@@ -1952,7 +1952,7 @@ define(
                                 }
                             });
 
-                            if (!matches) {
+                            if (!matches && config.OutgoingUrls.indexOf(value.topicId) == -1) {
                                 if (config.OutgoingUrls.length !== 0) {
                                     config.OutgoingUrls += ",";
                                 }

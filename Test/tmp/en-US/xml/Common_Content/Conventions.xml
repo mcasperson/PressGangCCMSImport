@@ -1,0 +1,1147 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section [
+<!-- BUG LINK ENTITIES -->
+<!ENTITY BUILD_DATE "23-04-2014+06&percnt;3A57&percnt;3A41">
+<!ENTITY BUILD_NAME "23136&percnt;2C+Test-0.1-0">
+<!-- CS ENTITIES -->
+<!ENTITY TITLE "Test">
+<!ENTITY YEAR "2014">
+<!ENTITY HOLDER "| You need to change the HOLDER entity in the en-US/Test.ent file |">
+<!ENTITY BZPRODUCT "Documentation">
+<!ENTITY BZCOMPONENT "documentation">
+<!ENTITY BZURL "<link xmlns='http://docbook.org/ns/docbook' xmlns:xlink='http://www.w3.org/1999/xlink' version='5.0' xlink:href='https://bugzilla.redhat.com/enter_bug.cgi'>https://bugzilla.redhat.com/</link>">
+<!ENTITY PRODUCT "Documentation">
+<!ENTITY BOOKID "Test">
+<!ENTITY CUSTOMENTITY "I am a custom entity"><!-- START DOCBOOK ENTITIES -->
+<!ENTITY euro "&#x20AC;">
+<!ENTITY cularr "&#x021B6;" >
+<!ENTITY curarr "&#x021B7;" >
+<!ENTITY dArr "&#x021D3;" >
+<!ENTITY darr2 "&#x021CA;" >
+<!ENTITY dharl "&#x021C3;" >
+<!ENTITY dharr "&#x021C2;" >
+<!ENTITY dlarr "&#x02199;" >
+<!ENTITY drarr "&#x02198;" >
+<!ENTITY hArr "&#x021D4;" >
+<!ENTITY harr "&#x02194;" >
+<!ENTITY harrw "&#x021AD;" >
+<!ENTITY lAarr "&#x021DA;" >
+<!ENTITY Larr "&#x0219E;" >
+<!ENTITY larr2 "&#x021C7;" >
+<!ENTITY larrhk "&#x021A9;" >
+<!ENTITY larrlp "&#x021AB;" >
+<!ENTITY larrtl "&#x021A2;" >
+<!ENTITY lhard "&#x021BD;" >
+<!ENTITY lharu "&#x021BC;" >
+<!ENTITY lrarr2 "&#x021C6;" >
+<!ENTITY lrhar2 "&#x021CB;" >
+<!ENTITY lsh "&#x021B0;" >
+<!ENTITY map "&#x021A6;" >
+<!ENTITY mumap "&#x022B8;" >
+<!ENTITY nearr "&#x02197;" >
+<!ENTITY nhArr "&#x021CE;" >
+<!ENTITY nharr "&#x021AE;" >
+<!ENTITY nlArr "&#x021CD;" >
+<!ENTITY nlarr "&#x0219A;" >
+<!ENTITY nrArr "&#x021CF;" >
+<!ENTITY nrarr "&#x0219B;" >
+<!ENTITY nwarr "&#x02196;" >
+<!ENTITY olarr "&#x021BA;" >
+<!ENTITY orarr "&#x021BB;" >
+<!ENTITY rAarr "&#x021DB;" >
+<!ENTITY Rarr "&#x021A0;" >
+<!ENTITY rarr2 "&#x021C9;" >
+<!ENTITY rarrhk "&#x021AA;" >
+<!ENTITY rarrlp "&#x021AC;" >
+<!ENTITY rarrtl "&#x021A3;" >
+<!ENTITY rarrw "&#x0219D;" >
+<!ENTITY rhard "&#x021C1;" >
+<!ENTITY rharu "&#x021C0;" >
+<!ENTITY rlarr2 "&#x021C4;" >
+<!ENTITY rlhar2 "&#x021CC;" >
+<!ENTITY rsh "&#x021B1;" >
+<!ENTITY uArr "&#x021D1;" >
+<!ENTITY uarr2 "&#x021C8;" >
+<!ENTITY uharl "&#x021BF;" >
+<!ENTITY uharr "&#x021BE;" >
+<!ENTITY vArr "&#x021D5;" >
+<!ENTITY varr "&#x02195;" >
+<!ENTITY xhArr "&#x027FA;" >
+<!ENTITY xharr "&#x027F7;" >
+<!ENTITY xlArr "&#x027F8;" >
+<!ENTITY xrArr "&#x027F9;" >
+<!ENTITY amalg "&#x02A3F;" >
+<!ENTITY Barwed "&#x02306;" >
+<!ENTITY barwed "&#x02305;" >
+<!ENTITY Cap "&#x022D2;" >
+<!ENTITY coprod "&#x02210;" >
+<!ENTITY Cup "&#x022D3;" >
+<!ENTITY cuvee "&#x022CE;" >
+<!ENTITY cuwed "&#x022CF;" >
+<!ENTITY diam "&#x022C4;" >
+<!ENTITY divonx "&#x022C7;" >
+<!ENTITY intcal "&#x022BA;" >
+<!ENTITY lthree "&#x022CB;" >
+<!ENTITY ltimes "&#x022C9;" >
+<!ENTITY minusb "&#x0229F;" >
+<!ENTITY oast "&#x0229B;" >
+<!ENTITY ocir "&#x0229A;" >
+<!ENTITY odash "&#x0229D;" >
+<!ENTITY odot "&#x02299;" >
+<!ENTITY ominus "&#x02296;" >
+<!ENTITY oplus "&#x02295;" >
+<!ENTITY osol "&#x02298;" >
+<!ENTITY otimes "&#x02297;" >
+<!ENTITY plusb "&#x0229E;" >
+<!ENTITY plusdo "&#x02214;" >
+<!ENTITY prod "&#x0220F;" >
+<!ENTITY rthree "&#x022CC;" >
+<!ENTITY rtimes "&#x022CA;" >
+<!ENTITY sdot "&#x022C5;" >
+<!ENTITY sdotb "&#x022A1;" >
+<!ENTITY setmn "&#x02216;" >
+<!ENTITY sqcap "&#x02293;" >
+<!ENTITY sqcup "&#x02294;" >
+<!ENTITY ssetmn "&#x02216;" >
+<!ENTITY sstarf "&#x022C6;" >
+<!ENTITY sum "&#x02211;" >
+<!ENTITY timesb "&#x022A0;" >
+<!ENTITY top "&#x022A4;" >
+<!ENTITY uplus "&#x0228E;" >
+<!ENTITY wreath "&#x02240;" >
+<!ENTITY xcirc "&#x025EF;" >
+<!ENTITY xdtri "&#x025BD;" >
+<!ENTITY xutri "&#x025B3;" >
+<!ENTITY dlcorn "&#x0231E;" >
+<!ENTITY drcorn "&#x0231F;" >
+<!ENTITY lceil "&#x02308;" >
+<!ENTITY lfloor "&#x0230A;" >
+<!ENTITY lpargt "&#x029A0;" >
+<!ENTITY rceil "&#x02309;" >
+<!ENTITY rfloor "&#x0230B;" >
+<!ENTITY rpargt "&#x02994;" >
+<!ENTITY ulcorn "&#x0231C;" >
+<!ENTITY urcorn "&#x0231D;" >
+<!ENTITY gnap "&#x02A8A;" >
+<!ENTITY gnE "&#x02269;" >
+<!ENTITY gne "&#x02A88;" >
+<!ENTITY gnsim "&#x022E7;" >
+<!ENTITY gvnE "&#x02269;&#x0FE00;" >
+<!ENTITY lnap "&#x02A89;" >
+<!ENTITY lnE "&#x02268;" >
+<!ENTITY lne "&#x02A87;" >
+<!ENTITY lnsim "&#x022E6;" >
+<!ENTITY lvnE "&#x02268;&#x0FE00;" >
+<!ENTITY nap "&#x02249;" >
+<!ENTITY ncong "&#x02247;" >
+<!ENTITY nequiv "&#x02262;" >
+<!ENTITY ngE "&#x02267;&#x00338;" >
+<!ENTITY nge "&#x02271;" >
+<!ENTITY nges "&#x02A7E;&#x00338;" >
+<!ENTITY ngt "&#x0226F;" >
+<!ENTITY nlE "&#x02266;&#x00338;" >
+<!ENTITY nle "&#x02270;" >
+<!ENTITY nles "&#x02A7D;&#x00338;" >
+<!ENTITY nlt "&#x0226E;" >
+<!ENTITY nltri "&#x022EA;" >
+<!ENTITY nltrie "&#x022EC;" >
+<!ENTITY nmid "&#x02224;" >
+<!ENTITY npar "&#x02226;" >
+<!ENTITY npr "&#x02280;" >
+<!ENTITY npre "&#x02AAF;&#x00338;" >
+<!ENTITY nrtri "&#x022EB;" >
+<!ENTITY nrtrie "&#x022ED;" >
+<!ENTITY nsc "&#x02281;" >
+<!ENTITY nsce "&#x02AB0;&#x00338;" >
+<!ENTITY nsim "&#x02241;" >
+<!ENTITY nsime "&#x02244;" >
+<!ENTITY nsmid "&#x02224;" >
+<!ENTITY nspar "&#x02226;" >
+<!ENTITY nsub "&#x02284;" >
+<!ENTITY nsubE "&#x02AC5;&#x00338;" >
+<!ENTITY nsube "&#x02288;" >
+<!ENTITY nsup "&#x02285;" >
+<!ENTITY nsupE "&#x02AC6;&#x00338;" >
+<!ENTITY nsupe "&#x02289;" >
+<!ENTITY nVDash "&#x022AF;" >
+<!ENTITY nVdash "&#x022AE;" >
+<!ENTITY nvDash "&#x022AD;" >
+<!ENTITY nvdash "&#x022AC;" >
+<!ENTITY prnap "&#x02AB9;" >
+<!ENTITY prnE "&#x02AB5;" >
+<!ENTITY prnsim "&#x022E8;" >
+<!ENTITY scnap "&#x02ABA;" >
+<!ENTITY scnE "&#x02AB6;" >
+<!ENTITY scnsim "&#x022E9;" >
+<!ENTITY subnE "&#x02ACB;" >
+<!ENTITY subne "&#x0228A;" >
+<!ENTITY supnE "&#x02ACC;" >
+<!ENTITY supne "&#x0228B;" >
+<!ENTITY vsubnE "&#x02ACB;&#x0FE00;" >
+<!ENTITY vsubne "&#x0228A;&#x0FE00;" >
+<!ENTITY vsupnE "&#x02ACC;&#x0FE00;" >
+<!ENTITY vsupne "&#x0228B;&#x0FE00;" >
+<!ENTITY ang "&#x02220;" >
+<!ENTITY angmsd "&#x02221;" >
+<!ENTITY beth "&#x02136;" >
+<!ENTITY bprime "&#x02035;" >
+<!ENTITY comp "&#x02201;" >
+<!ENTITY daleth "&#x02138;" >
+<!ENTITY ell "&#x02113;" >
+<!ENTITY empty "&#x02205;" >
+<!ENTITY gimel "&#x02137;" >
+<!ENTITY inodot "&#x00131;" >
+<!ENTITY jnodot "&#x0006A;" >
+<!ENTITY nexist "&#x02204;" >
+<!ENTITY oS "&#x024C8;" >
+<!ENTITY planck "&#x0210F;" >
+<!ENTITY real "&#x0211C;" >
+<!ENTITY sbsol "&#x0FE68;" >
+<!ENTITY vprime "&#x02032;" >
+<!ENTITY weierp "&#x02118;" >
+<!ENTITY ape "&#x0224A;" >
+<!ENTITY asymp "&#x02248;" >
+<!ENTITY bcong "&#x0224C;" >
+<!ENTITY bepsi "&#x003F6;" >
+<!ENTITY bowtie "&#x022C8;" >
+<!ENTITY bsim "&#x0223D;" >
+<!ENTITY bsime "&#x022CD;" >
+<!ENTITY bump "&#x0224E;" >
+<!ENTITY bumpe "&#x0224F;" >
+<!ENTITY cire "&#x02257;" >
+<!ENTITY colone "&#x02254;" >
+<!ENTITY cuepr "&#x022DE;" >
+<!ENTITY cuesc "&#x022DF;" >
+<!ENTITY cupre "&#x0227C;" >
+<!ENTITY dashv "&#x022A3;" >
+<!ENTITY ecir "&#x02256;" >
+<!ENTITY ecolon "&#x02255;" >
+<!ENTITY eDot "&#x02251;" >
+<!ENTITY efDot "&#x02252;" >
+<!ENTITY egs "&#x02A96;" >
+<!ENTITY els "&#x02A95;" >
+<!ENTITY erDot "&#x02253;" >
+<!ENTITY esdot "&#x02250;" >
+<!ENTITY fork "&#x022D4;" >
+<!ENTITY frown "&#x02322;" >
+<!ENTITY gap "&#x02A86;" >
+<!ENTITY gE "&#x02267;" >
+<!ENTITY gEl "&#x02A8C;" >
+<!ENTITY gel "&#x022DB;" >
+<!ENTITY ges "&#x02A7E;" >
+<!ENTITY Gg "&#x022D9;" >
+<!ENTITY gl "&#x02277;" >
+<!ENTITY gsdot "&#x022D7;" >
+<!ENTITY gsim "&#x02273;" >
+<!ENTITY Gt "&#x0226B;" >
+<!ENTITY lap "&#x02A85;" >
+<!ENTITY ldot "&#x022D6;" >
+<!ENTITY lE "&#x02266;" >
+<!ENTITY lEg "&#x02A8B;" >
+<!ENTITY leg "&#x022DA;" >
+<!ENTITY les "&#x02A7D;" >
+<!ENTITY lg "&#x02276;" >
+<!ENTITY Ll "&#x022D8;" >
+<!ENTITY lsim "&#x02272;" >
+<!ENTITY Lt "&#x0226A;" >
+<!ENTITY ltrie "&#x022B4;" >
+<!ENTITY mid "&#x02223;" >
+<!ENTITY models "&#x022A7;" >
+<!ENTITY pr "&#x0227A;" >
+<!ENTITY prap "&#x02AB7;" >
+<!ENTITY pre "&#x02AAF;" >
+<!ENTITY prsim "&#x0227E;" >
+<!ENTITY rtrie "&#x022B5;" >
+<!ENTITY samalg "&#x02210;" >
+<!ENTITY sc "&#x0227B;" >
+<!ENTITY scap "&#x02AB8;" >
+<!ENTITY sccue "&#x0227D;" >
+<!ENTITY sce "&#x02AB0;" >
+<!ENTITY scsim "&#x0227F;" >
+<!ENTITY sfrown "&#x02322;" >
+<!ENTITY smid "&#x02223;" >
+<!ENTITY smile "&#x02323;" >
+<!ENTITY spar "&#x02225;" >
+<!ENTITY sqsub "&#x0228F;" >
+<!ENTITY sqsube "&#x02291;" >
+<!ENTITY sqsup "&#x02290;" >
+<!ENTITY sqsupe "&#x02292;" >
+<!ENTITY ssmile "&#x02323;" >
+<!ENTITY Sub "&#x022D0;" >
+<!ENTITY subE "&#x02AC5;" >
+<!ENTITY Sup "&#x022D1;" >
+<!ENTITY supE "&#x02AC6;" >
+<!ENTITY thkap "&#x02248;" >
+<!ENTITY thksim "&#x0223C;" >
+<!ENTITY trie "&#x0225C;" >
+<!ENTITY twixt "&#x0226C;" >
+<!ENTITY Vdash "&#x022A9;" >
+<!ENTITY vDash "&#x022A8;" >
+<!ENTITY vdash "&#x022A2;" >
+<!ENTITY veebar "&#x022BB;" >
+<!ENTITY vltri "&#x022B2;" >
+<!ENTITY vprop "&#x0221D;" >
+<!ENTITY vrtri "&#x022B3;" >
+<!ENTITY Vvdash "&#x022AA;" >
+<!ENTITY boxDL "&#x02557;" >
+<!ENTITY boxDl "&#x02556;" >
+<!ENTITY boxdL "&#x02555;" >
+<!ENTITY boxdl "&#x02510;" >
+<!ENTITY boxDR "&#x02554;" >
+<!ENTITY boxDr "&#x02553;" >
+<!ENTITY boxdR "&#x02552;" >
+<!ENTITY boxdr "&#x0250C;" >
+<!ENTITY boxH "&#x02550;" >
+<!ENTITY boxh "&#x02500;" >
+<!ENTITY boxHD "&#x02566;" >
+<!ENTITY boxHd "&#x02564;" >
+<!ENTITY boxhD "&#x02565;" >
+<!ENTITY boxhd "&#x0252C;" >
+<!ENTITY boxHU "&#x02569;" >
+<!ENTITY boxHu "&#x02567;" >
+<!ENTITY boxhU "&#x02568;" >
+<!ENTITY boxhu "&#x02534;" >
+<!ENTITY boxUL "&#x0255D;" >
+<!ENTITY boxUl "&#x0255C;" >
+<!ENTITY boxuL "&#x0255B;" >
+<!ENTITY boxul "&#x02518;" >
+<!ENTITY boxUR "&#x0255A;" >
+<!ENTITY boxUr "&#x02559;" >
+<!ENTITY boxuR "&#x02558;" >
+<!ENTITY boxur "&#x02514;" >
+<!ENTITY boxV "&#x02551;" >
+<!ENTITY boxv "&#x02502;" >
+<!ENTITY boxVH "&#x0256C;" >
+<!ENTITY boxVh "&#x0256B;" >
+<!ENTITY boxvH "&#x0256A;" >
+<!ENTITY boxvh "&#x0253C;" >
+<!ENTITY boxVL "&#x02563;" >
+<!ENTITY boxVl "&#x02562;" >
+<!ENTITY boxvL "&#x02561;" >
+<!ENTITY boxvl "&#x02524;" >
+<!ENTITY boxVR "&#x02560;" >
+<!ENTITY boxVr "&#x0255F;" >
+<!ENTITY boxvR "&#x0255E;" >
+<!ENTITY boxvr "&#x0251C;" >
+<!ENTITY Acy "&#x00410;" >
+<!ENTITY acy "&#x00430;" >
+<!ENTITY Bcy "&#x00411;" >
+<!ENTITY bcy "&#x00431;" >
+<!ENTITY CHcy "&#x00427;" >
+<!ENTITY chcy "&#x00447;" >
+<!ENTITY Dcy "&#x00414;" >
+<!ENTITY dcy "&#x00434;" >
+<!ENTITY Ecy "&#x0042D;" >
+<!ENTITY ecy "&#x0044D;" >
+<!ENTITY Fcy "&#x00424;" >
+<!ENTITY fcy "&#x00444;" >
+<!ENTITY Gcy "&#x00413;" >
+<!ENTITY gcy "&#x00433;" >
+<!ENTITY HARDcy "&#x0042A;" >
+<!ENTITY hardcy "&#x0044A;" >
+<!ENTITY Icy "&#x00418;" >
+<!ENTITY icy "&#x00438;" >
+<!ENTITY IEcy "&#x00415;" >
+<!ENTITY iecy "&#x00435;" >
+<!ENTITY IOcy "&#x00401;" >
+<!ENTITY iocy "&#x00451;" >
+<!ENTITY Jcy "&#x00419;" >
+<!ENTITY jcy "&#x00439;" >
+<!ENTITY Kcy "&#x0041A;" >
+<!ENTITY kcy "&#x0043A;" >
+<!ENTITY KHcy "&#x00425;" >
+<!ENTITY khcy "&#x00445;" >
+<!ENTITY Lcy "&#x0041B;" >
+<!ENTITY lcy "&#x0043B;" >
+<!ENTITY Mcy "&#x0041C;" >
+<!ENTITY mcy "&#x0043C;" >
+<!ENTITY Ncy "&#x0041D;" >
+<!ENTITY ncy "&#x0043D;" >
+<!ENTITY numero "&#x02116;" >
+<!ENTITY Ocy "&#x0041E;" >
+<!ENTITY ocy "&#x0043E;" >
+<!ENTITY Pcy "&#x0041F;" >
+<!ENTITY pcy "&#x0043F;" >
+<!ENTITY Rcy "&#x00420;" >
+<!ENTITY rcy "&#x00440;" >
+<!ENTITY Scy "&#x00421;" >
+<!ENTITY scy "&#x00441;" >
+<!ENTITY SHCHcy "&#x00429;" >
+<!ENTITY shchcy "&#x00449;" >
+<!ENTITY SHcy "&#x00428;" >
+<!ENTITY shcy "&#x00448;" >
+<!ENTITY SOFTcy "&#x0042C;" >
+<!ENTITY softcy "&#x0044C;" >
+<!ENTITY Tcy "&#x00422;" >
+<!ENTITY tcy "&#x00442;" >
+<!ENTITY TScy "&#x00426;" >
+<!ENTITY tscy "&#x00446;" >
+<!ENTITY Ucy "&#x00423;" >
+<!ENTITY ucy "&#x00443;" >
+<!ENTITY Vcy "&#x00412;" >
+<!ENTITY vcy "&#x00432;" >
+<!ENTITY YAcy "&#x0042F;" >
+<!ENTITY yacy "&#x0044F;" >
+<!ENTITY Ycy "&#x0042B;" >
+<!ENTITY ycy "&#x0044B;" >
+<!ENTITY YUcy "&#x0042E;" >
+<!ENTITY yucy "&#x0044E;" >
+<!ENTITY Zcy "&#x00417;" >
+<!ENTITY zcy "&#x00437;" >
+<!ENTITY ZHcy "&#x00416;" >
+<!ENTITY zhcy "&#x00436;" >
+<!ENTITY DJcy "&#x00402;" >
+<!ENTITY djcy "&#x00452;" >
+<!ENTITY DScy "&#x00405;" >
+<!ENTITY dscy "&#x00455;" >
+<!ENTITY DZcy "&#x0040F;" >
+<!ENTITY dzcy "&#x0045F;" >
+<!ENTITY GJcy "&#x00403;" >
+<!ENTITY gjcy "&#x00453;" >
+<!ENTITY Iukcy "&#x00406;" >
+<!ENTITY iukcy "&#x00456;" >
+<!ENTITY Jsercy "&#x00408;" >
+<!ENTITY jsercy "&#x00458;" >
+<!ENTITY Jukcy "&#x00404;" >
+<!ENTITY jukcy "&#x00454;" >
+<!ENTITY KJcy "&#x0040C;" >
+<!ENTITY kjcy "&#x0045C;" >
+<!ENTITY LJcy "&#x00409;" >
+<!ENTITY ljcy "&#x00459;" >
+<!ENTITY NJcy "&#x0040A;" >
+<!ENTITY njcy "&#x0045A;" >
+<!ENTITY TSHcy "&#x0040B;" >
+<!ENTITY tshcy "&#x0045B;" >
+<!ENTITY Ubrcy "&#x0040E;" >
+<!ENTITY ubrcy "&#x0045E;" >
+<!ENTITY YIcy "&#x00407;" >
+<!ENTITY yicy "&#x00457;" >
+<!ENTITY acute "&#x000B4;" >
+<!ENTITY breve "&#x002D8;" >
+<!ENTITY caron "&#x002C7;" >
+<!ENTITY cedil "&#x000B8;" >
+<!ENTITY circ "&#x002C6;" >
+<!ENTITY dblac "&#x002DD;" >
+<!ENTITY die "&#x000A8;" >
+<!ENTITY dot "&#x002D9;" >
+<!ENTITY grave "&#x00060;" >
+<!ENTITY macr "&#x000AF;" >
+<!ENTITY ogon "&#x002DB;" >
+<!ENTITY ring "&#x002DA;" >
+<!ENTITY tilde "&#x002DC;" >
+<!ENTITY uml "&#x000A8;" >
+<!ENTITY Agr "&#x00391;" >
+<!ENTITY agr "&#x003B1;" >
+<!ENTITY Bgr "&#x00392;" >
+<!ENTITY bgr "&#x003B2;" >
+<!ENTITY Dgr "&#x00394;" >
+<!ENTITY dgr "&#x003B4;" >
+<!ENTITY EEgr "&#x00397;" >
+<!ENTITY eegr "&#x003B7;" >
+<!ENTITY Egr "&#x00395;" >
+<!ENTITY egr "&#x003B5;" >
+<!ENTITY Ggr "&#x00393;" >
+<!ENTITY ggr "&#x003B3;" >
+<!ENTITY Igr "&#x00399;" >
+<!ENTITY igr "&#x003B9;" >
+<!ENTITY Kgr "&#x0039A;" >
+<!ENTITY kgr "&#x003BA;" >
+<!ENTITY KHgr "&#x003A7;" >
+<!ENTITY khgr "&#x003C7;" >
+<!ENTITY Lgr "&#x0039B;" >
+<!ENTITY lgr "&#x003BB;" >
+<!ENTITY Mgr "&#x0039C;" >
+<!ENTITY mgr "&#x003BC;" >
+<!ENTITY Ngr "&#x0039D;" >
+<!ENTITY ngr "&#x003BD;" >
+<!ENTITY Ogr "&#x0039F;" >
+<!ENTITY ogr "&#x003BF;" >
+<!ENTITY OHgr "&#x003A9;" >
+<!ENTITY ohgr "&#x003C9;" >
+<!ENTITY Pgr "&#x003A0;" >
+<!ENTITY pgr "&#x003C0;" >
+<!ENTITY PHgr "&#x003A6;" >
+<!ENTITY phgr "&#x003C6;" >
+<!ENTITY PSgr "&#x003A8;" >
+<!ENTITY psgr "&#x003C8;" >
+<!ENTITY Rgr "&#x003A1;" >
+<!ENTITY rgr "&#x003C1;" >
+<!ENTITY sfgr "&#x003C2;" >
+<!ENTITY Sgr "&#x003A3;" >
+<!ENTITY sgr "&#x003C3;" >
+<!ENTITY Tgr "&#x003A4;" >
+<!ENTITY tgr "&#x003C4;" >
+<!ENTITY THgr "&#x00398;" >
+<!ENTITY thgr "&#x003B8;" >
+<!ENTITY Ugr "&#x003A5;" >
+<!ENTITY ugr "&#x003C5;" >
+<!ENTITY Xgr "&#x0039E;" >
+<!ENTITY xgr "&#x003BE;" >
+<!ENTITY Zgr "&#x00396;" >
+<!ENTITY zgr "&#x003B6;" >
+<!ENTITY Aacgr "&#x00386;" >
+<!ENTITY aacgr "&#x003AC;" >
+<!ENTITY Eacgr "&#x00388;" >
+<!ENTITY eacgr "&#x003AD;" >
+<!ENTITY EEacgr "&#x00389;" >
+<!ENTITY eeacgr "&#x003AE;" >
+<!ENTITY Iacgr "&#x0038A;" >
+<!ENTITY iacgr "&#x003AF;" >
+<!ENTITY idiagr "&#x00390;" >
+<!ENTITY Idigr "&#x003AA;" >
+<!ENTITY idigr "&#x003CA;" >
+<!ENTITY Oacgr "&#x0038C;" >
+<!ENTITY oacgr "&#x003CC;" >
+<!ENTITY OHacgr "&#x0038F;" >
+<!ENTITY ohacgr "&#x003CE;" >
+<!ENTITY Uacgr "&#x0038E;" >
+<!ENTITY uacgr "&#x003CD;" >
+<!ENTITY udiagr "&#x003B0;" >
+<!ENTITY Udigr "&#x003AB;" >
+<!ENTITY udigr "&#x003CB;" >
+<!ENTITY alpha "&#x003B1;" >
+<!ENTITY beta "&#x003B2;" >
+<!ENTITY chi "&#x003C7;" >
+<!ENTITY Delta "&#x00394;" >
+<!ENTITY delta "&#x003B4;" >
+<!ENTITY epsi "&#x003F5;" >
+<!ENTITY epsis "&#x003F5;" >
+<!ENTITY epsiv "&#x003B5;" >
+<!ENTITY eta "&#x003B7;" >
+<!ENTITY Gamma "&#x00393;" >
+<!ENTITY gamma "&#x003B3;" >
+<!ENTITY gammad "&#x003DD;" >
+<!ENTITY iota "&#x003B9;" >
+<!ENTITY kappa "&#x003BA;" >
+<!ENTITY kappav "&#x003F0;" >
+<!ENTITY Lambda "&#x0039B;" >
+<!ENTITY lambda "&#x003BB;" >
+<!ENTITY mu "&#x003BC;" >
+<!ENTITY nu "&#x003BD;" >
+<!ENTITY Omega "&#x003A9;" >
+<!ENTITY omega "&#x003C9;" >
+<!ENTITY Phi "&#x003A6;" >
+<!ENTITY phis "&#x003D5;" >
+<!ENTITY phiv "&#x003C6;" >
+<!ENTITY Pi "&#x003A0;" >
+<!ENTITY pi "&#x003C0;" >
+<!ENTITY piv "&#x003D6;" >
+<!ENTITY Psi "&#x003A8;" >
+<!ENTITY psi "&#x003C8;" >
+<!ENTITY rho "&#x003C1;" >
+<!ENTITY rhov "&#x003F1;" >
+<!ENTITY Sigma "&#x003A3;" >
+<!ENTITY sigma "&#x003C3;" >
+<!ENTITY sigmav "&#x003C2;" >
+<!ENTITY tau "&#x003C4;" >
+<!ENTITY Theta "&#x00398;" >
+<!ENTITY thetas "&#x003B8;" >
+<!ENTITY thetav "&#x003D1;" >
+<!ENTITY Upsi "&#x003D2;" >
+<!ENTITY upsi "&#x003C5;" >
+<!ENTITY Xi "&#x0039E;" >
+<!ENTITY xi "&#x003BE;" >
+<!ENTITY zeta "&#x003B6;" >
+<!ENTITY b.alpha "&#x1D6C2;" >
+<!ENTITY b.beta "&#x1D6C3;" >
+<!ENTITY b.chi "&#x1D6D8;" >
+<!ENTITY b.Delta "&#x1D6AB;" >
+<!ENTITY b.delta "&#x1D6C5;" >
+<!ENTITY b.epsi "&#x1D6C6;" >
+<!ENTITY b.epsiv "&#x1D6DC;" >
+<!ENTITY b.eta "&#x1D6C8;" >
+<!ENTITY b.Gamma "&#x1D6AA;" >
+<!ENTITY b.gamma "&#x1D6C4;" >
+<!ENTITY b.Gammad "&#x003DC;" >
+<!ENTITY b.gammad "&#x003DD;" >
+<!ENTITY b.iota "&#x1D6CA;" >
+<!ENTITY b.kappa "&#x1D6CB;" >
+<!ENTITY b.kappav "&#x1D6DE;" >
+<!ENTITY b.Lambda "&#x1D6B2;" >
+<!ENTITY b.lambda "&#x1D6CC;" >
+<!ENTITY b.mu "&#x1D6CD;" >
+<!ENTITY b.nu "&#x1D6CE;" >
+<!ENTITY b.Omega "&#x1D6C0;" >
+<!ENTITY b.omega "&#x1D6DA;" >
+<!ENTITY b.Phi "&#x1D6BD;" >
+<!ENTITY b.phi "&#x1D6D7;" >
+<!ENTITY b.phiv "&#x1D6DF;" >
+<!ENTITY b.Pi "&#x1D6B7;" >
+<!ENTITY b.pi "&#x1D6D1;" >
+<!ENTITY b.piv "&#x1D6E1;" >
+<!ENTITY b.Psi "&#x1D6BF;" >
+<!ENTITY b.psi "&#x1D6D9;" >
+<!ENTITY b.rho "&#x1D6D2;" >
+<!ENTITY b.rhov "&#x1D6E0;" >
+<!ENTITY b.Sigma "&#x1D6BA;" >
+<!ENTITY b.sigma "&#x1D6D4;" >
+<!ENTITY b.sigmav "&#x1D6D3;" >
+<!ENTITY b.tau "&#x1D6D5;" >
+<!ENTITY b.Theta "&#x1D6AF;" >
+<!ENTITY b.thetas "&#x1D6C9;" >
+<!ENTITY b.thetav "&#x1D6DD;" >
+<!ENTITY b.Upsi "&#x1D6BC;" >
+<!ENTITY b.upsi "&#x1D6D6;" >
+<!ENTITY b.Xi "&#x1D6B5;" >
+<!ENTITY b.xi "&#x1D6CF;" >
+<!ENTITY b.zeta "&#x1D6C7;" >
+<!ENTITY Aacute "&#x000C1;" >
+<!ENTITY aacute "&#x000E1;" >
+<!ENTITY Acirc "&#x000C2;" >
+<!ENTITY acirc "&#x000E2;" >
+<!ENTITY AElig "&#x000C6;" >
+<!ENTITY aelig "&#x000E6;" >
+<!ENTITY Agrave "&#x000C0;" >
+<!ENTITY agrave "&#x000E0;" >
+<!ENTITY Aring "&#x000C5;" >
+<!ENTITY aring "&#x000E5;" >
+<!ENTITY Atilde "&#x000C3;" >
+<!ENTITY atilde "&#x000E3;" >
+<!ENTITY Auml "&#x000C4;" >
+<!ENTITY auml "&#x000E4;" >
+<!ENTITY Ccedil "&#x000C7;" >
+<!ENTITY ccedil "&#x000E7;" >
+<!ENTITY Eacute "&#x000C9;" >
+<!ENTITY eacute "&#x000E9;" >
+<!ENTITY Ecirc "&#x000CA;" >
+<!ENTITY ecirc "&#x000EA;" >
+<!ENTITY Egrave "&#x000C8;" >
+<!ENTITY egrave "&#x000E8;" >
+<!ENTITY ETH "&#x000D0;" >
+<!ENTITY eth "&#x000F0;" >
+<!ENTITY Euml "&#x000CB;" >
+<!ENTITY euml "&#x000EB;" >
+<!ENTITY Iacute "&#x000CD;" >
+<!ENTITY iacute "&#x000ED;" >
+<!ENTITY Icirc "&#x000CE;" >
+<!ENTITY icirc "&#x000EE;" >
+<!ENTITY Igrave "&#x000CC;" >
+<!ENTITY igrave "&#x000EC;" >
+<!ENTITY Iuml "&#x000CF;" >
+<!ENTITY iuml "&#x000EF;" >
+<!ENTITY Ntilde "&#x000D1;" >
+<!ENTITY ntilde "&#x000F1;" >
+<!ENTITY Oacute "&#x000D3;" >
+<!ENTITY oacute "&#x000F3;" >
+<!ENTITY Ocirc "&#x000D4;" >
+<!ENTITY ocirc "&#x000F4;" >
+<!ENTITY Ograve "&#x000D2;" >
+<!ENTITY ograve "&#x000F2;" >
+<!ENTITY Oslash "&#x000D8;" >
+<!ENTITY oslash "&#x000F8;" >
+<!ENTITY Otilde "&#x000D5;" >
+<!ENTITY otilde "&#x000F5;" >
+<!ENTITY Ouml "&#x000D6;" >
+<!ENTITY ouml "&#x000F6;" >
+<!ENTITY szlig "&#x000DF;" >
+<!ENTITY THORN "&#x000DE;" >
+<!ENTITY thorn "&#x000FE;" >
+<!ENTITY Uacute "&#x000DA;" >
+<!ENTITY uacute "&#x000FA;" >
+<!ENTITY Ucirc "&#x000DB;" >
+<!ENTITY ucirc "&#x000FB;" >
+<!ENTITY Ugrave "&#x000D9;" >
+<!ENTITY ugrave "&#x000F9;" >
+<!ENTITY Uuml "&#x000DC;" >
+<!ENTITY uuml "&#x000FC;" >
+<!ENTITY Yacute "&#x000DD;" >
+<!ENTITY yacute "&#x000FD;" >
+<!ENTITY yuml "&#x000FF;" >
+<!ENTITY Abreve "&#x00102;" >
+<!ENTITY abreve "&#x00103;" >
+<!ENTITY Amacr "&#x00100;" >
+<!ENTITY amacr "&#x00101;" >
+<!ENTITY Aogon "&#x00104;" >
+<!ENTITY aogon "&#x00105;" >
+<!ENTITY Cacute "&#x00106;" >
+<!ENTITY cacute "&#x00107;" >
+<!ENTITY Ccaron "&#x0010C;" >
+<!ENTITY ccaron "&#x0010D;" >
+<!ENTITY Ccirc "&#x00108;" >
+<!ENTITY ccirc "&#x00109;" >
+<!ENTITY Cdot "&#x0010A;" >
+<!ENTITY cdot "&#x0010B;" >
+<!ENTITY Dcaron "&#x0010E;" >
+<!ENTITY dcaron "&#x0010F;" >
+<!ENTITY Dstrok "&#x00110;" >
+<!ENTITY dstrok "&#x00111;" >
+<!ENTITY Ecaron "&#x0011A;" >
+<!ENTITY ecaron "&#x0011B;" >
+<!ENTITY Edot "&#x00116;" >
+<!ENTITY edot "&#x00117;" >
+<!ENTITY Emacr "&#x00112;" >
+<!ENTITY emacr "&#x00113;" >
+<!ENTITY ENG "&#x0014A;" >
+<!ENTITY eng "&#x0014B;" >
+<!ENTITY Eogon "&#x00118;" >
+<!ENTITY eogon "&#x00119;" >
+<!ENTITY gacute "&#x001F5;" >
+<!ENTITY Gbreve "&#x0011E;" >
+<!ENTITY gbreve "&#x0011F;" >
+<!ENTITY Gcedil "&#x00122;" >
+<!ENTITY Gcirc "&#x0011C;" >
+<!ENTITY gcirc "&#x0011D;" >
+<!ENTITY Gdot "&#x00120;" >
+<!ENTITY gdot "&#x00121;" >
+<!ENTITY Hcirc "&#x00124;" >
+<!ENTITY hcirc "&#x00125;" >
+<!ENTITY Hstrok "&#x00126;" >
+<!ENTITY hstrok "&#x00127;" >
+<!ENTITY Idot "&#x00130;" >
+<!ENTITY IJlig "&#x00132;" >
+<!ENTITY ijlig "&#x00133;" >
+<!ENTITY Imacr "&#x0012A;" >
+<!ENTITY imacr "&#x0012B;" >
+<!ENTITY inodot "&#x00131;" >
+<!ENTITY Iogon "&#x0012E;" >
+<!ENTITY iogon "&#x0012F;" >
+<!ENTITY Itilde "&#x00128;" >
+<!ENTITY itilde "&#x00129;" >
+<!ENTITY Jcirc "&#x00134;" >
+<!ENTITY jcirc "&#x00135;" >
+<!ENTITY Kcedil "&#x00136;" >
+<!ENTITY kcedil "&#x00137;" >
+<!ENTITY kgreen "&#x00138;" >
+<!ENTITY Lacute "&#x00139;" >
+<!ENTITY lacute "&#x0013A;" >
+<!ENTITY Lcaron "&#x0013D;" >
+<!ENTITY lcaron "&#x0013E;" >
+<!ENTITY Lcedil "&#x0013B;" >
+<!ENTITY lcedil "&#x0013C;" >
+<!ENTITY Lmidot "&#x0013F;" >
+<!ENTITY lmidot "&#x00140;" >
+<!ENTITY Lstrok "&#x00141;" >
+<!ENTITY lstrok "&#x00142;" >
+<!ENTITY Nacute "&#x00143;" >
+<!ENTITY nacute "&#x00144;" >
+<!ENTITY napos "&#x00149;" >
+<!ENTITY Ncaron "&#x00147;" >
+<!ENTITY ncaron "&#x00148;" >
+<!ENTITY Ncedil "&#x00145;" >
+<!ENTITY ncedil "&#x00146;" >
+<!ENTITY Odblac "&#x00150;" >
+<!ENTITY odblac "&#x00151;" >
+<!ENTITY OElig "&#x00152;" >
+<!ENTITY oelig "&#x00153;" >
+<!ENTITY Omacr "&#x0014C;" >
+<!ENTITY omacr "&#x0014D;" >
+<!ENTITY Racute "&#x00154;" >
+<!ENTITY racute "&#x00155;" >
+<!ENTITY Rcaron "&#x00158;" >
+<!ENTITY rcaron "&#x00159;" >
+<!ENTITY Rcedil "&#x00156;" >
+<!ENTITY rcedil "&#x00157;" >
+<!ENTITY Sacute "&#x0015A;" >
+<!ENTITY sacute "&#x0015B;" >
+<!ENTITY Scaron "&#x00160;" >
+<!ENTITY scaron "&#x00161;" >
+<!ENTITY Scedil "&#x0015E;" >
+<!ENTITY scedil "&#x0015F;" >
+<!ENTITY Scirc "&#x0015C;" >
+<!ENTITY scirc "&#x0015D;" >
+<!ENTITY Tcaron "&#x00164;" >
+<!ENTITY tcaron "&#x00165;" >
+<!ENTITY Tcedil "&#x00162;" >
+<!ENTITY tcedil "&#x00163;" >
+<!ENTITY Tstrok "&#x00166;" >
+<!ENTITY tstrok "&#x00167;" >
+<!ENTITY Ubreve "&#x0016C;" >
+<!ENTITY ubreve "&#x0016D;" >
+<!ENTITY Udblac "&#x00170;" >
+<!ENTITY udblac "&#x00171;" >
+<!ENTITY Umacr "&#x0016A;" >
+<!ENTITY umacr "&#x0016B;" >
+<!ENTITY Uogon "&#x00172;" >
+<!ENTITY uogon "&#x00173;" >
+<!ENTITY Uring "&#x0016E;" >
+<!ENTITY uring "&#x0016F;" >
+<!ENTITY Utilde "&#x00168;" >
+<!ENTITY utilde "&#x00169;" >
+<!ENTITY Wcirc "&#x00174;" >
+<!ENTITY wcirc "&#x00175;" >
+<!ENTITY Ycirc "&#x00176;" >
+<!ENTITY ycirc "&#x00177;" >
+<!ENTITY Yuml "&#x00178;" >
+<!ENTITY Zacute "&#x00179;" >
+<!ENTITY zacute "&#x0017A;" >
+<!ENTITY Zcaron "&#x0017D;" >
+<!ENTITY zcaron "&#x0017E;" >
+<!ENTITY Zdot "&#x0017B;" >
+<!ENTITY zdot "&#x0017C;" >
+<!ENTITY amp "&#38;#38;" >
+<!ENTITY apos "&#x00027;" >
+<!ENTITY ast "&#x0002A;" >
+<!ENTITY brvbar "&#x000A6;" >
+<!ENTITY bsol "&#x0005C;" >
+<!ENTITY cent "&#x000A2;" >
+<!ENTITY colon "&#x0003A;" >
+<!ENTITY comma "&#x0002C;" >
+<!ENTITY commat "&#x00040;" >
+<!ENTITY copy "&#x000A9;" >
+<!ENTITY curren "&#x000A4;" >
+<!ENTITY darr "&#x02193;" >
+<!ENTITY deg "&#x000B0;" >
+<!ENTITY divide "&#x000F7;" >
+<!ENTITY dollar "&#x00024;" >
+<!ENTITY equals "&#x0003D;" >
+<!ENTITY excl "&#x00021;" >
+<!ENTITY frac12 "&#x000BD;" >
+<!ENTITY frac14 "&#x000BC;" >
+<!ENTITY frac18 "&#x0215B;" >
+<!ENTITY frac34 "&#x000BE;" >
+<!ENTITY frac38 "&#x0215C;" >
+<!ENTITY frac58 "&#x0215D;" >
+<!ENTITY frac78 "&#x0215E;" >
+<!ENTITY gt "&#x0003E;" >
+<!ENTITY half "&#x000BD;" >
+<!ENTITY horbar "&#x02015;" >
+<!ENTITY hyphen "&#x02010;" >
+<!ENTITY iexcl "&#x000A1;" >
+<!ENTITY iquest "&#x000BF;" >
+<!ENTITY laquo "&#x000AB;" >
+<!ENTITY larr "&#x02190;" >
+<!ENTITY lcub "&#x0007B;" >
+<!ENTITY ldquo "&#x0201C;" >
+<!ENTITY lowbar "&#x0005F;" >
+<!ENTITY lpar "&#x00028;" >
+<!ENTITY lsqb "&#x0005B;" >
+<!ENTITY lsquo "&#x02018;" >
+<!ENTITY lt "&#38;#60;" >
+<!ENTITY micro "&#x000B5;" >
+<!ENTITY middot "&#x000B7;" >
+<!ENTITY nbsp "&#x000A0;" >
+<!ENTITY not "&#x000AC;" >
+<!ENTITY num "&#x00023;" >
+<!ENTITY ohm "&#x02126;" >
+<!ENTITY ordf "&#x000AA;" >
+<!ENTITY ordm "&#x000BA;" >
+<!ENTITY para "&#x000B6;" >
+<!ENTITY percnt "&#x00025;" >
+<!ENTITY period "&#x0002E;" >
+<!ENTITY plus "&#x0002B;" >
+<!ENTITY plusmn "&#x000B1;" >
+<!ENTITY pound "&#x000A3;" >
+<!ENTITY quest "&#x0003F;" >
+<!ENTITY quot "&#x00022;" >
+<!ENTITY raquo "&#x000BB;" >
+<!ENTITY rarr "&#x02192;" >
+<!ENTITY rcub "&#x0007D;" >
+<!ENTITY rdquo "&#x0201D;" >
+<!ENTITY reg "&#x000AE;" >
+<!ENTITY rpar "&#x00029;" >
+<!ENTITY rsqb "&#x0005D;" >
+<!ENTITY rsquo "&#x02019;" >
+<!ENTITY sect "&#x000A7;" >
+<!ENTITY semi "&#x0003B;" >
+<!ENTITY shy "&#x000AD;" >
+<!ENTITY sol "&#x0002F;" >
+<!ENTITY sung "&#x0266A;" >
+<!ENTITY sup1 "&#x000B9;" >
+<!ENTITY sup2 "&#x000B2;" >
+<!ENTITY sup3 "&#x000B3;" >
+<!ENTITY times "&#x000D7;" >
+<!ENTITY trade "&#x02122;" >
+<!ENTITY uarr "&#x02191;" >
+<!ENTITY verbar "&#x0007C;" >
+<!ENTITY yen "&#x000A5;" >
+<!ENTITY blank "&#x02423;" >
+<!ENTITY blk12 "&#x02592;" >
+<!ENTITY blk14 "&#x02591;" >
+<!ENTITY blk34 "&#x02593;" >
+<!ENTITY block "&#x02588;" >
+<!ENTITY bull "&#x02022;" >
+<!ENTITY caret "&#x02041;" >
+<!ENTITY check "&#x02713;" >
+<!ENTITY cir "&#x025CB;" >
+<!ENTITY clubs "&#x02663;" >
+<!ENTITY copysr "&#x02117;" >
+<!ENTITY cross "&#x02717;" >
+<!ENTITY Dagger "&#x02021;" >
+<!ENTITY dagger "&#x02020;" >
+<!ENTITY dash "&#x02010;" >
+<!ENTITY diams "&#x02666;" >
+<!ENTITY dlcrop "&#x0230D;" >
+<!ENTITY drcrop "&#x0230C;" >
+<!ENTITY dtri "&#x025BF;" >
+<!ENTITY dtrif "&#x025BE;" >
+<!ENTITY emsp "&#x02003;" >
+<!ENTITY emsp13 "&#x02004;" >
+<!ENTITY emsp14 "&#x02005;" >
+<!ENTITY ensp "&#x02002;" >
+<!ENTITY female "&#x02640;" >
+<!ENTITY ffilig "&#x0FB03;" >
+<!ENTITY fflig "&#x0FB00;" >
+<!ENTITY ffllig "&#x0FB04;" >
+<!ENTITY filig "&#x0FB01;" >
+<!ENTITY flat "&#x0266D;" >
+<!ENTITY fllig "&#x0FB02;" >
+<!ENTITY frac13 "&#x02153;" >
+<!ENTITY frac15 "&#x02155;" >
+<!ENTITY frac16 "&#x02159;" >
+<!ENTITY frac23 "&#x02154;" >
+<!ENTITY frac25 "&#x02156;" >
+<!ENTITY frac35 "&#x02157;" >
+<!ENTITY frac45 "&#x02158;" >
+<!ENTITY frac56 "&#x0215A;" >
+<!ENTITY hairsp "&#x0200A;" >
+<!ENTITY hearts "&#x02665;" >
+<!ENTITY hellip "&#x02026;" >
+<!ENTITY hybull "&#x02043;" >
+<!ENTITY incare "&#x02105;" >
+<!ENTITY ldquor "&#x0201E;" >
+<!ENTITY lhblk "&#x02584;" >
+<!ENTITY loz "&#x025CA;" >
+<!ENTITY lozf "&#x029EB;" >
+<!ENTITY lsquor "&#x0201A;" >
+<!ENTITY ltri "&#x025C3;" >
+<!ENTITY ltrif "&#x025C2;" >
+<!ENTITY male "&#x02642;" >
+<!ENTITY malt "&#x02720;" >
+<!ENTITY marker "&#x025AE;" >
+<!ENTITY mdash "&#x02014;" >
+<!ENTITY mldr "&#x02026;" >
+<!ENTITY natur "&#x0266E;" >
+<!ENTITY ndash "&#x02013;" >
+<!ENTITY nldr "&#x02025;" >
+<!ENTITY numsp "&#x02007;" >
+<!ENTITY phone "&#x0260E;" >
+<!ENTITY puncsp "&#x02008;" >
+<!ENTITY rdquor "&#x0201D;" >
+<!ENTITY rect "&#x025AD;" >
+<!ENTITY rsquor "&#x02019;" >
+<!ENTITY rtri "&#x025B9;" >
+<!ENTITY rtrif "&#x025B8;" >
+<!ENTITY rx "&#x0211E;" >
+<!ENTITY sext "&#x02736;" >
+<!ENTITY sharp "&#x0266F;" >
+<!ENTITY spades "&#x02660;" >
+<!ENTITY squ "&#x025A1;" >
+<!ENTITY squf "&#x025AA;" >
+<!ENTITY star "&#x02606;" >
+<!ENTITY starf "&#x02605;" >
+<!ENTITY target "&#x02316;" >
+<!ENTITY telrec "&#x02315;" >
+<!ENTITY thinsp "&#x02009;" >
+<!ENTITY uhblk "&#x02580;" >
+<!ENTITY ulcrop "&#x0230F;" >
+<!ENTITY urcrop "&#x0230E;" >
+<!ENTITY utri "&#x025B5;" >
+<!ENTITY utrif "&#x025B4;" >
+<!ENTITY vellip "&#x022EE;" >
+<!ENTITY aleph "&#x02135;" >
+<!ENTITY and "&#x02227;" >
+<!ENTITY ang90 "&#x0221F;" >
+<!ENTITY angsph "&#x02222;" >
+<!ENTITY angst "&#x0212B;" >
+<!ENTITY ap "&#x02248;" >
+<!ENTITY becaus "&#x02235;" >
+<!ENTITY bernou "&#x0212C;" >
+<!ENTITY bottom "&#x022A5;" >
+<!ENTITY cap "&#x02229;" >
+<!ENTITY compfn "&#x02218;" >
+<!ENTITY cong "&#x02245;" >
+<!ENTITY conint "&#x0222E;" >
+<!ENTITY cup "&#x0222A;" >
+<!ENTITY Dot "&#x000A8;" >
+<!ENTITY DotDot " &#x020DC;" >
+<!ENTITY equiv "&#x02261;" >
+<!ENTITY exist "&#x02203;" >
+<!ENTITY fnof "&#x00192;" >
+<!ENTITY forall "&#x02200;" >
+<!ENTITY ge "&#x02265;" >
+<!ENTITY hamilt "&#x0210B;" >
+<!ENTITY iff "&#x021D4;" >
+<!ENTITY infin "&#x0221E;" >
+<!ENTITY int "&#x0222B;" >
+<!ENTITY isin "&#x02208;" >
+<!ENTITY lagran "&#x02112;" >
+<!ENTITY lang "&#x02329;" >
+<!ENTITY lArr "&#x021D0;" >
+<!ENTITY le "&#x02264;" >
+<!ENTITY lowast "&#x02217;" >
+<!ENTITY minus "&#x02212;" >
+<!ENTITY mnplus "&#x02213;" >
+<!ENTITY nabla "&#x02207;" >
+<!ENTITY ne "&#x02260;" >
+<!ENTITY ni "&#x0220B;" >
+<!ENTITY notin "&#x02209;" >
+<!ENTITY or "&#x02228;" >
+<!ENTITY order "&#x02134;" >
+<!ENTITY par "&#x02225;" >
+<!ENTITY part "&#x02202;" >
+<!ENTITY permil "&#x02030;" >
+<!ENTITY perp "&#x022A5;" >
+<!ENTITY phmmat "&#x02133;" >
+<!ENTITY Prime "&#x02033;" >
+<!ENTITY prime "&#x02032;" >
+<!ENTITY prop "&#x0221D;" >
+<!ENTITY radic "&#x0221A;" >
+<!ENTITY rang "&#x0232A;" >
+<!ENTITY rArr "&#x021D2;" >
+<!ENTITY sim "&#x0223C;" >
+<!ENTITY sime "&#x02243;" >
+<!ENTITY square "&#x025A1;" >
+<!ENTITY sub "&#x02282;" >
+<!ENTITY sube "&#x02286;" >
+<!ENTITY sup "&#x02283;" >
+<!ENTITY supe "&#x02287;" >
+<!ENTITY tdot " &#x020DB;" >
+<!ENTITY there4 "&#x02234;" >
+<!ENTITY tprime "&#x02034;" >
+<!ENTITY Verbar "&#x02016;" >
+<!ENTITY wedgeq "&#x02259;" >
+]>
+<section version="5.0" xml:lang="en-US" xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<!--    Converted by db4-upgrade version 1.0    --><info><title>Document Conventions</title>
+	 </info> <para>
+		This manual uses several conventions to highlight certain words and phrases and draw attention to specific pieces of information.
+	</para>
+	 <para>
+		In PDF and paper editions, this manual uses typefaces drawn from the <link xlink:href="https://fedorahosted.org/liberation-fonts/" xmlns:xlink="http://www.w3.org/1999/xlink">Liberation Fonts</link> set. The Liberation Fonts set is also used in HTML editions if the set is installed on your system. If not, alternative but equivalent typefaces are displayed. Note: Red Hat Enterprise Linux 5 and later includes the Liberation Fonts set by default.
+	</para>
+	 <section>
+		<info><title>Typographic Conventions</title>
+		 </info> <para>
+			Four typographic conventions are used to call attention to specific words and phrases. These conventions, and the circumstances they apply to, are as follows.
+		</para>
+		 <para>
+			<literal>Mono-spaced Bold</literal>
+		</para>
+		 <para>
+			Used to highlight system input, including shell commands, file names and paths. Also used to highlight keycaps and key combinations. For example:
+		</para>
+		 <blockquote>
+			<para>
+				To see the contents of the file <filename>my_next_bestselling_novel</filename> in your current working directory, enter the <command>cat my_next_bestselling_novel</command> command at the shell prompt and press <keycap>Enter</keycap> to execute the command.
+			</para>
+
+		</blockquote>
+		 <para>
+			The above includes a file name, a shell command and a keycap, all presented in mono-spaced bold and all distinguishable thanks to context.
+		</para>
+		 <para>
+			Key combinations can be distinguished from keycaps by the plus sign that connects each part of a key combination. For example:
+		</para>
+		 <blockquote>
+			<para>
+				Press <keycap>Enter</keycap> to execute the command.
+			</para>
+			 <para>
+				Press <keycombo><keycap>Ctrl</keycap><keycap>Alt</keycap><keycap>F2</keycap></keycombo> to switch to a virtual terminal.
+			</para>
+
+		</blockquote>
+		 <para>
+			The first paragraph highlights the particular keycap to press. The second highlights two key combinations (each a set of three keycaps with each set pressed simultaneously).
+		</para>
+		 <para>
+			If source code is discussed, class names, methods, functions, variable names and returned values mentioned within a paragraph will be presented as above, in <literal>mono-spaced bold</literal>. For example:
+		</para>
+		 <blockquote>
+			<para>
+				File-related classes include <classname>filesystem</classname> for file systems, <classname>file</classname> for files, and <classname>dir</classname> for directories. Each class has its own associated set of permissions.
+			</para>
+
+		</blockquote>
+		 <para>
+			<application>Proportional Bold</application>
+		</para>
+		 <para>
+			This denotes words or phrases encountered on a system, including application names; dialog box text; labeled buttons; check-box and radio button labels; menu titles and sub-menu titles. For example:
+		</para>
+		 <blockquote>
+			<para>
+				Choose <menuchoice><guimenu>System</guimenu><guisubmenu>Preferences</guisubmenu><guimenuitem>Mouse</guimenuitem></menuchoice> from the main menu bar to launch <application>Mouse Preferences</application>. In the <guilabel>Buttons</guilabel> tab, click the <guilabel>Left-handed mouse</guilabel> check box and click <guibutton>Close</guibutton> to switch the primary mouse button from the left to the right (making the mouse suitable for use in the left hand).
+			</para>
+			 <para>
+				To insert a special character into a <application>gedit</application> file, choose <menuchoice><guimenu>Applications</guimenu><guisubmenu>Accessories</guisubmenu><guimenuitem>Character Map</guimenuitem></menuchoice> from the main menu bar. Next, choose <menuchoice><guimenu>Search</guimenu><guimenuitem>Find…</guimenuitem></menuchoice> from the <application>Character Map</application> menu bar, type the name of the character in the <guilabel>Search</guilabel> field and click <guibutton>Next</guibutton>. The character you sought will be highlighted in the <guilabel>Character Table</guilabel>. Double-click this highlighted character to place it in the <guilabel>Text to copy</guilabel> field and then click the <guibutton>Copy</guibutton> button. Now switch back to your document and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice> from the <application>gedit</application> menu bar.
+			</para>
+
+		</blockquote>
+		 <para>
+			The above text includes application names; system-wide menu names and items; application-specific menu names; and buttons and text found within a GUI interface, all presented in proportional bold and all distinguishable by context.
+		</para>
+		 <para>
+			<command><replaceable>Mono-spaced Bold Italic</replaceable></command> or <application><replaceable>Proportional Bold Italic</replaceable></application>
+		</para>
+		 <para>
+			Whether mono-spaced bold or proportional bold, the addition of italics indicates replaceable or variable text. Italics denotes text you do not input literally or displayed text that changes depending on circumstance. For example:
+		</para>
+		 <blockquote>
+			<para>
+				To connect to a remote machine using ssh, type <command>ssh <replaceable>username</replaceable>@<replaceable>domain.name</replaceable></command> at a shell prompt. If the remote machine is <filename>example.com</filename> and your username on that machine is john, type <command>ssh john@example.com</command>.
+			</para>
+			 <para>
+				The <command>mount -o remount <replaceable>file-system</replaceable></command> command remounts the named file system. For example, to remount the <filename>/home</filename> file system, the command is <command>mount -o remount /home</command>.
+			</para>
+			 <para>
+				To see the version of a currently installed package, use the <command>rpm -q <replaceable>package</replaceable></command> command. It will return a result as follows: <command><replaceable>package-version-release</replaceable></command>.
+			</para>
+
+		</blockquote>
+		 <para>
+			Note the words in bold italics above — username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system.
+		</para>
+		 <para>
+			Aside from standard usage for presenting the title of a work, italics denotes the first use of a new and important term. For example:
+		</para>
+		 <blockquote>
+			<para>
+				Publican is a <firstterm>DocBook</firstterm> publishing system.
+			</para>
+
+		</blockquote>
+
+	</section>
+	
+	 <section>
+		<info><title>Pull-quote Conventions</title>
+		 </info> <para>
+			Terminal output and source code listings are set off visually from the surrounding text.
+		</para>
+		 <para>
+			Output sent to a terminal is set in <computeroutput>mono-spaced roman</computeroutput> and presented thus:
+		</para>
+		 
+<screen>books        Desktop   documentation  drafts  mss    photos   stuff  svn
+books_tests  Desktop1  downloads      images  notes  scripts  svgs</screen>
+		 <para>
+			Source-code listings are also set in <computeroutput>mono-spaced roman</computeroutput> but add syntax highlighting as follows:
+		</para>
+		 <xi:include href="Program_Listing.xml" />
+
+	</section>
+	
+	 <section>
+		<info><title>Notes and Warnings</title>
+		 </info> <para>
+			Finally, we use three visual styles to draw attention to information that might otherwise be overlooked.
+		</para>
+		 <note>
+			<info><title>Note</title>
+			 </info> <para>
+				Notes are tips, shortcuts or alternative approaches to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier.
+			</para>
+
+		</note>
+		 <important>
+			<info><title>Important</title>
+			 </info> <para>
+				Important boxes detail things that are easily missed: configuration changes that only apply to the current session, or services that need restarting before an update will apply. Ignoring a box labeled 'Important' will not cause data loss but may cause irritation and frustration.
+			</para>
+
+		</important>
+		 <warning>
+			<info><title>Warning</title>
+			 </info> <para>
+				Warnings should not be ignored. Ignoring warnings will most likely cause data loss.
+			</para>
+
+		</warning>
+
+	</section>
+	
+
+</section>
+
+

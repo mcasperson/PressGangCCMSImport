@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE part [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<part xml:id="part-Test_Part" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<title>Test Part</title>
+	<partintro> 
+		<para>
+			This is a test of a &lt;partintro&gt; import.
+		</para>
+		<para role="RoleCreateBugPara">
+			<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+IDs%3A%0A42670-611997+%5BLatest%5D&amp;comment=Title%3A+Test+Part%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A">Report a bug</link>
+		</para>
+		<section remap="TID_39577" version="5.0" xml:id="Test_partintro" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+			<title>Test partintro</title>
+			<para/>
+			<para role="RoleCreateBugPara">
+				<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+ID%3A+39577-606826+%5BLatest%5D&amp;comment=Title%3A+Test+partintro%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A&amp;cf_build_id=39577-606826+18+Mar+2014+08%3A18+en-US+%5BLatest%5D">Report a bug</link>
+			</para>
+		</section>
+	</partintro>
+	<xi:include href="chap-Title.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</part>

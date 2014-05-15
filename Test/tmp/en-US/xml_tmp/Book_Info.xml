@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE info [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+
+
+<info xml:id="book-Test-Test" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<title>Test</title>
+	<subtitle>Enter a short description here.</subtitle>
+	<productname>Documentation</productname>
+	<productnumber>0.1</productnumber>
+	<edition>0</edition>
+	<biblioid class="pubsnumber">1</biblioid>
+	<abstract>
+		<para>
+			A brief paragraph describing this book. This will be used as the description for the rpm package.
+		</para>
+	</abstract>
+
+	<orgname>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" />
+			</imageobject>
+		</inlinemediaobject>
+	</orgname>
+	<xi:include href="Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+	<xi:fallback xmlns:xi="http://www.w3.org/2001/XInclude">
+		<xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	</xi:fallback>
+</xi:include>
+	<xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</info>

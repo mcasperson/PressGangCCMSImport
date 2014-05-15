@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE authorgroup [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<authorgroup remap="TID_39560" xml:id="Author_Group" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<author>
+		<personname> 
+			<firstname>Dude</firstname><surname>McPants</surname>
+		</personname>
+		<affiliation>
+			<orgname>
+				RedHat
+			</orgname>
+			<orgdiv>
+				Rockstar division
+			</orgdiv>
+		</affiliation><email>rockstar@redhat.com</email>
+	</author>
+	<author>
+		<personname> 
+			<firstname>Enter your first name here.</firstname> <surname>Enter your surname here.</surname>
+		</personname>
+		<affiliation>
+			<orgname>
+				Enter your organisation's name here.
+			</orgname>
+			<orgdiv>
+				Enter your organisational division here.
+			</orgdiv>
+		</affiliation> <email>Enter your email address here.</email>
+	</author>
+</authorgroup>

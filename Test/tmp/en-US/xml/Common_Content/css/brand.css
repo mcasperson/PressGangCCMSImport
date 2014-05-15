@@ -1,0 +1,543 @@
+/*
+    These are the rules from the Chroming CSS files that are not limited to a particular class, id or attribute. This
+    is where we will find CSS rule conflicts.
+
+    To find out what CSS rules are globally applied by the Chrome API, run the following script on a docs page wrapped
+    with the chroming.
+
+    This is best done in Chrome with the command line switch --disable-web-security. Without that switch, the script
+    will not be able to inspect the CSS rules of stylesheets outside of the local domain (i.e. the cssRules property
+    will be null).
+
+    var blockStyle = "";
+
+    function stringEndsWith(string, suffix) {
+        return string.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+
+    //IE used the non-standard property rules.
+    var rulesProperty = '';
+    if (document.styleSheets[0].cssRules !== undefined) {
+        rulesProperty = 'cssRules';
+    } else if (document.styleSheets[0].rules !== undefined) {
+        rulesProperty = 'rules';
+    } else {
+        // this shouldn't happen, but have an out just in case there is a browser that
+        // does not use cssRules or rules.
+        return;
+    }
+
+    //Loop over each style sheet added by the chrome API and limit them to elements with the DATA_ATTRIBUTE_NAME attribute
+    for (var styleSheetIndex = 0, styleSheetCount = document.styleSheets.length; styleSheetIndex < styleSheetCount; ++styleSheetIndex) {
+        var styleSheet = document.styleSheets[styleSheetIndex];
+
+        if (!stringEndsWith(styleSheet.href, "site/documentation/RedHat/en-US/css/brand.css") &&
+            !stringEndsWith(styleSheet.href, "site/documentation/chrome.css") &&
+            !stringEndsWith(styleSheet.href, "site/documentation/db4.css") &&
+            !stringEndsWith(styleSheet.href, "site/documentation/print.css")) {
+
+            //console.log("Found chrome style sheet " + styleSheet.href);
+
+            if (styleSheet[rulesProperty]) {
+
+                for (var ruleIndex = 0, ruleCount = styleSheet[rulesProperty].length; ruleIndex < ruleCount; ++ruleIndex) {
+
+                    var selectorText = styleSheet[rulesProperty][ruleIndex].selectorText;
+
+                    if (selectorText) {
+
+                        var recombinedSelectors = "";
+                        var selectors = styleSheet[rulesProperty][ruleIndex].selectorText.split(",");
+
+                        for (var selectorIndex = 0, selectorCount = selectors.length; selectorIndex < selectorCount; ++selectorIndex) {
+
+                            var selector = selectors[selectorIndex];
+
+                            if (!(selector.trim().indexOf(".") != -1 ||
+                                selector.trim().indexOf("#") != -1 ||
+                                selector.trim().indexOf("[") != -1)) {
+
+                                if (recombinedSelectors.length != 0) {
+                                    recombinedSelectors += ", ";
+                                }
+
+                                recombinedSelectors += selector.trim();
+                            }
+
+                        }
+
+                        if (recombinedSelectors.length != 0) {
+                            if (blockStyle.length != 0) {
+                                blockStyle += "\n";
+                            }
+
+
+                            blockStyle += styleSheet[rulesProperty][ruleIndex].cssText.replace(styleSheet[rulesProperty][ruleIndex].selectorText, recombinedSelectors);
+                        }
+                    }
+                }
+            }
+        }
+
+        console.log(blockStyle);
+    }
+
+    This is the list of possibly conflicting CSS rules.
+
+    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { background-color: transparent; font-size: 100%; border: 0px; margin: 0px; padding: 0px; vertical-align: baseline; background-position: initial initial; background-repeat: initial initial; }
+    a { text-decoration: none; }
+    a:link, a:visited { color: rgb(0, 102, 204); }
+    a:hover, a:active { color: rgb(0, 51, 204); text-decoration: underline; }
+    body { background-color: rgb(23, 23, 23); color: rgb(51, 51, 51); font-family: 'Liberation Sans', 'Trebuchet MS', 'Bitstream Vera Sans', helvetica, verdana, arial, sans-serif; font-size: small; line-height: 1; margin: 0px; min-height: 373px; padding: 0px; text-align: left; background-position: initial initial; background-repeat: initial initial; }
+    dd { margin: 5px 0px 0px 10px; }
+    dl { margin: 10px 0px; }
+    dt { font-weight: bold; margin: 15px 0px 0px; }
+    h1, h2, h3, h4, h5 { color: rgb(51, 51, 51); font-family: Overpass, 'Liberation Sans', 'Trebuchet MS', 'Bitstream Vera Sans', helvetica, verdana, arial, sans-serif; font-weight: bold; line-height: 100%; margin: 0px; }
+    h1 { font-size: 200%; padding: 10px 0px 15px; }
+    table h1 { font-size: 210%; padding-bottom: 11px; padding-top: 6px; }
+    h2 { font-size: 145%; padding: 10px 0px 5px; }
+    h1 + h2 { padding-top: 2px; }
+    h3 { font-size: 125%; padding: 10px 0px 5px; }
+    h4 { font-size: 110%; padding: 10px 0px 0px; }
+    h5 { font-size: 90%; padding: 8px 0px 0px; }
+    html { background-color: rgb(23, 23, 23); }
+    hr, span { margin: 0px; padding: 0px; }
+    hr { background-color: rgb(201, 201, 201); border: 0px; height: 1px; }
+    h3 + hr, h4 + hr { margin-top: 10px; }
+    img { border: 0px; }
+    p { margin: 6px 0px 12px; }
+    h1 + p { margin-top: 0px; }
+    ol, ul { background-image: none; margin: 0px 0px 15px 10px; padding: 0px 15px; background-position: initial initial; background-repeat: initial initial; }
+    h3 + ul { padding-top: 6px; }
+    ol li, ul li { padding: 0px; }
+    p + ul { margin-top: -5px !important; }
+    pre { font-family: 'Liberation Sans', 'Luxi Sans', 'Trebuchet MS', 'Bitstream Vera Sans', helvetica, verdana, arial, sans-serif; white-space: pre-line; }
+    sup { font-size: 75%; }
+    h1 sup, h2 sup, h3 sup { font-size: 14px; font-weight: normal; line-height: 1; position: relative; bottom: 8px; text-transform: uppercase; vertical-align: baseline; }
+    h2 sup, h3 sup { bottom: 4px; font-size: 9px; }
+    table { border-collapse: collapse; border-spacing: 0px; margin-bottom: 8px; }
+    td > p, th > p { margin-bottom: 0px; }
+    body { min-width: 960px; }
+    table { max-width: 100%; background-color: transparent; border-collapse: collapse; border-spacing: 0px; }
+    table th, table td { padding: 4px; text-align: left; vertical-align: top; }
+    table th { background-color: rgb(221, 221, 221); color: rgb(85, 85, 85); }
+    body, html { background-color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial; }
+    a:link, a:visited { color: blue; text-decoration: underline; }
+*/
+
+/*
+    This is where we undo some of the global CSS rules that impact on the docs.
+*/
+#main-wrap {font-family: "liberation sans", "Myriad ", "Bitstream Vera Sans", "Lucida Grande", "Luxi Sans", "Trebuchet MS", helvetica, verdana, arial, sans-serif;}
+#main-wrap h1, #main-wrap h2, #main-wrap h3, #main-wrap h4, #main-wrap h5 {font-family: "liberation sans", "Myriad ", "Bitstream Vera Sans", "Lucida Grande", "Luxi Sans", "Trebuchet MS", helvetica, verdana, arial, sans-serif;}
+#main-wrap h1 { font-size: 2em;}
+#main-wrap h2 { font-size: 1.5em; padding: 0px 0px 0px; }
+#main-wrap dd { margin: 16px 0px 0px 40px; }
+#main-wrap dt { font-weight: normal; margin: 0px 0px 0px; }
+#main-wrap h3 { font-size: 1.17em}
+#main-wrap #book_format_menu li { white-space: nowrap; }
+
+/*
+    These styles come from the original brand
+*/
+
+a:link {
+    color:#0066cc;
+}
+
+a:visited {
+    color:#6699cc;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color:#a70000;
+}
+
+div.producttitle {
+/*	background: #a70000 url(../images/h1-bg.png) top left repeat; */
+	color:#a70000;
+}
+
+.formalpara div.title {
+    color:#a70000;
+}
+
+.section h1.title {
+    color:#a70000;
+}
+
+.formalpara div.title {
+    color:#a70000;
+}
+
+table {
+    border:1px solid #aaa;
+    width: 100%;
+}
+
+table th {
+    background-color:#900;
+    text-align: left;
+    color: white;
+}
+
+table th p:first-child, table td p:first-child, table li p:first-child, table th div.para:first-child,
+table td div.para:first-child, table li div.para:first-child {
+    margin-top: 0px;
+    padding-top: 0px;
+    display: inline;
+}
+
+table tr.even td {
+    background-color:#f5f5f5;
+}
+
+/*.revhistory table th {
+    color:#a70000;
+}*/
+
+.titlepage .edition {
+    color: #a70000;
+}
+
+span.remark{
+    background-color: #ffff00;
+}
+
+.home{
+    color: #a70000;
+}
+
+/*
+    Some styles taken from the old Publican 3 brand
+*/
+.revhistory table {
+    background-color:transparent;
+    border-color:#fff;
+    padding:0px;
+    margin: 0;
+    border-collapse:collapse;
+    border-style:none;
+}
+
+.revhistory td {
+    text-align :left;
+    padding:0px;
+    border: none;
+    border-top: 1px solid #fff;
+    font-weight: bold;
+}
+
+.revhistory .simplelist td {
+    font-weight: normal;
+}
+
+.revhistory .simplelist {
+    margin-bottom: 1.5em;
+    margin-left: 1em;
+}
+
+.revhistory table th {
+    display: none;
+}
+
+tr:nth-child(even) {
+    background-color: #eeeeee;
+}
+
+table table td {
+    background-color: white;
+}
+
+/*
+    Custom styles
+*/
+
+/* Prevents the breadcrumbs from displaying a different colour when hovering */
+.breadcrumb:hover {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+/* Fix for width and shadowing */
+#main > .book,
+#main > .article,
+#main > .set,
+#main > .preface,
+#main > .chapter,
+#main > .section,
+#main > .appendix,
+#main > .part,
+#main > .index {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 45em;
+    /*margin-top: 40px;*/
+    /*margin-bottom:4em;*/
+    padding: 3em;
+    background-color: white;
+    font-size: 1.2em;
+    /*line-height: 1.7em;*/
+}
+
+/*
+
+#main h1, #main h2, #main h3, #main h4, #main h5, #main h6 {
+	color: #a70000;
+    line-height: normal;
+}
+
+.section h1.title {
+	color:#a70000;
+}
+
+#main table th {
+	background-color:#900;
+    color: white;
+    word-wrap: normal;
+}
+
+#floatingtoc {
+    background-color: transparent;
+}
+
+#floatingtoc .toc {
+    top: 175px;
+}
+
+#main .outgoing {
+    background-image: none;
+    margin-right: 0;
+    padding-right: 0;
+}
+
+
+
+.producttitle {
+    line-height: 1 !important;
+}
+
+#main #title + ul.docnav {
+    margin-top: 0;
+    height: 46px;
+}
+
+#main ul.docnav li.home {
+    display: none;
+}
+#main ul.docnav li.next a strong, #main ul.docnav li.previous a strong, #main ul.docnav .home {
+    color: #06c;
+    padding: .3em 36px .3em 0;
+}
+
+#main ul.docnav li.previous a strong {
+    padding-left: 36px;
+    padding-right: 0;
+}
+
+#navPrimary .mega dl {
+    margin-left: 0;
+}
+
+.pageSelect {
+    background: transparent;
+    padding: .3em 36px .3em 0;
+    border: 1px solid #ccc;
+}
+
+#title {
+    display: none;
+}
+ */
+
+.docnav {
+    z-index: auto;
+    position: static;
+    transition: all 0 ease 0 !important;
+    -webkit-transition: all 0 ease 0 !important;
+    -moz-transition: all 0 ease 0 !important;
+    -o-transition: all 0 ease 0 !important;
+    -ms-transition: all 0 ease 0 !important;
+    background-color: transparent;
+    color: #000;
+    box-shadow: none;
+    box-sizing: content-box !important;
+    border-radius: .5em .5em 0 0 !important;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+}
+
+.docnav.top {
+    padding-top: 10px;
+    /*padding-bottom: 60px;*/
+}
+
+.docnav.bottom {
+   padding-top: 0px;
+   padding-bottom: 20px; 
+}
+
+.docnav li {
+    display: inline-block !important;
+}
+
+.doctoc {
+    padding-top: 3px !important;
+}
+
+.pageSelect {
+    background: transparent;
+    padding: 3px 0;
+    border: 1px solid #ccc;
+    max-width: 100%;
+}
+
+select {
+    -webkit-appearance: menulist;
+    box-sizing: border-box;
+    -webkit-box-align: center;
+    border-image: initial;
+    white-space: pre;
+    -webkit-rtl-ordering: logical;
+    color: black;
+    cursor: default;
+    margin: 0em;
+    border-radius: 0px;
+}
+
+#main ul.docnav li.next a strong, #main ul.docnav li.previous a strong, #main ul.docnav li.next a:hover, #main ul.docnav li.previous a:hover {
+    color: #06c;
+}
+
+#nodocnav {
+    /*margin-bottom: 40px;*/
+}
+
+.menu span a, #doc_menu span a {
+    color: white;
+}
+
+/* Remove global.css messages styling. */
+#main div.section div.warning { 
+    background-color: transparent; border-bottom: 1px solid #aaaaaa;
+}
+
+#main .rf-msgs > .rf-msgs-wrn, #main div.warning, #main table tr.warning {
+    background-color: inherit;
+}
+
+#main .rf-msgs > .rf-msgs-wrn, #main div.warning {
+    border-color: #aaaaaa;
+}
+
+/* Fix watermark on all #main from menu.css */
+#main > div.book:before,
+#main > div.article:before,
+#main > div.set:before,
+#main > div.preface:before,
+#main > div.chapter:before,
+#main > div.section:before,
+#main > div.appendix:before,
+#main > div.part:before {
+    background: none;
+    display: none;
+}
+
+/* Fix for CSS issue in chroming caused by Common brand's menu.css setting all images to display: block */
+#header img, #bottomBar img {
+    display: inline;
+}   
+
+/* Add watermark back for drafts inside #main (class of draft) */
+#main.draft > div.book:before,
+#main.draft > div.article:before,
+#main.draft > div.set:before,
+#main.draft > div.preface:before,
+#main.draft > div.chapter:before,
+#main.draft > div.section:before,
+#main.draft > div.appendix:before,
+#main.draft > div.part:before,
+#main.draft > div.index:before  {
+    position: fixed;
+    content: "";
+    background-image: url(https://access.redhat.com/site/documentation/resources/docs/common/en-US/images/watermark-draft.png);
+    background-repeat: repeat-y;
+    background-position: center top;
+    width: 45em;
+    height: 100%;
+    top: 45px;
+    pointer-events: none;
+}
+
+/* Other styles from Chrome's docs.css */
+a:link, a:visited, .docnav a:link, .docnav a:visited {
+    border-bottom: 0;
+    color: #06C;
+}
+
+a:hover, a:active, .docnav a:hover, .docnav a:active {
+    color: #03C;
+    text-decoration: underline;
+}
+
+blockquote {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+body {
+    background-color: transparent;
+    font-size: small;
+    color: #333;
+    margin: 0 auto;
+    padding: 0;
+    max-width: none;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+body.toc_embeded {
+    margin-left: auto;
+}
+}
+
+#breadcrumbs {
+    color: #d9d9d9;
+    margin: 0;
+    padding: 0;
+}
+
+#footerWrap, #footerWrap div, #header, #header div, #navPrimary, #navPrimary div {
+    line-height: 1;
+}
+
+#footerWrap img, #header img {
+    margin: 0;
+}
+
+#footerWrap li, #header li, #navPrimary li {
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+#footerWrap ul, #header ul, #navPrimary ul {
+    list-style-image: none;
+}
+
+#navPrimary .mega dd {
+    padding-bottom: 0;
+}
+
+h1, h2, h3, h4, h5, h1 + h2 {
+    padding: 0;
+}
+
+hr {
+    background-color: transparent;
+}
+
+a.outgoing {
+    padding: 0;
+}

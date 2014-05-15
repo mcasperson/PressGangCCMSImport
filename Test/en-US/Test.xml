@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<book status="draft" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="pref-Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="chap-Test_Chapter.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="chap-Untitled.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="chap-Chapter_Title.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="chap-Chapter_Title-1.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="chap-Chapter_Title-2.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="part-Test_Part.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="appe-Appendix_Title.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<index/>
+</book>

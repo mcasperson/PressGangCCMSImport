@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE chapter [
+<!ENTITY % BOOK_ENTITIES SYSTEM "Test.ent">
+%BOOK_ENTITIES;
+]>
+<chapter xml:id="chap-Test_Chapter" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+	<title>Test Chapter</title>
+	<section remap="TID_39640" version="5.0" xml:id="Sect1" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>Sect1</title>
+		<para xml:id="contentId" xmlns:xml="http://www.w3.org/XML/1998/namespace">
+			This should be converted to a section. This is a link to a topic: <xref linkend="sect-Untitled-2"/>
+		</para>
+		<para role="RoleCreateBugPara">
+			<link xlink:href="https://bugzilla.redhat.com/enter_bug.cgi?cf_environment=Build+Name%3A+&BUILD_NAME;%0ABuild+Date%3A+&BUILD_DATE;%0ATopic+ID%3A+39640-606944+%5BLatest%5D&amp;comment=Title%3A+Sect1%0A%0ADescribe+the+issue%3A%0A%0A%0ASuggestions+for+improvement%3A%0A%0A%0AAdditional+information%3A&amp;cf_build_id=39640-606944+18+Mar+2014+09%3A44+en-US+%5BLatest%5D">Report a bug</link>
+		</para>
+	</section>
+</chapter>
