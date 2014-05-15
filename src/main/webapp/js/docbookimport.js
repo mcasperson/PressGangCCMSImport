@@ -1941,11 +1941,11 @@ define(
                 function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph) {
 
                     jquery.each(topics, function (index, value) {
-                        var urls = qnautils.xPath(".//@url|.//@href", value.xml);
+                        var urls = qnautils.xPath(".//docbook:ulink[@url]|.//docbook:link[@href]", value.xml);
                         var url = null;
                         while ((url = urls.iterateNext()) !== null) {
                             var matches = true;
-                            jquery.each(reportsettings.ALLOWED_URLS, function(index, value) {
+                            jquery.each(reportsettings.ALLOWED_URLS, function (index, value) {
                                 if (!value.test(url.nodeValue)) {
                                     matches = false;
                                     return false;
