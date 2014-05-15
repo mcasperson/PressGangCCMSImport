@@ -1944,9 +1944,17 @@ define(
                         var urls = qnautils.xPath(".//docbook:ulink[@url]|.//docbook:link[@href]", value.xml);
                         var url = null;
                         while ((url = urls.iterateNext()) !== null) {
+
+                            var link = "";
+                            if (url.hasAttribute("url")) {
+                                link = url.getAttribute("url");
+                            } else if (url.hasAttribute("link")) {
+                                link = url.getAttribute("link");
+                            }
+
                             var matches = true;
                             jquery.each(reportsettings.ALLOWED_URLS, function (index, value) {
-                                if (!value.test(url.nodeValue)) {
+                                if (!value.test(link)) {
                                     matches = false;
                                     return false;
                                 }
