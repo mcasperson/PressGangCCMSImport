@@ -2080,9 +2080,10 @@ define(
                         jquery.each(contentSpec, function(index, value) {
                             compiledContentSpec += value + "\n";
                         });
-
-                        compiledContentSpec += "# The following topics have links to external content\n";
-                        compiledContentSpec += "# " + config.OutgoingUrls;
+                        if (config.OutgoingUrls.length !== 0) {
+                            compiledContentSpec += "# The following topics have links to external content\n";
+                            compiledContentSpec += "# " + config.OutgoingUrls;
+                        }
 
                         return compiledContentSpec;
                     }
@@ -2164,7 +2165,11 @@ define(
                             .setIntro("Topics with outgoing links")
                             .setName("OutgoingUrlsCompiled")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
+                                if (config.OutgoingUrls.length === 0) {
+                                    resultCallback("No topics have outgoing links");
+                                } else {
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
+                                }
                             })
                     ])
             ])
