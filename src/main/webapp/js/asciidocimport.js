@@ -31,7 +31,7 @@ define(
                                 .replace(/<\?asciidoc-br\?>/g, "");
                         }
 
-                        var asciidocOpts = Opal.hash2(['attributes'], {'backend': 'docbook45', 'doctype': 'book'});
+                        var asciidocOpts = Opal.hash2(['attributes'], {'attributes': ['backend=docbook45', 'doctype=book']});
                         var docbook = fixAsciidoctorConversion("<book>" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</book>");
 
                         processxml.processXMLAndExtractEntities(
