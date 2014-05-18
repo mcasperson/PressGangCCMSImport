@@ -1,3 +1,10 @@
+The requires in Asciidoctor include the files required for DocBook conversion as dynamic. This is not supported by Opal.
+To support DocBook conversion in AsciiDoctor.js the following lines need to be added to
+~/.gem/ruby/gems/asciidoctor-1.5.0.preview.7/lib/asciidoctor/asciidoctor.rb
+
+require 'asciidoctor/converter/docbook5' if RUBY_ENGINE_OPAL
+require 'asciidoctor/converter/docbook45' if RUBY_ENGINE_OPAL
+
 Opal does not play well with Angular.js. See https://github.com/opal/opal/issues/259 and  https://github.com/opal/opal/issues/400 for details.
 
 This can be fixed by doing a global find and replace on the $ character with opal$ in opal.js and asciidoctor.js. Some manual clean up then needs to be
