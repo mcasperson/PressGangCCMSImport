@@ -9,6 +9,7 @@ if ((opal$a = name['opal$=~'](/^[A-Z]\w*$/)) === false || opal$a === nil) {
 In asciidoctor.js you have lines line:
 opal$opal.cdecl(opal$scope, 'PassInlineMacroRx', /\\?(?:(\+{3}|opal\${2})(.*?)\1|pass:([a-z,]*)\[(.*?[^\\])\])/i);
 opal$opal.cdecl(opal$scope, 'BoundaryRxs', opal$hash2(["\"", "'", ","], {"\"": /.*?[^\\](?=")/, "'": /.*?[^\\](?=')/, ",": /.*?(?=[ \t]*(,|opal$))/}));
+opal$opal.cdecl(opal$scope, 'SkipRxs', opal$hash2(["blank", ","], {"blank": opal$scope.BlankRx, ",": /[ \t]*(,|opal$)/}));
 
 and regexes at the bottom of the file starting with AuthorInfoLineRx
 
