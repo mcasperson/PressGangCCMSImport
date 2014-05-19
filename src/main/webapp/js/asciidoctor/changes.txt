@@ -17,7 +17,8 @@ In asciidoctor.js you have lines line:
 opal$opal.cdecl(opal$scope, 'PassInlineMacroRx', /\\?(?:(\+{3}|opal\${2})(.*?)\1|pass:([a-z,]*)\[(.*?[^\\])\])/i);
 opal$opal.cdecl(opal$scope, 'BoundaryRxs', opal$hash2(["\"", "'", ","], {"\"": /.*?[^\\](?=")/, "'": /.*?[^\\](?=')/, ",": /.*?(?=[ \t]*(,|opal$))/}));
 opal$opal.cdecl(opal$scope, 'SkipRxs', opal$hash2(["blank", ","], {"blank": opal$scope.BlankRx, ",": /[ \t]*(,|opal$)/}));
-replace = replace.replace(/\\([1-9])/g, 'opal$opal$opal$1')
+
+replace = replace.replace(/\\([1-9])/g, 'opal$opal$opal$1') - the invalid pattern opal$opal$opal$ needs to be fixed in two locations
 
 and regexes at the bottom of the file starting with AuthorInfoLineRx
 
