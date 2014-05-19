@@ -930,7 +930,7 @@ define(
 
                 function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
                     // so we can work back to the original source
-                    contentSpec.push(contentSpec.RevisionMessage);
+                    contentSpec.push(config.RevisionMessage);
                     contentSpec.push("# Imported on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"));
 
                     var containerTargetNum = 0;
