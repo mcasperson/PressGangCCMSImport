@@ -1142,7 +1142,7 @@ if (o == null) o = nil;
       
       if (typeof(replace) === 'string') {
         // convert Ruby back reference to JavaScript back reference
-        replace = replace.replace(/\\([1-9])/g, 'opal$opal$opal$1')
+        replace = replace.replace(/\\([1-9])/g, '$$$1')
         return self.replace(pattern, replace);
       }
       if (block !== nil) {
@@ -1192,7 +1192,7 @@ if (o == null) o = nil;
       }
       else {
         // convert Ruby back reference to JavaScript back reference
-        replace = replace.toString().replace(/\\([1-9])/g, 'opal$opal$opal$1')
+        replace = replace.toString().replace(/\\([1-9])/g, '$$$1')
         return self.replace(pattern, replace);
       }
     ;
@@ -13127,16 +13127,16 @@ if (key == null) key = nil;
 
     opal$opal.cdecl(opal$scope, 'PassInlineLiteralRx', (new RegExp("(^|[^`" + opal$scope.CC_WORD + "])(?:\\[([^\\]]+?)\\])?(\\\\?`([^`\\s]|[^`\\s].*?\\S)`)(?![`" + opal$scope.CC_WORD + "])")));
 
-    opal$opal.cdecl(opal$scope, 'PassInlineMacroRx', /\\?(?:(\+{3}|\${2})(.*?)\1|pass:([a-z,]*)\[(.*?[^\\])\])/m);
+    opal$opal.cdecl(opal$scope, 'PassInlineMacroRx',/\\?(?:(\+{3}|\${2})(.*?)\1|pass:([a-z,]*)\[(.*?[^\\])\])/m);
 
     opal$opal.cdecl(opal$scope, 'XrefInlineMacroRx', (new RegExp("\\\\?(?:&lt;&lt;([" + opal$scope.CC_WORD + "\":].*?)&gt;&gt;|xref:([" + opal$scope.CC_WORD + "\":].*?)\\[(.*?)\\])")));
 
     opal$opal.cdecl(opal$scope, 'LineBreakRx', (function() {if (opal$scope.RUBY_ENGINE['opal$==']("opal")) {
-      return /^(.*)[ \t]\+opal$/m}; return nil; })());
+      return /^(.*)[ \t]\+$/m}; return nil; })());
 
     opal$opal.cdecl(opal$scope, 'LayoutBreakLineRx', /^('|<){3,}$/);
 
-    opal$opal.cdecl(opal$scope, 'LayoutBreakLinePlusRx', /^(?:'|<){3,}opal$|^ {0,3}([-\*_])( *)\1\2\opal$/);
+    opal$opal.cdecl(opal$scope, 'LayoutBreakLinePlusRx', /^(?:'|<){3,}opal$|^ {0,3}([-\*_])( *)\1\2\$/);
 
     opal$opal.cdecl(opal$scope, 'BlankLineRx', (new RegExp("^" + opal$scope.CG_BLANK + "*\\n")));
 
