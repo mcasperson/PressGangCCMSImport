@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'reportsettings', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, reportsettings, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'reportsettings', 'moment', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, reportsettings, moment, exports) {
         'use strict';
 
         /*
@@ -2089,7 +2089,8 @@ define(
                             compiledContentSpec += value + "\n";
                         });
                         if (config.OutgoingUrls.length !== 0) {
-                            compiledContentSpec += "# The following topics have links that were not found in the white list\n";
+                            compiledContentSpec += "# The following topics were imported on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + " with links that were not found in the white list\n";
+                            compiledContentSpec += "# This list is *not* automatically updated, and does not reflect changes made to topics since they were imported.\n";
                             compiledContentSpec += "# " + config.OutgoingUrls;
                         }
 
