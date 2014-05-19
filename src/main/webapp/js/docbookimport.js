@@ -2090,7 +2090,7 @@ define(
                             compiledContentSpec += value + "\n";
                         });
                         if (config.OutgoingUrls.length !== 0) {
-                            compiledContentSpec += "# The following topics were added to this content specification on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + " with links that were not found in the white list\n";
+                            compiledContentSpec += "# The following topics were added to this content specification on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + " with links that were not found in the white list.\n";
                             compiledContentSpec += "# This list is *not* automatically updated, and does not reflect changes made to topics or the content specification since the import.\n";
                             compiledContentSpec += "# " + config.OutgoingUrls;
                         }
