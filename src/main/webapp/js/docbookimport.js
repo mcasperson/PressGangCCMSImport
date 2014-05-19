@@ -1942,7 +1942,7 @@ define(
                 function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph) {
 
                     jquery.each(topics, function (index, value) {
-                        var urls = qnautils.xPath(".//docbook:ulink[@url]|.//docbook:link[@href]", value.xml);
+                        var urls = qnautils.xPath(".//docbook:ulink[@url]|.//docbook:link[@xlink:href]", value.xml);
                         var url = null;
                         while ((url = urls.iterateNext()) !== null) {
 

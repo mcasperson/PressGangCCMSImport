@@ -167,6 +167,10 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
                 return "http://docbook.org/ns/docbook";
             }
 
+            if (namespace === "xlink") {
+                return "http://www.w3.org/1999/xlink";
+            }
+
             return null;
         }
 
