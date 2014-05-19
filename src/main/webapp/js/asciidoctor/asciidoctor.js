@@ -13007,7 +13007,7 @@ if (key == null) key = nil;
 
       opal$opal.cdecl(opal$scope, 'CG_BLANK', "[ \\t]");
 
-      opal$opal.cdecl(opal$scope, 'CC_EOL', "(?=\\n|opal$)");
+      opal$opal.cdecl(opal$scope, 'CC_EOL', "(?=\\n|$)");
 
       opal$opal.cdecl(opal$scope, 'CG_GRAPH', "[\\x21-\\x7E]");
 
