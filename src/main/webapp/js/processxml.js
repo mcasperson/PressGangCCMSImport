@@ -1637,7 +1637,7 @@ define(
                     if ((match = /&#(\d+);/.exec(value.entity)) !== null) {
                         value.entity = String.fromCharCode(match[1]);
                     }
-                    if ((match = /&#x([0-9A-Fa-f]);/.exec(value.entity)) !== null) {
+                    if ((match = /&#x([0-9A-Fa-f]+);/.exec(value.entity)) !== null) {
                         value.entity = String.fromCharCode(parseInt(match[1], 16));
                     }
                 })
