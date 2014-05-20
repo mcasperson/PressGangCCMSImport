@@ -346,24 +346,24 @@ define(
                                     } else if (/^(strong|em)$/i.test(childNode.nodeName) && emphasis) {
                                         var emphasisChildren = convertNodeToDocbook(childNode, emphasis, imageLinks, false);
 
-                                        // emphasis elements are limited in what child nodes they can accommodate.
-                                        // loop over the children to make sure we are not adding any that might conflict
-                                        var useEmphasis = true;
-                                        jquery.each(emphasisChildren, function (index, value) {
-                                            if (/^<\w+/.test(value) && !/^<ulink/.test(value)) {
-                                                useEmphasis = false;
-                                                return false;
+                                        if (emphasisChildren.size !== 0) {
+                                            // emphasis elements are limited in what child nodes they can accommodate.
+                                            // loop over the children to make sure we are not adding any that might conflict
+                                            var useEmphasis = true;
+                                            jquery.each(emphasisChildren, function (index, value) {
+                                                if (/^<\w+/.test(value) && !/^<ulink/.test(value)) {
+                                                    useEmphasis = false;
+                                                    return false;
+                                                }
+                                            });
+
+                                            if (useEmphasis) {
+                                                emphasisChildren[0] =  "<emphasis>" +  emphasisChildren[0];
+                                                emphasisChildren[emphasisChildren.length - 1] = [emphasisChildren.length - 1] + "</emphasis>" ;
                                             }
-                                        });
 
-                                        if (useEmphasis) {
-                                            customContainerContent.push("<emphasis>");
-                                        }
+                                            jquery.merge(customContainerContent, emphasisChildren);
 
-                                        jquery.merge(customContainerContent, emphasisChildren);
-
-                                        if (useEmphasis) {
-                                            customContainerContent.push("</emphasis>");
                                         }
                                     } else if (/^p$/i.test(childNode.nodeName)) {
                                         processPara(customContainerContent, childNode, images);
