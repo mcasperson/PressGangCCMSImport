@@ -1941,16 +1941,15 @@ define(
 
                 function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph) {
 
-                    jquery.each(topics, function (index, value) {
-                        var urls = qnautils.xPath(".//docbook:ulink[@url]|.//docbook:link[@xlink:href]", value.xml);
-                        var url = null;
-                        while ((url = urls.iterateNext()) !== null) {
-
+                    var processXPath = function(path, topic) {
+                        var elements = qnautils.xPath(path, topic.xml);
+                        var element = null;
+                        while ((element = elements.iterateNext()) !== null) {
                             var link = "";
-                            if (url.hasAttribute("url")) {
-                                link = url.getAttribute("url");
-                            } else if (url.hasAttribute("href")) {
-                                link = url.getAttribute("href");
+                            if (element.hasAttribute("url")) {
+                                link = element.getAttribute("url");
+                            } else if (element.hasAttribute("href")) {
+                                link = element.getAttribute("href");
                             }
 
                             var matches = true;
@@ -1961,13 +1960,18 @@ define(
                                 }
                             });
 
-                            if (!matches && config.OutgoingUrls.indexOf(value.topicId) == -1) {
+                            if (!matches && config.OutgoingUrls.indexOf(topic.topicId) == -1) {
                                 if (config.OutgoingUrls.length !== 0) {
                                     config.OutgoingUrls += ",";
                                 }
-                                config.OutgoingUrls += value.topicId;
+                                config.OutgoingUrls += topic.topicId;
                             }
                         }
+                    }
+
+                    jquery.each(topics, function (index, value) {
+                        processXPath(".//docbook:ulink[@url]|.//docbook:link[@href]", value);
+                        processXPath(".//docbook:link[@xlink:href]", value);
                     });
 
                     resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph);
