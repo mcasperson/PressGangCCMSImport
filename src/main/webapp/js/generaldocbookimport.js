@@ -202,6 +202,14 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
+                                .setIntro("Title")
+                                .setName("ContentSpecTitle"),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.TEXTBOX)
+                                .setIntro("Subtitle")
+                                .setName("ContentSpecSubtitle"),
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Product")
                                 .setName("ContentSpecProduct"),
                             new qna.QNAVariable()
