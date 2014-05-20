@@ -1700,7 +1700,7 @@ define(
                             }
                         } else if (thisTopicHasContent) {
                             if (currentLevel === 1) {
-                                if (nextTopicIsChildOfThisTopic) {
+                                if (config.TopLevelContainer === "Chapter") {
                                     contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
                                 } else {
                                     contentSpec.push(qnastart.escapeSpecTitle(title));

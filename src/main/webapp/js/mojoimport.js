@@ -359,7 +359,7 @@ define(
 
                                             if (useEmphasis) {
                                                 emphasisChildren[0] =  "<emphasis>" +  emphasisChildren[0];
-                                                emphasisChildren[emphasisChildren.length - 1] = [emphasisChildren.length - 1] + "</emphasis>" ;
+                                                emphasisChildren[emphasisChildren.length - 1] = emphasisChildren[emphasisChildren.length - 1] + "</emphasis>" ;
                                             }
 
                                             jquery.merge(customContainerContent, emphasisChildren);
@@ -666,7 +666,7 @@ define(
                                     }
                                 } else if (thisTopicHasContent) {
                                     if (currentLevel === 1) {
-                                        if (nextTopicIsChildOfThisTopic) {
+                                        if (config.TopLevelContainer === "Chapter") {
                                             contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
                                         } else {
                                             contentSpec.push(qnastart.escapeSpecTitle(title));
