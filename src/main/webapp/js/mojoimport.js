@@ -701,26 +701,17 @@ define(
                                          So any line added to the spec that doesn't have an associated topic and
                                          that is not an ancestor of the next topic will be poped off the stack.
                                          */
-                                        if (currentLevel > 1) {
-                                            while (contentSpec.length !== 0) {
-                                                var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
-                                                if (specElementTopic === undefined) {
-                                                    var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
-                                                    contentSpec.pop();
-                                                    /*
-                                                        Level is the number of spaces divided by 2, because there are
-                                                        2 spaces used for an indent
-                                                     */
-                                                    if (specElementLevel[1].length / 2 === newOutlineLevel - 1) {
-                                                        break;
-                                                    }
-                                                } else {
+                                        while (contentSpec.length !== 0) {
+                                            var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
+                                            if (specElementTopic === undefined) {
+                                                var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
+                                                if (specElementLevel[1].length === newOutlineLevel - 2) {
                                                     break;
+                                                } else {
+                                                    contentSpec.pop();
                                                 }
-                                            }
-
-                                            if (contentSpec.length === 0) {
-                                                throw "The entire content spec was unwound. This should not have happened.";
+                                            } else {
+                                                break;
                                             }
                                         }
                                     }
