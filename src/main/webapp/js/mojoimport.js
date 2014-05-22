@@ -209,8 +209,7 @@ define(
                                                 contentSpec.push(qnastart.escapeSpecTitle(title));
                                             }
                                         } else {
-                                            contentSpec.push("Initial Text:");
-                                            contentSpec.push("  " + qnastart.escapeSpecTitle(title));
+                                            contentSpec.push(qnastart.escapeSpecTitle(title));
                                         }
                                         generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                     } else {
