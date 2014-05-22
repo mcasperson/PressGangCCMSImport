@@ -1052,8 +1052,18 @@ define(
                                     var fontRule = getFontRuleForElement(childNode);
                                     if (emphasis &&
                                         childNode.textContent.trim().length !== 0 &&
-                                        (fontRule.bold || fontRule.italics || fontRule.underline)) {
-                                        textString += "<emphasis>" + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + "</emphasis>";
+                                        (fontRule.bold || fontRule.italics || fontRule.underline || fontRule.strikethrough)) {
+
+                                        var emphasisElement = "<emphasis>";
+                                        if (fontRule.bold) {
+                                            emphasisElement = "<emphasis role='bold'>";
+                                        } else if (fontRule.underline) {
+                                            emphasisElement = "<emphasis role='underline'>";
+                                        } else if (fontRule.strikethrough) {
+                                            emphasisElement = "<emphasis role='strikethrough'>";
+                                        }
+
+                                        textString += emphasisElement + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + "</emphasis>";
                                     } else {
                                         textString += qnautils.escapeXMLSpecialCharacters(childNode.textContent);
                                     }
@@ -1154,6 +1164,9 @@ define(
                             if (fontRule.underline === undefined) {
                                 fontRule.underline = fontRuleStyleCache[styleAttribute].underline;
                             }
+                            if (fontRule.strikethrough === undefined) {
+                                fontRule.strikethrough = fontRuleStyleCache[styleAttribute].strikethrough;
+                            }
                         } else {
                             var contentXmlStyle;
                             var stylesXmlStyle;
@@ -1200,7 +1213,7 @@ define(
                                 if (weight !== null) {
                                     thisFontRule.bold = weight.nodeValue === "bold";
                                     if (fontRule.bold === undefined) {
-                                        fontRule.bold = weight.nodeValue === "bold";
+                                        fontRule.bold = thisFontRule.bold;
                                     }
                                 }
 
@@ -1209,7 +1222,7 @@ define(
                                 if (fontStyle !== null) {
                                     thisFontRule.italics = fontStyle.nodeValue === "italic";
                                     if (fontRule.italics === undefined) {
-                                        fontRule.italics = fontStyle.nodeValue === "italic";
+                                        fontRule.italics = thisFontRule.italics;
                                     }
 
                                 }
@@ -1218,7 +1231,15 @@ define(
                                 if (underline !== null) {
                                     thisFontRule.underline = underline.nodeValue !== "none";
                                     if (fontRule.underline === undefined) {
-                                        fontRule.underline = underline.nodeValue !== "none";
+                                        fontRule.underline = thisFontRule.underline;
+                                    }
+                                }
+
+                                var strikethrough = qnautils.xPath(".//@style:text-line-through-type", style).iterateNext();
+                                if (strikethrough !== null) {
+                                    thisFontRule.strikethrough = strikethrough.nodeValue !== "none";
+                                    if (fontRule.strikethrough === undefined) {
+                                        fontRule.strikethrough = thisFontRule.strikethrough;
                                     }
                                 }
 

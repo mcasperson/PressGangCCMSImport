@@ -6,6 +6,7 @@ define(['exports'], function(exports) {
             this.font = fontRule.font;
             this.size = fontRule.size;
             this.bold = fontRule.bold;
+            this.strikethrough = fontRule.strikethrough;
             this.italics = fontRule.italics;
             this.underline = fontRule.underline;
             this.docBookElement = fontRule.docBookElement;
@@ -32,6 +33,10 @@ define(['exports'], function(exports) {
 
         if (this.underline !== undefined && this.underline !== fontRule.underline) {
             return false;
+        }
+
+        if (this.strikethrough !== undefined && this.strikethrough !== fontRule.strikethrough) {
+
         }
 
         return true;
@@ -63,6 +68,11 @@ define(['exports'], function(exports) {
             return false;
         }
 
+        if (!(this.strikethrough === undefined && fontRule.strikethrough === undefined) &&
+            this.strikethrough && !fontRule.strikethrough) {
+            return false;
+        }
+
         return true;
     };
 
@@ -89,6 +99,11 @@ define(['exports'], function(exports) {
 
     exports.FontRule.prototype.setUnderline = function (underline) {
         this.underline = underline;
+        return this;
+    };
+
+    exports.FontRule.prototype.setStrikethrough = function (strikethrough) {
+        this.strikethrough = strikethrough;
         return this;
     };
 
