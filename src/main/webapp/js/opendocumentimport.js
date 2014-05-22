@@ -1719,14 +1719,9 @@ define(
 
                             generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                         }  else {
-                            /*
-                             If the discarded topic was supposed to a child of the container
-                             above it, and the new topic being created is not, then the
-                             previous topic will need to be changed from a container to a topic.
-                             */
+
                             if (!nextTopicIsChildOfLastLevel && contentSpec.length !== 0) {
-                                contentSpec[contentSpec.length - 1] =
-                                    contentSpec[contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
+
 
                                 /*
                                  We want to unwind any containers without front matter topics that were
@@ -1745,6 +1740,16 @@ define(
                                             contentSpec.pop();
                                         }
                                     } else {
+                                        /*
+                                         If the discarded topic was supposed to a child of the container
+                                         above it, and the new topic being created is not, then the
+                                         previous topic will need to be changed from a container to a topic,
+                                         assuming it is not a Chapter.
+                                         */
+                                        if (config.TopLevelContainer !== "Chapter" || specElementLevel !== 0) {
+                                            contentSpec[contentSpec.length - 1] =
+                                                contentSpec[contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
+                                        }
                                         break;
                                     }
                                 }

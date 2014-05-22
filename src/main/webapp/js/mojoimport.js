@@ -685,32 +685,36 @@ define(
 
                                     generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                 } else {
-                                    /*
-                                        If the discarded topic was supposed to a child of the container
-                                        above it, and the new topic being created is not, then the
-                                        previous topic will need to be changed from a container to a topic.
-                                    */
+
                                     if (!nextTopicIsChildOfLastLevel) {
-                                        contentSpec[contentSpec.length - 1] =
-                                            contentSpec[contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
 
                                         /*
                                          We want to unwind any containers without front matter topics that were
                                          added to the toc to accommodate this now discarded topic.
 
                                          So any line added to the spec that doesn't have an associated topic and
-                                         that is not an ancestor of the next topic will be poped off the stack.
+                                         that is not an ancestor of the next topic will be popped off the stack.
                                          */
                                         while (contentSpec.length !== 0) {
                                             var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
+                                            var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1])[1].length;
                                             if (specElementTopic === undefined) {
-                                                var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
-                                                if (specElementLevel[1].length === newOutlineLevel - 2) {
+                                                if (specElementLevel === newOutlineLevel - 2) {
                                                     break;
                                                 } else {
                                                     contentSpec.pop();
                                                 }
                                             } else {
+                                                /*
+                                                 If the discarded topic was supposed to a child of the container
+                                                 above it, and the new topic being created is not, then the
+                                                 previous topic will need to be changed from a container to a topic,
+                                                 assuming it is not a Chapter.
+                                                 */
+                                                if (config.TopLevelContainer !== "Chapter" || specElementLevel !== 0) {
+                                                    contentSpec[contentSpec.length - 1] =
+                                                        contentSpec[contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
+                                                }
                                                 break;
                                             }
                                         }
