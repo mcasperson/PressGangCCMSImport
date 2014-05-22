@@ -1940,40 +1940,7 @@ define(
                 }
 
                 function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph) {
-
-                    var processXPath = function(path, topic) {
-                        var elements = qnautils.xPath(path, topic.xml);
-                        var element = null;
-                        while ((element = elements.iterateNext()) !== null) {
-                            var link = "";
-                            if (element.hasAttribute("url")) {
-                                link = element.getAttribute("url");
-                            } else if (element.hasAttribute("href")) {
-                                link = element.getAttribute("href");
-                            }
-
-                            var matches = true;
-                            jquery.each(reportsettings.ALLOWED_URLS, function (index, value) {
-                                if (!value.test(link)) {
-                                    matches = false;
-                                    return false;
-                                }
-                            });
-
-                            if (!matches && config.OutgoingUrls.indexOf(topic.topicId) == -1) {
-                                if (config.OutgoingUrls.length !== 0) {
-                                    config.OutgoingUrls += ",";
-                                }
-                                config.OutgoingUrls += topic.topicId;
-                            }
-                        }
-                    }
-
-                    jquery.each(topics, function (index, value) {
-                        processXPath(".//docbook:ulink[@url]|.//docbook:link[@href]", value);
-                        processXPath(".//docbook:link[@xlink:href]", value);
-                    });
-
+                    config.OutgoingUrls = qnastart.identifyOutgoingLinks(topicGraph);
                     resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph);
                 }
 

@@ -1,6 +1,6 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'docbookconstants', 'asciidocimport', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, docbookconstants, asciidocimport, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'docbookconstants', 'asciidocimport', 'reportsettings', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, docbookconstants, asciidocimport, reportsettings, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
@@ -10,7 +10,44 @@ define(
         exports.dirModel = new qnadirmodel.QNADirModel();
         var configEntites = null;
 
+        exports.identifyOutgoingLinks = function (topicGraph) {
+            var retValue = "";
 
+            var processXPath = function (path, topic) {
+                var elements = qnautils.xPath(path, topic.xml);
+                var element = null;
+                while ((element = elements.iterateNext()) !== null) {
+                    var link = "";
+                    if (element.hasAttribute("url")) {
+                        link = element.getAttribute("url");
+                    } else if (element.hasAttribute("href")) {
+                        link = element.getAttribute("href");
+                    }
+
+                    var matches = true;
+                    jquery.each(reportsettings.ALLOWED_URLS, function (index, value) {
+                        if (!value.test(link)) {
+                            matches = false;
+                            return false;
+                        }
+                    });
+
+                    if (!matches && retValue.indexOf(topic.topicId) == -1) {
+                        if (retValue.length !== 0) {
+                            retValue += ",";
+                        }
+                        retValue += topic.topicId;
+                    }
+                }
+            }
+
+            jquery.each(topicGraph.nodes, function (index, value) {
+                processXPath(".//docbook:ulink[@url]|.//docbook:link[@href]", value);
+                processXPath(".//docbook:link[@xlink:href]", value);
+            });
+
+            return retValue;
+        }
 
         exports.getInputModel = function(config) {
             if (config.InputType === "Dir") {
