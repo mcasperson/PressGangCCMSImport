@@ -343,35 +343,61 @@ define(
                                         processList(customContainerContent, childNode, images);
                                     } else if (/^br$/i.test(childNode.nodeName) && lineBreaks) {
                                         customContainerContent.push("\n");
-                                    } else if (/^(strong|em)$/i.test(childNode.nodeName) && emphasis) {
-                                        var emphasisChildren = convertNodeToDocbook(childNode, emphasis, imageLinks, false);
-
-                                        if (emphasisChildren.size !== 0) {
-                                            // emphasis elements are limited in what child nodes they can accommodate.
-                                            // loop over the children to make sure we are not adding any that might conflict
-                                            var useEmphasis = true;
-                                            jquery.each(emphasisChildren, function (index, value) {
-                                                if (/^<\w+/.test(value) && !/^<ulink/.test(value)) {
-                                                    useEmphasis = false;
-                                                    return false;
-                                                }
-                                            });
-
-                                            if (useEmphasis) {
-                                                emphasisChildren[0] =  "<emphasis>" +  emphasisChildren[0];
-                                                emphasisChildren[emphasisChildren.length - 1] = emphasisChildren[emphasisChildren.length - 1] + "</emphasis>" ;
-                                            }
-
-                                            jquery.merge(customContainerContent, emphasisChildren);
-
-                                        }
                                     } else if (/^p$/i.test(childNode.nodeName)) {
                                         processPara(customContainerContent, childNode, images);
                                     } else if (/^pre$/i.test(childNode.nodeName)) {
                                         processPre(customContainerContent, childNode, images);
                                     } else if (!(/^div$/i.test(childNode.nodeName) && /toc/i.test(childNode.className))) {
                                         // we don't import the mojo toc
-                                        jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks, lineBreaks));
+
+                                        var bold = /^strong$/i.test(childNode.nodeName);
+                                        var italicised = /^em$/i.test(childNode.nodeName);
+                                        var span = /^span$/i.test(childNode.nodeName);
+                                        var underlined = false;
+                                        var strikethrough = false;
+                                        if (span) {
+                                            if (childNode.hasAttribute("style")) {
+                                                var style = childNode.getAttribute("style");
+                                                underlined = /text-decoration\s*:\s*underline/i.test(style);
+                                                strikethrough = /text-decoration\s*:\s*line-through/i.test(style);
+                                            }
+                                        }
+
+                                        if (emphasis) {
+
+                                            var emphasisElement = "<emphasis>";
+                                            if (bold) {
+                                                emphasisElement = "<emphasis role='bold'>";
+                                            } else if (underlined) {
+                                                emphasisElement = "<emphasis role='underline'>";
+                                            } else if (strikethrough) {
+                                                emphasisElement = "<emphasis role='strikethrough'>";
+                                            }
+
+                                            var emphasisChildren = convertNodeToDocbook(childNode, emphasis, imageLinks, false);
+
+                                            if (emphasisChildren.size !== 0) {
+                                                // emphasis elements are limited in what child nodes they can accommodate.
+                                                // loop over the children to make sure we are not adding any that might conflict
+                                                var useEmphasis = true;
+                                                jquery.each(emphasisChildren, function (index, value) {
+                                                    if (/^<\w+/.test(value) && !/^<ulink/.test(value)) {
+                                                        useEmphasis = false;
+                                                        return false;
+                                                    }
+                                                });
+
+                                                if (useEmphasis) {
+                                                    emphasisChildren[0] = emphasisElement + emphasisChildren[0];
+                                                    emphasisChildren[emphasisChildren.length - 1] = emphasisChildren[emphasisChildren.length - 1] + "</emphasis>";
+                                                }
+
+                                                jquery.merge(customContainerContent, emphasisChildren);
+                                            }
+
+                                        } else {
+                                            jquery.merge(customContainerContent, convertNodeToDocbook(childNode, emphasis, imageLinks, lineBreaks));
+                                        }
                                     }
                                 }
 
