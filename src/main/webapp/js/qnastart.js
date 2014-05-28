@@ -496,12 +496,21 @@ define(
             .setIntro("You can import an existing Publican DocBook archive, an OpenDocument file, or a general DocBook 4.5 or 5.0 archive.")
             .setInputs(
                 [
-                    new qna.QNAVariables()
+                    /*new qna.QNAVariables()
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
                                 .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc (Experimental, and can crash the browser)"])
                                 .setOptions(["Publican", docbookconstants.DOCBOOK_45_IMPORT_OPTION, docbookconstants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo", "Asciidoc"])
+                                .setValue("Publican")
+                                .setName("ImportOption")
+                        ])*/
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.RADIO_BUTTONS)
+                                .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo"])
+                                .setOptions(["Publican", docbookconstants.DOCBOOK_45_IMPORT_OPTION, docbookconstants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo"])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])
@@ -626,22 +635,22 @@ define(
             .setIntro("During the alpha you can only import content into the test server. Future releases will allow content to be imported into the production server as well.")
             .setInputs([
                 new qna.QNAVariables()
-                    /*.setVariables([
+                    .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Production Server", "Test Server"])
                             .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
                             .setValue("skynet-dev.usersys.redhat.com")
                             .setName("PressGangHost")
-                    ])*/
-                    .setVariables([
+                    ])
+                    /*.setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Test Server", "LocalHost"])
                             .setOptions(["skynet-dev.usersys.redhat.com", "localhost"])
-                            .setValue("skynet-dev.usersys.redhat.com"/*"skynet-dev.usersys.redhat.com"*/)
+                            .setValue("skynet-dev.usersys.redhat.com")
                             .setName("PressGangHost")
-                    ])
+                    ])*/
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
                 if (config.PressGangHost === undefined) {
