@@ -171,6 +171,43 @@ define(
             });
         };
 
+        exports.updateTopic = function(format, xml, title, config, successCallback, errorCallback, retryCount) {
+
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
+
+            var postBody = {
+                xml: xml,
+                configuredParameters: [
+                    "xml"
+                ]
+            };
+
+            if (title) {
+                postBody.title = title;
+                postBody.configuredParameters.push("title");
+            }
+
+            jquery.ajax({
+                type: 'POST',
+                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/update/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                data: JSON.stringify(postBody),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    successCallback(data);
+                },
+                error: function () {
+                    if (retryCount < RETRY_COUNT) {
+                        exports.updateTopic(format, xml, title, config, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while updating the topic. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
+                    }
+                }
+            });
+        };
+
         exports.getSimilarTopics = function(xml, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
@@ -602,7 +639,7 @@ define(
                     ])
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!/\d+/.test(config.ExistingContentSpecID)) {
+                if (!/\d+/.test(docbookconstants.EXISTING_CONTENT_SPEC_ID)) {
                     errorCallback("Invalid Content Specification ID", "You need to enter a valid content specification id. The ID is a sequence of numbers, like 12321.");
                 } else {
                     resultCallback(null);

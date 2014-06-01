@@ -1946,6 +1946,38 @@ define(
                 }
 
                 function uploadTopics (xmlDoc, contentSpec, topics, topicGraph) {
+
+                    function cleanTopicXmlForSaving(topic, format) {
+                        return removeRedundantXmlnsAttribute(
+                            fixDocumentNode(
+                                topic,
+                                qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim(),
+                                format
+                            )
+                        )
+                    }
+
+                    /**
+                     * Configure the topic with the data from the server as a result of a topic update or save
+                     */
+                    function postCreateTopic(topic, savedTopic) {
+                        topic.setTopicId(savedTopic.id);
+                        topic.createdTopic = true;
+
+                        var replacedTextResult = qnautils.replaceEntitiesInText(savedTopic.xml);
+
+                        var entityFreeXml = qnautils.stringToXML(replacedTextResult.xml);
+                        // this might be null due to bugs like https://bugzilla.redhat.com/show_bug.cgi?id=1066169
+                        if (entityFreeXml !== null) {
+                            topic.xml = qnautils.stringToXML(replacedTextResult.xml);
+                            topic.replacements = replacedTextResult.replacements;
+                        } else {
+                            // work around this bug by allowing the existing xml to be qnautils.reencoded. The
+                            // final book would have invalid topics, but at least it will build.
+                            topic.replacements = replacements;
+                        }
+                    }
+
                     function createTopics(index, callback) {
                         if (index >= topics.length) {
                             callback();
@@ -1961,40 +1993,38 @@ define(
                                 qnastart.createTopic(
                                     false,
                                     getDocbookVersion(config),
-                                    removeRedundantXmlnsAttribute(
-                                        fixDocumentNode(
-                                            topic,
-                                            qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim(),
-                                            format
-                                        )
-                                    ),
+                                    cleanTopicXmlForSaving(topic, format),
                                     topic.title,
                                     topic.tags,
                                     config.ImportLang,
                                     config,
                                     function (data) {
-                                        topic.setTopicId(data.id);
-                                        topic.createdTopic = true;
-
-                                        var replacedTextResult = qnautils.replaceEntitiesInText(data.xml);
-
-                                        var entityFreeXml = qnautils.stringToXML(replacedTextResult.xml);
-                                        // this might be null due to bugs like https://bugzilla.redhat.com/show_bug.cgi?id=1066169
-                                        if (entityFreeXml !== null) {
-                                            topic.xml = qnautils.stringToXML(replacedTextResult.xml);
-                                            topic.replacements = replacedTextResult.replacements;
-                                        } else {
-                                            // work around this bug by allowing the existing xml to be qnautils.reencoded. The
-                                            // final book would have invalid topics, but at least it will build.
-                                            topic.replacements = replacements;
-                                        }
-
+                                        postCreateTopic(topic, data);
                                         createTopics(index + 1, callback);
                                     },
                                     errorCallback
                                 );
                             } else {
-                                createTopics(index + 1, callback);
+
+                                /*
+                                    If we are not overwriting a spec, we only reuse an existing topic or create a new one.
+                                    If we are overwriting a spec, we need to update topics that have been flagged as being
+                                    close matches.
+                                 */
+                                if (config[docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY] === docbookconstants.OVERWRITE_SPEC) {
+                                    qnastart.updateTopic(
+                                        cleanTopicXmlForSaving(topic, format),
+                                        topic.title,
+                                        config,
+                                        function (data) {
+                                            postCreateTopic(topic, data);
+                                            createTopics(index + 1, callback);
+                                        },
+                                        errorCallback
+                                    )
+                                } else {
+                                    createTopics(index + 1, callback);
+                                }
                             }
                         }
                     }
@@ -2150,9 +2180,10 @@ define(
                         resultCallback(true);
                     }
 
-                    if (config.ExistingContentSpecID) {
+                    if (config[docbookconstants.EXISTING_CONTENT_SPEC_ID]) {
+
                         qnastart.updateContentSpec(
-                            config.ExistingContentSpecID,
+                            config[docbookconstants.EXISTING_CONTENT_SPEC_ID],
                             compiledContentSpec,
                             config,
                             contentSpecSaveSuccess,
