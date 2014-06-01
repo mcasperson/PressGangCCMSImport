@@ -7,5 +7,10 @@ define(
         exports.COMMON_CONTENT_PATH_PREFIX = /^Common_Content/;
         // these containers are ignored
         exports.IGNORED_CONTAINERS = ["partintro"];
+
+        exports.CREATE_OR_OVERWRITE_CONFIG_KEY = "CreateOrOverwrite";
+        exports.CREATE_SPEC = "CREATE";
+        exports.OVERWRITE_SPEC = "OVERWRITE";
+        exports.EXISTING_CONTENT_SPEC_ID = "ExistingContentSpecID";
     }
 )

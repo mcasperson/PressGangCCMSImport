@@ -1277,11 +1277,86 @@ define(
                     config.ResolvedBookStructure = true;
                     resultCallback();
 
-                    matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph);
+                    /*
+                        Which topics we choose to overwrite depends on whether we are overwriting a spec
+                        or creating a new one
+                     */
+                    if (config.CreateOrResuseTopics === "REUSE") {
+                        populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
+                    } else if (config[docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY] === docbookconstants.OVERWRITE_SPEC) {
+                        matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph);
+                    } else {
+                        matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph);
+                    }
+
                 }
 
                 /*
-                 Resolve the topics either to existing topics in the database, or to new topics
+                    Here we find any topics currently assigned to the spec that we are overwriting that
+                    are similar to the topic we are uploading. Any topic considered similar will
+                    be overwritten with the topic being imported.
+                 */
+                function matchExistingTopicsInSpec (xmlDoc, contentSpec, topics, topicGraph) {
+                    // a collection of the topic ids assigned to the spec we are overwriting
+                    var availableTopics = [];
+
+                    // a collection of the topic ids we have already earmarked for reuse
+                    var resuedTopics = [];
+
+                    // start by getting a list of topics that are assigned to the spec we are overwriting
+                    qnastart.getTopicsInSpec(
+                        config[docbookconstants.EXISTING_CONTENT_SPEC_ID],
+                        config,
+                        function(specTopics) {
+
+                            jquery.each(specTopics.items, function(index, element) {
+                                if (availableTopics.indexOf(element.item.id) === -1) {
+                                    availableTopics.push(element.item.id);
+                                }
+                            });
+
+                            function getPossibleMatches(index, callback) {
+                                if (index >= topics.length) {
+                                    callback();
+                                } else {
+                                    config.UploadProgress[1] = (14 * progressIncrement) + (index / topics.length * progressIncrement);
+                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+                                    resultCallback();
+
+                                    var topic = topics[index];
+                                    qnastart.getSimilarTopics(
+                                        qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
+                                        config,
+                                        function (similarTopics) {
+                                            jquery.each(similarTopics.items, function(index, element) {
+                                                // is this a topic assigned to the spec?
+                                                if (availableTopics.indexOf(element.item.id) !== -1) {
+                                                    // is this a topic that has been resued already?
+                                                    if (resuedTopics.indexOf(element.item.id) === -1) {
+                                                        resuedTopics.push(element.item.id);
+                                                        topic.addPGId(element.item.id);
+                                                        return false;
+                                                    }
+                                                }
+                                            });
+
+                                            getPossibleMatches(++index, callback);
+                                        },
+                                        errorCallback
+                                    )
+                                }
+                            }
+
+                            getPossibleMatches(0, function() {
+                                populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
+                            });
+
+                        },
+                        errorCallback)
+                }
+
+                /*
+                    Resolve the topics either to existing topics in the database, or to new topics
                  */
                 function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph) {
                     /*
@@ -1654,83 +1729,79 @@ define(
                         }
                     }
 
-                    if (config.CreateOrResuseTopics === "REUSE") {
-                        getPossibleMatches(0, function() {
-                            /*
-                                get a report of potentially reused topics. This is really just a convenient
-                                place to set a break point.
-                             */
-                            jquery.each(topics, function(index, value) {
-                                if (value.pgIds === undefined) {
-                                    console.log(value.title + ": none");
-                                } else {
-                                    var matchingIds = "";
-                                    jquery.each(value.pgIds, function(key, value) {
-                                        if (matchingIds.length !== 0) {
-                                            matchingIds += ", ";
-                                        }
-                                        matchingIds += key;
-                                    });
-                                    console.log(value.title + ": " + matchingIds);
-                                }
-                            });
-
-                            populateOutgoingLinks();
-                        });
-                    } else {
-                        populateOutgoingLinks();
-                    }
-
-                    /*
-                     Step 2: Populate outgoing links
-                     */
-                    function populateOutgoingLinks() {
-                        jquery.each(topics, function (index, topic) {
-
-                            // a collection of xrefs that will be replaced by injections.
-                            // topic.xrefs is a collection of all xrefs, but some of these
-                            // might point to positions inside a topic, and as such is not
-                            // a candidate for being replaced with an injection
-                            var outgoingXrefs = [];
-
-                            jquery.each(topic.xrefs, function (index, xref) {
-                                if (topicOrContainerIDs.indexOf(xref) !== -1) {
-                                    outgoingXrefs.push(xref);
-                                }
-                            });
-
-                            /*
-                             We are only interested in mapping the relationships between topics
-                             that have matching topics in PressGang.
-                             */
-                            if (topic.pgIds) {
-                                jquery.each(topic.pgIds, function (pgid, details) {
-                                    var InjectionRE = /<!--\s*Inject\s*:\s*(T?\d+)\s*-->/g;
-                                    var match;
-                                    var count = 0;
-                                    while ((match = InjectionRE.exec(details.originalXML)) !== null) {
-                                        if (count >= outgoingXrefs.length) {
-                                            throw "There is a mismatch between the xrefs and the injects.";
-                                        }
-
-                                        var topicIdOrContainerTarget = match[1];
-                                        var xref = outgoingXrefs[count];
-
-                                        topic.addFixedOutgoingLink(pgid, xref, topicIdOrContainerTarget);
-
-                                        ++count;
+                    getPossibleMatches(0, function() {
+                        /*
+                            get a report of potentially reused topics. This is really just a convenient
+                            place to set a break point.
+                         */
+                        jquery.each(topics, function(index, value) {
+                            if (value.pgIds === undefined) {
+                                console.log(value.title + ": none");
+                            } else {
+                                var matchingIds = "";
+                                jquery.each(value.pgIds, function(key, value) {
+                                    if (matchingIds.length !== 0) {
+                                        matchingIds += ", ";
                                     }
+                                    matchingIds += key;
                                 });
+                                console.log(value.title + ": " + matchingIds);
                             }
                         });
 
-                        config.UploadProgress[1] = 15 * progressIncrement;
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        config.MatchedExistingTopics = true;
-                        resultCallback();
+                        populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
+                    });
+                }
 
-                        resolveXrefs(xmlDoc, contentSpec, topics, topicGraph);
-                    }
+                /*
+                    Populate outgoing links
+                 */
+                function populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph) {
+                    jquery.each(topics, function (index, topic) {
+
+                        // a collection of xrefs that will be replaced by injections.
+                        // topic.xrefs is a collection of all xrefs, but some of these
+                        // might point to positions inside a topic, and as such is not
+                        // a candidate for being replaced with an injection
+                        var outgoingXrefs = [];
+
+                        jquery.each(topic.xrefs, function (index, xref) {
+                            if (topicOrContainerIDs.indexOf(xref) !== -1) {
+                                outgoingXrefs.push(xref);
+                            }
+                        });
+
+                        /*
+                         We are only interested in mapping the relationships between topics
+                         that have matching topics in PressGang.
+                         */
+                        if (topic.pgIds) {
+                            jquery.each(topic.pgIds, function (pgid, details) {
+                                var InjectionRE = /<!--\s*Inject\s*:\s*(T?\d+)\s*-->/g;
+                                var match;
+                                var count = 0;
+                                while ((match = InjectionRE.exec(details.originalXML)) !== null) {
+                                    if (count >= outgoingXrefs.length) {
+                                        throw "There is a mismatch between the xrefs and the injects.";
+                                    }
+
+                                    var topicIdOrContainerTarget = match[1];
+                                    var xref = outgoingXrefs[count];
+
+                                    topic.addFixedOutgoingLink(pgid, xref, topicIdOrContainerTarget);
+
+                                    ++count;
+                                }
+                            });
+                        }
+                    });
+
+                    config.UploadProgress[1] = 15 * progressIncrement;
+                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+                    config.MatchedExistingTopics = true;
+                    resultCallback();
+
+                    resolveXrefs(xmlDoc, contentSpec, topics, topicGraph);
                 }
 
                 /*

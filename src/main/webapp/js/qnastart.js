@@ -195,6 +195,28 @@ define(
             });
         };
 
+        exports.getTopicsInSpec = function(specId, config, successCallback, errorCallback, retryCount) {
+            if (retryCount === undefined) {
+                retryCount = 0;
+            }
+
+            jquery.ajax({
+                type: 'GET',
+                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topics/get/json/query;topicIncludedInSpec=' + specId + ';&expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
+                dataType: "json",
+                success: function (data) {
+                    successCallback(data);
+                },
+                error: function () {
+                    if (retryCount < RETRY_COUNT) {
+                        exports.getTopicsInSpec(specId, config, successCallback, errorCallback, ++retryCount);
+                    } else {
+                        errorCallback("Connection Error", "An error occurred while getting topics in a content spec. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
+                    }
+                }
+            });
+        };
+
         exports.updateTopic = function(id, xml, title, config, successCallback, errorCallback, retryCount) {
             if (retryCount === undefined) {
                 retryCount = 0;
@@ -559,13 +581,13 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Create a new content spec", "Overwrite an existing content spec"])
-                            .setName("CreateOrOverwrite")
-                            .setOptions(["CREATE", "OVERWRITE"])
-                            .setValue("CREATE")
+                            .setName(docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY)
+                            .setOptions([docbookconstants.CREATE_SPEC, docbookconstants.OVERWRITE_SPEC])
+                            .setValue(docbookconstants.CREATE_SPEC)
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.CreateOrOverwrite === "CREATE" ? askToReuseTopics : getExistingContentSpecID);
+                resultCallback(config.CreateOrOverwrite === docbookconstants.CREATE_SPEC ? askToReuseTopics : getExistingContentSpecID);
             });
 
         var getExistingContentSpecID = new qna.QNAStep()
@@ -576,7 +598,7 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.TEXTBOX)
                             .setIntro("Existing content specification ID")
-                            .setName("ExistingContentSpecID")
+                            .setName(docbookconstants.EXISTING_CONTENT_SPEC_ID)
                     ])
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
@@ -586,7 +608,7 @@ define(
                     resultCallback(null);
                 }
             })
-            .setNextStep(function (resultCallback) {
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(askToReuseTopics);
             });
 
@@ -622,13 +644,13 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(exports.specifyTheServer);
+                resultCallback(specifyTheServer);
             });
 
         /*
          Ask which server this is being uploaded to
          */
-        exports.specifyTheServer = new qna.QNAStep()
+        var specifyTheServer = new qna.QNAStep()
             .setTitle("Select the server to import in to")
             /*.setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
                 "Using the test server is recommended for the first import to check the results before adding the content to the production server.")*/
@@ -669,7 +691,7 @@ define(
                             } else {
                                 resultCallback(publicanimport.askForPublicanZipFile);
                             }
-                        } else if (config.ImportOption === "DocBook5" || config.ImportOption === "DocBook45") {
+                        } else if (config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION || config.ImportOption === docbookconstants.DOCBOOK_45_IMPORT_OPTION) {
                             resultCallback(generaldocbookimport.askForZipOrDir);
                         } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
                             resultCallback(generalexternalimport.getSpecDetails);
