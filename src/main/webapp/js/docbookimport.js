@@ -1281,7 +1281,7 @@ define(
                         Which topics we choose to overwrite depends on whether we are overwriting a spec
                         or creating a new one
                      */
-                    if (config.CreateOrResuseTopics === "REUSE") {
+                    if (config.CreateOrResuseTopics === "CREATE") {
                         populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
                     } else if (config[docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY] === docbookconstants.OVERWRITE_SPEC) {
                         matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph);
@@ -1757,6 +1757,8 @@ define(
                     Populate outgoing links
                  */
                 function populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph) {
+                    var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
+
                     jquery.each(topics, function (index, topic) {
 
                         // a collection of xrefs that will be replaced by injections.
@@ -2013,6 +2015,7 @@ define(
                                  */
                                 if (config[docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY] === docbookconstants.OVERWRITE_SPEC) {
                                     qnastart.updateTopic(
+                                        topic.topicId,
                                         cleanTopicXmlForSaving(topic, format),
                                         topic.title,
                                         config,

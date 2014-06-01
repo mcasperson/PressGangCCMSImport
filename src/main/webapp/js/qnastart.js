@@ -171,7 +171,7 @@ define(
             });
         };
 
-        exports.updateTopic = function(format, xml, title, config, successCallback, errorCallback, retryCount) {
+        exports.updateTopic = function(xml, title, config, successCallback, errorCallback, retryCount) {
 
             if (retryCount === undefined) {
                 retryCount = 0;
@@ -239,7 +239,7 @@ define(
 
             jquery.ajax({
                 type: 'GET',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topics/get/json/query;topicIncludedInSpec=' + specId + ';&expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
+                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topics/get/json/query;topicIncludedInSpec=' + specId + ';?expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
                 dataType: "json",
                 success: function (data) {
                     successCallback(data);
@@ -639,7 +639,7 @@ define(
                     ])
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!/\d+/.test(docbookconstants.EXISTING_CONTENT_SPEC_ID)) {
+                if (!/\d+/.test(config[docbookconstants.EXISTING_CONTENT_SPEC_ID])) {
                     errorCallback("Invalid Content Specification ID", "You need to enter a valid content specification id. The ID is a sequence of numbers, like 12321.");
                 } else {
                     resultCallback(null);
