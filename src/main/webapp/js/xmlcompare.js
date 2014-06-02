@@ -204,9 +204,21 @@ define(
         function normalizeXmlString(xml, xmlEntityReplacements, topic, format) {
             var xmlString = qnautils.xmlToString(xml);
             xmlString = removeWhiteSpace(xmlString);
-            xmlString = qnautils.reencode(xmlString, xmlDoc1Entities);
+            xmlString = qnautils.reencode(xmlString, xmlEntityReplacements);
             xmlString = exports.removeRedundantXmlnsAttribute(xmlString);
             xmlString = exports.fixDocumentNode(topic, xmlString, format);
+        }
+
+        /*
+         Replace the top level element with another
+         */
+        function setDocumentNodeToName (xmlText, newElementName) {
+            var match = /\s*<\s*[^\s>]+(.*?)>([\s\S]*)<\s*\/[^\s]+\s*>/.exec(xmlText);
+            if (match !== null) {
+                return "<" + newElementName + match[1] + ">" + match[2] + "</" + newElementName + ">";
+            } else {
+                return xmlText;
+            }
         }
 
         exports.removeRedundantXmlnsAttribute  = function(xmlString) {
@@ -264,8 +276,8 @@ define(
                  */
                 var verbatimMatch = true;
                 jquery.each(VERBATIM_ELEMENTS, function (index, elementName) {
-                    var originalNodes = qnautils.xPath(".//docbook:" + elementName, xmlDoc1XmlString);
-                    var matchingNodes = qnautils.xPath(".//docbook:" + elementName, xmlDoc2XmlString);
+                    var originalNodes = qnautils.xPath(".//docbook:" + elementName, xmlDoc1);
+                    var matchingNodes = qnautils.xPath(".//docbook:" + elementName, xmlDoc2);
 
                     var originalNode;
                     var matchingNode;

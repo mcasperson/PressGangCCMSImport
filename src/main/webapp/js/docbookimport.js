@@ -114,17 +114,7 @@ define(
             return xmlText;
         }
 
-        /*
-            Replace the top level element with another
-         */
-        function setDocumentNodeToName (xmlText, newElementName) {
-            var match = /\s*<\s*[^\s>]+(.*?)>([\s\S]*)<\s*\/[^\s]+\s*>/.exec(xmlText);
-            if (match !== null) {
-                return "<" + newElementName + match[1] + ">" + match[2] + "</" + newElementName + ">";
-            } else {
-                return xmlText;
-            }
-        }
+
 
         /*
          Ask for a revision message
@@ -1428,7 +1418,7 @@ define(
                                                 topic.xml.cloneNode(true),
                                                 replacements,
                                                 matchingTopicXMLCopy,
-                                                replacedTextResult);
+                                                replacedTextResult.replacements);
 
                                             if (xmlDocsAreEquivilent) {
                                                 topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
