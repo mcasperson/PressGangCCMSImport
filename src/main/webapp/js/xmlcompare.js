@@ -6,6 +6,8 @@ define(
         // docbook elements whose contents have to match exactly
         var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
 
+        var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
+
         /*
          Remove any non-injection comments
          */
@@ -120,7 +122,7 @@ define(
             var commentReplacements = [];
             while ((comment = comments.iterateNext()) !== null) {
                 if (INJECTION_RE.test(comment.textContent)) {
-                    var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
+                    var commentReplacement = qnautils.getOwnerDoc(xml).createComment("InjectPlaceholder: 0");
                     commentReplacements.push({original: comment, replacement: commentReplacement});
                 }
             }

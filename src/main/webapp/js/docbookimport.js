@@ -46,7 +46,7 @@ define(
             "sect5"
         ];
 
-        var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
+
 
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
