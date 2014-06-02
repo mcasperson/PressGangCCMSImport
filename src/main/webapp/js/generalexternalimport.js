@@ -15,6 +15,61 @@ define(
             return prefix;
         };
 
+        exports.buildOpeningElement = function (container, title) {
+            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLocaleString() !== "section")) {
+                throw "container can only be a chapter or section";
+            }
+
+            return "<" +  container.toLowerCase() + ">\n<title>" + qnastart.escapeSpecTitle(title) + "</title>\n";
+        };
+
+        exports.buildOClosingElement = function (container) {
+            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLocaleString() !== "section")) {
+                throw "container can only be a chapter or section";
+            }
+
+            return "</" +  container.toLowerCase() + ">";
+        };
+
+        exports.buildTopicXML = function (content, title) {
+            var xmlString = "";
+            jquery.each(content, function(index, value){
+                xmlString += value + "\n";
+            });
+
+            return "<section>\n<title>" + qnastart.escapeSpecTitle(title) + "</title>\n" + xmlString + "\n</section>\n";
+
+        };
+
+        exports.buildOpenContainerTopicWithInitialText = function (container, content, title) {
+
+            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLocaleString() !== "section")) {
+                throw "container can only be a chapter or section";
+            }
+
+            var xmlString = "";
+            jquery.each(content, function(index, value){
+                xmlString += value + "\n";
+            });
+
+            return "<" + container.toLowerCase() + ">\n<title>" + qnastart.escapeSpecTitle(title) + "</title>\n" + xmlString + "\n";
+        };
+
+        exports.buildClosedContainerTopicWithInitialText = function (container, content, title) {
+
+            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLocaleString() !== "section")) {
+                throw "container can only be a chapter or section";
+            }
+
+            var xmlString = "";
+            jquery.each(content, function(index, value){
+                xmlString += value + "\n";
+            });
+
+            return "<" + container.toLowerCase() + ">\n<title>" + qnastart.escapeSpecTitle(title) + "</title>\n" + xmlString + "\n</" + container.toLowerCase() + ">\n";
+        };
+
+
         exports.addTopicToSpec = function (topicGraph, content, title, line) {
             var xmlString = "";
             jquery.each(content, function(index, value){

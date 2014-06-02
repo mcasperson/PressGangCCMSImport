@@ -4,6 +4,10 @@ define(
         'use strict';
 
         var mojoURLRE = /^https:\/\/mojo.redhat.com\/docs\/DOC-(\d+)$/;
+        /*
+            Matches what is created by generalexternalimport.buildOpeningElement()
+         */
+        var emptyContainerRE = /<(chapter|section)>\n<title>.*?<\/title>\n$/;
 
         exports.askForMojoDoc = new qna.QNAStep()
             .setTitle("Specify the Mojo document to import")
@@ -110,62 +114,12 @@ define(
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
 
-                var progressIncrement = 100 / 4;
-
-                var resultObject = JSON.parse(result) || {};
-
-                /*
-                 The lines that make up the metadata in the spec
-                 */
-                var contentSpecMetadata = [];
-                /*
-                 The lines taht make up the content of the spec
-                 */
-                var contentSpec = [];
-
-                function populateSpecMetaData(config, container) {
-                    container.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
-                    container.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                    if (config.ContentSpecVersion) {
-                        container.push("Version = " + config.ContentSpecVersion);
-                    }
-                    container.push("Format = DocBook 4.5");
-
-                    /*
-                     These metadata elements are optional
-                     */
-                    if (config.ContentSpecSubtitle !== undefined) {
-                        container.push("Subtitle = " + config.ContentSpecSubtitle);
-                    }
-                    if (config.ContentSpecEdition !== undefined) {
-                        container.push("Edition = " + config.ContentSpecEdition);
-                    }
-                    if (config.ContentSpecCopyrightHolder !== undefined) {
-                        container.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
-                    }
-                    if (config.ContentSpecBrand !== undefined) {
-                        // this is the value specified in the ui
-                        container.push("Brand = " + config.ContentSpecBrand);
-                    }
-
-                    if (config.TopLevelContainer === "Section") {
-                        container.push("Type = Article");
-                    }
-
-                    container.push("# Imported from " + config.MojoURL);
-                }
-
-                populateSpecMetaData(config, contentSpecMetadata);
-
-                /*
-                 Initialize some config values
-                 */
-                config.UploadedTopicCount = 0;
-                config.MatchedTopicCount = 0;
-                config.UploadedImageCount = 0;
-                config.MatchedImageCount = 0;
+                var progressIncrement = 10;
 
                 var id = /^.*?(\d+)$/.exec(config.MojoURL);
+
+                var topLevelElement = config.TopLevelContainer === constants.CHAPTER_TOP_LEVEL_CONTAINER ? "book" : "article";
+                var xmlDocString = "";
 
                 window.greaseMonkeyShare.getMojoDoc(
                     id[1],
@@ -186,45 +140,33 @@ define(
 
                             var processTopic = function (title, parentLevel, outlineLevel, index, content, successCallback) {
                                 if (index >= childNodeCount) {
-                                    /*
-                                        We have reached the end of the, so append anything we have collected
-                                     */
-                                    if (content.length !== 0) {
-                                        if (topicsAdded > 0 || config.TopLevelContainer === "Chapter") {
-                                            if (outlineLevel > 1) {
-                                                /*
-                                                    This is a child of an existing container. Add it as a regular topic.
-                                                 */
-                                                var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                                contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                            } else if (config.TopLevelContainer === "Chapter") {
-                                                /*
-                                                    This is a chapter with a initial text topic
-                                                 */
-                                                contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
-                                            } else {
-                                                /*
-                                                    This is a child of the article, so add it directly
-                                                 */
-                                                contentSpec.push(qnastart.escapeSpecTitle(title));
-                                            }
+                                    var thisTopicHasContent =  content.length !== 0;
+
+                                    if (thisTopicHasContent) {
+                                        if (outlineLevel === 1) {
+                                            xmlDocString += generalexternalimport.buildClosedContainerTopicWithInitialText(config.TopLevelContainer, content, title);
                                         } else {
-                                            contentSpec.push(qnastart.escapeSpecTitle(title));
+                                            xmlDocString += generalexternalimport.buildTopicXML(content, title);
                                         }
-                                        generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
                                     } else {
                                         /*
-                                            We have collected nothing. This is an empty topic, and we need to unwind any
-                                            toc levels that were added for this topic
+                                         We want to unwind any containers without front matter topics that were
+                                         added to the toc to accommodate this now discarded topic.
+
+                                         So any line added to the spec that doesn't have an associated topic and
+                                         that is not an ancestor of the next topic will be popped off the stack.
                                          */
-                                        while (contentSpec.length !== 0) {
-                                            var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
-                                            if (specElementTopic === undefined) {
-                                                var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1]);
-                                                contentSpec.pop();
-                                            } else {
-                                                break;
-                                            }
+                                        while (emptyContainerRE.test(xmlDocString)) {
+                                            xmlDocString = xmlDocString.replace(emptyContainerRE, "");
+                                            --outlineLevel;
+                                        }
+                                    }
+
+                                    for (var closeLevel = parentLevel - 1; closeLevel >= 1; --closeLevel) {
+                                        if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
+                                            xmlDocString += "</chapter>\n";
+                                        } else {
+                                            xmlDocString += "</section>\n";
                                         }
                                     }
 
@@ -676,6 +618,7 @@ define(
                                 var thisTopicHasContent =  content.length !== 0;
                                 var nextTopicIsChildOfLastLevel = newOutlineLevel > previousLevel;
                                 var nextTopicIsChildOfThisTopic = newOutlineLevel > currentLevel;
+                                var nextTopicIsSiblingOfThisTopic = newOutlineLevel === currentLevel;
 
                                 if (!thisTopicHasContent && nextTopicIsChildOfThisTopic) {
                                     /*
@@ -685,70 +628,62 @@ define(
                                     */
 
                                     if (currentLevel === 1) {
-                                        contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
+                                        xmlDocString += generalexternalimport.buildOpeningElement(config.TopLevelContainer, title);
                                     } else {
-                                        contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+                                        xmlDocString += generalexternalimport.buildOpeningElement("section", title);
                                     }
                                 } else if (thisTopicHasContent) {
                                     if (currentLevel === 1) {
-                                        if (config.TopLevelContainer === "Chapter"  || nextTopicIsChildOfThisTopic) {
-                                            contentSpec.push(config.TopLevelContainer + ": " + qnastart.escapeSpecTitle(title));
+                                        if (nextTopicIsChildOfThisTopic) {
+                                            xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText(config.TopLevelContainer, content, title);
                                         } else {
-                                            contentSpec.push(qnastart.escapeSpecTitle(title));
+                                            xmlDocString += generalexternalimport.buildClosedContainerTopicWithInitialText(config.TopLevelContainer, content, title);
                                         }
                                     } else {
-                                        /*
-                                            Does the topic now being built exist under this one? If so, this topic is
-                                             a container. If not, it is just a topic.
-                                         */
-                                        if (newOutlineLevel > currentLevel) {
-                                            contentSpec.push(prefix + "Section: " + qnastart.escapeSpecTitle(title));
+
+                                        if (nextTopicIsChildOfThisTopic) {
+                                            /*
+                                                Create an open ended container to hold this content and any children
+                                             */
+                                            xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText("section", content, title);
                                         } else {
-                                            contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                        }
-                                    }
 
-                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
-                                } else {
-
-                                    if (!nextTopicIsChildOfLastLevel) {
-
-                                        /*
-                                         We want to unwind any containers without front matter topics that were
-                                         added to the toc to accommodate this now discarded topic.
-
-                                         So any line added to the spec that doesn't have an associated topic and
-                                         that is not an ancestor of the next topic will be popped off the stack.
-                                         */
-                                        while (contentSpec.length !== 0) {
-                                            var specElementTopic = topicGraph.getNodeFromSpecLine(contentSpec.length - 1);
-                                            var specElementLevel = /^(\s*)/.exec(contentSpec[contentSpec.length - 1])[1].length;
-                                            if (specElementTopic === undefined) {
-                                                if (specElementLevel === newOutlineLevel - 2) {
-                                                    break;
-                                                } else {
-                                                    contentSpec.pop();
-                                                }
+                                            /*
+                                                The next topic is either a sibling or it is some (great)uncle relation. In both
+                                                cases we create a standard closed topic for the current content.
+                                             */
+                                            if (currentLevel === 1) {
+                                                xmlDocString += generalexternalimport.buildClosedContainerTopicWithInitialText(config.TopLevelContainer, content, title);
                                             } else {
-                                                /*
-                                                 If the discarded topic was supposed to a child of the container
-                                                 above it, and the new topic being created is not, then the
-                                                 previous topic will need to be changed from a container to a topic,
-                                                 assuming it is not a Chapter.
-                                                 */
-                                                if (config.TopLevelContainer !== "Chapter" || specElementLevel !== 0) {
-                                                    contentSpec[contentSpec.length - 1] =
-                                                        contentSpec[contentSpec.length - 1].replace(/^(\s*)[A-Za-z]+: /, "$1");
-                                                }
-                                                break;
+                                                xmlDocString += generalexternalimport.buildTopicXML(content, title);
                                             }
                                         }
+                                    }
+                                } else if (!nextTopicIsChildOfLastLevel) {
+
+                                    /*
+                                     We want to unwind any containers without front matter topics that were
+                                     added to the toc to accommodate this now discarded topic.
+
+                                     So any line added to the spec that doesn't have an associated topic and
+                                     that is not an ancestor of the next topic will be popped off the stack.
+                                     */
+                                    while (emptyContainerRE.test(xmlDocString)) {
+                                        xmlDocString = xmlDocString.replace(emptyContainerRE, "");
                                     }
 
                                     /*
                                      Since this topic is being discarded, the parent outline level continues through
                                      */
                                     currentLevel = previousLevel;
+                                }
+
+                                for (var closeLevel = previousLevel - 1; closeLevel >= newOutlineLevel; --closeLevel) {
+                                    if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
+                                        xmlDocString += "</chapter>\n";
+                                    } else {
+                                        xmlDocString += "</section>\n";
+                                    }
                                 }
 
                                 var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
