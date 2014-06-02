@@ -54,7 +54,7 @@ define(
                         var doctype = config[constants.TOP_LEVEL_CONTAINER] === constants.CHAPTER_TOP_LEVEL_CONTAINER ?
                             'book' : 'article';
                         var asciidocOpts = Opal.hash2(['attributes'], {'attributes': ['backend=docbook45', 'doctype=' + doctype]});
-                        var docbook = fixAsciidoctorConversion("<book>" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</book>");
+                        var docbook = fixAsciidoctorConversion("<" + doctype + ">" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</" + doctype + ">");
 
                         processxml.processXMLAndExtractEntities(
                             function (result) {
