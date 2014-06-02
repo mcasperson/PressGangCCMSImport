@@ -43,18 +43,10 @@ define(
                     var reader = new FileReader();
                     reader.onload = (function(e) {
 
-                        function fixAsciidoctorConversion(docbook) {
-                            return docbook
-                                // Fix the ' entity
-                                .replace(/&#8217;/g, "&apos;")
-                                // Remove <?asciidoc-br?> elements
-                                .replace(/<\?asciidoc-br\?>/g, "");
-                        }
-
                         var doctype = config[constants.TOP_LEVEL_CONTAINER] === constants.CHAPTER_TOP_LEVEL_CONTAINER ?
                             'book' : 'article';
                         var asciidocOpts = Opal.hash2(['attributes'], {'attributes': ['backend=docbook45', 'doctype=' + doctype]});
-                        var docbook = fixAsciidoctorConversion("<" + doctype + ">" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</" + doctype + ">");
+                        var docbook = "<" + doctype + ">" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</" + doctype + ">";
 
                         processxml.processXMLAndExtractEntities(
                             function (result) {
