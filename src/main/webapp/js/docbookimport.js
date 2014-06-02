@@ -46,8 +46,6 @@ define(
             "sect5"
         ];
 
-
-
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
@@ -1317,13 +1315,18 @@ define(
                                                 an assigned topic id and the exact same xml, and reuse the id.
                                              */
                                             if (topic.pgIds === undefined) {
-
-                                                var topicXML = qnautils.xmlToString(topic.xml);
-
                                                 jquery.each(topics, function(index, element) {
                                                     if (element.pgIds !== undefined && Object.keys(element.pgIds).length === 1) {
-                                                        var elementXml = qnautils.xmlToString(element.xml);
-                                                        if (topicXML === elementXml) {
+                                                        var xmlDocsAreEquivilent = xmlcompare.compareXml(
+                                                            topic,
+                                                            getDocumentFormat(config),
+                                                            topicGraph.getAllTopicOrContainerIDs(),
+                                                            topic.xml.cloneNode(true),
+                                                            replacements,
+                                                            element.xml.cloneNode(true),
+                                                            replacements);
+
+                                                        if (xmlDocsAreEquivilent) {
                                                             topic.addPGId(Object.keys(element.pgIds)[0]);
                                                             return false;
                                                         }

@@ -209,6 +209,7 @@ define(
             xmlString = qnautils.reencode(xmlString, xmlEntityReplacements);
             xmlString = exports.removeRedundantXmlnsAttribute(xmlString);
             xmlString = exports.fixDocumentNode(topic, xmlString, format);
+            return xmlString;
         }
 
         /*
