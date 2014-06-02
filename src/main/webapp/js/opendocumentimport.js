@@ -1,6 +1,6 @@
 define(    
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'moment', 'docbookconstants', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, moment, docbookconstants, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'moment', 'constants', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, moment, constants, exports) {
         'use strict';
 
         var fontRuleStyleCache;
@@ -1951,10 +1951,10 @@ define(
                             compiledContentSpec += "# " + config.OutgoingUrls;
                         }
 
-                        if (config[docbookconstants.EXISTING_CONTENT_SPEC_ID]) {
+                        if (config[constants.EXISTING_CONTENT_SPEC_ID]) {
 
                             qnastart.updateContentSpec(
-                                config[docbookconstants.EXISTING_CONTENT_SPEC_ID],
+                                config[constants.EXISTING_CONTENT_SPEC_ID],
                                 compiledContentSpec,
                                 config,
                                 contentSpecSaveSuccess,

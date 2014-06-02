@@ -1,6 +1,6 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'docbookconstants', 'asciidocimport', 'reportsettings', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, docbookconstants, asciidocimport, reportsettings, exports) {
+    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
+    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
@@ -523,7 +523,7 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
                                 .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc (Experimental, and can crash the browser)"])
-                                .setOptions(["Publican", docbookconstants.DOCBOOK_45_IMPORT_OPTION, docbookconstants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo", "Asciidoc"])
+                                .setOptions(["Publican", constants.DOCBOOK_45_IMPORT_OPTION, constants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo", "Asciidoc"])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])
@@ -532,7 +532,7 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
                                 .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo"])
-                                .setOptions(["Publican", docbookconstants.DOCBOOK_45_IMPORT_OPTION, docbookconstants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo"])
+                                .setOptions(["Publican", constants.DOCBOOK_45_IMPORT_OPTION, constants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo"])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])*/
@@ -581,13 +581,13 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Create a new content spec", "Overwrite an existing content spec"])
-                            .setName(docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY)
-                            .setOptions([docbookconstants.CREATE_SPEC, docbookconstants.OVERWRITE_SPEC])
-                            .setValue(docbookconstants.CREATE_SPEC)
+                            .setName(constants.CREATE_OR_OVERWRITE_CONFIG_KEY)
+                            .setOptions([constants.CREATE_SPEC, constants.OVERWRITE_SPEC])
+                            .setValue(constants.CREATE_SPEC)
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.CreateOrOverwrite === docbookconstants.CREATE_SPEC ? askToReuseTopics : getExistingContentSpecID);
+                resultCallback(config.CreateOrOverwrite === constants.CREATE_SPEC ? askToReuseTopics : getExistingContentSpecID);
             });
 
         var getExistingContentSpecID = new qna.QNAStep()
@@ -598,11 +598,11 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.TEXTBOX)
                             .setIntro("Existing content specification ID")
-                            .setName(docbookconstants.EXISTING_CONTENT_SPEC_ID)
+                            .setName(constants.EXISTING_CONTENT_SPEC_ID)
                     ])
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!/\d+/.test(config[docbookconstants.EXISTING_CONTENT_SPEC_ID])) {
+                if (!/\d+/.test(config[constants.EXISTING_CONTENT_SPEC_ID])) {
                     errorCallback("Invalid Content Specification ID", "You need to enter a valid content specification id. The ID is a sequence of numbers, like 12321.");
                 } else {
                     resultCallback(null);
@@ -691,7 +691,7 @@ define(
                             } else {
                                 resultCallback(publicanimport.askForPublicanZipFile);
                             }
-                        } else if (config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION || config.ImportOption === docbookconstants.DOCBOOK_45_IMPORT_OPTION) {
+                        } else if (config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION || config.ImportOption === constants.DOCBOOK_45_IMPORT_OPTION) {
                             resultCallback(generaldocbookimport.askForZipOrDir);
                         } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
                             resultCallback(generalexternalimport.getSpecDetails);

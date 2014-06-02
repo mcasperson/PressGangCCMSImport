@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qnautils', 'docbookconstants', 'exports'],
-    function (jquery, qnautils, docbookconstants, exports) {
+    ['jquery', 'qna/qnautils', 'constants', 'exports'],
+    function (jquery, qnautils, constants, exports) {
         'use strict';
 
         // docbook elements whose contents have to match exactly
@@ -230,9 +230,9 @@ define(
 
         exports.fixDocumentNode = function(topic, xmlText, format) {
             if (topic.infoTopic) {
-                if (format === docbookconstants.DOCBOOK_50 ) {
+                if (format === constants.DOCBOOK_50 ) {
                     return setDocumentNodeToName(xmlText, "info");
-                } else if (format === docbookconstants.DOCBOOK_45) {
+                } else if (format === constants.DOCBOOK_45) {
                     return setDocumentNodeToName(xmlText, "sectioninfo");
                 }
             }

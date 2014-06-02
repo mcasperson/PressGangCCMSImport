@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'generaldocbookimport', 'generalexternalimport', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, generaldocbookimport, generalexternalimport, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'constants', 'generalexternalimport', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, constants, generaldocbookimport, generalexternalimport, exports) {
         'use strict';
 
         var ELEMENTS_THAT_NEED_CDATA = ["userinput", "computeroutput"];
@@ -1081,7 +1081,7 @@ define(
                 var findImageFileNames = function (callback) {
                     var match;
                     if ((match = filerefRe.exec(xmlText)) !== null) {
-                        if (!(docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(match[filerefReHrefGroup]))) {
+                        if (!(constants.COMMON_CONTENT_PATH_PREFIX.test(match[filerefReHrefGroup]))) {
                             var imageFilename = match[filerefReHrefGroup];
                             var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + imageFilename);
                             var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
@@ -1192,7 +1192,7 @@ define(
                     }
 
                     if (href !== undefined) {
-                        if (docbookconstants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
+                        if (constants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
                             xmlText = xmlText.replace(match[0], "");
                             resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                         } else {
@@ -1459,7 +1459,7 @@ define(
                 /*
                  Ignored containers are merged into their parents
                  */
-                jquery.each(docbookconstants.IGNORED_CONTAINERS, function (index, value) {
+                jquery.each(constants.IGNORED_CONTAINERS, function (index, value) {
                     xmlText = xmlText.replace(new RegExp("<\s*" + qnautils.escapeRegExp(value) + ".*?/?\s*>", "g"), "");
                     xmlText = xmlText.replace(new RegExp("<\s*/\s*" + qnautils.escapeRegExp(value) + "\s*>", "g"), "");
                     ;

@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, reportsettings, moment, xmlcompare, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
         'use strict';
 
         /*
@@ -50,15 +50,15 @@ define(
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
         function getSpecDocbookVersion(config) {
-            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
+            return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
         }
 
         function getDocumentFormat(config) {
-            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? docbookconstants.DOCBOOK_50 : docbookconstants.DOCBOOK_45;
+            return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? constants.DOCBOOK_50 : constants.DOCBOOK_45;
         }
 
         function getDocbookVersion(config) {
-            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? 5 : 4.5;
+            return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? 5 : 4.5;
         }
 
         function getIgnoredFiles(lang) {
@@ -1251,7 +1251,7 @@ define(
                      */
                     if (config.CreateOrResuseTopics === "CREATE") {
                         populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
-                    } else if (config[docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY] === docbookconstants.OVERWRITE_SPEC) {
+                    } else if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
                         matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph);
                     } else {
                         matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph);
@@ -1273,7 +1273,7 @@ define(
 
                     // start by getting a list of topics that are assigned to the spec we are overwriting
                     qnastart.getTopicsInSpec(
-                        config[docbookconstants.EXISTING_CONTENT_SPEC_ID],
+                        config[constants.EXISTING_CONTENT_SPEC_ID],
                         config,
                         function(specTopics) {
 
@@ -1726,7 +1726,7 @@ define(
                                     If we are overwriting a spec, we need to update topics that have been flagged as being
                                     close matches.
                                  */
-                                if (config[docbookconstants.CREATE_OR_OVERWRITE_CONFIG_KEY] === docbookconstants.OVERWRITE_SPEC) {
+                                if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
                                     qnastart.updateTopic(
                                         topic.topicId,
                                         cleanTopicXmlForSaving(topic, format),
@@ -1896,10 +1896,10 @@ define(
                         resultCallback(true);
                     }
 
-                    if (config[docbookconstants.EXISTING_CONTENT_SPEC_ID]) {
+                    if (config[constants.EXISTING_CONTENT_SPEC_ID]) {
 
                         qnastart.updateContentSpec(
-                            config[docbookconstants.EXISTING_CONTENT_SPEC_ID],
+                            config[constants.EXISTING_CONTENT_SPEC_ID],
                             compiledContentSpec,
                             config,
                             contentSpecSaveSuccess,
