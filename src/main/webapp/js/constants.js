@@ -3,6 +3,10 @@ define(
     function (exports) {
         'use strict';
 
+        exports.TOP_LEVEL_CONTAINER = "TopLevelContainer";
+        exports.SECTION_TOP_LEVEL_CONTAINER = "Section";
+        exports.CHAPTER_TOP_LEVEL_CONTAINER = "Chapter";
+
         exports.DOCBOOK_50 = "DOCBOOK_50";
         exports.DOCBOOK_45 = "DOCBOOK_45";
 

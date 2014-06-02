@@ -1,9 +1,29 @@
 define(
-    ['jquery', 'qna/qna', 'docbookimport', 'processxml', /*'opal', 'asciidoctor',*/ 'exports'],
-    function (jquery, qna, docbookimport, processxml, /*opal, asciidoctor,*/ exports) {
+    ['jquery', 'qna/qna', 'docbookimport', 'processxml', /*'opal', 'asciidoctor',*/ 'constants', 'exports'],
+    function (jquery, qna, docbookimport, processxml, /*opal, asciidoctor,*/ constants, exports) {
         'use strict';
 
-        exports.askForAsciidocFile = new qna.QNAStep()
+        exports.getTopicLevelContainer = new qna.QNAStep()
+            .setTitle("Do you want a book or article?")
+            .setIntro("The content specification can either be a book or an article.")
+            .setInputs(
+            [
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.RADIO_BUTTONS)
+                            .setIntro(["Book", "Article"])
+                            .setOptions([constants.CHAPTER_TOP_LEVEL_CONTAINER, constants.SECTION_TOP_LEVEL_CONTAINER])
+                            .setValue(constants.CHAPTER_TOP_LEVEL_CONTAINER)
+                            .setName(constants.TOP_LEVEL_CONTAINER)
+                    ])
+            ]
+        )
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(askForAsciidocFile);
+            });
+
+        var askForAsciidocFile = new qna.QNAStep()
             .setTitle("Select the Asciidoc file to import")
             .setInputs(
                 [
@@ -31,7 +51,9 @@ define(
                                 .replace(/<\?asciidoc-br\?>/g, "");
                         }
 
-                        var asciidocOpts = Opal.hash2(['attributes'], {'attributes': ['backend=docbook45', 'doctype=book']});
+                        var doctype = config[constants.TOP_LEVEL_CONTAINER] === constants.CHAPTER_TOP_LEVEL_CONTAINER ?
+                            'book' : 'article';
+                        var asciidocOpts = Opal.hash2(['attributes'], {'attributes': ['backend=docbook45', 'doctype=' + doctype]});
                         var docbook = fixAsciidoctorConversion("<book>" + Opal.Asciidoctor.opal$render(e.target.result, asciidocOpts) + "</book>");
 
                         processxml.processXMLAndExtractEntities(
@@ -47,27 +69,9 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(getTopicLevelContainer);
+                resultCallback(docbookimport.askForRevisionMessage);
             })
 
-        var getTopicLevelContainer = new qna.QNAStep()
-            .setTitle("Do you want a book or article?")
-            .setIntro("The content specification can either be a book or an article.")
-            .setInputs(
-            [
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Book", "Article"])
-                            .setOptions(["Chapter", "Section"])
-                            .setValue("Chapter")
-                            .setName("TopLevelContainer")
-                    ])
-            ]
-        )
-        .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(docbookimport.askForRevisionMessage);
-        });
+
     }
 )

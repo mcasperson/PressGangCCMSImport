@@ -696,7 +696,7 @@ define(
                         } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
                             resultCallback(generalexternalimport.getSpecDetails);
                         } else if (config.ImportOption === "Asciidoc") {
-                            resultCallback(asciidocimport.askForAsciidocFile);
+                            resultCallback(asciidocimport.getTopicLevelContainer);
                         }
                     },
                     errorCallback
