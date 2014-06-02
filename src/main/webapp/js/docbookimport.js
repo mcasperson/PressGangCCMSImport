@@ -1340,6 +1340,20 @@ define(
                                                 }
                                             });
 
+                                            /*
+                                                This can happen if the existing spec had duplicated topics. This means
+                                                there are fewer topics to choose from than there are being imported.
+                                                In this case check back through the topics looking for any with
+                                                an assigned topic id and the exact same xml, and reuse the id.
+                                             */
+                                            if (topic.pgIds === undefined) {
+                                                jquery.each(topics, function(index, element) {
+                                                    if (element.pgIds !== undefined && element.pgIds.length === 1 && element.xml === topic.xml) {
+                                                        topic.addPGId(element.pgIds[0]);
+                                                    }
+                                                });
+                                            }
+
                                             getPossibleMatches(++index, callback);
                                         },
                                         errorCallback
