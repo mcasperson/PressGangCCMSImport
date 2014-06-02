@@ -39,7 +39,7 @@ define(
                     if (xref.hasAttribute("linkend")) {
                         var linkend = xref.getAttribute("linkend");
                         if (topicAndContainerIDs.indexOf(linkend) !== -1) {
-                            var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
+                            var xrefReplacement = qnautils.getOwnerDoc(xml).createComment("InjectPlaceholder: 0");
                             var replacement = {original: xref, replacement: [xrefReplacement]};
                             xrefReplacements.push(replacement);
                         }
