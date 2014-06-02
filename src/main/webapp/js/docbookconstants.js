@@ -2,6 +2,10 @@ define(
     ['exports'],
     function (exports) {
         'use strict';
+
+        exports.DOCBOOK_50 = "DOCBOOK_50";
+        exports.DOCBOOK_45 = "DOCBOOK_45";
+
         exports.DOCBOOK_50_IMPORT_OPTION = "DocBook5";
         exports.DOCBOOK_45_IMPORT_OPTION = "DocBook45";
         exports.COMMON_CONTENT_PATH_PREFIX = /^Common_Content/;

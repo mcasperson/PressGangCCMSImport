@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'reportsettings', 'moment', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, reportsettings, moment, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'docbookconstants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, docbookconstants, reportsettings, moment, xmlcompare, exports) {
         'use strict';
 
         /*
@@ -22,8 +22,6 @@ define(
         var LEGAL_NOTICE_TAG_ID;
         var INFO_TAG_ID;
         var DEFAULT_TITLE = "Untitled";
-        // docbook elements whose contents have to match exactly
-        var VERBATIM_ELEMENTS = ["date", "screen", "programlisting", "literallayout", "synopsis", "address", "computeroutput"];
         // These docbook elements represent containers or topics. Anything else is added as the XML of a topic.
         var CONTAINER_TYPES = ["part", "chapter", "appendix", "section", "preface", "simplesect", "sect1", "sect2", "sect3", "sect4", "sect5"];
         // these docbook elements represent topics
@@ -50,8 +48,6 @@ define(
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
-        var DOCBOOK_50 = "DOCBOOK_50";
-        var DOCBOOK_45 = "DOCBOOK_45";
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
@@ -60,7 +56,7 @@ define(
         }
 
         function getDocumentFormat(config) {
-            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? DOCBOOK_50 : DOCBOOK_45;
+            return config.ImportOption === docbookconstants.DOCBOOK_50_IMPORT_OPTION ? docbookconstants.DOCBOOK_50 : docbookconstants.DOCBOOK_45;
         }
 
         function getDocbookVersion(config) {
@@ -70,10 +66,6 @@ define(
         function getIgnoredFiles(lang) {
             // these files are created by csprocessor
             return [lang + "/files/pressgang_website.js"];
-        }
-
-        function removeRedundantXmlnsAttribute(xmlString) {
-            return xmlString.replace(/(<\s*[A-Za-z0-9]+)\s+(xmlns\s*=\s*("|')http:\/\/docbook.org\/ns\/docbook("|'))(.*?>)/g, "$1$5");
         }
 
         /**
@@ -132,18 +124,6 @@ define(
             } else {
                 return xmlText;
             }
-        }
-
-        function fixDocumentNode(topic, xmlText, format) {
-            if (topic.infoTopic) {
-                if (format === DOCBOOK_50 ) {
-                    return setDocumentNodeToName(xmlText, "info");
-                } else if (format === DOCBOOK_45) {
-                    return setDocumentNodeToName(xmlText, "sectioninfo");
-                }
-            }
-
-            return setDocumentNodeToName(xmlText, "section");
         }
 
         /*
@@ -979,7 +959,7 @@ define(
                                     titleText = qnautils.replaceWhiteSpace(title.innerHTML);
 
                                     // remove any redundant namespace attributes
-                                    titleText = removeRedundantXmlnsAttribute(titleText);
+                                    titleText = xmlcompare.removeRedundantXmlnsAttribute(titleText);
 
                                     /*
                                         Title is mandatory
@@ -1347,9 +1327,16 @@ define(
                                                 an assigned topic id and the exact same xml, and reuse the id.
                                              */
                                             if (topic.pgIds === undefined) {
+
+                                                var topicXML = qnautils.xmlToString(topic.xml);
+
                                                 jquery.each(topics, function(index, element) {
-                                                    if (element.pgIds !== undefined && element.pgIds.length === 1 && element.xml === topic.xml) {
-                                                        topic.addPGId(element.pgIds[0]);
+                                                    if (element.pgIds !== undefined && Object.keys(element.pgIds).length === 1) {
+                                                        var elementXml = qnautils.xmlToString(element.xml);
+                                                        if (topicXML === elementXml) {
+                                                            topic.addPGId(Object.keys(element.pgIds)[0]);
+                                                            return false;
+                                                        }
                                                     }
                                                 });
                                             }
@@ -1373,201 +1360,6 @@ define(
                     Resolve the topics either to existing topics in the database, or to new topics
                  */
                 function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph) {
-                    /*
-                        Remove any non-injection comments
-                     */
-                    function normalizeComments(xml) {
-                        var comments = qnautils.xPath("//docbook:comment()", xml);
-                        var commentsCollection = [];
-                        var comment;
-                        while ((comment = comments.iterateNext()) !== null) {
-                            if (!/^Inject[A-Za-z]*\s*:\s*T?\d+/.test(comment.nodeValue.trim())) {
-                                commentsCollection.push(comment);
-                            }
-                        }
-
-                        jquery.each(commentsCollection, function (index, value) {
-                            value.parentNode.removeChild(value);
-                        });
-
-                        return xml;
-                    }
-
-                    /*
-                     Take every xref that points to a topic (and not just a place in a topic), and replace it
-                     with a injection placeholder. This is done on topics to be imported.
-                     */
-                    function normalizeXrefs (xml, topicAndContainerIDs) {
-                        jquery.each(['xref', 'link'], function(index, linkElement) {
-                            var xrefs = qnautils.xPath("//docbook:" + linkElement, xml);
-                            var xref;
-                            var xrefReplacements = [];
-                            while ((xref = xrefs.iterateNext()) !== null) {
-                                if (xref.hasAttribute("linkend")) {
-                                    var linkend = xref.getAttribute("linkend");
-                                    if (topicAndContainerIDs.indexOf(linkend) !== -1) {
-                                        var xrefReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
-                                        var replacement = {original: xref, replacement: [xrefReplacement]};
-                                        xrefReplacements.push(replacement);
-                                    }
-                                }
-                            }
-
-                            jquery.each(xrefReplacements, function (index, value) {
-                                for (var replacementIndex = 0; replacementIndex < value.replacement.length; ++replacementIndex) {
-                                    if (replacementIndex === value.replacement.length - 1) {
-                                        value.original.parentNode.replaceChild(value.replacement[replacementIndex], value.original);
-                                    } else {
-                                        value.original.parentNode.insertBefore(value.replacement[replacementIndex], value.original);
-                                    }
-                                }
-                            });
-                        });
-
-                        return xml;
-                    }
-
-                    /*
-                        Ensure that all special characters are consistently escaped.
-                     */
-                    function normalizeXMLEntityCharacters(xml, replacements) {
-                        var textNodes = qnautils.xPath(".//text()", xml);
-                        var text;
-                        var textNodesCollection = [];
-                        while ((text = textNodes.iterateNext()) !== null) {
-                            textNodesCollection.push(text);
-                        }
-
-                        jquery.each(textNodesCollection, function(index, value) {
-
-                            /*
-                                First return any entities that we consider equivalent.
-                             */
-                            jquery.each(replacements, function(index, replacementValue) {
-                                if (replacementValue.entity === "&quot;" ) {
-                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#quot#");
-                                }
-
-                                if (replacementValue.entity === "&apos;") {
-                                    value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#apos#");
-                                }
-                            });
-                            /*
-                                Then replace equivalent characters/entities with a common marker.
-                             */
-                            value.nodeValue = value.nodeValue
-                                /*
-                                 Start by returning all entities to their character state
-                                 */
-                                .replace(/&quot;/g, '"')
-                                .replace(/&apos;/g, '\'')
-                                /*
-                                 Now encode back. Note that we don't want to use any characters that will be
-                                 further encoded when the xml is converted to a string. This is just for
-                                 equality testing.
-                                 */
-                                .replace(/’/g, '#apos#')
-                                .replace(/'/g, '#apos#')
-                                .replace(/“/g, '#quot#')
-                                .replace(/”/g, '#quot#')
-                                .replace(/"/g, "#quot#");
-                        });
-
-                        return xml;
-                    }
-
-                    /*
-                     Take every injection and replace it with a placeholder. This is done on existing topics
-                     from PressGang.
-                     */
-                    function normalizeInjections (xml) {
-                        var comments = qnautils.xPath("//comment()", xml);
-                        var comment;
-                        var commentReplacements = [];
-                        while ((comment = comments.iterateNext()) !== null) {
-                            if (INJECTION_RE.test(comment.textContent)) {
-                                var commentReplacement = xmlDoc.createComment("InjectPlaceholder: 0");
-                                commentReplacements.push({original: comment, replacement: commentReplacement});
-                            }
-                        }
-
-                        jquery.each(commentReplacements, function (index, value) {
-                            value.original.parentNode.replaceChild(value.replacement, value.original);
-                        });
-
-                        return xml;
-                    }
-
-                    /*
-                        This function takes the xml and strips out ignored whitespace. This allows us to compare
-                        two xml documents that may have been formatted differently.
-
-                        This is a bit of a hack. Technically, all white space is significant unless otherwise
-                        specified by the DTD. We assume here that all whitespace is insignificant.
-
-                        This will cause issues if a topic already exists in the database that has only whitespace
-                        changes.
-
-                        To fix this we run a second check against the content of any elements where whitespace is
-                        significant.
-                     */
-                    function removeWhiteSpace(xml) {
-                        xml = xml.replace(/\n/gm, " ");                     // replace all existing line breaks
-                        xml = xml.replace(/\t/gm, " ");                     // replace all existing tabs
-                        xml = xml.replace(/>/gm, ">\n");                    // break after a the end of an element
-                        xml = xml.replace(/</gm, "\n<");                    // break before the start of an element
-                        xml = xml.replace(/^\s+/gm, "");                  // remove leading whitespace
-                        xml = xml.replace(/\s+$/gm, "");                  // remove trailing whitespace
-                        xml = xml.replace(/(\S+)([ ]{2,})/gm, "$1 ");       // remove double spaces within text
-                        return xml;
-                    }
-
-
-                    /*
-                     The order of the attributes is changed by PressGang, so before we do a comparison
-                     we order any attributes in any node.
-                     */
-                    function reorderAttributes(xml) {
-
-                        if (xml.attributes !== undefined) {
-                            var attributes = {};
-                            jquery.each(xml.attributes, function(index, attr) {
-                                attributes[attr.name] = attr.value;
-                            });
-
-                            while (xml.attributes.length !== 0) {
-                                xml.removeAttribute(xml.attributes[0].name);
-                            }
-
-                            var attributeKeys = qnautils.keys(attributes);
-
-                            jquery.each(attributeKeys, function (index, attrName) {
-                                /*
-                                 Don't add some common attributes. These are either added
-                                 by csprocessor when it build a book, by the xml
-                                 serialization process, or are not considered important
-                                 when comparing XML files for equality.
-                                 */
-                                if (attrName.indexOf("xmlns") !== 0 &&
-                                    attrName.indexOf("version") !== 0 &&
-                                    attrName.indexOf("remap") !== 0 ) {
-                                    xml.setAttribute(attrName, attributes[attrName]);
-                                }
-                            });
-                        }
-
-                        var allElements = qnautils.xPath(".//docbook:*", xml);
-                        var elements = [];
-                        var elementIter;
-                        while ((elementIter = allElements.iterateNext()) !== null) {
-                            elements.push(elementIter);
-                        }
-
-                        jquery.each(elements, function (index, element) {
-                            reorderAttributes(element);
-                        });
-                    }
-
                     var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
                     /*
@@ -1588,32 +1380,6 @@ define(
                                 function (data) {
                                     var format = getDocumentFormat(config);
 
-                                    /*
-                                     We start by comparing the topic we are trying to import to the close match in the
-                                     database. To do this we normalize whitespace, injections and xrefs. If the two
-                                     topics then match we have a potential candidate to reuse.
-                                     */
-                                    var topicXMLCopy = topic.xml.cloneNode(true);
-                                    normalizeXrefs(
-                                        normalizeInjections(
-                                            normalizeComments(topicXMLCopy)), topicOrContainerIDs);
-                                    reorderAttributes(topicXMLCopy);
-                                    normalizeXMLEntityCharacters(topicXMLCopy, replacements);
-
-                                    var topicXMLCompare = qnautils.xmlToString(topicXMLCopy);
-                                    topicXMLCompare = removeWhiteSpace(topicXMLCompare);
-                                    topicXMLCompare = qnautils.reencode(topicXMLCompare, replacements);
-                                    topicXMLCompare = removeRedundantXmlnsAttribute(topicXMLCompare);
-                                    topicXMLCompare = fixDocumentNode(topic, topicXMLCompare, format);
-
-                                    /*
-                                     topicXMLCompare now has injection placeholders that will match the injection
-                                     points in existing topics, has any entities put back, has whitespace removed
-                                     and the main element is a section.
-
-                                     We are now ready to compare it directly to topics pulled from PressGang and
-                                     normalized.
-                                     */
                                     data.items.sort(function(a,b){
                                         if (a.item.id < b.item.id) {
                                             return 1;
@@ -1654,78 +1420,18 @@ define(
                                             Check for invalid XML stored in the database
                                          */
                                         if (matchingTopicXMLCopy !== null) {
-                                            /*
-                                             Remove the comments
-                                             */
-                                            normalizeComments(matchingTopicXMLCopy);
-                                            /*
-                                             Normalize injections. We do this against a XML DOM because it is more
-                                             robust than doing regexes on strings.
-                                             */
-                                            normalizeInjections(matchingTopicXMLCopy);
-                                            /*
-                                             Order the attributes in nodes in a consistent way
-                                             */
-                                            reorderAttributes(matchingTopicXMLCopy);
-                                            /*
-                                                Convert characters like " and entities like &quot; to a common marker
-                                                for comparasion
-                                             */
-                                            normalizeXMLEntityCharacters(matchingTopicXMLCopy, replacedTextResult.replacements);
-                                            /*
-                                             Convert back to a string
-                                             */
-                                            var matchingTopicXMLCompare = qnautils.xmlToString(matchingTopicXMLCopy);
-                                            /*
-                                             Strip whitespace
-                                             */
-                                            matchingTopicXMLCompare = removeWhiteSpace(matchingTopicXMLCompare);
-                                            /*
-                                             Restore entities
-                                             */
-                                            matchingTopicXMLCompare = qnautils.reencode(matchingTopicXMLCompare, replacedTextResult.replacements);
 
-                                            if (matchingTopicXMLCompare === topicXMLCompare) {
+                                            var xmlDocsAreEquivilent = xmlcompare.compareXml(
+                                                topic,
+                                                format,
+                                                topicOrContainerIDs,
+                                                topic.xml.cloneNode(true),
+                                                replacements,
+                                                matchingTopicXMLCopy,
+                                                replacedTextResult);
 
-                                                /*
-                                                    This is the second level of checking. If we reach this point we know the
-                                                    two XML file have the same structure and content ignoring any whitespace.
-                                                    Now we make sure that any elements where whitespace is signifiant also
-                                                    match.
-                                                 */
-                                                var verbatimMatch = true;
-                                                jquery.each(VERBATIM_ELEMENTS, function (index, elementName) {
-                                                    var originalNodes = qnautils.xPath(".//docbook:" + elementName, topicXMLCopy);
-                                                    var matchingNodes = qnautils.xPath(".//docbook:" + elementName, matchingTopicXMLCopy);
-
-                                                    var originalNode;
-                                                    var matchingNode;
-                                                    while ((originalNode = originalNodes.iterateNext()) !== null) {
-                                                        matchingNode = matchingNodes.iterateNext();
-
-                                                        if (matchingNode === null) {
-                                                            throw "There was a mismatch between verbatim elements in similar topics!";
-                                                        }
-
-                                                        var reencodedOriginal = qnautils.reencode(qnautils.xmlToString(originalNode), replacements);
-                                                        var reencodedMatch = qnautils.reencode(qnautils.xmlToString(matchingNode), replacedTextResult.replacements);
-
-                                                        // the original
-
-                                                        if (qnautils.reencodedOriginal !==qnautils.reencodedMatch) {
-                                                            verbatimMatch = false;
-                                                            return false;
-                                                        }
-                                                    }
-
-                                                    if ((matchingNode = matchingNodes.iterateNext()) !== null) {
-                                                        throw "There was a mismatch between verbatim elements in similar topics!";
-                                                    }
-                                                });
-
-                                                if (verbatimMatch) {
-                                                    topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
-                                                }
+                                            if (xmlDocsAreEquivilent) {
+                                                topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
                                             }
                                         } else {
                                             console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
@@ -1964,8 +1670,8 @@ define(
                 function uploadTopics (xmlDoc, contentSpec, topics, topicGraph) {
 
                     function cleanTopicXmlForSaving(topic, format) {
-                        return removeRedundantXmlnsAttribute(
-                            fixDocumentNode(
+                        return xmlcompare.removeRedundantXmlnsAttribute(
+                            xmlcompare.fixDocumentNode(
                                 topic,
                                 qnautils.reencode(qnautils.xmlToString(topic.xml), replacements).trim(),
                                 format
@@ -2123,8 +1829,8 @@ define(
 
                                 qnastart.updateTopic(
                                     topic.topicId,
-                                    removeRedundantXmlnsAttribute(
-                                        fixDocumentNode(
+                                    xmlcompare.removeRedundantXmlnsAttribute(
+                                        xmlcompare.fixDocumentNode(
                                             topic,
                                             qnautils.reencode(qnautils.xmlToString(topic.xml), topic.replacements),
                                             format
