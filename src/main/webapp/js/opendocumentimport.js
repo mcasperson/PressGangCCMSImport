@@ -1,6 +1,6 @@
 define(    
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'moment', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, moment, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'moment', 'docbookconstants', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, moment, docbookconstants, exports) {
         'use strict';
 
         var fontRuleStyleCache;
@@ -1951,21 +1951,34 @@ define(
                             compiledContentSpec += "# " + config.OutgoingUrls;
                         }
 
-                        qnastart.createContentSpec(
-                            compiledContentSpec,
-                            config.ImportLang,
-                            config,
-                            function(id) {
-                                config.ContentSpecID = id;
+                        if (config[docbookconstants.EXISTING_CONTENT_SPEC_ID]) {
 
-                                config.UploadProgress[1] = progressIncrement * 4;
-                                config.UploadedContentSpecification = true;
-                                resultCallback(true);
+                            qnastart.updateContentSpec(
+                                config[docbookconstants.EXISTING_CONTENT_SPEC_ID],
+                                compiledContentSpec,
+                                config,
+                                contentSpecSaveSuccess,
+                                errorCallback
+                            );
+                        } else {
+                            qnastart.createContentSpec(
+                                compiledContentSpec,
+                                config.ImportLang,
+                                config,
+                                contentSpecSaveSuccess,
+                                errorCallback
+                            );
+                        }
 
-                                console.log("Content Spec ID: " + id);
-                            },
-                            errorCallback
-                        );
+                        function contentSpecSaveSuccess(id) {
+                            config.ContentSpecID = id;
+
+                            config.UploadProgress[1] = progressIncrement * 4;
+                            config.UploadedContentSpecification = true;
+                            resultCallback(true);
+
+                            console.log("Content Spec ID: " + id);
+                        }
                     }
                 }
 
