@@ -616,26 +616,6 @@ define(
                 resultCallback(config.DefineAnotherRule ? setHeadingRules : askForRevisionMessage);
             });
 
-        /*
-         Ask for a revision message
-         */
-        var askForRevisionMessage = new qna.QNAStep()
-            .setTitle("Enter a message for the revision log")
-            .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
-            .setInputs([
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.TEXTBOX)
-                            .setIntro("Revision Log Message")
-                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.OdtFile.name);})
-                            .setName("RevisionMessage")
-                    ])
-            ])
-            .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(processOdt);
-            })
-            .setShowNext("Start Import");
     
         /*
             STEP 5 - process the ODT file
@@ -687,26 +667,6 @@ define(
                             .setIntro("Resolving Book Structure")
                             .setName("ResolvedBookStructure"),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Uploading Images*")
-                            .setName("UploadedImages"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Uploading Topics*")
-                            .setName("UploadedTopics"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Uploading content specification")
-                            .setName("UploadedContentSpecification"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Topics Created / Topics Reused")
-                            .setName("NewTopicsCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Images Created / Images Reused")
-                            .setName("NewImagesCreated"),
-                        new qna.QNAVariable()
                             .setType(qna.InputEnum.PROGRESS)
                             .setIntro("Progress")
                             .setName("UploadProgress")
@@ -728,82 +688,7 @@ define(
                 styleCache = {};
                 contentStyleCache = {};
     
-                var progressIncrement = 100 / 4;
-
-                var resultObject = JSON.parse(result) || {};
-
-                /*
-                    The lines that make up the metadata in the spec
-                 */
-                var contentSpecMetadata = [];
-                /*
-                    The lines taht make up the content of the spec
-                 */
-                var contentSpec = [];
-
-                function populateSpecMetaData(config, container) {
-
-                    container.push("Title = " + (config.ContentSpecTitle === undefined ? "Unknown" : config.ContentSpecTitle));
-                    container.push("Product = " + (config.ContentSpecProduct === undefined ? "Unknown" : config.ContentSpecProduct));
-                    if (config.ContentSpecVersion) {
-                        container.push("Version = " + config.ContentSpecVersion);
-                    }
-                    container.push("Format = DocBook 4.5");
-
-                    /*
-                     These metadata elements are optional
-                     */
-                    if (config.ContentSpecSubtitle !== undefined) {
-                        container.push("Subtitle = " + config.ContentSpecSubtitle);
-                    }
-                    if (config.ContentSpecEdition !== undefined) {
-                        container.push("Edition = " + config.ContentSpecEdition);
-                    }
-                    if (config.ContentSpecCopyrightHolder !== undefined) {
-                        container.push("Copyright Holder = " + config.ContentSpecCopyrightHolder);
-                    }
-                    if (config.ContentSpecBrand !== undefined) {
-                        // this is the value specified in the ui
-                        container.push("Brand = " + config.ContentSpecBrand);
-                    }
-
-                    if (config.TopLevelContainer === "Section") {
-                        container.push("Type = Article");
-                    }
-
-                    container.push("# Imported from " + config.OdtFile.name);
-
-                    /*
-                     Add any rules that were defined when parsing this book
-                     */
-                    var rulesLines = getRulesText(resultObject.fontRules).split("<br/>");
-                    if (rulesLines.length !== 0) {
-                        contentSpecMetadata.push("# Content matching rules used while importing this document");
-                        jquery.each(rulesLines, function (index, value) {
-                            container.push("# " + value);
-                        });
-                    }
-
-                    var headingRulesLines = getHeadingRulesText(resultObject.fontHeadingRules).split("<br/>");
-                    if (headingRulesLines.length !== 0) {
-                        contentSpecMetadata.push("# Heading matching rules used while importing this document");
-                        jquery.each(headingRulesLines, function (index, value) {
-                            container.push("# " + value);
-                        });
-                    }
-                }
-
-                populateSpecMetaData(config, contentSpecMetadata);
-    
-                /*
-                 Initialize some config values
-                 */
-                config.UploadedTopicCount = 0;
-                config.MatchedTopicCount = 0;
-                config.UploadedImageCount = 0;
-                config.MatchedImageCount = 0;
-
-                var topicGraph = new specelement.TopicGraph();
+                var progressIncrement = 100;
                 var contentsXML = config.contentsXML;
                 var stylesXML = config.stylesXML;
 
@@ -825,15 +710,15 @@ define(
 
                         if (index >= contentNodes.length) {
                             /*if (content.length !== 0) {
-                                if (outlineLevel === 1) {
-                                    contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
-                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
-                                } else {
-                                    var prefix = generalexternalimport.generateSpacing(outlineLevel);
-                                    contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
-                                    generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
-                                }
-                            } */
+                             if (outlineLevel === 1) {
+                             contentSpec.push("Chapter: " + qnastart.escapeSpecTitle(title));
+                             generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
+                             } else {
+                             var prefix = generalexternalimport.generateSpacing(outlineLevel);
+                             contentSpec.push(prefix + qnastart.escapeSpecTitle(title));
+                             generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
+                             }
+                             } */
 
                             if (topicsAdded > 0 || config.TopLevelContainer === "Chapter") {
                                 if (outlineLevel > 1) {
@@ -859,7 +744,9 @@ define(
                             }
                             generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
 
-                            successCallback();
+                            var fixedXMLResult = qnautils.replaceEntitiesInText(xmlDocString);
+
+                            successCallback(fixedXMLResult);
                         } else {
                             var contentNode = contentNodes[index];
                             config.UploadProgress[1] = progressIncrement * (index / contentNodes.length);
@@ -908,7 +795,7 @@ define(
                             } else if (contentNode.nodeName === "table:table") {
                                 jquery.merge(content, processTable(contentNode, images));
                             }
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 processTopic(title, parentLevel, outlineLevel, ++index, content, successCallback);
                             }, 0);
                         }
@@ -921,7 +808,7 @@ define(
                         var tr;
                         var maxCols;
                         while ((tr = trs.iterateNext()) !== null) {
-                            var tds =  qnautils.xPath(".//table:table-cell", tr);
+                            var tds = qnautils.xPath(".//table:table-cell", tr);
                             var td;
                             var tdCount = 0;
                             while ((td = tds.iterateNext()) !== null) {
@@ -1001,13 +888,13 @@ define(
                         return content;
                     };
 
-                    var addContentToArray = function(content, array, inline) {
+                    var addContentToArray = function (content, array, inline) {
                         if (content instanceof Array) {
                             if (!inline) {
                                 jquery.merge(array, conent);
                             } else {
                                 var combined = "";
-                                jquery.each(content, function(index, value){
+                                jquery.each(content, function (index, value) {
                                     combined += value;
                                 });
 
@@ -1036,7 +923,7 @@ define(
                             var childNode = node.childNodes[childIndex];
 
                             /*
-                                Consecutive space elements and text node are combined into a single string
+                             Consecutive space elements and text node are combined into a single string
                              */
                             if (childNode.nodeName === "text:s") {
                                 var spaces = 1;
@@ -1070,7 +957,7 @@ define(
                                 }
                             } else {
                                 /*
-                                    If we built up a test string, add it as a single line
+                                 If we built up a test string, add it as a single line
                                  */
                                 if (textString.length !== 0) {
                                     customContainerContent.push(textString);
@@ -1113,8 +1000,8 @@ define(
                     };
 
                     /*
-                        The fonts named in a style may actually map to another font. Here we check to
-                        see if a font has a mapping, and if so does it match the family.
+                     The fonts named in a style may actually map to another font. Here we check to
+                     see if a font has a mapping, and if so does it match the family.
                      */
                     var matchesFamily = function (font, family) {
                         if (font === undefined || family === undefined) {
@@ -1130,7 +1017,7 @@ define(
                             var familyMap = style.getAttribute("svg:font-family");
                             var families = familyMap.split(",");
                             var retValue = false;
-                            jquery.each(families, function(index, value) {
+                            jquery.each(families, function (index, value) {
                                 if (value.replace(/'/g, "").trim() === family.trim()) {
                                     retValue = true;
                                     return false;
@@ -1144,7 +1031,7 @@ define(
                     };
 
                     /*
-                        See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes.
+                     See http://books.evc-cit.info/odbook/ch03.html for the list of style attributes.
                      */
                     var getFontRuleForStyle = function (styleAttribute, fontRule) {
 
@@ -1290,7 +1177,7 @@ define(
                         }
                     };
 
-                    var processRemark = function(contentNode) {
+                    var processRemark = function (contentNode) {
                         var remark = [];
 
                         var creator = qnautils.xPath("./dc:creator", contentNode).iterateNext();
@@ -1307,7 +1194,7 @@ define(
                             remark.push("<emphasis>" + qnautils.escapeXMLSpecialCharacters(date.textContent) + " </emphasis>");
                         }
 
-                        while((para = paras.iterateNext()) !== null) {
+                        while ((para = paras.iterateNext()) !== null) {
                             remark.push(qnautils.escapeXMLSpecialCharacters(para.textContent));
                         }
                         remark.push("</remark>");
@@ -1315,7 +1202,7 @@ define(
                         return remark;
                     };
 
-                    var processDraw = function(contentNode) {
+                    var processDraw = function (contentNode) {
                         var imageXML = [];
 
                         if (contentNode.getAttribute("xlink:href") !== null) {
@@ -1345,12 +1232,12 @@ define(
                         return imageXML;
                     };
 
-                    var getFontRuleForPara = function(contentNode) {
+                    var getFontRuleForPara = function (contentNode) {
                         var textNodes = qnautils.xPath(".//text()", contentNode);
                         var textNode;
                         var fontRule;
                         var singleRule = false;
-                        while((textNode = textNodes.iterateNext()) !== null) {
+                        while ((textNode = textNodes.iterateNext()) !== null) {
                             if (textNode.textContent.trim().length !== 0) {
                                 if (fontRule === undefined) {
                                     fontRule = getFontRuleForElement(textNode);
@@ -1381,7 +1268,7 @@ define(
                         return null;
                     };
 
-                    var fixNestedParas = function(paraContents) {
+                    var fixNestedParas = function (paraContents) {
                         /*
                          Deal with nested paras (e.g. from a frame)
                          */
@@ -1389,19 +1276,19 @@ define(
                         var inserts = [];
 
                         /*
-                            Find the nested paras and close and reopen the para contents around them to
-                            break up the nesting
+                         Find the nested paras and close and reopen the para contents around them to
+                         break up the nesting
                          */
                         for (var paraContentIndex = 0; paraContentIndex < paraContents.length; ++paraContentIndex) {
                             if (paraContents[paraContentIndex] === "<para>") {
                                 inserts.push({index: paraContentIndex, value: "</para>"});
                             }
                             if (paraContents[paraContentIndex] === "</para>") {
-                                inserts.push({index: paraContentIndex+1, value: "<para>"});
+                                inserts.push({index: paraContentIndex + 1, value: "<para>"});
                             }
                         }
 
-                        jquery.each(inserts, function(index, element) {
+                        jquery.each(inserts, function (index, element) {
                             paraContents.splice(element.index, 0, element.value);
                         });
 
@@ -1410,9 +1297,9 @@ define(
                     };
 
                     /*
-                        Find the first rule in allFontRules that matches fontRule
+                     Find the first rule in allFontRules that matches fontRule
                      */
-                    var getMatchingFontRule = function(allFontRules, fontRule) {
+                    var getMatchingFontRule = function (allFontRules, fontRule) {
                         var matchingRule;
                         if (allFontRules !== null && fontRule !== null) {
                             jquery.each(allFontRules, function (index, definedFontRule) {
@@ -1443,17 +1330,17 @@ define(
                             qnautils.xPath(".//draw:image", contentNode).iterateNext() !== null) {
 
                             /*
-                                It is common to have unnamed styles used to distinguish types of content. For
-                                example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
-                                text displayed on the screen.
+                             It is common to have unnamed styles used to distinguish types of content. For
+                             example, a paragraph of bold DejaVu Sans Mono 12pt text could represent
+                             text displayed on the screen.
 
-                                Actually, a single paragraph will quite often be made up of multiple spans,
-                                with each span having it's own style name. This is not evident to the user
-                                though because the styles all have the same appearance.
+                             Actually, a single paragraph will quite often be made up of multiple spans,
+                             with each span having it's own style name. This is not evident to the user
+                             though because the styles all have the same appearance.
 
-                                What we do here is find some base level style information (font, size, bold,
-                                underline, italics - the settings you can easily apply from the toolbar) and
-                                see if these basic settings are common to each span.
+                             What we do here is find some base level style information (font, size, bold,
+                             underline, italics - the settings you can easily apply from the toolbar) and
+                             see if these basic settings are common to each span.
                              */
                             if (resultObject.fontRules !== undefined) {
                                 var paraContents = fixNestedParas(convertNodeToDocbook(contentNode));
@@ -1541,13 +1428,13 @@ define(
                          Get rid of empty paras
                          */
                         var retValue = [];
-                        jquery.each(content, function(index, element) {
+                        jquery.each(content, function (index, element) {
                             if (element === "<para>") {
-                                if (index < content.length - 1 && content[index+1] !== "</para>") {
+                                if (index < content.length - 1 && content[index + 1] !== "</para>") {
                                     retValue.push(element);
                                 }
                             } else if (element === "</para>") {
-                                if (index > 0 && content[index-1] !== "<para>") {
+                                if (index > 0 && content[index - 1] !== "<para>") {
                                     retValue.push(element);
                                 }
                             } else {
@@ -1558,18 +1445,18 @@ define(
                         return stripEmptyElements(content, "para");
                     };
 
-                    var stripEmptyElements = function(content, elementName) {
+                    var stripEmptyElements = function (content, elementName) {
                         /*
                          Get rid of empty paras
                          */
                         var retValue = [];
-                        jquery.each(content, function(index, element) {
+                        jquery.each(content, function (index, element) {
                             if (element === "<" + elementName + ">") {
-                                if (index < content.length - 1 && content[index+1] !== "</" + elementName + ">") {
+                                if (index < content.length - 1 && content[index + 1] !== "</" + elementName + ">") {
                                     retValue.push(element);
                                 }
                             } else if (element === "</" + elementName + ">") {
-                                if (index > 0 && content[index-1] !== "<" + elementName + ">") {
+                                if (index > 0 && content[index - 1] !== "<" + elementName + ">") {
                                     retValue.push(element);
                                 }
                             } else {
@@ -1593,7 +1480,7 @@ define(
                         }
 
                         /*
-                            Find out if this is a numbered or bullet list
+                         Find out if this is a numbered or bullet list
                          */
                         var listType = "itemizedlist";
                         var listStyle = "";
@@ -1610,7 +1497,7 @@ define(
                                         listStyle = " numeration='loweralpha'";
                                     } else if (numFormat === "A") {
                                         listStyle = " numeration='upperalpha'";
-                                    }  else if (numFormat === "i") {
+                                    } else if (numFormat === "i") {
                                         listStyle = " numeration='lowerroman'";
                                     } else if (numFormat === "I") {
                                         listStyle = " numeration='upperroman'";
@@ -1686,8 +1573,8 @@ define(
                         var newOutlineLevel = 1;
 
                         /*
-                            We could be processing a para that has been formatted to look like a header,
-                            in which case there is no outline level.
+                         We could be processing a para that has been formatted to look like a header,
+                         in which case there is no outline level.
                          */
                         if (contentNode.hasAttribute("text:outline-level")) {
                             newOutlineLevel = parseInt(contentNode.getAttribute("text:outline-level"));
@@ -1703,7 +1590,7 @@ define(
                         /*
                          Some convenient statements about what is going on.
                          */
-                        var thisTopicHasContent =  content.length !== 0;
+                        var thisTopicHasContent = content.length !== 0;
                         var nextTopicIsChildOfLastLevel = newOutlineLevel > previousLevel;
                         var nextTopicIsChildOfThisTopic = newOutlineLevel > currentLevel;
 
@@ -1739,7 +1626,7 @@ define(
                             }
 
                             generalexternalimport.addTopicToSpec(topicGraph, content, title, contentSpec.length - 1);
-                        }  else {
+                        } else {
 
                             if (!nextTopicIsChildOfLastLevel && contentSpec.length !== 0) {
 
@@ -1784,14 +1671,14 @@ define(
 
                         var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
                         var newTitle = "";
-                        jquery.each(newTitleArray, function(index, value){
+                        jquery.each(newTitleArray, function (index, value) {
                             newTitle += value;
                         });
                         if (newTitle.length === 0) {
                             newTitle = "Untitled";
                         }
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             processTopic(newTitle, currentLevel, newOutlineLevel, index + 1, [], successCallback);
                         }, 0);
 
@@ -1804,235 +1691,22 @@ define(
                         1,
                         0,
                         [],
-                        function() {
+                        function () {
                             config.UploadProgress[1] = progressIncrement;
                             config.ResolvedBookStructure = true;
                             resultCallback();
 
-                            uploadImagesLoop();
+                            var fixedXMLResult = qnautils.replaceEntitiesInText(xmlDocString);
+
+                            successCallback(fixedXMLResult);
                         }
                     );
-
-                    var uploadImages = function (index, imagesKeys, callback) {
-                        if (index >= imagesKeys.length) {
-                            callback();
-                        } else {
-                            config.UploadProgress[1] = progressIncrement + (index / imagesKeys.length * progressIncrement);
-                            resultCallback();
-
-                            var imagePath = imagesKeys[index];
-
-                            qnastart.createImage(
-                                qnastart.zipModel,
-                                config.CreateOrResuseImages === "REUSE",
-                                config.OdtFile,
-                                imagePath,
-                                config.ImportLang,
-                                config,
-                                function (data) {
-                                    var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
-
-                                    images[imagePath] = "images/" + imageId + imagePath.substr(imagePath.lastIndexOf("."));
-
-                                    config.UploadedImageCount += 1;
-
-                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
-                                        config.MatchedImageCount += 1;
-                                    }
-
-                                    config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
-                                    resultCallback();
-
-                                    uploadImages(index + 1, imagesKeys, callback);
-                                },
-                                errorCallback
-                            );
-                        }
-                    };
-
-                    var uploadImagesLoop = function() {
-                        uploadImages(0, qnautils.keys(images), function(){
-                            config.UploadProgress[1] = progressIncrement * 2;
-                            config.UploadedImages = true;
-                            resultCallback();
-
-                            jquery.each(topicGraph.nodes, function (index, topic) {
-                                var filerefs = qnautils.xPath(".//@fileref", topic.xml);
-                                var replacements = [];
-                                var fileref;
-                                while ((fileref = filerefs.iterateNext()) !== null) {
-                                    replacements.push({attr: fileref, value: images[fileref.nodeValue]});
-                                }
-
-                                jquery.each(replacements, function (index, replacement) {
-                                    replacement.attr.nodeValue = replacement.value;
-                                });
-                            });
-
-                            createTopicsLoop();
-                        });
-                    };
-
-                    var createTopics = function (index, callback) {
-                        if (index >= topicGraph.nodes.length) {
-                            callback();
-                        } else {
-                            config.UploadProgress[1] = progressIncrement * 2  + (index / topicGraph.nodes.length * progressIncrement);
-                            resultCallback();
-
-                            var topic = topicGraph.nodes[index];
-
-                            qnastart.createTopic(
-                                config.CreateOrResuseTopics === "REUSE",
-                                4.5,
-                                qnautils.reencode(qnautils.xmlToString(topic.xml), topic.xmlReplacements).trim(),
-                                topic.title,
-                                null,
-                                config.ImportLang,
-                                config,
-                                function (data) {
-
-                                    var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
-                                    var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
-
-                                    ++config.UploadedTopicCount;
-
-                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingTopic) {
-                                        config.MatchedTopicCount += 1;
-                                    }
-
-                                    config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
-                                    resultCallback();
-
-                                    topic.setTopicId(topicId);
-                                    topic.setXmlReplacements(qnautils.replaceEntitiesInText(topicXML));
-
-                                    createTopics(index + 1, callback);
-                                },
-                                errorCallback
-                            );
-                        }
-                    };
-
-                    var createTopicsLoop = function() {
-                        createTopics(0, function(){
-                            config.UploadProgress[1] = progressIncrement * 3;
-                            config.UploadedTopics = true;
-                            resultCallback();
-                            identifyOutgoingLinks();
-                        });
-                    };
-
-                    var identifyOutgoingLinks = function () {
-                        config.OutgoingUrls = qnastart.identifyOutgoingLinks(topicGraph);
-                        createContentSpec();
-                    }
-
-                    var createContentSpec = function() {
-                        jquery.each(topicGraph.nodes, function (index, topic) {
-                            contentSpec[topic.specLine] += " [" + topic.topicId + "]";
-
-                        });
-
-                        var compiledContentSpec = "";
-                        jquery.each(contentSpecMetadata, function(index, value) {
-                            console.log(value);
-                            compiledContentSpec += value + "\n";
-                        });
-
-                        jquery.each(contentSpec, function(index, value) {
-                            console.log(value);
-                            compiledContentSpec += value + "\n";
-                        });
-
-                        if (config.OutgoingUrls.length !== 0) {
-                            compiledContentSpec += "# The following topics were added to this content specification on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + " with links that were not found in the white list.\n";
-                            compiledContentSpec += "# This list is *not* automatically updated, and does not reflect changes made to topics or the content specification since the import.\n";
-                            compiledContentSpec += "# " + config.OutgoingUrls;
-                        }
-
-                        if (config[constants.EXISTING_CONTENT_SPEC_ID]) {
-
-                            qnastart.updateContentSpec(
-                                config[constants.EXISTING_CONTENT_SPEC_ID],
-                                compiledContentSpec,
-                                config,
-                                contentSpecSaveSuccess,
-                                errorCallback
-                            );
-                        } else {
-                            qnastart.createContentSpec(
-                                compiledContentSpec,
-                                config.ImportLang,
-                                config,
-                                contentSpecSaveSuccess,
-                                errorCallback
-                            );
-                        }
-
-                        function contentSpecSaveSuccess(id) {
-                            config.ContentSpecID = id;
-
-                            config.UploadProgress[1] = progressIncrement * 4;
-                            config.UploadedContentSpecification = true;
-                            resultCallback(true);
-
-                            console.log("Content Spec ID: " + id);
-                        }
-                    }
                 }
-
             })
             .setNextStep(function (resultCallback) {
                 window.onbeforeunload = undefined;
     
                 resultCallback(summary);
             });
-    
-    
-        var summary = new qna.QNAStep()
-            .setTitle("Import Summary")
-            .setOutputs([
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.HTML)
-                            .setIntro("Content Specification ID")
-                            .setName("ContentSpecIDLink")
-                            .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
-                            }),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Imported From")
-                            .setName("ImportedFrom")
-                            .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback(config.OdtFile.name);
-                            }),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Topics Created / Topics Reused")
-                            .setName("NewTopicsCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Images Created / Images Reused")
-                            .setName("NewImagesCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.HTML)
-                            .setIntro("Topics with outgoing links")
-                            .setName("OutgoingUrlsCompiled")
-                            .setValue(function (resultCallback, errorCallback, result, config) {
-                                if (config.OutgoingUrls.length === 0) {
-                                    resultCallback("No topics have outgoing links that were not in the white list");
-                                } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
-                                }
-                            })
-                    ])
-            ])
-            .setShowNext(false)
-            .setShowPrevious(false)
-            .setShowRestart("Import another book");
-    
     }
 );
