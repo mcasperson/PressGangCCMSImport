@@ -224,6 +224,15 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
+                var updateProgress = function(value, setToTrue) {
+                    if (setToTrue && config[setToTrue]) {
+                        config[setToTrue] = true;
+                    }
+                    config.UploadProgress[1] = value;
+                    thisStep.setTitlePrefixPercentage(value);
+                    resultCallback();
+                }
+
                 var resultParsed = JSON.parse(result);
                 var xmlDoc = qnautils.stringToXML(resultParsed.xml);
                 var entities = resultParsed.entities;
@@ -566,10 +575,7 @@ define(
                         topics.push(topic);
                     }
 
-                    config.UploadProgress[1] = 7 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.FoundRevisionHistory = true;
-                    resultCallback();
+                    updateProgress(7 * progressIncrement, "FoundRevisionHistory");
                     extractAuthorGroup(xmlDoc, contentSpec, topics, topicGraph);
                 }
 
@@ -618,9 +624,7 @@ define(
                         topics.push(topic);
                     }
 
-                    config.UploadProgress[1] = 8 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.FoundAuthorGroup = true;
+                    updateProgress(8 * progressIncrement, "FoundAuthorGroup");
                     resultCallback();
 
                     extractLegalNotice(xmlDoc, contentSpec, topics, topicGraph);
@@ -670,10 +674,7 @@ define(
                         topics.push(topic);
                     }
 
-                    config.UploadProgress[1] = 9 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.FoundLegalNotice = true;
-                    resultCallback();
+                    updateProgress(9 * progressIncrement, "FoundLegalNotice");
 
                     extractAbstract(xmlDoc, contentSpec, topics, topicGraph);
                 }
@@ -712,10 +713,7 @@ define(
                         topics.push(topic);
                     }
 
-                    config.UploadProgress[1] = 10 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.FoundAbstract = true;
-                    resultCallback();
+                    updateProgress(10 * progressIncrement, "FoundAbstract");
 
                     uploadFiles(xmlDoc, contentSpec, topics, topicGraph);
                 }
@@ -732,10 +730,7 @@ define(
                             contentSpec.push("Files = [" + fileIds.toString() + "]");
                         }
 
-                        config.UploadProgress[1] = 11 * progressIncrement;
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        config.FoundFiles = true;
-                        resultCallback();
+                        updateProgress(11 * progressIncrement, "FoundFiles");
 
                         uploadImages(xmlDoc, contentSpec, topics, topicGraph);
                     }
@@ -779,9 +774,7 @@ define(
                                                     config.NewFilesCreated = (config.UploadedFileCount - config.MatchedFileCount) + " / " + config.MatchedFileCount;
                                                     resultCallback();
 
-                                                    config.UploadProgress[1] = (10 * progressIncrement) + (index / entries.length * progressIncrement);
-                                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                                                    resultCallback();
+                                                    updateProgress((10 * progressIncrement) + (index / entries.length * progressIncrement));
 
                                                     processEntry(++index);
                                                 },
@@ -814,15 +807,17 @@ define(
                     images = qnautils.xPath("//@fileref", xmlDoc);
                     var uploadedImages = {};
 
+                    /*
+                        Move onto the next step
+                     */
                     function done() {
-                        config.UploadProgress[1] = 12 * progressIncrement;
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        config.FoundImages = true;
-                        resultCallback();
-
+                        updateProgress(12 * progressIncrement, "FoundImages");
                         resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
                     }
 
+                    /*
+                        Remember the details of the uploaded image so it can be used to update the attribues
+                     */
                     var processUploadedImage = function(data, nodeValue, count) {
                         var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
 
@@ -839,9 +834,7 @@ define(
 
                         ++count;
 
-                        config.UploadProgress[1] = (11 * progressIncrement) + (count / numImages * progressIncrement);
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        resultCallback();
+                        updateProgress((11 * progressIncrement) + (count / numImages * progressIncrement));
 
                         return count;
                     }
@@ -1283,10 +1276,7 @@ define(
 
                     processXml(xmlDoc.documentElement, 0);
 
-                    config.UploadProgress[1] = 13 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.ResolvedBookStructure = true;
-                    resultCallback();
+                    updateProgress(13 * progressIncrement, "ResolvedBookStructure");
 
                     /*
                         Which topics we choose to overwrite depends on whether we are overwriting a spec
@@ -1330,9 +1320,7 @@ define(
                                 if (index >= topics.length) {
                                     callback();
                                 } else {
-                                    config.UploadProgress[1] = (14 * progressIncrement) + (index / topics.length * progressIncrement);
-                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                                    resultCallback();
+                                    updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
 
                                     var topic = topics[index];
                                     qnastart.getSimilarTopics(
@@ -1405,9 +1393,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (14 * progressIncrement) + (index / topics.length * progressIncrement);
-                            thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                            resultCallback();
+                            updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
 
                             var topic = topics[index];
                             qnastart.getSimilarTopics(
@@ -1554,10 +1540,7 @@ define(
                         }
                     });
 
-                    config.UploadProgress[1] = 15 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.MatchedExistingTopics = true;
-                    resultCallback();
+                    updateProgress(15 * progressIncrement, "MatchedExistingTopics");
 
                     resolveXrefs(xmlDoc, contentSpec, topics, topicGraph);
                 }
@@ -1695,10 +1678,7 @@ define(
 
                     config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
-                    config.UploadProgress[1] = 16 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.ResolvedXRefGraphs = true;
-                    resultCallback();
+                    updateProgress(config.UploadProgress[1] = 16 * progressIncrement, "ResolvedXRefGraphs");
 
                     uploadTopics(xmlDoc, contentSpec, topics, topicGraph);
                 }
@@ -1740,9 +1720,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (17 * progressIncrement) + (index / topics.length * progressIncrement);
-                            thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                            resultCallback();
+                            updateProgress((17 * progressIncrement) + (index / topics.length * progressIncrement));
 
                             var format = getDocumentFormat(config);
 
@@ -1789,11 +1767,7 @@ define(
                     }
 
                     createTopics(0, function() {
-
-                        config.UploadProgress[1] = 17 * progressIncrement;
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        config.UploadedTopics = true;
-                        resultCallback();
+                        updateProgress(17 * progressIncrement, "UploadedTopics");
 
                         identifyOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
                     });
@@ -1812,9 +1786,7 @@ define(
                         if (index >= topics.length) {
                             callback();
                         } else {
-                            config.UploadProgress[1] = (17 * progressIncrement) + (index / topics.length * progressIncrement);
-                            thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                            resultCallback();
+                            updateProgress((17 * progressIncrement) + (index / topics.length * progressIncrement));
 
                             var topic = topics[index];
                             if (topic.createdTopic) {
@@ -1886,11 +1858,7 @@ define(
                     }
 
                     resolve(0, function() {
-
-                        config.UploadProgress[1] = 18 * progressIncrement;
-                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                        config.FixXRefs = true;
-                        resultCallback();
+                        updateProgress(18 * progressIncrement, "FixXRefs");
 
                         updateContentSpecWithTopicIDs(xmlDoc, contentSpec, topics, topicGraph);
                     });
@@ -1904,11 +1872,7 @@ define(
                             contentSpec[topic.specLine] += " [Info: " + topic.topicId + "]";
                         }
                     });
-
-                    config.UploadProgress[1] = 19 * progressIncrement;
-                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                    config.UpdatedContentSpec = true;
-                    resultCallback();
+                    updateProgress(19 * progressIncrement, "UpdatedContentSpec");
 
                     uploadContentSpec(contentSpec);
                 }
@@ -1932,7 +1896,7 @@ define(
                     var compiledContentSpec = buildSpecString(contentSpec);
 
                     function contentSpecSaveSuccess(id) {
-                        config.UploadProgress[1] = 100;
+                        updateProgress(100);
                         thisStep.setTitlePrefix(null);
                         config.UploadedContentSpecification = true;
                         config.ContentSpecID = id;
