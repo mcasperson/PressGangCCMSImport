@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'moment', 'constants', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, moment, constants, exports) {
+    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'docbookimport', 'moment', 'constants', 'exports'],
+    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, docbookimport, moment, constants, exports) {
         'use strict';
 
         var mojoURLRE = /^https:\/\/mojo.redhat.com\/docs\/DOC-(\d+)$/;
@@ -19,17 +19,17 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Mojo URL")
-                                .setName("MojoURL")
+                                .setName("SourceURL")
                         ])
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.MojoURL) {
+                if (!config.SourceURL) {
                     errorCallback("Please specify a URL", "You need to specify a Mojo URL before continuing.");
                 } else {
                     if (window.greaseMonkeyShare === undefined) {
                         errorCallback("User Script Not Installed", "You need to install the PressGang Import user script to import Mojo documents");
-                    } else if (!mojoURLRE.test(config.MojoURL.trim())) {
+                    } else if (!mojoURLRE.test(config.SourceURL.trim())) {
                         errorCallback("URL is not valid", "Please enter a valid Mojo document URL.");
                     } else {
                         resultCallback();
@@ -37,32 +37,13 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(askForRevisionMessage);
-            });
-
-        /*
-         Ask for a revision message
-         */
-        var askForRevisionMessage = new qna.QNAStep()
-            .setTitle("Enter a message for the revision log")
-            .setIntro("Each new topic, image and content specification created by this import process will have this revision message in the log.")
-            .setInputs([
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.TEXTBOX)
-                            .setIntro("Revision Log Message")
-                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + config.MojoURL);})
-                            .setName("RevisionMessage")
-                    ])
-            ])
-            .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(processHTML);
             })
             .setShowNext("Start Import");
 
+
         /*
-         STEP 5 - process the Mojo page file
+            Convert the HTML file into DocBoook
          */
         var processHTML = new qna.QNAStep()
             .setShowNext(false)
@@ -85,22 +66,6 @@ define(
                             .setIntro("Uploading Images*")
                             .setName("UploadedImages"),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Uploading Topics*")
-                            .setName("UploadedTopics"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Uploading content specification")
-                            .setName("UploadedContentSpecification"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Topics Created / Topics Reused")
-                            .setName("NewTopicsCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Images Created / Images Reused")
-                            .setName("NewImagesCreated"),
-                        new qna.QNAVariable()
                             .setType(qna.InputEnum.PROGRESS)
                             .setIntro("Progress")
                             .setName("UploadProgress")
@@ -114,9 +79,9 @@ define(
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
 
-                var progressIncrement = 10;
+                var progressIncrement = 100 / 3;
 
-                var id = /^.*?(\d+)$/.exec(config.MojoURL);
+                var id = /^.*?(\d+)$/.exec(config.SourceURL);
 
                 var topLevelElement = config.TopLevelContainer === constants.CHAPTER_TOP_LEVEL_CONTAINER ? "book" : "article";
                 var xmlDocString = "";
@@ -170,7 +135,12 @@ define(
                                         }
                                     }
 
-                                    successCallback();
+                                    var topLevelContainer =  config.TopLevelContainer === "Chapter" ? "book" : "article";
+                                    xmlDocString = "<" + topLevelContainer + ">\n" + xmlDocString + "</" + topLevelContainer + ">";
+
+                                    var fixedXMLResult = qnautils.replaceEntitiesInText(xmlDocString);
+
+                                    successCallback(fixedXMLResult);
                                 } else {
                                     var contentNode = jquery(mojoDoc[1]).children()[index];
                                     if (contentNode !== null) {
@@ -737,12 +707,12 @@ define(
                                 1,
                                 0,
                                 [],
-                                function() {
+                                function(fixedXMLResult) {
                                     config.UploadProgress[1] = progressIncrement;
                                     config.ResolvedBookStructure = true;
                                     resultCallback();
 
-                                    uploadImagesLoop(topicGraph, images);
+                                    uploadImagesLoop(fixedXMLResult);
                                 }
                             );
                         }
@@ -750,23 +720,23 @@ define(
                     errorCallback
                 );
 
-                var uploadImages = function (index, topicGraph, images, imagesKeys, callback) {
-                    if (index >= imagesKeys.length) {
+                var uploadImages = function (index, fileRefAttrs, callback) {
+                    if (index >= fileRefAttrs.length) {
                         callback();
                     } else {
-                        config.UploadProgress[1] = progressIncrement + (index / imagesKeys.length * progressIncrement);
+                        config.UploadProgress[1] = progressIncrement + (index / fileRefAttrs.length * progressIncrement);
                         resultCallback();
 
-                        var imagePath = imagesKeys[index];
+                        var filerefAttr = fileRefAttrs[index];
 
                         qnastart.createImageFromURL(
                             config.CreateOrResuseImages === "REUSE",
-                            imagePath,
+                            filerefAttr.nodeValue,
                             config.ImportLang,
                             config,
                             function (data) {
                                 var id = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
-                                images[imagePath] = "images/" + id + imagePath.substr(imagePath.lastIndexOf("."));
+                                filerefAttr.nodeValue = "images/" + id + filerefAttr.nodeValue.substr(filerefAttr.nodeValue.lastIndexOf("."));
 
                                 config.UploadedImageCount += 1;
 
@@ -777,204 +747,44 @@ define(
                                 config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
                                 resultCallback();
 
-                                uploadImages(index + 1, topicGraph, images, imagesKeys, callback);
+                                uploadImages(index + 1, fileRefAttrs, callback);
                             },
                             errorCallback
                         );
                     }
                 };
 
-                var uploadImagesLoop = function(topicGraph, images) {
+                var uploadImagesLoop = function(fixedXMLResult) {
+
+                    var fixedXMLDoc = qnautils.stringToXML(fixedXMLResult.xml);
+
+                    /*
+                        Find all the references to images
+                     */
+                    var fileRefAttrs = [];
+                    var filerefs = qnautils.xPath("//@fileref", fixedXMLDoc);
+                    var fileref = null;
+                    while ((fileref = filerefs.iterateNext()) != null) {
+                        fileRefAttrs.push(fileref);
+                    }
+
                     uploadImages(
                         0,
-                        topicGraph,
-                        images,
-                        qnautils.keys(images),
+                        fileRefAttrs,
                         function() {
                             config.UploadProgress[1] = progressIncrement * 2;
                             config.UploadedImages = true;
-                            resultCallback();
 
-                            jquery.each(topicGraph.nodes, function (index, topic) {
-                                var filerefs = qnautils.xPath(".//@fileref", topic.xml);
-                                var replacements = [];
-                                var fileref;
-                                while ((fileref = filerefs.iterateNext()) !== null) {
-                                    replacements.push({attr: fileref, value: images[fileref.nodeValue]});
-                                }
-
-                                jquery.each(replacements, function (index, replacement) {
-                                    replacement.attr.nodeValue = replacement.value;
-                                });
-                            }
-                        );
-
-                        createTopicsLoop(topicGraph);
-                    });
-                };
-
-                var createTopics = function (index, topicGraph, callback) {
-                    if (index >= topicGraph.nodes.length) {
-                        callback();
-                    } else {
-                        config.UploadProgress[1] = progressIncrement * 2  + (index / topicGraph.nodes.length * progressIncrement);
-                        resultCallback();
-
-                        var topic = topicGraph.nodes[index];
-
-                        qnastart.createTopic(
-                            config.CreateOrResuseTopics === "REUSE",
-                            4.5,
-                            qnautils.reencode(qnautils.xmlToString(topic.xml), topic.xmlReplacements).trim(),
-                            topic.title,
-                            null,
-                            config.ImportLang,
-                            config,
-                            function (data) {
-
-                                var topicId = config.CreateOrResuseTopics === "REUSE" ? data.topic.id : data.id;
-                                var topicXML = config.CreateOrResuseTopics === "REUSE" ? data.topic.xml : data.xml;
-
-                                config.UploadedTopicCount += 1;
-
-                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingTopic) {
-                                    config.MatchedTopicCount += 1;
-                                }
-
-                                config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
-                                resultCallback();
-
-                                topic.setTopicId(topicId);
-                                topic.setXmlReplacements(qnautils.replaceEntitiesInText(topicXML));
-
-                                createTopics(index + 1, topicGraph, callback);
-                            },
-                            errorCallback
-                        );
-                    }
-                };
-
-                var createTopicsLoop = function(topicGraph) {
-                    createTopics(
-                        0,
-                        topicGraph,
-                        function() {
-                            config.UploadProgress[1] = progressIncrement * 3;
-                            config.UploadedTopics = true;
-                            resultCallback();
-
-                            identifyOutgoingLinks(topicGraph);
-
-
+                            resultCallback(true, JSON.stringify({xml: qnautils.xmlToString(fixedXMLDoc), entities: [], replacements: fixedXMLResult.replacements}));
                         }
                     );
                 };
-
-                function identifyOutgoingLinks (topicGraph) {
-                    config.OutgoingUrls = qnastart.identifyOutgoingLinks(topicGraph);
-                    createContentSpec(topicGraph);
-                }
-
-                function createContentSpec (topicGraph) {
-                    jquery.each(topicGraph.nodes, function (index, topic) {
-                        contentSpec[topic.specLine] += " [" + topic.topicId + "]";
-
-                    });
-
-                    var compiledContentSpec = "";
-                    jquery.each(contentSpecMetadata, function(index, value) {
-                        console.log(value);
-                        compiledContentSpec += value + "\n";
-                    });
-
-                    jquery.each(contentSpec, function(index, value) {
-                        console.log(value);
-                        compiledContentSpec += value + "\n";
-                    });
-
-                    if (config.OutgoingUrls.length !== 0) {
-                        compiledContentSpec += "# The following topics were added to this content specification on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + " with links that were not found in the white list.\n";
-                        compiledContentSpec += "# This list is *not* automatically updated, and does not reflect changes made to topics or the content specification since the import.\n";
-                        compiledContentSpec += "# " + config.OutgoingUrls;
-                    }
-
-                    if (config[constants.EXISTING_CONTENT_SPEC_ID]) {
-
-                        qnastart.updateContentSpec(
-                            config[constants.EXISTING_CONTENT_SPEC_ID],
-                            compiledContentSpec,
-                            config,
-                            contentSpecSaveSuccess,
-                            errorCallback
-                        );
-                    } else {
-                        qnastart.createContentSpec(
-                            compiledContentSpec,
-                            config.ImportLang,
-                            config,
-                            contentSpecSaveSuccess,
-                            errorCallback
-                        );
-                    }
-
-                    function contentSpecSaveSuccess(id) {
-                        config.ContentSpecID = id;
-
-                        config.UploadProgress[1] = progressIncrement * 4;
-                        config.UploadedContentSpecification = true;
-                        resultCallback(true);
-                    }
-                }
             })
             .setNextStep(function (resultCallback) {
                 window.onbeforeunload = undefined;
 
-                resultCallback(summary);
+                resultCallback(docbookimport.askForRevisionMessage);
             });
-
-        var summary = new qna.QNAStep()
-            .setTitle("Import Summary")
-            .setOutputs([
-                new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.HTML)
-                            .setIntro("Content Specification ID")
-                            .setName("ContentSpecIDLink")
-                            .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
-                            }),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.HTML)
-                            .setIntro("Imported From")
-                            .setName("ImportedFrom")
-                            .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='" + config.MojoURL + "'>" + config.MojoURL + "</a>");
-                            }),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Topics Created / Topics Reused")
-                            .setName("NewTopicsCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Images Created / Images Reused")
-                            .setName("NewImagesCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.HTML)
-                            .setIntro("Topics with outgoing links")
-                            .setName("OutgoingUrlsCompiled")
-                            .setValue(function (resultCallback, errorCallback, result, config) {
-                                if (config.OutgoingUrls.length === 0) {
-                                    resultCallback("No topics have outgoing links that were not in the white list");
-                                } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
-                                }
-                            })
-                    ])
-            ])
-            .setShowNext(false)
-            .setShowPrevious(false)
-            .setShowRestart("Import another book");
 
     }
 );

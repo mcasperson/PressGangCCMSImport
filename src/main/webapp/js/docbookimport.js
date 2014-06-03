@@ -126,7 +126,13 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.TEXTBOX)
                             .setIntro("Revision Log Message")
-                            .setValue(function (resultCallback, errorCallback, result, config){resultCallback("Imported from " + qnautils.getInputSourceName(config.InputSource));})
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                if (config.SourceURL) {
+                                    resultCallback("Imported from " + config.SourceURL);
+                                } else {
+                                    resultCallback("Imported from " + qnautils.getInputSourceName(config.InputSource));
+                                }
+                            })
                             .setName("RevisionMessage")
                     ])
             ])
@@ -1945,7 +1951,11 @@ define(
                             .setIntro("Imported From")
                             .setName("ImportedFrom")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback(config.InputSource.name);
+                                if (config.SourceURL) {
+                                    resultCallback(config.SourceURL);
+                                } else {
+                                    resultCallback(config.InputSource.name);
+                                }
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
