@@ -145,7 +145,7 @@ define(
          Process the zip file
          */
         var processZipFile = new qna.QNAStep()
-            .setTitle("Importing Publican Book")
+            .setTitle("Importing DocBook")
             .setIntro("The list below allows you to monitor the progress of the import process. Steps with an asterisk (*) can take some time to complete, so please be patient.")
             .setOutputs([
                 new qna.QNAVariables()
@@ -177,7 +177,8 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Resolving book structure")
-                            .setName("ResolvedBookStructure"),
+                            .setName("ResolvedBookStructure")
+                            .setValue(false),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Match existing topics*")
@@ -1955,7 +1956,7 @@ define(
                                 if (config.SourceURL) {
                                     resultCallback(config.SourceURL);
                                 } else {
-                                    resultCallback(config.InputSource.name);
+                                    resultCallback(qnautils.getInputSourceName(config.InputSource));
                                 }
                             }),
                         new qna.QNAVariable()

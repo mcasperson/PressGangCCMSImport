@@ -21,7 +21,7 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.SINGLE_FILE)
                                 .setIntro("OpenDocument ODT File")
-                                .setName("OdtFile")
+                                .setName("InputSource")
                                 .setOptions("application/vnd.oasis.opendocument.text,.odt")
                         ])
                 ]
@@ -30,12 +30,12 @@ define(
 
                 config.InputType = "Zip";
 
-                if (!config.OdtFile) {
+                if (!config.InputSource) {
                     errorCallback("Please select a file", "You need to select an ODT file before continuing.");
-                } else if (config.OdtFile.name.lastIndexOf(".odt") !== config.OdtFile.name.length - 4) {
+                } else if (config.InputSource.name.lastIndexOf(".odt") !== config.InputSource.name.length - 4) {
                     errorCallback("Please select a file", "You need to select an ODT file before continuing.");
                 } else {
-                    qnastart.zipModel.getCachedEntries(config.OdtFile, function (entries) {
+                    qnastart.zipModel.getCachedEntries(config.InputSource, function (entries) {
     
                         var foundContentFile = false;
                         jquery.each(entries, function (index, value) {
@@ -58,11 +58,11 @@ define(
                         } else {
 
                             qnastart.zipModel.getTextFromFileName(
-                                config.OdtFile,
+                                config.InputSource,
                                 "content.xml",
                                 function (contents) {
                                     qnastart.zipModel.getTextFromFileName(
-                                        config.OdtFile,
+                                        config.InputSource,
                                         "styles.xml",
                                         function (styles) {
                                             config.contentsXML = jquery.parseXML(contents);
@@ -623,7 +623,7 @@ define(
         var processOdt = new qna.QNAStep()
             .setShowNext(false)
             .setShowPrevious(false)
-            .setTitle("Processing the ODT file")
+            .setTitle("Converting the ODT file into DocBook")
             .setIntro("The list below allows you to monitor the progress of the import process. Steps with an asterisk (*) can take some time to complete, so please be patient.")
             .setOutputs([
                 new qna.QNAVariables()

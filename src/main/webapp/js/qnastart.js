@@ -51,11 +51,11 @@ define(
 
         exports.getInputModel = function(config) {
             if (config.ImportOption === "OpenDocument") {
-                return exports.dirModel;
+                return exports.zipModel;
             }
 
-            if (config.InputType === "Zip") {
-                return exports.zipModel;
+            if (config.InputType === "Dir") {
+                return exports.dirModel;
             }
 
             if (config.InputType === "Zip") {
