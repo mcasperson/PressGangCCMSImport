@@ -50,8 +50,12 @@ define(
         }
 
         exports.getInputModel = function(config) {
-            if (config.InputType === "Dir") {
+            if (config.ImportOption === "OpenDocument") {
                 return exports.dirModel;
+            }
+
+            if (config.InputType === "Zip") {
+                return exports.zipModel;
             }
 
             if (config.InputType === "Zip") {
