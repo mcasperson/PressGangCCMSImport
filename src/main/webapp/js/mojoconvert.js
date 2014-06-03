@@ -76,10 +76,7 @@ define(
                 };
 
                 var progressIncrement = 100 / 2;
-
                 var id = /^.*?(\d+)$/.exec(config.SourceURL);
-
-                var topLevelElement = config.TopLevelContainer === constants.CHAPTER_TOP_LEVEL_CONTAINER ? "book" : "article";
                 var xmlDocString = "";
 
                 window.greaseMonkeyShare.getMojoDoc(
