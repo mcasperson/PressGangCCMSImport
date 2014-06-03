@@ -823,7 +823,45 @@ define(
                         resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
                     }
 
-                    var processImages = function (image, count) {
+                    var processUplaodedImage = function(data, count) {
+                        var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
+
+                        config.UploadedImageCount += 1;
+
+                        if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                            config.MatchedImageCount += 1;
+                        }
+
+                        config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
+                        resultCallback();
+
+                        uploadedImages[nodeValue] = imageId + nodeValue.substr(nodeValue.lastIndexOf("."));
+
+                        ++count;
+
+                        config.UploadProgress[1] = (11 * progressIncrement) + (count / numImages * progressIncrement);
+                        thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
+                        resultCallback();
+
+                        return count;
+                    }
+
+                    var replaceImageReferences = function() {
+                        var filerefs = qnautils.xPath("//@fileref", xmlDoc);
+                        var updatedRefs = [];
+                        var fileref;
+                        while ((fileref = filerefs.iterateNext()) !== null) {
+                            if (uploadedImages[fileref.nodeValue]) {
+                                updatedRefs.push({node: fileref, newImageRef: "images/" + uploadedImages[fileref.nodeValue]});
+                            }
+                        }
+
+                        jquery.each(updatedRefs, function(index, value){
+                            value.node.nodeValue = value.newImageRef;
+                        });
+                    }
+
+                    var processImagesFromLocalSource = function (image, count) {
                         if (image) {
 
                             var nodeValue = image.nodeValue;
@@ -843,60 +881,59 @@ define(
                                                 config.ImportLang,
                                                 config,
                                                 function (data) {
-                                                    var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
-
-                                                    config.UploadedImageCount += 1;
-
-                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
-                                                        config.MatchedImageCount += 1;
-                                                    }
-
-                                                    config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
-                                                    resultCallback();
-
-                                                    uploadedImages[nodeValue] = imageId + nodeValue.substr(nodeValue.lastIndexOf("."));
-
-                                                    ++count;
-
-                                                    config.UploadProgress[1] = (11 * progressIncrement) + (count / numImages * progressIncrement);
-                                                    thisStep.setTitlePrefixPercentage(config.UploadProgress[1]);
-                                                    resultCallback();
-
-                                                    processImages(images.iterateNext(), count);
+                                                    processImagesFromLocalSource(images.iterateNext(), processUplaodedImage(data, count));
                                                 },
                                                 errorCallback
                                             );
                                         } else {
                                             console.log("Could not find " + nodeValue);
-                                            processImages(images.iterateNext(), ++count);
+                                            processImagesFromLocalSource(images.iterateNext(), ++count);
                                         }
                                     },
                                     errorCallback,
                                     true
                                 );
                             }  else {
-                                processImages(images.iterateNext(), ++count);
+                                processImagesFromLocalSource(images.iterateNext(), ++count);
                             }
                         } else {
-                            var filerefs = qnautils.xPath("//@fileref", xmlDoc);
-                            var updatedRefs = [];
-                            var fileref;
-                            while ((fileref = filerefs.iterateNext()) !== null) {
-                                if (uploadedImages[fileref.nodeValue]) {
-                                    updatedRefs.push({node: fileref, newImageRef: "images/" + uploadedImages[fileref.nodeValue]});
-                                }
-                            }
-
-                            jquery.each(updatedRefs, function(index, value){
-                                value.node.nodeValue = value.newImageRef;
-                            });
-
+                            replaceImageReferences();
                             done();
                         }
                     };
 
-                    if (inputModel !== null) {
-                        processImages(images.iterateNext(), 0);
+                    var processImagesFromURL = function (image, count) {
+                        if (image) {
+
+                            var nodeValue = image.nodeValue;
+
+                            if (!uploadedImages[nodeValue]) {
+
+
+                                qnastart.createImageFromURL(
+                                    config.CreateOrResuseImages === "REUSE",
+                                    nodeValue,
+                                    config.ImportLang,
+                                    config,
+                                    function (data) {
+                                        processImagesFromURL(images.iterateNext(), processUplaodedImage(data, count));
+                                    },
+                                    errorCallback
+                                );
+
+                            }  else {
+                                processImagesFromLocalSource(images.iterateNext(), ++count);
+                            }
+                        } else {
+                            replaceImageReferences();
+                            done();
+                        }
+                    };
+
+                    if (config.SourceURL) {
+                        processImagesFromURL(images.iterateNext(), 0);
+                    } else if (inputModel !== null) {
+                        processImagesFromLocalSource(images.iterateNext(), 0);
                     } else {
                         done();
                     }

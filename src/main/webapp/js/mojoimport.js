@@ -62,10 +62,6 @@ define(
                             .setIntro("Resolving Book Structure")
                             .setName("ResolvedBookStructure"),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Uploading Images*")
-                            .setName("UploadedImages"),
-                        new qna.QNAVariable()
                             .setType(qna.InputEnum.PROGRESS)
                             .setIntro("Progress")
                             .setName("UploadProgress")
@@ -79,7 +75,7 @@ define(
                     return "The import process is in progress. Are you sure you want to quit?";
                 };
 
-                var progressIncrement = 100 / 3;
+                var progressIncrement = 100 / 2;
 
                 var id = /^.*?(\d+)$/.exec(config.SourceURL);
 
@@ -712,73 +708,13 @@ define(
                                     config.ResolvedBookStructure = true;
                                     resultCallback();
 
-                                    uploadImagesLoop(fixedXMLResult);
+                                    resultCallback(true, JSON.stringify({xml: fixedXMLResult.xml, entities: [], replacements: fixedXMLResult.replacements}));
                                 }
                             );
                         }
                     },
                     errorCallback
                 );
-
-                var uploadImages = function (index, fileRefAttrs, callback) {
-                    if (index >= fileRefAttrs.length) {
-                        callback();
-                    } else {
-                        config.UploadProgress[1] = progressIncrement + (index / fileRefAttrs.length * progressIncrement);
-                        resultCallback();
-
-                        var filerefAttr = fileRefAttrs[index];
-
-                        qnastart.createImageFromURL(
-                            config.CreateOrResuseImages === "REUSE",
-                            filerefAttr.nodeValue,
-                            config.ImportLang,
-                            config,
-                            function (data) {
-                                var id = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
-                                filerefAttr.nodeValue = "images/" + id + filerefAttr.nodeValue.substr(filerefAttr.nodeValue.lastIndexOf("."));
-
-                                config.UploadedImageCount += 1;
-
-                                if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
-                                    config.MatchedImageCount += 1;
-                                }
-
-                                config.NewImagesCreated = (config.UploadedImageCount - config.MatchedImageCount) + " / " + config.MatchedImageCount;
-                                resultCallback();
-
-                                uploadImages(index + 1, fileRefAttrs, callback);
-                            },
-                            errorCallback
-                        );
-                    }
-                };
-
-                var uploadImagesLoop = function(fixedXMLResult) {
-
-                    var fixedXMLDoc = qnautils.stringToXML(fixedXMLResult.xml);
-
-                    /*
-                        Find all the references to images
-                     */
-                    var fileRefAttrs = [];
-                    var filerefs = qnautils.xPath("//@fileref", fixedXMLDoc);
-                    var fileref = null;
-                    while ((fileref = filerefs.iterateNext()) != null) {
-                        fileRefAttrs.push(fileref);
-                    }
-
-                    uploadImages(
-                        0,
-                        fileRefAttrs,
-                        function() {
-                            config.UploadProgress[1] = progressIncrement * 2;
-                            config.UploadedImages = true;
-
-                            resultCallback(true, JSON.stringify({xml: qnautils.xmlToString(fixedXMLDoc), entities: [], replacements: fixedXMLResult.replacements}));
-                        }
-                    );
-                };
             })
             .setNextStep(function (resultCallback) {
                 window.onbeforeunload = undefined;
