@@ -823,7 +823,7 @@ define(
                         resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
                     }
 
-                    var processUplaodedImage = function(data, count) {
+                    var processUploadedImage = function(data, nodeValue, count) {
                         var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
 
                         config.UploadedImageCount += 1;
@@ -881,7 +881,7 @@ define(
                                                 config.ImportLang,
                                                 config,
                                                 function (data) {
-                                                    processImagesFromLocalSource(images.iterateNext(), processUplaodedImage(data, count));
+                                                    processImagesFromLocalSource(images.iterateNext(), processUploadedImage(data, nodeValue, count));
                                                 },
                                                 errorCallback
                                             );
@@ -916,7 +916,7 @@ define(
                                     config.ImportLang,
                                     config,
                                     function (data) {
-                                        processImagesFromURL(images.iterateNext(), processUplaodedImage(data, count));
+                                        processImagesFromURL(images.iterateNext(), processUploadedImage(data, nodeValue, count));
                                     },
                                     errorCallback
                                 );
