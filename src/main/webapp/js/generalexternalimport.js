@@ -3,8 +3,8 @@
     presents that step to the user.
  */
 define(
-    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoimport', 'exports'],
-    function(jquery, qna, qnastart, qnautils, specelement, opendocumentimport, mojoimport, exports) {
+    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoconvert', 'exports'],
+    function(jquery, qna, qnastart, qnautils, specelement, opendocumentimport, mojoconvert, exports) {
         'use strict';
 
         exports.generateSpacing = function (outlineLevel) {
@@ -201,7 +201,7 @@ define(
                 if (config.ImportOption === "OpenDocument") {
                     resultCallback(opendocumentimport.askForOpenDocumentFile);
                 } else if (config.ImportOption === "Mojo") {
-                    resultCallback(mojoimport.askForMojoDoc);
+                    resultCallback(mojoconvert.askForMojoDoc);
                 }
             });
     }
