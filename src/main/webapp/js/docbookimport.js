@@ -177,8 +177,7 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Resolving book structure")
-                            .setName("ResolvedBookStructure")
-                            .setValue(false),
+                            .setName("ResolvedBookStructure"),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Match existing topics*")
@@ -225,6 +224,8 @@ define(
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
+                var thisStep = this;
+
                 var updateProgress = function(value, setToTrue) {
                     if (setToTrue && config[setToTrue]) {
                         config[setToTrue] = true;
@@ -240,8 +241,6 @@ define(
                 var replacements = resultParsed.replacements;
 
                 var inputModel = qnastart.getInputModel(config);
-
-                var thisStep = this;
 
                 window.onbeforeunload=function() {
                     return "The import process is in progress. Are you sure you want to quit?";

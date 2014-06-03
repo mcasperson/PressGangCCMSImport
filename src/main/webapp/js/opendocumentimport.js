@@ -970,14 +970,31 @@ define(
                                 } else if (childNode.nodeName === "office:annotation") {
                                     jquery.merge(customContainerContent, processRemark(childNode));
                                 } else if (childNode.nodeName === "text:a") {
-                                    var href = childNode.getAttribute("xlink:href");
-                                    var text = "";
-                                    if (href !== null) {
-                                        text = '<ulink url="' + href + '">' + qnautils.escapeXMLSpecialCharacters(childNode.textContent) + '</ulink>';
-                                    } else {
-                                        text = qnautils.escapeXMLSpecialCharacters(childNode.textContent);
+                                    if (childNode.textContent.length !== 0) {
+                                        var href = childNode.getAttribute("xlink:href");
+                                        var text = [];
+                                        if (href !== null) {
+
+                                            /*
+                                                Avoid a situation where the same link is added to each individual word, like
+                                                <ulink url="http://example.com">A</ulink><ulink url="http://example.com"> </ulink><ulink url="http://example.com">link</ulink>
+                                             */
+                                            if (customContainerContent.length >= 3) {
+                                                if (customContainerContent[customContainerContent.length - 4] === '<ulink url="' + href + '">' &&
+                                                    customContainerContent[customContainerContent.length - 1] === '</ulink>') {
+                                                    customContainerContent.pop();
+                                                } else {
+                                                    text.push('<ulink url="' + href + '">');
+                                                }
+                                            }
+
+                                            text.push(qnautils.escapeXMLSpecialCharacters(childNode.textContent));
+                                            text.push('</ulink>');
+                                        } else {
+                                            text.push(qnautils.escapeXMLSpecialCharacters(childNode.textContent));
+                                        }
+                                        addContentToArray(text, customContainerContent, true);
                                     }
-                                    addContentToArray(text, customContainerContent, true);
                                 } else if (childNode.nodeName === "draw:image") {
                                     jquery.merge(customContainerContent, processDraw(childNode));
                                 } else if (childNode.nodeName === "text:span") {
