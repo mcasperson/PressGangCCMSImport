@@ -65,12 +65,12 @@ define(
                 if (match !== null) {
 
                     var previousString = asciidocText.substr(0, match.index);
-                    var lastStartComment = previousString.lastIndexOf("////");
-                    var lastEndComment = previousString.lastIndexOf("////");
+
+                    var blockCommentBoundaryCount = previousString.match(/\/\/\/\//g).length;
                     var lastSingleLineComment = previousString.lastIndexOf("//");
                     var lastLineBreak = previousString.lastIndexOf("\n");
 
-                    var isInMultipleLineCommentBlock = lastStartComment !== -1 && (lastEndComment === -1 || lastEndComment < lastStartComment);
+                    var isInMultipleLineCommentBlock = blockCommentBoundaryCount % 2 === 1;
                     var isInSingleLineCommentBlock = lastSingleLineComment !== -1 && (lastLineBreak === -1 || lastLineBreak < lastSingleLineComment);
 
                     /*
