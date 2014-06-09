@@ -66,11 +66,11 @@ define(
 
                     var previousString = asciidocText.substr(0, match.index);
 
-                    var blockCommentBoundaryCount = previousString.match(/\/\/\/\//g).length;
+                    var blockCommentBoundaryCount = previousString.match(/\/\/\/\//g);
                     var lastSingleLineComment = previousString.lastIndexOf("//");
                     var lastLineBreak = previousString.lastIndexOf("\n");
 
-                    var isInMultipleLineCommentBlock = blockCommentBoundaryCount % 2 === 1;
+                    var isInMultipleLineCommentBlock = blockCommentBoundaryCount !== null && blockCommentBoundaryCount.length % 2 === 1;
                     var isInSingleLineCommentBlock = lastSingleLineComment !== -1 && (lastLineBreak === -1 || lastLineBreak < lastSingleLineComment);
 
                     /*
@@ -178,6 +178,7 @@ define(
                                     }
                                 );
                             } else {
+                                asciidocText = asciidocText.replace(/includecomment::/g, "include::");
                                 resultCallback(asciidocText);
                             }
                         }
