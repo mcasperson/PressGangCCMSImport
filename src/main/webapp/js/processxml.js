@@ -1320,9 +1320,9 @@ define(
 
             inputModel.getTextFromFileName(
                 config.InputSource,
-                config.MainXMLFile,
+                config.MainFile,
                 function (xmlText) {
-                    resolveFileRefs(xmlText, config.MainXMLFile, function (xmlText) {
+                    resolveFileRefs(xmlText, config.MainFile, function (xmlText) {
                         function resolveXIIncludeLoop(xmlText, visitedFiles) {
                             if (generalXiInclude.test(xmlText)) {
 
@@ -1331,7 +1331,7 @@ define(
                                 resolveXIInclude(
                                     xmlText,
                                     base,
-                                    config.MainXMLFile,
+                                    config.MainFile,
                                     visitedFiles,
                                     function (xmlText, visitedFiles) {
                                         resolveXIIncludeLoop(xmlText, visitedFiles);
@@ -1344,7 +1344,7 @@ define(
                         }
 
                         var count = 0;
-                        resolveXIIncludeLoop(xmlText, [config.MainXMLFile]);
+                        resolveXIIncludeLoop(xmlText, [config.MainFile]);
                     });
                 },
                 true
@@ -1400,8 +1400,8 @@ define(
                 if (inputModel !== null) {
                     var relativePath = "";
                     var lastIndexOf;
-                    if ((lastIndexOf = config.MainXMLFile.lastIndexOf("/")) !== -1) {
-                        relativePath = config.MainXMLFile.substring(0, lastIndexOf);
+                    if ((lastIndexOf = config.MainFile.lastIndexOf("/")) !== -1) {
+                        relativePath = config.MainFile.substring(0, lastIndexOf);
                     }
 
                     inputModel.getCachedEntries(config.InputSource, function (entries) {

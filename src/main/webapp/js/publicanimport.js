@@ -296,7 +296,7 @@ define(
                     .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.LISTBOX)
-                            .setName("MainXMLFile")
+                            .setName("MainFile")
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
@@ -329,11 +329,11 @@ define(
                                                         inputModel.getTextFromFile(value, function (textFile) {
                                                             var match = /<title>(.*?)<\/title>/.exec(textFile);
                                                             if (match) {
-                                                                var assumedMainXMLFile = config.ImportLang + "/" + match[1].replace(/ /g, "_") + ".xml";
+                                                                var assumedMainFile = config.ImportLang + "/" + match[1].replace(/ /g, "_") + ".xml";
 
                                                                 jquery.each(entries, function (index, value) {
-                                                                    if (qnautils.getFileName(value) === assumedMainXMLFile) {
-                                                                        resultCallback(assumedMainXMLFile);
+                                                                    if (qnautils.getFileName(value) === assumedMainFile) {
+                                                                        resultCallback(assumedMainFile);
                                                                         return false;
                                                                     }
                                                                 });
@@ -386,7 +386,7 @@ define(
                     ])
             ])
             .setProcessStep(function(resultCallback, errorCallback, result, config) {
-                if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
+                if (config.MainFile === null || config.MainFile === undefined || config.MainFile.trim().length === 0 ) {
                     errorCallback("Select a XML file", "Please select the main XML file before continuing");
                 } else {
                     /*

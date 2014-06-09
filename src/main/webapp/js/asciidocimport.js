@@ -183,10 +183,81 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(docbookimport.askForRevisionMessage);
+                resultCallback(getSpecDetails);
             });
 
-
+        var getSpecDetails = new qna.QNAStep()
+            .setTitle("Enter content specification details")
+            .setIntro("Enter the basic details of the content specification. If these values are found in the content being imported, the values entered here will be overwritten.")
+            .setInputs(
+            [
+                new qna.QNAVariables()
+                    .setVariables([
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Title")
+                            .setName("ContentSpecTitle")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                resultCallback(config.ContentSpecTitle ? config.ContentSpecTitle : "Title");
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Subtitle")
+                            .setName("ContentSpecSubtitle")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                resultCallback(config.ContentSpecSubtitle ? config.ContentSpecSubtitle : "SubTitle");
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Product")
+                            .setName("ContentSpecProduct")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                resultCallback(config.ContentSpecProduct ? config.ContentSpecProduct : "Product");
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Version")
+                            .setName("ContentSpecVersion")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                resultCallback(config.ContentSpecVersion ? config.ContentSpecVersion : "1");
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.TEXTBOX)
+                            .setIntro("Copyright Holder")
+                            .setName("ContentSpecCopyrightHolder")
+                            .setValue("Red Hat"),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.COMBOBOX)
+                            .setIntro("Brand")
+                            .setName("ContentSpecBrand")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                if (config.ImportOption === "DocBook5") {
+                                    resultCallback("RedHat-db5");
+                                } else {
+                                    resultCallback("RedHat");
+                                }
+                            })
+                            .setOptions(function (resultCallback, errorCallback, result, config) {
+                                if (config.ImportOption === "DocBook5") {
+                                    resultCallback(["RedHat-db5"]);
+                                } else {
+                                    resultCallback(["RedHat", "JBoss", "Fedora", "OpenShift"]);
+                                }
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.COMBOBOX)
+                            .setIntro("Locale")
+                            .setName("ImportLang")
+                            .setValue("en-US")
+                            .setOptions(function (resultCallback) {
+                                resultCallback(qnastart.loadLocales());
+                            })
+                    ])
+            ]
+        )
+            .setNextStep(function (resultCallback, errorCallback, result, config) {
+                resultCallback(docbookimport.askForRevisionMessage);
+            });
 
     }
 )

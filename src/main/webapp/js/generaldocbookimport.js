@@ -111,7 +111,7 @@ define(
                     .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.LISTBOX)
-                            .setName("MainXMLFile")
+                            .setName("MainFile")
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
@@ -167,7 +167,7 @@ define(
                 resultCallback(false);
             })
             .setProcessStep(function(resultCallback, errorCallback, result, config) {
-                if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
+                if (config.MainFile === null || config.MainFile === undefined || config.MainFile.trim().length === 0 ) {
                     errorCallback("Select a XML file", "Please select the main XML file before continuing");
                 } else {
                     /*
