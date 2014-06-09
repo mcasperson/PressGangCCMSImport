@@ -71,7 +71,7 @@ define(
                     var lastLineBreak = previousString.lastIndexOf("\n");
 
                     var isInMultipleLineCommentBlock = lastStartComment !== -1 && (lastEndComment === -1 || lastEndComment < lastStartComment);
-                    var isInSingleLineCommentBlock = lastSingleLineComment !== -1 && (lastLineBreak === -1 || lastLineBreak < lastStartComment);
+                    var isInSingleLineCommentBlock = lastSingleLineComment !== -1 && (lastLineBreak === -1 || lastLineBreak < lastSingleLineComment);
 
                     /*
                      The include was in a comment, so ignore it
