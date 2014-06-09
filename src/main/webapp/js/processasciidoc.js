@@ -165,9 +165,9 @@ define(
                 config.InputSource,
                 config.MainFile,
                 function (asciidocText) {
-                    resolveFileRefs(xmlText, config.MainFile, function (asciidocText) {
+                    resolveFileRefs(asciidocText, config.MainFile, function (asciidocText) {
                         function resolveIncludeLoop(asciidocText, visitedFiles) {
-                            if (generalXiInclude.test(xmlText)) {
+                            if (generalInclude.test(asciidocText)) {
 
                                 resolveInclude(
                                     asciidocText,
@@ -183,7 +183,7 @@ define(
                         }
 
                         var count = 0;
-                        resolveIncludeLoop(asciidocText, [config.MainXMLFile]);
+                        resolveIncludeLoop(asciidocText, [config.MainFile]);
                     });
                 },
                 true

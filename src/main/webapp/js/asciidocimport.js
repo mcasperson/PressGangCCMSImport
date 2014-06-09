@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qnastart', 'qnautils', 'docbookimport', 'processxml', /*'opal', 'asciidoctor',*/ 'constants', 'exports'],
-    function (jquery, qna, qnastart, qnautils, docbookimport, processxml, /*opal, asciidoctor,*/ constants, exports) {
+    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'docbookimport', 'processasciidoc', 'processxml', /*'opal', 'asciidoctor',*/ 'constants', 'exports'],
+    function (jquery, qna, qnastart, qnautils, docbookimport, processasciidoc, processxml, /*opal, asciidoctor,*/ constants, exports) {
         'use strict';
 
         // This will be the object that we query for files. It could be a zip or directory
@@ -23,7 +23,11 @@ define(
             ]
         )
         .setNextStep(function (resultCallback, errorCallback, result, config) {
-            resultCallback(askForZipOrDir);
+                if (qnautils.isInputDirSupported()) {
+                    resultCallback(askForZipOrDir);
+                } else {
+                    resultCallback(askForAsciidocZipFile);
+                }
         });
 
          var askForZipOrDir = new qna.QNAStep()
@@ -42,7 +46,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.InputType === "Zip" ? exports.askForPublicanZipFile : askForAsciidocDir);
+                resultCallback(config.InputType === "Zip" ? askForAsciidocZipFile : askForAsciidocDir);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
@@ -56,7 +60,7 @@ define(
         /*
          Get the ZIP file
          */
-        var askForPublicanZipFile = new qna.QNAStep()
+        var askForAsciidocZipFile = new qna.QNAStep()
             .setTitle("Select the ZIP file to import")
             .setIntro("Select the ZIP file that contains the Asciidoc content that you wish to import into PressGang CCMS.")
             .setInputs(
@@ -108,7 +112,7 @@ define(
             if (!config.InputSource) {
                 errorCallback("Please select a directory", "You need to select a directory before continuing.");
             } else {
-                processInputSource(inputModel, resultCallback, errorCallback, result, config);
+                resultCallback();
             }
         })
         .setNextStep(function (resultCallback) {
@@ -129,10 +133,8 @@ define(
          STEP 2 - Get the main XML file
          */
         var askForMainXML = new qna.QNAStep()
-            .setTitle("Select the main XML file")
-            .setIntro("Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in the Book_Info.xml file. " +
-                "This import tool will attempt to read the Book_Info.xml file to find the book title, and from that select the main XML file. " +
-                "You only need to make a manual selection if the import tool could not find the main XML file, or if you want to override the default selection.")
+            .setTitle("Select the main Asciidoc file")
+            .setIntro("Select the main Asciidoc file from the selected location.")
             .setInputs([
                 new qna.QNAVariables()
                     .setVariables([
@@ -153,21 +155,24 @@ define(
                     ])
             ])
             .setProcessStep(function(resultCallback, errorCallback, result, config) {
-                if (config.MainXMLFile === null || config.MainXMLFile === undefined || config.MainXMLFile.trim().length === 0 ) {
+                if (config.MainFile === null || config.MainFile === undefined || config.MainFile.trim().length === 0 ) {
                     errorCallback("Select a XML file", "Please select the main XML file before continuing");
                 } else {
                     /*
                      Process the xml and extract the entities
                      */
-                    processxml.resolveXiIncludes(
-                        function(xmlText) {
+                    processasciidoc.processAsciidocImports(
+                        function(asciidocText) {
+                            var doctype = config[constants.TOP_LEVEL_CONTAINER] === constants.CHAPTER_TOP_LEVEL_CONTAINER ? 'book' : 'article';
+                            var asciidocOpts = Opal.hash2(['attributes'], {'attributes': ['backend=docbook45', 'doctype=' + doctype]});
+                            var docbook = "<" + doctype + ">" + Opal.Asciidoctor.opal$render(asciidocText, asciidocOpts) + "</" + doctype + ">";
+
                             processxml.processXMLAndExtractEntities(
-                                function (processedXml) {
-                                    processedXml.contentSpec = JSON.parse(result).contentSpec;
-                                    resultCallback(JSON.stringify(processedXml));
+                                function (result) {
+                                    resultCallback(JSON.stringify(result));
                                 },
                                 errorCallback,
-                                xmlText,
+                                docbook,
                                 config
                             );
                         },
