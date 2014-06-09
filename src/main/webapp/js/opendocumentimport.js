@@ -974,20 +974,7 @@ define(
                                         var href = childNode.getAttribute("xlink:href");
                                         var text = [];
                                         if (href !== null) {
-
-                                            /*
-                                                Avoid a situation where the same link is added to each individual word, like
-                                                <ulink url="http://example.com">A</ulink><ulink url="http://example.com"> </ulink><ulink url="http://example.com">link</ulink>
-                                             */
-                                            if (customContainerContent.length >= 3) {
-                                                if (customContainerContent[customContainerContent.length - 4] === '<ulink url="' + href + '">' &&
-                                                    customContainerContent[customContainerContent.length - 1] === '</ulink>') {
-                                                    customContainerContent.pop();
-                                                } else {
-                                                    text.push('<ulink url="' + href + '">');
-                                                }
-                                            }
-
+                                            text.push('<ulink url="' + href + '">');
                                             text.push(qnautils.escapeXMLSpecialCharacters(childNode.textContent));
                                             text.push('</ulink>');
                                         } else {
