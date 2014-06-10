@@ -40,8 +40,9 @@ define(
                     var match;
                     if ((match = filerefRe.exec(asciidocText)) !== null) {
                         var imageFilename = replaceVariables(match[filerefReHrefGroup], attributeEntries);
+                        var fixedImageFilename = imageFilename.replace(/^\.\//, "");
 
-                        var referencedFilenameRelativeWithoutBase = new URI(imageFilename);
+                        var referencedFilenameRelativeWithoutBase = new URI(fixedImageFilename);
                         var referencedFilenameWithoutBase = referencedFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
 
                         inputModel.hasFileName(
