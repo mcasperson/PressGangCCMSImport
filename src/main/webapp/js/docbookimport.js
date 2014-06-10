@@ -858,28 +858,29 @@ define(
                         if (image) {
 
                             var nodeValue = image.nodeValue;
+                            var fixedNodeValue = nodeValue.replace(/^\.\//, "");
 
                             if (!uploadedImages[nodeValue]) {
 
                                 inputModel.hasFileName(
                                     config.InputSource,
-                                    nodeValue,
+                                    fixedNodeValue,
                                     function (result) {
                                         if (result) {
                                             qnastart.createImage(
                                                 inputModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.InputSource,
-                                                nodeValue,
+                                                fixedNodeValue,
                                                 config.ImportLang,
                                                 config,
                                                 function (data) {
-                                                    processImagesFromLocalSource(images.iterateNext(), processUploadedImage(data, nodeValue, count));
+                                                    processImagesFromLocalSource(images.iterateNext(), processUploadedImage(data, fixedNodeValue, count));
                                                 },
                                                 errorCallback
                                             );
                                         } else {
-                                            console.log("Could not find " + nodeValue);
+                                            console.log("Could not find " + fixedNodeValue);
                                             processImagesFromLocalSource(images.iterateNext(), ++count);
                                         }
                                     },
