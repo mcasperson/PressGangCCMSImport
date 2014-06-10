@@ -21,16 +21,15 @@ define(
                     if ((match = filerefRe.exec(asciidocText)) !== null) {
                         var imageFilename = match[filerefReHrefGroup];
 
-                        var referencedXMLFilenameRelativeWithoutBase = new URI(imageFilename);
-                        var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
+                        var referencedFilenameRelativeWithoutBase = new URI(imageFilename);
+                        var referencedFilenameWithoutBase = referencedFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
 
                         inputModel.hasFileName(
                             config.InputSource,
-                            referencedXMLFilenameWithoutBase,
+                            referencedFilenameWithoutBase,
                             function (exists) {
                                 if (exists) {
-                                    replacements.push({original: imageFilename, replacement: referencedXMLFilenameWithoutBase});
-                                    findImageFileNames(callback);
+                                    replacements.push({original: imageFilename, replacement: referencedFilenameWithoutBase});
                                 }
 
                                 findImageFileNames(callback);
