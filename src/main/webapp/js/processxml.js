@@ -1083,10 +1083,12 @@ define(
                     if ((match = filerefRe.exec(xmlText)) !== null) {
                         if (!(constants.COMMON_CONTENT_PATH_PREFIX.test(match[filerefReHrefGroup]))) {
                             var imageFilename = match[filerefReHrefGroup];
-                            var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + imageFilename);
+                            var fixedImageFilename =  imageFilename.replace(/^\.\//, "");
+
+                            var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + fixedImageFilename);
                             var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
 
-                            var referencedXMLFilenameRelativeWithoutBase = new URI(imageFilename);
+                            var referencedXMLFilenameRelativeWithoutBase = new URI(fixedImageFilename);
                             var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
 
                             inputModel.hasFileName(
@@ -1358,8 +1360,6 @@ define(
              Start the processing
              */
             replaceEntities(xmlText);
-
-
 
             function replaceEntities(xmlText) {
                 var fixedXMLResult = qnautils.replaceEntitiesInText(xmlText);
