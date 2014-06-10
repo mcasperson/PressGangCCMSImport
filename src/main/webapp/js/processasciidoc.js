@@ -6,10 +6,30 @@ define(
         exports.processAsciidocImports = function(resultCallback, errorCallback, config) {
             var inputModel = qnastart.getInputModel(config);
 
-            var generalInclude = /include::(.*?)\[\]/;
+            var generalInclude = /include::?(.*?)\[\]/;
             var includeLinkGroup = 1;
 
-            function resolveFileRefs(asciidocText, filename, callback) {
+            /**
+             * See http://www.methods.co.nz/asciidoc/userguide.html#_setting_configuration_entries
+             */
+            function extractAttributeEntities(asciidocText) {
+                var attributeEntries = {};
+                var attributeEntryRe = /^:(.*?):(.*?)$/gm;
+                var match = null;
+                while ((match = attributeEntryRe.exec(asciidocText)) !== null) {
+                    attributeEntries[match[1]] = match[2];
+                }
+                return attributeEntries;
+            }
+
+            function replaceVariables(asciidocText, attributeEntries) {
+                jquery.each(attributeEntries, function(index, value) {
+                    asciidocText = asciidocText.replace(new RegExp("{" + qnautils.escapeRegExp(index) + "}", "g"), value.trim());
+                });
+                return asciidocText;
+            }
+
+            function resolveFileRefs(asciidocText, attributeEntries, filename, callback) {
                 var thisFile = new URI(filename);
                 var filerefRe = /image::?(.*?)\[[\s\S]*\]/g;
                 var filerefReHrefGroup = 1;
@@ -19,7 +39,7 @@ define(
                 var findImageFileNames = function (callback) {
                     var match;
                     if ((match = filerefRe.exec(asciidocText)) !== null) {
-                        var imageFilename = match[filerefReHrefGroup];
+                        var imageFilename = replaceVariables(match[filerefReHrefGroup], attributeEntries);
 
                         var referencedFilenameRelativeWithoutBase = new URI(imageFilename);
                         var referencedFilenameWithoutBase = referencedFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
@@ -38,7 +58,7 @@ define(
                             true
                         );
                     } else {
-                        callback();
+                        callback(attributeEntries);
                     }
                 };
 
@@ -46,11 +66,11 @@ define(
                     jquery.each(replacements, function (index, value) {
                         asciidocText = asciidocText.replace(new RegExp("(image::?)" + value.original + "(\\[[\\s\\S]*\\])"), "$1" + value.replacement + "$2");
                     });
-                    callback(asciidocText);
+                    callback(asciidocText, attributeEntries);
                 });
             }
 
-            function resolveInclude(asciidocText, filename, visitedFiles, callback) {
+            function resolveInclude(asciidocText, attributeEntries, filename, visitedFiles, callback) {
 
                 /*
                  Make sure we are not entering an infinite loop
@@ -76,12 +96,12 @@ define(
                      The include was in a comment, so ignore it
                      */
                     if (isInMultipleLineCommentBlock || isInSingleLineCommentBlock) {
-                        asciidocText = asciidocText.replace(match[0], match[0].replace("include::", "includecomment::"));
-                        resolveInclude(asciidocText, filename, visitedFiles.slice(0), callback);
+                        asciidocText = asciidocText.replace(match[0], match[0].replace(/include(::?)/, "includecomment$1"));
+                        resolveInclude(asciidocText, attributeEntries, filename, visitedFiles.slice(0), callback);
                         return;
                     }
 
-                    var href = match[includeLinkGroup];
+                    var href = replaceVariables(match[includeLinkGroup], attributeEntries);
 
                     if (href.trim().length !== 0) {
 
@@ -107,21 +127,32 @@ define(
                                 config.InputSource,
                                 referencedFileName,
                                 function (referencedAsciidocText) {
-                                    resolveFileRefs(referencedAsciidocText, referencedFileName, function (referencedAsciidocText) {
-                                        resolveInclude(
-                                            referencedAsciidocText,
-                                            referencedFileName,
-                                            visitedFiles.slice(0),
-                                            function (fixedReferencedXmlText) {
-                                                /*
-                                                 The dollar sign has special meaning in the replace method.
-                                                 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
-                                                 */
-                                                asciidocText = asciidocText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
-                                                resolveInclude(asciidocText, filename, visitedFiles.slice(0), callback);
-                                            }
-                                        );
-                                    });
+                                    /*
+                                        Extract attribute entities and merge into the collection
+                                     */
+                                    jquery.merge(attributeEntries, extractAttributeEntities(referencedAsciidocText));
+
+                                    resolveFileRefs(
+                                        referencedAsciidocText,
+                                        attributeEntries,
+                                        referencedFileName,
+                                        function (referencedAsciidocText) {
+                                            resolveInclude(
+                                                referencedAsciidocText,
+                                                attributeEntries,
+                                                referencedFileName,
+                                                visitedFiles.slice(0),
+                                                function (fixedReferencedXmlText) {
+                                                    /*
+                                                     The dollar sign has special meaning in the replace method.
+                                                     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+                                                     */
+                                                    asciidocText = asciidocText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
+                                                    resolveInclude(asciidocText, attributeEntries, filename, visitedFiles.slice(0), callback);
+                                                }
+                                            );
+                                        }
+                                    );
                                 },
                                 function (error) {
                                     errorCallback("Error reading file", "There was an error reading the file " + referencedFileName, true);
@@ -141,7 +172,7 @@ define(
                                         Could not find the referenced file
                                      */
                                     asciidocText = asciidocText.replace(match[0], "");
-                                    resolveInclude(asciidocText, filename, visitedFiles.slice(0), callback);
+                                    resolveInclude(asciidocText, attributeEntries, filename, visitedFiles.slice(0), callback);
                                 }
                             },
                             errorCallback,
@@ -152,10 +183,10 @@ define(
                          Found an xi:include without a href? delete it an move on.
                          */
                         asciidocText = asciidocText.replace(match[0], "");
-                        resolveInclude(asciidocText, filename, visitedFiles.slice(0), callback);
+                        resolveInclude(asciidocText, attributeEntries, filename, visitedFiles.slice(0), callback);
                     }
                 } else {
-                    callback(asciidocText, visitedFiles);
+                    callback(asciidocText, visitedFiles, attributeEntries);
                 }
 
             }
@@ -164,27 +195,33 @@ define(
                 config.InputSource,
                 config.MainFile,
                 function (asciidocText) {
-                    resolveFileRefs(asciidocText, config.MainFile, function (asciidocText) {
-                        function resolveIncludeLoop(asciidocText, visitedFiles) {
-                            if (generalInclude.test(asciidocText)) {
+                    resolveFileRefs(
+                        asciidocText,
+                        extractAttributeEntities(asciidocText),
+                        config.MainFile,
+                        function (asciidocText, attributeEntries) {
+                            function resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries) {
+                                if (generalInclude.test(asciidocText)) {
 
-                                resolveInclude(
-                                    asciidocText,
-                                    config.MainFile,
-                                    visitedFiles,
-                                    function (asciidocText, visitedFiles) {
-                                        resolveIncludeLoop(asciidocText, visitedFiles);
-                                    }
-                                );
-                            } else {
-                                asciidocText = asciidocText.replace(/includecomment::/g, "include::");
-                                resultCallback(asciidocText);
+                                    resolveInclude(
+                                        asciidocText,
+                                        attributeEntries,
+                                        config.MainFile,
+                                        visitedFiles,
+                                        function (asciidocText, visitedFiles, attributeEntries) {
+                                            resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries);
+                                        }
+                                    );
+                                } else {
+                                    asciidocText = asciidocText.replace(/includecomment(::?)/g, "include$1");
+                                    resultCallback(asciidocText);
+                                }
                             }
-                        }
 
-                        var count = 0;
-                        resolveIncludeLoop(asciidocText, [config.MainFile]);
-                    });
+                            var count = 0;
+                            resolveIncludeLoop(asciidocText, [config.MainFile], attributeEntries);
+                        }
+                    );
                 },
                 true
             );
