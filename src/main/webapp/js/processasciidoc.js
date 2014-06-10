@@ -44,7 +44,7 @@ define(
 
                 findImageFileNames(function () {
                     jquery.each(replacements, function (index, value) {
-                        asciidocText = asciidocText.replace(new RegExp("(image::?)" + value.original + "(\[[\s\S]*\])"), "$1'" + value.replacement + "$2");
+                        asciidocText = asciidocText.replace(new RegExp("(image::?)" + value.original + "(\\[[\\s\\S]*\\])"), "$1'" + value.replacement + "$2");
                     });
                     callback(asciidocText);
                 });
