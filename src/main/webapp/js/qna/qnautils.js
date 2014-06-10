@@ -1,6 +1,10 @@
 define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     'use strict';
 
+    exports.merge = function (obj1, obj2) {
+        for (var attrname in obj2) { obj1[attrname] = obj2[attrname]; }
+    }
+
     exports.getEditDistance = function (a, b) {
         if(a.length === 0) return b.length;
         if(b.length === 0) return a.length;

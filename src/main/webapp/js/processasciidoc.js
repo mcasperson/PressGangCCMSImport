@@ -31,7 +31,7 @@ define(
 
             function resolveFileRefs(asciidocText, attributeEntries, filename, callback) {
                 var thisFile = new URI(filename);
-                var filerefRe = /image::?(.*?)\[[\s\S]*\]/g;
+                var filerefRe = /image::?(.*?)\[[^\]]*\]/g;
                 var filerefReHrefGroup = 1;
 
                 var replacements = [];
@@ -130,7 +130,7 @@ define(
                                     /*
                                         Extract attribute entities and merge into the collection
                                      */
-                                    jquery.merge(attributeEntries, extractAttributeEntities(referencedAsciidocText));
+                                    qnautils.merge(attributeEntries, extractAttributeEntities(referencedAsciidocText));
 
                                     resolveFileRefs(
                                         referencedAsciidocText,
