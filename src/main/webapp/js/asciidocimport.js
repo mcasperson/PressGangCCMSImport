@@ -81,6 +81,7 @@ define(
             } else if (config.InputSource.name.lastIndexOf(".zip") !== config.InputSource.name.length - 4) {
                 errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
             } else {
+                config.InputType = "Zip";
                 resultCallback();
             }
         })
