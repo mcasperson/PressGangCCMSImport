@@ -29,47 +29,6 @@ define(
                 return asciidocText;
             }
 
-            function resolveFileRefs(asciidocText, attributeEntries, filename, callback) {
-                var thisFile = new URI(filename);
-                var filerefRe = /image::?(.*?)\[[^\]]*\]/g;
-                var filerefReHrefGroup = 1;
-
-                var replacements = [];
-
-                var findImageFileNames = function (callback) {
-                    var match;
-                    if ((match = filerefRe.exec(asciidocText)) !== null) {
-                        var imageFilename = replaceVariables(match[filerefReHrefGroup], attributeEntries);
-
-                        var referencedFilenameRelativeWithoutBase = new URI(imageFilename);
-                        var referencedFilenameWithoutBase = referencedFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
-
-                        inputModel.hasFileName(
-                            config.InputSource,
-                            referencedFilenameWithoutBase,
-                            function (exists) {
-                                if (exists) {
-                                    replacements.push({original: imageFilename, replacement: referencedFilenameWithoutBase});
-                                }
-
-                                findImageFileNames(callback);
-                            },
-                            errorCallback,
-                            true
-                        );
-                    } else {
-                        callback(attributeEntries);
-                    }
-                };
-
-                findImageFileNames(function () {
-                    jquery.each(replacements, function (index, value) {
-                        asciidocText = asciidocText.replace(new RegExp("(image::?)" + value.original + "(\\[[\\s\\S]*\\])"), "$1" + value.replacement + "$2");
-                    });
-                    callback(asciidocText, attributeEntries);
-                });
-            }
-
             function resolveInclude(asciidocText, attributeEntries, filename, visitedFiles, callback) {
 
                 /*
@@ -132,27 +91,21 @@ define(
                                      */
                                     qnautils.merge(attributeEntries, extractAttributeEntities(referencedAsciidocText));
 
-                                    resolveFileRefs(
+                                    resolveInclude(
                                         referencedAsciidocText,
                                         attributeEntries,
                                         referencedFileName,
-                                        function (referencedAsciidocText) {
-                                            resolveInclude(
-                                                referencedAsciidocText,
-                                                attributeEntries,
-                                                referencedFileName,
-                                                visitedFiles.slice(0),
-                                                function (fixedReferencedXmlText) {
-                                                    /*
-                                                     The dollar sign has special meaning in the replace method.
-                                                     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
-                                                     */
-                                                    asciidocText = asciidocText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
-                                                    resolveInclude(asciidocText, attributeEntries, filename, visitedFiles.slice(0), callback);
-                                                }
-                                            );
+                                        visitedFiles.slice(0),
+                                        function (fixedReferencedXmlText) {
+                                            /*
+                                             The dollar sign has special meaning in the replace method.
+                                             https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+                                             */
+                                            asciidocText = asciidocText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
+                                            resolveInclude(asciidocText, attributeEntries, filename, visitedFiles.slice(0), callback);
                                         }
                                     );
+
                                 },
                                 function (error) {
                                     errorCallback("Error reading file", "There was an error reading the file " + referencedFileName, true);
@@ -195,33 +148,26 @@ define(
                 config.InputSource,
                 config.MainFile,
                 function (asciidocText) {
-                    resolveFileRefs(
-                        asciidocText,
-                        extractAttributeEntities(asciidocText),
-                        config.MainFile,
-                        function (asciidocText, attributeEntries) {
-                            function resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries) {
-                                if (generalInclude.test(asciidocText)) {
+                    function resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries) {
+                        if (generalInclude.test(asciidocText)) {
 
-                                    resolveInclude(
-                                        asciidocText,
-                                        attributeEntries,
-                                        config.MainFile,
-                                        visitedFiles,
-                                        function (asciidocText, visitedFiles, attributeEntries) {
-                                            resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries);
-                                        }
-                                    );
-                                } else {
-                                    asciidocText = asciidocText.replace(/includecomment(::?)/g, "include$1");
-                                    resultCallback(asciidocText);
+                            resolveInclude(
+                                asciidocText,
+                                attributeEntries,
+                                config.MainFile,
+                                visitedFiles,
+                                function (asciidocText, visitedFiles, attributeEntries) {
+                                    resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries);
                                 }
-                            }
-
-                            var count = 0;
-                            resolveIncludeLoop(asciidocText, [config.MainFile], attributeEntries);
+                            );
+                        } else {
+                            asciidocText = asciidocText.replace(/includecomment(::?)/g, "include$1");
+                            resultCallback(asciidocText);
                         }
-                    );
+                    }
+
+                    var count = 0;
+                    resolveIncludeLoop(asciidocText, [config.MainFile], extractAttributeEntities(asciidocText));
                 },
                 true
             );

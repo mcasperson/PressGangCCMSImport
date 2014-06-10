@@ -38,6 +38,7 @@ define(
             "setinfo"];
         // These containers are remapped to sections
         var SECTION_CONTAINERS = [
+            "section",
             "simplesect",
             "sect1",
             "sect2",
@@ -48,6 +49,14 @@ define(
 
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
+
+        function xmlDocIsArticle(xmlDoc) {
+           return xmlDoc.documentElement.nodeName === "article";
+        }
+
+        function xmlDocIsBook(xmlDoc) {
+            return xmlDoc.documentElement.nodeName === "book";
+        }
 
         function getSpecDocbookVersion(config) {
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
@@ -76,11 +85,17 @@ define(
         }
 
         /*
-            Some containers are remaped when placed in a content spec
+            Some containers are remaped when placed in a content spec. We return a chapter for a section
+            at level 0 in a book because some asciidoc conversions don't properly nest sections in chapters
+            when building a book.
          */
-        function remapContainer(container) {
+        function remapContainer(container, depth, article) {
             for (var index = 0; index < SECTION_CONTAINERS.length; ++index) {
                 if (container === SECTION_CONTAINERS[index]) {
+                    if (article !== undefined && depth !== undefined && article === false && depth === 0) {
+                        return "chapter";
+                    }
+
                     return "section";
                 }
             }
@@ -386,14 +401,14 @@ define(
                         contentSpec.push("Brand = " + config.ContentSpecBrand);
                     }
 
-                    if (xmlDoc.documentElement.nodeName === "book") {
+                    if (xmlDocIsBook(xmlDoc)) {
                         if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
                             contentSpec.push("Type = Book-Draft");
                         } else {
                             contentSpec.push("Type = Book");
                         }
 
-                    } else if (xmlDoc.documentElement.nodeName === "article") {
+                    } else if (xmlDocIsArticle(xmlDoc)) {
                         if (xmlDoc.documentElement.hasAttribute("status") && xmlDoc.documentElement.attributes["status"].nodeValue.trim() === "draft") {
                             contentSpec.push("Type = Article-Draft");
                         } else {
@@ -875,7 +890,7 @@ define(
                                                 config.ImportLang,
                                                 config,
                                                 function (data) {
-                                                    processImagesFromLocalSource(images.iterateNext(), processUploadedImage(data, fixedNodeValue, count));
+                                                    processImagesFromLocalSource(images.iterateNext(), processUploadedImage(data, nodeValue, count));
                                                 },
                                                 errorCallback
                                             );
@@ -1105,7 +1120,12 @@ define(
 
                                     if (!isHistoryTopicAppendix && !isEmptyPrefaceTopic) {
 
-                                        if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
+                                        /*
+                                            Watch out for sections under a book element. This is not valid docbook,
+                                            but tools like asciidoctor can create this structure in some cases.
+                                         */
+                                        if (TOPIC_CONTAINER_TYPES.indexOf(value.nodeName) !== -1 &&
+                                            (xmlDocIsArticle(xmlDoc) || depth !== 0)) {
                                             /*
                                                 This is a plain topic. We don't extract info elements from plain
                                                 topics.
@@ -1118,7 +1138,7 @@ define(
                                              */
                                             var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
 
-                                            var containerName = remapContainer(value.nodeName);
+                                            var containerName = remapContainer(value.nodeName, depth, xmlDocIsArticle(xmlDoc));
                                             contentSpec.push(
                                                 contentSpecLine +
                                                     containerName.substring(0, 1).toUpperCase() +
@@ -1158,7 +1178,7 @@ define(
                                 } else {
                                     var infoTitle = extractInfoTopic(xmlDoc, contentSpec.length, clone, topics, topicGraph);
 
-                                    var containerName = remapContainer(value.nodeName);
+                                    var containerName = remapContainer(value.nodeName, depth, xmlDocIsArticle(xmlDoc));
                                     contentSpec.push(
                                         contentSpecLine +
                                             containerName.substring(0, 1).toUpperCase() +
