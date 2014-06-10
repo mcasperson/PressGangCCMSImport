@@ -227,7 +227,7 @@ define(
                 var thisStep = this;
 
                 var updateProgress = function(value, setToTrue) {
-                    if (setToTrue && config[setToTrue]) {
+                    if (setToTrue) {
                         config[setToTrue] = true;
                     }
                     config.UploadProgress[1] = value;

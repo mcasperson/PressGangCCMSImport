@@ -156,7 +156,7 @@ define(
             ])
             .setProcessStep(function(resultCallback, errorCallback, result, config) {
                 if (config.MainFile === null || config.MainFile === undefined || config.MainFile.trim().length === 0 ) {
-                    errorCallback("Select a XML file", "Please select the main XML file before continuing");
+                    errorCallback("Select a XML file", "Please select the main Asciidoc file before continuing");
                 } else {
                     /*
                      Process the xml and extract the entities
