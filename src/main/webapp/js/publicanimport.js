@@ -24,25 +24,17 @@ define(
 
             var lookForXMLDirAndFiles = function(contentSpec) {
                 inputModel.getCachedEntries(config.InputSource, function (entries) {
-                    var foundDir = false;
                     var foundFiles = false;
                     jquery.each(entries, function (index, value) {
-                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/\.?$").test(qnautils.getFileName(value))) {
-                            foundDir = true;
-                        } else if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
+                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
                             if (!/^tmp\//.test(qnautils.getFileName(value))) {
                                 foundFiles = true;
+                                return false;
                             }
-                        }
-
-                        if (foundDir && foundFiles) {
-                            return false;
                         }
                     });
 
-                    if (!foundDir) {
-                        errorCallback("No " + config.ImportLang + " directory found", "The source location file has no " + config.ImportLang + " directory");
-                    } else if (!foundFiles) {
+                    if (!foundFiles) {
                         errorCallback("No XML files found", "The source location file has no XML files under the " + config.ImportLang + " directory");
                     } else {
                         resultCallback(JSON.stringify({contentSpec: contentSpec}));

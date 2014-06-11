@@ -997,8 +997,6 @@ define(
             "Verbar",
             "wedgeq"];
 
-
-
         /*
          See if the xiincludes have some other base dir
          */
@@ -1060,7 +1058,9 @@ define(
             var inputModel = qnastart.getInputModel(config);
 
             // Note the self closing tag is optional. clearFallbacks will remove those.
-            var generalXiInclude = /<\s*xi:include\s+(.*?)\/?>/;
+            var generalXiInclude = /<\s*(xi:include)\s+(.*?)\/?>/;
+            var xiIncludeGroup = 1;
+            var xiIncludeAttributesGroup = 2;
 
             // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
             // non-existant content and relies on the fallback, but we don't support that.
@@ -1145,7 +1145,6 @@ define(
                 }
 
                 var match = generalXiInclude.exec(xmlText);
-                var xiIncludeAttributesGroup = 1;
 
                 if (match !== null) {
 
@@ -1195,7 +1194,14 @@ define(
 
                     if (href !== undefined) {
                         if (constants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
-                            xmlText = xmlText.replace(match[0], "");
+                            /*
+                                Leave the XInclude in for common content, so we can add these links
+                                to the content spec using https://bugzilla.redhat.com/show_bug.cgi?id=1065609.
+                                We do this by marking it as a comment xi include, which will be reverted
+                                once all the xi includes have been processed.
+                             */
+                            var commentXiInclude = match[0].replace(match[xiIncludeGroup], "xi:includecomment");
+                            xmlText = xmlText.replace(match[0], commentXiInclude);
                             resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
                         } else {
                             /*

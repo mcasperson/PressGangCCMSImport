@@ -50,12 +50,40 @@ define(
         var DEAFULT_REV_HISTORY_TITLE = "Revision History";
         var DEAFULT_LEGAL_NOTICE_TITLE = "Legal Notice";
 
+        var XINCLUDE_NS = "http://www.w3.org/2001/XInclude";
+        var XINCLUDE_LOCALNAME = "include";
+        var XINCLUDE_HREF_ATTR = "href";
+
         function xmlDocIsArticle(xmlDoc) {
            return xmlDoc.documentElement.nodeName === "article";
         }
 
         function xmlDocIsBook(xmlDoc) {
             return xmlDoc.documentElement.nodeName === "book";
+        }
+
+        function nodeIsContainer(xmlNode) {
+            return CONTAINER_TYPES.indexOf(xmlNode.nodeName) !== -1;
+        }
+
+        function nodeIsCommonContentXInclude(xmlNode) {
+            if (xmlNode.localName === XINCLUDE_LOCALNAME &&
+                xmlNode.namespaceURI === XINCLUDE_NS &&
+                xmlNode.hasAttribute(XINCLUDE_HREF_ATTR) &&
+                constants.COMMON_CONTENT_PATH_PREFIX.test(xmlNode.getAttribute(XINCLUDE_HREF_ATTR))) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function createContentSpecSpacingPrefix(depth) {
+            // what we have left is the contents of a initial text topic
+            var contentSpecLine = "";
+            for (var i = 0; i < depth * 2; ++i) {
+                contentSpecLine += " ";
+            }
+            return contentSpecLine;
         }
 
         function getSpecDocbookVersion(config) {
@@ -974,8 +1002,6 @@ define(
                         }
                     }
 
-
-
                     function getTitle(directTitle, infoTitle) {
                         var title = directTitle || infoTitle || DEFAULT_TITLE;
 
@@ -988,7 +1014,14 @@ define(
                     var processXml = function (parentXML, depth) {
                         // loop over the containers under the root element
                         jquery.each(parentXML.childNodes, function (index, value) {
-                            if (CONTAINER_TYPES.indexOf(value.nodeName) !== -1) {
+
+                            var contentSpecLine = createContentSpecSpacingPrefix(depth);
+
+                            if (nodeIsCommonContentXInclude(value)) {
+                                var href = value.getAttribute(XINCLUDE_HREF_ATTR);
+                                var filename = new URI(href).filename();
+                                contentSpec.push(contentSpecLine + encodeTitle(filename) + " [Common Content]");
+                            } else if (nodeIsContainer(value)) {
                                 // take a copy of this container
                                 var clone = value.cloneNode(true);
 
@@ -1024,7 +1057,7 @@ define(
                                 // strip away any child containers
                                 var removeChildren = [];
                                 jquery.each(clone.childNodes, function (index, containerChild) {
-                                    if (CONTAINER_TYPES.indexOf(containerChild.nodeName) !== -1) {
+                                    if (nodeIsContainer(containerChild) || nodeIsCommonContentXInclude(containerChild)) {
                                         removeChildren.push(containerChild);
                                     }
                                 });
@@ -1055,12 +1088,6 @@ define(
                                  */
                                 removeAttributes(clone);
                                 removeTitleAttributes(clone);
-
-                                // what we have left is the contents of a initial text topic
-                                var contentSpecLine = "";
-                                for (var i = 0; i < depth * 2; ++i) {
-                                    contentSpecLine += " ";
-                                }
 
                                 // if there were no child container elements to be removed, it
                                 // means this element stands alone. It is either a topic,
