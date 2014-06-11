@@ -621,9 +621,18 @@ define(
          */
         var askToReuseTopics = new qna.QNAStep()
             .setTitle("Do you want to reuse existing topics and images?")
-            .setIntro("This wizard can attempt to reuse any existing topics whose contents and xref relationships match those defined in the imported content. " +
-                "You also have the choice to reuse any images and files that exactly match those that are being imported. " +
-                "It is highly recommended that you reuse existing topics, images and files.")
+            .setIntro(function (resultCallback, errorCallback, result, config) {
+                if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
+                    resultCallback("This wizard can update the contents of any similar topics already referenced by the content specification "
+                        + config[constants.EXISTING_CONTENT_SPEC_ID] + ". This is useful when importing updated external content over a previously imported content specification. " +
+                        "You also have the choice to reuse any images and files that exactly match those that are being imported. " +
+                        "It is highly recommended that you reuse existing topics, images and files.");
+                } else {
+                    resultCallback("This wizard can attempt to reuse any existing topics whose contents and xref relationships match those defined in the imported content. " +
+                        "You also have the choice to reuse any images and files that exactly match those that are being imported. " +
+                        "It is highly recommended that you reuse existing topics, images and files.");
+                }
+            })
             .setInputs([
                 new qna.QNAVariables()
                     .setVariables([
