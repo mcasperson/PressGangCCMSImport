@@ -8,6 +8,9 @@ define(
 
         var INJECTION_RE = /^\s*Inject\s*:\s*T?\d+\s*$/;
 
+        var APOS_CHARACTERS = ["'", "’"];
+        var QUOTE_CHARACTERS = ["“", "”", "\""];
+
         /*
          Remove any non-injection comments
          */
@@ -84,14 +87,15 @@ define(
                         We need to check the replacements for the entity or the character, because entities like &#8216;
                         will have been transformed to the plain character.
                      */
-                    if (replacementValue.entity === "&quot;" || replacementValue.entity === "\"") {
+                    if (replacementValue.entity === "&quot;" || QUOTE_CHARACTERS.indexOf(replacementValue.entity) !== -1) {
                         value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#quot#");
                     }
 
-                    if (replacementValue.entity === "&apos;" || replacementValue.entity === "'") {
+                    if (replacementValue.entity === "&apos;" || APOS_CHARACTERS.indexOf(replacementValue.entity) !== -1) {
                         value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#apos#");
                     }
                 });
+
                 /*
                  Then replace equivalent characters/entities with a common marker.
                  */
@@ -100,17 +104,20 @@ define(
                      Start by returning all entities to their character state
                      */
                     .replace(/&quot;/g, '"')
-                    .replace(/&apos;/g, '\'')
-                    /*
-                     Now encode back. Note that we don't want to use any characters that will be
-                     further encoded when the xml is converted to a string. This is just for
-                     equality testing.
-                     */
-                    .replace(/’/g, '#apos#')
-                    .replace(/'/g, '#apos#')
-                    .replace(/“/g, '#quot#')
-                    .replace(/”/g, '#quot#')
-                    .replace(/"/g, "#quot#");
+                    .replace(/&apos;/g, '\'');
+
+                /*
+                 Now encode back. Note that we don't want to use any characters that will be
+                 further encoded when the xml is converted to a string. This is just for
+                 equality testing.
+                 */
+                jquery.each(APOS_CHARACTERS, function(index, aposChar) {
+                    value.nodeValue = value.nodeValue.replace(new RegExp(aposChar, "g"), "#apos#");
+                });
+
+                jquery.each(QUOTE_CHARACTERS, function(index, quotChar) {
+                    value.nodeValue = value.nodeValue.replace(new RegExp(quotChar, "g"), "#quot#");
+                });
             });
 
             return xml;
