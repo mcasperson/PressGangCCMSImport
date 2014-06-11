@@ -174,7 +174,8 @@ define(
                                 },
                                 errorCallback,
                                 docbook,
-                                config
+                                config,
+                                false
                             );
                         },
                         errorCallback,

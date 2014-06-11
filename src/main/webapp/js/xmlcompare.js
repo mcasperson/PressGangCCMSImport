@@ -80,11 +80,15 @@ define(
                  First return any entities that we consider equivalent.
                  */
                 jquery.each(replacements, function (index, replacementValue) {
-                    if (replacementValue.entity === "&quot;") {
+                    /*
+                        We need to check the replacements for the entity or the character, because entities like &#8216;
+                        will have been transformed to the plain character.
+                     */
+                    if (replacementValue.entity === "&quot;" || replacementValue.entity === "\"") {
                         value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#quot#");
                     }
 
-                    if (replacementValue.entity === "&apos;") {
+                    if (replacementValue.entity === "&apos;" || replacementValue.entity === "'") {
                         value.nodeValue = value.nodeValue.replace(new RegExp(qnautils.escapeRegExp(replacementValue.placeholder), "g"), "#apos#");
                     }
                 });
@@ -250,9 +254,9 @@ define(
          * @param topic  The topic being processed
          * @param format The format of the topic
          * @param topicOrContainerIDs A list of topic or container ids
-         * @param xmlDoc1 The cloned xml of the topic in the database. This process is destructive, so send a copy with xml.clone(true) to this function.
+         * @param xmlDoc1 The cloned xml of the topic being imported. This process is destructive, so send a copy with xml.clone(true) to this function.
          * @param xmlDoc1Entities The entities that were replaced to convert the xml to a document.
-         * @param xmlDoc2 The cloned xml of the topic being imported.
+         * @param xmlDoc2 The cloned xml of the topic in the database.
          * @param xmlDoc2Entities The entities that were replaced to convert the xml to a document.
          */
         exports.compareXml = function(topic, format, topicOrContainerIDs, xmlDoc1, xmlDoc1Entities, xmlDoc2, xmlDoc2Entities) {

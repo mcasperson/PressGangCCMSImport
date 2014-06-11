@@ -272,7 +272,7 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     /*
      Replace entities with markers so we can process the XML without worrying about resolving entities
      */
-    exports.replaceEntitiesInText =function (xmlText) {
+    exports.replaceEntitiesInText = function (xmlText) {
         var retValue = [];
 
         var entityRe = /&.*?;/;

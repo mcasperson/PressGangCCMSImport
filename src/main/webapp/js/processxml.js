@@ -1353,7 +1353,7 @@ define(
             );
         }
 
-        exports.processXMLAndExtractEntities = function(resultCallback, errorCallback, xmlText, config) {
+        exports.processXMLAndExtractEntities = function(resultCallback, errorCallback, xmlText, config, extractEntities) {
             var inputModel = qnastart.getInputModel(config);
 
             /*
@@ -1366,7 +1366,11 @@ define(
                 config.replacements = fixedXMLResult.replacements;
                 xmlText = fixedXMLResult.xml;
 
-                findEntities(xmlText);
+                if (extractEntities) {
+                    findEntities(xmlText);
+                } else {
+                    removeXmlPreambleFromBook(xmlText, []);
+                }
             }
 
             /*
