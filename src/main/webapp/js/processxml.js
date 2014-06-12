@@ -1244,17 +1244,17 @@ define(
 
                             inputModel.hasFileName(
                                 config.InputSource,
-                                referencedXMLFilenameWithoutBase,
+                                referencedXMLFilenameWithBase,
                                 function (exists) {
                                     if (exists) {
-                                        processFile(referencedXMLFilenameWithoutBase);
+                                        processFile(referencedXMLFilenameWithBase);
                                     } else {
                                         inputModel.hasFileName(
                                             config.InputSource,
-                                            referencedXMLFilenameWithBase,
+                                            referencedXMLFilenameWithoutBase,
                                             function (exists) {
                                                 if (exists) {
-                                                    processFile(referencedXMLFilenameWithBase);
+                                                    processFile(referencedXMLFilenameWithoutBase);
                                                 } else {
                                                     //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
 
