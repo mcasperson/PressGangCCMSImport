@@ -1193,7 +1193,7 @@ define(
                                                 referencedFileName,
                                                 visitedFiles.slice(0),
                                                 function (fixedReferencedXmlText) {
-                                                    var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText, includedXmlDetails.replacements);
+                                                    var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText, xmlDetails.replacements);
                                                     var includedXmlDoc = qnautils.stringToXML(includedXmlDetails.xml);
 
                                                     if (includedXmlDoc === null) {
@@ -1203,6 +1203,10 @@ define(
 
                                                     if (xpointerAttr !== undefined) {
                                                         var xpointer = xpointerAttr.nodeValue;
+                                                        var xpointerMatch = /xpointer\((.*?)\)/.exec(xpointer);
+                                                        if (xpointerMatch !== null) {
+                                                            xpointer = xpointerMatch[1];
+                                                        }
                                                         var subset = qnautils.xPath(xpointer, includedXmlDoc);
 
                                                         var matchedNode;
