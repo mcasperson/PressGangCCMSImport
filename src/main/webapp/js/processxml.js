@@ -1131,7 +1131,7 @@ define(
                 /*
                     Convert the XML we have to a DOM
                  */
-                var xmlDetails = qnautils.replaceEntitiesInText(xmlText);
+                var xmlDetails = qnautils.replaceEntitiesInText(removeXmlPreamble(xmlText));
                 var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
                 var xiInclude = qnautils.xPath("//xi:include", xmlDoc).iterateNext();
                 if (xiInclude !== null) {
@@ -1300,8 +1300,13 @@ define(
                     resolveFileRefs(xmlText, config.MainFile, function (xmlText) {
                         function resolveXIIncludeLoop(xmlText, visitedFiles) {
 
-                            var xmlDetails = qnautils.replaceEntitiesInText(xmlText);
+                            var xmlDetails = qnautils.replaceEntitiesInText(removeXmlPreamble(xmlText));
                             var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
+
+                            if (xmlDoc === null) {
+                                console.log("xml is not valid");
+                            }
+
                             var xiInclude = qnautils.xPath("//xi:include", xmlDoc).iterateNext();
 
                             if (xiInclude !== null) {
