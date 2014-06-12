@@ -280,7 +280,7 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     /*
      Replace entities with markers so we can process the XML without worrying about resolving entities
      */
-    exports.replaceEntitiesInText = function (xmlText) {
+    exports.replaceEntitiesInText = function (xmlText, existingReplacements) {
         var retValue = [];
 
         var entityRe = /&.*?;/;
@@ -288,8 +288,21 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
         var match;
         while ((match = entityRe.exec(xmlText)) !== null) {
             var randomReplacement;
-            while (xmlText.indexOf(randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#") !== -1) {
+            while (true) {
+                randomReplacement = "#" + Math.floor((Math.random() * 1000000000) + 1) + "#";
+                var foundInExistingReplacements = false;
+                if (existingReplacements !== undefined) {
+                    jquery.each(existingReplacements, function(index, value) {
+                        if (value.placeholder === randomReplacement)   {
+                            foundInExistingReplacements = true;
+                            return false;
+                        }
+                    });
+                }
 
+                if (!foundInExistingReplacements && xmlText.indexOf(randomReplacement) === -1) {
+                    break;
+                }
             }
 
             retValue.push({placeholder: randomReplacement, entity: match[0]});

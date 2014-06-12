@@ -1193,7 +1193,7 @@ define(
                                                 referencedFileName,
                                                 visitedFiles.slice(0),
                                                 function (fixedReferencedXmlText) {
-                                                    var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText);
+                                                    var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText, includedXmlDetails.replacements);
                                                     var includedXmlDoc = qnautils.stringToXML(includedXmlDetails.xml);
 
                                                     if (includedXmlDoc === null) {
@@ -1223,6 +1223,9 @@ define(
                                                     }
 
                                                     xiInclude.parentNode.removeChild(xiInclude);
+
+                                                    jquery.merge(xmlDetails.replacements, includedXmlDetails.replacements);
+
                                                     resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
                                                 }
                                             );
