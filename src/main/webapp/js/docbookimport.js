@@ -444,6 +444,10 @@ define(
                         }
                     }
 
+                    // we always populate our own preface
+                    contentSpec.push("Default Preface = Off");
+
+
                     if (config.Index !== undefined) {
                         contentSpec.push("Index = " + config.Index);
                     }

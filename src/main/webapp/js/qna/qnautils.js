@@ -1,6 +1,10 @@
 define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
     'use strict';
 
+    exports.reverseString = function(string) {
+        return string.split('').reverse().join('')
+    }
+
     exports.merge = function (obj1, obj2) {
         for (var attrname in obj2) { obj1[attrname] = obj2[attrname]; }
     }
@@ -150,7 +154,7 @@ define (['jquery', 'uri/URI', 'exports'], function (jquery, URI, exports) {
 
     exports.encodedXmlToString = function(xmlReplacements) {
         var retValue = (new XMLSerializer()).serializeToString(xmlReplacements.xml);
-        exports.reencode(retValue, xmlReplacements.replacements);
+        return exports.reencode(retValue, xmlReplacements.replacements);
     };
 
     exports.stringToXML = function(xml) {

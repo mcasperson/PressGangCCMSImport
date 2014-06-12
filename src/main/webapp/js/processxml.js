@@ -1057,18 +1057,22 @@ define(
         exports.resolveXiIncludes = function(resultCallback, errorCallback, config) {
             var inputModel = qnastart.getInputModel(config);
 
-            // Note the self closing tag is optional. clearFallbacks will remove those.
-            var generalXiInclude = /<\s*(xi:include)\s+(.*?)\/?>/;
+            /*
+                A self closing XInclude. Notice the empty group on the end to ensure that we'll get
+                3 groups in the result, with the 3rd always being empty. This makes the number
+                of groups this regex will return the same as the regex below.
+            */
+            var selfCloseXiInclude = /<\s*(xi:include)\s+([^>]*?)\/\s*>()/;
+            /*
+                An open and close XInclude. This may or may not include a fallback group
+            */
+            var openCloseXiInclude = /<\s*(xi:include)\s+([^\/].*?)>([\s\S]*?)<\s*\/\s*xi:include\s*>/;
             var xiIncludeGroup = 1;
             var xiIncludeAttributesGroup = 2;
+            var fallbackGroup = 3;
 
-            // Start by clearing out fallbacks. There is a chance that a book being imported xi:inclides
-            // non-existant content and relies on the fallback, but we don't support that.
-            function clearFallbacks(xmlText) {
-                var xiFallbackRe = /<\s*xi:fallback.*?>[\s\S]*?<\s*\/\s*xi:fallback\s*>/g;
-                var closeXiIncludeRe = /<\s*\/xi:include\s*>/g;
-                return xmlText.replace(xiFallbackRe, "").replace(closeXiIncludeRe, "");
-            }
+            var openCloseFallback = /<\s*xi:fallback\s+((?!:\/).*?)>([\s\S]*?)<\s*\/\s*xi:fallback\s*>/;
+            var fallbackIncludeGroup = 1;
 
             function resolveFileRefs(xmlText, filename, callback) {
                 var thisFile = new URI(filename);
@@ -1134,75 +1138,43 @@ define(
             }
 
             function resolveXIInclude(xmlText, base, filename, visitedFiles, callback) {
-
-                xmlText = clearFallbacks(xmlText);
-
                 /*
-                 Make sure we are not entering an infinite loop
+                    Make sure we are not entering an infinite loop
                  */
                 if (visitedFiles.indexOf(filename) === -1) {
                     visitedFiles.push(filename);
                 }
 
-                var match = generalXiInclude.exec(xmlText);
+                /*
+                    Convert the XML we have to a DOM
+                 */
+                var xmlDetails = qnautils.replaceEntitiesInText(xmlText);
+                var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
+                var xiInclude = qnautils.xPath("//xi:include", xmlDoc).iterateNext();
+                if (xiInclude !== null) {
+                    var hrefAttr = xiInclude.attributes['href'];
+                    var xpointerAttr = xiInclude.attributes['xpointer'];
+                    var parseAttr = xiInclude.attributes['parse'];
 
-                if (match !== null) {
+                    if (hrefAttr !== undefined) {
 
-                    var previousString = xmlText.substr(0, match.index);
-                    var lastStartComment = previousString.lastIndexOf("<!--");
-                    var lastEndComment = previousString.lastIndexOf("-->");
+                        var href = hrefAttr.nodeValue;
 
-                    /*
-                     The xi:include was in a comment, so ignore it
-                     */
-                    if (lastStartComment !== -1 &&
-                        (lastEndComment === -1 || lastEndComment < lastStartComment)) {
-                        xmlText = xmlText.replace(match[0], match[0].replace("xi:include", "xi:includecomment"));
-                        resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
-                        return;
-                    }
-
-                    /*
-                     break down the attributes looking for the href and xpointer attributes
-                     */
-                    var xiIncludesAttrs = match[xiIncludeAttributesGroup];
-                    var attrRe = /\b(.*?)\s*=\s*('|")(.*?)('|")/g;
-                    var href;
-                    var xpointer;
-                    var parse;
-                    var attrmatch;
-                    while ((attrmatch = attrRe.exec(xiIncludesAttrs)) !== null) {
-                        var attributeName = attrmatch[1];
-                        var attributeValue = attrmatch[3];
-
-                        if (attributeName.trim() === "href") {
-                            href = attributeValue;
-                        } else if (attributeName.trim() === "xpointer") {
-                            var xpointerMatch = /xpointer\((.*?)\)/.exec(attributeValue);
-                            if (xpointerMatch !== null) {
-                                xpointer = xpointerMatch[1];
-                            } else {
-                                xpointer = attributeValue;
-                            }
-                        } else if (attributeName.trim() === "parse") {
-                            /*
-                                This will determine if we replace special characters in the imported content
-                             */
-                            parse = attributeValue;
-                        }
-                    }
-
-                    if (href !== undefined) {
                         if (constants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
                             /*
-                                Leave the XInclude in for common content, so we can add these links
-                                to the content spec using https://bugzilla.redhat.com/show_bug.cgi?id=1065609.
-                                We do this by marking it as a comment xi include, which will be reverted
-                                once all the xi includes have been processed.
+                             Leave the XInclude in for common content, so we can add these links
+                             to the content spec using https://bugzilla.redhat.com/show_bug.cgi?id=1065609.
+                             We do this by marking it as a comment xi include, which will be reverted
+                             once all the xi includes have been processed.
                              */
-                            var commentXiInclude = match[0].replace(match[xiIncludeGroup], "xi:includecomment");
-                            xmlText = xmlText.replace(match[0], commentXiInclude);
-                            resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                            var commentNode = xmlDoc.createElement("includecomment");
+                            jquery.each(xiInclude.attributes, function(index, value){
+                                commentNode.setAttribute(value.nodeName, value.nodeValue);
+                            });
+                            xmlDoc.documentElement.insertBefore(commentNode, xiInclude);
+                            xiInclude.parentNode.removeChild(xiInclude);
+
+                            resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
                         } else {
                             /*
                              We need to work out where the files to be included will come from. This is a
@@ -1238,42 +1210,37 @@ define(
                                                 referencedFileName,
                                                 visitedFiles.slice(0),
                                                 function (fixedReferencedXmlText) {
-                                                    if (xpointer !== undefined) {
-                                                        var replacedTextResult = qnautils.replaceEntitiesInText(referencedXmlText);
-                                                        var cleanedReferencedXmlText = removeXmlPreamble(replacedTextResult.xml);
-                                                        var cleanedReferencedXmlDom = qnautils.stringToXML(cleanedReferencedXmlText);
+                                                    var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText);
+                                                    var includedXmlDoc = qnautils.stringToXML(includedXmlDetails.xml);
 
-                                                        if (cleanedReferencedXmlDom === null) {
-                                                            errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
-                                                            return;
-                                                        }
+                                                    if (includedXmlDoc === null) {
+                                                        errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
+                                                        return;
+                                                    }
 
-                                                        var subset = qnautils.xPath(xpointer, cleanedReferencedXmlDom);
+                                                    if (xpointerAttr !== undefined) {
+                                                        var xpointer = xpointerAttr.nodeValue;
+                                                        var subset = qnautils.xPath(xpointer, includedXmlDoc);
 
-                                                        var replacement = "";
                                                         var matchedNode;
                                                         while ((matchedNode = subset.iterateNext()) !== null) {
-                                                            if (replacement.length !== 0) {
-                                                                replacement += "\n";
-                                                            }
-                                                            fixedReferencedXmlText += qnautils.reencode(qnautils.xmlToString(matchedNode), replacedTextResult.replacements);
+                                                            var imported = xmlDoc.importNode(matchedNode, true);
+                                                            xmlDoc.documentElement.insertBefore(imported, xiInclude);
                                                         }
+                                                    } else if (parseAttr !== undefined && parseAttr.nodeValue === "text") {
+                                                        /*
+                                                         When including content with the xiinclude attribute match="text", we need to replace
+                                                         any special characters.
+                                                         */
+                                                        var textNode = xmlDoc.createTextNode(fixedReferencedXmlText);
+                                                        xmlDoc.documentElement.insertBefore(textNode, xiInclude);
+                                                    } else {
+                                                        var importedDoc = xmlDoc.importNode(includedXmlDoc.documentElement, true);
+                                                        xmlDoc.documentElement.insertBefore(importedDoc, xiInclude);
                                                     }
 
-                                                    /*
-                                                        When including content with the xiinclude attribute match="text", we need to replace
-                                                        any special characters.
-                                                     */
-                                                    if (parse === "text") {
-                                                        fixedReferencedXmlText = qnautils.escapeXMLSpecialCharacters(fixedReferencedXmlText);
-                                                    }
-
-                                                    /*
-                                                     The dollar sign has special meaning in the replace method.
-                                                     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
-                                                     */
-                                                    xmlText = xmlText.replace(match[0], fixedReferencedXmlText.replace(/\$/g, "$$$$"));
-                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                                                    xiInclude.parentNode.removeChild(xiInclude);
+                                                    resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
                                                 }
                                             );
                                         });
@@ -1300,8 +1267,18 @@ define(
                                                     processFile(referencedXMLFilenameWithBase);
                                                 } else {
                                                     //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
-                                                    xmlText = xmlText.replace(match[0], "");
-                                                    resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+
+                                                    /*
+                                                     If the file could not be found, check to see if it enclosed
+                                                     a fallback, and move it as a sibling of the xi:include
+                                                     */
+                                                    var fallbackInclude = qnautils.xPath("./xi:fallback/xi:include", xiInclude).iterateNext;
+                                                    if (fallbackInclude !== null) {
+                                                        xmlDoc.documentElement.insertBefore(xiInclude, fallbackInclude);
+                                                    }
+                                                    // remove the xi:include
+                                                    xiInclude.parentNode.removeChild(xiInclude);
+                                                    resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
                                                 }
                                             },
                                             errorCallback,
@@ -1317,13 +1294,13 @@ define(
                         /*
                          Found an xi:include without a href? delete it an move on.
                          */
-                        xmlText = xmlText.replace(match[0], "");
-                        resolveXIInclude(xmlText, base, filename, visitedFiles.slice(0), callback);
+                        xiInclude.parentNode.removeChild(xiInclude);
+                        resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
+
                     }
                 } else {
-                    callback(xmlText, visitedFiles);
+                    callback(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), visitedFiles);
                 }
-
             }
 
             inputModel.getTextFromFileName(
@@ -1332,7 +1309,7 @@ define(
                 function (xmlText) {
                     resolveFileRefs(xmlText, config.MainFile, function (xmlText) {
                         function resolveXIIncludeLoop(xmlText, visitedFiles) {
-                            if (generalXiInclude.test(xmlText)) {
+                            if (openCloseXiInclude.test(xmlText) || selfCloseXiInclude.test(xmlText)) {
 
                                 var base = getXmlBaseAttribute(xmlText);
 
@@ -1346,7 +1323,7 @@ define(
                                     }
                                 );
                             } else {
-                                xmlText = xmlText.replace(/xi:includecomment/g, "xi:include");
+                                xmlText = xmlText.replace(/includecomment/g, "xi:include");
                                 resultCallback(xmlText);
                             }
                         }

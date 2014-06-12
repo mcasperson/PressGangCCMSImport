@@ -394,7 +394,8 @@ define(
                                 },
                                 errorCallback,
                                 xmlText,
-                                config
+                                config,
+                                true
                             );
                         },
                         errorCallback,
