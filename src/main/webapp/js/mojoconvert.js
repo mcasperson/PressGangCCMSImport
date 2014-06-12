@@ -597,30 +597,9 @@ define(
                                     }
                                 } else if (thisTopicHasContent) {
                                     if (currentLevel === 1) {
-                                        if (nextTopicIsChildOfThisTopic) {
-                                            xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText(config.TopLevelContainer, content, title);
-                                        } else {
-                                            xmlDocString += generalexternalimport.buildClosedContainerTopicWithInitialText(config.TopLevelContainer, content, title);
-                                        }
+                                        xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText(config.TopLevelContainer, content, title);
                                     } else {
-
-                                        if (nextTopicIsChildOfThisTopic) {
-                                            /*
-                                                Create an open ended container to hold this content and any children
-                                             */
-                                            xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText("section", content, title);
-                                        } else {
-
-                                            /*
-                                                The next topic is either a sibling or it is some (great)uncle relation. In both
-                                                cases we create a standard closed topic for the current content.
-                                             */
-                                            if (currentLevel === 1) {
-                                                xmlDocString += generalexternalimport.buildClosedContainerTopicWithInitialText(config.TopLevelContainer, content, title);
-                                            } else {
-                                                xmlDocString += generalexternalimport.buildTopicXML(content, title);
-                                            }
-                                        }
+                                        xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText("section", content, title);
                                     }
                                 } else if (!nextTopicIsChildOfLastLevel) {
 
@@ -641,7 +620,7 @@ define(
                                     currentLevel = previousLevel;
                                 }
 
-                                for (var closeLevel = previousLevel - 1; closeLevel >= newOutlineLevel; --closeLevel) {
+                                for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
                                     if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
                                         xmlDocString += "</chapter>\n";
                                     } else {
