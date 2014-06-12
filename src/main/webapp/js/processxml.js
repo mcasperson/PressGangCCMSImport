@@ -1057,23 +1057,6 @@ define(
         exports.resolveXiIncludes = function(resultCallback, errorCallback, config) {
             var inputModel = qnastart.getInputModel(config);
 
-            /*
-                A self closing XInclude. Notice the empty group on the end to ensure that we'll get
-                3 groups in the result, with the 3rd always being empty. This makes the number
-                of groups this regex will return the same as the regex below.
-            */
-            var selfCloseXiInclude = /<\s*(xi:include)\s+([^>]*?)\/\s*>()/;
-            /*
-                An open and close XInclude. This may or may not include a fallback group
-            */
-            var openCloseXiInclude = /<\s*(xi:include)\s+([^\/].*?)>([\s\S]*?)<\s*\/\s*xi:include\s*>/;
-            var xiIncludeGroup = 1;
-            var xiIncludeAttributesGroup = 2;
-            var fallbackGroup = 3;
-
-            var openCloseFallback = /<\s*xi:fallback\s+((?!:\/).*?)>([\s\S]*?)<\s*\/\s*xi:fallback\s*>/;
-            var fallbackIncludeGroup = 1;
-
             function resolveFileRefs(xmlText, filename, callback) {
                 var thisFile = new URI(filename);
                 var base = getXmlBaseAttribute(xmlText);
@@ -1171,7 +1154,7 @@ define(
                             jquery.each(xiInclude.attributes, function(index, value){
                                 commentNode.setAttribute(value.nodeName, value.nodeValue);
                             });
-                            xmlDoc.documentElement.insertBefore(commentNode, xiInclude);
+                            xiInclude.parentNode.insertBefore(commentNode, xiInclude);
                             xiInclude.parentNode.removeChild(xiInclude);
 
                             resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
@@ -1225,7 +1208,7 @@ define(
                                                         var matchedNode;
                                                         while ((matchedNode = subset.iterateNext()) !== null) {
                                                             var imported = xmlDoc.importNode(matchedNode, true);
-                                                            xmlDoc.documentElement.insertBefore(imported, xiInclude);
+                                                            xiInclude.parentNode.insertBefore(imported, xiInclude);
                                                         }
                                                     } else if (parseAttr !== undefined && parseAttr.nodeValue === "text") {
                                                         /*
@@ -1233,10 +1216,10 @@ define(
                                                          any special characters.
                                                          */
                                                         var textNode = xmlDoc.createTextNode(fixedReferencedXmlText);
-                                                        xmlDoc.documentElement.insertBefore(textNode, xiInclude);
+                                                        xiInclude.parentNode.insertBefore(textNode, xiInclude);
                                                     } else {
                                                         var importedDoc = xmlDoc.importNode(includedXmlDoc.documentElement, true);
-                                                        xmlDoc.documentElement.insertBefore(importedDoc, xiInclude);
+                                                        xiInclude.parentNode.insertBefore(importedDoc, xiInclude);
                                                     }
 
                                                     xiInclude.parentNode.removeChild(xiInclude);
@@ -1272,9 +1255,9 @@ define(
                                                      If the file could not be found, check to see if it enclosed
                                                      a fallback, and move it as a sibling of the xi:include
                                                      */
-                                                    var fallbackInclude = qnautils.xPath("./xi:fallback/xi:include", xiInclude).iterateNext;
+                                                    var fallbackInclude = qnautils.xPath("./xi:fallback/xi:include", xiInclude).iterateNext();
                                                     if (fallbackInclude !== null) {
-                                                        xmlDoc.documentElement.insertBefore(xiInclude, fallbackInclude);
+                                                        xiInclude.parentNode.insertBefore(fallbackInclude, xiInclude);
                                                     }
                                                     // remove the xi:include
                                                     xiInclude.parentNode.removeChild(xiInclude);
@@ -1309,7 +1292,12 @@ define(
                 function (xmlText) {
                     resolveFileRefs(xmlText, config.MainFile, function (xmlText) {
                         function resolveXIIncludeLoop(xmlText, visitedFiles) {
-                            if (openCloseXiInclude.test(xmlText) || selfCloseXiInclude.test(xmlText)) {
+
+                            var xmlDetails = qnautils.replaceEntitiesInText(xmlText);
+                            var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
+                            var xiInclude = qnautils.xPath("//xi:include", xmlDoc).iterateNext();
+
+                            if (xiInclude !== null) {
 
                                 var base = getXmlBaseAttribute(xmlText);
 
