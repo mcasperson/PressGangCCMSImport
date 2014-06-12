@@ -9,6 +9,11 @@ define(
         var contentStyleCache;
 
         /*
+         Matches what is created by generalexternalimport.buildOpeningElement()
+         */
+        var emptyContainerRE = /<(chapter|section)>\n<title>.*?<\/title>\n$/;
+
+        /*
             STEP 1 - Get the ODT file
          */
         exports.askForOpenDocumentFile = new qna.QNAStep()
