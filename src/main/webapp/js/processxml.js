@@ -1202,11 +1202,19 @@ define(
                                                         var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText, xmlDetails.replacements);
                                                         var includedXmlDoc = qnautils.stringToXML(includedXmlDetails.xml);
 
+                                                        if (parseAttr !== undefined && parseAttr.nodeValue === "text") {
+                                                            /*
+                                                             When including content with the xiinclude attribute match="text", we need to replace
+                                                             any special characters.
+                                                             */
+                                                            var textNode = xmlDoc.createTextNode(fixedReferencedXmlText);
+                                                            xiInclude.parentNode.insertBefore(textNode, xiInclude);
+                                                        }
                                                         /*
                                                             We could be including non-xml files. It only makes sense
                                                             to attempt to get the xpath of a valid xml file though.
                                                          */
-                                                        if (includedXmlDoc !== null) {
+                                                        else if (includedXmlDoc !== null) {
                                                             if (xpointerAttr !== undefined) {
                                                                 var xpointer = xpointerAttr.nodeValue;
                                                                 var xpointerMatch = /xpointer\((.*?)\)/.exec(xpointer);
@@ -1220,17 +1228,10 @@ define(
                                                                     var imported = xmlDoc.importNode(matchedNode, true);
                                                                     xiInclude.parentNode.insertBefore(imported, xiInclude);
                                                                 }
+                                                            } else {
+                                                                var importedDoc = xmlDoc.importNode(includedXmlDoc.documentElement, true);
+                                                                xiInclude.parentNode.insertBefore(importedDoc, xiInclude);
                                                             }
-                                                        } else if (parseAttr !== undefined && parseAttr.nodeValue === "text") {
-                                                            /*
-                                                             When including content with the xiinclude attribute match="text", we need to replace
-                                                             any special characters.
-                                                             */
-                                                            var textNode = xmlDoc.createTextNode(fixedReferencedXmlText);
-                                                            xiInclude.parentNode.insertBefore(textNode, xiInclude);
-                                                        } else {
-                                                            var importedDoc = xmlDoc.importNode(includedXmlDoc.documentElement, true);
-                                                            xiInclude.parentNode.insertBefore(importedDoc, xiInclude);
                                                         }
 
                                                         xiInclude.parentNode.removeChild(xiInclude);
