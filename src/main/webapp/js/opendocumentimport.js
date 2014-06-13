@@ -739,7 +739,12 @@ define(
                                 }
                             }
 
-                            for (var closeLevel = parentLevel; closeLevel >= 1; --closeLevel) {
+                            if (!thisTopicHasContent) {
+                                --outlineLevel;
+                                parentLevel = outlineLevel - 1;
+                            }
+
+                            for (var closeLevel = outlineLevel; closeLevel >= 1; --closeLevel) {
                                 if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
                                     xmlDocString += "</chapter>\n";
                                 } else {
@@ -1639,13 +1644,16 @@ define(
                             }
                         }
 
-                        if (thisTopicHasContent) {
-                            for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
-                                if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
-                                    xmlDocString += "</chapter>\n";
-                                } else {
-                                    xmlDocString += "</section>\n";
-                                }
+                        if (!thisTopicHasContent) {
+                            --currentLevel;
+                            previousLevel = currentLevel - 1;
+                        }
+
+                        for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
+                            if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
+                                xmlDocString += "</chapter>\n";
+                            } else {
+                                xmlDocString += "</section>\n";
                             }
                         }
 

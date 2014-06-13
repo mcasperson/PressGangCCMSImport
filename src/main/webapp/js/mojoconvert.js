@@ -102,17 +102,19 @@ define(
 
                                     if (thisTopicHasContent) {
                                         if (outlineLevel === 1) {
-                                            xmlDocString += generalexternalimport.buildClosedContainerTopicWithInitialText(config.TopLevelContainer, content, title);
+                                            xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText(config.TopLevelContainer, content, title);
                                         } else {
-                                            xmlDocString += generalexternalimport.buildTopicXML(content, title);
+                                            xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText("section", content, title);
                                         }
                                     } else {
                                         /*
-                                         We want to unwind any containers without front matter topics that were
-                                         added to the toc to accommodate this now discarded topic.
+                                            We want to unwind any containers without front matter topics that were
+                                            added to the toc to accommodate this now discarded topic.
 
-                                         So any line added to the spec that doesn't have an associated topic and
-                                         that is not an ancestor of the next topic will be popped off the stack.
+                                            So any line added to the spec that doesn't have an associated topic and
+                                            that is not an ancestor of the next topic will be popped off the stack.
+
+                                            The
                                          */
                                         while (emptyContainerRE.test(xmlDocString)) {
                                             xmlDocString = xmlDocString.replace(emptyContainerRE, "");
@@ -121,7 +123,12 @@ define(
                                         }
                                     }
 
-                                    for (var closeLevel = parentLevel; closeLevel >= 1; --closeLevel) {
+                                    if (!thisTopicHasContent) {
+                                        --outlineLevel;
+                                        parentLevel = outlineLevel - 1;
+                                    }
+
+                                    for (var closeLevel = outlineLevel; closeLevel >= 1; --closeLevel) {
                                         if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
                                             xmlDocString += "</chapter>\n";
                                         } else {
@@ -618,15 +625,19 @@ define(
                                     }
                                 }
 
-                                if (thisTopicHasContent) {
-                                    for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
-                                        if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
-                                            xmlDocString += "</chapter>\n";
-                                        } else {
-                                            xmlDocString += "</section>\n";
-                                        }
+                                if (!thisTopicHasContent) {
+                                    --currentLevel;
+                                    previousLevel = currentLevel - 1;
+                                }
+
+                                for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
+                                    if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
+                                        xmlDocString += "</chapter>\n";
+                                    } else {
+                                        xmlDocString += "</section>\n";
                                     }
                                 }
+
 
                                 var newTitleArray = convertNodeToDocbook(contentNode, false, images, false);
                                 var newTitle = "";
@@ -675,7 +686,7 @@ define(
 
                             processTopic(
                                 "Untitled",
-                                1,
+                                0,
                                 1,
                                 0,
                                 [],
