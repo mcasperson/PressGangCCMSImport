@@ -121,7 +121,7 @@ define(
                                         }
                                     }
 
-                                    for (var closeLevel = parentLevel - 1; closeLevel >= 1; --closeLevel) {
+                                    for (var closeLevel = parentLevel; closeLevel >= 1; --closeLevel) {
                                         if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
                                             xmlDocString += "</chapter>\n";
                                         } else {
