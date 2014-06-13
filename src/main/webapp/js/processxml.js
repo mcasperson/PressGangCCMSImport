@@ -1133,163 +1133,173 @@ define(
                  */
                 var xmlDetails = qnautils.replaceEntitiesInText(removeXmlPreamble(xmlText));
                 var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
-                var xiInclude = qnautils.xPath("//xi:include", xmlDoc).iterateNext();
-                if (xiInclude !== null) {
-                    var hrefAttr = xiInclude.attributes['href'];
-                    var xpointerAttr = xiInclude.attributes['xpointer'];
-                    var parseAttr = xiInclude.attributes['parse'];
 
-                    if (hrefAttr !== undefined) {
+                /*
+                    It is possible to include non-xml files, so this may well be null
+                 */
+                if (xmlDoc !== null) {
 
-                        var href = hrefAttr.nodeValue;
+                    var xiInclude = qnautils.xPath("//xi:include", xmlDoc).iterateNext();
+                    if (xiInclude !== null) {
+                        var hrefAttr = xiInclude.attributes['href'];
+                        var xpointerAttr = xiInclude.attributes['xpointer'];
+                        var parseAttr = xiInclude.attributes['parse'];
 
-                        if (constants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
-                            /*
-                             Leave the XInclude in for common content, so we can add these links
-                             to the content spec using https://bugzilla.redhat.com/show_bug.cgi?id=1065609.
-                             We do this by marking it as a comment xi include, which will be reverted
-                             once all the xi includes have been processed.
-                             */
-                            var commentNode = xmlDoc.createElement("includecomment");
-                            jquery.each(xiInclude.attributes, function(index, value){
-                                commentNode.setAttribute(value.nodeName, value.nodeValue);
-                            });
-                            xiInclude.parentNode.insertBefore(commentNode, xiInclude);
-                            xiInclude.parentNode.removeChild(xiInclude);
+                        if (hrefAttr !== undefined) {
 
-                            resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
-                        } else {
-                            /*
-                             We need to work out where the files to be included will come from. This is a
-                             combination of the href, the xml:base attribute, and the location of the
-                             xml file that is doing the importing.
+                            var href = hrefAttr.nodeValue;
 
-                             TODO: this processing does not really follow the xml standards, but has been good
-                             enough to import all content I have come across.
-                             */
-                            var fixedMatch = href.replace(/^\.\//, "");
-                            var thisFile = new URI(filename);
-                            var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + fixedMatch);
-                            var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
+                            if (constants.COMMON_CONTENT_PATH_PREFIX.test(href)) {
+                                /*
+                                 Leave the XInclude in for common content, so we can add these links
+                                 to the content spec using https://bugzilla.redhat.com/show_bug.cgi?id=1065609.
+                                 We do this by marking it as a comment xi include, which will be reverted
+                                 once all the xi includes have been processed.
+                                 */
+                                var commentNode = xmlDoc.createElement("includecomment");
+                                jquery.each(xiInclude.attributes, function (index, value) {
+                                    commentNode.setAttribute(value.nodeName, value.nodeValue);
+                                });
+                                xiInclude.parentNode.insertBefore(commentNode, xiInclude);
+                                xiInclude.parentNode.removeChild(xiInclude);
 
-                            var referencedXMLFilenameRelativeWithoutBase = new URI(fixedMatch);
-                            var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
+                                resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
+                            } else {
+                                /*
+                                 We need to work out where the files to be included will come from. This is a
+                                 combination of the href, the xml:base attribute, and the location of the
+                                 xml file that is doing the importing.
 
-                            var processFile = function (referencedFileName) {
+                                 TODO: this processing does not really follow the xml standards, but has been good
+                                 enough to import all content I have come across.
+                                 */
+                                var fixedMatch = href.replace(/^\.\//, "");
+                                var thisFile = new URI(filename);
+                                var referencedXMLFilenameRelativeWithBase = new URI((base === null ? "" : base) + fixedMatch);
+                                var referencedXMLFilenameWithBase = referencedXMLFilenameRelativeWithBase.absoluteTo(thisFile).toString();
 
-                                if (visitedFiles.indexOf(referencedFileName) !== -1) {
-                                    errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedFileName, true);
-                                    return;
-                                }
+                                var referencedXMLFilenameRelativeWithoutBase = new URI(fixedMatch);
+                                var referencedXMLFilenameWithoutBase = referencedXMLFilenameRelativeWithoutBase.absoluteTo(thisFile).toString();
 
-                                inputModel.getTextFromFileName(
-                                    config.InputSource,
-                                    referencedFileName,
-                                    function (referencedXmlText) {
-                                        resolveFileRefs(referencedXmlText, referencedFileName, function (referencedXmlText) {
-                                            resolveXIInclude(
-                                                referencedXmlText,
-                                                getXmlBaseAttribute(referencedXmlText),
-                                                referencedFileName,
-                                                visitedFiles.slice(0),
-                                                function (fixedReferencedXmlText) {
-                                                    var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText, xmlDetails.replacements);
-                                                    var includedXmlDoc = qnautils.stringToXML(includedXmlDetails.xml);
+                                var processFile = function (referencedFileName) {
 
-                                                    if (includedXmlDoc === null) {
-                                                        errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
-                                                        return;
-                                                    }
+                                    if (visitedFiles.indexOf(referencedFileName) !== -1) {
+                                        errorCallback("Circular reference detected", visitedFiles.toString() + "," + referencedFileName, true);
+                                        return;
+                                    }
 
-                                                    if (xpointerAttr !== undefined) {
-                                                        var xpointer = xpointerAttr.nodeValue;
-                                                        var xpointerMatch = /xpointer\((.*?)\)/.exec(xpointer);
-                                                        if (xpointerMatch !== null) {
-                                                            xpointer = xpointerMatch[1];
-                                                        }
-                                                        var subset = qnautils.xPath(xpointer, includedXmlDoc);
+                                    inputModel.getTextFromFileName(
+                                        config.InputSource,
+                                        referencedFileName,
+                                        function (referencedXmlText) {
+                                            resolveFileRefs(referencedXmlText, referencedFileName, function (referencedXmlText) {
+                                                resolveXIInclude(
+                                                    referencedXmlText,
+                                                    getXmlBaseAttribute(referencedXmlText),
+                                                    referencedFileName,
+                                                    visitedFiles.slice(0),
+                                                    function (fixedReferencedXmlText) {
+                                                        var includedXmlDetails = qnautils.replaceEntitiesInText(fixedReferencedXmlText, xmlDetails.replacements);
+                                                        var includedXmlDoc = qnautils.stringToXML(includedXmlDetails.xml);
 
-                                                        var matchedNode;
-                                                        while ((matchedNode = subset.iterateNext()) !== null) {
-                                                            var imported = xmlDoc.importNode(matchedNode, true);
-                                                            xiInclude.parentNode.insertBefore(imported, xiInclude);
-                                                        }
-                                                    } else if (parseAttr !== undefined && parseAttr.nodeValue === "text") {
                                                         /*
-                                                         When including content with the xiinclude attribute match="text", we need to replace
-                                                         any special characters.
+                                                            We could be including non-xml files. It only makes sense
+                                                            to attempt to get the xpath of a valid xml file though.
                                                          */
-                                                        var textNode = xmlDoc.createTextNode(fixedReferencedXmlText);
-                                                        xiInclude.parentNode.insertBefore(textNode, xiInclude);
-                                                    } else {
-                                                        var importedDoc = xmlDoc.importNode(includedXmlDoc.documentElement, true);
-                                                        xiInclude.parentNode.insertBefore(importedDoc, xiInclude);
+                                                        if (includedXmlDoc !== null) {
+                                                            if (xpointerAttr !== undefined) {
+                                                                var xpointer = xpointerAttr.nodeValue;
+                                                                var xpointerMatch = /xpointer\((.*?)\)/.exec(xpointer);
+                                                                if (xpointerMatch !== null) {
+                                                                    xpointer = xpointerMatch[1];
+                                                                }
+                                                                var subset = qnautils.xPath(xpointer, includedXmlDoc);
+
+                                                                var matchedNode;
+                                                                while ((matchedNode = subset.iterateNext()) !== null) {
+                                                                    var imported = xmlDoc.importNode(matchedNode, true);
+                                                                    xiInclude.parentNode.insertBefore(imported, xiInclude);
+                                                                }
+                                                            }
+                                                        } else if (parseAttr !== undefined && parseAttr.nodeValue === "text") {
+                                                            /*
+                                                             When including content with the xiinclude attribute match="text", we need to replace
+                                                             any special characters.
+                                                             */
+                                                            var textNode = xmlDoc.createTextNode(fixedReferencedXmlText);
+                                                            xiInclude.parentNode.insertBefore(textNode, xiInclude);
+                                                        } else {
+                                                            var importedDoc = xmlDoc.importNode(includedXmlDoc.documentElement, true);
+                                                            xiInclude.parentNode.insertBefore(importedDoc, xiInclude);
+                                                        }
+
+                                                        xiInclude.parentNode.removeChild(xiInclude);
+
+                                                        jquery.merge(xmlDetails.replacements, includedXmlDetails.replacements);
+
+                                                        resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
                                                     }
+                                                );
+                                            });
+                                        },
+                                        function (error) {
+                                            errorCallback("Error reading file", "There was an error reading the file " + referencedFileName, true);
+                                        },
+                                        true
+                                    );
+                                };
 
-                                                    xiInclude.parentNode.removeChild(xiInclude);
+                                inputModel.hasFileName(
+                                    config.InputSource,
+                                    referencedXMLFilenameWithBase,
+                                    function (exists) {
+                                        if (exists) {
+                                            processFile(referencedXMLFilenameWithBase);
+                                        } else {
+                                            inputModel.hasFileName(
+                                                config.InputSource,
+                                                referencedXMLFilenameWithoutBase,
+                                                function (exists) {
+                                                    if (exists) {
+                                                        processFile(referencedXMLFilenameWithoutBase);
+                                                    } else {
+                                                        //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
 
-                                                    jquery.merge(xmlDetails.replacements, includedXmlDetails.replacements);
-
-                                                    resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
-                                                }
+                                                        /*
+                                                         If the file could not be found, check to see if it enclosed
+                                                         a fallback, and move it as a sibling of the xi:include
+                                                         */
+                                                        var fallbackInclude = qnautils.xPath("./xi:fallback/xi:include", xiInclude).iterateNext();
+                                                        if (fallbackInclude !== null) {
+                                                            xiInclude.parentNode.insertBefore(fallbackInclude, xiInclude);
+                                                        }
+                                                        // remove the xi:include
+                                                        xiInclude.parentNode.removeChild(xiInclude);
+                                                        resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
+                                                    }
+                                                },
+                                                errorCallback,
+                                                true
                                             );
-                                        });
+                                        }
                                     },
-                                    function (error) {
-                                        errorCallback("Error reading file", "There was an error reading the file " + referencedFileName, true);
-                                    },
+                                    errorCallback,
                                     true
                                 );
-                            };
+                            }
+                        } else {
+                            /*
+                             Found an xi:include without a href? delete it an move on.
+                             */
+                            xiInclude.parentNode.removeChild(xiInclude);
+                            resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
 
-                            inputModel.hasFileName(
-                                config.InputSource,
-                                referencedXMLFilenameWithBase,
-                                function (exists) {
-                                    if (exists) {
-                                        processFile(referencedXMLFilenameWithBase);
-                                    } else {
-                                        inputModel.hasFileName(
-                                            config.InputSource,
-                                            referencedXMLFilenameWithoutBase,
-                                            function (exists) {
-                                                if (exists) {
-                                                    processFile(referencedXMLFilenameWithoutBase);
-                                                } else {
-                                                    //errorCallback("Could not find file", "Could not find file " + referencedXMLFilename, true);
-
-                                                    /*
-                                                     If the file could not be found, check to see if it enclosed
-                                                     a fallback, and move it as a sibling of the xi:include
-                                                     */
-                                                    var fallbackInclude = qnautils.xPath("./xi:fallback/xi:include", xiInclude).iterateNext();
-                                                    if (fallbackInclude !== null) {
-                                                        xiInclude.parentNode.insertBefore(fallbackInclude, xiInclude);
-                                                    }
-                                                    // remove the xi:include
-                                                    xiInclude.parentNode.removeChild(xiInclude);
-                                                    resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
-                                                }
-                                            },
-                                            errorCallback,
-                                            true
-                                        );
-                                    }
-                                },
-                                errorCallback,
-                                true
-                            );
                         }
                     } else {
-                        /*
-                         Found an xi:include without a href? delete it an move on.
-                         */
-                        xiInclude.parentNode.removeChild(xiInclude);
-                        resolveXIInclude(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), base, filename, visitedFiles.slice(0), callback);
-
+                        callback(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), visitedFiles);
                     }
                 } else {
-                    callback(qnautils.encodedXmlToString({xml: xmlDoc, replacements: xmlDetails.replacements}), visitedFiles);
+                    callback(xmlText, visitedFiles);
                 }
             }
 
