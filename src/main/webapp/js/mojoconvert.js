@@ -117,6 +117,7 @@ define(
                                         while (emptyContainerRE.test(xmlDocString)) {
                                             xmlDocString = xmlDocString.replace(emptyContainerRE, "");
                                             --outlineLevel;
+                                            parentLevel = outlineLevel - 1;
                                         }
                                     }
 
@@ -588,7 +589,7 @@ define(
                                      Last heading had no content before this heading. We only add a container if
                                      the last heading added a level of depth to the tree, Otherwise it is just
                                      an empty container.
-                                    */
+                                     */
 
                                     if (currentLevel === 1) {
                                         xmlDocString += generalexternalimport.buildOpeningElement(config.TopLevelContainer, title);
@@ -612,19 +613,18 @@ define(
                                      */
                                     while (emptyContainerRE.test(xmlDocString)) {
                                         xmlDocString = xmlDocString.replace(emptyContainerRE, "");
+                                        --currentLevel;
+                                        previousLevel = currentLevel - 1;
                                     }
-
-                                    /*
-                                     Since this topic is being discarded, the parent outline level continues through
-                                     */
-                                    currentLevel = previousLevel;
                                 }
 
-                                for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
-                                    if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
-                                        xmlDocString += "</chapter>\n";
-                                    } else {
-                                        xmlDocString += "</section>\n";
+                                if (thisTopicHasContent) {
+                                    for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
+                                        if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
+                                            xmlDocString += "</chapter>\n";
+                                        } else {
+                                            xmlDocString += "</section>\n";
+                                        }
                                     }
                                 }
 
