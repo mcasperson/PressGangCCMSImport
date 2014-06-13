@@ -735,6 +735,7 @@ define(
                                 while (emptyContainerRE.test(xmlDocString)) {
                                     xmlDocString = xmlDocString.replace(emptyContainerRE, "");
                                     --outlineLevel;
+                                    parentLevel = outlineLevel - 1;
                                 }
                             }
 
@@ -1633,15 +1634,12 @@ define(
                              */
                             while (emptyContainerRE.test(xmlDocString)) {
                                 xmlDocString = xmlDocString.replace(emptyContainerRE, "");
+                                --currentLevel;
+                                previousLevel = currentLevel - 1;
                             }
-
-                            /*
-                             Since this topic is being discarded, the parent outline level continues through
-                             */
-                            currentLevel = previousLevel;
                         }
 
-                        if (currentLevel > 1 || thisTopicHasContent) {
+                        if (thisTopicHasContent) {
                             for (var closeLevel = currentLevel; closeLevel >= newOutlineLevel; --closeLevel) {
                                 if (closeLevel === 1 && config.TopLevelContainer === "Chapter") {
                                     xmlDocString += "</chapter>\n";
