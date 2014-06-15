@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
+    ['jquery', 'js/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
         'use strict';
 
         /*
@@ -307,6 +307,47 @@ define(
                 var progressIncrement = 100 / 20;
 
                 /*
+                    Define the computation steps
+                 */
+                var computation = [];
+                computation.push(function(callback) {buildContentSpec(xmlDoc, entities, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {extractRevisionHistory(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {extractAuthorGroup(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {extractLegalNotice(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {extractAbstract(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {uploadFiles(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {uploadImages(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph, callback)});
+
+                /*
+                 Which topics we choose to overwrite depends on whether we are overwriting a spec
+                 or creating a new one
+                 */
+                if (config.CreateOrResuseTopics !== "CREATE") {
+                    if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
+                        computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                    } else {
+                        computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                    }
+                }
+
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefs(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {uploadTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {identifyOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {updateContentSpecWithTopicIDs(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {uploadContentSpec(contentSpec, callback)});
+
+                /*
+                    Execute the steps
+                 */
+                async.waterfall(computation, function(err, result) {
+                        resultCallback(true);
+                    }
+                );
+
+                /*
                     Load the tag ids for various tags used during the import
                  */
                 function loadTagIDs() {
@@ -392,7 +433,7 @@ define(
                     return title;
                 }
 
-                function buildContentSpec(xmlDoc, entities) {
+                function buildContentSpec(xmlDoc, entities, callback) {
                     var contentSpec = [];
 
                     /*
@@ -507,10 +548,10 @@ define(
                         contentSpec.push("]");
                     }
 
-                    extractRevisionHistory(xmlDoc, contentSpec);
+                    callback(null, xmlDoc, contentSpec);
                 }
 
-                function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph) {
+                function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     if (topics === undefined) {
                         topics = [];
                     }
@@ -623,10 +664,10 @@ define(
                     }
 
                     updateProgress(7 * progressIncrement, "FoundRevisionHistory");
-                    extractAuthorGroup(xmlDoc, contentSpec, topics, topicGraph);
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
-                function extractAuthorGroup (xmlDoc, contentSpec, topics, topicGraph) {
+                function extractAuthorGroup (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     if (topics === undefined) {
                         topics = [];
                     }
@@ -674,10 +715,10 @@ define(
                     updateProgress(8 * progressIncrement, "FoundAuthorGroup");
                     resultCallback();
 
-                    extractLegalNotice(xmlDoc, contentSpec, topics, topicGraph);
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
-                function extractLegalNotice (xmlDoc, contentSpec, topics, topicGraph) {
+                function extractLegalNotice (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     if (topics === undefined) {
                         topics = [];
                     }
@@ -723,10 +764,10 @@ define(
 
                     updateProgress(9 * progressIncrement, "FoundLegalNotice");
 
-                    extractAbstract(xmlDoc, contentSpec, topics, topicGraph);
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
-                function extractAbstract (xmlDoc, contentSpec, topics, topicGraph) {
+                function extractAbstract (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     if (topics === undefined) {
                         topics = [];
                     }
@@ -762,14 +803,14 @@ define(
 
                     updateProgress(10 * progressIncrement, "FoundAbstract");
 
-                    uploadFiles(xmlDoc, contentSpec, topics, topicGraph);
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
                 /*
                     Publican books can contain a files directory. Every file in this directory
                     needs to be uploaded
                  */
-                function uploadFiles (xmlDoc, contentSpec, topics, topicGraph) {
+                function uploadFiles (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     var fileIds = [];
 
                     function done() {
@@ -779,7 +820,7 @@ define(
 
                         updateProgress(11 * progressIncrement, "FoundFiles");
 
-                        uploadImages(xmlDoc, contentSpec, topics, topicGraph);
+                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
                     }
 
                     if (inputModel !== null) {
@@ -841,7 +882,7 @@ define(
                     }
                 }
 
-                function uploadImages (xmlDoc, contentSpec, topics, topicGraph) {
+                function uploadImages (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     // count the number of images we are uploading
                     var images = qnautils.xPath("//@fileref", xmlDoc);
                     var numImages = 0;
@@ -859,7 +900,7 @@ define(
                      */
                     function done() {
                         updateProgress(12 * progressIncrement, "FoundImages");
-                        resolveBookStructure(xmlDoc, contentSpec, topics, topicGraph);
+                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
                     }
 
                     /*
@@ -980,7 +1021,7 @@ define(
                     }
                 }
 
-                function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph) {
+                function resolveBookStructure (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     // so we can work back to the original source
                     contentSpec.push("# " + config.RevisionMessage);
                     contentSpec.push("# Imported on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"));
@@ -1330,18 +1371,7 @@ define(
 
                     updateProgress(13 * progressIncrement, "ResolvedBookStructure");
 
-                    /*
-                        Which topics we choose to overwrite depends on whether we are overwriting a spec
-                        or creating a new one
-                     */
-                    if (config.CreateOrResuseTopics === "CREATE") {
-                        populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
-                    } else if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
-                        matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph);
-                    } else {
-                        matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph);
-                    }
-
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
                 /*
@@ -1349,7 +1379,7 @@ define(
                     are similar to the topic we are uploading. Any topic considered similar will
                     be overwritten with the topic being imported.
                  */
-                function matchExistingTopicsInSpec (xmlDoc, contentSpec, topics, topicGraph) {
+                function matchExistingTopicsInSpec (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     // a collection of the topic ids assigned to the spec we are overwriting
                     var availableTopics = [];
 
@@ -1425,7 +1455,7 @@ define(
                             }
 
                             getPossibleMatches(0, function() {
-                                populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
+                                callback(null, xmlDoc, contentSpec, topics, topicGraph);
                             });
 
                         },
@@ -1435,7 +1465,7 @@ define(
                 /*
                     Resolve the topics either to existing topics in the database, or to new topics
                  */
-                function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph) {
+                function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
                     /*
@@ -1543,14 +1573,14 @@ define(
                             }
                         });
 
-                        populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
+                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
                     });
                 }
 
                 /*
                     Populate outgoing links
                  */
-                function populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph) {
+                function populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback) {
                     var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
                     jquery.each(topics, function (index, topic) {
@@ -1594,7 +1624,7 @@ define(
 
                     updateProgress(15 * progressIncrement, "MatchedExistingTopics");
 
-                    resolveXrefs(xmlDoc, contentSpec, topics, topicGraph);
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
                 /*
@@ -1614,7 +1644,7 @@ define(
                  are also resolved
                  4. Create new topics that could not be matched, and reuse those that can be matched
                  */
-                function resolveXrefs (xmlDoc, contentSpec, topics, topicGraph) {
+                function resolveXrefs (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     /*
                      Return alls nodes without a topic ID (which means it hasn't been resolved) and
                      outgoing or incoming links (which means it is part of a xref graph).
@@ -1732,10 +1762,10 @@ define(
 
                     updateProgress(config.UploadProgress[1] = 16 * progressIncrement, "ResolvedXRefGraphs");
 
-                    uploadTopics(xmlDoc, contentSpec, topics, topicGraph);
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
-                function uploadTopics (xmlDoc, contentSpec, topics, topicGraph) {
+                function uploadTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
 
                     function cleanTopicXmlForSaving(topic, format) {
                         return xmlcompare.removeRedundantXmlnsAttribute(
@@ -1821,16 +1851,16 @@ define(
                     createTopics(0, function() {
                         updateProgress(17 * progressIncrement, "UploadedTopics");
 
-                        identifyOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph);
+                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
                     });
                 }
 
-                function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph) {
+                function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     config.OutgoingUrls = qnastart.identifyOutgoingLinks(topicGraph);
-                    resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph);
+                    callback(callback, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
-                function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph) {
+                function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
 
                     var format = getDocumentFormat(config);
 
@@ -1912,11 +1942,11 @@ define(
                     resolve(0, function() {
                         updateProgress(18 * progressIncrement, "FixXRefs");
 
-                        updateContentSpecWithTopicIDs(xmlDoc, contentSpec, topics, topicGraph);
+                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
                     });
                 }
 
-                function updateContentSpecWithTopicIDs (xmlDoc, contentSpec, topics, topicGraph) {
+                function updateContentSpecWithTopicIDs (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     jquery.each(topics, function (index, topic) {
                         if (topic.infoTopic === undefined || topic.infoTopic === false) {
                             contentSpec[topic.specLine] += " [" + topic.topicId + "]";
@@ -1926,10 +1956,10 @@ define(
                     });
                     updateProgress(19 * progressIncrement, "UpdatedContentSpec");
 
-                    uploadContentSpec(contentSpec);
+                    callback(null, contentSpec);
                 }
 
-                function uploadContentSpec (contentSpec) {
+                function uploadContentSpec (contentSpec, callback) {
 
                     var buildSpecString = function(contentSpec) {
                         var compiledContentSpec = "";
@@ -1952,7 +1982,6 @@ define(
                         thisStep.setTitlePrefix(null);
                         config.UploadedContentSpecification = true;
                         config.ContentSpecID = id;
-                        resultCallback(true);
                     }
 
                     if (config[constants.EXISTING_CONTENT_SPEC_ID]) {
