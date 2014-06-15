@@ -377,31 +377,30 @@ define(['async/async', 'exports'], function (async, exports) {
                 variableSuccessCallback();
                 return;
             } else {
-
                 async.each(
                     variables,
-                    function(variable, callback) {
+                    function(variable, eachCallback) {
                         /*
                          Resolving the value requires the processedName to be resolved, so we do this all in a series.
                          */
                         async.series(
                             [
-                                function(callback) {resolveDetail(variable, 'type', 'processedType', function(value) {callback(null);})},
-                                function(callback) {resolveDetail(variable, 'name', 'processedName', function(value) {callback(null);})},
-                                function(callback) {resolveDetail(variable, 'options', 'processedOptions', function(value) {callback(null);})},
-                                function(callback) {resolveDetail(variable, 'disabled', 'processedDisabled', function(value) {callback(null);})},
-                                function(callback) {resolveDetail(variable, 'intro', 'processedIntro', function(value) {callback(null);})},
-                                function(callback) {resolveDetail(variable, 'value', 'null', function(value) {
+                                function(seriesCallback) {resolveDetail(variable, 'type', 'processedType', function(value) {seriesCallback(null);})},
+                                function(seriesCallback) {resolveDetail(variable, 'name', 'processedName', function(value) {seriesCallback(null);})},
+                                function(seriesCallback) {resolveDetail(variable, 'options', 'processedOptions', function(value) {seriesCallback(null);})},
+                                function(seriesCallback) {resolveDetail(variable, 'disabled', 'processedDisabled', function(value) {seriesCallback(null);})},
+                                function(seriesCallback) {resolveDetail(variable, 'intro', 'processedIntro', function(value) {seriesCallback(null);})},
+                                function(seriesCallback) {resolveDetail(variable, 'value', 'null', function(value) {
                                     if (value !== undefined) {
                                         // we do something a little different here. the value is what is shown
                                         // in the ui, and that is bound to the config
                                         config[variable.processedName] = value;
                                     }
-                                    callback(null);
+                                    seriesCallback(null);
                                 })}
                             ],
                             function(err, data) {
-                                callback(null);
+                                eachCallback(null);
                             }
                         );
                     }, function(error, data) {
