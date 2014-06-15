@@ -1,4 +1,4 @@
-define(['exports'], function (exports) {
+define(['async/async', 'exports'], function (async, exports) {
     'use strict';
 
     /**
@@ -382,155 +382,119 @@ define(['exports'], function (exports) {
                 };
 
                 var variable = variables[index];
-                resolveDetail(
-                    variable,
-                    'type',
-                    'processedType',
-                    function () {
-                        resolveDetail(
-                            variable,
-                            'name',
-                            'processedName',
-                            function () {
-                                resolveDetail(
-                                    variable,
-                                    'options',
-                                    'processedOptions',
-                                    function () {
-                                        resolveDetail(
-                                            variable,
-                                            'disabled',
-                                            'processedDisabled',
-                                            function () {
-                                                resolveDetail(
-                                                    variable,
-                                                    'intro',
-                                                    'processedIntro',
-                                                    function () {
-                                                        resolveDetail(
-                                                            variable,
-                                                            'value',
-                                                            null,
-                                                            function (value) {
-                                                                if (value !== undefined) {
-                                                                    // we do something a little different here. the value is what is shown
-                                                                    // in the ui, and that is bound to the config
-                                                                    config[variable.processedName] = value;
-                                                                }
 
-                                                                processNextVariable();
-                                                            }
-                                                        );
-                                                    }
-                                                );
-                                            }
-                                        );
-
-                                    }
-                                );
+                /*
+                    Resolving the value requires the processedName to be resolved, so we do this all in a series.
+                 */
+                async.series(
+                    [
+                        function(callback) {resolveDetail(variable, 'type', 'processedType', function(value) {callback(null);})},
+                        function(callback) {resolveDetail(variable, 'name', 'processedName', function(value) {callback(null);})},
+                        function(callback) {resolveDetail(variable, 'options', 'processedOptions', function(value) {callback(null);})},
+                        function(callback) {resolveDetail(variable, 'disabled', 'processedDisabled', function(value) {callback(null);})},
+                        function(callback) {resolveDetail(variable, 'intro', 'processedIntro', function(value) {callback(null);})},
+                        function(callback) {resolveDetail(variable, 'value', 'null', function(value) {
+                            if (value !== undefined) {
+                            // we do something a little different here. the value is what is shown
+                            // in the ui, and that is bound to the config
+                            config[variable.processedName] = value;
                             }
-                        );
+                            callback(null);
+                        })}
+                    ],
+                    function(err, data) {
+                        processNextVariable();
                     }
                 );
             }
         };
 
-        resolveDetail(
-            step,
-            'title',
-            'processedTitle',
-            function () {
-                resolveDetail(
-                    step,
-                    'intro',
-                    'processedIntro',
-                    function () {
-                        resolveDetail(
-                            step,
-                            'showNext',
-                            'processedShowNext',
-                            function () {
-                                resolveDetail(
-                                    step,
-                                    'showPrevious',
-                                    'processedShowPrevious',
-                                    function () {
-                                        resolveDetail(
-                                            step,
-                                            'showRestart',
-                                            'processedShowRestart',
-                                            function () {
-                                                resolveDetail(
-                                                    step,
-                                                    'inputs',
-                                                    'processedInputs',
-                                                    function (inputs) {
-                                                        resolveDetail(
-                                                            step,
-                                                            'outputs',
-                                                            'processedOutputs',
-                                                            function (outputs) {
-                                                                // at this point the step has been resolved, so we now need to go through and
-                                                                // resolve the inputs
-
-                                                                var resolveInput = function (index, ioVariables, inputSuccessCallback) {
-                                                                    // it is possible that no inputs or outputs are defined, so just
-                                                                    // skip them if they are undefined
-                                                                    if (ioVariables === undefined) {
-                                                                        inputSuccessCallback();
-                                                                        return;
-                                                                    }
-
-                                                                    if (ioVariables === null || index >= ioVariables.length) {
-                                                                        inputSuccessCallback();
-                                                                    } else {
-                                                                        var input = ioVariables[index];
-                                                                        resolveDetail(
-                                                                            input,
-                                                                            'intro',
-                                                                            'processedIntro',
-                                                                            function () {
-                                                                                resolveDetail(
-                                                                                    input,
-                                                                                    'variables',
-                                                                                    'processedVariables',
-                                                                                    function (variables) {
-                                                                                        resolveVariable(0, variables, function () {
-                                                                                            resolveInput(index + 1, ioVariables, inputSuccessCallback);
-                                                                                        });
-                                                                                    }
-                                                                                );
-                                                                            }
-                                                                        );
-                                                                    }
-                                                                };
-
-                                                                resolveInput(0, inputs, function () {
-                                                                    resolveInput(0, outputs, function () {
-                                                                        // this function is always async to avoid issues with the $apply()
-                                                                        // function in angular
-                                                                        setTimeout(function () {successCallback(me); }, 0);
-                                                                    });
-                                                                });
-                                                            }
-                                                        );
-                                                    },
-                                                    errorCallback
-                                                );
-                                            },
-                                            errorCallback
-                                        );
-                                    },
-                                    errorCallback
-                                );
-                            },
-                            errorCallback
-                        );
-                    },
-                    errorCallback
-                );
+        /*
+            We can resolve these details in parallel because they don't depend on each other
+         */
+        async.parallel(
+            {
+                title: function(callback) {
+                    resolveDetail(step, 'title', 'processedTitle', function (value) {
+                        callback(null);
+                    })
+                },
+                intro: function (callback) {
+                    resolveDetail(step, 'intro', 'processedIntro', function (value) {
+                        callback(null);
+                    })
+                },
+                showNext: function (callback) {
+                    resolveDetail(step, 'showNext', 'processedShowNext', function (value) {
+                        callback(null);
+                    })
+                },
+                showPrevious: function (callback) {
+                    resolveDetail(step, 'showPrevious', 'processedShowPrevious', function (value) {
+                        callback(null);
+                    })
+                },
+                showRestart: function (callback) {
+                    resolveDetail(step, 'showRestart', 'processedShowRestart', function (value) {
+                        callback(null);
+                    })
+                },
+                outputs: function (callback) {
+                    resolveDetail(step, 'outputs', 'processedOutputs', function (value) {
+                        callback(null, value);
+                    })
+                },
+                inputs: function (callback) {
+                    resolveDetail(step, 'inputs', 'processedInputs', function (value) {
+                        callback(null, value);
+                    })
+                }
             },
-            errorCallback
+            function(err, data) {
+                // at this point the step has been resolved, so we now need to go through and
+                // resolve the inputs
+
+                var resolveInput = function (index, ioVariables, inputSuccessCallback) {
+                    // it is possible that no inputs or outputs are defined, so just
+                    // skip them if they are undefined
+                    if (ioVariables === undefined) {
+                        inputSuccessCallback();
+                        return;
+                    }
+
+                    if (ioVariables === null || index >= ioVariables.length) {
+                        inputSuccessCallback();
+                    } else {
+                        var input = ioVariables[index];
+
+                        async.parallel(
+                            [
+                                function(callback) {resolveDetail(input, 'intro', 'processedIntro', function(){callback(null)})},
+                                function(callback) {resolveDetail(input, 'variables', 'processedVariables', function(variables){
+                                    resolveVariable(0, variables, function () {
+                                        callback(null);
+                                    });
+                                })}
+                            ],
+                            function(err, data) {
+                                resolveInput(index + 1, ioVariables, inputSuccessCallback);
+                            }
+                        );
+                    }
+                };
+
+                async.parallel(
+                    [
+                        function(callback) {resolveInput(0, data.inputs, function(value) {callback(null);})},
+                        function(callback) {resolveInput(0, data.outputs, function(value) {callback(null);})},
+                    ],
+                    function(error, data2) {
+                        // this function is always async to avoid issues with the $apply()
+                        // function in angular
+                        setTimeout(function () {successCallback(me); }, 0);
+                    }
+                );
+            }
         );
     };
 
