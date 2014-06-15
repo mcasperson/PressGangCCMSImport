@@ -375,6 +375,7 @@ define(['async/async', 'exports'], function (async, exports) {
         var resolveVariable = function (variables, variableSuccessCallback) {
             if (variables === null) {
                 variableSuccessCallback();
+                return;
             } else {
 
                 async.each(
@@ -458,30 +459,31 @@ define(['async/async', 'exports'], function (async, exports) {
                 var resolveInput = function (index, ioVariables, inputSuccessCallback) {
                     // it is possible that no inputs or outputs are defined, so just
                     // skip them if they are undefined
-                    if (ioVariables === undefined) {
+                    if (!ioVariables) {
                         inputSuccessCallback();
                         return;
                     }
 
-                    if (ioVariables === null || index >= ioVariables.length) {
-                        inputSuccessCallback();
-                    } else {
-                        var input = ioVariables[index];
-
-                        async.parallel(
-                            [
-                                function(callback) {resolveDetail(input, 'intro', 'processedIntro', function(){callback(null)})},
-                                function(callback) {resolveDetail(input, 'variables', 'processedVariables', function(variables){
-                                    resolveVariable(variables, function () {
-                                        callback(null);
-                                    });
-                                })}
-                            ],
-                            function(err, data) {
-                                resolveInput(index + 1, ioVariables, inputSuccessCallback);
-                            }
-                        );
-                    }
+                    async.each (
+                        ioVariables,
+                        function(input, callback) {
+                            async.parallel(
+                                [
+                                    function(callback) {resolveDetail(input, 'intro', 'processedIntro', function(){callback(null)})},
+                                    function(callback) {resolveDetail(input, 'variables', 'processedVariables', function(variables){
+                                        resolveVariable(variables, function () {
+                                            callback(null);
+                                        });
+                                    })}
+                                ],
+                                function(err, data) {
+                                    callback(null);
+                                }
+                            );
+                        }, function (err, data) {
+                            inputSuccessCallback();
+                        }
+                    )
                 };
 
                 async.parallel(
