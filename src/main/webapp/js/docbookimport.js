@@ -339,7 +339,7 @@ define(
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {identifyOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {updateContentSpecWithTopicIDs(xmlDoc, contentSpec, topics, topicGraph, callback)});
-                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {uploadContentSpec(contentSpec, callback)});
+                computation.push(function(contentSpec, callback) {uploadContentSpec(contentSpec, callback)});
 
                 /*
                     Execute the steps
@@ -1827,7 +1827,7 @@ define(
 
                 function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     config.OutgoingUrls = qnastart.identifyOutgoingLinks(topicGraph);
-                    callback(callback, xmlDoc, contentSpec, topics, topicGraph);
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
                 function resolveXrefsInCreatedTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
@@ -1952,6 +1952,7 @@ define(
                         thisStep.setTitlePrefix(null);
                         config.UploadedContentSpecification = true;
                         config.ContentSpecID = id;
+                        callback(null);
                     }
 
                     if (config[constants.EXISTING_CONTENT_SPEC_ID]) {
