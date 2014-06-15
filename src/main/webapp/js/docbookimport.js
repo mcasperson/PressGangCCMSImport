@@ -279,9 +279,10 @@ define(
                 }
 
                 var resultParsed = JSON.parse(result);
-                var xmlDoc = qnautils.stringToXML(resultParsed.xml);
+                var xmlDetails = qnautils.replaceEntitiesInText(resultParsed.xml);
+                var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
                 var entities = resultParsed.entities;
-                var replacements = resultParsed.replacements;
+                var replacements = xmlDetails.replacements;
 
                 var inputModel = qnastart.getInputModel(config);
 
