@@ -372,38 +372,39 @@ define(['async/async', 'exports'], function (async, exports) {
         };
 
         // a function to resolve the variable details
-        var resolveVariable = function (index, variables, variableSuccessCallback) {
-            if (variables === null || index >= variables.length) {
+        var resolveVariable = function (variables, variableSuccessCallback) {
+            if (variables === null) {
                 variableSuccessCallback();
             } else {
 
-                var processNextVariable = function () {
-                    resolveVariable(index + 1, variables, variableSuccessCallback);
-                };
-
-                var variable = variables[index];
-
-                /*
-                    Resolving the value requires the processedName to be resolved, so we do this all in a series.
-                 */
-                async.series(
-                    [
-                        function(callback) {resolveDetail(variable, 'type', 'processedType', function(value) {callback(null);})},
-                        function(callback) {resolveDetail(variable, 'name', 'processedName', function(value) {callback(null);})},
-                        function(callback) {resolveDetail(variable, 'options', 'processedOptions', function(value) {callback(null);})},
-                        function(callback) {resolveDetail(variable, 'disabled', 'processedDisabled', function(value) {callback(null);})},
-                        function(callback) {resolveDetail(variable, 'intro', 'processedIntro', function(value) {callback(null);})},
-                        function(callback) {resolveDetail(variable, 'value', 'null', function(value) {
-                            if (value !== undefined) {
-                            // we do something a little different here. the value is what is shown
-                            // in the ui, and that is bound to the config
-                            config[variable.processedName] = value;
+                async.each(
+                    variables,
+                    function(variable, callback) {
+                        /*
+                         Resolving the value requires the processedName to be resolved, so we do this all in a series.
+                         */
+                        async.series(
+                            [
+                                function(callback) {resolveDetail(variable, 'type', 'processedType', function(value) {callback(null);})},
+                                function(callback) {resolveDetail(variable, 'name', 'processedName', function(value) {callback(null);})},
+                                function(callback) {resolveDetail(variable, 'options', 'processedOptions', function(value) {callback(null);})},
+                                function(callback) {resolveDetail(variable, 'disabled', 'processedDisabled', function(value) {callback(null);})},
+                                function(callback) {resolveDetail(variable, 'intro', 'processedIntro', function(value) {callback(null);})},
+                                function(callback) {resolveDetail(variable, 'value', 'null', function(value) {
+                                    if (value !== undefined) {
+                                        // we do something a little different here. the value is what is shown
+                                        // in the ui, and that is bound to the config
+                                        config[variable.processedName] = value;
+                                    }
+                                    callback(null);
+                                })}
+                            ],
+                            function(err, data) {
+                                callback(null);
                             }
-                            callback(null);
-                        })}
-                    ],
-                    function(err, data) {
-                        processNextVariable();
+                        );
+                    }, function(error, data) {
+                        variableSuccessCallback();
                     }
                 );
             }
@@ -471,7 +472,7 @@ define(['async/async', 'exports'], function (async, exports) {
                             [
                                 function(callback) {resolveDetail(input, 'intro', 'processedIntro', function(){callback(null)})},
                                 function(callback) {resolveDetail(input, 'variables', 'processedVariables', function(variables){
-                                    resolveVariable(0, variables, function () {
+                                    resolveVariable(variables, function () {
                                         callback(null);
                                     });
                                 })}
