@@ -373,8 +373,6 @@ define(
                                         }
                                     },
                                     errorCallback);
-
-                                resultCallback(null);
                             })
                     ])
             ])
