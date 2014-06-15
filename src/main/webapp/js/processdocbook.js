@@ -4,27 +4,33 @@
     the spec metadata.
  */
 define(
-    ['jquery', 'monad/monad.min', 'qna/qnautils', 'constants', 'exports'],
-    function (jquery, monad, qnautils, constants, exports) {
+    ['jquery', 'async/async', 'qna/qnautils', 'constants', 'exports'],
+    function (jquery, async, qnautils, constants, exports) {
 
         var ELEMENTS_THAT_NEED_CDATA = ["userinput", "computeroutput"];
 
         exports.processDocBook = function(resultCallback, errorCallback, xmlText) {
 
-            var monad = new monad();
             var xmlDetails = parseAsXML(xmlText);
-            var result = monad.pass(xmlDetails).to(
-                fixElementsThatNeedCData,
-                removeBoilerplate,
-                findBookInfo,
-                findIndex,
-                fixProgramListingEntries
-            );
 
-            resultCallback(
-                {
-                    xml: qnautils.reencode(qnautils.xmlToString(xmlDetails.xmlDoc), xmlDetails.replacements),
-                    config: xmlDetails.config
+            /*
+                Define the computation as an async waterfall
+             */
+            async.waterfall(
+                [
+                    function(callback) {fixElementsThatNeedCData(xmlDetails, callback)},
+                    function(xmlDetails, callback) {removeBoilerplate(xmlDetails, callback)},
+                    function(xmlDetails, callback) {findBookInfo(xmlDetails, callback)},
+                    function(xmlDetails, callback) {findIndex(xmlDetails, callback)},
+                    function(xmlDetails, callback) {fixProgramListingEntries(xmlDetails, callback)}
+                ],
+                function(error, result) {
+                    resultCallback(
+                        {
+                            xml: qnautils.reencode(qnautils.xmlToString(result.xmlDoc), result.replacements),
+                            config: result.config
+                        }
+                    );
                 }
             );
 
@@ -39,14 +45,16 @@ define(
                     errorCallback("Invalid XML", "The source material has invalid XML, and can not be imported.", true);
                     return;
                 }
-                return {xmlDoc: xmlDoc, xmlDetails: xmlDetails, config: {}};
+                xmlDetails.xmlDoc = xmlDoc;
+                xmlDetails.config = {};
+                return xmlDetails;
             }
 
             /**
              * Publican won't respect line breaks in elements like userinput or computeroutput
              * when they are in a <screen> unless their text is wrapped in a CDATA element.
              */
-            function fixElementsThatNeedCData(xmlDetails) {
+            function fixElementsThatNeedCData(xmlDetails, callback) {
                 var replacements = [];
                 jquery.each(ELEMENTS_THAT_NEED_CDATA, function(index, value) {
                     var cdataElements = qnautils.xPath("//docbook:" + value, xmlDetails.xmlDoc);
@@ -68,14 +76,14 @@ define(
                     value.parentNode.removeChild(value);
                 });
 
-                return xmlDetails;
+                callback(null, xmlDetails);
             }
 
             /*
              Remove any content that is added automatically by the csprocessor. This means you
              can re-import content exported as a book by csprocessor.
              */
-            function removeBoilerplate(xmlDetails) {
+            function removeBoilerplate(xmlDetails, callback) {
                 var createBugParas = qnautils.xPath("//docbook:para[@role='RoleCreateBugPara']", xmlDetails.xmlDoc);
                 var removeElements = [];
                 var para;
@@ -87,13 +95,13 @@ define(
                     value.parentNode.removeChild(value);
                 });
 
-                return xmlDetails;
+                callback(null, xmlDetails);
             }
 
             /*
              Find the book info details
              */
-            function findBookInfo (xmlDetails) {
+            function findBookInfo (xmlDetails, callback) {
 
                 /*
                  Try looking at the root book or article element
@@ -173,19 +181,19 @@ define(
                     }
                 }
 
-                return xmlDetails;
+                callback(null, xmlDetails);
             }
 
-            function findIndex (xmlDetails) {
+            function findIndex (xmlDetails, callback) {
                 var index = qnautils.xPath("//docbook:index", xmlDetails.xmlDoc).iterateNext();
                 if (index) {
                     xmlDetails.config.Index = "On";
                 }
 
-                return xmlDetails;
+                callback(null, xmlDetails);
             }
 
-            function fixProgramListingEntries(xmlDetails) {
+            function fixProgramListingEntries(xmlDetails, callback) {
                 var replacements = [];
                 var programListings = qnautils.xPath("//docbook:programlisting", xmlDetails.xmlDoc);
                 var programListing = null;
@@ -204,7 +212,7 @@ define(
                     }
                 });
 
-                return xmlDetails;
+                callback(null, xmlDetails);
             }
         }
     }

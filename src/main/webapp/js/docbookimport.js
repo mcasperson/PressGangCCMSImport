@@ -1,5 +1,5 @@
 define(
-    ['jquery', 'js/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
     function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
         'use strict';
 
@@ -310,6 +310,7 @@ define(
                     Define the computation steps
                  */
                 var computation = [];
+                computation.push(function(callback) {loadTagIDs(callback)});
                 computation.push(function(callback) {buildContentSpec(xmlDoc, entities, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {extractRevisionHistory(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {extractAuthorGroup(xmlDoc, contentSpec, topics, topicGraph, callback)});
@@ -350,12 +351,13 @@ define(
                 /*
                     Load the tag ids for various tags used during the import
                  */
-                function loadTagIDs() {
+                function loadTagIDs(callback) {
                     REVISION_HISTORY_TAG_ID = qnastart.loadEntityID("revisionHistoryTagId");
                     AUTHOR_GROUP_TAG_ID = qnastart.loadEntityID("authorGroupTagId");
                     ABSTRACT_TAG_ID = qnastart.loadEntityID("abstractTagId");
                     LEGAL_NOTICE_TAG_ID = qnastart.loadEntityID("legalNoticeTagId");
                     INFO_TAG_ID = qnastart.loadEntityID("infoTagId");
+                    callback(null);
                 }
 
                 var removeIdAttribute = function (xml) {
@@ -548,19 +550,10 @@ define(
                         contentSpec.push("]");
                     }
 
-                    callback(null, xmlDoc, contentSpec);
+                    callback(null, xmlDoc, contentSpec, [], new specelement.TopicGraph());
                 }
 
                 function extractRevisionHistory (xmlDoc, contentSpec, topics, topicGraph, callback) {
-                    if (topics === undefined) {
-                        topics = [];
-                    }
-
-                    // the graph that holds the topics
-                    if (topicGraph === undefined) {
-                        topicGraph = new specelement.TopicGraph();
-                    }
-
                     var revHistory = qnautils.xPath("//docbook:revhistory", xmlDoc).iterateNext();
 
                     if (revHistory) {
@@ -668,14 +661,6 @@ define(
                 }
 
                 function extractAuthorGroup (xmlDoc, contentSpec, topics, topicGraph, callback) {
-                    if (topics === undefined) {
-                        topics = [];
-                    }
-
-                    // the graph that holds the topics
-                    if (topicGraph === undefined) {
-                        topicGraph = new specelement.TopicGraph();
-                    }
 
                     var specAuthorGroup = qnautils.stringToXML("<authorgroup></authorgroup>");
                     var authorGroups = qnautils.xPath("//docbook:authorgroup", xmlDoc);
@@ -719,14 +704,6 @@ define(
                 }
 
                 function extractLegalNotice (xmlDoc, contentSpec, topics, topicGraph, callback) {
-                    if (topics === undefined) {
-                        topics = [];
-                    }
-
-                    // the graph that holds the topics
-                    if (topicGraph === undefined) {
-                        topicGraph = new specelement.TopicGraph();
-                    }
 
                     var legalNotice = qnautils.xPath("//docbook:legalnotice", xmlDoc).iterateNext();
 
@@ -768,14 +745,6 @@ define(
                 }
 
                 function extractAbstract (xmlDoc, contentSpec, topics, topicGraph, callback) {
-                    if (topics === undefined) {
-                        topics = [];
-                    }
-
-                    // the graph that holds the topics
-                    if (topicGraph === undefined) {
-                        topicGraph = new specelement.TopicGraph();
-                    }
 
                     var abstractContent = qnautils.xPath("//docbook:bookinfo/docbook:abstract", xmlDoc).iterateNext();
 
@@ -2003,10 +1972,6 @@ define(
                         );
                     }
                 }
-
-                // start the process
-                loadTagIDs();
-                buildContentSpec(xmlDoc, entities);
             })
             .setNextStep(function (resultCallback) {
                 window.onbeforeunload = undefined;
