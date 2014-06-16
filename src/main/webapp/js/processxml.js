@@ -1353,18 +1353,10 @@ define(
             /*
              Start the processing
              */
-            replaceEntities(xmlText);
-
-            function replaceEntities(xmlText) {
-                var fixedXMLResult = qnautils.replaceEntitiesInText(xmlText);
-                config.replacements = fixedXMLResult.replacements;
-                xmlText = fixedXMLResult.xml;
-
-                if (extractEntities) {
-                    findEntities(xmlText);
-                } else {
-                    removeXmlPreambleFromBook(xmlText, []);
-                }
+            if (extractEntities) {
+                findEntities(xmlText);
+            } else {
+                removeXmlPreambleFromBook(xmlText, []);
             }
 
             /*
@@ -1457,7 +1449,6 @@ define(
                 jquery.each(constants.IGNORED_CONTAINERS, function (index, value) {
                     xmlText = xmlText.replace(new RegExp("<\s*" + qnautils.escapeRegExp(value) + ".*?/?\s*>", "g"), "");
                     xmlText = xmlText.replace(new RegExp("<\s*/\s*" + qnautils.escapeRegExp(value) + "\s*>", "g"), "");
-                    ;
                 });
 
                 jquery.each(replacements, function (index, value) {
