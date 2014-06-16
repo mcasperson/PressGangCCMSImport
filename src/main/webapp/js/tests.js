@@ -3,6 +3,10 @@ define(
     function (qna) {
         'use strict';
 
+        /*
+            A very simple step where all properties are assigned directly (except for nextStep, which needs
+            to be a callback because stepTwo doesn't exist when this step is generated).
+         */
         var stepOne = new qna.QNAStep()
             .setTitle("First step of the Q&A test")
             .setIntro("First step intro")
@@ -21,7 +25,10 @@ define(
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {resultCallback(stepTwo)});
 
-
+        /*
+            Everything is a callback in this step. We confirm the values assigned to properties like the title
+            to ensure that the callbacks are working as expected.
+         */
         var stepTwo = new qna.QNAStep()
             .setTitle(function (resultCallback, errorCallback, result, config) {resultCallback("Second step of the Q&A test")})
             .setIntro(function (resultCallback, errorCallback, result, config) {resultCallback("Second step intro")})
