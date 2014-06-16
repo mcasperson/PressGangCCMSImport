@@ -35,7 +35,7 @@ define(
                     });
 
                     if (!foundFiles) {
-                        errorCallback("No XML files found", "The source location file has no XML files under the " + config.ImportLang + " directory");
+                        errorCallback("No XML files found", "The source location either has no " + config.ImportLang + " directory, or has no XML files under the " + config.ImportLang + " directory");
                     } else {
                         resultCallback(JSON.stringify({contentSpec: contentSpec}));
                     }
