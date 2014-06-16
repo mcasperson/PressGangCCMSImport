@@ -65,16 +65,16 @@ define(
         }
 
         exports.loadEntityID = function (type) {
-            if (configEntites !== null) {
-                return  configEntites.entities[type]  ;
+            if (restcalls.configEntites !== null) {
+                return  restcalls.configEntites.entities[type]  ;
             }
 
             return null;
         };
 
         exports.loadLocales = function () {
-            if (configEntites !== null) {
-                return configEntites.locales;
+            if (restcalls.configEntites !== null) {
+                return restcalls.configEntites.locales;
             }
 
             return null;

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="qunit/qunit-git.css">
+        <script src="js/asciidoctor/opal.js"></script>
+        <script src="js/asciidoctor/asciidoctor_extensions.js"></script>
+        <script src="js/asciidoctor/asciidoctor.js"></script>
+        <script src="js/require.min.js"></script>
+        <script type="application/javascript">
+            'use strict';
+
+            requirejs.config({
+                baseUrl: 'js',
+                paths: {
+                    'jquery': 'jquery/jquery-2.1.0.min',
+                    'zip': 'zip/zip',
+                    'angular': 'angular/angular.min',
+                    'angular-sanitize': 'angular/angular-sanitize',
+                    'angular-file-upload': 'angularfileupload/angular-file-upload',
+                    'angular-bootstrap': 'bootstrap/ui-bootstrap-tpls-0.10.0.min',
+                    'wgxpath': 'wgxpath/wgxpath',
+                    'URIjs': 'js/uri',
+                    'moment': 'moment/moment-with-langs.min',
+                    'patternfly' : 'patternfly/js/patternfly'
+                },
+                shim: {
+                    'wgxpath': {
+                        exports: "wgxpath"
+                    },
+                    'zip': {
+                        exports: 'zip'
+                    },
+                    'angular': {
+                        exports: "angular"
+                    },
+                    'angular-sanitize': {
+                        deps: ["angular"]
+                    },
+                    'angular-file-upload': {
+                        deps: ["angular"]
+                    },
+                    'angular-bootstrap': {
+                        deps: ["angular"]
+                    },
+                    'patternfly': {
+                        deps: ["jquery"]
+                    }
+                }
+            });
+
+
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <script src="qunit/qunit-git.js"></script>
+        <script type="application/javascript">
+            require(["wgxpath", "tests"], function(wgxpath, tests) {
+                wgxpath.install();
+            });
+        </script>
+    </body>
+</html>

@@ -5,7 +5,7 @@ define(
 
         var RETRY_COUNT = 5;
 
-        var configEntites = null;
+        exports.configEntites = null;
 
         exports.loadEntityConfig = function (config, successCallback, errorCallback, retryCount) {
 
@@ -18,7 +18,7 @@ define(
                 url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/settings/get/json',
                 dataType: "json",
                 success: function (data) {
-                    configEntites = data;
+                    exports.configEntites = data;
                     successCallback();
                 },
                 error: function () {
@@ -433,7 +433,6 @@ define(
                     } else {
                         errorCallback("Connection Error", "An error occurred while uploading the content spec. This may be caused by an intermittent network failure. Try your import again, and if problem persist log a bug.", true);
                     }
-
                 }
             });
         };

@@ -333,6 +333,11 @@ define(['async/async', 'exports'], function (async, exports) {
         this.config = config || {};
     };
 
+    exports.QNA.prototype.setConfigValue = function(key, value) {
+        this.config[key] = value;
+        return this;
+    }
+
     /**
      * Calls any functions assigned to properties in QNAVariables and QNAVariable objects. If the app appears to
      * hang after calling this, it is probably because a function assigned to a property doesn't call the
