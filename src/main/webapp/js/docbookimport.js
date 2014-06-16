@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
-    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'restcalls', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, restcalls, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
         'use strict';
 
         /*
@@ -810,7 +810,7 @@ define(
 
                                             var uri = new URI(filename);
 
-                                            qnastart.createFile(
+                                            restcalls.createFile(
                                                 inputModel,
                                                     config.CreateOrResuseFiles === "REUSE",
                                                 config.InputSource,
@@ -925,7 +925,7 @@ define(
                                     fixedNodeValue,
                                     function (result) {
                                         if (result) {
-                                            qnastart.createImage(
+                                            restcalls.createImage(
                                                 inputModel,
                                                 config.CreateOrResuseImages === "REUSE",
                                                 config.InputSource,
@@ -960,9 +960,7 @@ define(
                             var nodeValue = image.nodeValue;
 
                             if (!uploadedImages[nodeValue]) {
-
-
-                                qnastart.createImageFromURL(
+                                restcalls.createImageFromURL(
                                     config.CreateOrResuseImages === "REUSE",
                                     nodeValue,
                                     config.ImportLang,
@@ -1357,7 +1355,7 @@ define(
                     var resuedTopics = [];
 
                     // start by getting a list of topics that are assigned to the spec we are overwriting
-                    qnastart.getTopicsInSpec(
+                    restcalls.getTopicsInSpec(
                         config[constants.EXISTING_CONTENT_SPEC_ID],
                         config,
                         function(specTopics) {
@@ -1374,7 +1372,7 @@ define(
                                 function(topic, callback) {
                                     updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement));
 
-                                    qnastart.getSimilarTopics(
+                                    restcalls.getSimilarTopics(
                                         qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                         config,
                                         function (similarTopics) {
@@ -1443,7 +1441,7 @@ define(
                             updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
 
                             var topic = topics[index];
-                            qnastart.getSimilarTopics(
+                            restcalls.getSimilarTopics(
                                 qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                 config,
                                 function (data) {
@@ -1773,7 +1771,7 @@ define(
 
                             var topic = topics[index];
                             if (topic.topicId === -1) {
-                                qnastart.createTopic(
+                                restcalls.createTopic(
                                     false,
                                     getDocbookVersion(config),
                                     cleanTopicXmlForSaving(topic, format),
@@ -1795,7 +1793,7 @@ define(
                                     close matches.
                                  */
                                 if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
-                                    qnastart.updateTopic(
+                                    restcalls.updateTopic(
                                         topic.topicId,
                                         cleanTopicXmlForSaving(topic, format),
                                         topic.title,
@@ -1882,7 +1880,7 @@ define(
                                     }
                                 });
 
-                                qnastart.updateTopic(
+                                restcalls.updateTopic(
                                     topic.topicId,
                                     xmlcompare.removeRedundantXmlnsAttribute(
                                         xmlcompare.fixDocumentNode(
@@ -1951,8 +1949,7 @@ define(
                     }
 
                     if (config[constants.EXISTING_CONTENT_SPEC_ID]) {
-
-                        qnastart.updateContentSpec(
+                        restcalls.updateContentSpec(
                             config[constants.EXISTING_CONTENT_SPEC_ID],
                             compiledContentSpec,
                             config,
@@ -1960,7 +1957,7 @@ define(
                             errorCallback
                         );
                     } else {
-                        qnastart.createContentSpec(
+                        restcalls.createContentSpec(
                             compiledContentSpec,
                             config.ImportLang,
                             config,
