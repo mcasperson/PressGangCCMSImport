@@ -100,7 +100,8 @@ define(
                             .setType(qna.InputEnum.TEXTBOX)
                             .setIntro("Step Three Output")
                             .setName("StepThreeOutput")
-                            // first value is the progressbar max, second is the current value
+                            // we can take the result pushed onto the stack by enterStep in stepThree and use it
+                            // with our variables in stepFour
                             .setValue(function (resultCallback, errorCallback, result, config) {resultCallback(result.result)})
                     ])
             ]
