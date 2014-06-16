@@ -1368,13 +1368,12 @@ define(
                                 }
                             });
 
-                            function getPossibleMatches(index, callback) {
-                                if (index >= topics.length) {
-                                    callback();
-                                } else {
-                                    updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
+                            var index = 0;
 
-                                    var topic = topics[index];
+                            async.eachSeries(topics,
+                                function(topic, callback) {
+                                    updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement));
+
                                     qnastart.getSimilarTopics(
                                         qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
                                         config,
@@ -1392,10 +1391,10 @@ define(
                                             });
 
                                             /*
-                                                This can happen if the existing spec had duplicated topics. This means
-                                                there are fewer topics to choose from than there are being imported.
-                                                In this case check back through the topics looking for any with
-                                                an assigned topic id and the exact same xml, and reuse the id.
+                                             This can happen if the existing spec had duplicated topics. This means
+                                             there are fewer topics to choose from than there are being imported.
+                                             In this case check back through the topics looking for any with
+                                             an assigned topic id and the exact same xml, and reuse the id.
                                              */
                                             if (topic.pgIds === undefined) {
                                                 jquery.each(topics, function(index, element) {
@@ -1417,17 +1416,13 @@ define(
                                                 });
                                             }
 
-                                            getPossibleMatches(++index, callback);
                                         },
                                         errorCallback
                                     )
+                                }, function(err, data) {
+                                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
                                 }
-                            }
-
-                            getPossibleMatches(0, function() {
-                                callback(null, xmlDoc, contentSpec, topics, topicGraph);
-                            });
-
+                            );
                         },
                         errorCallback)
                 }

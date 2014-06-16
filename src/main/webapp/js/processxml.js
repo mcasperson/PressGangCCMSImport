@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qnastart', 'uri/URI', 'processdocbook', 'constants', 'exports'],
-    function (jquery, qna, qnautils, qnastart, URI, processdocbook, constants, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qnastart', 'uri/URI', 'processdocbook', 'constants', 'exports'],
+    function (jquery, async, qna, qnautils, qnastart, URI, processdocbook, constants, exports) {
         'use strict';
 
         var ELEMENTS_THAT_NEED_CDATA = ["userinput", "computeroutput"];
@@ -1404,24 +1404,21 @@ define(
 
                     inputModel.getCachedEntries(config.InputSource, function (entries) {
 
-                        var processTextFile = function (index) {
-                            if (index >= entries.length) {
-                                done();
-                            } else {
-                                var value = entries[index];
+                        async.eachSeries(entries,
+                            function(value, callback) {
                                 var filename = qnautils.getFileName(value);
                                 if (filename.indexOf(relativePath) === 0 && qnautils.isNormalFile(filename)) {
                                     inputModel.getTextFromFile(value, function (fileText) {
                                         extractExtities(fileText);
-                                        processTextFile(index + 1);
+                                        callback(null);
                                     });
                                 } else {
-                                    processTextFile(index + 1);
+                                    callback(null);
                                 }
+                            }, function(err) {
+                                done();
                             }
-                        };
-
-                        processTextFile(0);
+                        );
                     });
                 } else {
                     extractExtities(xmlText);

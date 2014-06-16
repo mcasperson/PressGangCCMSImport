@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'uri/URI', 'specelement', 'fontrule', 'docbookimport', 'constants', 'processxml', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, constants, processxml, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'uri/URI', 'specelement', 'fontrule', 'docbookimport', 'constants', 'processxml', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, constants, processxml, exports) {
         'use strict';
 
         var DEFAULT_LANG = "en-US";
@@ -88,11 +88,9 @@ define(
                         var contentSpec = [];
                         var configCount = 1;
                         inputModel.getCachedEntries(config.InputSource, function (entries) {
-                            function processEntry(index, callback) {
-                                if (index >= entries.length) {
-                                    callback();
-                                } else {
-                                    var entry = entries[index];
+
+                            async.eachSeries(entries,
+                                function(entry, callback){
                                     var uri = new URI(qnautils.getFileName(entry));
                                     if (/\.cfg$/.test(uri.filename())) {
                                         inputModel.getTextFromFileName(config.InputSource, qnautils.getFileName(entry), function(configFile) {
@@ -127,7 +125,7 @@ define(
 
                                             if (fixedFileName === "publican.cfg") {
                                                 /*
-                                                    Remove any value that we have placed in the spec itself
+                                                 Remove any value that we have placed in the spec itself
                                                  */
                                                 jquery.each(configFile.split("\n"), function (index, value) {
                                                     if (value.trim().length !== 0) {
@@ -142,7 +140,7 @@ define(
                                                 });
                                             } else {
                                                 /*
-                                                    Secondary config file have all settings
+                                                 Secondary config file have all settings
                                                  */
                                                 jquery.each(configFile.split("\n"), function(index, value) {
                                                     if (value.trim().length !== 0) {
@@ -155,17 +153,15 @@ define(
                                             }
                                             contentSpec.push("]");
 
-                                            processEntry(++index, callback);
+                                            callback(null);
                                         });
                                     } else {
-                                        processEntry(++index, callback);
+                                        callback(null);
                                     }
+                                }, function (err) {
+                                    lookForXMLDirAndFiles(contentSpec);
                                 }
-                            }
-
-                            processEntry(0, function() {
-                                lookForXMLDirAndFiles(contentSpec);
-                            });
+                            );
                         });
                     });
                 }

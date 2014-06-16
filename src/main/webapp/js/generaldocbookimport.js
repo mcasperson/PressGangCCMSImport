@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'processxml', 'exports'],
-    function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, processxml, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'processxml', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, processxml, exports) {
         'use strict';
 
         var inputModel;
@@ -132,11 +132,8 @@ define(
                                     if (entries.length < 25 || config.InputType === "Dir") {
                                         var mainFile = null;
 
-                                        var processEntry = function(index) {
-                                            if (index >= entries.length) {
-                                                resultCallback(null);
-                                            } else {
-                                                var entry = entries[index];
+                                        async.eachSeries(entries,
+                                            function(entry, callback) {
                                                 var filename = qnautils.getFileName(entry);
                                                 if (qnautils.isNormalFile(filename) && qnautils.fileHasExtension("xml", filename)) {
                                                     inputModel.getTextFromFile(entry, function (textFile) {
@@ -144,17 +141,18 @@ define(
                                                         var match = /<(book)|(article)>/.exec(textFile);
                                                         if (match) {
                                                             resultCallback(qnautils.getFileName(entries[index]));
+                                                            callback(true);
                                                         } else {
-                                                            processEntry(++index);
+                                                            callback(null);
                                                         }
                                                     });
                                                 } else {
-                                                    processEntry(++index);
+                                                    callback(null);
                                                 }
+                                            }, function (err) {
+                                                resultCallback(null);
                                             }
-                                        };
-
-                                        processEntry(0);
+                                        );
                                     } else {
                                         resultCallback(null);
                                     }
