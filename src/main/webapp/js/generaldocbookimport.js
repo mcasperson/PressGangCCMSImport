@@ -138,9 +138,9 @@ define(
                                                 if (qnautils.isNormalFile(filename) && qnautils.fileHasExtension("xml", filename)) {
                                                     inputModel.getTextFromFile(entry, function (textFile) {
 
-                                                        var match = /<(book)|(article)>/.exec(textFile);
+                                                        var match = /<\s*(book|article)(\s+|>)/.exec(textFile);
                                                         if (match) {
-                                                            resultCallback(qnautils.getFileName(entries[index]));
+                                                            resultCallback(qnautils.getFileName(entry));
                                                             callback(true);
                                                         } else {
                                                             callback(null);
@@ -150,7 +150,9 @@ define(
                                                     callback(null);
                                                 }
                                             }, function (err) {
-                                                resultCallback(null);
+                                                if (!err) {
+                                                    resultCallback(null);
+                                                }
                                             }
                                         );
                                     } else {
