@@ -107,7 +107,7 @@ define(
             ]
         );
 
-        QUnit.asyncTest("Creating the QNA Object", function (assert) {
+        QUnit.asyncTest("Starting with step 1", function (assert) {
             expect(9);
 
             var myQna = new qna.QNA(stepOne);
@@ -162,7 +162,7 @@ define(
 
         });
 
-        QUnit.asyncTest("Moving to step 3", function (assert) {
+        QUnit.asyncTest("Moving to step 3 and 4", function (assert) {
             expect(5);
 
             var updateCalled = false;
