@@ -109,6 +109,12 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
                 file,
                 (function (cache) {
                     return function (entries) {
+                        entries.sort(function(a,b) {
+                            if (a.filename.split("/").length < b.filename.split("/").length) {
+                                return -1;
+                            }
+                            return a.filename.toLowerCase() > b.filename.toLowerCase();
+                        });
                         cache[file.filename] = entries;
                         onend(entries);
                     };

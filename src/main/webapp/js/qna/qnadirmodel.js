@@ -91,6 +91,12 @@ define (['jquery', 'qna/qnautils', 'exports'], function (jquery, qnautils, expor
                 file,
                 (function (cache) {
                     return function (entries) {
+                        entries.sort(function(a,b) {
+                            if (a.filename.split("/").length < b.filename.split("/").length) {
+                                return -1;
+                            }
+                            return a.filename.toLowerCase() > b.filename.toLowerCase();
+                        });
                         cache[file.filename] = entries;
                         onend(entries);
                     };
