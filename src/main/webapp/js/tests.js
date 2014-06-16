@@ -19,7 +19,7 @@ define(
                         ])
                 ]
             )
-            .setNextStep(stepTwo);
+            .setNextStep(function (resultCallback, errorCallback, result, config) {resultCallback(stepTwo)});
 
 
         var stepTwo = new qna.QNAStep()
@@ -41,44 +41,54 @@ define(
             );
 
         QUnit.asyncTest("Creating the QNA Object", function (assert) {
+            expect(9);
             QUnit.start();
-            expect( 7 );
 
             var myQna = new qna.QNA(stepOne);
-            QUnit.assert.equal(Object.keys(myQna.config).length, 0, "Config should be empty");
-            QUnit.assert.equal(myQna.previousSteps.length, 0, "Previous steps should be empty");
-            QUnit.assert.deepEqual(myQna.results, [null], "Results should have single null element");
+            assert.equal(Object.keys(myQna.config).length, 0, "Config should be empty");
+            assert.equal(myQna.previousSteps.length, 0, "Previous steps should be empty");
+            assert.deepEqual(myQna.results, [null], "Results should have single null element");
             myQna.initialize(
                 function(myQna) {
-                    QUnit.assert.equal(myQna.step.processedTitle, "First step of the Q&A test", "Expected processedTitle to have been set");
-                    QUnit.assert.equal(myQna.step.processedIntro, "First step intro", "Expected processedIntro to have been set");
-                    QUnit.assert.equal(myQna.step.processedInputs.length, 1, "Expected 1 input variable");
-                    QUnit.assert.equal(myQna.step.processedOutputs, undefined, "Expected no output variables");
-                }, function () {
-                    QUnit.assert.ok(false, "Error returned when initializing the QNA object");
+                    assert.equal(myQna.step.processedTitle, "First step of the Q&A test", "Expected processedTitle to have been set");
+                    assert.equal(myQna.step.processedIntro, "First step intro", "Expected processedIntro to have been set");
+                    assert.equal(myQna.step.processedInputs.length, 1, "Expected 1 input variable");
+                    assert.equal(myQna.step.processedOutputs, undefined, "Expected no output variables");
+                    assert.equal(myQna.config.FirstStepVariable, "Yes", "Expected variable to default to 'Yes'");
+                    assert.ok(myQna.hasNext(), "Expected a next step to be available");
+                }, function (title, error, critical) {
+                    assert.ok(false, "Error returned when initializing the QNA object");
                 }
             )
         });
 
-        /*QUnit.test("Creating the QNA Object", function (assert) {
-
-            expect( 1 );
+        QUnit.asyncTest("Moving to a new step", function (assert) {
+            expect(6);
             QUnit.start();
 
-            var myQna = new qna.QNA(qnastart.qnastart);
+            var myQna = new qna.QNA(stepOne);
             myQna.initialize(
-                function (qna) {
-                    myQna.setConfigValue("ImportOption", "Mojo");
-                    QUnit.ok(myQna.hasNext(), "We should have a next step");
+                function (myQna) {
                     myQna.next(function (myQna) {
-
-                    })
+                        myQna.initialize(
+                            function(myQna) {
+                                assert.equal(myQna.step.processedTitle, "Second step of the Q&A test", "Expected processedTitle to have been set");
+                                assert.equal(myQna.step.processedIntro, "Second step intro", "Expected processedIntro to have been set");
+                                assert.equal(myQna.step.processedInputs.length, 1, "Expected 1 input variable");
+                                assert.equal(myQna.step.processedOutputs, undefined, "Expected no output variables");
+                                assert.equal(myQna.config.SecondStepVariable, "Initial Step 2 TextBox Value", "Expected variable to default to 'Initial Step 2 TextBox Value'");
+                                assert.ok(!myQna.hasNext(), "Expected no next step to be available");
+                            }, function (title, error, critical) {
+                                assert.ok(false, "Error returned when initializing the QNA object");
+                            }
+                        );
+                    });
                 },
                 function(title, error, critical) {
-                    QUnit.ok(false, "The QNA object could not be initialized.")
+                    assert.ok(false, "Error returned when initializing the QNA object");
                 }
             );
 
-        });*/
+        });
     }
 )
