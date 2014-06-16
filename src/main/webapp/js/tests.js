@@ -224,20 +224,20 @@ define(
                                                 }
                                             },
                                             function (title, message, critical) {
-                                                QUnit.start();
                                                 assert.ok(false, "Error returned when calling enterStep");
+                                                QUnit.start();
                                             },
                                             result,
                                             config
                                         );
                                     }, function (title, error, critical) {
-                                        QUnit.start();
                                         assert.ok(false, "Error returned when initializing the QNA object");
+                                        QUnit.start();
                                     })
                                 });
                             }, function (title, error, critical) {
-                                QUnit.start();
                                 assert.ok(false, "Error returned when initializing the QNA object");
+                                QUnit.start();
                             }
                         );
                     });
