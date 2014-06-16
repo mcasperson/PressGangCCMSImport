@@ -92,8 +92,12 @@ define (['jquery', 'qna/qnautils', 'exports'], function (jquery, qnautils, expor
                 (function (cache) {
                     return function (entries) {
                         entries.sort(function(a,b) {
-                            if (a.filename.split("/").length < b.filename.split("/").length) {
+                            var aDepth = a.filename.split("/").length;
+                            var bDepth = b.filename.split("/").length;
+                            if (aDepth < bDepth) {
                                 return -1;
+                            } else if (aDepth > bDepth) {
+                                return 1
                             }
                             return a.filename.toLowerCase() > b.filename.toLowerCase();
                         });
