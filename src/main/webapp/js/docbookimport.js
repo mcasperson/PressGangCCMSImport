@@ -278,6 +278,14 @@ define(
                     resultCallback();
                 }
 
+                function updatingTopics() {
+                    return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC;
+                }
+
+                function reusingTopics() {
+                    return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.CREATE_SPEC;
+                }
+
                 var resultParsed = JSON.parse(result);
                 var xmlDetails = qnautils.replaceEntitiesInText(resultParsed.xml);
                 var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
@@ -350,13 +358,17 @@ define(
                  Which topics we choose to overwrite depends on whether we are overwriting a spec
                  or creating a new one
                  */
-                if (config.CreateOrResuseTopics !== "CREATE") {
-                    if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
-                        computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph, callback)});
-                    } else {
-                        computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
-                    }
+
+                if (updatingTopics()) {
+                    computation.push(function (xmlDoc, contentSpec, topics, topicGraph, callback) {
+                        matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph, callback)
+                    });
+                } else if (reusingTopics) {
+                    computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {
+                        matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph, callback)
+                    });
                 }
+
 
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefs(xmlDoc, contentSpec, topics, topicGraph, callback)});
@@ -1725,12 +1737,10 @@ define(
 
                                 topic.node.setTopicId(topic.assumedId);
 
-                                if (config.CreateOrResuseTopics !== "CREATE") {
-                                    if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
-                                        addTopicToReusedTopics(topic.assumedId);
-                                    } else {
-                                        addTopicToUpdatedTopics(topic.assumedId);
-                                    }
+                                if (updatingTopics()) {
+                                    addTopicToReusedTopics(topic.assumedId);
+                                } else if (reusingTopics()) {
+                                    addTopicToUpdatedTopics(topic.assumedId);
                                 }
 
 
@@ -1749,12 +1759,10 @@ define(
                             if (topic.pgIds !== undefined) {
                                 topic.setTopicId(Object.keys(topic.pgIds)[0]);
 
-                                if (config.CreateOrResuseTopics !== "CREATE") {
-                                    if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
-                                        addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
-                                    } else {
-                                        addTopicToUpdatedTopics(Object.keys(topic.pgIds)[0]);
-                                    }
+                                if (updatingTopics()) {
+                                    addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
+                                } else if (reusingTopics()) {
+                                    addTopicToUpdatedTopics(Object.keys(topic.pgIds)[0]);
                                 }
 
                                 config.UploadedTopicCount += 1;
