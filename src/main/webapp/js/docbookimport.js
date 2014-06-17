@@ -1770,7 +1770,7 @@ define(
                      */
                     function postCreateTopic(topic, savedTopic) {
                         topic.setTopicId(savedTopic.id);
-                        addTopicToNewTopics(data.id);
+                        addTopicToNewTopics(savedTopic.id);
                         topic.createdTopic = true;
 
                         var replacedTextResult = qnautils.replaceEntitiesInText(savedTopic.xml);
@@ -1958,7 +1958,7 @@ define(
                         });
                         if (config.OutgoingUrls.length !== 0) {
                             compiledContentSpec += "#\n";
-                            compiledContentSpec += "# The following lists represent the state of topics at the time of the import (on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + "). They are *not* automatically updated, and do not reflect changes made to topics or the content specification since the import.\n";
+                            compiledContentSpec += "# The following lists represent the state of topics at the time of the import (on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + "). These lists are *not* automatically updated, and do not reflect changes made to topics or the content specification since the import.\n";
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following topics were added to this content specification with links that were not found in the white list.\n";
                             compiledContentSpec += "# " + config.OutgoingUrls;
