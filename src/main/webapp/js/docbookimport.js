@@ -1933,19 +1933,21 @@ define(
                                     topic.title,
                                     config,
                                     function (data) {
-
                                         /*
                                             If we were overwrting a topic as part of updating an existing spec, was the
                                             topic actually updated? If so, records it as an updated topic. If not, record
                                             it as a reused topic.
                                          */
-                                        if (updatingTopics()) {
+                                        if (updatingTopics() && topic.originalTopicXML) {
                                             var originalXMLDetails = qnautils.replaceEntitiesInText(topic.originalTopicXML);
-                                            var originalXMLDom = qnautils.xmlToString(originalXMLDetails.xml);
+                                            var originalXMLDom = qnautils.stringToXML(originalXMLDetails.xml);
 
                                             var newXMLDetails = qnautils.replaceEntitiesInText(data.xml);
-                                            var newXMLDom = qnautils.xmlToString(newXMLDetails.xml);
-                                            var topicWasChanged = xmlCompre.compareStrictXml(originalXMLDom, originalXMLDetails.replacements, newXMLDom, newXMLDetails.replacements);
+                                            var newXMLDom = qnautils.stringToXML(newXMLDetails.xml);
+                                            var topicWasChanged =
+                                                newXMLDom === null ||
+                                                originalXMLDom === null ||
+                                                !xmlcompare.compareStrictXml(originalXMLDom, originalXMLDetails.replacements, newXMLDom, newXMLDetails.replacements);
 
                                             if (topicWasChanged) {
                                                 addTopicToUpdatedTopics(data.id);
