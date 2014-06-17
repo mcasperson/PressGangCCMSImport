@@ -1516,7 +1516,7 @@ define(
 
                                                     /*
                                                      TODO: Really need to define the states a little more explicitly
-                                                     instead of a -1 head and a createdTopic there...
+                                                     instead of a -1 here and a createdTopic there...
                                                      */
                                                     if (topic.topicId === undefined) {
                                                         topic.topicId = -1;
