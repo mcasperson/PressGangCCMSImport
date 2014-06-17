@@ -1433,10 +1433,9 @@ define(
                                             if (topic.topicId === undefined) {
                                                 jquery.each(topics, function(index, element) {
                                                     if (element.pgIds !== undefined && element.topicId !== undefined) {
-                                                        var xmlDocsAreEquivilent = xmlcompare.compareXml(
+                                                        var xmlDocsAreEquivilent = xmlcompare.compareStrictXml(
                                                             topic,
                                                             getDocumentFormat(config),
-                                                            topicGraph.getAllTopicOrContainerIDs(),
                                                             topic.xml.cloneNode(true),
                                                             replacements,
                                                             element.xml.cloneNode(true),
@@ -1449,6 +1448,14 @@ define(
                                                         }
                                                     }
                                                 });
+
+                                                /*
+                                                    TODO: Really need to define the states a little more explicitly
+                                                    instead of a -1 head and a createdTopic there...
+                                                 */
+                                                if (topic.topicId === undefined) {
+                                                    topic.topicId = -1;
+                                                }
                                             }
 
                                             callback(null);
