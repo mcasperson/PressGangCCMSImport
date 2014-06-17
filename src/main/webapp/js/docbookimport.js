@@ -2056,7 +2056,7 @@ define(
                                 if (config.NewTopics.length === 0) {
                                     resultCallback("No new topics were created");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.NewTopics + "'</a>Go to topics with outgoing urls</a>");
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.NewTopics + "'</a>Go to new topics that were created as part of this import</a>");
                                 }
                             }),
                         new qna.QNAVariable()
@@ -2067,7 +2067,7 @@ define(
                                 if (config.ReusedTopics.length === 0) {
                                     resultCallback("No topics were reused");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.ReusedTopics + "'</a>Go to topics with outgoing urls</a>");
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.ReusedTopics + "'</a>Go to existing topics that were reused as part of this import</a>");
                                 }
                             }),
                         new qna.QNAVariable()
@@ -2078,7 +2078,7 @@ define(
                                 if (config.UpdatedTopics.length === 0) {
                                     resultCallback("No new topics were updated");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.UpdatedTopics + "'</a>Go to topics with outgoing urls</a>");
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.UpdatedTopics + "'</a>Go to existing topics that were updated as part of this import</a>");
                                 }
                             })
                     ])
