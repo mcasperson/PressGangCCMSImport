@@ -323,5 +323,75 @@ define(
                 return false;
             }
         }
+
+        /**
+         * Take the XML from a topic being imported and compare it to the XML of a topic in the database. If the two are
+         * equivilent, return true. Otherwise return false.
+         *
+         * Note that "equivilent" means the same as the compareXml() function, with the exception that injections
+         * need to be the same.
+         *
+         * @param topic  The topic being processed
+         * @param format The format of the topic
+         * @param topicOrContainerIDs A list of topic or container ids
+         * @param xmlDoc1 The cloned xml of the topic being imported. This process is destructive, so send a copy with xml.clone(true) to this function.
+         * @param xmlDoc1Entities The entities that were replaced to convert the xml to a document.
+         * @param xmlDoc2 The cloned xml of the topic in the database.
+         * @param xmlDoc2Entities The entities that were replaced to convert the xml to a document.
+         */
+        exports.compareStrictXml = function(topic, format, xmlDoc1, xmlDoc1Entities, xmlDoc2, xmlDoc2Entities) {
+            normalizeComments(xmlDoc1);
+            reorderAttributes(xmlDoc1);
+            normalizeXMLEntityCharacters(xmlDoc1, xmlDoc1Entities);
+            var xmlDoc1XmlString = normalizeXmlString(xmlDoc1, xmlDoc1Entities, topic, format);
+
+            normalizeComments(xmlDoc2);
+            reorderAttributes(xmlDoc2);
+            normalizeXMLEntityCharacters(xmlDoc2, xmlDoc2Entities);
+            var xmlDoc2XmlString = normalizeXmlString(xmlDoc2, xmlDoc2Entities, topic, format);
+
+            if (xmlDoc1XmlString === xmlDoc2XmlString) {
+
+                /*
+                 This is the second level of checking. If we reach this point we know the
+                 two XML file have the same structure and content ignoring any whitespace.
+                 Now we make sure that any elements where whitespace is signifiant also
+                 match.
+                 */
+                var verbatimMatch = true;
+                jquery.each(VERBATIM_ELEMENTS, function (index, elementName) {
+                    var originalNodes = qnautils.xPath(".//docbook:" + elementName, xmlDoc1);
+                    var matchingNodes = qnautils.xPath(".//docbook:" + elementName, xmlDoc2);
+
+                    var originalNode;
+                    var matchingNode;
+                    while ((originalNode = originalNodes.iterateNext()) !== null) {
+                        matchingNode = matchingNodes.iterateNext();
+
+                        if (matchingNode === null) {
+                            throw "There was a mismatch between verbatim elements in similar topics!";
+                        }
+
+                        var reencodedOriginal = qnautils.reencode(qnautils.xmlToString(originalNode), xmlDoc1Entities);
+                        var reencodedMatch = qnautils.reencode(qnautils.xmlToString(matchingNode), xmlDoc2Entities);
+
+                        // the original
+
+                        if (reencodedOriginal !== reencodedMatch) {
+                            verbatimMatch = false;
+                            return false;
+                        }
+                    }
+
+                    if ((matchingNode = matchingNodes.iterateNext()) !== null) {
+                        throw "There was a mismatch between verbatim elements in similar topics!";
+                    }
+                });
+
+                return verbatimMatch;
+            } else {
+                return false;
+            }
+        }
     }
 )

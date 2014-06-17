@@ -276,6 +276,11 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         return this;
     };
 
+    exports.TopicGraphNode.prototype.setOriginalTopicXML = function (topicXML) {
+        this.originalTopicXML = topicXML;
+        return this;
+    };
+
     /**
      * Adds an existing topic id that this topic can assume
      * @param pgId The topic id

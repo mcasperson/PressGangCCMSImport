@@ -364,14 +364,12 @@ define(
                         matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph, callback)
                     });
                 } else if (reusingTopics) {
-                    computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {
-                        matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph, callback)
-                    });
+                    computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                    computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
+                    computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefs(xmlDoc, contentSpec, topics, topicGraph, callback)});
+
                 }
 
-
-                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
-                computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefs(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {uploadTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {identifyOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefsInCreatedTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
@@ -1419,7 +1417,8 @@ define(
                                                     // is this a topic that has been resued already?
                                                     if (resuedTopics.indexOf(element.item.id) === -1) {
                                                         resuedTopics.push(element.item.id);
-                                                        topic.addPGId(element.item.id);
+                                                        topic.setTopicId(element.item.id);
+                                                        topic.setOriginalTopicXML(element.item.xml);
                                                         return false;
                                                     }
                                                 }
@@ -1431,9 +1430,9 @@ define(
                                              In this case check back through the topics looking for any with
                                              an assigned topic id and the exact same xml, and reuse the id.
                                              */
-                                            if (topic.pgIds === undefined) {
+                                            if (topic.topicId === undefined) {
                                                 jquery.each(topics, function(index, element) {
-                                                    if (element.pgIds !== undefined && Object.keys(element.pgIds).length === 1) {
+                                                    if (element.pgIds !== undefined && element.topicId !== undefined) {
                                                         var xmlDocsAreEquivilent = xmlcompare.compareXml(
                                                             topic,
                                                             getDocumentFormat(config),
@@ -1444,7 +1443,8 @@ define(
                                                             replacements);
 
                                                         if (xmlDocsAreEquivilent) {
-                                                            topic.addPGId(Object.keys(element.pgIds)[0]);
+                                                            topic.setTopicId(element.topicId);
+                                                            topic.setOriginalTopicXML(element.originalTopicXML);
                                                             return false;
                                                         }
                                                     }
@@ -1737,12 +1737,9 @@ define(
 
                                 topic.node.setTopicId(topic.assumedId);
 
-                                if (updatingTopics()) {
-                                    addTopicToUpdatedTopics(topic.assumedId);
-                                } else if (reusingTopics()) {
+                                if (reusingTopics()) {
                                     addTopicToReusedTopics(topic.assumedId);
                                 }
-
 
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
@@ -1759,9 +1756,7 @@ define(
                             if (topic.pgIds !== undefined) {
                                 topic.setTopicId(Object.keys(topic.pgIds)[0]);
 
-                                if (updatingTopics()) {
-                                    addTopicToUpdatedTopics(Object.keys(topic.pgIds)[0]);
-                                } else if (reusingTopics()) {
+                                if (reusingTopics()) {
                                     addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
                                 }
 
@@ -1781,6 +1776,10 @@ define(
                     callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
+                /*
+                    This function creates topics that have no existing match, and mark all topics that have been
+                    created or will be updated so their xrefs can be resolved.
+                 */
                 function uploadTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
 
                     function cleanTopicXmlForSaving(topic, format) {
@@ -1842,25 +1841,15 @@ define(
                                 );
                             } else {
                                 /*
-                                 If we are not overwriting a spec, we only reuse an existing topic or create a new one.
-                                 If we are overwriting a spec, we need to update topics that have been flagged as being
-                                 close matches.
+                                    We already know the id that a topic will take when we are overwriting a spec, but
+                                    these topics still need to be flagged as "created" so their xrefs can be resolved.
                                  */
-                                if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
-                                    restcalls.updateTopic(
-                                        topic.topicId,
-                                        cleanTopicXmlForSaving(topic, format),
-                                        topic.title,
-                                        config,
-                                        function (data) {
-                                            postCreateTopic(topic, data);
-                                            callback(null);
-                                        },
-                                        errorCallback
-                                    )
-                                } else {
-                                    callback(null);
+                                if (updatingTopics()) {
+                                    topic.createdTopic = true;
+                                    topic.replacements = replacements;
                                 }
+
+                                callback(null);
                             }
                         },
                         function(err, data) {
@@ -1944,6 +1933,27 @@ define(
                                     topic.title,
                                     config,
                                     function (data) {
+
+                                        /*
+                                            If we were overwrting a topic as part of updating an existing spec, was the
+                                            topic actually updated? If so, records it as an updated topic. If not, record
+                                            it as a reused topic.
+                                         */
+                                        if (updatingTopics()) {
+                                            var originalXMLDetails = qnautils.replaceEntitiesInText(topic.originalTopicXML);
+                                            var originalXMLDom = qnautils.xmlToString(originalXMLDetails.xml);
+
+                                            var newXMLDetails = qnautils.replaceEntitiesInText(data.xml);
+                                            var newXMLDom = qnautils.xmlToString(newXMLDetails.xml);
+                                            var topicWasChanged = xmlCompre.compareStrictXml(originalXMLDom, originalXMLDetails.replacements, newXMLDom, newXMLDetails.replacements);
+
+                                            if (topicWasChanged) {
+                                                addTopicToUpdatedTopics(data.id);
+                                            } else {
+                                                addTopicToReusedTopics(data.id);
+                                            }
+                                        }
+
                                         resolve(index + 1, callback);
                                     },
                                     errorCallback
