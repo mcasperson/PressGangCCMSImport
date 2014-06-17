@@ -1,7 +1,9 @@
 define(
-    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'docbookimport', 'processasciidoc', 'processxml', /*'opal', 'asciidoctor',*/ 'constants', 'exports'],
-    function (jquery, qna, qnastart, qnautils, docbookimport, processasciidoc, processxml, /*opal, asciidoctor,*/ constants, exports) {
+    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'uri/URI', 'docbookimport', 'processasciidoc', 'processxml', /*'opal', 'asciidoctor',*/ 'constants', 'exports'],
+    function (jquery, qna, qnastart, qnautils, URI, docbookimport, processasciidoc, processxml, /*opal, asciidoctor,*/ constants, exports) {
         'use strict';
+
+        var IGNORED_FILE_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "svg"];
 
         // This will be the object that we query for files. It could be a zip or directory
         var inputModel;
@@ -147,7 +149,10 @@ define(
                                     var retValue = [];
 
                                     jquery.each(entries, function (index, value) {
-                                        retValue.push(qnautils.getFileName(value));
+                                        var filename = qnautils.getFileName(value);
+                                        if (IGNORED_FILE_EXTENSIONS.indexOf(new URI(filename).suffix()) === -1) {
+                                            retValue.push(filename);
+                                        }
                                     });
 
                                     resultCallback(retValue);
