@@ -1403,59 +1403,42 @@ define(
 
                             var index = 0;
 
-                            async.eachSeries(topics,
-                                function(topic, callback) {
-                                    updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement));
+                            /*
+                             First loop - look for exact matches.
+                             We do this because books can sometimes have a lot of topics that are
+                             similar (i.e. placeholder content) that only differs by something
+                             like the title. We want the topics we are importing to overwrite
+                             their exact matches if possible.
+                             */
+                            function firstLoop() {
+                                async.eachSeries(topics,
+                                    function(topic, callback) {
+                                        updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement));
 
-                                    restcalls.getSimilarTopics(
-                                        qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
-                                        config,
-                                        function (similarTopics) {
+                                        restcalls.getSimilarTopics(
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
+                                            config,
+                                            function (similarTopics) {
 
-                                            /*
-                                                First loop - look for exact matches.
-                                                We do this because books can sometimes have a lot of topics that are
-                                                similar (i.e. placeholder content) that only differs by something
-                                                like the title. We want the topics we are importing to overwrite
-                                                their exact matches if possible.
-                                             */
-                                            jquery.each(similarTopics.items, function(index, element) {
-                                                // is this a topic assigned to the spec?
-                                                if (availableTopics.indexOf(element.item.id) !== -1) {
 
-                                                    var matchXmlDetails = qnautils.replaceEntitiesInText(element.item.xml);
-                                                    var matchXmlDom = qnautils.stringToXML(matchXmlDetails.xml);
-
-                                                    var xmlDocsAreEquivilent = xmlcompare.compareXml(
-                                                        topic,
-                                                        getDocumentFormat(config),
-                                                        topicGraph.getAllTopicOrContainerIDs(),
-                                                        topic.xml.cloneNode(true),
-                                                        replacements,
-                                                        matchXmlDom,
-                                                        matchXmlDetails.replacements);
-
-                                                    // is this a topic that has been resued already?
-                                                    if (xmlDocsAreEquivilent && resuedTopics.indexOf(element.item.id) === -1) {
-                                                        resuedTopics.push(element.item.id);
-                                                        topic.setTopicId(element.item.id);
-                                                        topic.setOriginalTopicXML(element.item.xml);
-                                                        return false;
-                                                    }
-                                                }
-                                            });
-
-                                            /*
-                                                Second loop - take the first close match.
-                                                If topics don't have an exact macth, just grab the first one that
-                                                is close.
-                                             */
-                                            if (topic.topicId === undefined) {
-                                                jquery.each(similarTopics.items, function (index, element) {
+                                                jquery.each(similarTopics.items, function(index, element) {
                                                     // is this a topic assigned to the spec?
                                                     if (availableTopics.indexOf(element.item.id) !== -1) {
+
+                                                        var matchXmlDetails = qnautils.replaceEntitiesInText(element.item.xml);
+                                                        var matchXmlDom = qnautils.stringToXML(matchXmlDetails.xml);
+
+                                                        var xmlDocsAreEquivilent = xmlcompare.compareXml(
+                                                            topic,
+                                                            getDocumentFormat(config),
+                                                            topicGraph.getAllTopicOrContainerIDs(),
+                                                            topic.xml.cloneNode(true),
+                                                            replacements,
+                                                            matchXmlDom,
+                                                            matchXmlDetails.replacements);
+
                                                         // is this a topic that has been resued already?
-                                                        if (resuedTopics.indexOf(element.item.id) === -1) {
+                                                        if (xmlDocsAreEquivilent && resuedTopics.indexOf(element.item.id) === -1) {
                                                             resuedTopics.push(element.item.id);
                                                             topic.setTopicId(element.item.id);
                                                             topic.setOriginalTopicXML(element.item.xml);
@@ -1463,51 +1446,95 @@ define(
                                                         }
                                                     }
                                                 });
-                                            }
 
-                                            /*
-                                             This can happen if the existing spec had duplicated topics. This means
-                                             there are fewer topics to choose from than there are being imported.
-                                             In this case check back through the topics looking for any with
-                                             an assigned topic id and the exact same xml, and reuse the id.
-                                             */
-                                            if (topic.topicId === undefined) {
-                                                jquery.each(topics, function(index, element) {
-                                                    if (element.pgIds !== undefined && element.topicId !== undefined) {
-                                                        var xmlDocsAreEquivilent = xmlcompare.compareStrictXml(
-                                                            topic,
-                                                            getDocumentFormat(config),
-                                                            topic.xml.cloneNode(true),
-                                                            replacements,
-                                                            element.xml.cloneNode(true),
-                                                            replacements);
+                                                callback(null);
 
-                                                        if (xmlDocsAreEquivilent) {
-                                                            topic.setTopicId(element.topicId);
-                                                            topic.setOriginalTopicXML(element.originalTopicXML);
-                                                            return false;
+                                            },
+                                            errorCallback
+                                        )
+                                    }, function(err, data) {
+                                        secondLoop();
+                                    }
+                                );
+                            }
+
+                            /*
+                             Second loop - take the first close match.
+                             If topics don't have an exact macth, just grab the first one that
+                             is close.
+                             */
+                            function secondLoop() {
+                                async.eachSeries(topics,
+                                    function(topic, callback) {
+                                        updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement));
+
+                                        restcalls.getSimilarTopics(
+                                            qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
+                                            config,
+                                            function (similarTopics) {
+
+
+                                                if (topic.topicId === undefined) {
+                                                    jquery.each(similarTopics.items, function (index, element) {
+                                                        // is this a topic assigned to the spec?
+                                                        if (availableTopics.indexOf(element.item.id) !== -1) {
+                                                            // is this a topic that has been resued already?
+                                                            if (resuedTopics.indexOf(element.item.id) === -1) {
+                                                                resuedTopics.push(element.item.id);
+                                                                topic.setTopicId(element.item.id);
+                                                                topic.setOriginalTopicXML(element.item.xml);
+                                                                return false;
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                                }
 
                                                 /*
-                                                    TODO: Really need to define the states a little more explicitly
-                                                    instead of a -1 head and a createdTopic there...
+                                                 This can happen if the existing spec had duplicated topics. This means
+                                                 there are fewer topics to choose from than there are being imported.
+                                                 In this case check back through the topics looking for any with
+                                                 an assigned topic id and the exact same xml, and reuse the id.
                                                  */
                                                 if (topic.topicId === undefined) {
-                                                    topic.topicId = -1;
+                                                    jquery.each(topics, function(index, element) {
+                                                        if (element.pgIds !== undefined && element.topicId !== undefined) {
+                                                            var xmlDocsAreEquivilent = xmlcompare.compareStrictXml(
+                                                                topic,
+                                                                getDocumentFormat(config),
+                                                                topic.xml.cloneNode(true),
+                                                                replacements,
+                                                                element.xml.cloneNode(true),
+                                                                replacements);
+
+                                                            if (xmlDocsAreEquivilent) {
+                                                                topic.setTopicId(element.topicId);
+                                                                topic.setOriginalTopicXML(element.originalTopicXML);
+                                                                return false;
+                                                            }
+                                                        }
+                                                    });
+
+                                                    /*
+                                                     TODO: Really need to define the states a little more explicitly
+                                                     instead of a -1 head and a createdTopic there...
+                                                     */
+                                                    if (topic.topicId === undefined) {
+                                                        topic.topicId = -1;
+                                                    }
                                                 }
-                                            }
 
-                                            callback(null);
+                                                callback(null);
 
-                                        },
-                                        errorCallback
-                                    )
-                                }, function(err, data) {
-                                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
-                                }
-                            );
+                                            },
+                                            errorCallback
+                                        )
+                                    }, function(err, data) {
+                                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
+                                    }
+                                );
+                            }
+
+                            firstLoop();
                         },
                         errorCallback)
                 }
