@@ -1,4 +1,4 @@
-define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
+define (['jquery', 'zip', 'qna/qnautils', 'exports'], function (jquery, zip, qnautils, exports) {
     'use strict';
 
     zip.workerScriptsPath = "js/zip/";
@@ -110,8 +110,8 @@ define (['jquery', 'zip', 'exports'], function (jquery, zip, exports) {
                 (function (cache) {
                     return function (entries) {
                         entries.sort(function(a,b) {
-                            var aDepth = a.filename.split("/").length;
-                            var bDepth = b.filename.split("/").length;
+                            var aDepth = qnautils.getFileName(a).split("/").length;
+                            var bDepth = qnautils.getFileName(b).split("/").length;
                             if (aDepth < bDepth) {
                                 return -1;
                             } else if (aDepth > bDepth) {

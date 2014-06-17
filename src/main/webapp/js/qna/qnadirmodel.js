@@ -92,8 +92,8 @@ define (['jquery', 'qna/qnautils', 'exports'], function (jquery, qnautils, expor
                 (function (cache) {
                     return function (entries) {
                         entries.sort(function(a,b) {
-                            var aDepth = a.filename.split("/").length;
-                            var bDepth = b.filename.split("/").length;
+                            var aDepth = qnautils.getFileName(a).split("/").length;
+                            var bDepth = qnautils.getFileName(b).split("/").length;
                             if (aDepth < bDepth) {
                                 return -1;
                             } else if (aDepth > bDepth) {
@@ -142,7 +142,6 @@ define (['jquery', 'qna/qnautils', 'exports'], function (jquery, qnautils, expor
             errorCallback
         );
     };
-
 
     exports.QNADirModel.prototype.clearCache = function () {
         this.cache = {};
