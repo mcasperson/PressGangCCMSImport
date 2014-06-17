@@ -1464,7 +1464,7 @@ define(
             function parseAsXML(xmlText, entities) {
                 processdocbook.processDocBook (
                     function(data) {
-                        resultCallback({xml: data.xml, entities: entities});
+                        resultCallback({xml: data.xml, entities: entities, config: data.config});
                     },
                     errorCallback,
                     xmlText

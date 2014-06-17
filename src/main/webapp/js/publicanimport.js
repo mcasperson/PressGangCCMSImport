@@ -384,6 +384,7 @@ define(
                             processxml.processXMLAndExtractEntities(
                                 function (processedXml) {
                                     processedXml.contentSpec = JSON.parse(result).contentSpec;
+                                    jquery.extend(config, processedXml.config);
                                     resultCallback(JSON.stringify(processedXml));
                                 },
                                 errorCallback,

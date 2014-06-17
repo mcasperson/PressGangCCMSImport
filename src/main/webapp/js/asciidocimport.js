@@ -177,6 +177,7 @@ define(
 
                             processxml.processXMLAndExtractEntities(
                                 function (result) {
+                                    query.extend(config, result.config);
                                     resultCallback(JSON.stringify(result));
                                 },
                                 errorCallback,
