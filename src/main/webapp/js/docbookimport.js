@@ -1957,9 +1957,26 @@ define(
                             compiledContentSpec += value + "\n";
                         });
                         if (config.OutgoingUrls.length !== 0) {
-                            compiledContentSpec += "# The following topics were added to this content specification on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + " with links that were not found in the white list.\n";
-                            compiledContentSpec += "# This list is *not* automatically updated, and does not reflect changes made to topics or the content specification since the import.\n";
+                            compiledContentSpec += "#\n";
+                            compiledContentSpec += "# The following lists represent the state of topics at the time of the import (on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + "). They are *not* automatically updated, and do not reflect changes made to topics or the content specification since the import.\n";
+                            compiledContentSpec += "#\n";
+                            compiledContentSpec += "# The following topics were added to this content specification with links that were not found in the white list.\n";
                             compiledContentSpec += "# " + config.OutgoingUrls;
+                        }
+
+                        if (config.ReusedTopics.length !== 0) {
+                            compiledContentSpec += "# The following existing topics were reused during the import.\n";
+                            compiledContentSpec += "# " + config.ReusedTopics;
+                        }
+
+                        if (config.NewTopics.length !== 0) {
+                            compiledContentSpec += "# The following new topics were created during the import.\n";
+                            compiledContentSpec += "# " + config.NewTopics;
+                        }
+
+                        if (config.UpdatedTopics.length !== 0) {
+                            compiledContentSpec += "# The following existing topics were updated during the import.\n";
+                            compiledContentSpec += "# " + config.UpdatedTopics;
                         }
 
                         return compiledContentSpec;
@@ -2065,7 +2082,7 @@ define(
                             .setName("ReusedTopicsLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
                                 if (config.ReusedTopics.length === 0) {
-                                    resultCallback("No topics were reused");
+                                    resultCallback("No existing topics were reused");
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.ReusedTopics + "'</a>Go to existing topics that were reused as part of this import</a>");
                                 }
@@ -2076,7 +2093,7 @@ define(
                             .setName("UpdatedTopicsLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
                                 if (config.UpdatedTopics.length === 0) {
-                                    resultCallback("No new topics were updated");
+                                    resultCallback("No existing topics were updated");
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.UpdatedTopics + "'</a>Go to existing topics that were updated as part of this import</a>");
                                 }
