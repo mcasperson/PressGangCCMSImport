@@ -1497,7 +1497,7 @@ define(
                                                  */
                                                 if (topic.topicId === undefined) {
                                                     jquery.each(topics, function(index, element) {
-                                                        if (element.pgIds !== undefined && element.topicId !== undefined) {
+                                                        if (element.topicId !== undefined) {
                                                             var xmlDocsAreEquivilent = xmlcompare.compareStrictXml(
                                                                 topic,
                                                                 getDocumentFormat(config),
@@ -2009,8 +2009,8 @@ define(
                                     config,
                                     function (data) {
                                         /*
-                                            If we were overwrting a topic as part of updating an existing spec, was the
-                                            topic actually updated? If so, records it as an updated topic. If not, record
+                                            If we were overwriting a topic as part of updating an existing spec, was the
+                                            topic actually updated? If so, record it as an updated topic. If not, record
                                             it as a reused topic.
                                          */
                                         if (updatingTopics() && topic.originalTopicXML) {
@@ -2200,17 +2200,6 @@ define(
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)
-                            .setIntro("Reused Topics")
-                            .setName("ReusedTopicsLink")
-                            .setValue(function (resultCallback, errorCallback, result, config) {
-                                if (config.ReusedTopics.length === 0) {
-                                    resultCallback("No existing topics were reused");
-                                } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.ReusedTopics + "'</a>Go to existing topics that were reused as part of this import</a>");
-                                }
-                            }),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.HTML)
                             .setIntro("Updated Topics")
                             .setName("UpdatedTopicsLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
@@ -2218,6 +2207,17 @@ define(
                                     resultCallback("No existing topics were updated");
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.UpdatedTopics + "'</a>Go to existing topics that were updated as part of this import</a>");
+                                }
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Reused Topics")
+                            .setName("ReusedTopicsLink")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                if (config.ReusedTopics.length === 0) {
+                                    resultCallback("No existing topics were reused");
+                                } else {
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.ReusedTopics + "'</a>Go to existing topics that were reused as part of this import</a>");
                                 }
                             })
                     ])
