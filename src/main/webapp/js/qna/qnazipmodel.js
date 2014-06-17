@@ -110,14 +110,21 @@ define (['jquery', 'zip', 'qna/qnautils', 'exports'], function (jquery, zip, qna
                 (function (cache) {
                     return function (entries) {
                         entries.sort(function(a,b) {
-                            var aDepth = qnautils.getFileName(a).split("/").length;
-                            var bDepth = qnautils.getFileName(b).split("/").length;
+                            var aFileName = qnautils.getFileName(a).toLowerCase();
+                            var bFileName = qnautils.getFileName(b).toLowerCase();
+                            var aDepth = aFileName.split("/").length;
+                            var bDepth = bFileName.split("/").length;
                             if (aDepth < bDepth) {
                                 return -1;
                             } else if (aDepth > bDepth) {
                                 return 1
+                            } else if (aFileName < bFileName) {
+                                return -1;
+                            } else if (aFileName > bFileName) {
+                                return 1;
                             }
-                            return a.filename.toLowerCase() > b.filename.toLowerCase();
+
+                            return 0;
                         });
                         cache[file.filename] = entries;
                         onend(entries);
