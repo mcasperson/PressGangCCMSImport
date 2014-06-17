@@ -1413,7 +1413,7 @@ define(
                             function firstLoop() {
                                 async.eachSeries(topics,
                                     function(topic, callback) {
-                                        updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement));
+                                        updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement * 0.5));
 
                                         restcalls.getSimilarTopics(
                                             qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
@@ -1466,7 +1466,7 @@ define(
                             function secondLoop() {
                                 async.eachSeries(topics,
                                     function(topic, callback) {
-                                        updateProgress((14 * progressIncrement) + (++index / topics.length * progressIncrement));
+                                        updateProgress((14 * progressIncrement + progressIncrement * 0.5) + (++index / topics.length * progressIncrement));
 
                                         restcalls.getSimilarTopics(
                                             qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
