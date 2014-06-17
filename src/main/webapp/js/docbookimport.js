@@ -1738,9 +1738,9 @@ define(
                                 topic.node.setTopicId(topic.assumedId);
 
                                 if (updatingTopics()) {
-                                    addTopicToReusedTopics(topic.assumedId);
-                                } else if (reusingTopics()) {
                                     addTopicToUpdatedTopics(topic.assumedId);
+                                } else if (reusingTopics()) {
+                                    addTopicToReusedTopics(topic.assumedId);
                                 }
 
 
@@ -1760,9 +1760,9 @@ define(
                                 topic.setTopicId(Object.keys(topic.pgIds)[0]);
 
                                 if (updatingTopics()) {
-                                    addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
-                                } else if (reusingTopics()) {
                                     addTopicToUpdatedTopics(Object.keys(topic.pgIds)[0]);
+                                } else if (reusingTopics()) {
+                                    addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
                                 }
 
                                 config.UploadedTopicCount += 1;
@@ -1993,16 +1993,19 @@ define(
                         }
 
                         if (config.ReusedTopics.length !== 0) {
+                            compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following existing topics were reused during the import.\n";
                             compiledContentSpec += "# " + config.ReusedTopics + "\n";
                         }
 
                         if (config.NewTopics.length !== 0) {
+                            compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following new topics were created during the import.\n";
                             compiledContentSpec += "# " + config.NewTopics + "\n";
                         }
 
                         if (config.UpdatedTopics.length !== 0) {
+                            compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following existing topics were updated during the import.\n";
                             compiledContentSpec += "# " + config.UpdatedTopics + "\n";
                         }
