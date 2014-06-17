@@ -1947,7 +1947,13 @@ define(
                                             var topicWasChanged =
                                                 newXMLDom === null ||
                                                 originalXMLDom === null ||
-                                                !xmlcompare.compareStrictXml(originalXMLDom, originalXMLDetails.replacements, newXMLDom, newXMLDetails.replacements);
+                                                !xmlcompare.compareStrictXml(
+                                                    topic,
+                                                    getDocumentFormat(config),
+                                                    originalXMLDom,
+                                                    originalXMLDetails.replacements,
+                                                    newXMLDom,
+                                                    newXMLDetails.replacements);
 
                                             if (topicWasChanged) {
                                                 addTopicToUpdatedTopics(data.id);
