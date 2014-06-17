@@ -276,6 +276,15 @@ define(['jquery', 'qna/qnautils', 'exports'], function(jquery, qnautils, exports
         return this;
     };
 
+    exports.TopicGraphNode.prototype.setNewTopic = function () {
+        this.topicId = -1;
+        return this;
+    };
+
+    exports.TopicGraphNode.prototype.isNewTopic = function () {
+        return this.topicId === -1;
+    };
+
     exports.TopicGraphNode.prototype.setOriginalTopicXML = function (topicXML) {
         this.originalTopicXML = topicXML;
         return this;

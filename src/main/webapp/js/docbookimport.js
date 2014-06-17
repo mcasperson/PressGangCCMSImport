@@ -334,6 +334,28 @@ define(
                     config.UpdatedTopics = addItemToCommaSeperatedList(config.UpdatedTopics, id);
                 }
 
+                function setAsNewTopic(topic) {
+                    topic.setNewTopic();
+                    ++config.UploadedTopicCount;
+                }
+
+                function setAsReusedTopic(topic, id) {
+                    topic.setTopicId(id);
+                    ++config.UploadedTopicCount;
+                    ++config.MatchedTopicCount;
+
+                    if (reusingTopics()) {
+                        addTopicToReusedTopics(id);
+                    }
+                }
+
+                function setAsOverwrittenTopic(topic, id, originalXml) {
+                    topic.setTopicId(id);
+                    topic.setOriginalTopicXML(originalXml);
+                    ++config.UploadedTopicCount;
+                    ++config.MatchedTopicCount;
+                }
+
                 /*
                  There are 17 steps, so this is how far to move the progress bar with each
                  step.
@@ -847,7 +869,7 @@ define(
 
                                             restcalls.createFile(
                                                 inputModel,
-                                                    config.CreateOrResuseFiles === "REUSE",
+                                                config.CreateOrResuseFiles === "REUSE",
                                                 config.InputSource,
                                                 qnautils.getFileName(entry),
                                                 uri.filename(),
@@ -1378,9 +1400,9 @@ define(
                 }
 
                 /*
-                    Here we find any topics currently assigned to the spec that we are overwriting that
-                    are similar to the topic we are uploading. Any topic considered similar will
-                    be overwritten with the topic being imported.
+                 Here we find any topics currently assigned to the spec that we are overwriting that
+                 are similar to the topic we are uploading. Any topic considered similar will
+                 be overwritten with the topic being imported.
                  */
                 function matchExistingTopicsInSpec (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     // a collection of the topic ids assigned to the spec we are overwriting
@@ -1507,8 +1529,7 @@ define(
                                                                 replacements);
 
                                                             if (xmlDocsAreEquivilent) {
-                                                                topic.setTopicId(element.topicId);
-                                                                topic.setOriginalTopicXML(element.originalTopicXML);
+                                                                setAsOverwrittenTopic(topic, element.topicId, element.originalTopicXML);
                                                                 return false;
                                                             }
                                                         }
@@ -1519,7 +1540,7 @@ define(
                                                      instead of a -1 here and a createdTopic there...
                                                      */
                                                     if (topic.topicId === undefined) {
-                                                        topic.topicId = -1;
+                                                        setAsNewTopic(topic);
                                                     }
                                                 }
 
@@ -1540,7 +1561,7 @@ define(
                 }
 
                 /*
-                    Resolve the topics either to existing topics in the database, or to new topics
+                 Resolve the topics either to existing topics in the database, or to new topics
                  */
                 function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
@@ -1549,113 +1570,117 @@ define(
                      Step 1: find any potential matches already in the PressGang server
                      */
                     function getPossibleMatches(index, callback) {
-                        if (index >= topics.length) {
-                            callback();
-                        } else {
-                            updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
 
-                            var topic = topics[index];
-                            restcalls.getSimilarTopics(
-                                qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
-                                config,
-                                function (data) {
-                                    var format = getDocumentFormat(config);
+                        var index = 0;
 
-                                    data.items.sort(function(a,b){
-                                        if (a.item.id < b.item.id) {
-                                            return 1;
-                                        }
+                        async.eachSeries(
+                            topics,
+                            function (topic, callback) {
+                                updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
+                                ++index;
 
-                                        if (a.item.id === b.item.id) {
-                                            return 0;
-                                        }
+                                restcalls.getSimilarTopics(
+                                    qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
+                                    config,
+                                    function (data) {
+                                        var format = getDocumentFormat(config);
 
-                                        return -1;
-                                    });
-                                    jquery.each(data.items, function(index, matchingTopic) {
-                                        /*
-                                            The matching topic has to have the same format as the one
-                                            we are trying to import.
-                                         */
-                                        if (matchingTopic.item.xmlFormat !== format) {
-                                            return true;
-                                        }
-
-                                        /*
-                                         The matching topic has to have the same locale as the one
-                                         we are trying to import.
-                                         */
-                                        if (matchingTopic.item.locale !== config.ImportLang) {
-                                            return true;
-                                        }
-
-                                        /*
-                                         Strip out the entities which can cause issues with the XML Parsing
-                                         */
-                                        var replacedTextResult = qnautils.replaceEntitiesInText(matchingTopic.item.xml);
-                                        /*
-                                         Parse to XML
-                                         */
-                                        var matchingTopicXMLCopy = qnautils.stringToXML(replacedTextResult.xml);
-                                        /*
-                                            Check for invalid XML stored in the database
-                                         */
-                                        if (matchingTopicXMLCopy !== null) {
-
-                                            var xmlDocsAreEquivilent = xmlcompare.compareXml(
-                                                topic,
-                                                format,
-                                                topicOrContainerIDs,
-                                                topic.xml.cloneNode(true),
-                                                replacements,
-                                                matchingTopicXMLCopy,
-                                                replacedTextResult.replacements);
-
-                                            if (xmlDocsAreEquivilent) {
-                                                topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
+                                        data.items.sort(function (a, b) {
+                                            if (a.item.id < b.item.id) {
+                                                return 1;
                                             }
-                                        } else {
-                                            console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
+
+                                            if (a.item.id === b.item.id) {
+                                                return 0;
+                                            }
+
+                                            return -1;
+                                        });
+                                        jquery.each(data.items, function (index, matchingTopic) {
+                                            /*
+                                             The matching topic has to have the same format as the one
+                                             we are trying to import.
+                                             */
+                                            if (matchingTopic.item.xmlFormat !== format) {
+                                                return true;
+                                            }
+
+                                            /*
+                                             The matching topic has to have the same locale as the one
+                                             we are trying to import.
+                                             */
+                                            if (matchingTopic.item.locale !== config.ImportLang) {
+                                                return true;
+                                            }
+
+                                            /*
+                                             Strip out the entities which can cause issues with the XML Parsing
+                                             */
+                                            var replacedTextResult = qnautils.replaceEntitiesInText(matchingTopic.item.xml);
+                                            /*
+                                             Parse to XML
+                                             */
+                                            var matchingTopicXMLCopy = qnautils.stringToXML(replacedTextResult.xml);
+                                            /*
+                                             Check for invalid XML stored in the database
+                                             */
+                                            if (matchingTopicXMLCopy !== null) {
+
+                                                var xmlDocsAreEquivilent = xmlcompare.compareXml(
+                                                    topic,
+                                                    format,
+                                                    topicOrContainerIDs,
+                                                    topic.xml.cloneNode(true),
+                                                    replacements,
+                                                    matchingTopicXMLCopy,
+                                                    replacedTextResult.replacements);
+
+                                                if (xmlDocsAreEquivilent) {
+                                                    topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
+                                                }
+                                            } else {
+                                                console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
+                                            }
+                                        });
+
+                                        if (topic.pgIds === undefined) {
+                                            console.log("Topic " + topic.title + " has no matches in the database.");
                                         }
-                                    });
 
-                                    if (topic.pgIds === undefined) {
-                                        console.log("Topic " + topic.title + " has no matches in the database.");
+                                        callback(null);
+                                    },
+                                    errorCallback
+                                );
+
+                            },
+                            function (err, data) {
+                                /*
+                                 get a report of potentially reused topics. This is really just a convenient
+                                 place to set a break point.
+                                 */
+                                jquery.each(topics, function (index, value) {
+                                    if (value.pgIds === undefined) {
+                                        console.log(value.title + ": none");
+                                    } else {
+                                        var matchingIds = "";
+                                        jquery.each(value.pgIds, function (key, value) {
+                                            if (matchingIds.length !== 0) {
+                                                matchingIds += ", ";
+                                            }
+                                            matchingIds += key;
+                                        });
+                                        console.log(value.title + ": " + matchingIds);
                                     }
-
-                                    getPossibleMatches(index + 1, callback);
-                                },
-                                errorCallback
-                            );
-                        }
-                    }
-
-                    getPossibleMatches(0, function() {
-                        /*
-                            get a report of potentially reused topics. This is really just a convenient
-                            place to set a break point.
-                         */
-                        jquery.each(topics, function(index, value) {
-                            if (value.pgIds === undefined) {
-                                console.log(value.title + ": none");
-                            } else {
-                                var matchingIds = "";
-                                jquery.each(value.pgIds, function(key, value) {
-                                    if (matchingIds.length !== 0) {
-                                        matchingIds += ", ";
-                                    }
-                                    matchingIds += key;
                                 });
-                                console.log(value.title + ": " + matchingIds);
-                            }
-                        });
 
-                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
-                    });
+                                callback(null, xmlDoc, contentSpec, topics, topicGraph);
+                            }
+                        );
+                    }
                 }
 
                 /*
-                    Populate outgoing links
+                 Populate outgoing links
                  */
                 function populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback) {
                     var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
@@ -1739,12 +1764,12 @@ define(
                     }
 
                     /*
-                        Loop through the list of unresolved nodes, find the largest graph that can be resolved
-                        from each of them, assign the topic ids to the nodes in that graph, and repeat until
-                        we have no more topics with resolvable graphs.
+                     Loop through the list of unresolved nodes, find the largest graph that can be resolved
+                     from each of them, assign the topic ids to the nodes in that graph, and repeat until
+                     we have no more topics with resolvable graphs.
 
-                        TODO: this really should assign the topic ids to the largest isolated graphs instead of
-                        recalculating them each time.
+                     TODO: this really should assign the topic ids to the largest isolated graphs instead of
+                     recalculating them each time.
 
                      */
                     var unresolvedNodes = null;
@@ -1787,9 +1812,7 @@ define(
                                     throw "We should not be able to set the topic id twice";
                                 }
 
-                                unresolvedNode.setTopicId(-1);
-                                config.UploadedTopicCount += 1;
-
+                                setAsNewTopic(unresolvedNode);
                             }
 
                             config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
@@ -1798,7 +1821,7 @@ define(
                         });
 
                         /*
-                            It is possible that none of the graphs could be resolved, in which case biggestGraph is null
+                         It is possible that none of the graphs could be resolved, in which case biggestGraph is null
                          */
                         if (biggestGraph !== null) {
                             /*
@@ -1810,14 +1833,7 @@ define(
                                     throw "We should not be able to set the topic id twice";
                                 }
 
-                                topic.node.setTopicId(topic.assumedId);
-
-                                if (reusingTopics()) {
-                                    addTopicToReusedTopics(topic.assumedId);
-                                }
-
-                                config.UploadedTopicCount += 1;
-                                config.MatchedTopicCount += 1;
+                                setAsReusedTopic(topic, topic.assumedId);
                             });
                         }
                     }
@@ -1829,17 +1845,9 @@ define(
                     jquery.each(topics, function (index, topic) {
                         if (topic.topicId === undefined) {
                             if (topic.pgIds !== undefined) {
-                                topic.setTopicId(Object.keys(topic.pgIds)[0]);
-
-                                if (reusingTopics()) {
-                                    addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
-                                }
-
-                                config.UploadedTopicCount += 1;
-                                config.MatchedTopicCount += 1;
+                                setAsReusedTopic(topic, Object.keys(topic.pgIds)[0]);
                             } else {
-                                topic.setTopicId(-1);
-                                config.UploadedTopicCount += 1;
+                                setAsNewTopic(topic);
                             }
                         }
                     });
@@ -1852,8 +1860,8 @@ define(
                 }
 
                 /*
-                    This function creates topics that have no existing match, and mark all topics that have been
-                    created or will be updated so their xrefs can be resolved.
+                 This function creates topics that have no existing match, and mark all topics that have been
+                 created or will be updated so their xrefs can be resolved.
                  */
                 function uploadTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
 
@@ -1898,7 +1906,7 @@ define(
 
                             var format = getDocumentFormat(config);
 
-                            if (topic.topicId === -1) {
+                            if (topic.isNewTopic()) {
                                 restcalls.createTopic(
                                     false,
                                     getDocbookVersion(config),
@@ -1916,8 +1924,8 @@ define(
                                 );
                             } else {
                                 /*
-                                    We already know the id that a topic will take when we are overwriting a spec, but
-                                    these topics still need to be flagged as "created" so their xrefs can be resolved.
+                                 We already know the id that a topic will take when we are overwriting a spec, but
+                                 these topics still need to be flagged as "created" so their xrefs can be resolved.
                                  */
                                 if (updatingTopics()) {
                                     topic.createdTopic = true;
@@ -1963,7 +1971,7 @@ define(
                                             if (destinationTopic !== undefined) {
 
                                                 if (destinationTopic instanceof specelement.TopicGraphNode &&
-                                                    (destinationTopic.topicId === undefined || destinationTopic.topicId === -1)) {
+                                                    (destinationTopic.topicId === undefined || destinationTopic.isNewTopic())) {
                                                     throw "All topics should be resolved by this point";
                                                 }
 
@@ -2009,9 +2017,9 @@ define(
                                     config,
                                     function (data) {
                                         /*
-                                            If we were overwriting a topic as part of updating an existing spec, was the
-                                            topic actually updated? If so, record it as an updated topic. If not, record
-                                            it as a reused topic.
+                                         If we were overwriting a topic as part of updating an existing spec, was the
+                                         topic actually updated? If so, record it as an updated topic. If not, record
+                                         it as a reused topic.
                                          */
                                         if (updatingTopics() && topic.originalTopicXML) {
                                             var originalXMLDetails = qnautils.replaceEntitiesInText(topic.originalTopicXML);
