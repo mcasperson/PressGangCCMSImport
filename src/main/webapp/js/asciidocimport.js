@@ -150,7 +150,9 @@ define(
 
                                     jquery.each(entries, function (index, value) {
                                         var filename = qnautils.getFileName(value);
-                                        if (IGNORED_FILE_EXTENSIONS.indexOf(new URI(filename).suffix()) === -1) {
+                                        var file = new URI(filename);
+                                        if (IGNORED_FILE_EXTENSIONS.indexOf(file.suffix()) === -1 &&
+                                            file.filename().length !== 0) {
                                             retValue.push(filename);
                                         }
                                     });
