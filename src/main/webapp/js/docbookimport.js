@@ -1814,15 +1814,16 @@ define(
                         }
                     }
 
-                    function createTopics(index, callback) {
-                        if (index >= topics.length) {
-                            callback();
-                        } else {
+                    var index = 0;
+
+                    async.eachSeries(
+                        topics,
+                        function(topic, callback) {
                             updateProgress((17 * progressIncrement) + (index / topics.length * progressIncrement));
+                            ++index;
 
                             var format = getDocumentFormat(config);
 
-                            var topic = topics[index];
                             if (topic.topicId === -1) {
                                 restcalls.createTopic(
                                     false,
@@ -1834,17 +1835,16 @@ define(
                                     config,
                                     function (data) {
                                         postCreateTopic(topic, data);
-                                        addTopicToNewTopics(savedTopic.id);
-                                        createTopics(index + 1, callback);
+                                        addTopicToNewTopics(data.id);
+                                        callback(null);
                                     },
                                     errorCallback
                                 );
                             } else {
-
                                 /*
-                                    If we are not overwriting a spec, we only reuse an existing topic or create a new one.
-                                    If we are overwriting a spec, we need to update topics that have been flagged as being
-                                    close matches.
+                                 If we are not overwriting a spec, we only reuse an existing topic or create a new one.
+                                 If we are overwriting a spec, we need to update topics that have been flagged as being
+                                 close matches.
                                  */
                                 if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
                                     restcalls.updateTopic(
@@ -1854,22 +1854,20 @@ define(
                                         config,
                                         function (data) {
                                             postCreateTopic(topic, data);
-                                            createTopics(index + 1, callback);
+                                            callback(null);
                                         },
                                         errorCallback
                                     )
                                 } else {
-                                    createTopics(index + 1, callback);
+                                    callback(null);
                                 }
                             }
+                        },
+                        function(err, data) {
+                            updateProgress(17 * progressIncrement, "UploadedTopics");
+                            callback(null, xmlDoc, contentSpec, topics, topicGraph);
                         }
-                    }
-
-                    createTopics(0, function() {
-                        updateProgress(17 * progressIncrement, "UploadedTopics");
-
-                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
-                    });
+                    );
                 }
 
                 function identifyOutgoingLinks (xmlDoc, contentSpec, topics, topicGraph, callback) {
