@@ -1408,7 +1408,6 @@ define(
                                                     if (resuedTopics.indexOf(element.item.id) === -1) {
                                                         resuedTopics.push(element.item.id);
                                                         topic.addPGId(element.item.id);
-                                                        addTopicToUpdatedTopics(element.item.id);
                                                         return false;
                                                     }
                                                 }
@@ -1725,7 +1724,15 @@ define(
                                 }
 
                                 topic.node.setTopicId(topic.assumedId);
-                                addTopicToReusedTopics(topic.assumedId);
+
+                                if (config.CreateOrResuseTopics !== "CREATE") {
+                                    if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
+                                        addTopicToReusedTopics(topic.assumedId);
+                                    } else {
+                                        addTopicToUpdatedTopics(topic.assumedId);
+                                    }
+                                }
+
 
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
@@ -1741,7 +1748,15 @@ define(
                         if (topic.topicId === undefined) {
                             if (topic.pgIds !== undefined) {
                                 topic.setTopicId(Object.keys(topic.pgIds)[0]);
-                                addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
+
+                                if (config.CreateOrResuseTopics !== "CREATE") {
+                                    if (config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC) {
+                                        addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
+                                    } else {
+                                        addTopicToUpdatedTopics(Object.keys(topic.pgIds)[0]);
+                                    }
+                                }
+
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
                             } else {
@@ -1775,7 +1790,6 @@ define(
                      */
                     function postCreateTopic(topic, savedTopic) {
                         topic.setTopicId(savedTopic.id);
-                        addTopicToNewTopics(savedTopic.id);
                         topic.createdTopic = true;
 
                         var replacedTextResult = qnautils.replaceEntitiesInText(savedTopic.xml);
@@ -1812,8 +1826,8 @@ define(
                                     config,
                                     function (data) {
                                         postCreateTopic(topic, data);
+                                        addTopicToNewTopics(savedTopic.id);
                                         createTopics(index + 1, callback);
-
                                     },
                                     errorCallback
                                 );
