@@ -1426,9 +1426,10 @@ define(
                                                     var matchXmlDetails = qnautils.replaceEntitiesInText(element.item.xml);
                                                     var matchXmlDom = qnautils.stringToXML(matchXmlDetails.xml);
 
-                                                    var xmlDocsAreEquivilent = xmlcompare.compareStrictXml(
+                                                    var xmlDocsAreEquivilent = xmlcompare.compareXml(
                                                         topic,
                                                         getDocumentFormat(config),
+                                                        topicGraph.getAllTopicOrContainerIDs(),
                                                         topic.xml.cloneNode(true),
                                                         replacements,
                                                         matchXmlDom,
