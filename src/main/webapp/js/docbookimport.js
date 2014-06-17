@@ -1963,25 +1963,26 @@ define(
                         });
                         if (config.OutgoingUrls.length !== 0) {
                             compiledContentSpec += "#\n";
-                            compiledContentSpec += "# The following lists represent the state of topics at the time of the import (on " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + "). These lists are *not* automatically updated, and do not reflect changes made to topics or the content specification since the import.\n";
+                            compiledContentSpec += "# The following lists represent the state of topics at the time of the import (" + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + ").\n"
+                            compiledContentSpec += "# These lists are *not* automatically updated, and do not reflect changes made to topics or the content specification since the import.\n";
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following topics were added to this content specification with links that were not found in the white list.\n";
-                            compiledContentSpec += "# " + config.OutgoingUrls;
+                            compiledContentSpec += "# " + config.OutgoingUrls + "\n";
                         }
 
                         if (config.ReusedTopics.length !== 0) {
                             compiledContentSpec += "# The following existing topics were reused during the import.\n";
-                            compiledContentSpec += "# " + config.ReusedTopics;
+                            compiledContentSpec += "# " + config.ReusedTopics + "\n";
                         }
 
                         if (config.NewTopics.length !== 0) {
                             compiledContentSpec += "# The following new topics were created during the import.\n";
-                            compiledContentSpec += "# " + config.NewTopics;
+                            compiledContentSpec += "# " + config.NewTopics + "\n";
                         }
 
                         if (config.UpdatedTopics.length !== 0) {
                             compiledContentSpec += "# The following existing topics were updated during the import.\n";
-                            compiledContentSpec += "# " + config.UpdatedTopics;
+                            compiledContentSpec += "# " + config.UpdatedTopics + "\n";
                         }
 
                         return compiledContentSpec;
