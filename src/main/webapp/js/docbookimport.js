@@ -305,10 +305,12 @@ define(
                 config.UpdatedTopics = "";
 
                 function addItemToCommaSeperatedList(string, id) {
-                    if (string.length !== 0) {
-                        string += ",";
+                    if (string.indexOf(id) === -1) {
+                        if (string.length !== 0) {
+                            string += ",";
+                        }
+                        string += id;
                     }
-                    string += id;
                     return string;
                 }
 
@@ -1523,7 +1525,6 @@ define(
 
                                             if (xmlDocsAreEquivilent) {
                                                 topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
-                                                addTopicToReusedTopics(matchingTopic.item.id);
                                             }
                                         } else {
                                             console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
@@ -1722,6 +1723,7 @@ define(
                                 }
 
                                 topic.node.setTopicId(topic.assumedId);
+                                addTopicToReusedTopics(topic.assumedId);
 
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
@@ -1737,6 +1739,7 @@ define(
                         if (topic.topicId === undefined) {
                             if (topic.pgIds !== undefined) {
                                 topic.setTopicId(Object.keys(topic.pgIds)[0]);
+                                addTopicToReusedTopics(Object.keys(topic.pgIds)[0]);
                                 config.UploadedTopicCount += 1;
                                 config.MatchedTopicCount += 1;
                             } else {
