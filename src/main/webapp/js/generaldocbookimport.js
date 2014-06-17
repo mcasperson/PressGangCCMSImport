@@ -177,6 +177,7 @@ define(
                         function(xmlText) {
                             processxml.processXMLAndExtractEntities(
                                 function (result) {
+                                    jquery.extend(config, result.config);
                                     resultCallback(JSON.stringify(result));
                                 },
                                 errorCallback,
