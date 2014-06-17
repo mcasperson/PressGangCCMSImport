@@ -13129,7 +13129,7 @@ if (key == null) key = nil;
 
     opal$opal.cdecl(opal$scope, 'PassInlineMacroRx',/\\?(?:(\+{3}|\${2})(.*?)\1|pass:([a-z,]*)\[(.*?[^\\])\])/m);
 
-    opal$opal.cdecl(opal$scope, 'XrefInlineMacroRx', (new RegExp("\\\\?(?:&lt;&lt;([" + opal$scope.CC_WORD + "\":].*?)&gt;&gt;|xref:([" + opal$scope.CC_WORD + "\":].*?)\\[(.*?)\\])")));
+    opal$opal.cdecl(opal$scope, 'XrefInlineMacroRx', (new RegExp("\\\\?(?:&lt;&lt;([" + opal$scope.CC_WORD + "\":\n].*?)&gt;&gt;|xref:([" + opal$scope.CC_WORD + "\":].*?)\\[(.*?)\\])")));
 
     opal$opal.cdecl(opal$scope, 'LineBreakRx', (function() {if (opal$scope.RUBY_ENGINE['opal$==']("opal")) {
       return /^(.*)[ \t]\+$/m}; return nil; })());

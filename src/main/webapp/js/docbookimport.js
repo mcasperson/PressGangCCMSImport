@@ -300,6 +300,29 @@ define(
                 config.UploadedFileCount = 0;
                 config.MatchedFileCount = 0;
                 config.OutgoingUrls = "";
+                config.ReusedTopics = "";
+                config.NewTopics = "";
+                config.UpdatedTopics = "";
+
+                function addItemToCommaSeperatedList(string, id) {
+                    if (string.length !== 0) {
+                        string += ",";
+                    }
+                    string += id;
+                    return string;
+                }
+
+                function addTopicToReusedTopics(id) {
+                    config.ReusedTopics = addItemToCommaSeperatedList(config.ReusedTopics, id);
+                }
+
+                function addTopicToNewTopics(id) {
+                    config.NewTopics = addItemToCommaSeperatedList(config.NewTopics, id);
+                }
+
+                function addTopicToUpdatedTopics(id) {
+                    config.UpdatedTopics = addItemToCommaSeperatedList(config.UpdatedTopics, id);
+                }
 
                 /*
                  There are 17 steps, so this is how far to move the progress bar with each
@@ -1383,6 +1406,7 @@ define(
                                                     if (resuedTopics.indexOf(element.item.id) === -1) {
                                                         resuedTopics.push(element.item.id);
                                                         topic.addPGId(element.item.id);
+                                                        addTopicToUpdatedTopics(element.item.id);
                                                         return false;
                                                     }
                                                 }
@@ -1499,6 +1523,7 @@ define(
 
                                             if (xmlDocsAreEquivilent) {
                                                 topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
+                                                addTopicToReusedTopics(matchingTopic.item.id);
                                             }
                                         } else {
                                             console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
@@ -1745,6 +1770,7 @@ define(
                      */
                     function postCreateTopic(topic, savedTopic) {
                         topic.setTopicId(savedTopic.id);
+                        addTopicToNewTopics(data.id);
                         topic.createdTopic = true;
 
                         var replacedTextResult = qnautils.replaceEntitiesInText(savedTopic.xml);
@@ -1782,6 +1808,7 @@ define(
                                     function (data) {
                                         postCreateTopic(topic, data);
                                         createTopics(index + 1, callback);
+
                                     },
                                     errorCallback
                                 );
@@ -2019,6 +2046,39 @@ define(
                                     resultCallback("No topics have outgoing links that were not in the white list");
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
+                                }
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Newly Created Topics")
+                            .setName("NewTopicsLink")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                if (config.NewTopics.length === 0) {
+                                    resultCallback("No new topics were created");
+                                } else {
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.NewTopics + "'</a>Go to topics with outgoing urls</a>");
+                                }
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Reused Topics")
+                            .setName("ReusedTopicsLink")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                if (config.ReusedTopics.length === 0) {
+                                    resultCallback("No topics were reused");
+                                } else {
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.ReusedTopics + "'</a>Go to topics with outgoing urls</a>");
+                                }
+                            }),
+                        new qna.QNAVariable()
+                            .setType(qna.InputEnum.HTML)
+                            .setIntro("Updated Topics")
+                            .setName("UpdatedTopicsLink")
+                            .setValue(function (resultCallback, errorCallback, result, config) {
+                                if (config.UpdatedTopics.length === 0) {
+                                    resultCallback("No new topics were updated");
+                                } else {
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.UpdatedTopics + "'</a>Go to topics with outgoing urls</a>");
                                 }
                             })
                     ])
