@@ -1828,7 +1828,7 @@ define(
                                     throw "We should not be able to set the topic id twice";
                                 }
 
-                                setAsReusedTopic(topic, topic.assumedId);
+                                setAsReusedTopic(topic.node, topic.assumedId);
                             });
                         }
                     }
