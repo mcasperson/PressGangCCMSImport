@@ -170,7 +170,7 @@ define(
         function convertArrayToCommaSeparatedString(array, limitLength, startEachLine) {
             var retValue = startEachLine ? startEachLine : "";
             jquery.each(array, function(index, value) {
-                if (limitLength && retValue.length > constants.MAXIMUM_SPEC_COMMENT_LINE_LENGTH) {
+                if (limitLength && retValue.split("\n").pop().length > constants.MAXIMUM_SPEC_COMMENT_LINE_LENGTH) {
                     retValue += "\n";
                     if (startEachLine) {
                         retValue += startEachLine;
