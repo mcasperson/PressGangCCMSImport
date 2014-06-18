@@ -175,11 +175,15 @@ define(
                     if (startEachLine) {
                         retValue += startEachLine;
                     }
+                    retValue += value;
                 } else if (retValue.length !== 0) {
-                    retValue += ",";
+                    retValue += "," + value;
+                } else {
+                    retValue += value;
                 }
-                retValue += value;
-            })
+
+            });
+            return retValue;
         }
 
         /*
@@ -1587,6 +1591,7 @@ define(
                                             errorCallback
                                         )
                                     }, function(err, data) {
+                                        updateProgress(15 * progressIncrement, "MatchedExistingTopics");
                                         callback(null, xmlDoc, contentSpec, topics, topicGraph);
                                     }
                                 );
