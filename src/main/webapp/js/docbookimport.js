@@ -167,6 +167,21 @@ define(
             return config.CreateOrResuseTopics === "CREATE";
         }
 
+        function convertArrayToCommaSeparatedString(array, limitLength, startEachLine) {
+            var retValue = startEachLine ? startEachLine : "";
+            jquery.each(array, function(index, value) {
+                if (limitLength && retValue.length > constants.MAXIMUM_SPEC_COMMENT_LINE_LENGTH) {
+                    retValue += "\n";
+                    if (startEachLine) {
+                        retValue += startEachLine;
+                    }
+                } else if (retValue.length !== 0) {
+                    retValue += ",";
+                }
+                retValue += value;
+            })
+        }
+
         /*
          Ask for a revision message
          */
@@ -337,32 +352,20 @@ define(
                 config.UploadedFileCount = 0;
                 config.MatchedFileCount = 0;
                 config.OutgoingUrls = "";
-                config.ReusedTopics = "";
-                config.NewTopics = "";
-                config.UpdatedTopics = "";
-
-                function addItemToCommaSeperatedList(string, id) {
-                    if (string.indexOf(id) === -1) {
-                        if (string.length > constants.MAXIMUM_SPEC_COMMENT_LINE_LENGTH) {
-                            string += "\n# ";
-                        } else if (string.length !== 0) {
-                            string += ",";
-                        }
-                        string += id;
-                    }
-                    return string;
-                }
+                config.ReusedTopics = [];
+                config.NewTopics = [];
+                config.UpdatedTopics = [];
 
                 function addTopicToReusedTopics(id) {
-                    config.ReusedTopics = addItemToCommaSeperatedList(config.ReusedTopics, id);
+                    config.ReusedTopics.push(id);
                 }
 
                 function addTopicToNewTopics(id) {
-                    config.NewTopics = addItemToCommaSeperatedList(config.NewTopics, id);
+                    config.NewTopics.push(id);
                 }
 
                 function addTopicToUpdatedTopics(id) {
-                    config.UpdatedTopics = addItemToCommaSeperatedList(config.UpdatedTopics, id);
+                    config.UpdatedTopics.push(id);
                 }
 
                 function setAsNewTopic(topic) {
@@ -2129,19 +2132,19 @@ define(
                         if (config.ReusedTopics.length !== 0) {
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following existing topics were reused during the import.\n";
-                            compiledContentSpec += "# " + config.ReusedTopics + "\n";
+                            compiledContentSpec += convertArrayToCommaSeparatedString(config.ReusedTopics, true, "# ") + "\n";
                         }
 
                         if (config.NewTopics.length !== 0) {
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following new topics were created during the import.\n";
-                            compiledContentSpec += "# " + config.NewTopics + "\n";
+                            compiledContentSpec += convertArrayToCommaSeparatedString(config.NewTopics, true, "# ") + "\n";
                         }
 
                         if (config.UpdatedTopics.length !== 0) {
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following existing topics were updated during the import.\n";
-                            compiledContentSpec += "# " + config.UpdatedTopics + "\n";
+                            compiledContentSpec += convertArrayToCommaSeparatedString(config.UpdatedTopics, true, "# ") + "\n";
                         }
 
                         return compiledContentSpec;
@@ -2238,7 +2241,7 @@ define(
                                 if (config.NewTopics.length === 0) {
                                     resultCallback("No new topics were created");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.NewTopics + "'</a>Go to new topics that were created as part of this import</a>");
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.NewTopics) + "'</a>Go to new topics that were created as part of this import</a>");
                                 }
                             }),
                         new qna.QNAVariable()
@@ -2249,7 +2252,7 @@ define(
                                 if (config.UpdatedTopics.length === 0) {
                                     resultCallback("No existing topics were updated");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.UpdatedTopics + "'</a>Go to existing topics that were updated as part of this import</a>");
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.UpdatedTopics) + "'</a>Go to existing topics that were updated as part of this import</a>");
                                 }
                             }),
                         new qna.QNAVariable()
@@ -2260,7 +2263,7 @@ define(
                                 if (config.ReusedTopics.length === 0) {
                                     resultCallback("No existing topics were reused");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.ReusedTopics + "'</a>Go to existing topics that were reused as part of this import</a>");
+                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.ReusedTopics) + "'</a>Go to existing topics that were reused as part of this import</a>");
                                 }
                             })
                     ])
