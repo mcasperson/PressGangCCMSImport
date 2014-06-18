@@ -168,7 +168,7 @@ define(
         }
 
         function convertArrayToCommaSeparatedString(array, limitLength, startEachLine) {
-            var retValue = startEachLine ? startEachLine : "";
+            var retValue = "";
             jquery.each(array, function(index, value) {
                 if (limitLength && retValue.split("\n").pop().length > constants.MAXIMUM_SPEC_COMMENT_LINE_LENGTH) {
                     retValue += "\n";
@@ -176,6 +176,10 @@ define(
                         retValue += startEachLine;
                     }
                     retValue += value;
+                } else if (retValue.length === 0) {
+                    if (startEachLine) {
+                        retValue = startEachLine;
+                    }
                 } else if (retValue.length !== 0) {
                     retValue += "," + value;
                 } else {
