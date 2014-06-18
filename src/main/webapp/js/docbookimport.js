@@ -385,6 +385,7 @@ define(
                     topic.setOriginalTopicXML(originalXml);
                     ++config.UploadedTopicCount;
                     ++config.MatchedTopicCount;
+                    config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
                 }
 
                 /*
