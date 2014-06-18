@@ -688,7 +688,7 @@ define(
                                 [],
                                 function(fixedXMLResult) {
                                     config.UploadProgress[1] = progressIncrement;
-                                    resultCallback(true, JSON.stringify({xml: fixedXMLResult.xml, entities: [], replacements: fixedXMLResult.replacements}));
+                                    resultCallback(true, JSON.stringify({xml: qnautils.reencode(fixedXMLResult.xml, fixedXMLResult.replacements), entities: []}));
                                 }
                             );
                         }

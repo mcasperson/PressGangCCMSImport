@@ -343,7 +343,9 @@ define(
 
                 function addItemToCommaSeperatedList(string, id) {
                     if (string.indexOf(id) === -1) {
-                        if (string.length !== 0) {
+                        if (string.length > constants.MAXIMUM_SPEC_COMMENT_LINE_LENGTH) {
+                            string += "\n# ";
+                        } else if (string.length !== 0) {
                             string += ",";
                         }
                         string += id;
@@ -1599,6 +1601,8 @@ define(
                         setAsNewTopic(topic);
                     });
 
+                    updateProgress(15 * progressIncrement, "MatchedExistingTopics");
+
                     callback(null, xmlDoc, contentSpec, topics, topicGraph);
                 }
 
@@ -2207,15 +2211,15 @@ define(
                             }),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Topics Created / Topics Reused")
+                            .setIntro("New Topics Created / Existing Topics Reused or Overwritten")
                             .setName("NewTopicsCreated"),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Images Created / Images Reused")
+                            .setIntro("New Images Created / Existing Images Reused")
                             .setName("NewImagesCreated"),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Files Created / Files Reused")
+                            .setIntro("New Files Created / Existing Files Reused")
                             .setName("NewFilesCreated"),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)

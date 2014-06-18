@@ -20,5 +20,7 @@ define(
         exports.CREATE_SPEC = "CREATE";
         exports.OVERWRITE_SPEC = "OVERWRITE";
         exports.EXISTING_CONTENT_SPEC_ID = "ExistingContentSpecID";
+
+        exports.MAXIMUM_SPEC_COMMENT_LINE_LENGTH = 120;
     }
 )
