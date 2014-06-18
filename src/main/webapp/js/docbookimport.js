@@ -155,7 +155,17 @@ define(
             return xmlText;
         }
 
+        function updatingTopics(config) {
+            return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC;
+        }
 
+        function reusingTopics(config) {
+            return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.CREATE_SPEC;
+        }
+
+        function creatingTopics(config) {
+            return config.CreateOrResuseTopics === "CREATE";
+        }
 
         /*
          Ask for a revision message
@@ -192,78 +202,101 @@ define(
             .setIntro("The list below allows you to monitor the progress of the import process. Steps with an asterisk (*) can take some time to complete, so please be patient.")
             .setOutputs([
                 new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
+                    .setVariables(function(resultCallback, errorCallback, result, config) {
+                        var variables = [];
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding revision history")
-                            .setName("FoundRevisionHistory"),
-                        new qna.QNAVariable()
+                            .setName("FoundRevisionHistory"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding author group")
-                            .setName("FoundAuthorGroup"),
-                        new qna.QNAVariable()
+                            .setName("FoundAuthorGroup"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding legal notice")
-                            .setName("FoundLegalNotice"),
-                        new qna.QNAVariable()
+                            .setName("FoundLegalNotice"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding abstract")
-                            .setName("FoundAbstract"),
-                        new qna.QNAVariable()
+                            .setName("FoundAbstract"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding and uploading files*")
-                            .setName("FoundFiles"),
-                        new qna.QNAVariable()
+                            .setName("FoundFiles"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Finding and uploading images*")
-                            .setName("FoundImages"),
-                        new qna.QNAVariable()
+                            .setName("FoundImages"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Resolving book structure")
-                            .setName("ResolvedBookStructure"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Match existing topics*")
-                            .setName("MatchedExistingTopics"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Resolving xref graphs")
-                            .setName("ResolvedXRefGraphs"),
-                        new qna.QNAVariable()
+                            .setName("ResolvedBookStructure"));
+
+                        if (updatingTopics(config) || reusingTopics(config)) {
+                            variables.push(new qna.QNAVariable()
+                                .setType(qna.InputEnum.CHECKBOX)
+                                .setIntro("Match existing topics*")
+                                .setName("MatchedExistingTopics"));
+                        }
+
+                        if (reusingTopics(config)) {
+                            variables.push(new qna.QNAVariable()
+                                .setType(qna.InputEnum.CHECKBOX)
+                                .setIntro("Resolving xref graphs")
+                                .setName("ResolvedXRefGraphs"));
+                        }
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Uploading Topics*")
-                            .setName("UploadedTopics"),
-                        new qna.QNAVariable()
+                            .setName("UploadedTopics"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Fixing xrefs*")
-                            .setName("FixXRefs"),
-                        new qna.QNAVariable()
+                            .setName("FixXRefs"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Updating Content Spec")
-                            .setName("UpdatedContentSpec"),
-                        new qna.QNAVariable()
+                            .setName("UpdatedContentSpec"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.CHECKBOX)
                             .setIntro("Uploading content specification")
-                            .setName("UploadedContentSpecification"),
-                        new qna.QNAVariable()
+                            .setName("UploadedContentSpecification"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Topics Created / Topics Reused")
-                            .setName("NewTopicsCreated"),
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Images Created / Images Reused")
-                            .setName("NewImagesCreated"),
-                        new qna.QNAVariable()
+                            .setName("NewTopicsCreated"));
+
+                        variables.push(new qna.QNAVariable()
+                                .setType(qna.InputEnum.PLAIN_TEXT)
+                                .setIntro("Images Created / Images Reused")
+                                .setName("NewImagesCreated"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Files Created / Files Reused")
-                            .setName("NewFilesCreated"),
-                        new qna.QNAVariable()
+                            .setName("NewFilesCreated"));
+
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PROGRESS)
                             .setIntro("Progress")
                             .setName("UploadProgress")
                             // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
-                            .setValue([100, 0])
-                    ])
+                            .setValue([100, 0]));
+
+                        resultCallback(variables);
+                    })
             ])
             .setEnterStep(function (resultCallback, errorCallback, result, config) {
 
@@ -278,13 +311,7 @@ define(
                     resultCallback();
                 }
 
-                function updatingTopics() {
-                    return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC;
-                }
 
-                function reusingTopics() {
-                    return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.CREATE_SPEC;
-                }
 
                 var resultParsed = JSON.parse(result);
                 var xmlDetails = qnautils.replaceEntitiesInText(resultParsed.xml);
@@ -344,7 +371,7 @@ define(
                     ++config.UploadedTopicCount;
                     ++config.MatchedTopicCount;
 
-                    if (reusingTopics()) {
+                    if (reusingTopics(config)) {
                         addTopicToReusedTopics(id);
                     }
                 }
@@ -381,15 +408,17 @@ define(
                  or creating a new one
                  */
 
-                if (updatingTopics()) {
+                if (updatingTopics(config)) {
                     computation.push(function (xmlDoc, contentSpec, topics, topicGraph, callback) {
                         matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph, callback)
                     });
-                } else if (reusingTopics()) {
+                } else if (reusingTopics(config)) {
                     computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
                     computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
                     computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefs(xmlDoc, contentSpec, topics, topicGraph, callback)});
 
+                } else if (creatingTopics(config)) {
+                    computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {setAllTopicsToNew(xmlDoc, contentSpec, topics, topicGraph, callback)});
                 }
 
                 computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {uploadTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
@@ -1560,6 +1589,14 @@ define(
                         errorCallback)
                 }
 
+                function setAllTopicsToNew(xmlDoc, contentSpec, topics, topicGraph, callback) {
+                    jquery.each(topics, function(index, topic) {
+                        setAsNewTopic(topic);
+                    });
+
+                    callback(null, xmlDoc, contentSpec, topics, topicGraph);
+                }
+
                 /*
                  Resolve the topics either to existing topics in the database, or to new topics
                  */
@@ -1922,7 +1959,7 @@ define(
                                  We already know the id that a topic will take when we are overwriting a spec, but
                                  these topics still need to be flagged as "created" so their xrefs can be resolved.
                                  */
-                                if (updatingTopics()) {
+                                if (updatingTopics(config)) {
                                     topic.createdTopic = true;
                                     topic.replacements = replacements;
                                 }
@@ -2016,7 +2053,7 @@ define(
                                          topic actually updated? If so, record it as an updated topic. If not, record
                                          it as a reused topic.
                                          */
-                                        if (updatingTopics() && topic.originalTopicXML) {
+                                        if (updatingTopics(config) && topic.originalTopicXML) {
                                             var originalXMLDetails = qnautils.replaceEntitiesInText(topic.originalTopicXML);
                                             var originalXMLDom = qnautils.stringToXML(originalXMLDetails.xml);
 
