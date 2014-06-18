@@ -180,6 +180,7 @@ define(
                     if (startEachLine) {
                         retValue = startEachLine;
                     }
+                    retValue += value;
                 } else if (retValue.length !== 0) {
                     retValue += "," + value;
                 } else {
