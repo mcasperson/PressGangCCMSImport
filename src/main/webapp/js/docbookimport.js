@@ -275,17 +275,17 @@ define(
 
                         variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Topics Created / Topics Reused")
+                            .setIntro("New Topics Created / Existing Topics Reused or Overwritten")
                             .setName("NewTopicsCreated"));
 
                         variables.push(new qna.QNAVariable()
                                 .setType(qna.InputEnum.PLAIN_TEXT)
-                                .setIntro("Images Created / Images Reused")
+                                .setIntro("New Images Created / Existing Images Reused")
                                 .setName("NewImagesCreated"));
 
                         variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
-                            .setIntro("Files Created / Files Reused")
+                            .setIntro("New Files Created / Existing Files Reused")
                             .setName("NewFilesCreated"));
 
                         variables.push(new qna.QNAVariable()
