@@ -311,8 +311,6 @@ define(
                     resultCallback();
                 }
 
-
-
                 var resultParsed = JSON.parse(result);
                 var xmlDetails = qnautils.replaceEntitiesInText(resultParsed.xml);
                 var xmlDoc = qnautils.stringToXML(xmlDetails.xml);
@@ -364,12 +362,14 @@ define(
                 function setAsNewTopic(topic) {
                     topic.setNewTopic();
                     ++config.UploadedTopicCount;
+                    config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
                 }
 
                 function setAsReusedTopic(topic, id) {
                     topic.setTopicId(id);
                     ++config.UploadedTopicCount;
                     ++config.MatchedTopicCount;
+                    config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                     if (reusingTopics(config)) {
                         addTopicToReusedTopics(id);
@@ -1847,8 +1847,6 @@ define(
                                 setAsNewTopic(unresolvedNode);
                             }
 
-                            config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
-
                             resultCallback();
                         });
 
@@ -1883,8 +1881,6 @@ define(
                             }
                         }
                     });
-
-                    config.NewTopicsCreated = (config.UploadedTopicCount - config.MatchedTopicCount) + " / " + config.MatchedTopicCount;
 
                     updateProgress(config.UploadProgress[1] = 16 * progressIncrement, "ResolvedXRefGraphs");
 
