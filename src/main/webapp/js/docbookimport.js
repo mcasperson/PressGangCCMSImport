@@ -317,6 +317,10 @@ define(
                 var entities = resultParsed.entities;
                 var replacements = xmlDetails.replacements;
 
+                if (xmlDoc === null) {
+                    throw "Generated XML was invalid";
+                }
+
                 var inputModel = qnastart.getInputModel(config);
 
                 window.onbeforeunload=function() {

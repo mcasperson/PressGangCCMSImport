@@ -688,8 +688,6 @@ define(
                                 [],
                                 function(fixedXMLResult) {
                                     config.UploadProgress[1] = progressIncrement;
-                                    resultCallback();
-
                                     resultCallback(true, JSON.stringify({xml: fixedXMLResult.xml, entities: [], replacements: fixedXMLResult.replacements}));
                                 }
                             );
