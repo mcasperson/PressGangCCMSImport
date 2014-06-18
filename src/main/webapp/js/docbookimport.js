@@ -385,7 +385,7 @@ define(
                     computation.push(function (xmlDoc, contentSpec, topics, topicGraph, callback) {
                         matchExistingTopicsInSpec(xmlDoc, contentSpec, topics, topicGraph, callback)
                     });
-                } else if (reusingTopics) {
+                } else if (reusingTopics()) {
                     computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {matchExistingTopics(xmlDoc, contentSpec, topics, topicGraph, callback)});
                     computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {populateOutgoingLinks(xmlDoc, contentSpec, topics, topicGraph, callback)});
                     computation.push(function(xmlDoc, contentSpec, topics, topicGraph, callback) {resolveXrefs(xmlDoc, contentSpec, topics, topicGraph, callback)});
@@ -1566,117 +1566,112 @@ define(
                 function matchExistingTopics (xmlDoc, contentSpec, topics, topicGraph, callback) {
                     var topicOrContainerIDs = topicGraph.getAllTopicOrContainerIDs();
 
-                    /*
-                     Step 1: find any potential matches already in the PressGang server
-                     */
-                    function getPossibleMatches(index, callback) {
+                    var index = 0;
 
-                        var index = 0;
+                    async.eachSeries(
+                        topics,
+                        function (topic, callback) {
+                            updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
+                            ++index;
 
-                        async.eachSeries(
-                            topics,
-                            function (topic, callback) {
-                                updateProgress((14 * progressIncrement) + (index / topics.length * progressIncrement));
-                                ++index;
+                            restcalls.getSimilarTopics(
+                                qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
+                                config,
+                                function (data) {
+                                    var format = getDocumentFormat(config);
 
-                                restcalls.getSimilarTopics(
-                                    qnautils.reencode(qnautils.xmlToString(topic.xml), replacements),
-                                    config,
-                                    function (data) {
-                                        var format = getDocumentFormat(config);
-
-                                        data.items.sort(function (a, b) {
-                                            if (a.item.id < b.item.id) {
-                                                return 1;
-                                            }
-
-                                            if (a.item.id === b.item.id) {
-                                                return 0;
-                                            }
-
-                                            return -1;
-                                        });
-                                        jquery.each(data.items, function (index, matchingTopic) {
-                                            /*
-                                             The matching topic has to have the same format as the one
-                                             we are trying to import.
-                                             */
-                                            if (matchingTopic.item.xmlFormat !== format) {
-                                                return true;
-                                            }
-
-                                            /*
-                                             The matching topic has to have the same locale as the one
-                                             we are trying to import.
-                                             */
-                                            if (matchingTopic.item.locale !== config.ImportLang) {
-                                                return true;
-                                            }
-
-                                            /*
-                                             Strip out the entities which can cause issues with the XML Parsing
-                                             */
-                                            var replacedTextResult = qnautils.replaceEntitiesInText(matchingTopic.item.xml);
-                                            /*
-                                             Parse to XML
-                                             */
-                                            var matchingTopicXMLCopy = qnautils.stringToXML(replacedTextResult.xml);
-                                            /*
-                                             Check for invalid XML stored in the database
-                                             */
-                                            if (matchingTopicXMLCopy !== null) {
-
-                                                var xmlDocsAreEquivilent = xmlcompare.compareXml(
-                                                    topic,
-                                                    format,
-                                                    topicOrContainerIDs,
-                                                    topic.xml.cloneNode(true),
-                                                    replacements,
-                                                    matchingTopicXMLCopy,
-                                                    replacedTextResult.replacements);
-
-                                                if (xmlDocsAreEquivilent) {
-                                                    topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
-                                                }
-                                            } else {
-                                                console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
-                                            }
-                                        });
-
-                                        if (topic.pgIds === undefined) {
-                                            console.log("Topic " + topic.title + " has no matches in the database.");
+                                    data.items.sort(function (a, b) {
+                                        if (a.item.id < b.item.id) {
+                                            return 1;
                                         }
 
-                                        callback(null);
-                                    },
-                                    errorCallback
-                                );
+                                        if (a.item.id === b.item.id) {
+                                            return 0;
+                                        }
 
-                            },
-                            function (err, data) {
-                                /*
-                                 get a report of potentially reused topics. This is really just a convenient
-                                 place to set a break point.
-                                 */
-                                jquery.each(topics, function (index, value) {
-                                    if (value.pgIds === undefined) {
-                                        console.log(value.title + ": none");
-                                    } else {
-                                        var matchingIds = "";
-                                        jquery.each(value.pgIds, function (key, value) {
-                                            if (matchingIds.length !== 0) {
-                                                matchingIds += ", ";
+                                        return -1;
+                                    });
+                                    jquery.each(data.items, function (index, matchingTopic) {
+                                        /*
+                                         The matching topic has to have the same format as the one
+                                         we are trying to import.
+                                         */
+                                        if (matchingTopic.item.xmlFormat !== format) {
+                                            return true;
+                                        }
+
+                                        /*
+                                         The matching topic has to have the same locale as the one
+                                         we are trying to import.
+                                         */
+                                        if (matchingTopic.item.locale !== config.ImportLang) {
+                                            return true;
+                                        }
+
+                                        /*
+                                         Strip out the entities which can cause issues with the XML Parsing
+                                         */
+                                        var replacedTextResult = qnautils.replaceEntitiesInText(matchingTopic.item.xml);
+                                        /*
+                                         Parse to XML
+                                         */
+                                        var matchingTopicXMLCopy = qnautils.stringToXML(replacedTextResult.xml);
+                                        /*
+                                         Check for invalid XML stored in the database
+                                         */
+                                        if (matchingTopicXMLCopy !== null) {
+
+                                            var xmlDocsAreEquivilent = xmlcompare.compareXml(
+                                                topic,
+                                                format,
+                                                topicOrContainerIDs,
+                                                topic.xml.cloneNode(true),
+                                                replacements,
+                                                matchingTopicXMLCopy,
+                                                replacedTextResult.replacements);
+
+                                            if (xmlDocsAreEquivilent) {
+                                                topic.addPGId(matchingTopic.item.id, matchingTopic.item.xml);
                                             }
-                                            matchingIds += key;
-                                        });
-                                        console.log(value.title + ": " + matchingIds);
-                                    }
-                                });
+                                        } else {
+                                            console.log("The XML in topic " + matchingTopic.item.id + " could not be parsed");
+                                        }
+                                    });
 
-                                callback(null, xmlDoc, contentSpec, topics, topicGraph);
-                            }
-                        );
-                    }
+                                    if (topic.pgIds === undefined) {
+                                        console.log("Topic " + topic.title + " has no matches in the database.");
+                                    }
+
+                                    callback(null);
+                                },
+                                errorCallback
+                            );
+
+                        },
+                        function (err, data) {
+                            /*
+                             get a report of potentially reused topics. This is really just a convenient
+                             place to set a break point.
+                             */
+                            jquery.each(topics, function (index, value) {
+                                if (value.pgIds === undefined) {
+                                    console.log(value.title + ": none");
+                                } else {
+                                    var matchingIds = "";
+                                    jquery.each(value.pgIds, function (key, value) {
+                                        if (matchingIds.length !== 0) {
+                                            matchingIds += ", ";
+                                        }
+                                        matchingIds += key;
+                                    });
+                                    console.log(value.title + ": " + matchingIds);
+                                }
+                            });
+
+                            callback(null, xmlDoc, contentSpec, topics, topicGraph);
+                        }
+                    );
+
                 }
 
                 /*
