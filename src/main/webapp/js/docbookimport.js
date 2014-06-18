@@ -1539,8 +1539,7 @@ define(
                                                             // is this a topic that has been resued already?
                                                             if (resuedTopics.indexOf(element.item.id) === -1) {
                                                                 resuedTopics.push(element.item.id);
-                                                                topic.setTopicId(element.item.id);
-                                                                topic.setOriginalTopicXML(element.item.xml);
+                                                                setAsOverwrittenTopic(topic, element.item.id, element.item.xml);
                                                                 return false;
                                                             }
                                                         }
