@@ -668,12 +668,8 @@ define(
                                 resultCallback(rules);
                             }),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Resolving Book Structure")
-                            .setName("ResolvedBookStructure"),
-                        new qna.QNAVariable()
                             .setType(qna.InputEnum.PROGRESS)
-                            .setIntro("Progress")
+                            .setIntro("Resolving Book Structure")
                             .setName("UploadProgress")
                             // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
                             .setValue([100, 0])
@@ -720,9 +716,9 @@ define(
 
                             if (thisTopicHasContent) {
                                 if (outlineLevel === 1) {
-                                    xmlDocString += generalexternalimport.buildClosedContainerTopicWithInitialText(config.TopLevelContainer, content, title);
+                                    xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText(config.TopLevelContainer, content, title);
                                 } else {
-                                    xmlDocString += generalexternalimport.buildTopicXML(content, title);
+                                    xmlDocString += generalexternalimport.buildOpenContainerTopicWithInitialText("section", content, title);
                                 }
                             } else {
                                 /*
@@ -731,6 +727,8 @@ define(
 
                                  So any line added to the spec that doesn't have an associated topic and
                                  that is not an ancestor of the next topic will be popped off the stack.
+
+                                 The
                                  */
                                 while (emptyContainerRE.test(xmlDocString)) {
                                     xmlDocString = xmlDocString.replace(emptyContainerRE, "");
@@ -1681,7 +1679,6 @@ define(
                         [],
                         function (fixedXMLResult) {
                             config.UploadProgress[1] = progressIncrement;
-                            config.ResolvedBookStructure = true;
                             resultCallback();
 
                             resultCallback(true, JSON.stringify({xml: fixedXMLResult.xml, entities: [], replacements: fixedXMLResult.replacements}));

@@ -58,12 +58,8 @@ define(
                             .setIntro("Getting Mojo Document")
                             .setName("GotMojoDocument"),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.CHECKBOX)
-                            .setIntro("Resolving Book Structure")
-                            .setName("ResolvedBookStructure"),
-                        new qna.QNAVariable()
                             .setType(qna.InputEnum.PROGRESS)
-                            .setIntro("Progress")
+                            .setIntro("Resolving Book Structure")
                             .setName("UploadProgress")
                             // gotta set this first up because of https://github.com/angular-ui/bootstrap/issues/1547
                             .setValue([100, 0])
@@ -692,7 +688,6 @@ define(
                                 [],
                                 function(fixedXMLResult) {
                                     config.UploadProgress[1] = progressIncrement;
-                                    config.ResolvedBookStructure = true;
                                     resultCallback();
 
                                     resultCallback(true, JSON.stringify({xml: fixedXMLResult.xml, entities: [], replacements: fixedXMLResult.replacements}));
