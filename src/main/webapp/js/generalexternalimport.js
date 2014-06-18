@@ -16,7 +16,7 @@ define(
         };
 
         exports.buildOpeningElement = function (container, title) {
-            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLocaleString() !== "section")) {
+            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLowerCase() !== "section")) {
                 throw "container can only be a chapter or section";
             }
 
@@ -24,7 +24,7 @@ define(
         };
 
         exports.buildOClosingElement = function (container) {
-            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLocaleString() !== "section")) {
+            if (container === null || container === undefined || (container.toLowerCase() !== "chapter" && container.toLowerCase() !== "section")) {
                 throw "container can only be a chapter or section";
             }
 
