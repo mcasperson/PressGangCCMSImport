@@ -1464,7 +1464,10 @@ define(
                         function(specTopics) {
 
                             jquery.each(specTopics.items, function(index, element) {
-                                if (availableTopics.indexOf(element.item.id) === -1) {
+                                /*
+                                    Any topics that are used in only this spec are available to be overwritten.
+                                 */
+                                if (availableTopics.indexOf(element.item.id) === -1 && element.item.contentSpecs_OTM.size === 0) {
                                     availableTopics.push(element.item.id);
                                 }
                             });
