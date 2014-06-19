@@ -1451,7 +1451,7 @@ define(
                  be overwritten with the topic being imported.
                  */
                 function matchExistingTopicsInSpec (xmlDoc, contentSpec, topics, topicGraph, callback) {
-                    var specTopics = [];
+                    var allSpecTopics = [];
 
                     // a collection of the topic ids assigned to the spec we are overwriting
                     var availableTopics = [];
@@ -1469,8 +1469,8 @@ define(
                                 /*
                                     Make a note of all the topics assigned to this spec
                                  */
-                                if (specTopics.indexOf(element.item.id) === -1) {
-                                    specTopics.push(element.item.id);
+                                if (allSpecTopics.indexOf(element.item.id) === -1) {
+                                    allSpecTopics.push(element.item.id);
                                     /*
                                         Any topics that are used in only this spec are available to be overwritten.
                                      */
@@ -1609,7 +1609,7 @@ define(
                                             Find out which existing topics were discarded in this import.
                                          */
                                         async.filter(
-                                            specTopics,
+                                            allSpecTopics,
                                             function (item, callback) {
                                                 callback(resuedTopics.indexOf(item) === -1);
                                             },
@@ -2156,7 +2156,7 @@ define(
                         if (config.OutgoingUrls.length !== 0) {
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following lists represent the state of topics at the time of the import (" + moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + ").\n"
-                            compiledContentSpec += "# These lists are *not* automatically updated, and do not reflect changes made to topics or the content specification since the import.\n";
+                            compiledContentSpec += "# These lists are *not* automatically updated, and *do not* reflect changes made to topics or the content specification since the import.\n";
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following topics were added to this content specification with links that were not found in the white list.\n";
                             compiledContentSpec += "# " + config.OutgoingUrls + "\n";
