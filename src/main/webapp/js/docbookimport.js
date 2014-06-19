@@ -2169,6 +2169,12 @@ define(
                             compiledContentSpec += convertArrayToCommaSeparatedString(config.UpdatedTopics, true, "# ") + "\n";
                         }
 
+                        if (config.RemovedTopics.length !== 0) {
+                            compiledContentSpec += "#\n";
+                            compiledContentSpec += "# The following existing topics were discarded during the import.\n";
+                            compiledContentSpec += convertArrayToCommaSeparatedString(config.RemovedTopics, true, "# ") + "\n";
+                        }
+
                         return compiledContentSpec;
                     }
 
@@ -2293,7 +2299,7 @@ define(
                         if (updatingTopics(config)) {
                             variables.push(new qna.QNAVariable()
                                 .setType(qna.InputEnum.HTML)
-                                .setIntro("Reused Topics")
+                                .setIntro("Discarded Topics")
                                 .setName("RemovedTopicsLink")
                                 .setValue(function (resultCallback, errorCallback, result, config) {
                                     if (config.RemovedTopics.length === 0) {
