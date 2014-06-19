@@ -1478,7 +1478,7 @@ define(
                                     /*
                                         Any topics that are used in only this spec are available to be overwritten.
                                      */
-                                    if (element.item.contentSpecs_OTM.size === 0) {
+                                    if (element.item.contentSpecs_OTM.size === 1) {
                                         availableTopics.push(element.item.id);
                                     }
                                 }
