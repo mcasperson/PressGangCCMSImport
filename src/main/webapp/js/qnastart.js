@@ -57,7 +57,7 @@ define(
                 return exports.dirModel;
             }
 
-            if (config.InputType === "Zip") {
+            if (config.InputType === "Zip" || config.InputType === "ZipURL") {
                 return exports.zipModel;
             }
 

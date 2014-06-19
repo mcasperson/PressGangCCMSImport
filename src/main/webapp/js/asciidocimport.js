@@ -41,14 +41,20 @@ define(
                     .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Zip File", "Directory"])
-                            .setOptions(["Zip", "Dir"])
+                            .setIntro(["Zip File", "Zip URL", "Directory"])
+                            .setOptions(["Zip", "ZipURL", "Dir"])
                             .setValue("Dir")
                             .setName("InputType")
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.InputType === "Zip" ? askForAsciidocZipFile : askForAsciidocDir);
+                if (config.InputType === "Zip") {
+                    resultCallback(askForAsciidocZipFile);
+                } else if (config.InputType === "ZipURL") {
+                    resultCallback(askForAsciidocZipUrl);
+                } else {
+                    resultCallback(askForAsciidocDir);
+                }
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
@@ -131,6 +137,59 @@ define(
             config.InputSource = undefined;
             resultCallback(exports.askForZipOrDir);
         });
+
+        var askForAsciidocZipUrl = new qna.QNAStep()
+            .setTitle("Enter the URL to tyhe ZIP file to import")
+            .setIntro("Enter the URL that references the Asciidoc ZIP archive that you wish to import into PressGang CCMS.")
+            .setInputs(
+                [
+                    new qna.QNAVariables()
+                        .setVariables([
+                            new qna.QNAVariable()
+                                .setType(qna.InputEnum.TEXTBOX)
+                                .setIntro("Asciidoc ZIP URL")
+                                .setName("SourceURL")
+                                .setValue("http://localhost:8000/asciidoc-test.zip")
+                        ])
+                ]
+            )
+            .setProcessStep(function (resultCallback, errorCallback, result, config) {
+                if (!config.SourceURL) {
+                    errorCallback("Please specify a URL", "You need to specify a URL before continuing.");
+                } else {
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', config.InputSourceURL, true);
+                    xhr.responseType = 'blob';
+
+                    xhr.onload = function(e) {
+                        if (this.readyState == 4 && this.status == 200) {
+                            config.InputSource = this.response;
+                            resultCallback();
+                        }
+                    };
+
+                    xhr.onerror = function(e) {
+                        errorCallback("Error loading file", "The selected file could not be loaded.");
+                    }
+
+                    xhr.send();
+                }
+            })
+            .setNextStep(function (resultCallback) {
+                resultCallback(askForMainXML);
+            })
+            .setEnterStep(function(resultCallback, errorCallback, result, config){
+                inputModel = qnastart.zipModel;
+                inputModel.clearCache();
+                config.InputSource = undefined;
+                resultCallback(false);
+            })
+            .setBackStep(function(resultCallback, errorCallback, result, config) {
+                config.InputSource = undefined;
+                resultCallback(exports.askForZipOrDir);
+            });
+
 
         /*
          STEP 2 - Get the main XML file

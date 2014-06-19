@@ -72,6 +72,7 @@
                         errorCallback("Not logged in", "The requested document could not be retrieved because you are not logged into Mojo.", true);
                     } else if (response.status === 200) {
                         var bytearray = [];
+                        //http://www.html5rocks.com/en/tutorials/file/xhr2/
                         for (var i = 0; i < response.responseText.length; ++i) {
                             bytearray.push(response.responseText.charCodeAt(i) & 0xff);
                         }
