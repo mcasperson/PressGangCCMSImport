@@ -1134,7 +1134,7 @@ define(
                             var contentSpecLine = createContentSpecSpacingPrefix(depth);
 
                             if (nodeIsCommonContentXInclude(value)) {
-                                var href = value.getAttribute(XINCLUDE_HREF_ATTR);
+                                var href = decodeURIComponent(value.getAttribute(XINCLUDE_HREF_ATTR));
                                 var filename = new URI(href).filename();
                                 contentSpec.push(contentSpecLine + encodeTitle(filename) + " [Common Content]");
                             } else if (nodeIsContainer(value)) {
