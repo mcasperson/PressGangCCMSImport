@@ -163,13 +163,17 @@ define(
                 } else {
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', config.InputSourceURL, true);
+                    xhr.open('GET', config.SourceURL, true);
                     xhr.responseType = 'blob';
 
                     xhr.onload = function(e) {
-                        if (this.readyState == 4 && this.status == 200) {
-                            config.InputSource = this.response;
-                            resultCallback();
+                        if (this.readyState == 4) {
+                            if (this.status == 200) {
+                                config.InputSource = this.response;
+                                resultCallback();
+                            } else {
+                                errorCallback("Error loading file", "The selected file could not be loaded.");
+                            }
                         }
                     };
 
