@@ -42,15 +42,15 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Zip File", "Zip URL", "Directory"])
-                            .setOptions(["Zip", "ZipURL", "Dir"])
-                            .setValue("Dir")
+                            .setOptions([exports.INPUT_TYPE_ZIP, exports.INPUT_TYPE_ZIPURL, exports.INPUT_TYPE_DIR])
+                            .setValue(exports.INPUT_TYPE_DIR)
                             .setName("InputType")
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                if (config.InputType === "Zip") {
+                if (config.InputType === exports.INPUT_TYPE_ZIP) {
                     resultCallback(askForAsciidocZipFile);
-                } else if (config.InputType === "ZipURL") {
+                } else if (config.InputType === exports.INPUT_TYPE_ZIPURL) {
                     resultCallback(askForAsciidocZipUrl);
                 } else {
                     resultCallback(askForAsciidocDir);
@@ -58,7 +58,7 @@ define(
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
-                    config.InputType = "Zip";
+                    config.InputType = exports.INPUT_TYPE_ZIP;
                     resultCallback(true);
                 } else {
                     resultCallback(false);
@@ -89,7 +89,7 @@ define(
             } else if (config.InputSource.name.lastIndexOf(".zip") !== config.InputSource.name.length - 4) {
                 errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
             } else {
-                config.InputType = "Zip";
+                config.InputType = exports.INPUT_TYPE_ZIP;
                 resultCallback();
             }
         })

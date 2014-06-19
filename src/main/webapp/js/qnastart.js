@@ -53,11 +53,11 @@ define(
                 return exports.zipModel;
             }
 
-            if (config.InputType === "Dir") {
+            if (config.InputType === exports.INPUT_TYPE_DIR) {
                 return exports.dirModel;
             }
 
-            if (config.InputType === "Zip" || config.InputType === "ZipURL") {
+            if (config.InputType === exports.INPUT_TYPE_ZIP || config.InputType === exports.INPUT_TYPE_ZIPURL) {
                 return exports.zipModel;
             }
 

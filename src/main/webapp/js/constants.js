@@ -39,6 +39,10 @@ define(
 
         exports.PRESSGANG_HOST = "PressGangHost";
 
+        exports.INPUT_TYPE_DIR = "Dir";
+        exports.INPUT_TYPE_ZIP = "Zip";
+        exports.INPUT_TYPE_ZIPURL = "ZipURL";
+
 
         exports.MAXIMUM_SPEC_COMMENT_LINE_LENGTH = 120;
     }
