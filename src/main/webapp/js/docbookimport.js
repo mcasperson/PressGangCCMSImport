@@ -86,6 +86,10 @@ define(
             return contentSpecLine;
         }
 
+        function isImportingFromRemote(config) {
+            return config.ImportOption === constants.MOJO_IMPORT_OPTION;
+        }
+
         function getSpecDocbookVersion(config) {
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
         }
@@ -156,15 +160,15 @@ define(
         }
 
         function updatingTopics(config) {
-            return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC;
+            return config[constants.CREATE_OR_REUSE_TOPICS] !== constants.CREATE_TOPICS &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.OVERWRITE_SPEC;
         }
 
         function reusingTopics(config) {
-            return config.CreateOrResuseTopics !== "CREATE" &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.CREATE_SPEC;
+            return config[constants.CREATE_OR_REUSE_TOPICS] !== constants.CREATE_TOPICS &&  config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.CREATE_SPEC;
         }
 
         function creatingTopics(config) {
-            return config.CreateOrResuseTopics === "CREATE";
+            return config[constants.CREATE_OR_REUSE_TOPICS] === constants.CREATE_TOPICS;
         }
 
         function convertArrayToCommaSeparatedString(array, limitLength, startEachLine) {
@@ -1083,7 +1087,7 @@ define(
                         }
                     };
 
-                    if (config.SourceURL) {
+                    if (isImportingFromRemote(config)) {
                         processImagesFromURL(images.iterateNext(), 0);
                     } else if (inputModel !== null) {
                         processImagesFromLocalSource(images.iterateNext(), 0);
@@ -2238,7 +2242,7 @@ define(
                             .setIntro("Content Specification ID")
                             .setName("ContentSpecIDLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
+                                resultCallback("<a href='http://" + config[constants.PressGangHost] + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
                             }));
                         variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
@@ -2271,7 +2275,7 @@ define(
                                 if (config.OutgoingUrls.length === 0) {
                                     resultCallback("No topics have outgoing links that were not in the white list");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
+                                    resultCallback("<a href='http://" + config[constants.PressGangHost] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
                                 }
                             }));
                         variables.push(new qna.QNAVariable()
@@ -2282,7 +2286,7 @@ define(
                                 if (config.NewTopics.length === 0) {
                                     resultCallback("No new topics were created");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.NewTopics) + "'</a>Go to new topics that were created as part of this import</a>");
+                                    resultCallback("<a href='http://" + config[constants.PressGangHost] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.NewTopics) + "'</a>Go to new topics that were created as part of this import</a>");
                                 }
                             }));
                         variables.push(new qna.QNAVariable()
@@ -2293,7 +2297,7 @@ define(
                                 if (config.UpdatedTopics.length === 0) {
                                     resultCallback("No existing topics were updated");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.UpdatedTopics) + "'</a>Go to existing topics that were updated as part of this import</a>");
+                                    resultCallback("<a href='http://" + config[constants.PressGangHost] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.UpdatedTopics) + "'</a>Go to existing topics that were updated as part of this import</a>");
                                 }
                             }));
                         variables.push(new qna.QNAVariable()
@@ -2304,7 +2308,7 @@ define(
                                 if (config.ReusedTopics.length === 0) {
                                     resultCallback("No existing topics were reused");
                                 } else {
-                                    resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.ReusedTopics) + "'</a>Go to existing topics that were reused as part of this import</a>");
+                                    resultCallback("<a href='http://" + config[constants.PressGangHost] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.ReusedTopics) + "'</a>Go to existing topics that were reused as part of this import</a>");
                                 }
                             }));
                         if (updatingTopics(config)) {
@@ -2316,7 +2320,7 @@ define(
                                     if (config.RemovedTopics.length === 0) {
                                         resultCallback("No existing topics were discarded");
                                     } else {
-                                        resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.RemovedTopics) + "'</a>Go to existing topics that were discarded as part of this import</a>");
+                                        resultCallback("<a href='http://" + config[constants.PressGangHost] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.RemovedTopics) + "'</a>Go to existing topics that were discarded as part of this import</a>");
                                     }
                                 }));
                         }

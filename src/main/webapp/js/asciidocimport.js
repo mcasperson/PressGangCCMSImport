@@ -172,13 +172,15 @@ define(
                                 config.InputSource = this.response;
                                 resultCallback();
                             } else {
-                                errorCallback("Error loading file", "The selected file could not be loaded.");
+                                errorCallback("Error loading file", "The selected file could not be accessed. \
+                                    It either does not exist, or the server hosting the file does not allow cross domain access.");
                             }
                         }
                     };
 
                     xhr.onerror = function(e) {
-                        errorCallback("Error loading file", "The selected file could not be loaded.");
+                        errorCallback("Error loading file", "The selected file could not be accessed. \
+                                    It either does not exist, or the server hosting the file does not allow cross domain access.");
                     }
 
                     xhr.send();

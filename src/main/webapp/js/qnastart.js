@@ -95,7 +95,13 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
                                 .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc"])
-                                .setOptions(["Publican", constants.DOCBOOK_45_IMPORT_OPTION, constants.DOCBOOK_50_IMPORT_OPTION, "OpenDocument", "Mojo", "Asciidoc"])
+                                .setOptions([
+                                    constants.PUBLICAN_IMPORT_OPTION,
+                                    constants.DOCBOOK_45_IMPORT_OPTION,
+                                    constants.DOCBOOK_50_IMPORT_OPTION,
+                                    constants.ODT_IMPORT_OPTION,
+                                    constants.MOJO_IMPORT_OPTION,
+                                    constants.ASCIIDOC_IMPORT_OPTION])
                                 .setValue("Publican")
                                 .setName("ImportOption")
                         ])
@@ -111,7 +117,7 @@ define(
                 ]
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                if (config.ImportOption === "Mojo" && window.greaseMonkeyShare === undefined) {
+                if (config.ImportOption === constants.MOJO_IMPORT_OPTION && window.greaseMonkeyShare === undefined) {
                     resultCallback(reportNoUserScript);
                 } else {
                     resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
@@ -207,21 +213,21 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Reuse existing topics", "Create new topics"])
-                            .setName("CreateOrResuseTopics")
-                            .setOptions(["REUSE", "CREATE"])
-                            .setValue("REUSE"),
+                            .setName(constants.CREATE_OR_REUSE_TOPICS)
+                            .setOptions([constants.REUSE_TOPICS, constants.CREATE_TOPICS])
+                            .setValue(constants.REUSE_TOPICS),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Reuse existing images", "Create new images"])
-                            .setName("CreateOrResuseImages")
-                            .setOptions(["REUSE", "CREATE"])
-                            .setValue("REUSE"),
+                            .setName(constants.CREATE_OR_REUSE_IMAGES)
+                            .setOptions([constants.REUSE_IMAGES, constants.CREATE_IMAGES])
+                            .setValue(constants.REUSE_IMAGES),
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Reuse existing files", "Create new files"])
-                            .setName("CreateOrResuseFiles")
-                            .setOptions(["REUSE", "CREATE"])
-                            .setValue("REUSE")
+                            .setName(constants.CREATE_OR_REUSE_FILES)
+                            .setOptions([constants.REUSE_FILES, constants.CREATE_FILES])
+                            .setValue(constants.REUSE_FILES)
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
@@ -252,11 +258,11 @@ define(
                             .setIntro(["Test Server", "LocalHost"])
                             .setOptions(["skynet-dev.usersys.redhat.com", "localhost"])
                             .setValue("skynet-dev.usersys.redhat.com")
-                            .setName("PressGangHost")
+                            .setName(constants.PRESSGANG_HOST)
                     ])
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (config.PressGangHost === undefined) {
+                if (config[constants.PRESSGANG_HOST] === undefined) {
                     errorCallback("Please select a server", "You need to select a server to import in to before continuing.")
                 } else {
                     resultCallback();
@@ -266,7 +272,7 @@ define(
                 restcalls.loadEntityConfig(
                     config,
                     function() {
-                        if (config.ImportOption === "Publican") {
+                        if (config.ImportOption === constants.PUBLICAN_IMPORT_OPTION) {
                             if (qnautils.isInputDirSupported()) {
                                 resultCallback(publicanimport.askForZipOrDir);
                             } else {
@@ -274,9 +280,9 @@ define(
                             }
                         } else if (config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION || config.ImportOption === constants.DOCBOOK_45_IMPORT_OPTION) {
                             resultCallback(generaldocbookimport.askForZipOrDir);
-                        } else if (config.ImportOption === "Mojo" || config.ImportOption === "OpenDocument") {
+                        } else if (config.ImportOption === constants.MOJO_IMPORT_OPTION || config.ImportOption === constants.ODT_IMPORT_OPTION) {
                             resultCallback(generalexternalimport.getSpecDetails);
-                        } else if (config.ImportOption === "Asciidoc") {
+                        } else if (config.ImportOption === constants.ASCIIDOC_IMPORT_OPTION) {
                             resultCallback(asciidocimport.getTopicLevelContainer);
                         }
                     },
