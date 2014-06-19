@@ -33,7 +33,7 @@ define(
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
 
-                config.InputType = exports.INPUT_TYPE_ZIP;
+                config.InputType = constants.INPUT_TYPE_ZIP;
 
                 if (!config.InputSource) {
                     errorCallback("Please select a file", "You need to select an ODT file before continuing.");

@@ -180,17 +180,17 @@ define(
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Zip File", "Directory"])
-                            .setOptions([exports.INPUT_TYPE_ZIP, exports.INPUT_TYPE_DIR])
-                            .setValue(exports.INPUT_TYPE_DIR)
+                            .setOptions([constants.INPUT_TYPE_ZIP, constants.INPUT_TYPE_DIR])
+                            .setValue(constants.INPUT_TYPE_DIR)
                             .setName("InputType")
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.InputType === exports.INPUT_TYPE_ZIP ? exports.askForPublicanZipFile : askForPublicanDir);
+                resultCallback(config.InputType === constants.INPUT_TYPE_ZIP ? exports.askForPublicanZipFile : askForPublicanDir);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
-                    config.InputType = exports.INPUT_TYPE_ZIP;
+                    config.InputType = constants.INPUT_TYPE_ZIP;
                     resultCallback(true);
                 } else {
                     resultCallback(false);

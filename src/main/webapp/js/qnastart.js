@@ -49,15 +49,15 @@ define(
         }
 
         exports.getInputModel = function(config) {
-            if (config.ImportOption === "OpenDocument") {
+            if (config.ImportOption === constants.ODT_IMPORT_OPTION) {
                 return exports.zipModel;
             }
 
-            if (config.InputType === exports.INPUT_TYPE_DIR) {
+            if (config.InputType === constants.INPUT_TYPE_DIR) {
                 return exports.dirModel;
             }
 
-            if (config.InputType === exports.INPUT_TYPE_ZIP || config.InputType === exports.INPUT_TYPE_ZIPURL) {
+            if (config.InputType === constants.INPUT_TYPE_ZIP || config.InputType === constants.INPUT_TYPE_ZIPURL) {
                 return exports.zipModel;
             }
 
