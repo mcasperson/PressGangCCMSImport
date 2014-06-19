@@ -1451,6 +1451,8 @@ define(
                  be overwritten with the topic being imported.
                  */
                 function matchExistingTopicsInSpec (xmlDoc, contentSpec, topics, topicGraph, callback) {
+                    var specTopics = [];
+
                     // a collection of the topic ids assigned to the spec we are overwriting
                     var availableTopics = [];
 
@@ -1465,10 +1467,16 @@ define(
 
                             jquery.each(specTopics.items, function(index, element) {
                                 /*
-                                    Any topics that are used in only this spec are available to be overwritten.
+                                    Make a note of all the topics assigned to this spec
                                  */
-                                if (availableTopics.indexOf(element.item.id) === -1 && element.item.contentSpecs_OTM.size === 0) {
-                                    availableTopics.push(element.item.id);
+                                if (specTopics.indexOf(element.item.id) === -1) {
+                                    specTopics.push(element.item.id);
+                                    /*
+                                        Any topics that are used in only this spec are available to be overwritten.
+                                     */
+                                    if (element.item.contentSpecs_OTM.size === 0) {
+                                        availableTopics.push(element.item.id);
+                                    }
                                 }
                             });
 
@@ -1601,7 +1609,7 @@ define(
                                             Find out which existing topics were discarded in this import.
                                          */
                                         async.filter(
-                                            availableTopics,
+                                            specTopics,
                                             function (item, callback) {
                                                 callback(resuedTopics.indexOf(item) === -1);
                                             },
@@ -2172,7 +2180,7 @@ define(
                             compiledContentSpec += convertArrayToCommaSeparatedString(config.UpdatedTopics, true, "# ") + "\n";
                         }
 
-                        if (config.RemovedTopics.length !== 0) {
+                        if (config.RemovedTopics !== undefined && config.RemovedTopics.length !== 0) {
                             compiledContentSpec += "#\n";
                             compiledContentSpec += "# The following existing topics were discarded during the import.\n";
                             compiledContentSpec += convertArrayToCommaSeparatedString(config.RemovedTopics, true, "# ") + "\n";
