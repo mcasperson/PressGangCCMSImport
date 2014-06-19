@@ -139,8 +139,12 @@ define(
         });
 
         var askForAsciidocZipUrl = new qna.QNAStep()
-            .setTitle("Enter the URL to tyhe ZIP file to import")
-            .setIntro("Enter the URL that references the Asciidoc ZIP archive that you wish to import into PressGang CCMS.")
+            .setTitle("Enter the URL to the ZIP file to import")
+            .setIntro("Enter the URL that references the Asciidoc ZIP archive that you wish to import into PressGang CCMS. \
+                Note that the server hosting the file needs to allow cross domain access in order for the import tool to \
+                be able to download it. If an error is reported that the file can not be accessed, even if the URL works when \
+                entered directly into the browser's address bar, there is a good chance that the remote server doesn't allow \
+                cross domain access.")
             .setInputs(
                 [
                     new qna.QNAVariables()
@@ -149,7 +153,7 @@ define(
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Asciidoc ZIP URL")
                                 .setName("SourceURL")
-                                .setValue("http://localhost:8000/asciidoc-test.zip")
+                                .setValue("asciidoc-test.zip")
                         ])
                 ]
             )

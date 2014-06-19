@@ -1594,8 +1594,22 @@ define(
                                             errorCallback
                                         )
                                     }, function(err, data) {
-                                        updateProgress(15 * progressIncrement, "MatchedExistingTopics");
-                                        callback(null, xmlDoc, contentSpec, topics, topicGraph);
+                                        /*
+                                            Find out which existing topics were discarded in this import.
+                                         */
+                                        async.filter(
+                                            availableTopics,
+                                            function (item, callback) {
+                                                callback(resuedTopics.indexOf(item) === -1);
+                                            },
+                                            function(results) {
+                                                config.RemovedTopics = results;
+                                                updateProgress(15 * progressIncrement, "MatchedExistingTopics");
+                                                callback(null, xmlDoc, contentSpec, topics, topicGraph);
+                                            }
+                                        );
+
+
                                     }
                                 );
                             }
@@ -2199,15 +2213,17 @@ define(
             .setTitle("Import Summary")
             .setOutputs([
                 new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
+                    .setVariables(function (resultCallback, errorCallback, result, config) {
+
+                        var variables = [];
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)
                             .setIntro("Content Specification ID")
                             .setName("ContentSpecIDLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
                                 resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
-                            }),
-                        new qna.QNAVariable()
+                            }));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Imported From")
                             .setName("ImportedFrom")
@@ -2217,20 +2233,20 @@ define(
                                 } else {
                                     resultCallback(qnautils.getInputSourceName(config.InputSource));
                                 }
-                            }),
-                        new qna.QNAVariable()
+                            }));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("New Topics Created / Existing Topics Reused or Overwritten")
-                            .setName("NewTopicsCreated"),
-                        new qna.QNAVariable()
+                            .setName("NewTopicsCreated"));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("New Images Created / Existing Images Reused")
-                            .setName("NewImagesCreated"),
-                        new qna.QNAVariable()
+                            .setName("NewImagesCreated"));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("New Files Created / Existing Files Reused")
-                            .setName("NewFilesCreated"),
-                        new qna.QNAVariable()
+                            .setName("NewFilesCreated"));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)
                             .setIntro("Topics with outgoing links")
                             .setName("OutgoingUrlsCompiled")
@@ -2240,8 +2256,8 @@ define(
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
                                 }
-                            }),
-                        new qna.QNAVariable()
+                            }));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)
                             .setIntro("Newly Created Topics")
                             .setName("NewTopicsLink")
@@ -2251,8 +2267,8 @@ define(
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.NewTopics) + "'</a>Go to new topics that were created as part of this import</a>");
                                 }
-                            }),
-                        new qna.QNAVariable()
+                            }));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)
                             .setIntro("Updated Topics")
                             .setName("UpdatedTopicsLink")
@@ -2262,8 +2278,8 @@ define(
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.UpdatedTopics) + "'</a>Go to existing topics that were updated as part of this import</a>");
                                 }
-                            }),
-                        new qna.QNAVariable()
+                            }));
+                        variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.HTML)
                             .setIntro("Reused Topics")
                             .setName("ReusedTopicsLink")
@@ -2273,8 +2289,22 @@ define(
                                 } else {
                                     resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.ReusedTopics) + "'</a>Go to existing topics that were reused as part of this import</a>");
                                 }
-                            })
-                    ])
+                            }));
+                        if (updatingTopics(config)) {
+                            variables.push(new qna.QNAVariable()
+                                .setType(qna.InputEnum.HTML)
+                                .setIntro("Reused Topics")
+                                .setName("RemovedTopicsLink")
+                                .setValue(function (resultCallback, errorCallback, result, config) {
+                                    if (config.RemovedTopics.length === 0) {
+                                        resultCallback("No existing topics were discarded");
+                                    } else {
+                                        resultCallback("<a href='http://" + config.PressGangHost + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.RemovedTopics) + "'</a>Go to existing topics that were discarded as part of this import</a>");
+                                    }
+                                }));
+                        }
+                        resultCallback(variables);
+                    })
             ])
             .setShowNext(false)
             .setShowPrevious(false)
