@@ -14,7 +14,7 @@
             requirejs.config({
                 baseUrl: 'js',
                 paths: {
-                    'jquery': 'jquery/jquery-2.1.0.min',
+                    'jquery': 'jquery/jquery-2.1.1.min',
                     'zip': 'zip/zip',
                     'angular': 'angular/angular.min',
                     'angular-sanitize': 'angular/angular-sanitize',
@@ -47,6 +47,14 @@
                     'patternfly': {
                         deps: ["jquery"]
                     }
+                },
+                /*
+                    Override all injections of restcalls to mockrestcalls
+                 */
+                map: {
+                    '*': {
+                        'restcalls': 'mockrestcalls'
+                    }
                 }
             });
 
@@ -58,7 +66,7 @@
         <div id="qunit-fixture"></div>
         <script src="qunit/qunit-git.js"></script>
         <script type="application/javascript">
-            require(["wgxpath", "tests"], function(wgxpath, tests) {
+            require(["wgxpath", "tests/tests"], function(wgxpath, tests) {
                 wgxpath.install();
             });
         </script>

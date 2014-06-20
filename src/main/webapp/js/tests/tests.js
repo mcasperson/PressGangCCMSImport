@@ -1,6 +1,6 @@
 define(
-    ['qna/qna'],
-    function (qna) {
+    ['qna/qna', 'restcalls'],
+    function (qna, restcalls) {
         'use strict';
 
         /*

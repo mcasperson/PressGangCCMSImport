@@ -102,8 +102,8 @@ define(
                                     constants.ODT_IMPORT_OPTION,
                                     constants.MOJO_IMPORT_OPTION,
                                     constants.ASCIIDOC_IMPORT_OPTION])
-                                .setValue("Publican")
-                                .setName("ImportOption")
+                                .setValue(constants.PUBLICAN_IMPORT_OPTION)
+                                .setName(constants.IMPORT_OPTION)
                         ])
                     /*new qna.QNAVariables()
                         .setVariables([
@@ -117,7 +117,7 @@ define(
                 ]
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                if (config.ImportOption === constants.MOJO_IMPORT_OPTION && window.greaseMonkeyShare === undefined) {
+                if (config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION && window.greaseMonkeyShare === undefined) {
                     resultCallback(reportNoUserScript);
                 } else {
                     resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
@@ -165,7 +165,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.CreateOrOverwrite === constants.CREATE_SPEC ? askToReuseTopics : getExistingContentSpecID);
+                resultCallback(config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.CREATE_SPEC ? askToReuseTopics : getExistingContentSpecID);
             });
 
         var getExistingContentSpecID = new qna.QNAStep()
@@ -272,17 +272,17 @@ define(
                 restcalls.loadEntityConfig(
                     config,
                     function() {
-                        if (config.ImportOption === constants.PUBLICAN_IMPORT_OPTION) {
+                        if (config[constants.IMPORT_OPTION] === constants.PUBLICAN_IMPORT_OPTION) {
                             if (qnautils.isInputDirSupported()) {
                                 resultCallback(publicanimport.askForZipOrDir);
                             } else {
                                 resultCallback(publicanimport.askForPublicanZipFile);
                             }
-                        } else if (config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION || config.ImportOption === constants.DOCBOOK_45_IMPORT_OPTION) {
+                        } else if (config[constants.IMPORT_OPTION] === constants.DOCBOOK_50_IMPORT_OPTION || config[constants.IMPORT_OPTION] === constants.DOCBOOK_45_IMPORT_OPTION) {
                             resultCallback(generaldocbookimport.askForZipOrDir);
-                        } else if (config.ImportOption === constants.MOJO_IMPORT_OPTION || config.ImportOption === constants.ODT_IMPORT_OPTION) {
+                        } else if (config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION || config[constants.IMPORT_OPTION] === constants.ODT_IMPORT_OPTION) {
                             resultCallback(generalexternalimport.getSpecDetails);
-                        } else if (config.ImportOption === constants.ASCIIDOC_IMPORT_OPTION) {
+                        } else if (config[constants.IMPORT_OPTION] === constants.ASCIIDOC_IMPORT_OPTION) {
                             resultCallback(asciidocimport.getTopicLevelContainer);
                         }
                     },

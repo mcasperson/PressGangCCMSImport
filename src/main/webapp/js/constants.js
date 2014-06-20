@@ -10,6 +10,8 @@ define(
         exports.DOCBOOK_50 = "DOCBOOK_50";
         exports.DOCBOOK_45 = "DOCBOOK_45";
 
+        exports.IMPORT_OPTION = "ImportOption";
+
         exports.PUBLICAN_IMPORT_OPTION = "Publican";
         exports.DOCBOOK_50_IMPORT_OPTION = "DocBook5";
         exports.DOCBOOK_45_IMPORT_OPTION = "DocBook45";

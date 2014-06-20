@@ -1,6 +1,9 @@
+/*
+    Mock calls to the rest server. This module takes the place of restcalls when testing.
+ */
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
+    ['jquery', 'exports'],
+    function (jquery, exports) {
         'use strict';
 
         var maxRevision = 0;
