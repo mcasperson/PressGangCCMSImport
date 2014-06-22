@@ -94,7 +94,7 @@ define(
                         .setVariables([
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.RADIO_BUTTONS)
-                                .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc"])
+                                .setIntro(["Publican", "DocBook 4.5", "DocBook 5.0", "OpenDocument", "Mojo", "Asciidoc (Beta)"])
                                 .setOptions([
                                     constants.PUBLICAN_IMPORT_OPTION,
                                     constants.DOCBOOK_45_IMPORT_OPTION,
@@ -244,22 +244,22 @@ define(
             .setIntro("During the alpha you can only import content into the test server. Future releases will allow content to be imported into the production server as well.")
             .setInputs([
                 new qna.QNAVariables()
-                    /*.setVariables([
+                    .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Production Server", "Test Server"])
                             .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
                             .setValue("skynet-dev.usersys.redhat.com")
-                            .setName("PressGangHost")
-                    ])*/
-                    .setVariables([
+                            .setName(constants.PRESSGANG_HOST)
+                    ])
+                    /*.setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Test Server", "LocalHost"])
                             .setOptions(["skynet-dev.usersys.redhat.com", "localhost"])
                             .setValue("skynet-dev.usersys.redhat.com")
                             .setName(constants.PRESSGANG_HOST)
-                    ])
+                    ])*/
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
                 if (config[constants.PRESSGANG_HOST] === undefined) {
