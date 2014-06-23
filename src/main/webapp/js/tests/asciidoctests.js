@@ -119,17 +119,6 @@ define(
                             assert,
                             myQna,
                             function(myQna) {
-                                // doing an asciidoc import
-                                myQna.config[constants.IMPORT_OPTION] = constants.ASCIIDOC_IMPORT_OPTION;
-                            },
-                            callback
-                        );
-                    },
-                    function(myQna, callback) {
-                        initializeAndMove(
-                            assert,
-                            myQna,
-                            function(myQna) {
                                 // creating a new content spec
                                 myQna.config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] = constants.CREATE_SPEC;
                             },
