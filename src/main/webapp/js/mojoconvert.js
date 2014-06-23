@@ -19,17 +19,17 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Mojo URL")
-                                .setName("SourceURL")
+                                .setName(constants.SOURCE_URL)
                         ])
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.SourceURL) {
+                if (!config[constants.SOURCE_URL]) {
                     errorCallback("Please specify a URL", "You need to specify a Mojo URL before continuing.");
                 } else {
                     if (window.greaseMonkeyShare === undefined) {
                         errorCallback("User Script Not Installed", "You need to install the PressGang Import user script to import Mojo documents");
-                    } else if (!mojoURLRE.test(config.SourceURL.trim())) {
+                    } else if (!mojoURLRE.test(config[constants.SOURCE_URL].trim())) {
                         errorCallback("URL is not valid", "Please enter a valid Mojo document URL.");
                     } else {
                         resultCallback();
@@ -72,7 +72,7 @@ define(
                 };
 
                 var progressIncrement = 100 / 2;
-                var id = /^.*?(\d+)$/.exec(config.SourceURL);
+                var id = /^.*?(\d+)$/.exec(config[constants.SOURCE_URL]);
                 var xmlDocString = "";
 
                 window.greaseMonkeyShare.getMojoDoc(

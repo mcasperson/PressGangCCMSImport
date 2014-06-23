@@ -44,13 +44,13 @@ define(
                             .setIntro(["Zip File", "Zip URL", "Directory"])
                             .setOptions([constants.INPUT_TYPE_ZIP, constants.INPUT_TYPE_ZIPURL, constants.INPUT_TYPE_DIR])
                             .setValue(constants.INPUT_TYPE_DIR)
-                            .setName("InputType")
+                            .setName(constants.INPUT_TYPE)
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                if (config.InputType === constants.INPUT_TYPE_ZIP) {
+                if (config[constants.INPUT_TYPE] === constants.INPUT_TYPE_ZIP) {
                     resultCallback(askForAsciidocZipFile);
-                } else if (config.InputType === constants.INPUT_TYPE_ZIPURL) {
+                } else if (config[constants.INPUT_TYPE] === constants.INPUT_TYPE_ZIPURL) {
                     resultCallback(askForAsciidocZipUrl);
                 } else {
                     resultCallback(askForAsciidocDir);
@@ -58,7 +58,7 @@ define(
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
-                    config.InputType = constants.INPUT_TYPE_ZIP;
+                    config[constants.INPUT_TYPE] = constants.INPUT_TYPE_ZIP;
                     resultCallback(true);
                 } else {
                     resultCallback(false);
@@ -89,7 +89,7 @@ define(
             } else if (config.InputSource.name.lastIndexOf(".zip") !== config.InputSource.name.length - 4) {
                 errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
             } else {
-                config.InputType = constants.INPUT_TYPE_ZIP;
+                config[constants.INPUT_TYPE] = constants.INPUT_TYPE_ZIP;
                 resultCallback();
             }
         })
@@ -152,18 +152,18 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Asciidoc ZIP URL")
-                                .setName("SourceURL")
+                                .setName(constants.SOURCE_URL)
                                 .setValue("asciidoc-test.zip")
                         ])
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.SourceURL) {
+                if (!config[constants.SOURCE_URL]) {
                     errorCallback("Please specify a URL", "You need to specify a URL before continuing.");
                 } else {
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', config.SourceURL, true);
+                    xhr.open('GET', config[constants.SOURCE_URL], true);
                     xhr.responseType = 'blob';
 
                     xhr.onload = function(e) {
@@ -212,7 +212,7 @@ define(
                     .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.LISTBOX)
-                            .setName("MainFile")
+                            .setName(constants.MAIN_FILE)
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
@@ -232,7 +232,7 @@ define(
                     ])
             ])
             .setProcessStep(function(resultCallback, errorCallback, result, config) {
-                if (config.MainFile === null || config.MainFile === undefined || config.MainFile.trim().length === 0 ) {
+                if (config[constants.MAIN_FILE] === null || config[constants.MAIN_FILE] === undefined || config[constants.MAIN_FILE].trim().length === 0 ) {
                     errorCallback("Select a XML file", "Please select the main Asciidoc file before continuing");
                 } else {
                     /*

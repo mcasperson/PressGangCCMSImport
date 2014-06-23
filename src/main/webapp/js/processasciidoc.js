@@ -146,7 +146,7 @@ define(
 
             inputModel.getTextFromFileName(
                 config.InputSource,
-                config.MainFile,
+                config[constants.MAIN_FILE],
                 function (asciidocText) {
                     function resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries) {
                         if (generalInclude.test(asciidocText)) {
@@ -154,7 +154,7 @@ define(
                             resolveInclude(
                                 asciidocText,
                                 attributeEntries,
-                                config.MainFile,
+                                config[constants.MAIN_FILE],
                                 visitedFiles,
                                 function (asciidocText, visitedFiles, attributeEntries) {
                                     resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries);
@@ -167,7 +167,7 @@ define(
                     }
 
                     var count = 0;
-                    resolveIncludeLoop(asciidocText, [config.MainFile], extractAttributeEntities(asciidocText));
+                    resolveIncludeLoop(asciidocText, [config[constants.MAIN_FILE]], extractAttributeEntities(asciidocText));
                 },
                 true
             );
