@@ -100,54 +100,135 @@ define(
             async.waterfall(
                 [
                     function(myQna, callback) {
-                        // doing an asciidoc import
-                        myQna.config[constants.IMPORT_OPTION] = constants.ASCIIDOC_IMPORT_OPTION;
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // doing an asciidoc import
+                                myQna.config[constants.IMPORT_OPTION] = constants.ASCIIDOC_IMPORT_OPTION;
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // doing an asciidoc import
-                        myQna.config[constants.IMPORT_OPTION] = constants.ASCIIDOC_IMPORT_OPTION;
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // doing an asciidoc import
+                                myQna.config[constants.IMPORT_OPTION] = constants.ASCIIDOC_IMPORT_OPTION;
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // creating a new content spec
-                        myQna.config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] = constants.CREATE_SPEC;
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // creating a new content spec
+                                myQna.config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] = constants.CREATE_SPEC;
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // create new topics, images and files
-                        myQna.config[constants.CREATE_OR_REUSE_TOPICS] = constants.CREATE_TOPICS;
-                        myQna.config[constants.CREATE_OR_REUSE_IMAGES] = constants.CREATE_IMAGES;
-                        myQna.config[constants.CREATE_OR_REUSE_FILES] = constants.CREATE_FILES;
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // create new topics, images and files
+                                myQna.config[constants.CREATE_OR_REUSE_TOPICS] = constants.CREATE_TOPICS;
+                                myQna.config[constants.CREATE_OR_REUSE_IMAGES] = constants.CREATE_IMAGES;
+                                myQna.config[constants.CREATE_OR_REUSE_FILES] = constants.CREATE_FILES;
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // set the server to import to. This makes no difference, as all REST calls are mocked
-                        myQna.config[constants.PRESSGANG_HOST] = "localhost";
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // set the server to import to. This makes no difference, as all REST calls are mocked
+                                myQna.config[constants.PRESSGANG_HOST] = "localhost";
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // set config values
-                        myQna.config[constants.TOP_LEVEL_CONTAINER] = constants.CHAPTER_TOP_LEVEL_CONTAINER;
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // set config values
+                                myQna.config[constants.TOP_LEVEL_CONTAINER] = constants.CHAPTER_TOP_LEVEL_CONTAINER;
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // Importing from a zip file hosted with the import tool
-                        myQna.config[constants.INPUT_TYPE] = constants.INPUT_TYPE_ZIPURL;
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // Importing from a zip file hosted with the import tool
+                                myQna.config[constants.INPUT_TYPE] = constants.INPUT_TYPE_ZIPURL;
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // set the url to the file
-                        myQna.config[constants.SOURCE_URL] = "asciidoc-test.zip";
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // set the url to the file
+                                myQna.config[constants.SOURCE_URL] = "asciidoc-test.zip";
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // select the parent include file
-                        myQna.config[constants.MAIN_FILE] = "parent-include.adoc";
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // select the parent include file
+                                myQna.config[constants.MAIN_FILE] = "parent-include.adoc";
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // leave all the spec details, like title, subtitle etc, as their default
-                        callback(null, myQna);
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // leave all the spec details, like title, subtitle etc, as their default
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // leave all the spec details, like title, subtitle etc, as their default
-                        callback(null, myQna);
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // leave all the spec details, like title, subtitle etc, as their default
+                            },
+                            callback
+                        );
                     },
                     function(myQna, callback) {
-                        // leave the revision log as the default
-                        callback(null, myQna);
+                        initializeAndMove(
+                            assert,
+                            myQna,
+                            function(myQna) {
+                                // leave the revision log as the default
+                            },
+                            callback
+                        );
                     }
                 ],
                 function(err, result) {
