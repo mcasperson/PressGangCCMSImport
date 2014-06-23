@@ -117,6 +117,16 @@ define(
             }, 0);
         };
 
+        exports.updateTopic = function(id, xml, title, config, successCallback, errorCallback, retryCount) {
+            window.setTimeout(function() {
+                successCallback(
+                    {
+                        "id":id
+                    }
+                );
+            }, 0);
+        };
+
         exports.createContentSpec = function(spec, lang, config, successCallback, errorCallback, retryCount) {
 
             window.setTimeout(function() {
