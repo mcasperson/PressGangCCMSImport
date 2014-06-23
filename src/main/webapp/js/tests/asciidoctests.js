@@ -3,7 +3,7 @@ define(
     function (qna, qnastart, async, constants) {
         'use strict';
 
-        function applyFuncAndMove(assert, myQna, result, callback) {
+        function applyFuncAndMove(assert, myQna, initFunc, result, callback) {
             initFunc(myQna);
             if (myQna.hasNext()) {
                 moveNext(assert, myQna, result, callback);
@@ -34,9 +34,10 @@ define(
             myQna.initialize(
                 function (myQna) {
 
+                    var result = myQna.results[myQna.results.length - 1];
+                    var config = myQna.config;
+
                     if (myQna.step.enterStep) {
-                        var result = myQna.results[myQna.results.length - 1];
-                        var config = myQna.config;
                         myQna.step.enterStep(
                             function (move, result) {
                                 /*
@@ -66,7 +67,7 @@ define(
                                             }
                                         });
                                     } else {
-                                        applyFuncAndMove(assert, myQna, result, callback);
+                                        applyFuncAndMove(assert, myQna, initFunc, result, callback);
                                     }
                                 }
                             },
@@ -79,7 +80,7 @@ define(
                             config
                         );
                     } else {
-                        applyFuncAndMove(assert, myQna, result, callback);
+                        applyFuncAndMove(assert, myQna, initFunc, result, callback);
                     }
                 },
                 function (title, error, critical) {
@@ -91,7 +92,7 @@ define(
         }
 
         QUnit.asyncTest("Moving to step 3 and 4", function (assert) {
-            expect(5);
+            expect(1);
 
             var updateCalled = false;
 
