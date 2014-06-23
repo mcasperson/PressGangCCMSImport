@@ -98,7 +98,7 @@ define(
             );
         }
 
-        QUnit.asyncTest("Moving to step 3 and 4", function (assert) {
+        QUnit.asyncTest("Running through an Asciidoc import", function (assert) {
             expect(1);
 
             async.waterfall(

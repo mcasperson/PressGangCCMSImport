@@ -6,7 +6,6 @@ define(
     function (jquery, exports) {
         'use strict';
 
-        var maxRevision = 0;
         var maxImageId = 0;
         var maxTopicId = 0;
         var maxFileId = 0;
@@ -27,37 +26,15 @@ define(
                     successCallback(
                         {
                             "image": {
-                                "configuredParameters": null,
-                                "id": ++maxImageId,
-                                "revision": ++maxRevision,
-                                "expand": ["languageImages", "logDetails", "revisions"],
-                                "logDetails": null,
-                                "selfLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/get/json/" + maxImageId,
-                                "editLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/update/json",
-                                "deleteLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/delete/json/" + maxImageId,
-                                "addLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/create/json",
-                                "description": "screenshot.png",
-                                "languageImages_OTM": null,
-                                "revisions": null
+                                "id": ++maxImageId
                             },
-                            "matchedExistingImage": true
+                            "matchedExistingImage": false
                         }
                     );
                 } else {
                     successCallback(
                         {
-                            "configuredParameters": null,
-                            "id": ++maxImageId,
-                            "revision": ++maxRevision,
-                            "expand": ["languageImages", "logDetails", "revisions"],
-                            "logDetails": null,
-                            "selfLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/get/json/" + maxImageId,
-                            "editLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/update/json",
-                            "deleteLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/delete/json/" + maxImageId,
-                            "addLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/image/create/json",
-                            "description": "screenshot.png",
-                            "languageImages_OTM": null,
-                            "revisions": null
+                            "id": ++maxImageId
                         }
                     );
                 }
@@ -83,35 +60,7 @@ define(
             window.setTimeout(function() {
                 successCallback(
                     {
-                        "configuredParameters":null,
-                        "id":++maxTopicId,
-                        "revision":++maxRevision,
-                        "expand":["tags","incomingRelationships","outgoingRelationships","sourceUrls_OTM","bugzillaBugs_OTM","properties","logDetails","contentSpecs_OTM","keywords","minhashes","revisions"],
-                        "logDetails":null,
-                        "selfLink":"http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/topic/get/json/" + maxTopicId,
-                        "editLink":"http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/topic/update/json",
-                        "deleteLink":"http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/topic/delete/json/" + maxTopicId,
-                        "addLink":"http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/topic/create/json",
-                        "properties":null,
-                        "title":title,
-                        "xml":xml,
-                        "xmlErrors":null,
-                        "locale":lang,
-                        "xmlFormat":format == 4.5 ? "DOCBOOK_45" : "DOCBOOK_50",
-                        "tags":null,
-                        "sourceUrls_OTM":null,
-                        "description":title,
-                        "created":1403218635858,
-                        "lastModified":1403218636011,
-                        "bugzillaBugs_OTM":null,
-                        "translatedTopics_OTM":null,
-                        "outgoingRelationships":null,
-                        "incomingRelationships":null,
-                        "contentSpecs_OTM":null,
-                        "keywords":null,
-                        "minHashes":null,
-                        "contentHash":"whatever",
-                        "revisions":null
+                        "id":++maxTopicId
                     }
                 );
             }, 0);
@@ -132,31 +81,7 @@ define(
             window.setTimeout(function() {
                 successCallback(
                     {
-                        "configuredParameters": null,
-                        "id": ++maxSpecId,
-                        "revision": ++maxRevision,
-                        "expand": ["logDetails", "properties", "tags", "text", "translatedContentSpecs", "processes", "revisions"],
-                        "logDetails": null,
-                        "selfLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/contentspec/get/json/" + maxSpecId,
-                        "editLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/contentspec/update/json",
-                        "deleteLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/contentspec/delete/json/" + maxSpecId,
-                        "addLink": "http://skynet-dev.usersys.redhat.com:8080/pressgang-ccms/rest/1/contentspec/create/json",
-                        "properties": null,
-                        "locale": "en-US",
-                        "lastPublished": null,
-                        "lastModified": 1403216925010,
-                        "errors": "WARN:  No Abstract specified, so a default will be used instead.\nINFO:  The Content Specification is valid.\nINFO:  The Content Specification saved successfully.\n",
-                        "failedContentSpec": null,
-                        "type": "BOOK",
-                        "tags": null,
-                        "translatedContentSpecs": null,
-                        "processes": null,
-                        "title": "Title",
-                        "product": "Product",
-                        "version": "1",
-                        "text": null,
-                        "processingOptions": null,
-                        "revisions": null
+                        "id": ++maxSpecId
                     }
                 );
             }, 0);
