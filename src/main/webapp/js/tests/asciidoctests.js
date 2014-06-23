@@ -34,7 +34,7 @@ define(
             myQna.initialize(
                 function (myQna) {
 
-                    var result = myQna.results[myQna.results.length - 1];
+                    var originalResult = myQna.results[myQna.results.length - 1];
                     var config = myQna.config;
 
                     if (myQna.step.enterStep) {
@@ -67,7 +67,14 @@ define(
                                             }
                                         });
                                     } else {
-                                        applyFuncAndMove(assert, myQna, initFunc, result, callback);
+                                        /*
+                                            Note that result is only used when processing a step and moving on
+                                            without user interaction. If we process the step but dont move on
+                                            the result is ignored.
+
+                                            TODO: this behaviour needs to be changed.
+                                         */
+                                        applyFuncAndMove(assert, myQna, initFunc, originalResult, callback);
                                     }
                                 }
                             },
@@ -76,11 +83,11 @@ define(
                                 QUnit.start();
                                 callback('failed');
                             },
-                            result,
+                            originalResult,
                             config
                         );
                     } else {
-                        applyFuncAndMove(assert, myQna, initFunc, result, callback);
+                        applyFuncAndMove(assert, myQna, initFunc, originalResult, callback);
                     }
                 },
                 function (title, error, critical) {
@@ -94,16 +101,12 @@ define(
         QUnit.asyncTest("Moving to step 3 and 4", function (assert) {
             expect(1);
 
-            var updateCalled = false;
-
-            var myQna = new qna.QNA(qnastart.qnastart);
-
             async.waterfall(
                 [
-                    function(myQna, callback) {
+                    function(callback) {
                         initializeAndMove(
                             assert,
-                            myQna,
+                            new qna.QNA(qnastart.qnastart),
                             function(myQna) {
                                 // doing an asciidoc import
                                 myQna.config[constants.IMPORT_OPTION] = constants.ASCIIDOC_IMPORT_OPTION;
