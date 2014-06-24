@@ -1,6 +1,6 @@
 define(
-    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'restcalls', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
-    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, restcalls, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'restcalls', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'mojoconvert', 'opendocumentimport', 'publicanimport', 'asciidocimport', 'generaldocbookimport', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, restcalls, specelement, URI, constants, reportsettings, moment, xmlcompare, mojoconvert, opendocumentimport, publicanimport, asciidocimport, generaldocbookimport, exports) {
         'use strict';
 
         /*
@@ -215,6 +215,20 @@ define(
                             .setName("RevisionMessage")
                     ])
             ])
+            .setBackStep(function (resultCallback, errorCallback, result, config) {
+                if (config[constants.IMPORT_OPTION] === constants.ODT_IMPORT_OPTION) {
+                    resultCallback(opendocumentimport.askForOpenDocumentFile);
+                } else if (config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION) {
+                    resultCallback(mojoconvert.askForMojoDoc);
+                } else if (config[constants.IMPORT_OPTION] === constants.PUBLICAN_IMPORT_OPTION) {
+                    resultCallback(publicanimport.askForMainXML);
+                } else if (config[constants.IMPORT_OPTION] === constants.ASCIIDOC_IMPORT_OPTION) {
+                    resultCallback(asciidocimport.getSpecDetails);
+                }  else if (config[constants.IMPORT_OPTION] === constants.DOCBOOK_45_IMPORT_OPTION ||
+                    config[constants.IMPORT_OPTION] === constants.DOCBOOK_50_IMPORT_OPTION) {
+                    resultCallback(generaldocbookimport.getSpecDetails);
+                }
+            })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(processZipFile);
             })
