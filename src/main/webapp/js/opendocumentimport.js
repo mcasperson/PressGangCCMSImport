@@ -463,13 +463,13 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.UseHeadingStyleRules === "Yes" ? setHeadingRules : processOdt);
+                resultCallback(config.UseHeadingStyleRules === "Yes" ? exports.setHeadingRules : processOdt);
             });
 
         /*
          Step 4 - ask which server this is being uploaded to
          */
-        var setHeadingRules = new qna.QNAStep()
+        exports.setHeadingRules = new qna.QNAStep()
             .setTitle("Define a rule for a heading")
             .setIntro("You can define the font style that indicates a heading.")
             .setOutputs([

@@ -229,7 +229,7 @@ define(
             ])
             .setBackStep(function (resultCallback, errorCallback, result, config) {
                 if (config[constants.IMPORT_OPTION] === constants.ODT_IMPORT_OPTION) {
-                    resultCallback(opendocumentimport.askForOpenDocumentFile);
+                    resultCallback(opendocumentimport.setHeadingRules);
                 } else if (config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION) {
                     resultCallback(mojoconvert.askForMojoDoc);
                 } else if (config[constants.IMPORT_OPTION] === constants.PUBLICAN_IMPORT_OPTION) {
