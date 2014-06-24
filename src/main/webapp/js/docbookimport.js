@@ -91,14 +91,26 @@ define(
         }
 
         function getSpecDocbookVersion(config) {
+            if (config.PublicanDocbookType) {
+                return config.PublicanDocbookType === constants.DOCBOOK_50 ? "5.0" : "4.5";
+            }
+
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
         }
 
         function getDocumentFormat(config) {
+            if (config.PublicanDocbookType) {
+                return config.PublicanDocbookType;
+            }
+
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? constants.DOCBOOK_50 : constants.DOCBOOK_45;
         }
 
         function getDocbookVersion(config) {
+            if (config.PublicanDocbookType) {
+                return config.PublicanDocbookType === constants.DOCBOOK_50 ? 5 : 4.5;
+            }
+
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? 5 : 4.5;
         }
 

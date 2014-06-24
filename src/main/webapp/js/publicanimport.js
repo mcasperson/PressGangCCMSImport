@@ -59,9 +59,9 @@ define(
                     inputModel.getTextFromFileName(config.InputSource, "publican.cfg", function(publicanCfg) {
                         var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
                         if (dtdVersion !== undefined) {
-                            config.ImportOption = /5\.0/.test(dtdVersion) ? constants.DOCBOOK_50_IMPORT_OPTION : constants.DOCBOOK_45_IMPORT_OPTION;
+                            config.PublicanDocbookType = /5\.0/.test(dtdVersion) ? constants.DOCBOOK_50 : constants.DOCBOOK_45;
                         } else {
-                            config.ImportOption = constants.DOCBOOK_45_IMPORT_OPTION;
+                            config.PublicanDocbookType = constants.constants.DOCBOOK_45;
                         }
 
                         var brand = qnautils.getValueFromConfigFile(publicanCfg, "brand");
@@ -259,7 +259,7 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(askForMainXML);
+                resultCallback(exports.askForMainXML);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config){
                 inputModel = qnastart.dirModel;
@@ -275,7 +275,7 @@ define(
         /*
          STEP 2 - Get the main XML file
          */
-        var askForMainXML = new qna.QNAStep()
+        exports.askForMainXML = new qna.QNAStep()
             .setTitle("Select the main XML file")
             .setIntro("Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in the Book_Info.xml file. " +
                 "This import tool will attempt to read the Book_Info.xml file to find the book title, and from that select the main XML file. " +
