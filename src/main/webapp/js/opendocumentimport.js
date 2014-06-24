@@ -107,7 +107,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : useHeadingStyleRules);
+                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : exports.useHeadingStyleRules);
             });
     
         function getRulesText(rulesCollection) {
@@ -443,10 +443,10 @@ define(
                 }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.DefineAnotherRule ? setParaRules : useHeadingStyleRules);
+                resultCallback(config.DefineAnotherRule ? setParaRules : exports.useHeadingStyleRules);
             });
 
-        var useHeadingStyleRules = new qna.QNAStep()
+        exports.useHeadingStyleRules = new qna.QNAStep()
             .setTitle("Do you want to define additional style rules for headings")
             .setIntro("You have the option of identifying paragraphs as headings. " +
                 "This is useful when the document being imported has custom styles to represent headings. " +
