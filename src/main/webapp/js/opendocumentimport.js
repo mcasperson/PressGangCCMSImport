@@ -302,7 +302,6 @@ define(
                             .setIntro("Font Name")
                             .setName("FontName")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-
                                 resultCallback(config.FontName);
                             })
                             .setOptions(function(resultCallback, errorCallback, result, config){

@@ -656,11 +656,18 @@ define(['async/async', 'exports'], function (async, exports) {
             var newResults;
             if (this.step.backStep) {
                 this.step.backStep(
-                    (function () {
+                    (function (previousSteps) {
                         return function (previousStep) {
-                            gotoPreviousStep(previousStep);
+                            if (previousStep instanceof exports.QNAStep) {
+                                gotoPreviousStep(previousStep);
+                            } else {
+                                var stepsBack = parseInt(previousStep);
+                                if (!isNaN(stepsBack) && stepsBack <= previousSteps.length) {
+                                    gotoPreviousStep(previousSteps[previousSteps.length - stepsBack])
+                                }
+                            }
                         };
-                    }(this.results)),
+                    }(this.previousSteps)),
                     function (title, message) {
                         errorCallback(title, message);
                         return;
