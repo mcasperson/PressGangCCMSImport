@@ -228,7 +228,12 @@ define(
                     ])
             ])
             .setBackStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(2);
+                if (config[constants.IMPORT_OPTION] === constants.ODT_IMPORT_OPTION ||
+                    config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION) {
+                    resultCallback(2);
+                } else {
+                    resultCallback(1);
+                }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(processZipFile);
