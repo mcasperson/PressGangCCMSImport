@@ -660,11 +660,13 @@ define(['async/async', 'exports'], function (async, exports) {
                         return function (previousStep) {
                             if (previousStep instanceof exports.QNAStep) {
                                 gotoPreviousStep(previousStep);
-                            } else {
+                            } else if (previousStep !== undefined) {
                                 var stepsBack = parseInt(previousStep);
                                 if (!isNaN(stepsBack) && stepsBack <= previousSteps.length) {
                                     gotoPreviousStep(previousSteps[previousSteps.length - stepsBack])
                                 }
+                            } else {
+                                gotoPreviousStep();
                             }
                         };
                     }(this.previousSteps)),
