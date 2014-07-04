@@ -618,7 +618,7 @@ define(
                 }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.DefineAnotherRule ? setHeadingRules : processOdt);
+                resultCallback(config.DefineAnotherRule ? exports.setHeadingRules : processOdt);
             });
 
     
@@ -643,7 +643,7 @@ define(
     
                                 if (result) {
                                     var resultObject = JSON.parse(result);
-                                    rules = getRulesText(resultObject.fontRules);
+                                    rules = getRulesText(resultObject.fontHeadingRules);
                                 } else {
                                     rules = getRulesText();
                                 }
