@@ -38,8 +38,7 @@ define(
             })
             .setNextStep(function (resultCallback) {
                 resultCallback(processHTML);
-            })
-            .setShowNext("Start Import");
+            });
 
 
         /*
