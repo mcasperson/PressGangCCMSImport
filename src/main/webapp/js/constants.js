@@ -51,6 +51,8 @@ define(
         exports.SOURCE_URL = "SourceURL";
         exports.MAIN_FILE = "MainFile";
 
+        exports.SERVER_JSON_FILE = '/pressgang-ccms-config/servers.json';
+
 
         exports.MAXIMUM_SPEC_COMMENT_LINE_LENGTH = 120;
     }

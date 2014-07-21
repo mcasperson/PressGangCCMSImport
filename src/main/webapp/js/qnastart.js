@@ -286,27 +286,11 @@ define(
 
                         jquery.ajax({
                             dataType: "json",
-                            url: '/pressgang-ccms-config/servers.json',
+                            url: constants.SERVER_JSON_FILE,
                             success: success,
                             error: error
                         });
                     })
-                    /*.setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Production Server", "Test Server"])
-                            .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
-                            .setValue("skynet-dev.usersys.redhat.com")
-                            .setName(constants.PRESSGANG_HOST)
-                    ])*/
-                    /*.setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Test Server", "LocalHost"])
-                            .setOptions(["skynet-dev.usersys.redhat.com", "localhost"])
-                            .setValue("skynet-dev.usersys.redhat.com")
-                            .setName(constants.PRESSGANG_HOST)
-                    ])*/
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
                 if (config[constants.PRESSGANG_HOST] === undefined) {
