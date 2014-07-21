@@ -244,21 +244,32 @@ define(
             .setInputs([
                 new qna.QNAVariables()
                     .setVariables(function (resultCallback, errorCallback, result, config){
-                        function success(data) {
-                            var options = [];
-                            var names = [];
-                            jquery.each(data, function(index, element) {
-                                options.push(new URI(element.restUrl).hostname());
-                                names.push(element.serverName);
-                            });
 
-                            resultCallback([new qna.QNAVariable()
-                                    .setType(qna.InputEnum.RADIO_BUTTONS)
-                                    .setIntro(names)
-                                    .setOptions(options)
-                                    .setValue(options[0])
-                                    .setName(constants.PRESSGANG_HOST)]
-                            );
+                        /*
+                            Attempt to read the servers.json file from the local server. If it exists,
+                            parse it and present the options. If it does not exists, or is not in the expected
+                            format, use the current url as the default.
+                         */
+
+                        function success(data) {
+                            try {
+                                var options = [];
+                                var names = [];
+                                jquery.each(data, function (index, element) {
+                                    options.push(new URI(element.restUrl).hostname());
+                                    names.push(element.serverName);
+                                });
+
+                                resultCallback([new qna.QNAVariable()
+                                        .setType(qna.InputEnum.RADIO_BUTTONS)
+                                        .setIntro(names)
+                                        .setOptions(options)
+                                        .setValue(options[0])
+                                        .setName(constants.PRESSGANG_HOST)]
+                                );
+                            } catch (ex) {
+                                error();
+                            }
                         }
 
                         function error() {
