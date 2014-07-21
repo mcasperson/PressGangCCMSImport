@@ -1,6 +1,6 @@
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'restcalls', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, restcalls, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
+    ['zip', 'uri/URI', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'restcalls', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
+    function (zip, URI, jquery, qna, qnazipmodel, qnadirmodel, qnautils, restcalls, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
@@ -241,17 +241,53 @@ define(
             .setTitle("Select the server to import in to")
             /*.setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
                 "Using the test server is recommended for the first import to check the results before adding the content to the production server.")*/
-            .setIntro("During the alpha you can only import content into the test server. Future releases will allow content to be imported into the production server as well.")
             .setInputs([
                 new qna.QNAVariables()
-                    .setVariables([
+                    .setVariables(function (resultCallback, errorCallback, result, config){
+                        function success(data) {
+                            var options = [];
+                            var names = [];
+                            jquery.each(data, function(index, element) {
+                                options.push(new URI(element.restUrl).hostname());
+                                names.push(element.serverName);
+                            });
+
+                            resultCallback([new qna.QNAVariable()
+                                    .setType(qna.InputEnum.RADIO_BUTTONS)
+                                    .setIntro(names)
+                                    .setOptions(options)
+                                    .setValue(options[0])
+                                    .setName(constants.PRESSGANG_HOST)]
+                            );
+                        }
+
+                        function error() {
+                            var hostname = new URI(window.location.toString()).hostname()
+
+                            resultCallback([new qna.QNAVariable()
+                                    .setType(qna.InputEnum.RADIO_BUTTONS)
+                                    .setIntro([hostname])
+                                    .setOptions([hostname])
+                                    .setValue(hostname)
+                                    .setName(constants.PRESSGANG_HOST)]
+                            );
+                        }
+
+                        jquery.ajax({
+                            dataType: "json",
+                            url: '/pressgang-ccms-config/servers.json',
+                            success: success,
+                            error: error
+                        });
+                    })
+                    /*.setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
                             .setIntro(["Production Server", "Test Server"])
                             .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
                             .setValue("skynet-dev.usersys.redhat.com")
                             .setName(constants.PRESSGANG_HOST)
-                    ])
+                    ])*/
                     /*.setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.RADIO_BUTTONS)
