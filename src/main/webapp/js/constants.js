@@ -7,8 +7,6 @@ define(
         exports.SECTION_TOP_LEVEL_CONTAINER = "Section";
         exports.CHAPTER_TOP_LEVEL_CONTAINER = "Chapter";
 
-
-
         exports.DOCBOOK_50 = "DOCBOOK_50";
         exports.DOCBOOK_45 = "DOCBOOK_45";
 
@@ -52,7 +50,6 @@ define(
         exports.MAIN_FILE = "MainFile";
 
         exports.SERVER_JSON_FILE = '/pressgang-ccms-config/servers.json';
-
 
         exports.MAXIMUM_SPEC_COMMENT_LINE_LENGTH = 120;
     }
