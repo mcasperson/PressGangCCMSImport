@@ -15,7 +15,7 @@ define(
 
             jquery.ajax({
                 type: 'GET',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/settings/get/json',
+                url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/settings/get/json',
                 dataType: "json",
                 success: function (data) {
                     exports.configEntites = data;
@@ -79,7 +79,7 @@ define(
 
             jquery.ajax({
                 type: 'POST',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/' + (tryToMatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/topic/' + (tryToMatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                 data: JSON.stringify(postBody),
                 contentType: "application/json",
                 dataType: "json",
@@ -103,7 +103,7 @@ define(
 
             jquery.ajax({
                 type: 'POST',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/minhashsimilar/get/json?threshold=0.6&expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
+                url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/minhashsimilar/get/json?threshold=0.6&expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%7D%5D%7D',
                 data: xml,
                 contentType: "application/xml",
                 dataType: "json",
@@ -127,7 +127,7 @@ define(
 
             jquery.ajax({
                 type: 'GET',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topics/get/json/query;topicIncludedInSpec=' + specId + ';?expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%2C%20%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22contentSpecs_OTM%22%7D%7D%5D%7D%5D%7D',
+                url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/topics/get/json/query;topicIncludedInSpec=' + specId + ';?expand=%7B%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22topics%22%7D%2C%20%22branches%22%3A%5B%7B%22trunk%22%3A%7B%22name%22%3A%20%22contentSpecs_OTM%22%7D%7D%5D%7D%5D%7D',
                 dataType: "json",
                 success: function (data) {
                     successCallback(data);
@@ -164,7 +164,7 @@ define(
 
             jquery.ajax({
                 type: 'POST',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/topic/update/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/topic/update/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                 data: JSON.stringify(postBody),
                 contentType: "application/json",
                 dataType: "json",
@@ -228,7 +228,7 @@ define(
 
                     jquery.ajax({
                         type: 'POST',
-                        url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/file/' + (trytomatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                        url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/file/' + (trytomatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                         data: JSON.stringify(postBody),
                         contentType: "application/json",
                         dataType: "json",
@@ -293,7 +293,7 @@ define(
 
                     jquery.ajax({
                         type: 'POST',
-                        url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/' + (trytomatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                        url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/image/' + (trytomatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                         data: JSON.stringify(postBody),
                         contentType: "application/json",
                         dataType: "json",
@@ -350,7 +350,7 @@ define(
 
                     jquery.ajax({
                         type: 'POST',
-                        url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/image/' + (trytomatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                        url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/image/' + (trytomatch ? 'createormatch' : 'create') + '/json?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                         data: JSON.stringify(postBody),
                         contentType: "application/json",
                         dataType: "json",
@@ -387,7 +387,7 @@ define(
 
             jquery.ajax({
                 type: 'POST',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/create/json+text?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/contentspec/create/json+text?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                 data: JSON.stringify(postBody),
                 contentType: "application/json",
                 dataType: "json",
@@ -420,7 +420,7 @@ define(
 
             jquery.ajax({
                 type: 'POST',
-                url: 'http://' + config.PressGangHost + ':8080/pressgang-ccms/rest/1/contentspec/update/json+text/?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
+                url: 'http://' + config.PressGangHost + '/pressgang-ccms/rest/1/contentspec/update/json+text/?message=' + encodeURIComponent(config.RevisionMessage) + '&flag=2&userId=89',
                 data: JSON.stringify(postBody),
                 contentType: "application/json",
                 dataType: "json",

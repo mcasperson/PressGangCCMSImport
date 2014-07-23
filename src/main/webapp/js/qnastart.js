@@ -256,7 +256,7 @@ define(
                                 var options = [];
                                 var names = [];
                                 jquery.each(data, function (index, element) {
-                                    options.push(new URI(element.restUrl).hostname());
+                                    options.push(new URI(element.restUrl).host());
                                     names.push(element.serverName);
                                 });
 
@@ -273,7 +273,7 @@ define(
                         }
 
                         function error() {
-                            var hostname = new URI(window.location.toString()).hostname()
+                            var hostname = new URI(window.location.toString()).host()
 
                             resultCallback([new qna.QNAVariable()
                                     .setType(qna.InputEnum.RADIO_BUTTONS)
