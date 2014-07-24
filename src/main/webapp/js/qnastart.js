@@ -277,7 +277,7 @@ define(
 
                             resultCallback([new qna.QNAVariable()
                                     .setType(qna.InputEnum.RADIO_BUTTONS)
-                                    .setIntro([hostname])
+                                    .setIntro(["Default (" + hostname + ")"])
                                     .setOptions([hostname])
                                     .setValue(hostname)
                                     .setName(constants.PRESSGANG_HOST)]
