@@ -246,7 +246,7 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(askForMainXML);
+                resultCallback(exports.askForMainXML);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config){
                 inputModel = qnastart.zipModel;
