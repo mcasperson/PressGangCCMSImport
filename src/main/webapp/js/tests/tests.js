@@ -19,6 +19,19 @@ define(
         'use strict';
 
         /*
+            This library provides the ability to construct a generic wizard style application. The individual
+            steps are represented with the QNAStep objects, and they are brought together with a QNA object.
+
+            In the import application, some of the logic to move between steps has been implemented in the
+            QNAController object. This is to be able to catch state changes and update the UI accordingly.
+            For these tests the movement from one step to the next is all automated so the logic is simpler.
+
+            TODO: some of the logic, like getting the last result and passing it to the next step
+            (i.e. var result = myQna.results[myQna.results.length - 1];) , really should be encapsulated in the QNA
+            object.
+         */
+
+        /*
             A very simple step where all properties are assigned directly (except for nextStep, which needs
             to be a callback because stepTwo doesn't exist when this step is generated).
          */
