@@ -80,7 +80,7 @@ define(
                         if (dtdVersion !== undefined) {
                             config.PublicanDocbookType = /5\.0/.test(dtdVersion) ? constants.DOCBOOK_50 : constants.DOCBOOK_45;
                         } else {
-                            config.PublicanDocbookType = constants.constants.DOCBOOK_45;
+                            config.PublicanDocbookType = constants.DOCBOOK_45;
                         }
 
                         var brand = qnautils.getValueFromConfigFile(publicanCfg, "brand");
