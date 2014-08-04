@@ -15,7 +15,6 @@
     <name>PressGang CCMS Import</name>
     <packaging>war</packaging>
     <build>
-        <finalName>pressgang-ccms-import</finalName>
         <plugins>
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
