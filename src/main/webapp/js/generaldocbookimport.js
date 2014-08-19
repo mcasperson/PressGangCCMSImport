@@ -18,8 +18,8 @@
  */
 
 define(
-    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'processxml', 'exports'],
-    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, processxml, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'processxml', 'constants', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, processxml, constants, exports) {
         'use strict';
 
         var inputModel;
@@ -254,16 +254,19 @@ define(
                                 })
                                 .setOptions(function (resultCallback, errorCallback, result, config) {
                                     if (config.ImportOption === "DocBook5") {
-                                        resultCallback(["RedHat-db5"]);
+                                        resultCallback(constants.DB50_BRANDS);
                                     } else {
-                                        resultCallback(["RedHat", "JBoss", "Fedora", "OpenShift"]);
+                                        resultCallback(constants.DB45_BRANDS);
                                     }
                                 }),
                             new qna.QNAVariable()
-                                .setType(qna.InputEnum.COMBOBOX)
+                                .setType(qna.InputEnum.COMBOBOX_V2)
                                 .setIntro("Locale")
-                                .setName("ImportLang")
-                                .setValue("en-US")
+                                .setName("ImportLangId")
+                                .setValue(function(resultCallback) {
+                                    var locale = qnastart.loadDefaultLocale();
+                                    resultCallback(locale ? locale.id : null);
+                                })
                                 .setOptions(function (resultCallback) {
                                     resultCallback(qnastart.loadLocales());
                                 })

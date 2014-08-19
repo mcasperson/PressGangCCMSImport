@@ -46,15 +46,15 @@ define(
         exports.OVERWRITE_SPEC = "OVERWRITE";
         exports.EXISTING_CONTENT_SPEC_ID = "ExistingContentSpecID";
 
-        exports.CREATE_OR_REUSE_TOPICS = "CreateOrResuseTopics";
+        exports.CREATE_OR_REUSE_TOPICS = "CreateOrReuseTopics";
         exports.REUSE_TOPICS = "REUSE";
         exports.CREATE_TOPICS = "CREATE";
 
-        exports.CREATE_OR_REUSE_IMAGES = "CreateOrResuseImages";
+        exports.CREATE_OR_REUSE_IMAGES = "CreateOrReuseImages";
         exports.REUSE_IMAGES = "REUSE";
         exports.CREATE_IMAGES = "CREATE";
 
-        exports.CREATE_OR_REUSE_FILES = "CreateOrResuseFiles";
+        exports.CREATE_OR_REUSE_FILES = "CreateOrReuseFiles";
         exports.REUSE_FILES = "REUSE";
         exports.CREATE_FILES = "CREATE";
 
@@ -71,5 +71,8 @@ define(
         exports.SERVER_JSON_FILE = '/pressgang-ccms-config/servers.json';
 
         exports.MAXIMUM_SPEC_COMMENT_LINE_LENGTH = 120;
+
+        exports.DB45_BRANDS = ["RedHat", "JBoss", "Fedora", "OpenShift"];
+        exports.DB50_BRANDS = ["RedHat-db5"];
     }
 )

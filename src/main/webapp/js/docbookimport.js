@@ -950,28 +950,29 @@ define(
                                     } else {
                                         var entry = entries[index];
                                         var filename = qnautils.getFileName(entry);
-                                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/files/.+").test(filename) &&
+                                        var locale = qnastart.loadLocaleById(config.ImportLangId).value;
+                                        if (new RegExp("^" + qnautils.escapeRegExp(locale) + "/files/.+").test(filename) &&
                                             qnautils.isNormalFile(filename) &&
-                                            getIgnoredFiles(config.ImportLang).indexOf(filename) === -1) {
+                                            getIgnoredFiles(locale).indexOf(filename) === -1) {
 
                                             var uri = new URI(filename);
 
                                             restcalls.createFile(
                                                 inputModel,
-                                                config.CreateOrResuseFiles === "REUSE",
+                                                config.CreateOrReuseFiles === "REUSE",
                                                 config.InputSource,
                                                 qnautils.getFileName(entry),
                                                 uri.filename(),
-                                                uri.pathname().replace(config.ImportLang + "/files/", "").replace(uri.filename(), ""),
-                                                config.ImportLang,
+                                                uri.pathname().replace(locale + "/files/", "").replace(uri.filename(), ""),
+                                                config.ImportLangId,
                                                 config,
                                                 function (data) {
-                                                    var fileId = config.CreateOrResuseFiles === "REUSE" ? data.file.id : data.id;
+                                                    var fileId = config.CreateOrReuseFiles === "REUSE" ? data.file.id : data.id;
                                                     fileIds.push(fileId);
 
                                                     config.UploadedFileCount += 1;
 
-                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingFile) {
+                                                    if (config.CreateOrReuseImages === "REUSE" && data.matchedExistingFile) {
                                                         config.MatchedFileCount += 1;
                                                     }
 
@@ -1023,11 +1024,11 @@ define(
                         Remember the details of the uploaded image so it can be used to update the attribues
                      */
                     var processUploadedImage = function(data, nodeValue, count) {
-                        var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
+                        var imageId = config.CreateOrReuseImages === "REUSE" ? data.image.id : data.id;
 
                         config.UploadedImageCount += 1;
 
-                        if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                        if (config.CreateOrReuseImages === "REUSE" && data.matchedExistingImage) {
                             config.MatchedImageCount += 1;
                         }
 
@@ -1073,10 +1074,10 @@ define(
                                         if (result) {
                                             restcalls.createImage(
                                                 inputModel,
-                                                config.CreateOrResuseImages === "REUSE",
+                                                config.CreateOrReuseImages === "REUSE",
                                                 config.InputSource,
                                                 fixedNodeValue,
-                                                config.ImportLang,
+                                                config.ImportLangId,
                                                 config,
                                                 function (data) {
                                                     processImagesFromLocalSource(images.iterateNext(), processUploadedImage(data, nodeValue, count));
@@ -1107,9 +1108,9 @@ define(
 
                             if (!uploadedImages[nodeValue]) {
                                 restcalls.createImageFromURL(
-                                    config.CreateOrResuseImages === "REUSE",
+                                    config.CreateOrReuseImages === "REUSE",
                                     nodeValue,
-                                    config.ImportLang,
+                                    config.ImportLangId,
                                     config,
                                     function (data) {
                                         processImagesFromURL(images.iterateNext(), processUploadedImage(data, nodeValue, count));
@@ -1727,7 +1728,7 @@ define(
                                          The matching topic has to have the same locale as the one
                                          we are trying to import.
                                          */
-                                        if (matchingTopic.item.locale !== config.ImportLang) {
+                                        if (matchingTopic.item.locale.id !== config.ImportLangId) {
                                             return true;
                                         }
 
@@ -2027,7 +2028,7 @@ define(
                                     cleanTopicXmlForSaving(topic, format),
                                     topic.title,
                                     topic.tags,
-                                    config.ImportLang,
+                                    config.ImportLangId,
                                     config,
                                     function (data) {
                                         postCreateTopic(topic, data);
@@ -2253,7 +2254,7 @@ define(
                     } else {
                         restcalls.createContentSpec(
                             compiledContentSpec,
-                            config.ImportLang,
+                            config.ImportLangId,
                             config,
                             contentSpecSaveSuccess,
                             errorCallback

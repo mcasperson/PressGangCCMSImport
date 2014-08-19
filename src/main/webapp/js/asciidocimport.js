@@ -337,16 +337,19 @@ define(
                             })
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 if (config.ImportOption === "DocBook5") {
-                                    resultCallback(["RedHat-db5"]);
+                                    resultCallback(constants.DB50_BRANDS);
                                 } else {
-                                    resultCallback(["RedHat", "JBoss", "Fedora", "OpenShift"]);
+                                    resultCallback(constants.DB45_BRANDS);
                                 }
                             }),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.COMBOBOX)
+                            .setType(qna.InputEnum.COMBOBOX_V2)
                             .setIntro("Locale")
-                            .setName("ImportLang")
-                            .setValue("en-US")
+                            .setName("ImportLangId")
+                            .setValue(function(resultCallback) {
+                                var locale = qnastart.loadDefaultLocale();
+                                resultCallback(locale ? locale.id : null);
+                            })
                             .setOptions(function (resultCallback) {
                                 resultCallback(qnastart.loadLocales());
                             })

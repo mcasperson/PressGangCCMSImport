@@ -18,8 +18,8 @@
  */
 
 define(
-    ['zip', 'uri/URI', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'restcalls', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
-    function (zip, URI, jquery, qna, qnazipmodel, qnadirmodel, qnautils, restcalls, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
+    ['zip', 'uri/URI', 'jquery', 'underscore', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'restcalls', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
+    function (zip, URI, jquery, _, qna, qnazipmodel, qnadirmodel, qnautils, restcalls, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
@@ -92,8 +92,50 @@ define(
         };
 
         exports.loadLocales = function () {
-            if (restcalls.configEntites !== null) {
-                return restcalls.configEntites.locales;
+            if (restcalls.configEntites !== null && restcalls.configEntites.locales != null) {
+                return _.map(restcalls.configEntites.locales.items, function(locale) {
+                    return {key: locale.item.id, value: locale.item.value};
+                });
+            }
+
+            return null;
+        };
+
+        exports.loadLocaleById = function (id) {
+            if (restcalls.configEntites !== null && restcalls.configEntites.locales != null) {
+                var locale = _.find(restcalls.configEntites.locales.items, function(locale) {
+                    return locale.item.id == id;
+                });
+
+                if (locale && locale.item) {
+                    return locale.item;
+                } else {
+                    return null;
+                }
+            }
+
+            return null;
+        };
+
+        exports.loadLocaleByValue = function (value) {
+            if (restcalls.configEntites !== null && restcalls.configEntites.locales != null) {
+                var locale = _.find(restcalls.configEntites.locales.items, function(locale) {
+                    return locale.item.value == value;
+                });
+
+                if (locale && locale.item) {
+                    return locale.item;
+                } else {
+                    return null;
+                }
+            }
+
+            return null;
+        };
+
+        exports.loadDefaultLocale = function () {
+            if (restcalls.configEntites !== null && restcalls.configEntites.defaultLocale != null) {
+                return restcalls.configEntites.defaultLocale;
             }
 
             return null;

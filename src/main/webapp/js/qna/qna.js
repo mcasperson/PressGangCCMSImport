@@ -18,7 +18,8 @@ define(['async/async', 'exports'], function (async, exports) {
         PLAIN_TEXT: 8,
         HTML: 9,
         PRE_HTML: 10,
-        DIRECTORY: 11
+        DIRECTORY: 11,
+        COMBOBOX_V2: 12
     });
 
     exports.QNAVariable = function () {

@@ -22,8 +22,8 @@
     presents that step to the user.
  */
 define(
-    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoconvert', 'exports'],
-    function(jquery, qna, qnastart, qnautils, specelement, opendocumentimport, mojoconvert, exports) {
+    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoconvert', 'constants', 'exports'],
+    function(jquery, qna, qnastart, qnautils, specelement, opendocumentimport, mojoconvert, constants, exports) {
         'use strict';
 
         exports.generateSpacing = function (outlineLevel) {
@@ -163,12 +163,15 @@ define(
                                 .setIntro("Brand")
                                 .setName("ContentSpecBrand")
                                 .setValue("RedHat")
-                                .setOptions(["RedHat", "JBoss", "Fedora", "OpenShift"]),
+                                .setOptions(constants.DB45_BRANDS),
                             new qna.QNAVariable()
-                                .setType(qna.InputEnum.COMBOBOX)
+                                .setType(qna.InputEnum.COMBOBOX_V2)
                                 .setIntro("Locale")
-                                .setName("ImportLang")
-                                .setValue("en-US")
+                                .setName("ImportLangId")
+                                .setValue(function(resultCallback) {
+                                    var locale = qnastart.loadDefaultLocale();
+                                    resultCallback(locale ? locale.id : null);
+                                })
                                 .setOptions(function (resultCallback) {
                                     resultCallback(qnastart.loadLocales());
                                 })

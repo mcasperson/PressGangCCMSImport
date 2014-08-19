@@ -62,11 +62,15 @@
                     'wgxpath': 'wgxpath/wgxpath',
                     'URIjs': 'js/uri',
                     'moment': 'moment/moment-with-langs.min',
-                    'patternfly' : 'patternfly/js/patternfly' /*,
+                    'patternfly' : 'patternfly/js/patternfly',
+                    'underscore' : 'underscore/underscore-min'/*,
                     'opal' : 'asciidoctor/opal',
                     'asciidoctor' : 'asciidoctor/asciidoctor' */
                 },
                 shim: {
+                    underscore: {
+                        exports: '_'
+                    },
                     'wgxpath': {
                         exports: "wgxpath"
                     },
@@ -253,6 +257,16 @@
                                         <select
                                                 ng-model="qna.config[variable.processedName]"
                                                 ng-options="option for option in variable.processedOptions"
+                                                ng-disabled="!variable.processedOptions || disabled || variable.processedDisabled"></select>
+                                    </div>
+                                </div>
+                                <!-- combobox form element -->
+                                <div ng-if="variable.processedType == inputTypes.COMBOBOX_V2">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <select
+                                                ng-model="qna.config[variable.processedName]"
+                                                ng-options="option.key as option.value for option in variable.processedOptions"
                                                 ng-disabled="!variable.processedOptions || disabled || variable.processedDisabled"></select>
                                     </div>
                                 </div>
