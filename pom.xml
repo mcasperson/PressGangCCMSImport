@@ -32,7 +32,7 @@
                     <file>src/main/webapp/index.html</file>
                     <replacements>
                         <replacement>
-                            <token>Build \d+(\.\d+)*-SNAPSHOT \d{12}</token>
+                            <token>Build \d+(\.\d+)*(-SNAPSHOT)? \d{12}</token>
                             <value>Build ${project.version} ${maven.build.timestamp}</value>
                         </replacement>
                     </replacements>
