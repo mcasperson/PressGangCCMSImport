@@ -27,7 +27,7 @@
             window.onerror = function(msg, url, line) {
                 window.onbeforeunload = null;
 
-                var bugLink = 'https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool&comment=Message: ' + encodeURIComponent(msg) + '%0D%0A%0D%0AURL: ' + encodeURIComponent(url) + '%0D%0A%0D%0ALine: ' + encodeURIComponent(line);
+                var bugLink = 'https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool&version=1.9&comment=Message: ' + encodeURIComponent(msg) + '%0D%0A%0D%0AURL: ' + encodeURIComponent(url) + '%0D%0A%0D%0ALine: ' + encodeURIComponent(line);
                 var output = "<pre>\n";
                 output += String.fromCharCode(9604,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9604,9616,9608,9604,9604,9604,9604,9608) + "\n";
                 output += String.fromCharCode(9608,9608,9608,9608,9608,9608,9612,9604,9612,9604,9616,9616,9612,9608,9608,9608,9612,9600,9600,9608,9608,9600,9600) + "\n";
@@ -120,7 +120,7 @@
         <nav class="navbar navbar-default navbar-pf" role="navigation">
             <div class="container">
                 <div class="navbar-brand">PressGang CCMS Import Tool</div>
-                <div class="navbar-right">Build 1.9-SNAPSHOT 201408291317</div>
+                <div class="navbar-right">Build 1.9-SNAPSHOT 201408291400</div>
             </div>
         </nav>
 

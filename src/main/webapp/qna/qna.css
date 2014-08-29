@@ -18,7 +18,7 @@
 */
 
 .container {
-    width: 900px;
+    max-width: 900px;
 }
 
 .step-container-main {
@@ -38,6 +38,11 @@
     line-height: 11px;
 }
 
+.navbar-right {
+    line-height: 35px;
+}
+
 .navbar-brand {
-    line-height: 10px;
+    background: url(../images/pressgang_icon_32px.png) no-repeat 20px 50%;
+    padding-left: 60px !important;
 }
