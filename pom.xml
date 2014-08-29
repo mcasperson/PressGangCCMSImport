@@ -4,14 +4,14 @@
     <parent>
         <groupId>org.jboss.pressgang</groupId>
         <artifactId>pressgang-parent</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
     </parent>
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     </properties>
     <groupId>org.jboss.pressgang.ccms</groupId>
     <artifactId>pressgang-ccms-import</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>1.9</version>
     <name>PressGang CCMS Import</name>
     <packaging>war</packaging>
     <build>
