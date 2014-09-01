@@ -18,7 +18,8 @@ define(['async/async', 'exports'], function (async, exports) {
         PLAIN_TEXT: 8,
         HTML: 9,
         PRE_HTML: 10,
-        DIRECTORY: 11
+        DIRECTORY: 11,
+        COMBOBOX_V2: 12
     });
 
     exports.QNAVariable = function () {
@@ -656,11 +657,20 @@ define(['async/async', 'exports'], function (async, exports) {
             var newResults;
             if (this.step.backStep) {
                 this.step.backStep(
-                    (function () {
+                    (function (previousSteps) {
                         return function (previousStep) {
-                            gotoPreviousStep(previousStep);
+                            if (previousStep instanceof exports.QNAStep) {
+                                gotoPreviousStep(previousStep);
+                            } else if (previousStep !== undefined) {
+                                var stepsBack = parseInt(previousStep);
+                                if (!isNaN(stepsBack) && stepsBack <= previousSteps.length) {
+                                    gotoPreviousStep(previousSteps[previousSteps.length - stepsBack])
+                                }
+                            } else {
+                                gotoPreviousStep();
+                            }
                         };
-                    }(this.results)),
+                    }(this.previousSteps)),
                     function (title, message) {
                         errorCallback(title, message);
                         return;

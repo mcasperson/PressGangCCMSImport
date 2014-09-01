@@ -1,6 +1,25 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
-    ['zip', 'jquery', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'restcalls', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
-    function (zip, jquery, qna, qnazipmodel, qnadirmodel, qnautils, restcalls, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
+    ['zip', 'uri/URI', 'jquery', 'underscore', 'qna/qna', 'qna/qnazipmodel', 'qna/qnadirmodel', 'qna/qnautils', 'restcalls', 'publicanimport', 'generaldocbookimport', 'generalexternalimport', 'constants', 'asciidocimport', 'reportsettings', 'exports'],
+    function (zip, URI, jquery, _, qna, qnazipmodel, qnadirmodel, qnautils, restcalls, publicanimport, generaldocbookimport, generalexternalimport, constants, asciidocimport, reportsettings, exports) {
         'use strict';
 
         var RETRY_COUNT = 5;
@@ -73,8 +92,50 @@ define(
         };
 
         exports.loadLocales = function () {
-            if (restcalls.configEntites !== null) {
-                return restcalls.configEntites.locales;
+            if (restcalls.configEntites !== null && restcalls.configEntites.locales != null) {
+                return _.map(restcalls.configEntites.locales.items, function(locale) {
+                    return {key: locale.item.id, value: locale.item.value};
+                });
+            }
+
+            return null;
+        };
+
+        exports.loadLocaleById = function (id) {
+            if (restcalls.configEntites !== null && restcalls.configEntites.locales != null) {
+                var locale = _.find(restcalls.configEntites.locales.items, function(locale) {
+                    return locale.item.id == id;
+                });
+
+                if (locale && locale.item) {
+                    return locale.item;
+                } else {
+                    return null;
+                }
+            }
+
+            return null;
+        };
+
+        exports.loadLocaleByValue = function (value) {
+            if (restcalls.configEntites !== null && restcalls.configEntites.locales != null) {
+                var locale = _.find(restcalls.configEntites.locales.items, function(locale) {
+                    return locale.item.value == value;
+                });
+
+                if (locale && locale.item) {
+                    return locale.item;
+                } else {
+                    return null;
+                }
+            }
+
+            return null;
+        };
+
+        exports.loadDefaultLocale = function () {
+            if (restcalls.configEntites !== null && restcalls.configEntites.defaultLocale != null) {
+                return restcalls.configEntites.defaultLocale;
             }
 
             return null;
@@ -102,8 +163,8 @@ define(
                                     constants.ODT_IMPORT_OPTION,
                                     constants.MOJO_IMPORT_OPTION,
                                     constants.ASCIIDOC_IMPORT_OPTION])
-                                .setValue("Publican")
-                                .setName("ImportOption")
+                                .setValue(constants.PUBLICAN_IMPORT_OPTION)
+                                .setName(constants.IMPORT_OPTION)
                         ])
                     /*new qna.QNAVariables()
                         .setVariables([
@@ -117,7 +178,7 @@ define(
                 ]
             )
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                if (config.ImportOption === constants.MOJO_IMPORT_OPTION && window.greaseMonkeyShare === undefined) {
+                if (config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION && window.greaseMonkeyShare === undefined) {
                     resultCallback(reportNoUserScript);
                 } else {
                     resultCallback(askToCreateNewSpecOrOverwriteExistingOne);
@@ -165,7 +226,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.CreateOrOverwrite === constants.CREATE_SPEC ? askToReuseTopics : getExistingContentSpecID);
+                resultCallback(config[constants.CREATE_OR_OVERWRITE_CONFIG_KEY] === constants.CREATE_SPEC ? askToReuseTopics : getExistingContentSpecID);
             });
 
         var getExistingContentSpecID = new qna.QNAStep()
@@ -241,25 +302,56 @@ define(
             .setTitle("Select the server to import in to")
             /*.setIntro("You can create the imported content specification on either the production or test PressGang servers. " +
                 "Using the test server is recommended for the first import to check the results before adding the content to the production server.")*/
-            .setIntro("During the alpha you can only import content into the test server. Future releases will allow content to be imported into the production server as well.")
             .setInputs([
                 new qna.QNAVariables()
-                    .setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Production Server", "Test Server"])
-                            .setOptions(["skynet.usersys.redhat.com", "skynet-dev.usersys.redhat.com"])
-                            .setValue("skynet-dev.usersys.redhat.com")
-                            .setName(constants.PRESSGANG_HOST)
-                    ])
-                    /*.setVariables([
-                        new qna.QNAVariable()
-                            .setType(qna.InputEnum.RADIO_BUTTONS)
-                            .setIntro(["Test Server", "LocalHost"])
-                            .setOptions(["skynet-dev.usersys.redhat.com", "localhost"])
-                            .setValue("skynet-dev.usersys.redhat.com")
-                            .setName(constants.PRESSGANG_HOST)
-                    ])*/
+                    .setVariables(function (resultCallback, errorCallback, result, config){
+
+                        /*
+                            Attempt to read the servers.json file from the local server. If it exists,
+                            parse it and present the options. If it does not exists, or is not in the expected
+                            format, use the current url as the default.
+                         */
+
+                        function success(data) {
+                            try {
+                                var options = [];
+                                var names = [];
+                                jquery.each(data, function (index, element) {
+                                    options.push(new URI(element.restUrl).host());
+                                    names.push(element.serverName);
+                                });
+
+                                resultCallback([new qna.QNAVariable()
+                                        .setType(qna.InputEnum.RADIO_BUTTONS)
+                                        .setIntro(names)
+                                        .setOptions(options)
+                                        .setValue(options[0])
+                                        .setName(constants.PRESSGANG_HOST)]
+                                );
+                            } catch (ex) {
+                                error();
+                            }
+                        }
+
+                        function error() {
+                            var hostname = new URI(window.location.toString()).host()
+
+                            resultCallback([new qna.QNAVariable()
+                                    .setType(qna.InputEnum.RADIO_BUTTONS)
+                                    .setIntro(["Default (" + hostname + ")"])
+                                    .setOptions([hostname])
+                                    .setValue(hostname)
+                                    .setName(constants.PRESSGANG_HOST)]
+                            );
+                        }
+
+                        jquery.ajax({
+                            dataType: "json",
+                            url: constants.SERVER_JSON_FILE,
+                            success: success,
+                            error: error
+                        });
+                    })
             ])
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
                 if (config[constants.PRESSGANG_HOST] === undefined) {
@@ -272,17 +364,17 @@ define(
                 restcalls.loadEntityConfig(
                     config,
                     function() {
-                        if (config.ImportOption === constants.PUBLICAN_IMPORT_OPTION) {
+                        if (config[constants.IMPORT_OPTION] === constants.PUBLICAN_IMPORT_OPTION) {
                             if (qnautils.isInputDirSupported()) {
                                 resultCallback(publicanimport.askForZipOrDir);
                             } else {
                                 resultCallback(publicanimport.askForPublicanZipFile);
                             }
-                        } else if (config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION || config.ImportOption === constants.DOCBOOK_45_IMPORT_OPTION) {
+                        } else if (config[constants.IMPORT_OPTION] === constants.DOCBOOK_50_IMPORT_OPTION || config[constants.IMPORT_OPTION] === constants.DOCBOOK_45_IMPORT_OPTION) {
                             resultCallback(generaldocbookimport.askForZipOrDir);
-                        } else if (config.ImportOption === constants.MOJO_IMPORT_OPTION || config.ImportOption === constants.ODT_IMPORT_OPTION) {
+                        } else if (config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION || config[constants.IMPORT_OPTION] === constants.ODT_IMPORT_OPTION) {
                             resultCallback(generalexternalimport.getSpecDetails);
-                        } else if (config.ImportOption === constants.ASCIIDOC_IMPORT_OPTION) {
+                        } else if (config[constants.IMPORT_OPTION] === constants.ASCIIDOC_IMPORT_OPTION) {
                             resultCallback(asciidocimport.getTopicLevelContainer);
                         }
                     },

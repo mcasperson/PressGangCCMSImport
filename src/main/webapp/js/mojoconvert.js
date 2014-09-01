@@ -1,3 +1,22 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
     ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'generalexternalimport', 'docbookimport', 'moment', 'constants', 'exports'],
     function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, generalexternalimport, docbookimport, moment, constants, exports) {
@@ -19,17 +38,17 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Mojo URL")
-                                .setName("SourceURL")
+                                .setName(constants.SOURCE_URL)
                         ])
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.SourceURL) {
+                if (!config[constants.SOURCE_URL]) {
                     errorCallback("Please specify a URL", "You need to specify a Mojo URL before continuing.");
                 } else {
                     if (window.greaseMonkeyShare === undefined) {
                         errorCallback("User Script Not Installed", "You need to install the PressGang Import user script to import Mojo documents");
-                    } else if (!mojoURLRE.test(config.SourceURL.trim())) {
+                    } else if (!mojoURLRE.test(config[constants.SOURCE_URL].trim())) {
                         errorCallback("URL is not valid", "Please enter a valid Mojo document URL.");
                     } else {
                         resultCallback();
@@ -38,8 +57,7 @@ define(
             })
             .setNextStep(function (resultCallback) {
                 resultCallback(processHTML);
-            })
-            .setShowNext("Start Import");
+            });
 
 
         /*
@@ -72,7 +90,7 @@ define(
                 };
 
                 var progressIncrement = 100 / 2;
-                var id = /^.*?(\d+)$/.exec(config.SourceURL);
+                var id = /^.*?(\d+)$/.exec(config[constants.SOURCE_URL]);
                 var xmlDocString = "";
 
                 window.greaseMonkeyShare.getMojoDoc(

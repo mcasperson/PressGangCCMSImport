@@ -1,6 +1,25 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
-    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'restcalls', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'exports'],
-    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, restcalls, specelement, URI, constants, reportsettings, moment, xmlcompare, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'restcalls', 'specelement', 'uri/URI', 'constants', 'reportsettings', 'moment', 'xmlcompare', 'mojoconvert', 'opendocumentimport', 'publicanimport', 'asciidocimport', 'generaldocbookimport', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, restcalls, specelement, URI, constants, reportsettings, moment, xmlcompare, mojoconvert, opendocumentimport, publicanimport, asciidocimport, generaldocbookimport, exports) {
         'use strict';
 
         /*
@@ -91,14 +110,26 @@ define(
         }
 
         function getSpecDocbookVersion(config) {
+            if (config.PublicanDocbookType) {
+                return config.PublicanDocbookType === constants.DOCBOOK_50 ? "5.0" : "4.5";
+            }
+
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? "5.0" : "4.5";
         }
 
         function getDocumentFormat(config) {
+            if (config.PublicanDocbookType) {
+                return config.PublicanDocbookType;
+            }
+
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? constants.DOCBOOK_50 : constants.DOCBOOK_45;
         }
 
         function getDocbookVersion(config) {
+            if (config.PublicanDocbookType) {
+                return config.PublicanDocbookType === constants.DOCBOOK_50 ? 5 : 4.5;
+            }
+
             return config.ImportOption === constants.DOCBOOK_50_IMPORT_OPTION ? 5 : 4.5;
         }
 
@@ -206,8 +237,8 @@ define(
                             .setType(qna.InputEnum.TEXTBOX)
                             .setIntro("Revision Log Message")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                if (config.SourceURL) {
-                                    resultCallback("Imported from " + config.SourceURL);
+                                if (config[constants.SOURCE_URL]) {
+                                    resultCallback("Imported from " + config[constants.SOURCE_URL]);
                                 } else {
                                     resultCallback("Imported from " + qnautils.getInputSourceName(config.InputSource));
                                 }
@@ -215,6 +246,14 @@ define(
                             .setName("RevisionMessage")
                     ])
             ])
+            .setBackStep(function (resultCallback, errorCallback, result, config) {
+                if (config[constants.IMPORT_OPTION] === constants.ODT_IMPORT_OPTION ||
+                    config[constants.IMPORT_OPTION] === constants.MOJO_IMPORT_OPTION) {
+                    resultCallback(2);
+                } else {
+                    resultCallback(1);
+                }
+            })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
                 resultCallback(processZipFile);
             })
@@ -911,28 +950,29 @@ define(
                                     } else {
                                         var entry = entries[index];
                                         var filename = qnautils.getFileName(entry);
-                                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/files/.+").test(filename) &&
+                                        var locale = qnastart.loadLocaleById(config.ImportLangId).value;
+                                        if (new RegExp("^" + qnautils.escapeRegExp(locale) + "/files/.+").test(filename) &&
                                             qnautils.isNormalFile(filename) &&
-                                            getIgnoredFiles(config.ImportLang).indexOf(filename) === -1) {
+                                            getIgnoredFiles(locale).indexOf(filename) === -1) {
 
                                             var uri = new URI(filename);
 
                                             restcalls.createFile(
                                                 inputModel,
-                                                config.CreateOrResuseFiles === "REUSE",
+                                                config.CreateOrReuseFiles === "REUSE",
                                                 config.InputSource,
                                                 qnautils.getFileName(entry),
                                                 uri.filename(),
-                                                uri.pathname().replace(config.ImportLang + "/files/", "").replace(uri.filename(), ""),
-                                                config.ImportLang,
+                                                uri.pathname().replace(locale + "/files/", "").replace(uri.filename(), ""),
+                                                config.ImportLangId,
                                                 config,
                                                 function (data) {
-                                                    var fileId = config.CreateOrResuseFiles === "REUSE" ? data.file.id : data.id;
+                                                    var fileId = config.CreateOrReuseFiles === "REUSE" ? data.file.id : data.id;
                                                     fileIds.push(fileId);
 
                                                     config.UploadedFileCount += 1;
 
-                                                    if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingFile) {
+                                                    if (config.CreateOrReuseImages === "REUSE" && data.matchedExistingFile) {
                                                         config.MatchedFileCount += 1;
                                                     }
 
@@ -984,11 +1024,11 @@ define(
                         Remember the details of the uploaded image so it can be used to update the attribues
                      */
                     var processUploadedImage = function(data, nodeValue, count) {
-                        var imageId = config.CreateOrResuseImages === "REUSE" ? data.image.id : data.id;
+                        var imageId = config.CreateOrReuseImages === "REUSE" ? data.image.id : data.id;
 
                         config.UploadedImageCount += 1;
 
-                        if (config.CreateOrResuseImages === "REUSE" && data.matchedExistingImage) {
+                        if (config.CreateOrReuseImages === "REUSE" && data.matchedExistingImage) {
                             config.MatchedImageCount += 1;
                         }
 
@@ -1034,10 +1074,10 @@ define(
                                         if (result) {
                                             restcalls.createImage(
                                                 inputModel,
-                                                config.CreateOrResuseImages === "REUSE",
+                                                config.CreateOrReuseImages === "REUSE",
                                                 config.InputSource,
                                                 fixedNodeValue,
-                                                config.ImportLang,
+                                                config.ImportLangId,
                                                 config,
                                                 function (data) {
                                                     processImagesFromLocalSource(images.iterateNext(), processUploadedImage(data, nodeValue, count));
@@ -1068,9 +1108,9 @@ define(
 
                             if (!uploadedImages[nodeValue]) {
                                 restcalls.createImageFromURL(
-                                    config.CreateOrResuseImages === "REUSE",
+                                    config.CreateOrReuseImages === "REUSE",
                                     nodeValue,
-                                    config.ImportLang,
+                                    config.ImportLangId,
                                     config,
                                     function (data) {
                                         processImagesFromURL(images.iterateNext(), processUploadedImage(data, nodeValue, count));
@@ -1688,7 +1728,7 @@ define(
                                          The matching topic has to have the same locale as the one
                                          we are trying to import.
                                          */
-                                        if (matchingTopic.item.locale !== config.ImportLang) {
+                                        if (matchingTopic.item.locale.id !== config.ImportLangId) {
                                             return true;
                                         }
 
@@ -1988,7 +2028,7 @@ define(
                                     cleanTopicXmlForSaving(topic, format),
                                     topic.title,
                                     topic.tags,
-                                    config.ImportLang,
+                                    config.ImportLangId,
                                     config,
                                     function (data) {
                                         postCreateTopic(topic, data);
@@ -2214,7 +2254,7 @@ define(
                     } else {
                         restcalls.createContentSpec(
                             compiledContentSpec,
-                            config.ImportLang,
+                            config.ImportLangId,
                             config,
                             contentSpecSaveSuccess,
                             errorCallback
@@ -2242,15 +2282,15 @@ define(
                             .setIntro("Content Specification ID")
                             .setName("ContentSpecIDLink")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + ":8080/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
+                                resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + "/pressgang-ccms-ui/#ContentSpecFilteredResultsAndContentSpecView;query;contentSpecIds=" + config.ContentSpecID + "'>" + config.ContentSpecID + "</a> (Click to open in PressGang)");
                             }));
                         variables.push(new qna.QNAVariable()
                             .setType(qna.InputEnum.PLAIN_TEXT)
                             .setIntro("Imported From")
                             .setName("ImportedFrom")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-                                if (config.SourceURL) {
-                                    resultCallback(config.SourceURL);
+                                if (config[constants.SOURCE_URL]) {
+                                    resultCallback(config[constants.SOURCE_URL]);
                                 } else {
                                     resultCallback(qnautils.getInputSourceName(config.InputSource));
                                 }
@@ -2275,7 +2315,7 @@ define(
                                 if (config.OutgoingUrls.length === 0) {
                                     resultCallback("No topics have outgoing links that were not in the white list");
                                 } else {
-                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
+                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + "/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + config.OutgoingUrls + "'</a>Go to topics with outgoing urls</a>");
                                 }
                             }));
                         variables.push(new qna.QNAVariable()
@@ -2286,7 +2326,7 @@ define(
                                 if (config.NewTopics.length === 0) {
                                     resultCallback("No new topics were created");
                                 } else {
-                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.NewTopics) + "'</a>Go to new topics that were created as part of this import</a>");
+                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + "/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.NewTopics) + "'</a>Go to new topics that were created as part of this import</a>");
                                 }
                             }));
                         variables.push(new qna.QNAVariable()
@@ -2297,7 +2337,7 @@ define(
                                 if (config.UpdatedTopics.length === 0) {
                                     resultCallback("No existing topics were updated");
                                 } else {
-                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.UpdatedTopics) + "'</a>Go to existing topics that were updated as part of this import</a>");
+                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + "/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.UpdatedTopics) + "'</a>Go to existing topics that were updated as part of this import</a>");
                                 }
                             }));
                         variables.push(new qna.QNAVariable()
@@ -2308,7 +2348,7 @@ define(
                                 if (config.ReusedTopics.length === 0) {
                                     resultCallback("No existing topics were reused");
                                 } else {
-                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.ReusedTopics) + "'</a>Go to existing topics that were reused as part of this import</a>");
+                                    resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + "/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.ReusedTopics) + "'</a>Go to existing topics that were reused as part of this import</a>");
                                 }
                             }));
                         if (updatingTopics(config)) {
@@ -2320,7 +2360,7 @@ define(
                                     if (config.RemovedTopics.length === 0) {
                                         resultCallback("No existing topics were discarded");
                                     } else {
-                                        resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + ":8080/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.RemovedTopics) + "'</a>Go to existing topics that were discarded as part of this import</a>");
+                                        resultCallback("<a href='http://" + config[constants.PRESSGANG_HOST] + "/pressgang-ccms-ui/#SearchResultsAndTopicView;query;topicIds=" + convertArrayToCommaSeparatedString(config.RemovedTopics) + "'</a>Go to existing topics that were discarded as part of this import</a>");
                                     }
                                 }));
                         }

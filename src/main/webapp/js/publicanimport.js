@@ -1,9 +1,26 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
     ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'uri/URI', 'specelement', 'fontrule', 'docbookimport', 'constants', 'processxml', 'exports'],
     function (jquery, async, qna, qnautils, qnazipmodel, qnastart, URI, specelement, fontrule, docbookimport, constants, processxml, exports) {
         'use strict';
-
-        var DEFAULT_LANG = "en-US";
 
         /**
          * These values are not included in the publicanCfg setting as they are included as part of the main content spec
@@ -25,8 +42,9 @@ define(
             var lookForXMLDirAndFiles = function(contentSpec) {
                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                     var foundFiles = false;
+                    var locale = qnastart.loadLocaleById(config.ImportLangId).value;
                     jquery.each(entries, function (index, value) {
-                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
+                        if (new RegExp("^" + qnautils.escapeRegExp(locale) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
                             if (!/^tmp\//.test(qnautils.getFileName(value))) {
                                 foundFiles = true;
                                 return false;
@@ -35,7 +53,7 @@ define(
                     });
 
                     if (!foundFiles) {
-                        errorCallback("No XML files found", "The source location either has no " + config.ImportLang + " directory, or has no XML files under the " + config.ImportLang + " directory");
+                        errorCallback("No XML files found", "The source location either has no " + locale + " directory, or has no XML files under the " + locale + " directory");
                     } else {
                         resultCallback(JSON.stringify({contentSpec: contentSpec}));
                     }
@@ -59,9 +77,9 @@ define(
                     inputModel.getTextFromFileName(config.InputSource, "publican.cfg", function(publicanCfg) {
                         var dtdVersion = qnautils.getValueFromConfigFile(publicanCfg, "dtdver");
                         if (dtdVersion !== undefined) {
-                            config.ImportOption = /5\.0/.test(dtdVersion) ? constants.DOCBOOK_50_IMPORT_OPTION : constants.DOCBOOK_45_IMPORT_OPTION;
+                            config.PublicanDocbookType = /5\.0/.test(dtdVersion) ? constants.DOCBOOK_50 : constants.DOCBOOK_45;
                         } else {
-                            config.ImportOption = constants.DOCBOOK_45_IMPORT_OPTION;
+                            config.PublicanDocbookType = constants.DOCBOOK_45;
                         }
 
                         var brand = qnautils.getValueFromConfigFile(publicanCfg, "brand");
@@ -77,9 +95,9 @@ define(
                         var lang = qnautils.getValueFromConfigFile(publicanCfg, "xml_lang");
                         if (lang !== undefined) {
                             var langMatch = /[^'"]+/.exec(lang.trim());
-                            config.ImportLang = langMatch[0];
+                            config.ImportLangId = qnastart.loadLocaleByValue(langMatch[0]);
                         } else {
-                            config.ImportLang = DEFAULT_LANG;
+                            config.ImportLangId = qnastart.loadDefaultLocale().id;
                         }
 
                         /*
@@ -227,7 +245,7 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(askForMainXML);
+                resultCallback(exports.askForMainXML);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config){
                 inputModel = qnastart.zipModel;
@@ -259,7 +277,7 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(askForMainXML);
+                resultCallback(exports.askForMainXML);
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config){
                 inputModel = qnastart.dirModel;
@@ -275,7 +293,7 @@ define(
         /*
          STEP 2 - Get the main XML file
          */
-        var askForMainXML = new qna.QNAStep()
+        exports.askForMainXML = new qna.QNAStep()
             .setTitle("Select the main XML file")
             .setIntro("Select the main XML file from the ZIP archive. Publican conventions mean the file should be named after the book title in the Book_Info.xml file. " +
                 "This import tool will attempt to read the Book_Info.xml file to find the book title, and from that select the main XML file. " +
@@ -289,9 +307,9 @@ define(
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
-
+                                    var locale = qnastart.loadLocaleById(config.ImportLangId).value;
                                     jquery.each(entries, function (index, value) {
-                                        if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
+                                        if (new RegExp("^" + qnautils.escapeRegExp(locale) + "/.*?\\.xml$").test(qnautils.getFileName(value))) {
                                             if (!/^tmp\//.test(qnautils.getFileName(value))) {
                                                 retValue.push(qnautils.getFileName(value));
                                             }
@@ -310,15 +328,16 @@ define(
                                     config.InputSource,
                                     "publican.cfg",
                                     function(data) {
+                                        var locale = qnastart.loadLocaleById(config.ImportLangId).value;
 
                                         function mainFileFallback() {
                                             inputModel.getCachedEntries(config.InputSource, function (entries) {
                                                 jquery.each(entries, function (index, value) {
-                                                    if (new RegExp("^" + qnautils.escapeRegExp(config.ImportLang) + "/(Book)|(Article)_Info\\.xml$").test(qnautils.getFileName(value))) {
+                                                    if (new RegExp("^" + qnautils.escapeRegExp(locale) + "/(Book)|(Article)_Info\\.xml$").test(qnautils.getFileName(value))) {
                                                         inputModel.getTextFromFile(value, function (textFile) {
                                                             var match = /<title>(.*?)<\/title>/.exec(textFile);
                                                             if (match) {
-                                                                var assumedMainFile = config.ImportLang + "/" + match[1].replace(/ /g, "_") + ".xml";
+                                                                var assumedMainFile = locale + "/" + match[1].replace(/ /g, "_") + ".xml";
 
                                                                 jquery.each(entries, function (index, value) {
                                                                     if (qnautils.getFileName(value) === assumedMainFile) {
@@ -340,7 +359,7 @@ define(
                                         jquery.each(options, function (index, value) {
                                             var keyValue = value.split(":");
                                             if (keyValue.length === 2 && keyValue[0].trim() === "mainfile") {
-                                                var mainFile = config.ImportLang + "/" + keyValue[1].trim();
+                                                var mainFile = locale + "/" + keyValue[1].trim();
                                                 if (!/\.xml$/.test(mainFile)) {
                                                     mainFile += ".xml";
                                                 }

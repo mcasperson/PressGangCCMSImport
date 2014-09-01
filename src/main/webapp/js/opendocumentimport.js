@@ -1,4 +1,23 @@
-define(    
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+define(
     ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'generalexternalimport', 'moment', 'constants', 'exports'],
     function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, generalexternalimport, moment, constants, exports) {
         'use strict';
@@ -107,7 +126,7 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : useHeadingStyleRules);
+                resultCallback(config.UseStyleRules === "Yes" ? setParaRules : exports.useHeadingStyleRules);
             });
     
         function getRulesText(rulesCollection) {
@@ -302,7 +321,6 @@ define(
                             .setIntro("Font Name")
                             .setName("FontName")
                             .setValue(function (resultCallback, errorCallback, result, config) {
-
                                 resultCallback(config.FontName);
                             })
                             .setOptions(function(resultCallback, errorCallback, result, config){
@@ -443,10 +461,10 @@ define(
                 }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.DefineAnotherRule ? setParaRules : useHeadingStyleRules);
+                resultCallback(config.DefineAnotherRule ? setParaRules : exports.useHeadingStyleRules);
             });
 
-        var useHeadingStyleRules = new qna.QNAStep()
+        exports.useHeadingStyleRules = new qna.QNAStep()
             .setTitle("Do you want to define additional style rules for headings")
             .setIntro("You have the option of identifying paragraphs as headings. " +
                 "This is useful when the document being imported has custom styles to represent headings. " +
@@ -463,13 +481,13 @@ define(
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.UseHeadingStyleRules === "Yes" ? setHeadingRules : processOdt);
+                resultCallback(config.UseHeadingStyleRules === "Yes" ? exports.setHeadingRules : processOdt);
             });
 
         /*
          Step 4 - ask which server this is being uploaded to
          */
-        var setHeadingRules = new qna.QNAStep()
+        exports.setHeadingRules = new qna.QNAStep()
             .setTitle("Define a rule for a heading")
             .setIntro("You can define the font style that indicates a heading.")
             .setOutputs([
@@ -618,7 +636,7 @@ define(
                 }
             })
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                resultCallback(config.DefineAnotherRule ? setHeadingRules : processOdt);
+                resultCallback(config.DefineAnotherRule ? exports.setHeadingRules : processOdt);
             });
 
     
@@ -643,7 +661,7 @@ define(
     
                                 if (result) {
                                     var resultObject = JSON.parse(result);
-                                    rules = getRulesText(resultObject.fontRules);
+                                    rules = getRulesText(resultObject.fontHeadingRules);
                                 } else {
                                     rules = getRulesText();
                                 }

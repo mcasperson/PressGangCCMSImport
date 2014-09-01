@@ -1,3 +1,22 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
     ['exports'],
     function (exports) {
@@ -9,6 +28,8 @@ define(
 
         exports.DOCBOOK_50 = "DOCBOOK_50";
         exports.DOCBOOK_45 = "DOCBOOK_45";
+
+        exports.IMPORT_OPTION = "ImportOption";
 
         exports.PUBLICAN_IMPORT_OPTION = "Publican";
         exports.DOCBOOK_50_IMPORT_OPTION = "DocBook5";
@@ -25,25 +46,33 @@ define(
         exports.OVERWRITE_SPEC = "OVERWRITE";
         exports.EXISTING_CONTENT_SPEC_ID = "ExistingContentSpecID";
 
-        exports.CREATE_OR_REUSE_TOPICS = "CreateOrResuseTopics";
+        exports.CREATE_OR_REUSE_TOPICS = "CreateOrReuseTopics";
         exports.REUSE_TOPICS = "REUSE";
         exports.CREATE_TOPICS = "CREATE";
 
-        exports.CREATE_OR_REUSE_IMAGES = "CreateOrResuseImages";
+        exports.CREATE_OR_REUSE_IMAGES = "CreateOrReuseImages";
         exports.REUSE_IMAGES = "REUSE";
         exports.CREATE_IMAGES = "CREATE";
 
-        exports.CREATE_OR_REUSE_FILES = "CreateOrResuseFiles";
+        exports.CREATE_OR_REUSE_FILES = "CreateOrReuseFiles";
         exports.REUSE_FILES = "REUSE";
         exports.CREATE_FILES = "CREATE";
 
         exports.PRESSGANG_HOST = "PressGangHost";
 
+        exports.INPUT_TYPE = "InputType";
         exports.INPUT_TYPE_DIR = "Dir";
         exports.INPUT_TYPE_ZIP = "Zip";
         exports.INPUT_TYPE_ZIPURL = "ZipURL";
 
+        exports.SOURCE_URL = "SourceURL";
+        exports.MAIN_FILE = "MainFile";
+
+        exports.SERVER_JSON_FILE = '/pressgang-ccms-config/servers.json';
 
         exports.MAXIMUM_SPEC_COMMENT_LINE_LENGTH = 120;
+
+        exports.DB45_BRANDS = ["RedHat", "JBoss", "Fedora", "OpenShift"];
+        exports.DB50_BRANDS = ["RedHat-db5"];
     }
 )

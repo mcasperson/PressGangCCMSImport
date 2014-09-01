@@ -1,10 +1,29 @@
 /*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
     Importing non-publican books requires the user to define some DocBook metadata. This module
     presents that step to the user.
  */
 define(
-    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoconvert', 'exports'],
-    function(jquery, qna, qnastart, qnautils, specelement, opendocumentimport, mojoconvert, exports) {
+    ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'specelement', 'opendocumentimport', 'mojoconvert', 'constants', 'exports'],
+    function(jquery, qna, qnastart, qnautils, specelement, opendocumentimport, mojoconvert, constants, exports) {
         'use strict';
 
         exports.generateSpacing = function (outlineLevel) {
@@ -144,12 +163,15 @@ define(
                                 .setIntro("Brand")
                                 .setName("ContentSpecBrand")
                                 .setValue("RedHat")
-                                .setOptions(["RedHat", "JBoss", "Fedora", "OpenShift"]),
+                                .setOptions(constants.DB45_BRANDS),
                             new qna.QNAVariable()
-                                .setType(qna.InputEnum.COMBOBOX)
+                                .setType(qna.InputEnum.COMBOBOX_V2)
                                 .setIntro("Locale")
-                                .setName("ImportLang")
-                                .setValue("en-US")
+                                .setName("ImportLangId")
+                                .setValue(function(resultCallback) {
+                                    var locale = qnastart.loadDefaultLocale();
+                                    resultCallback(locale ? locale.id : null);
+                                })
                                 .setOptions(function (resultCallback) {
                                     resultCallback(qnastart.loadLocales());
                                 })

@@ -1,6 +1,25 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
-    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'processxml', 'exports'],
-    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, processxml, exports) {
+    ['jquery', 'async/async', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'fontrule', 'docbookimport', 'processxml', 'constants', 'exports'],
+    function (jquery, async, qna, qnautils, qnazipmodel, qnastart, specelement, fontrule, docbookimport, processxml, constants, exports) {
         'use strict';
 
         var inputModel;
@@ -191,10 +210,10 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                 resultCallback(getSpecDetails);
+                 resultCallback(exports.getSpecDetails);
             });
 
-        var getSpecDetails = new qna.QNAStep()
+        exports.getSpecDetails = new qna.QNAStep()
             .setTitle("Enter content specification details")
             .setIntro("Enter the basic details of the content specification. If these values are found in the content being imported, the values entered here will be overwritten.")
             .setInputs(
@@ -235,16 +254,19 @@ define(
                                 })
                                 .setOptions(function (resultCallback, errorCallback, result, config) {
                                     if (config.ImportOption === "DocBook5") {
-                                        resultCallback(["RedHat-db5"]);
+                                        resultCallback(constants.DB50_BRANDS);
                                     } else {
-                                        resultCallback(["RedHat", "JBoss", "Fedora", "OpenShift"]);
+                                        resultCallback(constants.DB45_BRANDS);
                                     }
                                 }),
                             new qna.QNAVariable()
-                                .setType(qna.InputEnum.COMBOBOX)
+                                .setType(qna.InputEnum.COMBOBOX_V2)
                                 .setIntro("Locale")
-                                .setName("ImportLang")
-                                .setValue("en-US")
+                                .setName("ImportLangId")
+                                .setValue(function(resultCallback) {
+                                    var locale = qnastart.loadDefaultLocale();
+                                    resultCallback(locale ? locale.id : null);
+                                })
                                 .setOptions(function (resultCallback) {
                                     resultCallback(qnastart.loadLocales());
                                 })

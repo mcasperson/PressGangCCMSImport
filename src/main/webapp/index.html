@@ -1,13 +1,33 @@
+<!--
+  Copyright 2011-2014 Red Hat, Inc
+
+  This file is part of PressGang CCMS.
+
+  PressGang CCMS is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  PressGang CCMS is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title ng-controller="QNAController" ng-bind="qna.step.titlePrefix + 'PressGang CCMS Publican Book Import'">PressGang CCMS Publican Book Import</title>
+        <title ng-controller="QNAController" ng-bind="qna.step.titlePrefix + 'PressGang CCMS Publican Book Import'">PressGang CCMS Import Tool</title>
+        <link rel="icon" type="image/png" href="favicon.ico">
         <script type="text/javascript">
             // http://stackoverflow.com/a/10556743/157605
             window.onerror = function(msg, url, line) {
                 window.onbeforeunload = null;
 
-                var bugLink = 'https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool&comment=Message: ' + encodeURIComponent(msg) + '%0D%0A%0D%0AURL: ' + encodeURIComponent(url) + '%0D%0A%0D%0ALine: ' + encodeURIComponent(line);
+                var bugLink = 'https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool&version=1.9&comment=Message: ' + encodeURIComponent(msg) + '%0D%0A%0D%0AURL: ' + encodeURIComponent(url) + '%0D%0A%0D%0ALine: ' + encodeURIComponent(line);
                 var output = "<pre>\n";
                 output += String.fromCharCode(9604,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9608,9604,9616,9608,9604,9604,9604,9604,9608) + "\n";
                 output += String.fromCharCode(9608,9608,9608,9608,9608,9608,9612,9604,9612,9604,9616,9616,9612,9608,9608,9608,9612,9600,9600,9608,9608,9600,9600) + "\n";
@@ -43,11 +63,15 @@
                     'wgxpath': 'wgxpath/wgxpath',
                     'URIjs': 'js/uri',
                     'moment': 'moment/moment-with-langs.min',
-                    'patternfly' : 'patternfly/js/patternfly' /*,
+                    'patternfly' : 'patternfly/js/patternfly',
+                    'underscore' : 'underscore/underscore-min'/*,
                     'opal' : 'asciidoctor/opal',
                     'asciidoctor' : 'asciidoctor/asciidoctor' */
                 },
                 shim: {
+                    underscore: {
+                        exports: '_'
+                    },
                     'wgxpath': {
                         exports: "wgxpath"
                     },
@@ -96,7 +120,7 @@
         <nav class="navbar navbar-default navbar-pf" role="navigation">
             <div class="container">
                 <div class="navbar-brand">PressGang CCMS Import Tool</div>
-                <div class="navbar-right">Build 1.7 201406230517</div>
+                <div class="navbar-right">Build 1.9 201408291424</div>
             </div>
         </nav>
 
@@ -237,6 +261,16 @@
                                                 ng-disabled="!variable.processedOptions || disabled || variable.processedDisabled"></select>
                                     </div>
                                 </div>
+                                <!-- combobox form element -->
+                                <div ng-if="variable.processedType == inputTypes.COMBOBOX_V2">
+                                    <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
+                                    <div ng-class="{'col-lg-6': variable.processedIntro, 'col-lg-12': !variable.processedIntro}">
+                                        <select
+                                                ng-model="qna.config[variable.processedName]"
+                                                ng-options="option.key as option.value for option in variable.processedOptions"
+                                                ng-disabled="!variable.processedOptions || disabled || variable.processedDisabled"></select>
+                                    </div>
+                                </div>
                                 <!-- listbox form element -->
                                 <div ng-if="variable.processedType == inputTypes.LISTBOX">
                                     <div class="col-lg-6" ng-if="variable.processedIntro">{{variable.processedIntro}}</div>
@@ -280,7 +314,7 @@
 
             <div class="row">
                 <div class="container step-container">
-                <a title="Report a bug" href="https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool&version=1.7">
+                <a title="Report a bug" href="https://bugzilla.redhat.com/enter_bug.cgi?product=PressGang%20CCMS&component=ImportTool&version=1.9">
                     <button class="btn btn-default" style="margin-top: 10px; margin-left: 10px" ng-disabled="disabled">Report Bug</button>
                 </a>
                 <button class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 10px" ng-click="next()" ng-if="qna.hasNext() && qna.step.processedShowNext" ng-disabled="disabled">{{qna.step.getShowNextName()}}</button>
@@ -291,7 +325,7 @@
 
             <div class="row">
                 <div class="container step-container system-warning">
-                    <div class="clearfix alert alert-danger">This is an beta release. It is highly recommended that you import content to the test server first and confirm the results. Please log bugs for any issues you find by clicking the "Report Bug" button.</div>
+                    <div class="clearfix alert alert-danger">This is a beta release. It is highly recommended that you import content to the test server first and confirm the results. Please log bugs for any issues you find by clicking the "Report Bug" button.</div>
                 </div>
             </div>
         </div>

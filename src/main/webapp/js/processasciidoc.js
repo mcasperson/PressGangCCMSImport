@@ -1,3 +1,22 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
     ['jquery', 'qna/qna', 'qna/qnautils', 'qna/qnazipmodel', 'qnastart', 'specelement', 'uri/URI', 'constants', 'constants', 'generalexternalimport', 'exports'],
     function (jquery, qna, qnautils, qnazipmodel, qnastart, specelement, URI, constants, generaldocbookimport, generalexternalimport, exports) {
@@ -146,7 +165,7 @@ define(
 
             inputModel.getTextFromFileName(
                 config.InputSource,
-                config.MainFile,
+                config[constants.MAIN_FILE],
                 function (asciidocText) {
                     function resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries) {
                         if (generalInclude.test(asciidocText)) {
@@ -154,7 +173,7 @@ define(
                             resolveInclude(
                                 asciidocText,
                                 attributeEntries,
-                                config.MainFile,
+                                config[constants.MAIN_FILE],
                                 visitedFiles,
                                 function (asciidocText, visitedFiles, attributeEntries) {
                                     resolveIncludeLoop(asciidocText, visitedFiles, attributeEntries);
@@ -167,7 +186,7 @@ define(
                     }
 
                     var count = 0;
-                    resolveIncludeLoop(asciidocText, [config.MainFile], extractAttributeEntities(asciidocText));
+                    resolveIncludeLoop(asciidocText, [config[constants.MAIN_FILE]], extractAttributeEntities(asciidocText));
                 },
                 true
             );

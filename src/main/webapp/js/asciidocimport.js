@@ -1,3 +1,22 @@
+/*
+ Copyright 2011-2014 Red Hat, Inc
+
+ This file is part of PressGang CCMS.
+
+ PressGang CCMS is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ PressGang CCMS is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with PressGang CCMS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 define(
     ['jquery', 'qna/qna', 'qnastart', 'qna/qnautils', 'uri/URI', 'docbookimport', 'processasciidoc', 'processxml', /*'opal', 'asciidoctor',*/ 'constants', 'exports'],
     function (jquery, qna, qnastart, qnautils, URI, docbookimport, processasciidoc, processxml, /*opal, asciidoctor,*/ constants, exports) {
@@ -44,13 +63,13 @@ define(
                             .setIntro(["Zip File", "Zip URL", "Directory"])
                             .setOptions([constants.INPUT_TYPE_ZIP, constants.INPUT_TYPE_ZIPURL, constants.INPUT_TYPE_DIR])
                             .setValue(constants.INPUT_TYPE_DIR)
-                            .setName("InputType")
+                            .setName(constants.INPUT_TYPE)
                     ])
             ])
             .setNextStep(function (resultCallback, errorCallback, result, config) {
-                if (config.InputType === constants.INPUT_TYPE_ZIP) {
+                if (config[constants.INPUT_TYPE] === constants.INPUT_TYPE_ZIP) {
                     resultCallback(askForAsciidocZipFile);
-                } else if (config.InputType === constants.INPUT_TYPE_ZIPURL) {
+                } else if (config[constants.INPUT_TYPE] === constants.INPUT_TYPE_ZIPURL) {
                     resultCallback(askForAsciidocZipUrl);
                 } else {
                     resultCallback(askForAsciidocDir);
@@ -58,7 +77,7 @@ define(
             })
             .setEnterStep(function(resultCallback, errorCallback, result, config) {
                 if (!qnautils.isInputDirSupported()) {
-                    config.InputType = constants.INPUT_TYPE_ZIP;
+                    config[constants.INPUT_TYPE] = constants.INPUT_TYPE_ZIP;
                     resultCallback(true);
                 } else {
                     resultCallback(false);
@@ -89,7 +108,7 @@ define(
             } else if (config.InputSource.name.lastIndexOf(".zip") !== config.InputSource.name.length - 4) {
                 errorCallback("Please select a file", "You need to select a ZIP file before continuing.");
             } else {
-                config.InputType = constants.INPUT_TYPE_ZIP;
+                config[constants.INPUT_TYPE] = constants.INPUT_TYPE_ZIP;
                 resultCallback();
             }
         })
@@ -152,18 +171,18 @@ define(
                             new qna.QNAVariable()
                                 .setType(qna.InputEnum.TEXTBOX)
                                 .setIntro("Asciidoc ZIP URL")
-                                .setName("SourceURL")
+                                .setName(constants.SOURCE_URL)
                                 .setValue("asciidoc-test.zip")
                         ])
                 ]
             )
             .setProcessStep(function (resultCallback, errorCallback, result, config) {
-                if (!config.SourceURL) {
+                if (!config[constants.SOURCE_URL]) {
                     errorCallback("Please specify a URL", "You need to specify a URL before continuing.");
                 } else {
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', config.SourceURL, true);
+                    xhr.open('GET', config[constants.SOURCE_URL], true);
                     xhr.responseType = 'blob';
 
                     xhr.onload = function(e) {
@@ -212,7 +231,7 @@ define(
                     .setVariables([
                         new qna.QNAVariable()
                             .setType(qna.InputEnum.LISTBOX)
-                            .setName("MainFile")
+                            .setName(constants.MAIN_FILE)
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 inputModel.getCachedEntries(config.InputSource, function (entries) {
                                     var retValue = [];
@@ -232,7 +251,7 @@ define(
                     ])
             ])
             .setProcessStep(function(resultCallback, errorCallback, result, config) {
-                if (config.MainFile === null || config.MainFile === undefined || config.MainFile.trim().length === 0 ) {
+                if (config[constants.MAIN_FILE] === null || config[constants.MAIN_FILE] === undefined || config[constants.MAIN_FILE].trim().length === 0 ) {
                     errorCallback("Select a XML file", "Please select the main Asciidoc file before continuing");
                 } else {
                     /*
@@ -262,10 +281,10 @@ define(
                 }
             })
             .setNextStep(function (resultCallback) {
-                resultCallback(getSpecDetails);
+                resultCallback(exports.getSpecDetails);
             });
 
-        var getSpecDetails = new qna.QNAStep()
+        exports.getSpecDetails = new qna.QNAStep()
             .setTitle("Enter content specification details")
             .setIntro("Enter the basic details of the content specification. If these values are found in the content being imported, the values entered here will be overwritten.")
             .setInputs(
@@ -318,16 +337,19 @@ define(
                             })
                             .setOptions(function (resultCallback, errorCallback, result, config) {
                                 if (config.ImportOption === "DocBook5") {
-                                    resultCallback(["RedHat-db5"]);
+                                    resultCallback(constants.DB50_BRANDS);
                                 } else {
-                                    resultCallback(["RedHat", "JBoss", "Fedora", "OpenShift"]);
+                                    resultCallback(constants.DB45_BRANDS);
                                 }
                             }),
                         new qna.QNAVariable()
-                            .setType(qna.InputEnum.COMBOBOX)
+                            .setType(qna.InputEnum.COMBOBOX_V2)
                             .setIntro("Locale")
-                            .setName("ImportLang")
-                            .setValue("en-US")
+                            .setName("ImportLangId")
+                            .setValue(function(resultCallback) {
+                                var locale = qnastart.loadDefaultLocale();
+                                resultCallback(locale ? locale.id : null);
+                            })
                             .setOptions(function (resultCallback) {
                                 resultCallback(qnastart.loadLocales());
                             })
